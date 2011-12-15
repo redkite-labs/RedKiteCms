@@ -1,0 +1,31 @@
+{#
+   This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+   under the MIT License. In addiction, to use this bundle, you must leave
+   intact this copyright notice.
+ 
+    (c) Since 2011 AlphaLemon
+ 
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+ 
+   For extra documentation and help please visit http://alphalemon.com
+  
+   @license    MIT License
+#}
+
+{% set domain = "al_themes" %}
+
+<td valign="top" width="50%">{% include theme_skeleton with {'theme_values': values.active_theme} %}</td>
+<td valign="top" width="50%">
+    <div> 
+        {% if values.available_themes is defined and values.available_themes.themes|length > 0 %}        
+        <table>
+            {% for item in values.available_themes.themes %}
+            <tr><td valign="top">{% include theme_skeleton with {'theme_values': item} %}</td></tr>
+            {% endfor %}
+        </table>
+        {% else %}
+          <p><b>{{ "Any other theme is installed at the moment" | trans([], domain) }}</b></p>
+        {% endif %}
+    </div>
+</td>

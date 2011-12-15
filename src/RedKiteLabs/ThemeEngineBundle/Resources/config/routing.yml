@@ -1,0 +1,2 @@
+_themes:
+    resource: "@AlphaLemonThemeEngineBundle/Resources/config/routing/themes.xml"

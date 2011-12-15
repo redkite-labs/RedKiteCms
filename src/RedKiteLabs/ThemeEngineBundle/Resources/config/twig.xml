@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="twig.extension.render_slot.class">AlphaLemon\ThemeEngineBundle\Twig\RenderSlotExtension</parameter>
+    </parameters>
+
+    <services>
+        <service id="twig.extension.render_slot" class="%twig.extension.render_slot.class%" public="false">
+            <tag name="twig.extension" alias="renderSlot" />
+            <argument type="service" id="service_container" />
+            <argument type="service" id="al_page_tree" />
+        </service>
+    </services>
+
+</container>

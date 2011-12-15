@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="althemes.stylesheets" type="collection">
+            <parameter>css/al_themes.css</parameter>
+        </parameter>
+        <parameter key="althemes.base_template">AlphaLemonThemeEngineBundle:Theme:base.html.twig</parameter>        
+        <parameter key="althemes.base_theme_manager_template">AlphaLemonThemeEngineBundle:Themes:index.html.twig</parameter>
+        <parameter key="althemes.panel_sections_template">AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig</parameter>
+        <parameter key="althemes.theme_skeleton_template">AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig</parameter>
+        <parameter key="althemes.base_dir">Themes</parameter>
+        <parameter key="althemes.info_valid_entries" type="collection">
+            <parameter>title</parameter>
+            <parameter>description</parameter>
+            <parameter>author</parameter>
+            <parameter>license</parameter>
+            <parameter>website</parameter>
+            <parameter>email</parameter>
+            <parameter>version</parameter>
+        </parameter>
+    </parameters>
+</container>

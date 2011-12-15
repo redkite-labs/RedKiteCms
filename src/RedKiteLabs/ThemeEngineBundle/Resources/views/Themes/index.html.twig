@@ -1,0 +1,42 @@
+{#
+   This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+   under the MIT License. In addiction, to use this bundle, you must leave
+   intact this copyright notice.
+ 
+    (c) Since 2011 AlphaLemon
+ 
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+ 
+   For extra documentation and help please visit http://alphalemon.com
+  
+   @license    MIT License
+#}
+
+{% extends base_template %}
+
+{% set domain = "al_themes" %}
+
+{% block body %}
+<div id="al_themes">
+  <div style="width:1024px;overflow:auto;">
+    <table width=100%>
+        <tr>
+        {% if values.active_theme.theme_section_title is defined %}
+          <td><h1>{{ values.active_theme.theme_section_title }}</h1></td>
+        {% endif %}
+        {% if values.available_themes.theme_section_title is defined %}
+          <td><h1>{{ values.available_themes.theme_section_title }}</h1></td>
+        {% endif %}
+        </tr>
+      <tr id="al_themes_sections">
+        {% include panel_sections with {'values': values} %}
+      </tr>
+      <tr>
+        <td></td>
+        <td>{% include 'AlValumUploaderBundle:Valum:show.html.twig' with {'options': valum} %}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+{% endblock %}
