@@ -59,15 +59,26 @@ class TemplateController extends Controller
             $locator->locate($fileName);
             $slots = Yaml::parse($locator->locate($fileName));
             
-            $fileName = 'slotContents.custom.yml';
-            $locator->locate($fileName);
-            $customSlots = Yaml::parse($locator->locate($fileName));
-            if(!array_key_exists('slots', $customSlots))
+            try
             {
-                throw new \InvalidArgumentException('The slotContents.custom.yml must start with a value called slots: check your slotContents.custom.yml');
+                $fileName = 'slotContents.custom.yml';
+                $locator->locate($fileName);
+                $customSlots = Yaml::parse($locator->locate($fileName));            
+            }
+            catch(\InvalidArgumentException $ex)
+            {
+                $customSlots = null;
             }
             
-            $slots['slots'] = array_merge($slots['slots'], $customSlots['slots']);
+            if(null !== $customSlots)
+            {
+                if(!array_key_exists('slots', $customSlots))
+                {
+                    throw new \InvalidArgumentException('The slotContents.custom.yml must start with a value called slots: check your slotContents.custom.yml');
+                }
+
+                $slots['slots'] = array_merge($slots['slots'], $customSlots['slots']);
+            }
                         
             $locale = ($request->attributes->get('_locale') != '') ? $request->attributes->get('_locale') : "it"; 
             foreach($slots as $slotContents)
