@@ -155,7 +155,11 @@ you can retrive and manage it as follows:
                                              'base_template' =>  $this->container->getParameter('althemes.base_template')));
     }
     
-During the configuration process, it was mantioned the slotContents.yml which contains the repeated content. Follows a sample configuration:
+During the configuration process, it was mantioned the slotContents.yml which contains the base content for each slot on the webpage and it is
+created by the ThemeEngine each time a theme is activated. You can override the contents for each slot creating a new slotContents.custom.yml
+inside the same directory where the slotContents.yml lives.
+
+Follows a sample configuration:
 
     /path/to/your/slotContent/slotContent.yml
     slots:
