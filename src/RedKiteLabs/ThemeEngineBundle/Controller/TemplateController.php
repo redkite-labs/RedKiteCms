@@ -55,27 +55,42 @@ class TemplateController extends Controller
             }
             
             $locator = new FileLocator($slotContentsPath);
-            $locator->locate('slotContents.yml');
-            $slots = Yaml::parse($locator->locate('slotContents.yml'));
+            $fileName = 'slotContents.yml';
+            $locator->locate($fileName);
+            $slots = Yaml::parse($locator->locate($fileName));
             
+            $fileName = 'slotContents.custom.yml';
+            $locator->locate($fileName);
+            $customSlots = Yaml::parse($locator->locate($fileName));
+            if(!array_key_exists('slots', $customSlots))
+            {
+                throw new \InvalidArgumentException('The slotContents.custom.yml must start with a value called slots: check your slotContents.custom.yml');
+            }
+            
+            $slots['slots'] = array_merge($slots['slots'], $customSlots['slots']);
+                        
             $locale = ($request->attributes->get('_locale') != '') ? $request->attributes->get('_locale') : "it"; 
             foreach($slots as $slotContents)
             {
                 foreach($slotContents as $slotName => $contents)
                 {
-                    if(null !== $dictionary && strtolower($pageTree->getSlot($slotName)->getRepeated()) != 'site')
+                    $slot = $pageTree->getSlot($slotName);
+                    if(null !== $slot)
                     {
-                        foreach($contents as $content)
+                        if(null !== $dictionary && strtolower($slot->getRepeated()) != 'site')
                         {
-                            $content = $this->container->get('translator')->trans($content, array(), $dictionary, $locale); 
-                            $pageTree->addContent($slotName, array('HtmlContent' => $content)); 
+                            foreach($contents as $content)
+                            {
+                                $content = $this->container->get('translator')->trans($content, array(), $dictionary, $locale); 
+                                $pageTree->addContent($slotName, array('HtmlContent' => $content)); 
+                            }
                         }
-                    }
-                    else
-                    {
-                        foreach($contents as $content)
+                        else
                         {
-                            $pageTree->addContent($slotName, array('HtmlContent' => $content)); 
+                            foreach($contents as $content)
+                            {
+                                $pageTree->addContent($slotName, array('HtmlContent' => $content)); 
+                            }
                         }
                     }
                 }
@@ -83,8 +98,8 @@ class TemplateController extends Controller
 
             $dispatcher = $this->container->get('event_dispatcher');            
             $event = new BeforePageRenderingEvent($this->container->get('request'), $pageTree);
-            $dispatcher->dispatch(PageRendererEvents::BEFORE_RENDER_PAGE, $event);  
-            $pageTree = $event->getPageTree();
+            $dispatcher->dispatch(PageRendererEvents::BEFORE_RENDER_PAGE, $event);      
+            $this->container->set('al_page_tree', $event->getPageTree());
         }
         else
         {
