@@ -192,7 +192,7 @@ Remember that the ThemeEngine accepts only themes packed as zip files.
 To build your own theme you may read the tutorial (http://alphalemon.com/en/add-a-custom-theme-to-alphalemon-cms)[add a custom theme to alphalemon cms]
 
 ## Additional themes
-Get additional themes from http://alphalemon.com. This feature will be available in few days.
+You can get additional themes visiting the (themes section)[http://www.alphalemon.com/alphalemon-themes] on alphalemon website.
 
 ### Info and help
 To get extra information or help you may write an email to info [at] alphalemon [DoT] com
