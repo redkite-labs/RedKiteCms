@@ -48,7 +48,8 @@ class RenderSlotExtension extends \Twig_Extension
                 {
                     if(\array_key_exists('RenderView', $contents))
                     {
-                        $result .= $this->container->get('templating')->render($contents['RenderView']['view'], $contents['RenderView']['params']);
+                        $params = (isset($contents['RenderView']['params'])) ? $contents['RenderView']['params'] : array();
+                        $result .= $this->container->get('templating')->render($contents['RenderView']['view'], $params);
                     }
                     else if(\array_key_exists('HtmlContent', $contents))
                     {
