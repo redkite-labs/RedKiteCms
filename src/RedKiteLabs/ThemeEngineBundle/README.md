@@ -189,10 +189,10 @@ then open a browser window and navigate the following route:
 Remember that the ThemeEngine accepts only themes packed as zip files.
 
 ## Build a custom theme
-To build your own theme you may read the tutorial (http://alphalemon.com/en/add-a-custom-theme-to-alphalemon-cms)[add a custom theme to alphalemon cms]
+To build your own theme you may read the tutorial [http://alphalemon.com/en/add-a-custom-theme-to-alphalemon-cms](add a custom theme to alphalemon cms)
 
 ## Additional themes
-You can get additional themes visiting the (themes section)[http://www.alphalemon.com/alphalemon-themes] on alphalemon website.
+You can get additional themes visiting the [themes section](http://www.alphalemon.com/alphalemon-themes) on alphalemon website.
 
 ### Info and help
 To get extra information or help you may write an email to info [at] alphalemon [DoT] com
