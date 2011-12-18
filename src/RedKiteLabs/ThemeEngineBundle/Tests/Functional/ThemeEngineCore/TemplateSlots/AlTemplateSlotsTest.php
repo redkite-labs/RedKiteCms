@@ -43,7 +43,7 @@ class AlTemplateSlotsTest extends TestCase
         $this->assertEquals('language', $testTemplateSlots->getRepeatedContentFromSlot('nav_menu'));     
         $this->assertEquals('site', $testTemplateSlots->getRepeatedContentFromSlot('logo'));   
         $this->assertNull($testTemplateSlots->getTextFromSlot('foo')); 
-        $this->assertEquals('This is the default text for the slot logo', $testTemplateSlots->getTextFromSlot('logo'));  
+        $this->assertEquals('The company logo', $testTemplateSlots->getTextFromSlot('logo'));  
         $this->assertArrayHasKey('page', $testTemplateSlots->toArray());
         $this->assertArrayHasKey('language', $testTemplateSlots->toArray());
         $this->assertArrayHasKey('site', $testTemplateSlots->toArray());

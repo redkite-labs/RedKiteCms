@@ -31,6 +31,7 @@ use ThemeEngineCore\Model\AlThemeQuery;
 use ThemeEngineCore\ThemeManager\AlThemeManager;
 use PageTreeCore\Tools\AlToolkit;
 use Symfony\Component\Config\FileLocator;
+use ThemeEngineCore\SlotContentsGenerator\SlotContentsGenerator;
 
 use AlValumUploaderCore\Options\AlValumUploaderOptionsBuilder;
 
@@ -69,7 +70,10 @@ class ThemesController extends Controller
         {
             $themeManager = new AlThemeManager($this->container, $this->locateThemesFolder(), $this->locateThemesFolder());
             $themeManager->activate($themeName);
-            $this->generateSlotContentsFile($themeName);
+            
+            $slotContentsPath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('althemes.slot_contents_dir');
+            $generator = new SlotContentsGenerator($themeName, $this->locateThemesFolder(), $slotContentsPath);
+            $generator->generateSlotContentsFile();
             
             $request = $this->get('request');
             if(!$request->isXmlHttpRequest())
@@ -85,6 +89,7 @@ class ThemesController extends Controller
         }
     }
     
+    /*
     protected function generateSlotContentsFile($themeName)
     {
         $contents = array("slots:");
@@ -96,7 +101,8 @@ class ThemesController extends Controller
             $templateSlots = new $templateSlotsClass();
             foreach($templateSlots->toArray() as $repeatedStatus => $slotNames)
             {
-                //if($repeatedStatus != 'page'){}
+                if($repeatedStatus != 'page')
+                {
                     foreach($slotNames as $slotName)
                     {
                         $content = '  ' . $slotName . ":\n";
@@ -104,10 +110,51 @@ class ThemesController extends Controller
                         $content .= '      ' . $templateSlots->getTextFromSlot($slotName);
                         $contents[] = $content;
                     }
-                
+                }
             }
         }
         
+        $slotContentsPath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('althemes.slot_contents_dir');
+        if(!is_dir($slotContentsPath))
+        {
+            throw new \InvalidArgumentException(sprintf('The directory %s does not exist. Please check that the slot_contents_dir is properly configured', $slotContentsPath));
+        }
+        //$locator = new FileLocator($slotContentsPath);
+        file_put_contents($slotContentsPath . '/slotContents.yml', implode("\n\n", $contents));
+    }*/
+    
+    protected function generateSlotContentsFile($themeName)
+    {
+        $contents = array(); //array("slots:");
+        $finder = new Finder();
+        $templates = $finder->depth(0)->files()->name('*Slots.php')->in(sprintf('%s/%s/src/Slots', $this->locateThemesFolder(), $themeName));   
+        foreach($templates as $template)
+        {
+            $templateName = ucfirst(basename($template, '.php'));
+            $templateSlotsClass = \sprintf('\Themes\%s\src\Slots\%s', $themeName, $templateName);
+            $templateSlots = new $templateSlotsClass();
+            foreach($templateSlots->toArray() as $repeatedStatus => $slotNames)
+            {
+                if($repeatedStatus != 'page')
+                {
+                    foreach($slotNames as $slotName)
+                    {
+                        //$content = '  ' . $slotName . ":\n";
+                        //$content .= '    0: |' . "\n"; 
+                        //$content .= '      ' . $templateSlots->getTextFromSlot($slotName);
+                        if(!array_key_exists($slotName, $contents)) $contents['repeated'][$slotName][] = $templateSlots->getTextFromSlot($slotName);
+                    }
+                }
+                else
+                {
+                    foreach($slotNames as $slotName)
+                    {
+                        $contents[$templateName][$slotName][] = $templateSlots->getTextFromSlot($slotName);
+                    }
+                }
+            }
+        }
+        print_r($contents);exit;
         $slotContentsPath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('althemes.slot_contents_dir');
         if(!is_dir($slotContentsPath))
         {

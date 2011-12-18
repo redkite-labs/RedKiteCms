@@ -145,14 +145,7 @@ you can retrive and manage it as follows:
         $template = sprintf('%s:Theme:%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName());
 
         // Renders the template
-        return $this->render($template, array('metatitle' => 'A site powered by AlphaLemonThemesBuilder bundle',
-                                             'metadescription' => '',
-                                             'metakeywords' => '',
-                                             'internal_stylesheets' => '', // or $pageTree->getInternalStylesheet()
-                                             'internal_javascripts' => '', // or $pageTree->getInternalJavascript(),
-                                             'stylesheets' => $pageTree->getExternalStylesheetsForWeb(),
-                                             'javascripts' => $pageTree->getExternalJavascriptsForWeb(),
-                                             'base_template' =>  $this->container->getParameter('althemes.base_template')));
+        return $this->doRender();
     }
     
 During the configuration process, it was mantioned the slotContents.yml which contains the base content for each slot on the webpage and it is
@@ -197,6 +190,9 @@ Remember that the ThemeEngine accepts only themes packed as zip files.
 
 ## Build a custom theme
 To build your own theme you may read the tutorial (http://alphalemon.com/en/add-a-custom-theme-to-alphalemon-cms)[add a custom theme to alphalemon cms]
+
+## Additional themes
+Get additional themes from http://alphalemon.com. This feature will be available in few days.
 
 ### Info and help
 To get extra information or help you may write an email to info [at] alphalemon [DoT] com
