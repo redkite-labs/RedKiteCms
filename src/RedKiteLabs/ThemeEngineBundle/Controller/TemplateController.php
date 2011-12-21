@@ -94,28 +94,32 @@ class TemplateController extends Controller
      */
     protected function retrieveSlotContents($templateName)
     {
-        $slotContentsPath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('althemes.slot_contents_dir');
-        if(!is_dir($slotContentsPath))
+        $slots = array();
+        $templateSlotsClass = \sprintf('\Themes\%s\src\Slots\%s%sSlots', $this->theme->getThemeName(), $this->theme->getThemeName(), \ucfirst($templateName));
+        $templateSlots = new $templateSlotsClass();
+        foreach($templateSlots->toArray() as $repeatedStatus => $slotNames)
         {
-            throw new \InvalidArgumentException(sprintf('The directory %s does not exist. Please check that the slot_contents_dir is properly configured', $slotContentsPath));
+            foreach($slotNames as $slotName)
+            {
+                $slots[$slotName][] = $templateSlots->getTextFromSlot($slotName);
+            }
         }
-
-        // Retrieves the slots from the theme slotContents file
-        $locator = new FileLocator($slotContentsPath);
-        $fileName = 'slotContents.yml';
-        $locator->locate($fileName);
-        $slots = Yaml::parse($locator->locate($fileName));
-
-        // Tries to retrieve the custom slots' contents if exists
+        
+        $customSlots = null;
         try
         {
-            $fileName = 'slotContents.custom.yml';
-            $locator->locate($fileName);
-            $customSlots = Yaml::parse($locator->locate($fileName));            
+            $slotContentsPath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('althemes.slot_contents_dir');
+            if(is_dir($slotContentsPath))
+            {
+                $fileName = 'slotContents.custom.yml';
+                $locator = new FileLocator($slotContentsPath);
+                $locator->locate($fileName);
+                $customSlots = Yaml::parse($locator->locate($fileName));     
+            }      
         }
         catch(\InvalidArgumentException $ex)
         {
-            $customSlots = null;
+            
         }
 
         // Merges the predefined slots with the custom ones
@@ -126,12 +130,10 @@ class TemplateController extends Controller
                 throw new \InvalidArgumentException('The slotContents.custom.yml must start with a value called slots: check your slotContents.custom.yml');
             }
 
-            $slots['slots'] = array_merge($slots['slots'], $customSlots['slots']);
+            $slots = array_merge($slots, $customSlots['slots']);
         }
-
-        // Merges the current template's slots with the repeated ones
-        $templateName = $this->theme->getThemeName() . ucfirst($templateName);
-        return array_merge($slots[$templateName], $slots['slots']);
+        
+        return $slots;
     }
     
     /**
