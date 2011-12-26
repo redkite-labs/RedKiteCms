@@ -1,0 +1,44 @@
+{% block stylesheet_files %}
+    {% stylesheets filter='?yui_css,cssrewrite'
+        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/ui-themes/smoothness/jquery-ui-1.8.16.custom.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/*'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+    
+{% block javascript_files %}
+    {% javascripts
+        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.version.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.elfinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.resources.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.options.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.history.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.command.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/ui/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/commands/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/i18n/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/proxy/elFinderSupportVer1.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block init_script %}
+<script type="text/javascript" charset="utf-8">
+    $().ready(function() {
+        var f = $('#finder').elfinder({
+            url : '/al_elFinderConnect',
+            lang : 'en'
+        })
+    })
+</script>
+{% endblock %}
+
+{% block elfinder_html %}
+<div id="finder">finder <span>here</span></div>
+{% endblock %}

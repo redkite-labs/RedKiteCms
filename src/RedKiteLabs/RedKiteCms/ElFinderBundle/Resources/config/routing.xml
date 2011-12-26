@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="_show_el_finder" pattern="/al_showElFinder">
+        <default key="_controller">AlphaLemonElFinderBundle:ElFinder:show</default>
+    </route>
+
+    <route id="_connect" pattern="/al_elFinderConnect">
+        <default key="_controller">AlphaLemonElFinderBundle:ElFinder:connect</default>
+    </route>
+</routes>
