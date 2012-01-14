@@ -13,13 +13,14 @@
   ],
   "require": {
     "symfony/symfony":  ">=2.0.9,<2.1.0-dev",
-    "propel/propel-bundle": ">=1.6.0,<2.0.*-dev",
+    "propel/propel-bundle": "2.0-dev",
     "alphalemon/al-pagetree-bundle": "",
     "alphalemon/al-valum-uploader-bundle": ""
   },
   "autoload": {
-    "psr-0": { "ThemeEngineCore": "vendor/bundles/AlphaLemon/ThemeEngineBundle/src",
-               "Themes": "vendor/bundles/AlphaLemon/ThemeEngineBundle"
+    "psr-0": { "ThemeEngineCore": "AlphaLemon/ThemeEngineBundle/src",
+               "Themes": "AlphaLemon/ThemeEngineBundle",
+               "AlphaLemon\\ThemeEngineBundle": ""
     }
   },
   "target-dir": "AlphaLemon/ThemeEngineBundle"
