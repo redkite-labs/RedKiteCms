@@ -49,7 +49,8 @@ abstract class AlTemplateSlots
                                 'friends_box' => 'language',
                                 'rss_box' => 'page',
                                 'sponsor_box' => 'site',
-                                'stats_box' => 'site'
+                                'stats_box' => 'site',
+                                'alcopyright_box' => 'site',
         );
 
     /**

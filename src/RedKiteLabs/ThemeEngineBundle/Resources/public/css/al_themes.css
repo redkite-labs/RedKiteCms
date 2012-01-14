@@ -17,12 +17,14 @@
 #al_themes
 {
   margin: 0 auto;
-  width: 1000px;
-  height: auto;
+  width: 960px;
+  max-height: 450px !important;
+  overflow: auto;
   font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
   color: #525252;
   margin-bottom: 10px;
 }
+
 
 #al_themes_contents h1
 {
@@ -36,6 +38,23 @@
     font: bold 20px/24px Arial, Verdana, Helvetica, sans-serif;
 }
 
+#al_themes_contents td
+{
+    vertical-align:top;
+}
+
+#al_themes_uploader
+{
+    width: 960px;
+    margin: 0 auto;
+    font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
+}
+
+#al_themes_uploader h1
+{
+    font: bold 24px/28px Arial, Verdana, Helvetica, sans-serif;
+}
+/*
 #al_themes_contents h3
 {
     margin-bottom: 6px;
@@ -77,13 +96,10 @@
 #al_themes_contents .al_themes_note
 {
   font: italic normal 10px/12px Arial, Verdana, Helvetica, sans-serif;
-}
+}*/
 
-#al_themes_contents td
-{
-  vertical-align:top;
-}
 
+/*
 #al_themes_closer
 {
   width: 100%;
@@ -214,4 +230,4 @@
   max-height: 304px;
   overflow: auto;
   padding: 2px;
-}
+}*/

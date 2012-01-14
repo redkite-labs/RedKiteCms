@@ -39,7 +39,7 @@ class ThemesController extends Controller
     public function showAction()
     {
         $values = $this->retrieveThemeValues();        
-        $customOptions = array("panel_title" => "Upload new theme",
+        $customOptions = array("panel_title" => "Themes uploader",
                                "panel_info" => "",
                                "allowed_extensions" => "'zip'",
                                "upload_action" => "al_uploadFile",

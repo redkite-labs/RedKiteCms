@@ -32,8 +32,6 @@ class AlThemeManager implements AlThemeManagerInterface
     protected $container;
     protected $connection;
     protected $theme = null;
-    protected $siteThemesDir;
-    protected $defaultThemesDir;
     protected $themes = array();
 
     /**
@@ -42,12 +40,10 @@ class AlThemeManager implements AlThemeManagerInterface
      * @param string  The path to the themes folder. When null the default theme's folder is used
      *
      */
-    public function __construct(ContainerInterface $container, $siteThemesDir = null, $defaultThemesDir = null)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->connection =  \Propel::getConnection();
-        $this->siteThemesDir = $siteThemesDir;
-        $this->defaultThemesDir = $defaultThemesDir;
     }
 
     /**
