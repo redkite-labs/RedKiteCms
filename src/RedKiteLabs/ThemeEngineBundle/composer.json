@@ -19,7 +19,7 @@
   },
   "autoload": {
     "psr-0": { "ThemeEngineCore": "vendor/bundles/AlphaLemon/ThemeEngineBundle/src",
-               "Themes": "vendor/bundles/AlphaLemon/ThemeEngineBundle",
+               "Themes": "vendor/bundles/AlphaLemon/ThemeEngineBundle"
   },
   "target-dir": "AlphaLemon/ThemeEngineBundle"
 }
