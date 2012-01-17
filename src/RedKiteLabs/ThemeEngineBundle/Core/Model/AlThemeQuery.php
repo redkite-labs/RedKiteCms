@@ -14,12 +14,31 @@
  * @license    MIT License
  */
 
-namespace ThemeEngineCore\Model;
+namespace AlphaLemon\ThemeEngineBundle\Core\Model;
 
 use AlphaLemon\ThemeEngineBundle\Model\AlThemeQuery as BaseThemeQuery;
 
 class AlThemeQuery extends BaseThemeQuery
 { 
+    /**
+     * {@inheritdoc}
+     */
+    public static function create($modelAlias = null, $criteria = null)
+    {
+        if ($criteria instanceof AlThemeQuery) {
+                return $criteria;
+        }
+        $query = new AlThemeQuery();
+        if (null !== $modelAlias) {
+                $query->setModelAlias($modelAlias);
+        }
+        if ($criteria instanceof Criteria) {
+                $query->mergeWith($criteria);
+        }
+        
+        return $query;
+    }
+    
     public function fromName($themeName)
     {
         return $this->filterByThemeName($themeName);

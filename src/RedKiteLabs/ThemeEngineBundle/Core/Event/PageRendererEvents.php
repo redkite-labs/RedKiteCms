@@ -14,26 +14,14 @@
  * @license    MIT License
  */
 
-namespace ThemeEngineCore\Autoloader;
-
-use ThemeEngineCore\Autoloader\Base\BundlesAutoloader;
+namespace AlphaLemon\ThemeEngineBundle\Core\Event;
 
 /**
- * Instantiates the themes 
+ * Defines the event names
  *
  * @author AlphaLemon
  */
-class ThemesAutoloader extends BundlesAutoloader
+final class PageRendererEvents
 {
-    /**
-     * @rinheritDoc
-     */
-    protected function  configure()
-    {
-        $params = array();
-        $params["pathToSeek"] = __DIR__ . '/../../../../ThemeEngineBundle/Themes';
-        $params["nameSpace"] =  'Themes';
-
-        return $params;
-    }
+    const BEFORE_RENDER_PAGE = 'page_renderer.before_page_rendering';
 }

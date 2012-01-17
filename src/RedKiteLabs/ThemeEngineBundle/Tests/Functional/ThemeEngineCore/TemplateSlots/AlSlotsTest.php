@@ -15,10 +15,10 @@
  * 
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\ThemeEngineCore\AlSlot;
+namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\AlphaLemon\ThemeEngineBundle\Core\AlSlot;
 
 use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use ThemeEngineCore\TemplateSlots\AlSlot;
+use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 class AlSlotTest extends TestCase 
 {    

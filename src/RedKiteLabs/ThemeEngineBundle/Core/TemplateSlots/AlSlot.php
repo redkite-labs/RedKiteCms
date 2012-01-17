@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace ThemeEngineCore\TemplateSlots;
+namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 
 /**
  * This class represents a slot on a page. The slot is the last html tag, usually a DIV tag,  

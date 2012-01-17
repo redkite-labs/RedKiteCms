@@ -15,7 +15,7 @@
  * 
  */
 
-namespace ThemeEngineCore\ThemeManager;
+namespace AlphaLemon\ThemeEngineBundle\Core\ThemeManager;
 
 /**
  * Defines the methods to manage a theme

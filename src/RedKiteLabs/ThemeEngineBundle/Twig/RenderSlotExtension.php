@@ -16,10 +16,15 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Twig;
 
-use PageTreeCore\PageTree\AlPageTree;
+use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
+/**
+ * Adds the renderSlot function to Twig engine
+ *
+ * @author Giansimon Diblas
+ */
 class RenderSlotExtension extends \Twig_Extension
 {
     protected $container;

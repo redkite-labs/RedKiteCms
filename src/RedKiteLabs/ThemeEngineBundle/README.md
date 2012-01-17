@@ -40,7 +40,7 @@ Register the ThemeEngineBundle namespaces in `app/autoload.php`:
     $loader->registerNamespaces(array(
         ...
         'AlphaLemon'                     => __DIR__.'/../vendor/bundles',
-        'ThemeEngineCore'                => __DIR__.'/../vendor/bundles/AlphaLemon/ThemeEngineBundle/src',
+        'AlphaLemon\ThemeEngineBundle\Core'                => __DIR__.'/../vendor/bundles/AlphaLemon/ThemeEngineBundle/src',
         'Themes'                         => __DIR__.'/../vendor/bundles/AlphaLemon/ThemeEngineBundle',
     ));
     
@@ -71,7 +71,7 @@ given directory:
 
     app/AppKernel.php
 
-    use ThemeEngineCore\Autoloader\ThemesAutoloader;
+    use AlphaLemon\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader;
 
     public function registerBundles()
     {

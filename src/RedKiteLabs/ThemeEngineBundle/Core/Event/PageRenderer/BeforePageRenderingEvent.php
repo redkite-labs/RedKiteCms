@@ -15,11 +15,11 @@
  * 
  */
 
-namespace ThemeEngineCore\Event\PageRenderer;
+namespace AlphaLemon\ThemeEngineBundle\Core\Event\PageRenderer;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
-use PageTreeCore\PageTree\AlPageTree;
+use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree;
 
 /**
  * Defines the event dispatched before the page is rendered

@@ -19,7 +19,7 @@ namespace AlphaLemon\ThemeEngineBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use PageTreeCore\Compiler\ListenersRegistrator;
+use AlphaLemon\PageTreeBundle\Core\Compiler\ListenersRegistrator;
 
 class RegisterThemeEngineListenersPass implements CompilerPassInterface
 {

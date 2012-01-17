@@ -15,10 +15,10 @@
  * 
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\ThemeEngineCore\TemplateSlots;
+namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 
 use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use ThemeEngineCore\TemplateSlots;
+use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 use Themes\AlphaLemonThemeBundle\src\Slots\AlphaLemonThemeBundleHomeSlots;
 
 class AlphaLemonThemeBundleHome1Slot extends TemplateSlots\AlTemplateSlots

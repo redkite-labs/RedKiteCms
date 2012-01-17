@@ -18,7 +18,7 @@
     "alphalemon/al-valum-uploader-bundle": "*"
   },
   "autoload": {
-    "psr-0": { "ThemeEngineCore": "AlphaLemon/ThemeEngineBundle/src",
+    "psr-0": { "AlphaLemon\ThemeEngineBundle\Core": "AlphaLemon/ThemeEngineBundle/src",
                "Themes": "AlphaLemon/ThemeEngineBundle"
     }
   },

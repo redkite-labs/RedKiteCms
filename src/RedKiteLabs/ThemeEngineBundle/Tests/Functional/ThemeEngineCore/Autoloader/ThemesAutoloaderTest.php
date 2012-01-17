@@ -15,10 +15,10 @@
  * 
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\ThemeEngineCore\Autoloader;
+namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\AlphaLemon\ThemeEngineBundle\Core\Autoloader;
 
 use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use ThemeEngineCore\Autoloader\ThemesAutoloader;
+use AlphaLemon\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader;
 
 
 class AlThemesAutoloaderTest extends TestCase 

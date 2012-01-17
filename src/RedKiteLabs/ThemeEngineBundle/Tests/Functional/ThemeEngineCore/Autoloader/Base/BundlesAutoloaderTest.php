@@ -15,10 +15,10 @@
  * 
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\ThemeEngineCore\Autoloader\Base;
+namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base;
 
 use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use ThemeEngineCore\Autoloader\Base\BundlesAutoloader;
+use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloader;
 
 /**
  * A wrapper class useful for testing

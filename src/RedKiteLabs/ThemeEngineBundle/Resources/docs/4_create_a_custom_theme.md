@@ -154,7 +154,7 @@ in this example HelloThemeBundleHomeSlots.php under the Slots folder, open it an
 
     namespace Themes\HelloThemeBundle\src\Slots;
 
-    use ThemeEngineCore\TemplateSlots\AlTemplateSlots;
+    use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots;
 
     class HelloThemeBundleHomeSlots extends AlTemplateSlots
     {
@@ -162,7 +162,7 @@ in this example HelloThemeBundleHomeSlots.php under the Slots folder, open it an
 
 This code is enough to load all the predefined slots for your template. You can add new slots or changing the behavior for the existing ones by extending the AlTemplateSlots's configure method as follows:
 
-    use ThemeEngineCore\TemplateSlots\AlSlot;
+    use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
     class HelloThemeBundleHomeSlots extends AlTemplateSlots
     {

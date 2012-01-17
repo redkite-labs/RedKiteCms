@@ -14,13 +14,13 @@
  * @license    MIT License
  */
 
-namespace ThemeEngineCore\ThemeManager;
+namespace AlphaLemon\ThemeEngineBundle\Core\ThemeManager;
 
 use Symfony\Bundle\FrameworkBundle\Util\Filesystem;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Model\AlTheme;
-use ThemeEngineCore\Model\AlThemeQuery;
-use PageTreeCore\Tools\AlToolkit;
+use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
+use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
  * Implements the AlThemeManagerInterface to manage a theme

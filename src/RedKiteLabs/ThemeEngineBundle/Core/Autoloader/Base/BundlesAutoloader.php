@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace ThemeEngineCore\Autoloader\Base;
+namespace AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base;
 
 use Symfony\Component\Finder\Finder;
 

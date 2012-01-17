@@ -15,12 +15,12 @@
  * 
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\ThemeEngineCore\ThemeManager;
+namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\AlphaLemon\ThemeEngineBundle\Core\ThemeManager;
 
 use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
 use AlphaLemon\ThemeEngineBundle\Tests\tools\AlphaLemonDataPopulator;
-use ThemeEngineCore\ThemeManager\AlThemeManager;
-use ThemeEngineCore\Model\AlThemeQuery;
+use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
+use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
 
 class AlThemeManagerTest extends TestCase 
 {       

@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace ThemeEngineCore\TemplateSlots;
+namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 
 /**
  * This is the base class where the template's slots must be defined 
