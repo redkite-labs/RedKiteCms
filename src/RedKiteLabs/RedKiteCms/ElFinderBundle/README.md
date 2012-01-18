@@ -4,9 +4,9 @@ The ElFinderBundle encapsulates the elFinder file manager to be used in Symfony2
 ## Installation
 Clone this bundle in the vendor/bundles/AlphaLemon directory:
 
-    git clone git://github.com/alphalemon/PageTreeBundle.git vendor/bundles/AlphaLemon/PageTreeBundle
+    git clone git://github.com/alphalemon/ElFinderBundle.git vendor/bundles/AlphaLemon/ElFinderBundle
 
-## Configure the ThemeEngineBundle
+## Configure the ElFinderBundle
 Open the AppKernel configuration file and add the bundle to the registerBundles() method:
 
     public function registerBundles()
@@ -22,7 +22,6 @@ Register the ElFinderBundle namespaces in `app/autoload.php`:
     $loader->registerNamespaces(array(
         ...
         'AlphaLemon'                     => __DIR__.'/../vendor/bundles',
-        'ElFinderCore'                   => __DIR__.'/../vendor/bundles/AlphaLemon/ElFinderBundle/src',
     ));
 
 Import the routing configuration into the routing.yml file:

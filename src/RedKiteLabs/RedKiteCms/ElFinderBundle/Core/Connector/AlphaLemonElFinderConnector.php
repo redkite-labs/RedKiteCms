@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace ElFinderCore\Connector;
+namespace AlphaLemon\ElFinderBundle\Core\Connector;
 
 /**
  * Configures the connector

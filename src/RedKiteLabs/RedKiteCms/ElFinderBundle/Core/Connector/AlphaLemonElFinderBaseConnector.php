@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace ElFinderCore\Connector;
+namespace AlphaLemon\ElFinderBundle\Core\Connector;
 
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -22,10 +22,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 // elfinder configuration
 error_reporting(0);
 
-include_once dirname(__FILE__).'/../../../Resources/public/vendor/ElFinder/php/elFinderConnector.class.php';
-include_once dirname(__FILE__).'/../../../Resources/public/vendor/ElFinder/php/elFinder.class.php';
-include_once dirname(__FILE__).'/../../../Resources/public/vendor/ElFinder/php/elFinderVolumeDriver.class.php';
-include_once dirname(__FILE__).'/../../../Resources/public/vendor/ElFinder/php/elFinderVolumeLocalFileSystem.class.php';
+include_once dirname(__FILE__).'/../../Resources/public/vendor/ElFinder/php/elFinderConnector.class.php';
+include_once dirname(__FILE__).'/../../Resources/public/vendor/ElFinder/php/elFinder.class.php';
+include_once dirname(__FILE__).'/../../Resources/public/vendor/ElFinder/php/elFinderVolumeDriver.class.php';
+include_once dirname(__FILE__).'/../../Resources/public/vendor/ElFinder/php/elFinderVolumeLocalFileSystem.class.php';
 
 /**
  * Instantiates the elFinder connector
@@ -38,7 +38,9 @@ abstract class AlphaLemonElFinderBaseConnector
     protected $container = array();
 
     /**
-     * Configures the elFinder options
+     * Returns an array of options to configure the elFinder library
+     * 
+     * @return array 
      */
     abstract protected function configure();
 
@@ -50,17 +52,17 @@ abstract class AlphaLemonElFinderBaseConnector
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $options = $this->configure();
-        if(null === $options)
+        $this->options = $this->configure();
+        
+        if(null === $this->options)
         {
             throw new InvalidConfigurationException(sprintf("The configure method cannot return a null value. Check the value returned by the configure method in the %className% object", \get_class($this)));
         }
 
-        if(!is_array($options))
+        if(!is_array($this->options))
         {
             throw new InvalidConfigurationException(sprintf("The configure method must return an array. Check the value returned by the configure method in the %className% object", \get_class($this)));
         }
-        $this->options = $this->configure();
     }
 
     /**
