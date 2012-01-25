@@ -60,7 +60,7 @@ class TemplateController extends Controller
     {
         $pageTree = $this->container->get('al_page_tree');
         
-        $this->theme = AlThemeQuery::create()->filterByActive(1)->findOne();
+        $this->theme = AlThemeQuery::create()->activeBackend()->findOne();
         if(null !== $this->theme)
         {
             $pageTree->setThemeName($this->theme->getThemeName());
@@ -95,7 +95,7 @@ class TemplateController extends Controller
     protected function retrieveSlotContents($templateName)
     {
         $slots = array();
-        $templateSlotsClass = \sprintf('\Themes\%s\src\Slots\%s%sSlots', $this->theme->getThemeName(), $this->theme->getThemeName(), \ucfirst($templateName));
+        $templateSlotsClass = \sprintf('\Themes\%s\Core\Slots\%s%sSlots', $this->theme->getThemeName(), $this->theme->getThemeName(), \ucfirst($templateName));
         $templateSlots = new $templateSlotsClass();
         foreach($templateSlots->toArray() as $repeatedStatus => $slotNames)
         {

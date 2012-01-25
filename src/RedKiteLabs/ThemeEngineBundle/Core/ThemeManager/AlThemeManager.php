@@ -61,7 +61,7 @@ class AlThemeManager implements AlThemeManagerInterface
             throw new \InvalidArgumentException("The name option is mandatory to add a new theme");
         }
         
-        if(AlThemeQuery::create()->filterByThemeName($values['name'])->count() > 0)
+        if(AlThemeQuery::create()->fromName($values['name'])->count() > 0)
         {
             throw new \RuntimeException("The theme you are trying to add already exists");
         }
@@ -103,13 +103,13 @@ class AlThemeManager implements AlThemeManagerInterface
     {
         try
         {
-            if(AlThemeQuery::create()->filterByThemeName($themeName)->count() == 0)
+            if(AlThemeQuery::create()->fromName($themeName)->count() == 0)
             {
                 throw new \InvalidArgumentException("The theme you are trying to activate does not exist");
             }
                     
             // The current theme is already the one active: skip
-            $theme = AlThemeQuery::create()->filterByActive(1)->findOne();
+            $theme = AlThemeQuery::create()->activeBackend()->findOne();
             if(null === $theme || $theme->getThemeName() != $themeName)
             {
                 $rollback = false;
@@ -125,7 +125,7 @@ class AlThemeManager implements AlThemeManagerInterface
                 if(!$rollback)
                 {
                     // Activates the new one
-                    $theme = AlThemeQuery::create()->filterByThemeName($themeName)->findOne();
+                    $theme = AlThemeQuery::create()->fromName($themeName)->findOne();
                     if($theme)
                     {
                         $theme->setActive(1);
@@ -168,7 +168,7 @@ class AlThemeManager implements AlThemeManagerInterface
         {   
             $this->connection->beginTransaction();
                 
-            $theme = AlThemeQuery::create()->filterByThemeName($themeName);
+            $theme = AlThemeQuery::create()->fromName($themeName);
             if (null !== $theme)
             {
                 $theme->delete();

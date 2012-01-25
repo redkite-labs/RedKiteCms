@@ -68,9 +68,9 @@ class AlThemeManagerTest extends TestCase
         );
         
         $this->assertTrue($testAlThemeManager->add(array('name' => 'themeBundle')));
-        $this->assertEquals(1, AlThemeQuery::create()->filterByThemeName('themeBundle')->count());
+        $this->assertEquals(1, AlThemeQuery::create()->fromName('themeBundle')->count());
         $this->assertTrue($testAlThemeManager->activate('themeBundle'));
-        $this->assertEquals('themeBundle', AlThemeQuery::create()->filterByActive(1)->findOne()->getThemeName());
+        $this->assertEquals('themeBundle', AlThemeQuery::create()->activeBackend()->findOne()->getThemeName());
         
         return $testAlThemeManager;
     }
@@ -81,8 +81,8 @@ class AlThemeManagerTest extends TestCase
     public function testAddThemeByNameWithActiveOptionAtFalse(AlThemeManager $testAlThemeManager)
     {
         $this->assertTrue($testAlThemeManager->add(array('name' => 'theme1Bundle', 'active' => '0')));
-        $this->assertEquals(1, AlThemeQuery::create()->filterByThemeName('theme1Bundle')->count());
-        $this->assertEquals('themeBundle', AlThemeQuery::create()->filterByActive(1)->findOne()->getThemeName());
+        $this->assertEquals(1, AlThemeQuery::create()->fromName('theme1Bundle')->count());
+        $this->assertEquals('themeBundle', AlThemeQuery::create()->activeBackend()->findOne()->getThemeName());
         
         return $testAlThemeManager;
     }
@@ -93,8 +93,8 @@ class AlThemeManagerTest extends TestCase
     public function testAddThemeByNameWithActiveOptionAtTrue(AlThemeManager $testAlThemeManager)
     {        
         $this->assertTrue($testAlThemeManager->add(array('name' => 'theme2Bundle', 'active' => '1')));
-        $this->assertEquals(1, AlThemeQuery::create()->filterByThemeName('theme2Bundle')->count());
-        $this->assertEquals('theme2Bundle', AlThemeQuery::create()->filterByActive(1)->findOne()->getThemeName());
+        $this->assertEquals(1, AlThemeQuery::create()->fromName('theme2Bundle')->count());
+        $this->assertEquals('theme2Bundle', AlThemeQuery::create()->activeBackend()->findOne()->getThemeName());
         
         return $testAlThemeManager;
     }
@@ -115,7 +115,7 @@ class AlThemeManagerTest extends TestCase
     public function testActivate(AlThemeManager $testAlThemeManager)
     {   
         $this->assertTrue($testAlThemeManager->activate('theme1Bundle'));
-        $query = AlThemeQuery::create()->filterByActive(1);
+        $query = AlThemeQuery::create()->activeBackend();
         $this->assertEquals(1, $query->count(), 'Just one theme should be marked as active');
         $this->assertEquals('theme1Bundle', $query->findOne()->getThemeName());        
         
@@ -128,6 +128,6 @@ class AlThemeManagerTest extends TestCase
     public function testRemove(AlThemeManager $testAlThemeManager)
     {
         $this->assertTrue($testAlThemeManager->remove('theme2Bundle'));
-        $this->assertEquals(0, AlThemeQuery::create()->filterByThemeName('theme2Bundle')->count());     
+        $this->assertEquals(0, AlThemeQuery::create()->fromName('theme2Bundle')->count());     
     }
 }

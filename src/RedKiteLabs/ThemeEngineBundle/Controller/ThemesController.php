@@ -44,8 +44,7 @@ class ThemesController extends Controller
                                "allowed_extensions" => "'zip'",
                                "upload_action" => "al_uploadFile",
                                "folder" => $this->locateThemesFolder(),
-                               "onComplete" => "location.href = '" . $this->generateUrl('_extract_themes') . "'"); //  "extractTheme(fileName);"
-        
+                               "onComplete" => "location.href = '" . $this->generateUrl('_extract_themes') . "'"); 
         $valumOptionsBuilder = new AlValumUploaderOptionsBuilder($this->container);
         $valumOptionsBuilder->build($customOptions);
         
@@ -76,7 +75,7 @@ class ThemesController extends Controller
                 return $this->redirect ($this->generateUrl('_themes'));
             }
 
-            return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('values' => $this->retrieveThemeValues()));
+            return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 'values' => $this->retrieveThemeValues()));
         }
         catch(Exception $e)
         {
@@ -102,7 +101,7 @@ class ThemesController extends Controller
                 }
                 catch(\RuntimeException $ex)
                 {
-                    //Silently catches the exception thrown when a theme that altready exists
+                    //Silently catches the exception thrown when a theme already exists
                 }
                 unlink($theme);
             }
@@ -120,17 +119,26 @@ class ThemesController extends Controller
             }
         }
         
-        return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('values' => $this->retrieveThemeValues()));
+        return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 'values' => $this->retrieveThemeValues()));
     }
     
     public function installAssetsAction()
     {
         $url = $this->generateUrl('_themes');
         
-        AlToolkit::executeCommand($this->container->get('kernel'), 'assets:install ' . AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../web'));
+        $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : ''; 
+        $command = sprintf('assets:install --env=%s %s %s', $this->container->get('kernel')->getEnvironment(), AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../web'), $symlink);
+        AlToolkit::executeCommand($this->container->get('kernel'), $command);
         $this->removeCache();
         
-        return $this->redirect ($url);
+        $request = $this->get('request');
+        if(!$request->isXmlHttpRequest())
+        {
+            return $this->redirect($url);
+        }
+        
+        $response = new Response();
+        return $this->render('AlphaLemonCmsBundle:Pages:ajax_error.html.twig', array('message' => 'Theme installed'), $response);
     }
     
     public function importThemeAction()
@@ -144,8 +152,8 @@ class ThemesController extends Controller
         {
             return $this->redirect ($this->generateUrl('_themes'));
         }
-
-        return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('values' => $this->retrieveThemeValues()));
+        
+        return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 'values' => $this->retrieveThemeValues()));
     }
     
     public function removeThemeAction()
@@ -169,7 +177,7 @@ class ThemesController extends Controller
                 return $this->redirect($this->generateUrl('_install_assets'));
             }
 
-            return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('values' => $this->retrieveThemeValues()));
+            return $this->render('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 'values' => $this->retrieveThemeValues()));
         }
         catch(Exception $e)
         {
@@ -196,7 +204,7 @@ class ThemesController extends Controller
 
     protected function retrieveActiveThemeAttributes()
     {
-        $theme = AlThemeQuery::create()->filterByActive(1)->findOne();
+        $theme = AlThemeQuery::create()->activeBackend()->findOne();
         if(null !== $theme)
         {
             $backendValues = $this->retrieveThemeInfo($this->locateThemesFolder(), $theme->getThemeName());
@@ -218,7 +226,7 @@ class ThemesController extends Controller
         $themesArray = array();
         if(null === $backendAttributes)
         {
-            $theme = AlThemeQuery::create()->filterByActive(1)->findOne();
+            $theme = AlThemeQuery::create()->activeBackend()->findOne();
             $selectedTheme = $theme->getThemeName();
         }
         else
@@ -242,7 +250,7 @@ class ThemesController extends Controller
                 //  1: The theme has been loaded and it is the active one
                 //  2: The theme exists in the themes folder but it has not been loaded
                 //  3: The theme has been loaded and it is available
-                $buttons = (null !== AlThemeQuery::create()->filterByThemeName($themeName)->findOne()) ? 1 : 0;
+                $buttons = (null !== AlThemeQuery::create()->fromName($themeName)->findOne()) ? 1 : 0;
                 $buttons += ($themeName != $selectedTheme) ? 2 : 0;                
                 $availableTheme['buttons'] = $buttons;
                 $fileName = AlToolkit::retrieveBundleWebFolder($this->container, $themeName) . '/images/screenshot.png';

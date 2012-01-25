@@ -19,7 +19,7 @@ namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\AlphaLemon\ThemeEngineBu
 
 use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
-use Themes\AlphaLemonThemeBundle\src\Slots\AlphaLemonThemeBundleHomeSlots;
+use Themes\AlphaLemonThemeBundle\Core\Slots\AlphaLemonThemeBundleHomeSlots;
 
 class AlphaLemonThemeBundleHome1Slot extends TemplateSlots\AlTemplateSlots
 {

@@ -152,7 +152,7 @@ Create a src folder under your bundle and another one called Slots inside it. Th
 
 in this example HelloThemeBundleHomeSlots.php under the Slots folder, open it and add the following code:
 
-    namespace Themes\HelloThemeBundle\src\Slots;
+    namespace Themes\HelloThemeBundle\Core\Slots;
 
     use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots;
 
