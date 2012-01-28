@@ -1,0 +1,41 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonElFinderBundle:ElFinder:show.html.twig' %}
+
+{% block javascript_files %}
+    {% javascripts
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.version.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.elfinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.resources.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.options.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.history.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.command.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/ui/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/commands/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/i18n/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/proxy/elFinderSupportVer1.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block elfinder_html %}
+<div id="elfinder">Please wait while the Media Library is loading...</div>
+<input id="al_file" type="hidden" />
+{% endblock %}

@@ -1,0 +1,36 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlValumUploaderBundle:Valum:show.html.twig' %}
+
+{% block external_javascripts %}
+    {% if(is_windows) %}
+        <script src="{{ asset('bundles/alvalumuploader/js/fileuploader.js') }}"></script>
+    {% else %}
+        {% javascripts 'bundles/alvalumuploader/js/fileuploader.js' filter='yui_js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endif %}
+{% endblock %}
+
+{% block external_stylesheets %}
+    {% if(is_windows) %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/alvalumuploader/js/fileuploader.js') }}" />
+    {% else %}
+        {% stylesheets 'bundles/alvalumuploader/css/*' filter='yui_css' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,194 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% if editor_settings.html_editor is defined and editor_settings.html_editor == true %}
+{% set showHtmlEditor = true %}
+{% else %}
+{% set showHtmlEditor = false %}
+{% endif %}
+
+{% if editor_settings.rich_editor is defined and editor_settings.rich_editor == true %}
+{% set showRichEditor = true %}
+{% else %}
+{% set showRichEditor = false %}
+{% endif %}
+
+{% if editor_settings.internal_js is defined and editor_settings.internal_js == true %}
+{% set showInternalJsEditor = true %}
+{% else %}
+{% set showInternalJsEditor = false %}
+{% endif %}
+
+{% if editor_settings.external_js is defined and editor_settings.external_js == true %}
+{% set showExternalJsEditor = true %}
+{% else %}
+{% set showExternalJsEditor = false %}
+{% endif %}
+
+{% if editor_settings.internal_css is defined and editor_settings.internal_css == true %}
+{% set showInternalCssEditor = true %}
+{% else %}
+{% set showInternalCssEditor = false %}
+{% endif %}
+
+{% if editor_settings.external_css is defined and editor_settings.external_css == true %}
+{% set showExternalCssEditor = true %}
+{% else %}
+{% set showExternalCssEditor = false %}
+{% endif %}
+
+<div id="al_editor_tabs">
+    <ul>
+        {% if showHtmlEditor or showRichEditor %}<li><a href="#al-editor-tab-1">Html Code</a></li>{% endif %}
+        {% if showInternalJsEditor %}<li><a href="#al-editor-tab-2">Int. Js</a></li>{% endif %}
+        {% if showExternalJsEditor  %}<li><a href="#al-editor-tab-3">Ext. Js</a></li>{% endif %}
+        {% if showInternalCssEditor  %}<li><a href="#al-editor-tab-4">Int. Css</a></li>{% endif %}
+        {% if showExternalCssEditor  %}<li><a href="#al-editor-tab-5">Ext. Css</a></li>{% endif %}
+    </ul>
+
+    {% if showHtmlEditor or showRichEditor  %}
+    <div id="al-editor-tab-1">
+        {% block html_editor %}
+        {% if showRichEditor  %}
+        <form onsubmit="saveHtmlContent(); return false;">
+            <textarea id="al_html_editor" name="al_html_editor" class="input editor-inputs">
+                {{ alContent.htmlContent }}
+            </textarea>
+        </form>
+        {% elseif showHtmlEditor %}
+        <textarea id="al_html_editor" name="al_html_editor" class="input editor-inputs">{{ alContent.htmlContent }}</textarea>
+        <input id="al_html_saver" type="submit" value = "Save" class="input button" />
+        {% endif %}
+        {% endblock %}
+    </div>
+    {% endif %}
+
+    {% if showInternalJsEditor %}
+    <div id="al-editor-tab-2">
+        {% block internal_javascript_editor %}
+        <div class="editor-contents">
+            <textarea id="al_internal_javascript" class="input editor-inputs">{{ alContent.internalJavascript }}</textarea>
+        </div>
+        <div class="editor-commands">    
+            <input id="al_internal_javascript_saver" type="submit" value = "Save" class="input button" />
+        </div>
+        {% endblock %}
+    </div>
+    {% endif %}
+
+    {% if showExternalJsEditor  %}
+    <div id="al-editor-tab-3">
+        {% block external_javascript_editor %}
+        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : alContent.externalJavascript, 'files' : jsFiles } %}
+        {% endblock %}
+    </div>
+    {% endif %}
+
+    {% if showInternalCssEditor %}
+    <div id="al-editor-tab-4">
+        {% block internal_stylesheet_editor %}
+        <div class="editor-contents">
+            <textarea id="al_internal_stylesheet" class="input editor-inputs">{{ alContent.internalStylesheet }}</textarea>
+        </div>
+        <div class="editor-commands">
+            <input id="al_internal_stylesheet_saver" type="submit" value = "Save" class="input button" />
+        </div>
+        {% endblock %}
+    </div>
+    {% endif %}
+
+    {% if showExternalCssEditor  %}
+    <div id="al-editor-tab-5">
+        {% block external_stylesheet_editor %}
+        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : alContent.externalStylesheet, 'files' : cssFiles } %}
+        {% endblock %}
+    </div>
+    {% endif %}
+</div>
+
+{% block static_header_javascripts %}
+{% if showRichEditor  %}
+    {% block tinymce_init_script %}
+<script type="text/javascript">
+    /*
+    tinyMCE_GZ.init({
+        plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
+        theme : "advanced",
+        languages : "en",
+        disk_cache : true,
+        debug : false
+    });*/
+</script>
+<script type="text/javascript">
+    tinyMCE.init({
+        width : "740",
+        height : "350",
+        mode : "none",
+        elements : "al_html_editor",
+        plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
+        theme : "advanced",
+        theme_advanced_buttons1 : "code,save,|,bold,italic,underline,strikethrough,removeformat,|,justifyleft,justifycenter,justifyright,justifyfull,|,link,unlink,|,image,media",
+        theme_advanced_buttons2 : "formatselect,styleselect",
+        theme_advanced_buttons3 : "",
+        theme_advanced_buttons4 : "",
+        theme_advanced_toolbar_location : "top",
+        theme_advanced_toolbar_align : "left",
+        theme_advanced_statusbar_location : "bottom",
+        theme_advanced_resizing : true,
+        relative_urls : true,
+        convert_urls : false,
+        external_image_list_url : '{{ path('_create_images_list') }}',
+        external_link_list_url : '{{ path('_create_links_list', { 'language': language }) }}'
+    });
+</script>
+    {% endblock %}
+    {% endif %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        {% if showRichEditor  %} $('#al_html_editor').AddTinyMCE(); {% endif %}
+        $('#al_editor_tabs').tabs();
+    });
+
+    {% if showRichEditor  %}
+    function saveHtmlContent()
+    {
+        $('#al_html_editor').EditBlock('HtmlContent');
+    };
+    {% endif %}
+
+    {% if showRichEditor == false or showHtmlEditor  %}
+    $('#al_html_saver').click(function()
+    {
+        $('#al_html_editor').EditBlock('HtmlContent');
+    });
+    {% endif %}
+        
+    {% if showInternalJsEditor  %}
+    $('#al_internal_javascript_saver').click(function()
+    {
+        $('#al_internal_javascript').EditBlock('InternalJavascript');
+    });
+    {% endif %}
+
+    {% if showInternalCssEditor  %}
+    $('#al_internal_stylesheet_saver').click(function()
+    {
+        $('#al_internal_stylesheet').EditBlock('InternalStylesheet');
+    });
+    {% endif %}
+</script>
+{% endblock %}
+
+

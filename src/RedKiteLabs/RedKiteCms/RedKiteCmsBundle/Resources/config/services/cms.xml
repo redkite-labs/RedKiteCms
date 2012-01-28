@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="alcms.skin">alphaLemon</parameter>
+
+        <!-- Hardcoded in twig template until assetic could load assets dinamically -->
+        <parameter key="alcms.stylesheets" type="collection">            
+            <parameter>@AlphaLemonCmsBundle/Resources/public/css/skins/%alcms.skin%/*</parameter>
+            <parameter>@AlphaLemonCmsBundle/Resources/public/css/skins/%alcms.skin%/vendor/smoothness/*</parameter>
+            <parameter>@AlphaLemonCmsBundle/Resources/public/css/skins/%alcms.skin%/vendor/medialize/*</parameter>
+            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/css/*</parameter>
+        </parameter>
+
+        <!-- Hardcoded in twig template until assetic could load assets dinamically -->
+        <parameter key="alcms.javascripts" type="collection">
+            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>
+            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/*</parameter>
+            <parameter>@AlphaLemonCmsBundle/Resources/public/js/vendor/medialize/*</parameter>
+            <parameter>@AlphaLemonCmsBundle/Resources/public/js/*</parameter>
+        </parameter>
+
+        <parameter key="alcms.available_languages" type="collection">
+            <parameter key="en">English</parameter>
+        </parameter>
+        
+        <parameter key="al_cms.page_blocks" type="collection">
+            <parameter key="Text">Text Content</parameter>
+            <parameter key="Media">Media Content</parameter>
+            <parameter key="Menu">Simple Menu Content</parameter>
+            <parameter key="Script">Javascript Content</parameter>
+        </parameter>
+        
+        <parameter key="alcms.deploy.xliff_skeleton">@AlphaLemonCmsBundle/Resources/data/xml/xliff-skeleton.xml</parameter>
+        <parameter key="alcms.deploy.xml_skeleton">@AlphaLemonCmsBundle/Resources/data/xml/page-skeleton.xml</parameter>
+
+        <parameter key="alcms.assets.skeletons_folder">@AlphaLemonCmsBundle/Resources/data/assets</parameter>
+        <parameter key="alcms.assets.output_folder">Resources/views/Assets</parameter>
+        
+        <parameter key="alcms.upload_assets_dir">uploads/assets</parameter>
+        
+        <parameter key="al_cms_setup_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlCmsSetupListener</parameter>
+        <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlFinalizeContentsListener</parameter>
+        
+        <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
+        <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
+        <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
+
+        <parameter key="al_cms_pages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager</parameter>
+        <parameter key="al_cms_page_attributes_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager</parameter>
+        <parameter key="al_cms_languages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
+
+        <parameter key="alpalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
+        <parameter key="alpalemon.assets_builder">AlphaLemon\AlphaLemonCmsBundle\Core\AssetsBuilder\AlAssetsBuilder</parameter>
+    </parameters>
+
+    <services>
+        <service id="alphalemon.cms.security.provider" class="AlphaLemon\AlphaLemonCmsBundle\Core\Security\Provider\AlCmsAlUserProvider" />
+        
+        <service id="al_assets_builder" class="%alpalemon.assets_builder%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="al_page_tree" class="%alpalemon.page_tree%">
+            <argument type="service" id="service_container" />
+        </service>
+        
+        
+        <service id="al_cms_setup_listener.class" class="%al_cms_setup_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
+            <argument type="service" id="service_container" />
+        </service>
+
+         
+        <service id="al_cms_finalize_content_listener.class" class="%al_cms_finalize_content_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+
+        <service id="el_finder_media_connector" class="%el_finder.media_connector%" >
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="el_finder_css_connector" class="%el_finder.css_connector%" >
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="el_finder_js_connector" class="%el_finder.js_connector%" >
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="al_page_manager" class="%al_cms_pages_manager%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="al_page_attributes_manager" class="%al_cms_page_attributes_manager%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="al_language_manager" class="%al_cms_languages_manager%">
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+</container>

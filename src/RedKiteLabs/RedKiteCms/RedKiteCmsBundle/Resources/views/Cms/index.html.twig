@@ -1,0 +1,105 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends template %}
+
+{% block internal_header_javascripts %}
+{{ parent() }}
+<script>
+    $(document).ready(function()
+    {
+        frontController = '{{ frontController }}';
+    
+        $.contextMenu({
+            selector: '.al_edit_on',
+            items: {
+                "addmenu": {
+                    "name": "Add", 
+                    "items": {
+                        {% for item, description in available_contents %}
+                        "{{ item }}": {"name": "{{ description }}", callback: function(key, opt){ opt.$trigger.AddBlock("{{ item }}"); }},
+                        {% endfor %}
+                    }
+                },
+                "sep1": "---------",
+                "edit": {"name": "Edit", "icon": "edit", callback: function(key, opt){ opt.$trigger.OpenEditor(); } },
+                "delete": {"name": "Delete", "icon": "cut", callback: function(key, opt){ opt.$trigger.DeleteContent(); }}
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block external_stylesheets %}
+
+{{ parent() }}
+
+{% for value in dynamicStylesheets %}
+<link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
+{% endfor %}
+
+{% stylesheets  filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/*' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/medialize/*' 'bundles/alphalemoncms/css/skins/alphaLemon/*' %}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+{% endstylesheets %}
+
+
+
+{% endblock %}
+
+{% block external_javascripts %}
+{{ parent() }}
+{% javascripts  filter='?yui_js' 'bundles/alphalemonthemeengine/js/vendor/jquery/*' 'bundles/alphalemonthemeengine/js/vendor/*' 'bundles/alphalemoncms/js/vendor/medialize/*' 'bundles/alphalemoncms/js/*' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script src="/js/tiny_mce/tiny_mce.js"></script>
+{% for value in dynamicJavascripts %}
+<script src="{{ asset(value) }}"></script>
+{% endfor %}
+{% endblock %}
+
+{% block body %}       
+<div id="al_toolbar">
+    <div class="al_float_left al_boxes_margins small_logo"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></div>
+    <div id="al_menu" class="al_float_left">
+        <ul>
+            <li><a href="#" id="al_start_editor">Edit</a></li>
+            <li><a href="#" id="al_stop_editor">Stop</a></li>
+            <li><a href="#" id="al_open_pages_panel">Pages</a></li>
+            <li><a href="#" id="al_open_languages_panel">Languages</a></li>
+            <li><a href="#" id="al_open_themes_panel">Themes</a></li>
+            <li><a href="#" id="al_open_media_library">Media Library</a></li>
+            <li><a href="#" id="al_deploy_site">Deploy</a></li>
+        </ul>
+    </div>
+    <div id="al_navigator" class="al_float_right al_boxes_margins">
+        Navigate
+        <span id="al_languages_navigator_box">
+        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'selected' : language}  %}
+        </span>
+        <span id="al_pages_navigator_box">
+        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'selected' : page}  %}
+        </span>
+        Languages
+        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages}  %}
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+<div id="al_panel"></div>
+
+<div id="al_cms_contents" class="{page: '{{ page }}', language: '{{ language }}'}">
+{{ parent() }}
+</div>
+{% endblock %}

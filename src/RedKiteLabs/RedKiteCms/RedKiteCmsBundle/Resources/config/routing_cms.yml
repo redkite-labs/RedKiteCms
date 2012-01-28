@@ -1,0 +1,48 @@
+_installer:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/installer.xml"
+    
+_cms:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/cms.xml"
+
+_pages:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/pages.xml"
+
+_languages:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/languages.xml"
+
+_themes:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/themes.xml"
+
+_blocks:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/blocks.xml"
+
+_deploy:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/deploy.xml"
+
+_valum_uploader:
+    resource: "@AlValumUploaderBundle/Resources/config/routing/valum.xml"
+
+#_el_finder:
+#    resource: "@AlphaLemonElFinderBundle/Resources/config/routing.xml"
+    
+#_el_finder:
+#    resource: "@AlElFinderBundle/Resources/config/routing/el_finder.xml"
+
+_al_text_bundle:
+    resource: "@AlTextBundle/Resources/config/routing.yml"
+    
+_al_elfinder:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
+    
+_navigation1:
+  pattern:  /{page}
+  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, page: index }
+
+_navigation:
+  pattern:  /{_locale}/{page}
+  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index }
+
+_home:
+  pattern:  /
+  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index }
+

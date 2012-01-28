@@ -1,0 +1,12 @@
+framework:
+    charset:       UTF-8
+    secret: xxxxxxxxxx
+    csrf_protection:
+        enabled: true
+    router:        { resource: "%kernel.root_dir%/config/routing.yml" }
+    validation:    { enabled: true, enable_annotations: true }
+    #templating:    { engines: ['twig', 'php'] }
+    session:
+        default_locale: en
+        lifetime:       3600
+        auto_start:     false

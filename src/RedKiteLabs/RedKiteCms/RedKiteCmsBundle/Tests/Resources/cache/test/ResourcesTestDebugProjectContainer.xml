@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+  <parameters>
+    <parameter key="kernel.root_dir">/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources</parameter>
+    <parameter key="kernel.environment">test</parameter>
+    <parameter key="kernel.debug">true</parameter>
+    <parameter key="kernel.name">Resources</parameter>
+    <parameter key="kernel.cache_dir">/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/cache/test</parameter>
+    <parameter key="kernel.logs_dir">/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/logs</parameter>
+    <parameter key="kernel.bundles" type="collection">
+      <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
+    </parameter>
+    <parameter key="kernel.charset">UTF-8</parameter>
+    <parameter key="kernel.container_class">ResourcesTestDebugProjectContainer</parameter>
+    <parameter key="router_listener.class">Symfony\Bundle\FrameworkBundle\EventListener\RouterListener</parameter>
+    <parameter key="session_listener.class">Symfony\Bundle\FrameworkBundle\EventListener\SessionListener</parameter>
+    <parameter key="controller_resolver.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver</parameter>
+    <parameter key="controller_name_converter.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser</parameter>
+    <parameter key="response_listener.class">Symfony\Component\HttpKernel\EventListener\ResponseListener</parameter>
+    <parameter key="exception_listener.class">Symfony\Component\HttpKernel\EventListener\ExceptionListener</parameter>
+    <parameter key="event_dispatcher.class">Symfony\Bundle\FrameworkBundle\ContainerAwareEventDispatcher</parameter>
+    <parameter key="http_kernel.class">Symfony\Bundle\FrameworkBundle\HttpKernel</parameter>
+    <parameter key="filesystem.class">Symfony\Component\HttpKernel\Util\Filesystem</parameter>
+    <parameter key="cache_warmer.class">Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate</parameter>
+    <parameter key="file_locator.class">Symfony\Component\HttpKernel\Config\FileLocator</parameter>
+    <parameter key="translator.class">Symfony\Bundle\FrameworkBundle\Translation\Translator</parameter>
+    <parameter key="translator.identity.class">Symfony\Component\Translation\IdentityTranslator</parameter>
+    <parameter key="translator.selector.class">Symfony\Component\Translation\MessageSelector</parameter>
+    <parameter key="translation.loader.php.class">Symfony\Component\Translation\Loader\PhpFileLoader</parameter>
+    <parameter key="translation.loader.yml.class">Symfony\Component\Translation\Loader\YamlFileLoader</parameter>
+    <parameter key="translation.loader.xliff.class">Symfony\Component\Translation\Loader\XliffFileLoader</parameter>
+    <parameter key="debug.event_dispatcher.class">Symfony\Bundle\FrameworkBundle\Debug\TraceableEventDispatcher</parameter>
+    <parameter key="debug.container.dump">/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/cache/test/ResourcesTestDebugProjectContainer.xml</parameter>
+    <parameter key="kernel.secret">xxxxxxxxxx</parameter>
+    <parameter key="exception_listener.controller">Symfony\Bundle\FrameworkBundle\Controller\ExceptionController::showAction</parameter>
+    <parameter key="session.class">Symfony\Component\HttpFoundation\Session</parameter>
+    <parameter key="session.storage.native.class">Symfony\Component\HttpFoundation\SessionStorage\NativeSessionStorage</parameter>
+    <parameter key="session.storage.filesystem.class">Symfony\Component\HttpFoundation\SessionStorage\FilesystemSessionStorage</parameter>
+    <parameter key="session.default_locale">en</parameter>
+    <parameter key="session.storage.options" type="collection">
+      <parameter key="lifetime">3600</parameter>
+    </parameter>
+    <parameter key="validator.class">Symfony\Component\Validator\Validator</parameter>
+    <parameter key="validator.mapping.class_metadata_factory.class">Symfony\Component\Validator\Mapping\ClassMetadataFactory</parameter>
+    <parameter key="validator.mapping.cache.apc.class">Symfony\Component\Validator\Mapping\Cache\ApcCache</parameter>
+    <parameter key="validator.mapping.cache.prefix"></parameter>
+    <parameter key="validator.mapping.loader.loader_chain.class">Symfony\Component\Validator\Mapping\Loader\LoaderChain</parameter>
+    <parameter key="validator.mapping.loader.static_method_loader.class">Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader</parameter>
+    <parameter key="validator.mapping.loader.annotation_loader.class">Symfony\Component\Validator\Mapping\Loader\AnnotationLoader</parameter>
+    <parameter key="validator.mapping.loader.xml_files_loader.class">Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader</parameter>
+    <parameter key="validator.mapping.loader.yaml_files_loader.class">Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader</parameter>
+    <parameter key="validator.validator_factory.class">Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory</parameter>
+    <parameter key="validator.mapping.loader.xml_files_loader.mapping_files" type="collection">
+      <parameter>/home/giansimon/www/alphaLemon/vendor/symfony/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/../../../Component/Form/Resources/config/validation.xml</parameter>
+    </parameter>
+    <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection"/>
+    <parameter key="router.class">Symfony\Bundle\FrameworkBundle\Routing\Router</parameter>
+    <parameter key="routing.loader.class">Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader</parameter>
+    <parameter key="routing.resolver.class">Symfony\Component\Config\Loader\LoaderResolver</parameter>
+    <parameter key="routing.loader.xml.class">Symfony\Component\Routing\Loader\XmlFileLoader</parameter>
+    <parameter key="routing.loader.yml.class">Symfony\Component\Routing\Loader\YamlFileLoader</parameter>
+    <parameter key="routing.loader.php.class">Symfony\Component\Routing\Loader\PhpFileLoader</parameter>
+    <parameter key="router.options.generator_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
+    <parameter key="router.options.generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
+    <parameter key="router.options.generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\PhpGeneratorDumper</parameter>
+    <parameter key="router.options.matcher_class">Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher</parameter>
+    <parameter key="router.options.matcher_base_class">Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher</parameter>
+    <parameter key="router.options.matcher_dumper_class">Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper</parameter>
+    <parameter key="router.cache_warmer.class">Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer</parameter>
+    <parameter key="router.options.matcher.cache_class">Resources%kernel.environment%UrlMatcher</parameter>
+    <parameter key="router.options.generator.cache_class">Resources%kernel.environment%UrlGenerator</parameter>
+    <parameter key="router.resource">/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/config/routing.yml</parameter>
+    <parameter key="request_listener.http_port">80</parameter>
+    <parameter key="request_listener.https_port">443</parameter>
+    <parameter key="annotations.reader.class">Doctrine\Common\Annotations\AnnotationReader</parameter>
+    <parameter key="annotations.cached_reader.class">Doctrine\Common\Annotations\CachedReader</parameter>
+    <parameter key="annotations.file_cache_reader.class">Doctrine\Common\Annotations\FileCacheReader</parameter>
+    <parameter key="kernel.compiled_classes" type="collection">
+      <parameter>Symfony\Bundle\FrameworkBundle\EventListener\SessionListener</parameter>
+      <parameter>Symfony\Component\HttpFoundation\SessionStorage\SessionStorageInterface</parameter>
+      <parameter>Symfony\Component\HttpFoundation\Session</parameter>
+      <parameter>Symfony\Component\HttpFoundation\SessionStorage\NativeSessionStorage</parameter>
+      <parameter>Symfony\Component\Routing\RouterInterface</parameter>
+      <parameter>Symfony\Component\Routing\Matcher\UrlMatcherInterface</parameter>
+      <parameter>Symfony\Component\Routing\Matcher\UrlMatcher</parameter>
+      <parameter>Symfony\Component\Routing\Generator\UrlGeneratorInterface</parameter>
+      <parameter>Symfony\Component\Routing\Generator\UrlGenerator</parameter>
+      <parameter>Symfony\Bundle\FrameworkBundle\Routing\Router</parameter>
+      <parameter>Symfony\Component\HttpFoundation\ParameterBag</parameter>
+      <parameter>Symfony\Component\HttpFoundation\HeaderBag</parameter>
+      <parameter>Symfony\Component\HttpFoundation\Request</parameter>
+      <parameter>Symfony\Component\HttpFoundation\Response</parameter>
+      <parameter>Symfony\Component\HttpFoundation\ResponseHeaderBag</parameter>
+      <parameter>Symfony\Component\EventDispatcher\EventDispatcherInterface</parameter>
+      <parameter>Symfony\Component\EventDispatcher\EventDispatcher</parameter>
+      <parameter>Symfony\Component\EventDispatcher\Event</parameter>
+      <parameter>Symfony\Component\EventDispatcher\EventSubscriberInterface</parameter>
+      <parameter>Symfony\Component\HttpKernel\HttpKernel</parameter>
+      <parameter>Symfony\Component\HttpKernel\EventListener\ResponseListener</parameter>
+      <parameter>Symfony\Component\HttpKernel\Controller\ControllerResolver</parameter>
+      <parameter>Symfony\Component\HttpKernel\Controller\ControllerResolverInterface</parameter>
+      <parameter>Symfony\Component\HttpKernel\Event\KernelEvent</parameter>
+      <parameter>Symfony\Component\HttpKernel\Event\FilterControllerEvent</parameter>
+      <parameter>Symfony\Component\HttpKernel\Event\FilterResponseEvent</parameter>
+      <parameter>Symfony\Component\HttpKernel\Event\GetResponseEvent</parameter>
+      <parameter>Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent</parameter>
+      <parameter>Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent</parameter>
+      <parameter>Symfony\Component\HttpKernel\KernelEvents</parameter>
+      <parameter>Symfony\Bundle\FrameworkBundle\EventListener\RouterListener</parameter>
+      <parameter>Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser</parameter>
+      <parameter>Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver</parameter>
+      <parameter>Symfony\Bundle\FrameworkBundle\Controller\Controller</parameter>
+      <parameter>Symfony\Bundle\FrameworkBundle\ContainerAwareEventDispatcher</parameter>
+    </parameter>
+  </parameters>
+  <services>
+    <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
+      <tag name="monolog.logger" channel="request"/>
+      <argument type="service" id="kernel"/>
+    </service>
+    <service id="router_listener" class="Symfony\Bundle\FrameworkBundle\EventListener\RouterListener">
+      <tag name="kernel.event_listener" event="kernel.request" method="onEarlyKernelRequest" priority="255"/>
+      <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+      <tag name="monolog.logger" channel="request"/>
+      <argument type="service" id="router"/>
+      <argument>80</argument>
+      <argument>443</argument>
+      <argument>null</argument>
+    </service>
+    <service id="session_listener" class="Symfony\Bundle\FrameworkBundle\EventListener\SessionListener">
+      <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="128"/>
+      <argument type="service" id="service_container"/>
+    </service>
+    <service id="response_listener" class="Symfony\Component\HttpKernel\EventListener\ResponseListener">
+      <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse"/>
+      <argument>UTF-8</argument>
+    </service>
+    <service id="exception_listener" class="Symfony\Component\HttpKernel\EventListener\ExceptionListener">
+      <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="-128"/>
+      <tag name="monolog.logger" channel="request"/>
+      <argument>Symfony\Bundle\FrameworkBundle\Controller\ExceptionController::showAction</argument>
+      <argument>null</argument>
+    </service>
+    <service id="event_dispatcher" class="Symfony\Bundle\FrameworkBundle\Debug\TraceableEventDispatcher">
+      <tag name="monolog.logger" channel="event"/>
+      <argument type="service" id="service_container"/>
+      <argument>null</argument>
+      <call method="addListenerService">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument>router_listener</argument>
+          <argument>onEarlyKernelRequest</argument>
+        </argument>
+        <argument>255</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument>router_listener</argument>
+          <argument>onKernelRequest</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument>session_listener</argument>
+          <argument>onKernelRequest</argument>
+        </argument>
+        <argument>128</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>kernel.response</argument>
+        <argument type="collection">
+          <argument>response_listener</argument>
+          <argument>onKernelResponse</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>kernel.exception</argument>
+        <argument type="collection">
+          <argument>exception_listener</argument>
+          <argument>onKernelException</argument>
+        </argument>
+        <argument>-128</argument>
+      </call>
+    </service>
+    <service id="http_kernel" class="Symfony\Bundle\FrameworkBundle\HttpKernel">
+      <argument type="service" id="event_dispatcher"/>
+      <argument type="service" id="service_container"/>
+      <argument type="service">
+        <service class="Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver" public="false">
+          <tag name="monolog.logger" channel="request"/>
+          <argument type="service" id="service_container"/>
+          <argument type="service" id="controller_name_converter"/>
+          <argument>null</argument>
+        </service>
+      </argument>
+    </service>
+    <service id="cache_warmer" class="Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate">
+      <argument type="collection">
+        <argument type="service">
+          <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer" public="false">
+            <tag name="kernel.cache_warmer"/>
+            <argument type="service" id="router"/>
+          </service>
+        </argument>
+      </argument>
+    </service>
+    <service id="request" scope="request"/>
+    <service id="service_container"/>
+    <service id="kernel"/>
+    <service id="filesystem" class="Symfony\Component\HttpKernel\Util\Filesystem"/>
+    <service id="file_locator" class="Symfony\Component\HttpKernel\Config\FileLocator">
+      <argument type="service" id="kernel"/>
+      <argument>/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/Resources</argument>
+    </service>
+    <service id="translator.real" class="Symfony\Bundle\FrameworkBundle\Translation\Translator">
+      <argument type="service" id="service_container"/>
+      <argument type="service" id="translator.selector"/>
+      <argument type="collection">
+        <argument key="translation.loader.php">php</argument>
+        <argument key="translation.loader.yml">yml</argument>
+        <argument key="translation.loader.xliff">xliff</argument>
+      </argument>
+      <argument type="collection">
+        <argument key="cache_dir">/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/cache/test/translations</argument>
+        <argument key="debug">true</argument>
+      </argument>
+      <argument type="service" id="session"/>
+    </service>
+    <service id="translator" class="Symfony\Component\Translation\IdentityTranslator">
+      <argument type="service" id="translator.selector"/>
+    </service>
+    <service id="translator.selector" class="Symfony\Component\Translation\MessageSelector" public="false"/>
+    <service id="translation.loader.php" class="Symfony\Component\Translation\Loader\PhpFileLoader">
+      <tag name="translation.loader" alias="php"/>
+    </service>
+    <service id="translation.loader.yml" class="Symfony\Component\Translation\Loader\YamlFileLoader">
+      <tag name="translation.loader" alias="yml"/>
+    </service>
+    <service id="translation.loader.xliff" class="Symfony\Component\Translation\Loader\XliffFileLoader">
+      <tag name="translation.loader" alias="xliff"/>
+    </service>
+    <service id="session" class="Symfony\Component\HttpFoundation\Session">
+      <argument type="service" id="session.storage"/>
+      <argument>en</argument>
+    </service>
+    <service id="validator" class="Symfony\Component\Validator\Validator">
+      <argument type="service">
+        <service class="Symfony\Component\Validator\Mapping\ClassMetadataFactory" public="false">
+          <argument type="service">
+            <service class="Symfony\Component\Validator\Mapping\Loader\LoaderChain" public="false">
+              <argument type="collection">
+                <argument type="service">
+                  <service class="Symfony\Component\Validator\Mapping\Loader\AnnotationLoader" public="false">
+                    <argument type="service" id="annotation_reader"/>
+                  </service>
+                </argument>
+                <argument type="service">
+                  <service class="Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader" public="false"/>
+                </argument>
+                <argument type="service">
+                  <service class="Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader" public="false">
+                    <argument type="collection">
+                      <argument>/home/giansimon/www/alphaLemon/vendor/symfony/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/../../../Component/Form/Resources/config/validation.xml</argument>
+                    </argument>
+                  </service>
+                </argument>
+                <argument type="service">
+                  <service class="Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader" public="false">
+                    <argument type="collection"/>
+                  </service>
+                </argument>
+              </argument>
+            </service>
+          </argument>
+          <argument>null</argument>
+        </service>
+      </argument>
+      <argument type="service">
+        <service class="Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory" public="false">
+          <argument type="service" id="service_container"/>
+          <argument type="collection"/>
+        </service>
+      </argument>
+    </service>
+    <service id="routing.loader" class="Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader">
+      <tag name="monolog.logger" channel="router"/>
+      <argument type="service" id="controller_name_converter"/>
+      <argument>null</argument>
+      <argument type="service">
+        <service class="Symfony\Component\Config\Loader\LoaderResolver" public="false">
+          <call method="addLoader">
+            <argument type="service">
+              <service class="Symfony\Component\Routing\Loader\XmlFileLoader" public="false">
+                <tag name="routing.loader"/>
+                <argument type="service" id="file_locator"/>
+              </service>
+            </argument>
+          </call>
+          <call method="addLoader">
+            <argument type="service">
+              <service class="Symfony\Component\Routing\Loader\YamlFileLoader" public="false">
+                <tag name="routing.loader"/>
+                <argument type="service" id="file_locator"/>
+              </service>
+            </argument>
+          </call>
+          <call method="addLoader">
+            <argument type="service">
+              <service class="Symfony\Component\Routing\Loader\PhpFileLoader" public="false">
+                <tag name="routing.loader"/>
+                <argument type="service" id="file_locator"/>
+              </service>
+            </argument>
+          </call>
+        </service>
+      </argument>
+    </service>
+    <service id="router" class="Symfony\Bundle\FrameworkBundle\Routing\Router">
+      <argument type="service" id="service_container"/>
+      <argument>/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/config/routing.yml</argument>
+      <argument type="collection">
+        <argument key="cache_dir">/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/cache/test</argument>
+        <argument key="debug">true</argument>
+        <argument key="generator_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
+        <argument key="generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
+        <argument key="generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\PhpGeneratorDumper</argument>
+        <argument key="generator_cache_class">Resources%kernel.environment%UrlGenerator</argument>
+        <argument key="matcher_class">Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher</argument>
+        <argument key="matcher_base_class">Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher</argument>
+        <argument key="matcher_dumper_class">Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper</argument>
+        <argument key="matcher_cache_class">Resources%kernel.environment%UrlMatcher</argument>
+      </argument>
+    </service>
+    <service id="session.storage" class="Symfony\Component\HttpFoundation\SessionStorage\NativeSessionStorage">
+      <argument type="collection">
+        <argument key="lifetime">3600</argument>
+      </argument>
+    </service>
+    <service id="annotation_reader" class="Doctrine\Common\Annotations\FileCacheReader">
+      <argument type="service">
+        <service class="Doctrine\Common\Annotations\AnnotationReader" public="false"/>
+      </argument>
+      <argument>/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/cache/test/annotations</argument>
+      <argument>true</argument>
+    </service>
+    <service id="debug.event_dispatcher" alias="event_dispatcher"/>
+  </services>
+</container>

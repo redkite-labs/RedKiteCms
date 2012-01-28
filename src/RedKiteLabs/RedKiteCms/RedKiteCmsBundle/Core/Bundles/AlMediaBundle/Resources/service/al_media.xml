@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="al_media_editor_renderer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Listener\RenderedEditorListener</parameter>
+        <parameter key="al_media_type" type="collection">
+            <parameter key="image/jpeg">Image</parameter>
+            <parameter key="image/png">Image</parameter>
+            <parameter key="image/gif">Image</parameter>
+            <parameter key="image/bmp">Image</parameter>
+            <parameter key="application/x-shockwave-flash">Flash</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="al_media_editor_renderer.class" class="%al_media_editor_renderer.class%">
+            <tag name="alcms.event_listener" event="actions.block_editor_rendered" method="onBlockEditorRendered" priority="0" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,23 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% for key, page in pages %}
+{% if selected_page is defined and key == selected_page %}
+    {% set class = "al_element_selected" %}
+{% else %}
+    {% set class = "" %}
+{% endif %}
+  <div><a href="#" class="al_element_selector {{ class }}" ref="{{ key }}">{{ page }}</a></div>
+{% endfor %}

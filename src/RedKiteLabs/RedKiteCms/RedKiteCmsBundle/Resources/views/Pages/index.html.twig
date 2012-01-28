@@ -1,0 +1,131 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonCmsBundle:Panels:base.html.twig' %}
+
+{% set domain = "al_pages" %}
+
+{% block al_panel_header_inside %}
+    <h1>{{ "Website's pages manager" | trans([], domain) }}</h1>
+    <p>{{ "In this module you can manage the website's pages, adding new ones, or editing them or removing them from the site. Here you will manage all the parameters related to SEO, to optimize your web site to be indexed at the top by the search engines." | trans([], domain) }}</p>
+{% endblock %}
+
+{% block al_sidebar_left_inside %}
+<div id="al_instructions">
+    <h2>{{ "Instructions" | trans([], domain) }}</h2>
+    <p>{{ "The Pages's attributes section is the interface used to add or edit the page's data. To get more info about each field, leave the cursor on it for one second. The Pages Selector section is the interface used to select and/or remove the pages." | trans([], domain) }}</p>
+    <h4>{{ "Add a new page" | trans([], domain) }}</h4>
+    <p>{{ "To add a new page, simply fill the Pages's attributes form when it is totally blank, then click the Save button. A new page is added and its SEO attributes are added for each language in the website." | trans([], domain) }}</p>
+    <h4>{{ "Select / deselect a page" | trans([], domain) }}</h4>
+    <p>{{ "From the Pages Selector section, click on the page name you want to select. To deselect the page, simply click it again." }}</p>
+    <h4>{{ "Edit an existing page" | trans([], domain) }}</h4>
+    <p>{{ "From the Pages Selector section, choose the language from the Languages combobox then click on the page name you want to edit. The page's data will be loaded, so you can change them. Click on Save button to commit your changes." }}</p>
+    <h4>{{ "Remove attributes for a specific language" | trans([], domain) }}</h4>
+    <p>{{ "Each page has specific attributes related to the SEO section, for each language on the website. To remove the attributes for a specific language, select the language and the page from the Pages Selector section, then click the Delete button." }}</p>
+    <h4>{{ "Remove a page" | trans([], domain) }}</h4>
+    <p>{{ "To completely remove a page select it and leave the Languages combobox blank, then click the Delete button." }}</p>
+</div>
+{% endblock %}
+
+{% block al_sidebar_middle_inside %}
+<div id="al_pages">
+
+    {{ form_errors(pagesForm) }}
+    {{ form_errors(pageAttributesForm) }}
+
+    <table id="al_page_form" border="0">
+        <tr>
+          <td colspan="2"><h2>{{ "Page attributes" | trans([], domain) }}</h2></td>
+        </tr>
+        <tr>
+          <td>{{ form_label(pagesForm.pageName, "Page name" | trans([], domain)) }}</td>
+          <td>{{ form_errors(pagesForm.pageName) }} {{ form_widget(pagesForm.pageName, { 'attr': {'class' : 'input panel_input', 'title': "The name of the page. It must be unique" | trans([], domain)}}) }} </td>
+        </tr>
+        
+        <tr>
+          <td>{{ form_label(pagesForm.template, "Template" | trans([], domain)) }}</td>
+          <td>
+            {{ form_errors(pagesForm.template) }} {{ form_widget(pagesForm.template, { 'attr': {'class' : 'input select panel_input', 'title': "Choose one template from the current theme" | trans([], domain)}}) }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+              <table width="100%">
+                  <tr>
+                      <td width="40%">{{ form_label(pagesForm.isHome, "Home page" | trans([], domain)) }}</td>
+                      <td width="10%">{{ form_errors(pagesForm.isHome) }} {{ form_widget(pagesForm.isHome, { 'attr': {'class' : 'input panel_input', 'title': "Set the page as the home page of your website. This is the page displayed when any specific page has been requested" | trans([], domain)}}) }}</td>
+                    
+                      <td width="40%">{{ form_label(pagesForm.isPublished, "Published" | trans([], domain)) }}</td>
+                      <td width="10%">{{ form_errors(pagesForm.isPublished) }} {{ form_widget(pagesForm.isPublished, { 'attr': {'class' : 'input panel_input', 'title': "When checked the page will be published" | trans([], domain)}}) }}</td>
+                    </tr>
+              </table>
+          </td>
+        </tr>
+    </table>
+    <table id="al_attributes_form" border="0">
+        <tr>
+          <td colspan="2"><h3>{{ "SEO - Search Engines Optimization" | trans([], domain) }}</h3></td>
+        </tr>
+        <tr>
+          <td>{{ form_label(pageAttributesForm.permalink, "Permalink" | trans([], domain)) }}</td>
+          <td>{{ form_errors(pageAttributesForm.permalink) }} {{ form_widget(pageAttributesForm.permalink, { 'attr': {'class' : 'input panel_input', 'title': "The displayed link name for the current language" | trans([], domain)}}) }}</td>
+        </tr>
+        <tr>
+          <td>{{ form_label(pageAttributesForm.title, "Meta-Title" | trans([], domain)) }}</td>
+          <td>{{ form_errors(pageAttributesForm.title) }} {{ form_widget(pageAttributesForm.title, { 'attr': {'class' : 'input panel_input', 'title': "The page title. It should be max 60 chars" | trans([], domain)}}) }}</td>
+        </tr>
+        <tr>
+          <td>{{ form_label(pageAttributesForm.description, "Meta-Description" | trans([], domain)) }}</td>
+          <td>{{ form_errors(pageAttributesForm.description) }}  {{ form_widget(pageAttributesForm.description, { 'attr': {'class' : 'input panel_input', 'rows': '4', 'cols': '28', 'title': "A brief description of the page" | trans([], domain)}}) }}</td>
+        </tr>
+        <tr>
+          <td>{{ form_label(pageAttributesForm.keywords, "Meta-Keywords" | trans([], domain)) }}</td>
+          <td>{{ form_errors(pageAttributesForm.keywords) }} {{ form_widget(pageAttributesForm.keywords, { 'attr': {'class' : 'input panel_input', 'rows': '3', 'cols': '28', 'title': "Deprecated by several Search Engines (It's strongly suggested to leave it blank)" | trans([], domain)}}) }}</td>
+        </tr>
+        <tr>
+          <td>
+            {{ form_rest(pagesForm) }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="right">
+            <input id="al_page_saver" type="submit" value="{{ "Save" | trans([], "al_commands") }}" class="input panel_input button"  />
+          </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
+
+{% block al_sidebar_right_inside %}
+    <h2>{{ "Pages selector" | trans([], domain) }}</h2>
+    <div>
+        {{ form_label(pageAttributesForm.idLanguage, "Languages" | trans([], domain)) }}
+        {{ form_errors(pageAttributesForm.idLanguage) }} {{ form_widget(pageAttributesForm.idLanguage, { 'attr': {'class' : 'input select panel_input'} }) }}
+        {{ form_rest(pageAttributesForm) }}
+    </div>
+
+    <div id="al_pages_box" class="al_panel_box">
+        <h3>{{ "Site pages" | trans([], domain) }}</h3>
+
+        <div id="al_pages_list" class="al_panel_list">
+            {% include 'AlphaLemonCmsBundle:Pages:pages_list.html.twig' %}
+        </div>
+    </div>
+
+    <input id="al_pages_remover" class="al_float_right input panel_input button" type="submit" value="{{ "Delete" | trans([], "al_commands") }}" />
+
+    <div id="al_select_languages_reminder">{{ "And now select the language or remove the page!" | trans([], domain) }}</div>
+{% endblock %}
+
