@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <template></template>
+  <header>
+    <metatags></metatags>
+    <javascripts></javascripts>
+    <stylesheets></stylesheets>
+    <internal_javascripts></internal_javascripts>
+    <internal_stylesheets></internal_stylesheets>
+  </header>
+  <body>
+    <contents></contents>
+  </body>
+</page>

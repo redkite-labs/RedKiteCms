@@ -1,0 +1,3 @@
+AlScriptBundle_homepage:
+    pattern:  /
+    defaults: { _controller: AlScriptBundle:Default:index }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database namespace="AlphaLemon\AlphaLemonCmsBundle\Model" name="default"  defaultIdMethod="native" >
+
+  <table name="al_content">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="page_id" type="INTEGER" required="true" />
+    <foreign-key foreignTable="al_page" onDelete="CASCADE">
+      <reference local="page_id" foreign="id" />
+    </foreign-key>
+    <column name="language_id" type="INTEGER" required="true" />
+    <foreign-key foreignTable="al_language" onDelete="CASCADE">
+      <reference local="language_id" foreign="id" />
+    </foreign-key>
+    <column name="slot_name" type="VARCHAR" size="255" required="true" />
+    <column name="class_name" type="VARCHAR" size="255" required="true" default="Text" />
+    <column name="html_content" type="LONGVARCHAR" required="true" />
+    <column name="internal_javascript" type="LONGVARCHAR" required="true" />
+    <column name="external_javascript" type="LONGVARCHAR" required="true" />
+    <column name="internal_stylesheet" type="LONGVARCHAR" required="true" />
+    <column name="external_stylesheet" type="LONGVARCHAR" required="true" />
+    <column name="to_delete" type="INTEGER" required="true" default="0" />
+    <column name="content_position" type="INTEGER" required="true" default="1" />
+    <column name="created_at" type="timestamp" />
+    <unique name="I_CONTENT">
+      <unique-column name="id" />
+    </unique>
+  </table>
+  
+  <table name="al_language" idMethod="native">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="language" type="VARCHAR" size="5" required="true" />
+    <column name="main_language" type="CHAR" required="true" default="0" />
+    <column name="to_delete" type="INTEGER" required="true" default="0" />
+    <column name="created_at" type="timestamp" />
+    <unique name="I_LANGUAGE">
+      <unique-column name="id" />
+    </unique>
+  </table>
+
+  <table name="al_page" idMethod="native">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="page_name" type="VARCHAR" size="255" required="true" />
+    <column name="template_name" type="VARCHAR" size="255" />
+    <column name="is_home" type="INTEGER" required="true" />
+    <column name="is_published" type="INTEGER" required="true" />
+    <column name="to_delete" type="INTEGER" required="true" />
+    <column name="created_at" type="timestamp" />
+    <unique name="I_PAGE">
+      <unique-column name="id" />
+    </unique>
+  </table>
+
+  <table name="al_page_attribute" idMethod="native">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="language_id" type="INTEGER" required="true" default="0" />
+    <foreign-key foreignTable="al_language" onDelete="CASCADE">
+      <reference local="language_id" foreign="id" />
+    </foreign-key>
+    <column name="page_id" type="INTEGER" required="true" default="0" />
+    <foreign-key foreignTable="al_page" onDelete="CASCADE">
+      <reference local="page_id" foreign="id" />
+    </foreign-key>
+    <column name="permalink" type="VARCHAR" size="255" />
+    <column name="meta_title" type="LONGVARCHAR" required="true" />
+    <column name="meta_description" type="LONGVARCHAR" required="true" />
+    <column name="meta_keywords" type="LONGVARCHAR" required="true" />
+    <column name="meta_title_frontend" type="LONGVARCHAR" />
+    <column name="meta_description_frontend" type="LONGVARCHAR" />
+    <column name="meta_keywords_frontend" type="LONGVARCHAR" />
+    <column name="sitemap_changefreq" type="LONGVARCHAR" required="true" />
+    <column name="sitemap_lastmod" type="LONGVARCHAR" required="true" />
+    <column name="sitemap_priority" type="LONGVARCHAR" required="true" />
+    <column name="to_delete" type="INTEGER" required="true" />
+    <column name="created_at" type="timestamp" />
+    <index name="I_LANGUAGE">
+      <index-column name="page_id" />
+    </index>
+    <index name="I_PAGE_AND_LANGUAGE">
+      <index-column name="language_id" />
+      <index-column name="page_id" />
+    </index>
+    <unique name="I_PAGE">
+      <unique-column name="id" />
+    </unique>
+  </table>
+</database>

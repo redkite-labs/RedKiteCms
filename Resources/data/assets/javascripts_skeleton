@@ -1,0 +1,3 @@
+{%% javascripts %s filter='%s' %s %%}
+<script src="{{ asset_url }}"></script>
+{%% endjavascripts %%}

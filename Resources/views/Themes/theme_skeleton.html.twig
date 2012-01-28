@@ -1,0 +1,52 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% set domain = "al_themes" %}
+
+<h2>{{ theme_values.theme_title }}</h2>
+
+<table class="al_themes_table">
+{% if theme_values.info is defined %}
+<tr><td rowspan="{{theme_values.info|length + 1}}" width="120"><img src="/{{ theme_values.screenshot }}" width="100" height="100" /></td></tr>
+{% for key, value in theme_values.info %}
+<tr><th>{{ key }}</th><td>{{ value }}</td></tr>
+{% endfor %}
+{% else %}
+  {% if theme_values.theme_error is defined %}
+  <tr><td colspan="2">{{ theme_values.theme_error }}</td></tr>
+  {% else %}
+  <tr><td colspan="2"><b>{{ "Any information available for this theme" | trans([], domain) }}</b></td></tr>
+  {% endif %}
+{% endif %}
+
+  <tr>
+    <td colspan="3">
+        {% block theme_commands %}
+        <table>
+            <tr>
+              {% if theme_values.buttons is defined %}
+                  {% if theme_values.buttons == 3 %}
+                    <td><a href="#" class="al_theme_activator {themeName: '{{ theme_values.theme_title }}'}">{{ "Activate" | trans([], domain) }}</a></td>
+                    <td><a href="#" class="al_theme_remover {themeName: '{{ theme_values.theme_title }}'}">{{ "Remove" | trans([], domain) }}</a></td>
+                  {% elseif theme_values.buttons == 2  %}
+                    <td colspan="2"><a href="#" class="al_theme_importer {themeName: '{{ theme_values.theme_title }}'}">{{ "Import" | trans([], domain) }}</a></td>
+                  {% endif %}
+              {% endif %}
+            </tr>
+        </table>
+        {% endblock %}
+    </td>
+  </tr>
+</table>

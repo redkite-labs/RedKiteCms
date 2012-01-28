@@ -1,0 +1,39 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% set domain = "al_themes" %}
+
+{% block al_panels_contents_inside %}
+<div id="al_themes">
+  <div style="width:1024px;overflow:auto;">
+    <table width=100%>
+        <tr>
+        {% if values.active_theme.theme_section_title is defined %}
+          <td><h1>{{ values.active_theme.theme_section_title }}</h1></td>
+        {% endif %}
+        {% if values.available_themes.theme_section_title is defined %}
+          <td><h1>{{ values.available_themes.theme_section_title }}</h1></td>
+        {% endif %}
+        </tr>
+      <tr id="al_themes_sections">
+        {% include 'AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig' with {'values': values} %}
+      </tr>
+      <tr id="al_themes_sections">
+        <td>{% include 'AlphaLemonCmsBundle:Valum:show.html.twig' with {'options': valum, 'is_windows': is_windows} %}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+{% endblock %}

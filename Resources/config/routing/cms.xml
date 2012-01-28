@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+<!--
+    <route id="_cms" pattern="/al_cms">
+        <default key="_controller">AlphaLemonCmsBundle:Cms:index</default>
+    </route>
+
+    <route id="_change_page" pattern="/al_changePage">
+        <default key="_controller">AlphaLemonCmsBundle:Cms:changePage</default>
+    </route>-->
+    
+    <route id="_login" pattern="/login">
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:login</default>
+    </route>
+    <route id="_login_check" pattern="/login_check" />
+</routes>

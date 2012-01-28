@@ -1,0 +1,79 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonCmsBundle:Panels:base.html.twig' %}
+
+{% set domain = "al_languages" %}
+
+{% block al_cms_header_inside %}
+    <h1>{{ "Website's languages manager" | trans([], domain) }}</h1>
+    <p>{{ "In this module you can manage the website's languages, adding new ones, or editing them or removing them from the site." | trans([], domain) }}</p>
+{% endblock %}
+
+{% block al_sidebar_left_inside %}
+<div id="al_instructions">
+    <h2>{{ "Instructions" | trans([], domain) }}</h2>
+    <p>{{ "The Languages's attributes section is the interface used to add or edit the language's data. To get more info about each field, leave the cursor on it for one second. The Languaages Selector section is the interface used to select and/or remove the languages." | trans([], domain) }}</p>
+    <h4>{{ "Add a new language" | trans([], domain) }}</h4>
+    <p>{{ "To add a new language simply choose the language from the related comboboxes." | trans([], domain) }}</p>
+    <h4>{{ "Select / deselect a language" | trans([], domain) }}</h4>
+    <p>{{ "From the Languages Selector section, click on the language name you want to select. To deselect the language, simply click it again." }}</p>
+    <h4>{{ "Edit an existing language" | trans([], domain) }}</h4>
+    <p>{{ "From the languages Selector section, choose the language from the Languages combobox then click on the language name you want to edit. The language's data will be loaded, so you can change them. Click on Save button to commit your changes." }}</p>
+    <h4>{{ "Remove a language" | trans([], domain) }}</h4>
+    <p>{{ "To completely remove a language select it, then click the Delete button." }}</p>
+</div>
+{% endblock %}
+    
+{% block al_sidebar_middle_inside %}
+<div id="al_languages" class="al_panel">
+    
+    {{ form_errors(form) }} 
+    
+    <table id="al_attributes_form" border="0">
+        <tr>
+          <td colspan="4"><h2>{{ "Language attributes" | trans([], domain) }}</h2></td>
+        </tr>
+        <tr>
+          <td>{{ form_label(form.language, "Language" | trans([], domain)) }}</td>
+          <td colspan="3">{{ form_errors(form.language) }} {{ form_widget(form.language, { 'attr': {'class' : 'input select panel_input', 'title': "Choose the language" | trans([], domain)}}) }} </td>
+        </tr>
+        <tr>
+          <td>{{ form_label(form.isMain, "Is Main" | trans([], domain)) }}</td>
+          <td colspan="3">{{ form_errors(form.isMain) }} {{ form_widget(form.isMain, { 'attr': {'class' : 'input select panel_input', 'title': "When checked, promotes the language as the website's main language, which is the one displayed when any language has been given" | trans([], domain)}}) }}</td>
+        </tr>
+        <tr>
+          <td>
+            {{ form_rest(form) }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" align="right">
+            <input id="al_language_saver" type="submit" value="{{ "Save" | trans([], "al_commands") }}" class="input panel_input button" />
+          </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
+
+{% block al_sidebar_right_inside %}
+    <div id="al_pages_box" class="al_panel_box">
+        <h3>{{ "Languages selector" | trans([], domain) }}</h3>
+        <div id="al_languages_list"  class="al_panel_list">
+            {% include 'AlphaLemonCmsBundle:Languages:languages_list.html.twig' %}
+        </div>
+    </div>
+    <input id="al_languages_remover" class="al_float_right input panel_input button" type="submit" value="{{ "Delete" | trans([], "al_commands") }}" />
+{% endblock %}
