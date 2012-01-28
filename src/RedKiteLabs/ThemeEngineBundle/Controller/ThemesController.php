@@ -4,7 +4,7 @@
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * (c) Since 2011 AlphaLemon
+ * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -280,10 +280,10 @@ class ThemesController extends Controller
 
     protected function locateThemesFolder()
     {
-        if (in_array($this->container->get('kernel')->getEnvironment(), array('test')))
+         if (in_array($this->container->get('kernel')->getEnvironment(), array('test')))
         {
             // Changes the Themes folder when in test mode
-            return AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle/Tests/Themes');
+            $themesDir = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle/Tests/Themes');
         }
         else
         {
@@ -298,8 +298,10 @@ class ThemesController extends Controller
                 throw new \RuntimeException(sprintf('%s folder is not writable. Please check the permissions on that directory', $themesDir));
             }
             
-            return $themesDir;
+            
         }
+		
+		return AlToolkit::normalizePath($themesDir);
     }
 }
 
