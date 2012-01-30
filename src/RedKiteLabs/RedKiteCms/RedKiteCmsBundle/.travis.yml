@@ -9,6 +9,12 @@ env:
   - SYMFONY_VERSION=origin/2.0
   - SYMFONY_VERSION=origin/master
 
+mysql:
+  adapter: mysql2
+  database: alphalemon_test
+  username: root
+  encoding: utf8
+
 before_script: php vendor/vendors.php
 
 notifications:
