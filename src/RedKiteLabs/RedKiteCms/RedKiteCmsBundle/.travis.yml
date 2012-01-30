@@ -21,4 +21,4 @@ before_script:
 
 notifications:
   email:
-    - alphalemon-info@alphalemon.com
+    - info@alphalemon.com
