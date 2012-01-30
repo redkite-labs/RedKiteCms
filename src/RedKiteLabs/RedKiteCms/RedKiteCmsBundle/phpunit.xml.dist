@@ -5,7 +5,7 @@
 
     <testsuites>
         <testsuite name="AlphaLemonCmsBundle Test Suite">
-            <directory suffix="Test.php">./Tests</directory>
+            <directory suffix="Test.php">Tests</directory>
         </testsuite>
     </testsuites>
 
@@ -14,11 +14,11 @@
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
-                <directory>./Propel/map</directory>
-                <directory>./Propel/om</directory>
+                <directory>Resources</directory>
+                <directory>Tests</directory>
+                <directory>vendor</directory>
+                <directory>Propel/map</directory>
+                <directory>Propel/om</directory>
             </exclude>
         </whitelist>
     </filter>
