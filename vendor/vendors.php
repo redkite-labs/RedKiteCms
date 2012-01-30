@@ -17,6 +17,10 @@
  * 
  */
 
+/**
+ * Based on https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/vendor/vendor.php which gets all the credits
+ */
+
 set_time_limit(0);
 
 if (isset($argv[1])) {
@@ -34,7 +38,8 @@ $deps = array(
     //array('doctrine-mongodb-odm', 'http://github.com/doctrine/mongodb-odm.git', 'origin/master'),
     //array('doctrine-mongodb', 'http://github.com/doctrine/mongodb.git', 'origin/master'),
     //array('doctrine-couchdb', 'http://github.com/doctrine/couchdb-odm.git', 'origin/master'),
-    array('PropelBundle', 'https://github.com/propelorm/PropelBundle.git', 'origin/2.0'),
+    
+    //array('PropelBundle', 'https://github.com/propelorm/PropelBundle.git', 'origin/2.0'),
     array('propel', 'http://github.com/propelorm/Propel.git', 'origin/master'),
     array('propel-behavior', 'http://github.com/willdurand/TypehintableBehavior.git', 'origin/master'),
     array('phing', 'http://github.com/Xosofox/phing.git', 'origin/master'),
