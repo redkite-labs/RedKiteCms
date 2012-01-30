@@ -38,13 +38,13 @@ $deps = array(
     array('propel', 'http://github.com/propelorm/Propel.git', 'origin/master'),
     array('propel-behavior', 'http://github.com/willdurand/TypehintableBehavior.git', 'origin/master'),
     array('phing', 'http://github.com/Xosofox/phing.git', 'origin/master'),
-    array('ThemeEngineBundle', 'http://github.com/alphalemon/ThemeEngineBundle.git', 'origin/1.0.0'),
-    array('PageTreeBundle', 'http://github.com/alphalemon/PageTreeBundle.git', 'origin/1.0.0'),
-    array('AlValumUploaderBundle', 'http://github.com/alphalemon/AlValumUploaderBundle.git', 'origin/1.0.0'),
-    array('AlphaLemonThemeBundle', 'http://github.com/alphalemon/AlphaLemonThemeBundle.git', 'origin/1.0.0'),
-    array('ElFinderBundle', 'http://github.com/alphalemon/ElFinderBundle.git', 'origin/1.0.0'),
-    array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/1.0.0-alpha'),
-    array('FrontendBundle', 'http://github.com/alphalemon/FrontendBundle.git', 'origin/1.0.0-alpha'),
+    array('ThemeEngineBundle', 'http://github.com/alphalemon/ThemeEngineBundle.git', 'origin/master'),
+    array('PageTreeBundle', 'http://github.com/alphalemon/PageTreeBundle.git', 'origin/master'),
+    array('AlValumUploaderBundle', 'http://github.com/alphalemon/AlValumUploaderBundle.git', 'origin/master'),
+    array('AlphaLemonThemeBundle', 'http://github.com/alphalemon/AlphaLemonThemeBundle.git', 'origin/master'),
+    array('ElFinderBundle', 'http://github.com/alphalemon/ElFinderBundle.git', 'origin/master'),
+    array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/master'),
+    array('FrontendBundle', 'http://github.com/alphalemon/FrontendBundle.git', 'origin/master'),
 );
     
 
