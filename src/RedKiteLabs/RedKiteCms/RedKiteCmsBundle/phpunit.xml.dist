@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="AlphaLemonCmsBundle Test Suite">
-            <directory>../vendor/bundles/AlphaLemon/AlphaLemonCmsBundle/Tests</directory>
+            <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
 
