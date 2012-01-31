@@ -53,7 +53,7 @@ propel:
         driver:               mysql
         user:                 root
         password:             passera73
-        dsn:                  mysql:host=localhost;dbname=alphaLemonDevTest
+        dsn:                  mysql:host=localhost;dbname=alphalemon_test
         options:              {}
         attributes:           {}
         default_connection:   default
