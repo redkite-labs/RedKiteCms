@@ -6,8 +6,8 @@ php:
 
 env:
   - SYMFONY_VERSION=v2.0.9
-  - SYMFONY_VERSION=origin/2.0
-  - SYMFONY_VERSION=origin/master
+#  - SYMFONY_VERSION=origin/2.0
+#  - SYMFONY_VERSION=origin/master
 
 mysql:
   adapter: mysql2
