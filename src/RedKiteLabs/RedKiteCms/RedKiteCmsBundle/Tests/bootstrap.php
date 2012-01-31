@@ -30,6 +30,6 @@ if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) 
     $class = new \ReflectionClass('TypehintableBehavior');
     $builder = new \PropelQuickBuilder();
     $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
-    $builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/propel/schema.xml'));
+    $builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/schema.xml'));
     $builder->buildClasses();
 }
