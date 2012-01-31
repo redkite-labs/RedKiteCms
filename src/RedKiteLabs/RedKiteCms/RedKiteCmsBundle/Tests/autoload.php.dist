@@ -25,9 +25,9 @@ $loader->registerNamespaces(array(
     'Sensio'                 => $vendorDir.'/bundles',
     'JMS'                    => $vendorDir.'/bundles',
     'Assetic'                => $vendorDir.'/assetic/src',
-    'AlphaLemon'             => $vendorDir.'/bundles',  
-    'Themes'                 => $vendorDir.'/bundles/AlphaLemon/ThemeEngineBundle',
-    'Propel'                 => $vendorDir.'/bundles',
+    //'AlphaLemon'             => $vendorDir.'/bundles',  
+    //'Themes'                 => $vendorDir.'/bundles/AlphaLemon/ThemeEngineBundle',
+    //'Propel'                 => $vendorDir.'/bundles',
 ));
 $loader->registerPrefixes(array(
     'Twig_' => $vendorDir.'/twig/lib',
