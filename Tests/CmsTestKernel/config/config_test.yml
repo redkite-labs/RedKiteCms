@@ -46,8 +46,8 @@ alpha_lemon_frontend:
     deploy_bundle: AlphaLemonWebSiteBundle
     
 propel:
-    path:       "%kernel.root_dir%/../../../../../../vendor/propel"
-    phing_path: "%kernel.root_dir%/../../../../../../vendor/phing"
+    path:       "%kernel.root_dir%/../../../../../vendor/propel"
+    phing_path: "%kernel.root_dir%/../../../../../vendor/phing"
 
     dbal:
         driver:               mysql
