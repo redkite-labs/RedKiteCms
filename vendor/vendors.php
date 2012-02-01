@@ -31,14 +31,6 @@ $vendorDir = __DIR__;
 $deps = array(
     array('symfony', 'http://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master', ''),
     array('twig', 'http://github.com/fabpot/Twig.git', 'origin/master', ''),
-    //array('swiftmailer', 'http://github.com/swiftmailer/swiftmailer.git', 'origin/master'),
-    //array('doctrine-common', 'http://github.com/doctrine/common.git', 'origin/master'),
-    //array('doctrine-dbal', 'http://github.com/doctrine/dbal.git', 'origin/master'),
-    //array('doctrine', 'http://github.com/doctrine/doctrine2.git', 'origin/master'),
-    //array('doctrine-mongodb-odm', 'http://github.com/doctrine/mongodb-odm.git', 'origin/master'),
-    //array('doctrine-mongodb', 'http://github.com/doctrine/mongodb.git', 'origin/master'),
-    //array('doctrine-couchdb', 'http://github.com/doctrine/couchdb-odm.git', 'origin/master'),
-    
     array('PropelBundle', 'https://github.com/propelorm/PropelBundle.git', 'origin/2.0', 'Propel'),
     array('propel', 'http://github.com/propelorm/Propel.git', 'origin/master', ''),
     array('propel-behavior', 'http://github.com/willdurand/TypehintableBehavior.git', 'origin/master', ''),
@@ -48,7 +40,7 @@ $deps = array(
     array('AlValumUploaderBundle', 'http://github.com/alphalemon/AlValumUploaderBundle.git', 'origin/master', 'AlphaLemon'),
     array('AlphaLemonThemeBundle', 'http://github.com/alphalemon/AlphaLemonThemeBundle.git', 'origin/master', 'AlphaLemon/ThemeEngineBundle/Themes'),
     array('ElFinderBundle', 'http://github.com/alphalemon/ElFinderBundle.git', 'origin/master', 'AlphaLemon'),
-    array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/master', 'AlphaLemon'),
+    //array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/master', 'AlphaLemon'),
     array('FrontendBundle', 'http://github.com/alphalemon/FrontendBundle.git', 'origin/master', 'AlphaLemon'),
 );
     
