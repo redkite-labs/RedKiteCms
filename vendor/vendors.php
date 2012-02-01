@@ -46,7 +46,7 @@ $deps = array(
     array('ThemeEngineBundle', 'http://github.com/alphalemon/ThemeEngineBundle.git', 'origin/master', 'AlphaLemon'),
     array('PageTreeBundle', 'http://github.com/alphalemon/PageTreeBundle.git', 'origin/master', 'AlphaLemon'),
     array('AlValumUploaderBundle', 'http://github.com/alphalemon/AlValumUploaderBundle.git', 'origin/master', 'AlphaLemon'),
-    array('AlphaLemonThemeBundle', 'http://github.com/alphalemon/AlphaLemonThemeBundle.git', 'origin/master', 'AlphaLemon'),
+    array('AlphaLemonThemeBundle', 'http://github.com/alphalemon/AlphaLemonThemeBundle.git', 'origin/master', 'AlphaLemon/ThemeEngineBundle/Themes'),
     array('ElFinderBundle', 'http://github.com/alphalemon/ElFinderBundle.git', 'origin/master', 'AlphaLemon'),
     array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/master', 'AlphaLemon'),
     array('FrontendBundle', 'http://github.com/alphalemon/FrontendBundle.git', 'origin/master', 'AlphaLemon'),
