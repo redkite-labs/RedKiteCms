@@ -54,7 +54,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 
 class TestAlPageTree extends AlPageTree
 {
-    public function __construct(ContainerInterface $container, $languageId = null, $pageId = null, $themeName = 'Al2011ThemeBundle', $templateName = 'Home')
+    public function __construct(ContainerInterface $container, $languageId = null, $pageId = null, $themeName = 'AlphaLemonThemeBundle', $templateName = 'Home')
     {
         parent::__construct($container);
         
