@@ -29,8 +29,8 @@ if (isset($argv[1])) {
 
 $vendorDir = __DIR__;
 $deps = array(
-    array('symfony', 'http://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
-    array('twig', 'http://github.com/fabpot/Twig.git', 'origin/master'),
+    array('symfony', 'http://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master', ''),
+    array('twig', 'http://github.com/fabpot/Twig.git', 'origin/master', ''),
     //array('swiftmailer', 'http://github.com/swiftmailer/swiftmailer.git', 'origin/master'),
     //array('doctrine-common', 'http://github.com/doctrine/common.git', 'origin/master'),
     //array('doctrine-dbal', 'http://github.com/doctrine/dbal.git', 'origin/master'),
@@ -40,25 +40,26 @@ $deps = array(
     //array('doctrine-couchdb', 'http://github.com/doctrine/couchdb-odm.git', 'origin/master'),
     
     //array('PropelBundle', 'https://github.com/propelorm/PropelBundle.git', 'origin/2.0'),
-    array('propel', 'http://github.com/propelorm/Propel.git', 'origin/master'),
-    array('propel-behavior', 'http://github.com/willdurand/TypehintableBehavior.git', 'origin/master'),
-    array('phing', 'http://github.com/Xosofox/phing.git', 'origin/master'),
-    array('ThemeEngineBundle', 'http://github.com/alphalemon/ThemeEngineBundle.git', 'origin/master'),
-    array('PageTreeBundle', 'http://github.com/alphalemon/PageTreeBundle.git', 'origin/master'),
-    array('AlValumUploaderBundle', 'http://github.com/alphalemon/AlValumUploaderBundle.git', 'origin/master'),
-    array('AlphaLemonThemeBundle', 'http://github.com/alphalemon/AlphaLemonThemeBundle.git', 'origin/master'),
-    array('ElFinderBundle', 'http://github.com/alphalemon/ElFinderBundle.git', 'origin/master'),
-    array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/master'),
-    array('FrontendBundle', 'http://github.com/alphalemon/FrontendBundle.git', 'origin/master'),
+    array('propel', 'http://github.com/propelorm/Propel.git', 'origin/master', ''),
+    array('propel-behavior', 'http://github.com/willdurand/TypehintableBehavior.git', 'origin/master', ''),
+    array('phing', 'http://github.com/Xosofox/phing.git', 'origin/master', ''),
+    array('ThemeEngineBundle', 'http://github.com/alphalemon/ThemeEngineBundle.git', 'origin/master', 'AlphaLemon'),
+    array('PageTreeBundle', 'http://github.com/alphalemon/PageTreeBundle.git', 'origin/master', 'AlphaLemon'),
+    array('AlValumUploaderBundle', 'http://github.com/alphalemon/AlValumUploaderBundle.git', 'origin/master', 'AlphaLemon'),
+    array('AlphaLemonThemeBundle', 'http://github.com/alphalemon/AlphaLemonThemeBundle.git', 'origin/master', 'AlphaLemon'),
+    array('ElFinderBundle', 'http://github.com/alphalemon/ElFinderBundle.git', 'origin/master', 'AlphaLemon'),
+    array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/master', 'AlphaLemon'),
+    array('FrontendBundle', 'http://github.com/alphalemon/FrontendBundle.git', 'origin/master', 'AlphaLemon'),
 );
     
 
 foreach ($deps as $dep) {
-    list($name, $url, $rev) = $dep;
+    list($name, $url, $rev, $extraPath) = $dep;
 
     echo "> Installing/Updating $name\n";
 
-    $installDir = $vendorDir.'/'.$name;
+    if($extraPath != '') $extraPath .= '/';
+    $installDir = $vendorDir.'/'.$extraPath.$name;
     if (!is_dir($installDir)) {
         $return = null;
         system(sprintf('git clone -q %s %s', escapeshellarg($url), escapeshellarg($installDir)), $return);
