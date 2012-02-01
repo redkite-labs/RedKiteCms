@@ -32,4 +32,11 @@ if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) 
     $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
     $builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/schema.xml'));
     $builder->buildClasses();
+
+    $builder = new \PropelQuickBuilder();
+    $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
+    $builder->setSchema(file_get_contents(__DIR__.'/../vendor/AlphaLemon/ThemeEngineBundle/Resources/config/schema.xml'));
+    $builder->buildClasses();
+
+    
 }
