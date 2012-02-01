@@ -25,7 +25,7 @@ $loader->registerNamespaces(array(
     'Sensio'                 => $vendorDir.'/bundles',
     'JMS'                    => $vendorDir.'/bundles',
     'Assetic'                => $vendorDir.'/assetic/src',
-    //'AlphaLemon'             => $vendorDir.'/bundles',  
+    'AlphaLemon'             => $vendorDir,  
     //'Themes'                 => $vendorDir.'/bundles/AlphaLemon/ThemeEngineBundle',
     //'Propel'                 => $vendorDir.'/bundles',
 ));
@@ -49,6 +49,7 @@ if (file_exists($propelGeneratorFile) && file_exists($propelBehaviorFile)) {
     }
 }
 
+/*
 spl_autoload_register(function($class) {
     if (0 === strpos($class, 'AlphaLemon\\PageTreeBundle\\')) {
         $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
@@ -80,6 +81,6 @@ spl_autoload_register(function($class) {
         require_once $path;
         return true;
     }
-});
+});*/
 
 
