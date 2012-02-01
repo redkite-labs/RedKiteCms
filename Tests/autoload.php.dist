@@ -25,9 +25,9 @@ $loader->registerNamespaces(array(
     'Sensio'                 => $vendorDir.'/bundles',
     'JMS'                    => $vendorDir.'/bundles',
     'Assetic'                => $vendorDir.'/assetic/src',
-    'AlphaLemon'             => $vendorDir.'/bundles',  
-    'Themes'                 => $vendorDir.'/bundles/AlphaLemon/ThemeEngineBundle',
-    'Propel'                 => $vendorDir.'/bundles',
+    //'AlphaLemon'             => $vendorDir.'/bundles',  
+    //'Themes'                 => $vendorDir.'/bundles/AlphaLemon/ThemeEngineBundle',
+    //'Propel'                 => $vendorDir.'/bundles',
 ));
 $loader->registerPrefixes(array(
     'Twig_' => $vendorDir.'/twig/lib',
@@ -55,14 +55,14 @@ if (file_exists($propelGeneratorFile) && file_exists($propelBehaviorFile)) {
     }
 }
 
-/*
+/**/
 spl_autoload_register(function($class) {
     if (0 === strpos($class, 'AlphaLemon\\')) {
-        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
+        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 1)).'.php';
         if (!stream_resolve_include_path($path)) {
             return false;
         }
         require_once $path;
         return true;
     }
-});*/
+});
