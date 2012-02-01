@@ -31,12 +31,12 @@ twig:
     strict_variables: %kernel.debug%
 
 # Assetic Configuration
-assetic:
-    debug:          %kernel.debug%
-    use_controller: false
+#assetic:
+#    debug:          %kernel.debug%
+#    use_controller: false
     # java: /usr/bin/java
-    filters:
-        cssrewrite: ~
+#    filters:
+#        cssrewrite: ~
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:
