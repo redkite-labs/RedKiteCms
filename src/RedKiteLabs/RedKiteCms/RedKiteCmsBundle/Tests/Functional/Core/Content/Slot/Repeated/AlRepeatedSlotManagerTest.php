@@ -85,7 +85,7 @@ class AlRepeatedSlotManagerTest extends TestCase
     {
         $container = $this->setupPageTree(AlLanguageQuery::create()->mainLanguage()->findOne()->getId(), AlPageQuery::create()->homePage()->findOne()->getId())->getContainer(); 
         $testAlRepeatedSlotsManager = new AlRepeatedSlotsManager(
-            $container, 'Al2011ThemeBundle'
+            $container, 'AlphaLemonThemeBundle'
         );
         
         $testAlRepeatedSlotsManager->setActiveThemeSlotsFile($this->activeThemeSlots); 

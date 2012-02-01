@@ -64,7 +64,7 @@ class AlPageTreeTest extends TestCase
     public function testSettingUpPageTreeWhenAnyLanguageExistsReturnsANullValue()
     {
         $theme = new AlTheme();
-        $theme->setThemeName('Al2011ThemeBundle');
+        $theme->setThemeName('AlphaLemonThemeBundle');
         $theme->setActive(1);
         $theme->save();
         
@@ -98,7 +98,7 @@ class AlPageTreeTest extends TestCase
         $alPageTree = new AlPageTree($this->container);
         $this->container->set('al_page_tree', $alPageTree);
         $alPageTree->setup();
-        $this->assertEquals('Al2011ThemeBundle', $alPageTree->getThemeName());
+        $this->assertEquals('AlphaLemonThemeBundle', $alPageTree->getThemeName());
         $this->assertEquals('home', $alPageTree->getTemplateName());
         $this->assertEquals('index', $alPageTree->getAlPage()->getPageName());
         $this->assertEquals('en', $alPageTree->getAlLanguage()->getLanguage());
@@ -115,7 +115,7 @@ class AlPageTreeTest extends TestCase
         
         $alPageTree = new AlPageTree($this->container);
         $alPageTree->setup(self::$alLanguage, self::$alPage);
-        $this->assertEquals('Al2011ThemeBundle', $alPageTree->getThemeName());
+        $this->assertEquals('AlphaLemonThemeBundle', $alPageTree->getThemeName());
         $this->assertEquals('home', $alPageTree->getTemplateName());
         $this->assertEquals('index', $alPageTree->getAlPage()->getPageName());
         $this->assertEquals('en', $alPageTree->getAlLanguage()->getLanguage());
