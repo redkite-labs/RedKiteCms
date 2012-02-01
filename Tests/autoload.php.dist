@@ -50,7 +50,7 @@ if (file_exists($propelGeneratorFile) && file_exists($propelBehaviorFile)) {
 }
 
 spl_autoload_register(function($class) {
-    if (0 === strpos($class, 'AlphaLemon\\AlphaLemonCmsBundle')) {
+    if (0 === strpos($class, 'AlphaLemon\\AlphaLemonCmsBundle\\')) {
         $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
         if (!stream_resolve_include_path($path)) {
             return false;
@@ -61,7 +61,7 @@ spl_autoload_register(function($class) {
 });
 
 spl_autoload_register(function($class) {
-    if (0 === strpos($class, 'AlphaLemon\\PageTreeBundle')) {
+    if (0 === strpos($class, 'AlphaLemon\\PageTreeBundle\\')) {
         $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
         if (!stream_resolve_include_path($path)) {
             return false;
@@ -72,7 +72,7 @@ spl_autoload_register(function($class) {
 });
 
 spl_autoload_register(function($class) {
-    if (0 === strpos($class, 'AlphaLemon\\ThemeEngineBundle')) {
+    if (0 === strpos($class, 'AlphaLemon\\ThemeEngineBundle\\')) {
         $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
         if (!stream_resolve_include_path($path)) {
             return false;
