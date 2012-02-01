@@ -23,11 +23,11 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony'                => array($vendorDir.'/symfony/src', $vendorDir.'/bundles'),
     'Sensio'                 => $vendorDir.'/bundles',
-    'JMS'                    => $vendorDir.'/bundles',
-    'Assetic'                => $vendorDir.'/assetic/src',
+    //'JMS'                    => $vendorDir.'/bundles',
+    //'Assetic'                => $vendorDir.'/assetic/src',
     'AlphaLemon'             => $vendorDir,  
-    //'Themes'                 => $vendorDir.'/bundles/AlphaLemon/ThemeEngineBundle',
-    //'Propel'                 => $vendorDir.'/bundles',
+    'Themes'                 => $vendorDir.'/AlphaLemon/ThemeEngineBundle',
+    'Propel'                 => $vendorDir,
 ));
 $loader->registerPrefixes(array(
     'Twig_' => $vendorDir.'/twig/lib',
