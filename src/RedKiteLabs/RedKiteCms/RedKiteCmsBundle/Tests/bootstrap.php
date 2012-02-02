@@ -39,7 +39,7 @@ if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) 
     $builder->buildClasses();
     
     $queries = explode(";", file_get_contents(__DIR__ . '/Resources/sql/database.sql'));
-    mysql_connect('localhost', 'root', 'passera73');
+    mysql_connect('localhost', 'root', '');
     mysql_select_db('alphalemon_test');
     foreach($queries as $query)
     {
