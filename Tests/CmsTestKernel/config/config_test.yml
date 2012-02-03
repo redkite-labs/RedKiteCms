@@ -52,7 +52,7 @@ propel:
     dbal:
         driver:               mysql
         user:                 root
-        password:             passera73
+        password:             
         dsn:                  mysql:host=localhost;dbname=alphalemon_test
         options:              {}
         attributes:           {}
