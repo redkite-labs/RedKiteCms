@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 
 /**
- * Implements the security actions. This file is not implemented anymore
+ * Implements the authentication action to grant the use of the CMS. 
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
@@ -38,23 +38,16 @@ class AlSecurityController extends Controller
         } else {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
         }
-        if($error) echo $error->getMessage();
-        return $this->render('AlphaLemonCmsBundle:Security:login.html.twig');
-                
-        $request = $this->getRequest();
-        $session = $request->getSession();
-
-        // get the login error if there is one
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
-            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-        }
         
+        // last username entered by the user
+        $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
+        
+        $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         return $this->render('AlphaLemonCmsBundle:Security:login.html.twig', array(
             // last username entered by the user
-            'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-            'error'         => $error,
+            'last_username' => $lastUsername,
+            'error'         => $error->getMessage(),
+            'csrf_token'    => $csrfToken,      
         ));
     }
 }

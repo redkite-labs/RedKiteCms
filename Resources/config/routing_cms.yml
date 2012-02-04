@@ -1,9 +1,3 @@
-_installer:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/installer.xml"
-    
-_cms:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/cms.xml"
-
 _pages:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/pages.xml"
 
