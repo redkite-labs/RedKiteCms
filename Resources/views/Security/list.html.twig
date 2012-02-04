@@ -1,0 +1,11 @@
+{% if app.session.flash('error') %}
+    <div class="flash-message">
+        <em>Notice</em>: {{ app.session.flash('error') }}
+    </div>
+{% endif %}
+
+<table>
+{% for user in users %}
+    <tr><td>{{ user.username }}</td><td>{{ user.email }}</td><td><a href="">Edit</a></td><td><a href="">Delete</a></td></tr>
+{% endfor %}
+</table>

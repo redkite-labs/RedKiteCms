@@ -1,3 +1,6 @@
+_user:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/user.xml"
+    
 _pages:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/pages.xml"
 

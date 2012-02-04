@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database namespace="AlphaLemon\AlphaLemonCmsBundle\Model" name="default"  defaultIdMethod="native" >
 
-  <table name="al_content">
+  <table name="al_content" description="This table will be renamed as al_block">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="page_id" type="INTEGER" required="true" />
     <foreign-key foreignTable="al_page" onDelete="CASCADE">
@@ -106,7 +106,7 @@
     </unique>
   </table>
   
-  <table name="al_user_role" idMethod="native">
+  <table name="al_user_role" idMethod="native" isCrossRef="true">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="user_id" type="INTEGER" required="true" />
     <column name="role_id" type="INTEGER" required="true" />
