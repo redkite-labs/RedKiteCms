@@ -11,7 +11,7 @@
       "email": "info@alphalemon.com"
     }
     ],
-    "repositories": {
+    /*"repositories": {
         "ElFinder": {
             "package": {
                 "name": "ElFinder",
@@ -26,11 +26,11 @@
                 }
             }
         }
-    },
+    },*/
     "require": {
         "php": ">=5.3.2",
         "symfony/symfony":  ">=2.0.9,<2.1.0-dev",
-        "ElFinder": "2.0.0-beta"
+        //"ElFinder": "2.0.0-beta"
     },
     "autoload": {
         "psr-0": { "AlphaLemon\\ElFinderBundle": "" }
