@@ -8,6 +8,6 @@ class AlCmsAlUserProvider extends ModelUserProvider
 {
     public function __construct()
     {
-        parent::__construct('AlphaLemon\AlphaLemonCmsBundle\Model\AlUser', 'username'); //, 'AlphaLemon\AlphaLemonCmsBundle\Core\Security\Proxy\AlUser'
+        parent::__construct('AlphaLemon\AlphaLemonCmsBundle\Model\AlUser', 'AlphaLemon\AlphaLemonCmsBundle\Core\Security\Proxy\AlUser');
     }
 }
