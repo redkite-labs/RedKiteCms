@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+        
+    <route id="_user_list" pattern="/{_locale}/al_userList">
+        <default key="_controller">AlphaLemonCmsBundle:AlUser:list</default>
+        <default key="_locale">en</default>
+    </route>
+    
+    <route id="_save_user" pattern="/{_locale}/al_saveUser/{id}">
+        <default key="_controller">AlphaLemonCmsBundle:AlUser:save</default>
+        <default key="_locale">en</default>
+        <default key="id">0</default>
+    </route>
+    
+    <route id="_delete_user" pattern="/{_locale}/al_deleteUser/{id}">
+        <default key="_controller">AlphaLemonCmsBundle:AlUser:delete</default>
+        <default key="_locale">en</default>
+    </route>
+</routes>
