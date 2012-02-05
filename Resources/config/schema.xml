@@ -100,30 +100,19 @@
   <table name="al_role" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="role" type="VARCHAR" size="128" required="true" />
-    <column name="priority" type="INTEGER" required="true" />
     <unique name="I_ROLE">
       <unique-column name="id" />
     </unique>
   </table>
   
   <table name="al_user_role" idMethod="native" isCrossRef="true">
-    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
-    <column name="user_id" type="INTEGER" required="true" />
-    <column name="role_id" type="INTEGER" required="true" />
+    <column name="user_id" type="INTEGER" required="true" primaryKey="true" />
+    <column name="role_id" type="INTEGER" required="true" primaryKey="true" />
     <foreign-key foreignTable="al_user" onDelete="CASCADE">
       <reference local="user_id" foreign="id" />
     </foreign-key>
     <foreign-key foreignTable="al_role" onDelete="CASCADE">
       <reference local="role_id" foreign="id" />
     </foreign-key>
-    <unique name="I_USER_ROLE">
-      <unique-column name="id" />
-    </unique>
-    <index name="I_USER">
-      <index-column name="user_id" />
-    </index>
-    <index name="I_ROLE">
-      <index-column name="role_id" />
-    </index>
   </table>
 </database>

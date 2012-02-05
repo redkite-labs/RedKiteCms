@@ -3,6 +3,18 @@
 
 <form action="{# path('book_new') #}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
+        {#
+    <table>
+        <tr>
+          <td>{{ form_label(form.username, "Username") }}</td>
+          <td>{{ form_errors(form.username) }} {{ form_widget(form.username, { 'attr': {'class' : 'input panel_input', 'title': "The name of the page. It must be unique"}}) }} </td>
+        </tr>
+        <tr>
+          <td>{{ form_label(form.al_roles, "Username") }}</td>
+          <td>{{ form_errors(form.al_roles) }} {{ form_widget(form.al_roles, { 'attr': {'class' : 'input panel_input', 'title': "The name of the page. It must be unique"}}) }} </td>
+        </tr>
+    </table>#}
+        
 
     <input type="submit" />
 </form>
