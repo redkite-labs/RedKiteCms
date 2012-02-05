@@ -32,11 +32,19 @@ class AlSecurityController extends Controller
         $request = $this->getRequest();
         $session = $request->getSession();
 
-        // get the login error if there is one
+        // get the error if any (works with forward and redirect -- see below)
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
+        } elseif (null !== $session && $session->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        } else {
+            $error = '';
+        }
+
+        if ($error) {
+            // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
+            $error = $error->getMessage();
         }
         
         // last username entered by the user
@@ -46,7 +54,7 @@ class AlSecurityController extends Controller
         return $this->render('AlphaLemonCmsBundle:Security:login.html.twig', array(
             // last username entered by the user
             'last_username' => $lastUsername,
-            'error'         => $error->getMessage(),
+            'error'         => $error,
             'csrf_token'    => $csrfToken,      
         ));
     }

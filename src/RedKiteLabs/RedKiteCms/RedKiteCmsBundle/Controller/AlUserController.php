@@ -24,6 +24,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType;
 
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserRole;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserRoleType;
+
 /**
  * Manages the CMS users
  *
@@ -41,7 +44,7 @@ class AlUserController extends Controller
     }
     
     public function saveAction($id)
-    {
+    {        
         $user = ($id > 0) ? AlUserQuery::create()->findPk($id) : new AlUser();
         if(null === $user)
         {
