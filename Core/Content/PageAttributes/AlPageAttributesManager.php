@@ -183,13 +183,16 @@ class AlPageAttributesManager extends AlContentManagerBase implements AlContentM
             {
                 throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, "The permalink parameter is mandatory to save a page attribute object"));
             }
+            
+            $permalink = AlToolkit::slugify($values["permalink"]);
+            if(isset($values['languageName'])) $permalink = $values['languageName'] . '-' . $permalink;
         
             $rollBack = false;
             $this->connection->beginTransaction();
             $this->pageAttributes = new AlPageAttribute();
             $this->pageAttributes->setPageId($values["idPage"]);
             $this->pageAttributes->setLanguageId($values["idLanguage"]);
-            $this->pageAttributes->setPermalink(AlToolkit::slugify($values["permalink"]));
+            $this->pageAttributes->setPermalink($permalink);
             $this->pageAttributes->setMetaTitle($values["title"]);
             $this->pageAttributes->setMetaDescription($values["description"]);
             $this->pageAttributes->setMetaKeywords($values["keywords"]);
