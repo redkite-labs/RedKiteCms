@@ -319,6 +319,12 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
     }
     
+    /**
+     * Fixes all the internal links according with the new language
+     * 
+     * @param string $content
+     * @return string 
+     */
     protected function fixInternalLinks($content)
     {
         $container = $this->container;
@@ -326,9 +332,6 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         $content = preg_replace_callback('/(\<a[\s+\w+]href=[\"\'])(.*?)([\"\'])/s', function ($matches) use($container, $languageName) {
             
             $url = $matches[2];
-            //preg_match('/^http[s]?:\/\//', $url, $match);
-            // mailto e altri
-            
             try
             {
                 $tmpUrl = (empty($match) && substr($url, 0, 1) != '/') ? '/' . $url : $url;
@@ -338,33 +341,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             catch(\Symfony\Component\Routing\Exception\ResourceNotFoundException $ex)
             {
-                //echo "A";
-                // Not internal route
+                // Not internal route the link remains the same
             }
             
             return $matches[1] . $url . $matches[3];
-            /*
-            $url = (empty($match)) ? "changed" : $url;
-            
-            return $matches[1] . $url . $matches[3];*/
         }, $content);
         
         return $content;
-        /*
-        try
-        {
-            $url = $matches[2];
-            
-            $tmpUrl = (empty($match) && substr($url, 0, 1) != '/') ? '/' . $url : $url;
-            $params = $c->get('router')->match($tmpUrl); 
-
-            $url = (empty($params)) ? $this->alLanguage->getLanguage() . '-' . $url : $url;
-        }
-        catch(\Symfony\Component\Routing\Exception\ResourceNotFoundException $ex)
-        {
-        }
-echo $matches[1] . $url . $matches[3];exit;
-        return $matches[1] . $url . $matches[3];*/
     }
     
     /**
