@@ -31,7 +31,7 @@ class AlSlotConverterToPageTest extends AlSlotConverterBase
         $container = $this->setupPageTree()->getContainer(); 
         $alPage = AlPageQuery::create()->homePage()->findOne();
         $alLanguage = AlLanguageQuery::create()->mainLanguage()->findOne();
-        $languages = AlLanguageQuery::create()->filterByToDelete(0)->find();
+        $languages = AlLanguageQuery::create()->activeLanguages()->find();
         
         $slot = new AlSlot('logo');
         $this->assertEquals(1, AlContentQuery::create()->filterBySlotName('logo')->filterByToDelete(0)->count());

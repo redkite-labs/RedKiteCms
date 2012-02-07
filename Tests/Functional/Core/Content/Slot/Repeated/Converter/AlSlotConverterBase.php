@@ -38,10 +38,6 @@ class AlSlotConverterBase extends TestCase
         $params = array('language' => 'en');
         $alLanguageManager->save($params);
         
-        $params = array('language' => 'it');
-        $alLanguageManager->set(null);
-        $alLanguageManager->save($params);
-        
         $container = $this->setupPageTree(AlLanguageQuery::create()->mainLanguage()->findOne()->getId())->getContainer();
         $alPageManager = new AlPageManager(
             $container
@@ -66,5 +62,10 @@ class AlSlotConverterBase extends TestCase
         
         $params['pageName'] = 'fake page 4';
         $alPageManager->save($params);
+        
+        $alLanguageManager = new AlLanguageManager($container);        
+        $params = array('language' => 'it');
+        $alLanguageManager->set(null);
+        $alLanguageManager->save($params);
     }
 }
