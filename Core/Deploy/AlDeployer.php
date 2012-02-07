@@ -317,12 +317,14 @@ abstract class AlDeployer
                     $baseContents = $this->basePages[$pageTree->getAlPage()->getId()]->getContents($slotName); 
                     foreach($contents as $content)
                     {
-                        $unit = $xml->file->body->addChild('trans-unit');
-                        $unit->addAttribute('id', $id);
-                        $unit->addChild('source', \urlencode($baseContents[$c]['HtmlContent']));
-                        $unit->addChild('target', \urlencode($content['HtmlContent']));
-                        $id++;
-                        $c++;
+                        if(empty($baseContents[$c])) {
+                            $unit = $xml->file->body->addChild('trans-unit');
+                            $unit->addAttribute('id', $id); 
+                            $unit->addChild('source', \urlencode($baseContents[$c]['HtmlContent']));
+                            $unit->addChild('target', \urlencode($content['HtmlContent']));
+                            $id++;
+                            $c++;
+                        }
                     }
                 }
 
