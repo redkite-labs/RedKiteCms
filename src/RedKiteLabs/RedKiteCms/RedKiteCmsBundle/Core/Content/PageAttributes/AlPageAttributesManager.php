@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttribute;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -183,13 +184,16 @@ class AlPageAttributesManager extends AlContentManagerBase implements AlContentM
             {
                 throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, "The permalink parameter is mandatory to save a page attribute object"));
             }
+            
+            $permalink = AlToolkit::slugify($values["permalink"]);
+            if(isset($values['languageName'])) $permalink = $values['languageName'] . '-' . $permalink;
         
             $rollBack = false;
             $this->connection->beginTransaction();
             $this->pageAttributes = new AlPageAttribute();
             $this->pageAttributes->setPageId($values["idPage"]);
             $this->pageAttributes->setLanguageId($values["idLanguage"]);
-            $this->pageAttributes->setPermalink(AlToolkit::slugify($values["permalink"]));
+            $this->pageAttributes->setPermalink($permalink);
             $this->pageAttributes->setMetaTitle($values["title"]);
             $this->pageAttributes->setMetaDescription($values["description"]);
             $this->pageAttributes->setMetaKeywords($values["keywords"]);
@@ -259,7 +263,10 @@ class AlPageAttributesManager extends AlContentManagerBase implements AlContentM
             {
                 return null;
             }   
-        
+            
+            $oldPermalink = $this->pageAttributes->getPermalink();
+            $isPermalinkChanged = (isset($values['permalink']) && $values['permalink'] != $oldPermalink) ? true :false;
+            
             $rollBack = false;
             $this->connection->beginTransaction();
             
@@ -272,11 +279,28 @@ class AlPageAttributesManager extends AlContentManagerBase implements AlContentM
             {
                 $rollBack = true;
             }
+            
+            // Changes the old permalink for all the contents where the old permalink exists
+            if(!$rollBack && $isPermalinkChanged)
+            {
+                $alContents = AlContentQuery::create()->setContainer($this->container)->fromHtmlContent($oldPermalink)->find();
+                foreach($alContents as $alContent)
+                {
+                    $htmlContent = preg_replace('/' . $oldPermalink . '/s', $values["permalink"], $alContent->getHtmlContent());
+                    $alContent->setHtmlContent($htmlContent);
+                    $res = $alContent->save();
+                    if ($alContent->isModified() && $res == 0)
+                    {
+                        $rollBack = true;
+                        break;
+                    }
+                }
+            }
 
             if (!$rollBack)
             {
                 $this->connection->commit();
-              
+                
                 if(null !== $dispatcher)
                 {
                     $event = new  Content\PageAttributes\AfterPageAttributesEditedEvent($this);

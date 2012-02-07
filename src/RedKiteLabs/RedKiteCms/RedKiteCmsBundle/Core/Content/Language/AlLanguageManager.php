@@ -271,7 +271,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             {
                 $values = array('idPage' => $pageAttributes->getPageId(),
                                 'idLanguage' => $this->alLanguage->getId(),
-                                'permalink' => $this->alLanguage->getLanguage() . '-' . $pageAttributes->getPermalink(),
+                                'permalink' => $pageAttributes->getPermalink(),
+                                'languageName' => $this->alLanguage->getLanguage(),
                                 'title' => $pageAttributes->getMetaTitle(),
                                 'description' => $pageAttributes->getMetaDescription(),
                                 'keywords' => $pageAttributes->getMetaKeywords());                
@@ -282,7 +283,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                     return false;
                 }
             }
-
+            
             // Copies the contents to the new language
             $contents = AlContentQuery::create()
                                 ->setContainer($this->container)
@@ -294,6 +295,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $values = $content->toArray();
                 unset($values['Id']);
                 unset($values['CreatedAt']);
+                $values['HtmlContent'] = $this->fixInternalLinks($values['HtmlContent']);
                 $newContent->fromArray($values);
                 $newContent->setLanguageId($this->alLanguage->getId());
                 $newContent->save($this->connection);
@@ -315,6 +317,37 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
             throw $e;
         }
+    }
+    
+    /**
+     * Fixes all the internal links according with the new language
+     * 
+     * @param string $content
+     * @return string 
+     */
+    protected function fixInternalLinks($content)
+    {
+        $container = $this->container;
+        $languageName =  $this->alLanguage->getLanguage();
+        $content = preg_replace_callback('/(\<a[\s+\w+]href=[\"\'])(.*?)([\"\'])/s', function ($matches) use($container, $languageName) {
+            
+            $url = $matches[2];
+            try
+            {
+                $tmpUrl = (empty($match) && substr($url, 0, 1) != '/') ? '/' . $url : $url;
+                $params = $container->get('router')->match($tmpUrl); 
+                
+                $url = (!empty($params)) ? $languageName . '-' . $url : $url;
+            }
+            catch(\Symfony\Component\Routing\Exception\ResourceNotFoundException $ex)
+            {
+                // Not internal route the link remains the same
+            }
+            
+            return $matches[1] . $url . $matches[3];
+        }, $content);
+        
+        return $content;
     }
     
     /**
