@@ -251,7 +251,7 @@ class AlDeployTest extends TestCase
         );
         
         $theme = new \AlphaLemon\ThemeEngineBundle\Model\AlTheme();
-        $theme->setThemeName('Al2011ThemeBundle');
+        $theme->setThemeName('AlphaLemonThemeBundle');
         $theme->setActive(1);
         $theme->save();
         

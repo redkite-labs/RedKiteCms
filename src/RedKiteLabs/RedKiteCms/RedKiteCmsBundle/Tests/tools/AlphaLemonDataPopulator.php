@@ -63,6 +63,7 @@ class AlphaLemonDataPopulator
     
     public static function depopulate($con = null)
     {
+        /*
         $peerClasses = array(
             '\AlphaLemon\AlphaLemonCmsBundle\Model\AlContentPeer',
             '\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguagePeer',
@@ -85,6 +86,30 @@ class AlphaLemonDataPopulator
                 $peerClass::doDeleteAll($con);
         }
         
-        $con->commit();
+        $query = 'INSERT INTO al_language (language) VALUES(\'-\')';
+        $statement = $con->prepare($query);
+        $statement->execute();
+        
+        $query = 'INSERT INTO al_page (page_name) VALUES(\'-\');';
+        $statement = $con->prepare($query);
+        $statement->execute();
+        
+        $con->commit();*/
+        
+        $connection = \Propel::getConnection();
+        $queries = array('TRUNCATE al_content;',
+                         'TRUNCATE al_language;',
+                         'TRUNCATE al_page;',
+                         'TRUNCATE al_page_attribute;',
+                         'TRUNCATE al_theme;',
+                         'INSERT INTO al_language (language) VALUES(\'-\');',
+                         'INSERT INTO al_page (page_name) VALUES(\'-\');',
+                        );
+        
+        foreach($queries as $query)
+        {
+            $statement = $connection->prepare($query);
+            $statement->execute();
+        }
     }
 }
