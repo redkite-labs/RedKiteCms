@@ -184,4 +184,27 @@ class AlContentQuery extends BaseContentQuery
         
         return $query;
     }    
+    
+    public function fromHtmlContent($search)
+    {
+        $query = $this->filterByHtmlContent('%' . $search . '%')
+                      ->filterByToDelete(0);
+        
+        if(null !== $this->container)
+        {
+            $dispatcher = $this->container->get('event_dispatcher');
+            if(null !== $dispatcher)
+            {
+                $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
+                $dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID_AND_SLOT_NAME, $event);
+
+                if($query !== $event->getQuery())
+                {
+                    $query = $event->getQuery();
+                }
+            }
+        }
+        
+        return $query;
+    }
 } // AlContentQuery

@@ -244,7 +244,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     $idPage = $this->alPage->getId();
                     foreach ($alLanguages as $alLanguage)
                     {
-                        $rollBack = !$this->addPageAttributesAndBlocks(array_merge($values, array('idPage' => $idPage, 'idLanguage' => $alLanguage->getId())), $alLanguage);
+                        $pageAttributesParam = array_merge($values, array('idPage' => $idPage, 'idLanguage' => $alLanguage->getId()));
+                        if(!$alLanguage->getMainLanguage()) $pageAttributesParam['languageName'] = $alLanguage->getLanguage();
+                        $rollBack = !$this->addPageAttributesAndBlocks($pageAttributesParam, $alLanguage);
                         if($rollBack)
                         {  
                             break;
