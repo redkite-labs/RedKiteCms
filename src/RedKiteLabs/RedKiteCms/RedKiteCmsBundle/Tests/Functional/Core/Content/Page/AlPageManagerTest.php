@@ -152,7 +152,10 @@ class AlPageManagerTest extends TestCase
         $this->assertTrue($testAlPageManager1->save($params));
         $this->assertEquals(0, $testAlPageManager1->get()->getIsHome(), 'When at least a page exists, is home must be false');        
         $this->checkAddedContents($testAlPageManager1, $repeated);
-       
+        
+        $alPageAttribute = AlPageAttributeQuery::create()->fromPageId($testAlPageManager1->get()->getId());
+        $this->assertEquals(1, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
+        
         $repeated = $this->retrieveRepeatedContentsByTemplate($container, 'Internal' );
         $testAlPageManager2 = new AlPageManager(
             $container
@@ -258,6 +261,39 @@ class AlPageManagerTest extends TestCase
         $this->assertEquals(1, $testAlPageManager->get()->getToDelete(), '->delete() method has not set to true the to_delete field as expected');
         $this->assertEquals(0, AlContentQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
         $this->assertEquals(0, AlPageAttributeQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
+    }
+    
+    /**
+     * @depends testEdit
+     */
+    public function testAddPageWhenSiteHasMoreLanguages()
+    {
+        AlPageQuery::create()->deleteAll();
+        
+        $alLanguage = new AlLanguage();
+        $alLanguage->setLanguage('it');
+        $alLanguage->save(); 
+        
+        $container = $this->setupPageTree($alLanguage->getId())->getContainer(); 
+        $testAlPageManager = new AlPageManager(
+            $container
+        );
+        
+        $this->assertEquals(0, AlPageQuery::create()->filterByToDelete(0)->count());
+        $this->assertEquals(0, AlPageAttributeQuery::create()->filterByToDelete(0)->count());
+        
+        $params = array('pageName'      => 'fake add page', 
+                        'template'      => 'home',
+                        'permalink'     => 'this is a website fake page',
+                        'title'         => 'page title',
+                        'description'   => 'page description',
+                        'keywords'      => '');
+        $this->assertTrue($testAlPageManager->save($params));
+        $this->assertEquals(1, AlPageQuery::create()->filterByToDelete(0)->count());
+        $this->assertEquals(2, AlPageAttributeQuery::create()->filterByToDelete(0)->count());
+        $alPageAttribute = AlPageAttributeQuery::create()->fromPageAndLanguage($testAlPageManager->get()->getId(),$alLanguage->getId());
+        $this->assertEquals(1, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
+        $this->assertEquals('it-this-is-a-website-fake-page', $alPageAttribute->findOne()->getPermalink());
     }
     
     private function checkAddedContents($page, $repeated)
