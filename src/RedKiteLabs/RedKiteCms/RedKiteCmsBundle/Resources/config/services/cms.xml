@@ -31,6 +31,7 @@
             <parameter key="Media">Media Content</parameter>
             <parameter key="Menu">Simple Menu Content</parameter>
             <parameter key="Script">Javascript Content</parameter>
+            <parameter key="NavigationMenu">Navigation Menu</parameter>
         </parameter>
         
         <parameter key="alcms.deploy.xliff_skeleton">@AlphaLemonCmsBundle/Resources/data/xml/xliff-skeleton.xml</parameter>
@@ -52,33 +53,31 @@
         <parameter key="al_cms_page_attributes_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager</parameter>
         <parameter key="al_cms_languages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
 
-        <parameter key="alpalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
-        <parameter key="alpalemon.assets_builder">AlphaLemon\AlphaLemonCmsBundle\Core\AssetsBuilder\AlAssetsBuilder</parameter>
+        <parameter key="alphalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
+        <parameter key="alphalemon.assets_builder">AlphaLemon\AlphaLemonCmsBundle\Core\AssetsBuilder\AlAssetsBuilder</parameter>
+        <parameter key="alphalemon.links_fixer.class">AlphaLemon\AlphaLemonCmsBundle\Core\LinksFixer\AlLinksFixer</parameter>
     </parameters>
 
     <services>
         <service id="alphalemon.cms.security.provider" class="AlphaLemon\AlphaLemonCmsBundle\Core\Security\Provider\AlCmsAlUserProvider" />
         
-        <service id="al_assets_builder" class="%alpalemon.assets_builder%">
+        <service id="al_assets_builder" class="%alphalemon.assets_builder%">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="al_page_tree" class="%alpalemon.page_tree%">
+        <service id="al_page_tree" class="%alphalemon.page_tree%">
             <argument type="service" id="service_container" />
         </service>
-        
         
         <service id="al_cms_setup_listener.class" class="%al_cms_setup_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
             <argument type="service" id="service_container" />
         </service>
-
          
         <service id="al_cms_finalize_content_listener.class" class="%al_cms_finalize_content_listener.class%">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0" />
             <argument type="service" id="service_container" />
         </service>
-        
 
         <service id="el_finder_media_connector" class="%el_finder.media_connector%" >
             <argument type="service" id="service_container" />

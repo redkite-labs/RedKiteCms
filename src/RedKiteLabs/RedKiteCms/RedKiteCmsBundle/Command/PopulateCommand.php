@@ -43,11 +43,9 @@ class PopulateCommand extends ContainerAwareCommand
         $this
             ->setDescription('Populates the database with default values. Be careful if you try to run this command on an existind database, because it is resets and repopulates the database itself')
             ->setDefinition(array(
-                new InputArgument('host', InputArgument::REQUIRED, 'The database host'),
-                new InputArgument('database', InputArgument::REQUIRED, 'The database name'),
+                new InputArgument('dsn', InputArgument::REQUIRED, 'The dsn to connect the database'),
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
-                new InputOption('driver', '', InputOption::VALUE_OPTIONAL, 'The database driver', 'mysql'),
             ))
             ->setName('alphalemon:populate');
     }
@@ -58,7 +56,7 @@ class PopulateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $connection = new \PropelPDO(sprintf("%s:host=%s;dbname=%s", $input->getOption('driver'), $input->getArgument('host'), $input->getArgument('database')), $input->getOption('user'), $input->getOption('password'));
+        $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
         
         $queries = array('TRUNCATE al_content;',
                          'TRUNCATE al_language;',
