@@ -46,7 +46,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class AlCmsController extends Controller
 {
     public function showAction()
-    {
+    {        
         $request = $this->container->get('request'); 
         $pageTree = $this->container->get('al_page_tree');
         $skin = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');
