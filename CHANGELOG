@@ -1,0 +1,5 @@
+Preview Release 2
+New 
+Added A new internal bundle to create a menu for the website's languages
+Added method to rename automatically the links when a permalink is changed
+Added a method that fixes blocks' permalinks when needed, according the new inserting language
