@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/symfony":  ">=2.0.9,<2.1.0-dev"
+        "symfony/symfony":  ">=2.0.10,<2.1.0-dev"
     },
     "autoload": {
         "psr-0": { "AlphaLemon\\ElFinderBundle": "" }
