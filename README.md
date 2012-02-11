@@ -5,9 +5,11 @@ Welcome to the AlphaLemon CMS a Content Management System Application, built on 
 Symfony2 Framework, providing an easy an intuitive user-interface, to improve the 
 website's content management experience.
 
-This document contains information on how to download and start using AlphaLemon CMS.
-For a more detailed explanation, see the
-[Installation chapter](http://alphalemon.com/how-to-install-alphalemon-cms).
+This document contains information on how to download and start using AlphaLemon CMS and assumes that you will use the 
+[AlphaLemon CMS Sandbox Without Vendors application](http://alphalemon.com/download-alphalemon-cms-for-symfony2-framework).
+
+To learn more and get more detailed explanation or to learn how to install AlphaLemon CMS from the scratch with an empty Symfony2 project or 
+how to upgrade an existing project, see the [Installation chapter](http://alphalemon.com/how-to-install-alphalemon-cms).
 
 [![Build Status](https://secure.travis-ci.org/alphalemon/AlphaLemonCmsBundle.png)](http://travis-ci.org/alphalemon/AlphaLemonCmsBundle)
 
@@ -34,7 +36,8 @@ AlphaLemon CMS setup
 --------------------
 
 Before starting the setup operation, you must configure the parameters required by the application.
-The installation script comes with a config.php where are saved the default configurations required 
+
+The installation script comes with a config.php, where are saved the default configurations required 
 to install the CMS, which are:
 
 - A bundle where AlphaLemon CMS will save your contents
