@@ -1,0 +1,80 @@
+
+<div id="al_theme_fixer">
+    <form id="al_theme_fixer_form">
+      <div>
+        <div class="al_float_left al_label">Available templates</div>
+        <div class="al_float_left">
+            <select name="al_template" class="input">
+            {% for template in templates %}
+               <option value="{{ template }}">{{ template }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="al_float_left"><input id="al_template_changer" class="input button" type="submit" value="Change template" /></div>     
+        <div style="clear:left;"></div>
+      </div>    
+
+    {% if pages|length > 0 %}
+      <div id="al_pages_to_fix_list" class="al-items-list">
+    {% set i = 0 %}
+    {% for page in pages %}
+        {% if (i % 2) == 0 %}
+            {% set class = 'row' %}
+        {% else %}
+            {% set class = 'alternate-row' %}
+        {% endif %}
+        <div id="row_{{ page.id }}" class="{{ class }}">
+            <div class="al_float_left">
+                <input id="cb_{{ page.id }}" value="{{ page.id }}" name="al_page_to_fix" type="checkbox" class="input" rel="{{ page.id }}" />
+            </div>
+            <div class="al_float_left">{{ page.pageName }}</div>
+            <div class="al_float_right al_assigned_template">{{ page.templateName }}</div>
+            <div style="clear:left;"></div>
+        </div>    
+        {% set i  = i + 1 %}
+    
+      </div>
+    {% endfor %}
+    {% else %}
+      <div>Any conflict has been detected. Click the activate button to procede with the theme activation.</div>
+    {% endif %}
+    </form>
+    <div id="al_activate_button_container"><input id="al_activate_theme" type="submit" value="Activate" class="input button al_large {themeName: '{{ themeName }}'}" /></div>
+    <div id="al_error"></div>
+</div>
+
+
+
+<script>
+    $('#al_theme_fixer_form').submit(function() {
+      $.ajax({
+          type: 'POST',
+          url: frontController + $('#al_available_languages').val() + '/al_fixTheme',
+          data: {'data' : $(this).serialize()},
+          beforeSend: function()
+          {
+            $('body').AddAjaxLoader();
+          },
+          success: function(response)
+          {
+            $(response).each(function(key, item)
+            {
+                $('#row_' + item).remove();
+            });
+            ObserveThemeCommands();
+          },
+          error: function(err)
+          {
+            $('#al_error').html(err.responseText);
+          },
+          complete: function()
+          {
+            $('body').RemoveAjaxLoader();
+          }
+      });
+      
+      return false;
+    });
+    
+    $('#al_activate_theme').activateTheme();
+</script>

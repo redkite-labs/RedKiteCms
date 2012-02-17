@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
 
 class ThemesController extends BaseController
@@ -49,6 +49,16 @@ class ThemesController extends BaseController
         {
             $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
         }
+        $activeThemeTemplatesCount = iterator_count($this->retrieveTemplates($values['active_theme']['theme_title']));
+        
+        $c = 0;
+        $availableThemes = $values["available_themes"]["themes"];
+        foreach($availableThemes as $availableTheme)
+        {
+            $r = $activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title']));
+            $values["available_themes"]["themes"][$c]["compatible"] = ($activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title'])) >= 0) ? "1" : "0";
+            $c++;
+        }  
         
         $isWindows = (PHP_OS == "WINNT") ? true : false;
         return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
@@ -81,18 +91,72 @@ class ThemesController extends BaseController
         }
     }
     
-    /*
-    public function installAssetsAction()
+    public function showThemeFixerAction()
     {
-        $url = $this->generateUrl('_themes');
+        $templates = array();
+        $request = $this->getRequest();
+        $finder = $this->retrieveTemplates($request->get('themeName'));
+        foreach($finder as $templateFile)
+        {
+            $templates[] = preg_replace_callback('/([\w]+Bundle)([\w]+)(Slots.php)/', function($matches) { return strtolower($matches[2]); }, $templateFile->getFileName());
+        }
         
-        AlToolkit::executeCommand($this->container->get('kernel'), 'assets:install ' . AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../web'));
-        $this->removeCache();
+        $pages = AlPageQuery::create('a')->
+                    where('a.TemplateName NOT IN (\'' . implode('\', \'', $templates) . '\')')->
+                    find();
         
-        $response = new Response();
-        return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'Ok'), $response);
+        return $this->render('AlphaLemonCmsBundle:Themes:show_theme_fixer.html.twig', array('templates' => $templates, 'pages' => $pages, 'themeName' => $request->get('themeName')));
+    }
+    
+    public function fixThemeAction()
+    {
+        $request = $this->getRequest();
         
-        return $this->redirect($url);
-    }*/
+        $params = array();
+        $data = explode('&', $request->get('data'));
+        foreach($data as $value) {
+            $tmp = preg_split('/=/', $value);
+            if($tmp[0] == 'al_page_to_fix') {
+                $params[$tmp[0]][] = $tmp[1];
+            }
+            else {
+                $params[$tmp[0]] = $tmp[1];
+            }
+        }
+        
+        if(empty($params['al_page_to_fix'])) {
+            $response = new Response();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'Any page has been choosen'), $response);
+        }
+        
+        foreach($params['al_page_to_fix'] as $pageId) {
+            $alPage = AlPageQuery::create()->findPk($pageId);            
+            $pageManager = $this->container->get('al_page_manager');
+            $pageManager->set($alPage);
+            if(!$pageManager->save(array('template' => $params['al_template'])))
+            {
+                $response = new Response();
+                $response->setStatusCode('404');
+                return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'Err'), $response);
+            }
+        }
+        
+        $response = new Response(json_encode($params['al_page_to_fix']));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+    
+    private function retrieveTemplates($themeName)
+    {
+        $themesFolder = $this->locateThemesFolder();
+        
+        $finder = new Finder();
+        $templatesDir = sprintf('%s/%s/Core/Slots', $themesFolder, $themeName);
+        $finder->files()->depth(0)->name('*Slots.php')->in($templatesDir);
+        
+        return $finder; 
+    }
 }
 
