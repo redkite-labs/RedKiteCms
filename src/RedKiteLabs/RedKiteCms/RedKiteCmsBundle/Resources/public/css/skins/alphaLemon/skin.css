@@ -36,13 +36,9 @@
   color: green;
 }
 
-body {
-  background-color: black;
-}
-
 #al_cms_contents {
+  width: 100%;
   margin: 0 auto;
-  margin-top: 43px;
 }
 
 .al_edit_on {
@@ -54,11 +50,31 @@ body {
   background-color: #cccccc;
 }
 
+#al_cms_background_basement {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: #76f1ff url(images/cms/bg.png) top center repeat-x;
+  padding: 0;
+  margin: 0;
+}
+
+#al_cms_background_image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: transparent url(images/cms/al_bg.jpg) top center no-repeat;
+}
+
 #al_cms_background {
   width: 800px;
+  min-height: 400px;
   margin: 120px auto;
   padding: 8px 16px;
-  font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
+  font: bold 16px/20px Arial, Verdana, Helvetica, sans-serif;
+  font-weight: normal;
   color: #525252;
   background-color: white;
   -moz-border-radius: 10px;
@@ -67,10 +83,10 @@ body {
   -ms-border-radius: 10px;
   -khtml-border-radius: 10px;
   border-radius: 10px;
-  -moz-box-shadow: #999999 3px 3px 3px;
-  -webkit-box-shadow: #999999 3px 3px 3px;
-  -o-box-shadow: #999999 3px 3px 3px;
-  box-shadow: #999999 3px 3px 3px;
+  -moz-box-shadow: #666666 6px 6px 6px;
+  -webkit-box-shadow: #666666 6px 6px 6px;
+  -o-box-shadow: #666666 6px 6px 6px;
+  box-shadow: #666666 6px 6px 6px;
 }
 #al_cms_background p {
   margin: 0;
