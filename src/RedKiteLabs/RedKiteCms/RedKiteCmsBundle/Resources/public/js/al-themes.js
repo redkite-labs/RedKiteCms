@@ -61,7 +61,42 @@
             });
         });
     };
-
+    
+    $.fn.showThemeFixer =function()
+    {
+        this.each(function()
+        {
+            $(this).click(function()
+            {
+                var data = $(this).metadata();
+                
+                $.ajax({
+                  type: 'POST',
+                  url: frontController + $('#al_available_languages').val() + '/al_showThemeFixer',
+                  data: {'themeName' : data.themeName},
+                  beforeSend: function()
+                  {
+                    $('body').AddAjaxLoader();
+                  },
+                  success: function(html)
+                  {
+                    $('#al_dialog').html(html);
+                    $('#al_dialog').dialog('open');
+                  },
+                  error: function(err)
+                  {
+                    $('#al_dialog').html(err.responseText);
+                    $('#al_dialog').dialog('open');
+                  },
+                  complete: function(html)
+                  {
+                    $('body').RemoveAjaxLoader();
+                  }
+                });
+            });
+        });
+    };
+    
     extractTheme =function()
     {
         var success = false;
@@ -156,6 +191,9 @@
 ObserveThemeCommands =function()
 {
     $('.al_theme_activator').activateTheme();
+    $('.al_themes_fixer').showThemeFixer();    
     $('.al_theme_importer').importTheme();
     $('.al_theme_remover').removeTheme();
+    
+    
 };

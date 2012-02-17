@@ -15,13 +15,20 @@
 
 {% set domain = "al_themes" %}
 
-<td valign="top" width="50%">{% include 'AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig' with {'theme_values': values.active_theme} %}</td>
+<td valign="top" width="50%">
+    <div>
+    {% include theme_skeleton with {'theme_values': values.active_theme} %}
+    </div>
+    <div>
+    {% include 'AlphaLemonCmsBundle:Valum:show.html.twig' with {'options': valum, 'is_windows': is_windows} %}
+    </div>
+</td>
 <td valign="top" width="50%">
     <div> 
         {% if values.available_themes is defined and values.available_themes.themes|length > 0 %}        
         <table>
             {% for item in values.available_themes.themes %}
-            <tr><td valign="top">{% include 'AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig' with {'theme_values': item} %}</td></tr>
+            <tr><td valign="top">{% include theme_skeleton with {'theme_values': item} %}</td></tr>
             {% endfor %}
         </table>
         {% else %}

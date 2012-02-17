@@ -26,6 +26,20 @@
   float: right;
 }
 
+.al_error {
+  font-weight: bold;
+  color: red;
+}
+
+.al_success {
+  font-weight: bold;
+  color: green;
+}
+
+body {
+  background-color: black;
+}
+
 #al_cms_contents {
   margin: 0 auto;
   margin-top: 43px;
@@ -38,6 +52,32 @@
 
 .al_highlight_content {
   background-color: #cccccc;
+}
+
+#al_cms_background {
+  width: 800px;
+  margin: 120px auto;
+  padding: 8px 16px;
+  font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
+  color: #525252;
+  background-color: white;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: #999999 3px 3px 3px;
+  -webkit-box-shadow: #999999 3px 3px 3px;
+  -o-box-shadow: #999999 3px 3px 3px;
+  box-shadow: #999999 3px 3px 3px;
+}
+#al_cms_background p {
+  margin: 0;
+  margin-bottom: 6px;
+}
+#al_cms_background h1 {
+  font: bold 24px/28px Arial, Verdana, Helvetica, sans-serif;
 }
 
 #al_toolbar {
@@ -109,6 +149,7 @@
   -ms-border-radius: 3px;
   -khtml-border-radius: 3px;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .select, .button {
@@ -301,6 +342,7 @@
   -khtml-border-radius: 8px 8px 0 0;
   border-radius: 8px 8px 0 0;
   padding: 2px;
+  margin: 0;
 }
 
 .al_panel_list {
@@ -372,10 +414,59 @@
 
 #al_themes {
   margin-top: 10px;
+  padding: 6px;
+}
+#al_themes table {
+  margin: 0;
+  padding: 2px;
+}
+#al_themes h1, #al_themes h2 {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 6px;
+}
+#al_themes .link_button {
+  padding: 4px 14px 0;
+  text-decoration: none;
+  margin-right: 4px;
 }
 
-#al_themes .al_themes_table td {
+#al_theme_fixer {
+  margin: 0 auto;
   padding: 4px;
+  font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
+  color: #666666;
+}
+#al_theme_fixer div {
+  padding: 4px;
+}
+#al_theme_fixer .al_label {
+  font-weight: bold;
+}
+
+#al_pages_to_fix_list {
+  width: 100%;
+  padding: 0 !important;
+  margin: 0;
+  max-height: 400px;
+  overflow: auto;
+}
+#al_pages_to_fix_list .al_assigned_template {
+  width: 200px;
+}
+#al_pages_to_fix_list div {
+  padding: 2px;
+}
+
+#al_activate_button_container {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 14px;
+}
+#al_activate_button_container .al_large {
+  width: 100%;
+  height: 32px;
+  padding: 6px;
 }
 
 .context-menu-item {

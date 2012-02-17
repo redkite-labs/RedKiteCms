@@ -11,6 +11,9 @@
 // 
 // @license    GPL LICENSE Version 2.0
 
+body
+    :background-color #000
+
 #al_cms_contents
     :margin 0 auto
     :margin-top $cmsMarginTop
@@ -21,3 +24,21 @@
 
 .al_highlight_content
     :background-color $highligtherHoverBackgroundColor   
+
+#al_cms_background
+    :width 800px
+    :margin 120px auto 
+    :padding 8px 16px
+    :font $panelFont
+    :color $darkGray
+    :background-color $white
+    +border-radius(10px)
+    +box-shadow(#999 3px 3px 3px)
+
+    p
+        :margin 0
+        :margin-bottom 6px
+
+    h1
+        :font $panelFontH1
+        

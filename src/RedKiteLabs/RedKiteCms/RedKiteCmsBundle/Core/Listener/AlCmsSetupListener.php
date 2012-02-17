@@ -87,7 +87,11 @@ class AlCmsSetupListener
         $fs->mkdir($folders);
 
         $pageTree = $this->container->get('al_page_tree');
-        $pageTree->setup();
+        try
+        {
+            $pageTree->setup();
+        }
+        catch(\Exception $ex){}
     }
 }
 
