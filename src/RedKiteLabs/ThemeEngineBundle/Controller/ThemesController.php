@@ -129,7 +129,7 @@ class ThemesController extends Controller
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : ''; 
         $command = sprintf('assets:install --env=%s %s %s', $this->container->get('kernel')->getEnvironment(), AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../web'), $symlink);
         AlToolkit::executeCommand($this->container->get('kernel'), $command);
-        $this->removeCache();
+        //$this->removeCache();
         
         $request = $this->get('request');
         if(!$request->isXmlHttpRequest())
@@ -280,7 +280,7 @@ class ThemesController extends Controller
 
     protected function locateThemesFolder()
     {
-         if (in_array($this->container->get('kernel')->getEnvironment(), array('test')))
+        if (in_array($this->container->get('kernel')->getEnvironment(), array('test')))
         {
             // Changes the Themes folder when in test mode
             $themesDir = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle/Tests/Themes');
@@ -301,7 +301,7 @@ class ThemesController extends Controller
             
         }
 		
-		return AlToolkit::normalizePath($themesDir);
+        return AlToolkit::normalizePath($themesDir);
     }
 }
 

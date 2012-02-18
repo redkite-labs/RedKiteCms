@@ -16,10 +16,6 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Config\FileLocator;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-
 /**
  * This is the base class where the template's slots must be defined 
  *
@@ -117,49 +113,6 @@ abstract class AlTemplateSlots
         {
             $slots[$slot->getRepeated()][] = $slot->getSlotName();
         }  
-        
-        return $slots;
-    }
-    
-    protected function loadFixtures($templateName)
-    {
-        //$fixturesFolder = AlToolkit::locateResource('@AlphaLemonThemeEngineBundle') . '/Themes/BusinessWebsiteThemeBundle/Resources/fixtures';
-        $fixturesFolder = __DIR__ . '/../../Themes/BusinessWebsiteThemeBundle/Resources/fixtures';
-        $fileName = $templateName . '.yml';
-        if(is_dir($fixturesFolder) && is_file($fixturesFolder . '/' . $fileName))
-        {
-            $locator = new FileLocator($fixturesFolder);
-            $defaultContents = Yaml::parse($locator->locate($fileName)); 
-            
-            return $defaultContents;
-        }
-        
-        return array();
-    }
-    
-    protected function setupSlots($templateName)
-    {
-        $repeatedSlots = $this->loadFixtures('base');
-        $templateSlots = $this->loadFixtures($templateName);
-        
-        if(!array_key_exists('slots', $repeatedSlots))
-        {
-            //throw
-        }
-        
-        if(!array_key_exists('slots', $templateSlots))
-        {
-            //throw
-        }
-        
-        $fixturedSlots = array_merge($repeatedSlots['slots'], $templateSlots['slots']);
-        
-        $slots = array();
-        foreach($fixturedSlots as $key => $params)
-        {
-            if('~' === $params) $params = null;
-            $slots[$key] = new AlSlot($key, $params);
-        }
         
         return $slots;
     }
