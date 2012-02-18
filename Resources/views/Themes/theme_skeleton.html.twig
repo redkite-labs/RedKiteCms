@@ -39,12 +39,12 @@
               {% if theme_values.buttons is defined %}
                   {% if theme_values.buttons == 3 %}
                     <td>
-                        {% if theme_values.compatible is defined and theme_values.compatible == "1" %}
+                        {% if theme_values.compatible is defined and theme_values.compatible == "'0" %}
                             {% set domElement = "al_themes_fixer" %}
                         {% else %}
                             {% set domElement = "al_theme_activator" %}
                         {% endif %}
-                        <a href="#" class="input button link_button {{ domElement }} {themeName: '{{ theme_values.theme_title }}'}">{{ "Activate" | trans([], domain) }}</a>
+                        <a href="#" class="input button link_button al_themes_fixer {themeName: '{{ theme_values.theme_title }}'}">{{ "Activate" | trans([], domain) }}</a>
                         
                     </td>
                     <td><a href="#" class="input button link_button al_theme_remover {themeName: '{{ theme_values.theme_title }}'}">{{ "Remove" | trans([], domain) }}</a></td>
