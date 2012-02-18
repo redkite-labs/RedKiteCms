@@ -49,6 +49,7 @@ class ThemesController extends BaseController
         {
             $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
         }
+        /*
         $activeThemeTemplatesCount = iterator_count($this->retrieveTemplates($values['active_theme']['theme_title']));
         
         $c = 0;
@@ -56,9 +57,10 @@ class ThemesController extends BaseController
         foreach($availableThemes as $availableTheme)
         {
             $r = $activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title']));
-            $values["available_themes"]["themes"][$c]["compatible"] = ($activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title'])) >= 0) ? "1" : "0";
+            echo $activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title']));exit;
+            $values["available_themes"]["themes"][$c]["compatible"] = ($activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title'])) >= 0) ? "0" : "1";
             $c++;
-        }  
+        }  */
         
         $isWindows = (PHP_OS == "WINNT") ? true : false;
         return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
@@ -83,6 +85,8 @@ class ThemesController extends BaseController
             $page = AlPageQuery::create()->findPk($activePage);
             $pageName = (null !== $page) ? $page->getPageName() : 'index';
             
+            $this->installAssetsAction();
+            
             return new RedirectResponse($this->generateUrl('_navigation', array('_locale' => $languageName, 'page' => $pageName)));
         }
         catch(Exception $e)
@@ -93,6 +97,7 @@ class ThemesController extends BaseController
     
     public function showThemeFixerAction()
     {
+        /**/
         $templates = array();
         $request = $this->getRequest();
         $finder = $this->retrieveTemplates($request->get('themeName'));
@@ -102,7 +107,10 @@ class ThemesController extends BaseController
         }
         
         $pages = AlPageQuery::create('a')->
-                    where('a.TemplateName NOT IN (\'' . implode('\', \'', $templates) . '\')')->
+                    //where('a.TemplateName NOT IN (\'' . implode('\', \'', $templates) . '\')')->
+                    where('a.Id > 1') ->
+                    filterByToDelete(0)->
+                    orderByPageName()->
                     find();
         
         return $this->render('AlphaLemonCmsBundle:Themes:show_theme_fixer.html.twig', array('templates' => $templates, 'pages' => $pages, 'themeName' => $request->get('themeName')));

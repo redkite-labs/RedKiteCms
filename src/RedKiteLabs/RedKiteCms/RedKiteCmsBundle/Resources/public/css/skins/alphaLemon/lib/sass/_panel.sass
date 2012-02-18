@@ -22,6 +22,11 @@
   :display none
   :z-index 40000
 
+  p
+    :padding 0
+    :margin 0 0 6px 0
+    :font inherit
+
 #al_panel_body
   :border-bottom 1px solid $darkGray
 
@@ -33,37 +38,36 @@
   :color $panelTextColor
   :margin-bottom 10px
 
-#al_panel_contents h1
-  :margin-bottom 6px
-  :font $panelFontH1
+  td
+    :vertical-align top
 
-#al_panel_contents h2
-  :margin-bottom 6px
-  :font $panelFontH2
+  h1, h2, h3, h4
+    :padding 0
+    :margin 0 0 6px 0
+    :color $darkGray
 
-#al_panel_contents h3
-  :margin-bottom 6px
-  :font $panelFontH3
+  h1
+    :font $panelFontH1
 
-#al_panel_contents h4
-  :font $panelFontH4
+  h2
+    :font $panelFontH2
 
-#al_panel_contents .panel_input
-  :height auto
-  :border 1px solid #CCC
-  :margin-bottom 10px
-  :padding 2px
-  +box-shadow(#999 3px 3px 3px)
+  h3
+    :font $panelFontH3
 
-#al_panel_contents p
-  :margin-bottom 6px
-  :font inherit
+  h4
+    :margin 0
+    :font $panelFontH4
 
-#al_panel_contents .al_panel_note
-  :font $panelNoteFont
-
-#al_panel_contents td
-  :vertical-align top
+  .panel_input
+    :height auto
+    :border 1px solid #CCC
+    :margin-bottom 10px
+    :padding 2px
+    +box-shadow(#999 3px 3px 3px)
+  
+  .al_panel_note
+    :font $panelNoteFont
 
 #al_panel_closer
   :width 100%
@@ -77,7 +81,6 @@
   :border-top $panelCloserBorderTop
   :border-bottom $panelCloserBorderBottom 
   
-
 #al_panel_header
   :width 100%
 
@@ -87,16 +90,17 @@
   :padding 0 10px
   :float left
 
-#al_sidebar_right a
-  :text-decoration none
+#al_sidebar_right 
+  a
+    :text-decoration none
 
-#al_sidebar_right .al_element_selector
-  :font-weight normal
-  :color $panelElementSelectorColor
+  .al_element_selector
+    :font-weight normal
+    :color $panelElementSelectorColor
 
-#al_sidebar_right .al_element_selected
-  :font-weight bold
-  :color $panelElementSelectedColor
+  .al_element_selected
+    :font-weight bold
+    :color $panelElementSelectedColor
 
 #al_sidebar_middle
   :width $panelMiddleSidebarWidth
@@ -105,28 +109,24 @@
   :padding 0 10px
   :float left
 
-#al_sidebar_middle h3
-  :padding 0
-  :margin 0
-  :float left
+  h3
+    :padding 0
+    :margin 0
+    :float left
 
-#al_sidebar_middle .al_btn_add_content
-  :float right
+  .al_btn_add_content
+    :float right
 
-#al_sidebar_middle .al_contents_separator
-  :text-align right
-  :border-bottom 1px dotted #525252
-  :margin-bottom 6px
+  .al_contents_separator
+    :text-align right
+    :border-bottom 1px dotted #525252
+    :margin-bottom 6px
 
-#al_sidebar_middle .al_content_body
-  :display none
+  .al_content_body
+    :display none
 
-#al_sidebar_middle .al_slot_name
-  :cursor pointer
-
-#al_sidebar_middle p
-  :padding 0 0 6px 0
-  :margin 0
+  .al_slot_name
+    :cursor pointer
 
 #al_sidebar_right
   :width $panelRightSidebarWidth

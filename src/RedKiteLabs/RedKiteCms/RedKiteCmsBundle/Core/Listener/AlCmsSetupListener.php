@@ -91,7 +91,10 @@ class AlCmsSetupListener
         {
             $pageTree->setup();
         }
-        catch(\Exception $ex){}
+        catch(\Exception $ex)
+        {
+            
+        }
     }
 }
 

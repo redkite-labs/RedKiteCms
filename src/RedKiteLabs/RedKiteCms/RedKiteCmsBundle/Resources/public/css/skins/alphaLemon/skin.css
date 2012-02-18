@@ -39,6 +39,7 @@
 #al_cms_contents {
   width: 100%;
   margin: 0 auto;
+  margin-top: 43px;
 }
 
 .al_edit_on {
@@ -187,6 +188,11 @@
   display: none;
   z-index: 40000;
 }
+#al_panel p {
+  padding: 0;
+  margin: 0 0 6px 0;
+  font: inherit;
+}
 
 #al_panel_body {
   border-bottom: 1px solid #525252;
@@ -200,26 +206,27 @@
   color: #525252;
   margin-bottom: 10px;
 }
-
+#al_panel_contents td {
+  vertical-align: top;
+}
+#al_panel_contents h1, #al_panel_contents h2, #al_panel_contents h3, #al_panel_contents h4 {
+  padding: 0;
+  margin: 0 0 6px 0;
+  color: #525252;
+}
 #al_panel_contents h1 {
-  margin-bottom: 6px;
   font: bold 24px/28px Arial, Verdana, Helvetica, sans-serif;
 }
-
 #al_panel_contents h2 {
-  margin-bottom: 6px;
   font: bold 20px/24px Arial, Verdana, Helvetica, sans-serif;
 }
-
 #al_panel_contents h3 {
-  margin-bottom: 6px;
   font: bold 16px/20px Arial, Verdana, Helvetica, sans-serif;
 }
-
 #al_panel_contents h4 {
+  margin: 0;
   font: bold 14px/18px Arial, Verdana, Helvetica, sans-serif;
 }
-
 #al_panel_contents .panel_input {
   height: auto;
   border: 1px solid #cccccc;
@@ -230,18 +237,8 @@
   -o-box-shadow: #999999 3px 3px 3px;
   box-shadow: #999999 3px 3px 3px;
 }
-
-#al_panel_contents p {
-  margin-bottom: 6px;
-  font: inherit;
-}
-
 #al_panel_contents .al_panel_note {
   font: italic normal 10px/12px Arial, Verdana, Helvetica, sans-serif;
-}
-
-#al_panel_contents td {
-  vertical-align: top;
 }
 
 #al_panel_closer {
@@ -271,12 +268,10 @@
 #al_sidebar_right a {
   text-decoration: none;
 }
-
 #al_sidebar_right .al_element_selector {
   font-weight: normal;
   color: #000099;
 }
-
 #al_sidebar_right .al_element_selected {
   font-weight: bold;
   color: #ff9900;
@@ -289,34 +284,24 @@
   padding: 0 10px;
   float: left;
 }
-
 #al_sidebar_middle h3 {
   padding: 0;
   margin: 0;
   float: left;
 }
-
 #al_sidebar_middle .al_btn_add_content {
   float: right;
 }
-
 #al_sidebar_middle .al_contents_separator {
   text-align: right;
   border-bottom: 1px dotted #525252;
   margin-bottom: 6px;
 }
-
 #al_sidebar_middle .al_content_body {
   display: none;
 }
-
 #al_sidebar_middle .al_slot_name {
   cursor: pointer;
-}
-
-#al_sidebar_middle p {
-  padding: 0 0 6px 0;
-  margin: 0;
 }
 
 #al_sidebar_right {
@@ -464,7 +449,7 @@
   width: 100%;
   padding: 0 !important;
   margin: 0;
-  max-height: 400px;
+  max-height: 300px;
   overflow: auto;
 }
 #al_pages_to_fix_list .al_assigned_template {
