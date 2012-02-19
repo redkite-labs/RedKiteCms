@@ -59,7 +59,7 @@ class BlocksController extends Controller
                 $editorSettingsParamName = sprintf('al_%s_editor_settings', strtolower($alContent->getClassName())); 
                 $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
                 $controller = sprintf('Al%sBundle:Block:%s_editor.html.twig', $alContent->getClassName(), strtolower($alContent->getClassName()));
-                //$openEditor = ($alContent->getClassName() != 'Media') ? true : false;
+                
                 
                 $editor = $this->container->get('templating')->render($controller, array("alContent" => $alContent,
                                                                                          "jsFiles" => explode(",", $alContent->getExternalJavascript()),
@@ -68,7 +68,6 @@ class BlocksController extends Controller
                                                                                          "page" => $request->get('page'),
                                                                                          "editor_settings" => $editorSettings));
                 $values[] = array("key" => "editor",
-                                  //"openEditor" => $openEditor,
                                   "value" => $editor);
                 $response = $this->buildJSonResponse($values);
                 
