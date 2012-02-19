@@ -240,6 +240,7 @@ class AlTemplateManager extends AlTemplateBase
             $this->slotManagers[$slotName] = $slotManager;
         }
         
+        // Looks for existing slots on previous theme, not included in the theme in use
         $orphanSlots = array_diff(array_keys($contents), array_keys($slots));
         foreach($orphanSlots as $slotName)
         {   
