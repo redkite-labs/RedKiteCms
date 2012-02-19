@@ -20,6 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\FileLocator;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidFixtureConfigurationException;
+use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidTemplateNameException;
 
 /**
  * This is the base class where the template's slots must be defined 
@@ -153,6 +154,12 @@ abstract class AlTemplateSlots
      */
     protected function setupSlots($themeName, $templateName)
     {
+        preg_match('/[^a-z]/', $templateName, $matches);
+        if(!empty($matches))
+        {
+            throw new InvalidTemplateNameException(sprintf('A template name must be made only by lower-case letters. Any other character is not valid. Please check your %s theme class.', get_class($this)));
+        }
+        
         $baseSlots = $this->retrieveSlotsFromFixtureFile($themeName, 'base');
         $templateSlots = $this->retrieveSlotsFromFixtureFile($themeName, $templateName);
         $fixturedSlots = array_merge($baseSlots, $templateSlots);
