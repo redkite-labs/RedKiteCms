@@ -199,16 +199,6 @@ class AlPageManagerTest extends TestCase
             $this->assertEquals('save() method requires at least one valid parameter, any one has been given', $e->getMessage());
         }
         
-        try 
-        {
-            $testAlPageManager->save(array('pageName' => 'fake name changed'));
-            $this->fail('->save() method should raise an exception when the passed parameter doesn\'t contains the languageId key' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires the following parameters: languageId. You must give languageId which is/are missing', $e->getMessage());
-        }
-        
         $pageAttributes = $testAlPageManager->get()->getAlPageAttributes(); 
         $languageId =  $pageAttributes[0]->getLanguageId();
         

@@ -230,12 +230,28 @@ class AlTemplateManager extends AlTemplateBase
         
         $this->templateSlots = new $templateSlotsClass();                
         $contents = $this->retrieveContents();
-        foreach($this->templateSlots->getSlots() as $slotName => $slot)
+        
+        $slots = $this->templateSlots->getSlots();
+        foreach($slots as $slotName => $slot)
         {
             $alContents = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
             $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alContents);
             
             $this->slotManagers[$slotName] = $slotManager;
+        }
+        
+        // Looks for existing slots on previous theme, not included in the theme in use
+        $orphanSlots = array_diff(array_keys($contents), array_keys($slots));
+        foreach($orphanSlots as $slotName)
+        {   
+            if($slotName != "")
+            {
+                $slot = new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot($slotName);
+                $alContents = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
+                $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alContents);
+
+                $this->slotManagers[$slotName] = $slotManager;
+            }
         }
     }
     

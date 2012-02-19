@@ -62,7 +62,7 @@ abstract class AlContentManagerBase
     protected function checkOnceValidParamExists(array $requiredParams, array $values)
     {
         $diff = array_diff_key($requiredParams, $values); 
-        if(count($diff) != count($values))
+        if(count($diff) != 0 && count($diff) != count($values))
         {
             throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
         }

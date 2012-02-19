@@ -41,6 +41,7 @@ class AlPageTree extends BaseAlPageTree
     protected $alPage = null;
     protected $alLanguage = null;
     protected $alTheme = null;
+    //protected $bridge = null;
 
     public function __construct(ContainerInterface $container)
     {
@@ -60,6 +61,11 @@ class AlPageTree extends BaseAlPageTree
     public function getAlTheme()
     {
         return $this->alTheme;
+    }
+    
+    public function getBridge()
+    {
+        return $this->bridge;
     }
 
     public function isCmsMode()
@@ -87,14 +93,13 @@ class AlPageTree extends BaseAlPageTree
 
             $this->alTheme = $alTheme;
             $this->setThemeName($this->alTheme->getThemeName());
-
+            
             $this->alLanguage = (null === $alLanguage) ? $this->setupLanguageFromSession() : $alLanguage;
             $this->alPage = (null === $alPage) ? $this->setupPageFromRequest() : $alPage;
 
             if(null === $this->alLanguage || null === $this->alPage) return null;
-
             $this->setTemplateName($this->alPage->getTemplateName());
-
+            
             $templateManager = new AlTemplateManager($this->container, $this->alPage, $this->alLanguage, $this->themeName, $this->templateName);
             $this->setContents($templateManager->slotsToArray(), true);
 
@@ -221,6 +226,17 @@ class AlPageTree extends BaseAlPageTree
         if($value != "" && !in_array($value, $this->externalStylesheets))
         {
             $this->externalStylesheets[] = $value;
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addJavascript($value)
+    {
+        if($value != "" && !in_array($value, $this->externalJavascripts))
+        {
+            $this->externalJavascripts[] = $value;
         }
     }
 }
