@@ -267,7 +267,7 @@ class ThemesController extends Controller
     protected function retrieveThemeInfo($dirName, $themeName)
     {
         $info = array('theme_title' => $themeName);
-        $fileName = \sprintf('%s/%s/data/info.yml', $dirName, $themeName);
+        $fileName = \sprintf('%s/%s/Resources/data/info.yml', $dirName, $themeName);
         
         if(file_exists($fileName))
         {

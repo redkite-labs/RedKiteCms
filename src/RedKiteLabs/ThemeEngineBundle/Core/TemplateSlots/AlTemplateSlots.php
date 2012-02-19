@@ -19,6 +19,7 @@ namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\FileLocator;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidFixtureConfigurationException;
 
 /**
  * This is the base class where the template's slots must be defined 
@@ -121,10 +122,16 @@ abstract class AlTemplateSlots
         return $slots;
     }
     
-    protected function loadFixtures($templateName)
+    /**
+     * Loads the fixtures for the given template
+     * 
+     * @param string $themeName     The theme name
+     * @param string $templateName  The template name
+     * @return array, null 
+     */
+    protected function loadFixtures($themeName, $templateName)
     {
-        //$fixturesFolder = AlToolkit::locateResource('@AlphaLemonThemeEngineBundle') . '/Themes/BusinessWebsiteThemeBundle/Resources/fixtures';
-        $fixturesFolder = __DIR__ . '/../../Themes/BusinessWebsiteThemeBundle/Resources/fixtures';
+        $fixturesFolder = __DIR__ . sprintf('/../../Themes/%s/Resources/fixtures', $themeName);
         $fileName = $templateName . '.yml';
         if(is_dir($fixturesFolder) && is_file($fixturesFolder . '/' . $fileName))
         {
@@ -134,31 +141,51 @@ abstract class AlTemplateSlots
             return $defaultContents;
         }
         
-        return array();
+        return null;
     }
     
-    protected function setupSlots($templateName)
+    /**
+     * Creates the template's slots
+     * 
+     * @param string $themeName     The theme name
+     * @param string $templateName  The template name
+     * @return array 
+     */
+    protected function setupSlots($themeName, $templateName)
     {
-        $repeatedSlots = $this->loadFixtures('base');
-        $templateSlots = $this->loadFixtures($templateName);
-        
-        if(!array_key_exists('slots', $repeatedSlots))
-        {
-            //throw
-        }
-        
-        if(!array_key_exists('slots', $templateSlots))
-        {
-            //throw
-        }
-        
-        $fixturedSlots = array_merge($repeatedSlots['slots'], $templateSlots['slots']);
+        $baseSlots = $this->retrieveSlotsFromFixtureFile($themeName, 'base');
+        $templateSlots = $this->retrieveSlotsFromFixtureFile($themeName, $templateName);
+        $fixturedSlots = array_merge($baseSlots, $templateSlots);
         
         $slots = array();
         foreach($fixturedSlots as $key => $params)
         {
             if('~' === $params) $params = null;
             $slots[$key] = new AlSlot($key, $params);
+        }
+        
+        return $slots;
+    }
+    
+    /**
+     * Parses the fixture file and returns the slots as array
+     * 
+     * @param string $themeName     The theme name
+     * @param string $templateName  The template name
+     * @return array
+     */
+    private function retrieveSlotsFromFixtureFile($themeName, $templateName)
+    {
+        $slots = array();
+        $repeatedSlots = $this->loadFixtures($themeName, $templateName);
+        if(null !== $repeatedSlots) { 
+            if(!array_key_exists('slots', $repeatedSlots)) {
+                throw new InvalidFixtureConfigurationException(sprintf('The fixture file that defines the template slots must start with slots. Check your %s.yml file', $fileName));
+            }
+            else
+            {
+                $slots = $repeatedSlots['slots'];
+            }
         }
         
         return $slots;
