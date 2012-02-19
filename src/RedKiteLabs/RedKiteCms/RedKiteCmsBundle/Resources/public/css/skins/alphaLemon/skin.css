@@ -421,15 +421,27 @@
   margin: 0;
   padding: 2px;
 }
+#al_themes td {
+  padding: 2px;
+}
 #al_themes h1, #al_themes h2 {
   margin: 0;
   padding: 0;
-  padding-bottom: 6px;
+}
+#al_themes h1 {
+  font: bold 24px/28px Arial, Verdana, Helvetica, sans-serif;
+}
+#al_themes h2 {
+  font: bold 20px/24px Arial, Verdana, Helvetica, sans-serif;
+  margin-top: 10px;
 }
 #al_themes .link_button {
   padding: 4px 14px 0;
   text-decoration: none;
   margin-right: 4px;
+}
+#al_themes .al_theme_panel_section {
+  max-height: 380px;
 }
 
 #al_theme_fixer {

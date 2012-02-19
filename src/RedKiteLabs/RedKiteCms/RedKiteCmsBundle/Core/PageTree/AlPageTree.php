@@ -228,4 +228,15 @@ class AlPageTree extends BaseAlPageTree
             $this->externalStylesheets[] = $value;
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addJavascript($value)
+    {
+        if($value != "" && !in_array($value, $this->externalJavascripts))
+        {
+            $this->externalJavascripts[] = $value;
+        }
+    }
 }
