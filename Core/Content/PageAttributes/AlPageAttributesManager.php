@@ -231,92 +231,102 @@ class AlPageAttributesManager extends AlContentManagerBase implements AlContentM
      * Edits the managed page attributes object
      * 
      * @param array $values
-     * @return type 
+     * @return Boolean 
      */
     protected function edit(array $values = array())
     {
         try
         {
             $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
+            if(null !== $dispatcher) {
                 $event = new  Content\PageAttributes\BeforePageAttributesEditingEvent($this, $values);
                 $dispatcher->dispatch(PageAttributesEvents::BEFORE_EDIT_PAGE_ATTRIBUTES, $event);
 
-                if($event->isAborted())
-                {
+                if($event->isAborted()) {
                     throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The page attributes editing action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
                 }
 
-                if($values !== $event->getValues())
-                {
+                if($values !== $event->getValues()) {
                     $values = $event->getValues();
                 }
             }
             
-            if(empty($values))
-            {
+            if(empty($values)) {
                 throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'Any value has been given: nothing to update'));
             }
             
-            if(0 === count(array_intersect_key(array('permalink' => '', 'title' => '', 'description' => '', 'keywords' => ''), $values)))
-            {
+            if(0 === count(array_intersect_key(array('permalink' => '', 'title' => '', 'description' => '', 'keywords' => ''), $values))) {
                 return null;
             }   
             
+            $mustSave = false;
             $oldPermalink = $this->pageAttributes->getPermalink();
             $isPermalinkChanged = (isset($values['permalink']) && $values['permalink'] != $oldPermalink) ? true :false;
             
-            $rollBack = false;
-            $this->connection->beginTransaction();
-            
-            if(isset($values['permalink'])) $this->pageAttributes->setPermalink(AlToolkit::slugify($values["permalink"]));
-            if(isset($values['title'])) $this->pageAttributes->setMetaTitle($values["title"]);
-            if(isset($values['description'])) $this->pageAttributes->setMetaDescription($values["description"]);
-            if(isset($values['keywords'])) $this->pageAttributes->setMetaKeywords($values["keywords"]);
-            $res = $this->pageAttributes->save();
-            if ($this->pageAttributes->isModified() && $res == 0)
-            {
-                $rollBack = true;
+            if(isset($values['permalink']) && $values['permalink'] != $this->pageAttributes->getPermalink()) {
+                $this->pageAttributes->setPermalink(AlToolkit::slugify($values["permalink"]));
+                $mustSave = true;
             }
             
-            // Changes the old permalink for all the contents where the old permalink exists
-            if(!$rollBack && $isPermalinkChanged)
-            {
-                $alContents = AlContentQuery::create()->setContainer($this->container)->fromHtmlContent($oldPermalink)->find();
-                foreach($alContents as $alContent)
-                {
-                    $htmlContent = preg_replace('/' . $oldPermalink . '/s', $values["permalink"], $alContent->getHtmlContent());
-                    $alContent->setHtmlContent($htmlContent);
-                    $res = $alContent->save();
-                    if ($alContent->isModified() && $res == 0)
-                    {
-                        $rollBack = true;
-                        break;
+            if(isset($values['title']) && $values['title'] != $this->pageAttributes->getMetaTitle()) {
+                $this->pageAttributes->setMetaTitle($values["title"]);
+                $mustSave = true;
+            }
+            
+            if(isset($values['description']) && $values['description'] != $this->pageAttributes->getMetaDescription()) {
+                $this->pageAttributes->setMetaDescription($values["description"]);
+                $mustSave = true;
+            }
+            
+            if(isset($values['keywords']) && $values['keywords'] != $this->pageAttributes->getMetaKeywords()) {
+                $this->pageAttributes->setMetaKeywords($values["keywords"]);
+                $mustSave = true;
+            }
+            
+            // Saves just when needed to avoid conflicts with versionable behavior
+            if($mustSave) {
+                $rollBack = false;
+                $this->connection->beginTransaction();
+
+                $res = $this->pageAttributes->save();
+                if ($this->pageAttributes->isModified() && $res == 0) {
+                    $rollBack = true;
+                }
+
+                // Changes the old permalink for all the contents where the old permalink exists
+                if(!$rollBack && $isPermalinkChanged) {
+                    $alContents = AlContentQuery::create()->setContainer($this->container)->fromHtmlContent($oldPermalink)->find();
+                    foreach($alContents as $alContent) {
+                        $htmlContent = preg_replace('/' . $oldPermalink . '/s', $values["permalink"], $alContent->getHtmlContent());
+                        $alContent->setHtmlContent($htmlContent);
+                        $res = $alContent->save();
+                        if ($alContent->isModified() && $res == 0) {
+                            $rollBack = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!$rollBack)
-            {
-                $this->connection->commit();
-                
-                if(null !== $dispatcher)
-                {
-                    $event = new  Content\PageAttributes\AfterPageAttributesEditedEvent($this);
-                    $dispatcher->dispatch(PageAttributesEvents::AFTER_EDIT_PAGE_ATTRIBUTES, $event);
+                if (!$rollBack) {
+                    $this->connection->commit();
+
+                    if(null !== $dispatcher) {
+                        $event = new  Content\PageAttributes\AfterPageAttributesEditedEvent($this);
+                        $dispatcher->dispatch(PageAttributesEvents::AFTER_EDIT_PAGE_ATTRIBUTES, $event);
+                    }
+
+                    return true;
                 }
-                
+                else {
+                    $this->connection->rollback();
+                    return false;
+                }
+            }
+            else {
                 return true;
             }
-            else
-            {
-                $this->connection->rollback();
-                return false;
-            }
         }
-        catch(\Exception $e)
-        {
+        catch(\Exception $e) {
             throw $e;
         }
     }
