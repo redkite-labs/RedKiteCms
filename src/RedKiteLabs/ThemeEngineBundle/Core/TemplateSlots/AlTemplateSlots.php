@@ -28,7 +28,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidFixtureConfigurationExcep
  */
 abstract class AlTemplateSlots
 {
-    private $slots;
+    private $slots = array();
     private $defaultSlots = array('header' => 'page',
                                 'content' => 'page',
                                 'footer' => 'page',
