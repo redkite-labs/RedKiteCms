@@ -1,0 +1,25 @@
+{
+  "name": "alphalemon/alphalemon-cms-bundle",
+  "description": "AlphaLemon CMS is an Open Source Content Management System Application, built on top of Symfony2 Framework, providing an easy an intuitive user-interface, to improve the website's content management experience",
+  "keywords": ["alphalemon", "cms"],
+  "homepage": "http://alphalemon.com",
+  "type": "symfony-bundle",
+  "license": "GPL 2.0",
+  "authors": [
+    {
+      "name": "AlphaLemon",
+      "email": "info@alphalemon.com"
+    }
+  ],
+  "require": {
+    "symfony/symfony":  ">=2.0.10,<2.1.0-dev",
+    "propel/propel-bundle": "2.0-dev",
+    "alphalemon/theme-engine-bundle": "master-dev",
+    "alphalemon/frontendbundle": "master-dev",
+    "alphalemon/elfinder-bundle": "master-dev"
+  },
+  "autoload": {
+    "psr-0": { "AlphaLemon\\AlphaLemonCmsBundle": ""
+    }
+  }
+}
