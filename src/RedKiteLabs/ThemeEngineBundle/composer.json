@@ -12,10 +12,10 @@
     }
   ],
   "require": {
-    "symfony/symfony":  ">=2.0.10,<2.1.0-dev",
+    "symfony/symfony":  ">=2.0.10,<dev-master",
     "propel/propel-bundle": "2.0-dev",
-    "alphalemon/al-pagetree-bundle": "master-dev",
-    "alphalemon/al-valum-uploader-bundle": "master-dev"
+    "alphalemon/al-pagetree-bundle": "dev-master",
+    "alphalemon/al-valum-uploader-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": "",
