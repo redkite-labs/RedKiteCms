@@ -12,11 +12,11 @@
     }
   ],
   "require": {
-    "symfony/symfony":  ">=2.0.10,<2.1.0-dev",
+    "symfony/symfony":  ">=2.0.10,<dev-master",
     "propel/propel-bundle": "2.0-dev",
-    "alphalemon/theme-engine-bundle": "master-dev",
-    "alphalemon/frontendbundle": "master-dev",
-    "alphalemon/elfinder-bundle": "master-dev"
+    "alphalemon/theme-engine-bundle": "dev-master",
+    "alphalemon/frontendbundle": "dev-master",
+    "alphalemon/elfinder-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\AlphaLemonCmsBundle": ""
