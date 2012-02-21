@@ -294,7 +294,7 @@ class AlPageManagerTest extends TestCase
         
         $this->assertEquals($pageContents, count($repeated["page"]));
         $this->assertEquals($languageContents, count($repeated["language"]));
-        //$this->assertEquals($siteContents, count($repeated["site"]));        
+        $this->assertEquals($siteContents, count($repeated["site"]));        
     }
     
     private function retrieveRepeatedContentsByTemplate($container, $templateName)
