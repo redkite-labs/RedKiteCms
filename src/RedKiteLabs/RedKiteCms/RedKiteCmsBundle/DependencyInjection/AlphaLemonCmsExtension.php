@@ -46,6 +46,10 @@ class AlphaLemonCmsExtension extends Extension
             $container->setParameter('alcms.skin', $config['skin']);
         }
         
+        if (isset($config['web_folder_name'])) {
+            $container->setParameter('alcms.web_folder_name', $config['web_folder_name']);
+        }
+        
         if (isset($config['page_blocks'])) {
             $this->mergeArrayParameter($container, $config, 'al_cms.page_blocks', 'page_blocks'); 
         }
