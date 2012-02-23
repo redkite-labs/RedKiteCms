@@ -82,8 +82,9 @@ class TinyMCEController extends Controller
 
     private function getLocatedAssetsFolder()
     {
-        return AlToolkit::locateResource($this->container,  '@AlphaLemonCmsBundle') . 'Resources/public/' . $this->container->getParameter('alcms.upload_assets_dir');        
-        return AlToolkit::locateResource($this->container, $this->container->getParameter('al.deploy_bundle_assets_base_dir'));
+        $bundleFolder = $this->container->getParameter('kernel.root_dir') . '/../web/' . AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+        
+        return AlToolkit::normalizePath($bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir'));
     }
 }
 
