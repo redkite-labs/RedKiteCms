@@ -5,6 +5,7 @@
 
     <parameters>
         <parameter key="alcms.skin">alphaLemon</parameter>
+        <parameter key="alcms.web_folder_name">web</parameter>
 
         <!-- Hardcoded in twig template until assetic could load assets dinamically -->
         <parameter key="alcms.stylesheets" type="collection">            
