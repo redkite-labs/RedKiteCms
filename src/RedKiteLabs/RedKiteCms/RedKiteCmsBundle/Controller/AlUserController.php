@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserQuery;
@@ -36,16 +37,91 @@ class AlUserController extends Controller
 {
     public function listAction()
     {
+        return $this->loadUsers();
+    }
+    
+    public function showUserAction()
+    {
+        $request = $this->getRequest();
+        $user = (null !== $request->get('id')) ? AlUserQuery::create()->findPk($request->get('id')) : new AlUser();
+        $roles = \AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery::create()->find();
+        if(null === $user)
+        {
+            $this->container->get('session')->setFlash('error', 'The user you trying to edit does not exists');
+            
+            return $this->redirect($this->generateUrl('_user_list'));
+        }
+        
+        $form = $this->createForm(new AlUserType(), $user);
+        
+        return $this->render('AlphaLemonCmsBundle:Security:user.html.twig', array(
+            'form' => $form->createView(), 
+            'roles' => $roles,
+        ));
+    }
+    
+    public function saveUserAction()
+    {        
+        try
+        {
+            $request = $this->getRequest();
+            $params = array();
+            $data = explode('&', $request->get('roles'));
+            foreach($data as $value) {
+                $tmp = preg_split('/=/', $value);
+                if($tmp[0] == 'al_role') {
+                    $params[$tmp[0]][] = $tmp[1];
+                }
+                else {
+                    $params[$tmp[0]] = $tmp[1];
+                }
+            }
+
+            if(empty($params['al_role'])) {
+                $response = new Response();
+                $response->setStatusCode('404');
+                return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'Any role has been choosen'), $response);
+            }
+
+
+            $user = (null !== $request->get('id')) ? AlUserQuery::create()->findPk($request->get('id')) : new AlUser();
+            $user->setUsername($request->get('al_username'));
+            $user->setPassword($request->get('al_password'));
+            $user->setEmail($request->get('al_email'));
+            $user->save();
+
+            foreach($params['al_role'] as $roleId) {
+                $userRole = new AlUserRole();
+                $userRole->setUserId($user->getId());
+                $userRole->setRoleId($roleId);
+                $userRole->save();
+            }
+            
+            return $this->loadUsers();
+        }
+        catch(\PropelException $e)
+        {
+            $response = new Response();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
+    }
+    
+    private function loadUsers()
+    {
         $users = AlUserQuery::create()->find();
         
         return $this->render('AlphaLemonCmsBundle:Security:list.html.twig', array(
             'users' => $users,
         ));
     }
-    
+
+
+    /*
     public function saveAction($id)
     {        
         $user = ($id > 0) ? AlUserQuery::create()->findPk($id) : new AlUser();
+        $roles = \AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery::create()->find();
         if(null === $user)
         {
             $this->container->get('session')->setFlash('error', 'The user you trying to edit does not exists');
@@ -58,19 +134,22 @@ class AlUserController extends Controller
         $request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
+            $form->bindRequest($request->get('user'));
 
             if ($form->isValid()) {
                 $user->save();
+                
+               
 
                 return $this->redirect($this->generateUrl('_user_list'));
             }
         }
         
         return $this->render('AlphaLemonCmsBundle:Security:user.html.twig', array(
-            'form' => $form->createView(),
+            'form' => $form->createView(), 
+            'roles' => $roles,
         ));
-    }
+    }*/
     
     public function deleteAction($id)
     {

@@ -9,10 +9,14 @@
         <default key="_locale">en</default>
     </route>
     
-    <route id="_save_user" pattern="/{_locale}/al_saveUser/{id}">
-        <default key="_controller">AlphaLemonCmsBundle:AlUser:save</default>
+    <route id="_show_user" pattern="/{_locale}/al_showUser">
+        <default key="_controller">AlphaLemonCmsBundle:AlUser:showUser</default>
         <default key="_locale">en</default>
-        <default key="id">0</default>
+    </route>
+    
+    <route id="_save_user" pattern="/{_locale}/al_saveUser">
+        <default key="_controller">AlphaLemonCmsBundle:AlUser:saveUser</default>
+        <default key="_locale">en</default>
     </route>
     
     <route id="_delete_user" pattern="/{_locale}/al_deleteUser/{id}">

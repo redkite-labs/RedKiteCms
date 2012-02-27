@@ -24,7 +24,7 @@ class AlUser implements UserInterface
      * {@inheritDoc}
      */
     public function getRoles()
-    {
+    {   
         $roles = array();
         foreach($this->getUser()->getAlUserRoles() as $role) {
             $roles[] = $role->getAlRole()->getRole();
