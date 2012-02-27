@@ -95,6 +95,9 @@
     <unique name="I_USER">
       <unique-column name="id" />
     </unique>
+    <unique name="I_USERNAME">
+      <unique-column name="username" />
+    </unique>
   </table>
   
   <table name="al_role" idMethod="native">
@@ -102,6 +105,9 @@
     <column name="role" type="VARCHAR" size="128" required="true" />
     <unique name="I_ROLE">
       <unique-column name="id" />
+    </unique>
+    <unique name="I_ROLENAME">
+      <unique-column name="role" />
     </unique>
   </table>
   
