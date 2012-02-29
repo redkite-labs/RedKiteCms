@@ -19,8 +19,13 @@
         <default key="_locale">en</default>
     </route>
     
-    <route id="_delete_user" pattern="/{_locale}/al_deleteUser/{id}">
-        <default key="_controller">AlphaLemonCmsBundle:AlUser:delete</default>
+    <route id="_delete_user" pattern="/{_locale}/al_deleteUser">
+        <default key="_controller">AlphaLemonCmsBundle:AlUser:deleteUser</default>
+        <default key="_locale">en</default>
+    </route>
+    
+    <route id="_roles_list" pattern="/{_locale}/al_rolesList">
+        <default key="_controller">AlphaLemonCmsBundle:AlUser:list</default>
         <default key="_locale">en</default>
     </route>
 </routes>

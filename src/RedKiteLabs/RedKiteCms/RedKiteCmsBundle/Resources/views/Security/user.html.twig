@@ -15,36 +15,32 @@
         {% else %}
             {% set class = 'alternate-row' %}
         {% endif %}
+        
+        {% set checked = "" %}
+        {% if(role.id in assigned_roles) %}
+        {% set checked = "checked" %}
+        {% endif %}
+            
         <div class="{{ class }}">
-            <div class="al_float_left" style="padding:4px;"><input id="cb_{{ role.id }}" value="{{ role.id }}" name="al_role" type="checkbox" class="input" value="{{ role.id }}" /></div>
+            <div class="al_float_left" style="padding:4px;"><input id="cb_{{ role.id }}" value="{{ role.id }}" name="al_role" type="checkbox" class="input" value="{{ role.id }}" {{ checked }} /></div>
             <div class="al_float_left" style="padding:4px;">{{ role.role }}</div>  
             <div style="clear:left;"></div>
         </div>    
         {% set i  = i + 1 %}
     {% endfor %}
     </div>
-        {#
-    <table>
-        <tr>
-          <td>{{ form_label(form.username, "Username") }}</td>
-          <td>{{ form_errors(form.username) }} {{ form_widget(form.username, { 'attr': {'class' : 'input panel_input', 'title': "The name of the page. It must be unique"}}) }} </td>
-        </tr>
-        <tr>
-          <td>{{ form_label(form.al_roles, "Username") }}</td>
-          <td>{{ form_errors(form.al_roles) }} {{ form_widget(form.al_roles, { 'attr': {'class' : 'input panel_input', 'title': "The name of the page. It must be unique"}}) }} </td>
-        </tr>
-    </table>#}
-
-    
 </form>
-<input id="al_save_user" type="submit" />
+
+<a href="#" id="al_save_user">Save</a>
+<a href="#" class="al_list_users">List</a>
 
 <script>
     $('#al_save_user').click(function() {
       $.ajax({
           type: 'POST',
           url: frontController + $('#al_available_languages').val() + '/al_saveUser',
-          data: {'al_username' : $('#al_user_username').val(),
+          data: {'id' : $('#al_user_id').val(),
+                 'al_username' : $('#al_user_username').val(),
                  'al_password' : $('#al_user_password').val(),
                  'al_email' : $('#al_user_email').val(),
                  'roles' : $('#al_roles_form').serialize()
@@ -56,6 +52,7 @@
           success: function(html)
           {
             $('#al_dialog').html(html);
+            ObserveUsers();
           },
           error: function(err)
           {
@@ -69,4 +66,6 @@
       
       return false;
     });
+    
+    $('.al_list_users').ListUsers();
 </script>

@@ -127,34 +127,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $('#al_open_users_manager').click(function()
-    {
-        $.ajax({
-            type: 'GET',
-            url: frontController + $('#al_available_languages').val() + '/al_showUser',
-            data: {},
-            beforeSend: function()
-            {
-                $('body').AddAjaxLoader();
-            },
-            success: function(html)
-            {
-                $('#al_dialog').html(html);
-                $('#al_dialog').dialog('open');
-            },
-            error: function(err)
-            {
-                $('#al_dialog').html(err.responseText);
-                $('#al_dialog').dialog('open');
-            },
-            complete: function()
-            {
-                $('body').RemoveAjaxLoader();
-            }
-        });
-        
-        return false;
-    });
+    $('#al_open_users_manager').ListUsers();
     
     $('#al_open_pages_panel').click(function()
     {
