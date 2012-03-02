@@ -1,0 +1,47 @@
+
+    
+
+<form id="al_role_form">
+    <div id="al_role_data">
+    {{ form_widget(form) }}
+    </div>
+</form>
+
+<a href="#" id="al_save_user">Save</a>
+<a href="#" class="al_list_users">List</a>
+
+<script>
+    $('#al_save_role').click(function() {
+      $.ajax({
+          type: 'POST',
+          url: frontController + $('#al_available_languages').val() + '/al_saveUser',
+          data: {'id' : $('#al_user_id').val(),
+                 'al_username' : $('#al_user_username').val(),
+                 'al_password' : $('#al_user_password').val(),
+                 'al_email' : $('#al_user_email').val(),
+                 'roles' : $('#al_roles_form').serialize()
+             },
+          beforeSend: function()
+          {
+            $('body').AddAjaxLoader();
+          },
+          success: function(html)
+          {
+            $('#al_dialog').html(html);
+            ObserveUsers();
+          },
+          error: function(err)
+          {
+            $('#al_error').html(err.responseText);
+          },
+          complete: function()
+          {
+            $('body').RemoveAjaxLoader();
+          }
+      });
+      
+      return false;
+    });
+    
+    $('.al_list_users').ListUsers();
+</script>

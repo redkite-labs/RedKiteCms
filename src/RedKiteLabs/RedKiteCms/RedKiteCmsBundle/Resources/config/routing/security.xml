@@ -5,27 +5,32 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
         
     <route id="_user_list" pattern="/{_locale}/al_userList">
-        <default key="_controller">AlphaLemonCmsBundle:AlUser:list</default>
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:listUsers</default>
         <default key="_locale">en</default>
     </route>
     
     <route id="_show_user" pattern="/{_locale}/al_showUser">
-        <default key="_controller">AlphaLemonCmsBundle:AlUser:showUser</default>
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:showUser</default>
         <default key="_locale">en</default>
     </route>
     
     <route id="_save_user" pattern="/{_locale}/al_saveUser">
-        <default key="_controller">AlphaLemonCmsBundle:AlUser:saveUser</default>
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:saveUser</default>
         <default key="_locale">en</default>
     </route>
     
     <route id="_delete_user" pattern="/{_locale}/al_deleteUser">
-        <default key="_controller">AlphaLemonCmsBundle:AlUser:deleteUser</default>
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:deleteUser</default>
         <default key="_locale">en</default>
     </route>
     
     <route id="_roles_list" pattern="/{_locale}/al_rolesList">
-        <default key="_controller">AlphaLemonCmsBundle:AlUser:list</default>
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:listRoles</default>
+        <default key="_locale">en</default>
+    </route>
+    
+    <route id="_show_role" pattern="/{_locale}/al_showRole">
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:showRole</default>
         <default key="_locale">en</default>
     </route>
 </routes>

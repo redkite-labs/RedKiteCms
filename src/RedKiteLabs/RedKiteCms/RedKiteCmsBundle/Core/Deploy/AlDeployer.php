@@ -184,7 +184,7 @@ abstract class AlDeployer
             throw new \InvalidArgumentException(sprintf('The %s cannot be located. Check it is correctly enabled in your AppKernel class', $this->deployBundle));
         }
         
-        $this->resourcesFolder = $deployBundle . $this->baseTargetResourcesDir; echo $this->resourcesFolder;exit;
+        $this->resourcesFolder = $deployBundle . $this->baseTargetResourcesDir; 
         $this->dataFolder = $this->resourcesFolder . "/" . $this->baseDataDir; 
         $this->translationsFolder = $this->resourcesFolder . "/" . $this->baseTranslationsDir;
         $this->assetsFolder = AlToolkit::retrieveBundleWebFolder($this->container, $this->deployBundle);     
