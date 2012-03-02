@@ -33,4 +33,14 @@
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:showRole</default>
         <default key="_locale">en</default>
     </route>
+    
+    <route id="_save_role" pattern="/{_locale}/al_saveRole">
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:saveRole</default>
+        <default key="_locale">en</default>
+    </route>
+    
+    <route id="_delete_role" pattern="/{_locale}/al_deleteRole">
+        <default key="_controller">AlphaLemonCmsBundle:AlSecurity:deleteRole</default>
+        <default key="_locale">en</default>
+    </route>
 </routes>

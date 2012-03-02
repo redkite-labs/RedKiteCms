@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
@@ -156,6 +157,34 @@ class AlSecurityController extends Controller
         }
         catch(\PropelException $e)
         {
+            $response = new Responsense();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
+    }
+    
+    public function saveRoleAction()
+    {        
+        try
+        {
+            $request = $this->getRequest();
+            
+            $roleName = strtoupper($request->get('al_rolename'));
+            if(strpos($roleName, 'ROLE_') === false )
+            {
+                $response = new Response();
+                $response->setStatusCode('404');
+                return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => "The role must start with the ROLE_ prefix. Operation aborted."), $response);
+            }
+            
+            $role = (null !== $request->get('id') && 0 != $request->get('id')) ? AlRoleQuery::create()->findPk($request->get('id')) : new AlRole();
+            $role->setRole($request->get('al_rolename'));
+            $role->save();
+            
+            return $this->loadRoles();
+        }
+        catch(\PropelException $e)
+        {
             $response = new Response();
             $response->setStatusCode('404');
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
@@ -175,6 +204,28 @@ class AlSecurityController extends Controller
             }
             
             return $this->loadUsers();
+        }
+        catch(\PropelException $e)
+        {
+            $response = new Response();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
+    }
+    
+    public function deleteRoleAction()
+    {        
+        try
+        {
+            $request = $this->getRequest();
+            if (null !== $request->get('id'))
+            {
+                $user = AlRoleQuery::create()->findPk($request->get('id'));
+                $user->setToDelete(1);
+                $user->save();
+            }
+            
+            return $this->loadRoles();
         }
         catch(\PropelException $e)
         {

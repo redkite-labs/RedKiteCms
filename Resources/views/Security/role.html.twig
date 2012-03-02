@@ -7,19 +7,17 @@
     </div>
 </form>
 
-<a href="#" id="al_save_user">Save</a>
-<a href="#" class="al_list_users">List</a>
+<a href="#" id="al_save_role">Save</a>
+<a href="#" class="al_list_roles">List</a>
+<div id="al_error"></div>
 
 <script>
     $('#al_save_role').click(function() {
       $.ajax({
           type: 'POST',
-          url: frontController + $('#al_available_languages').val() + '/al_saveUser',
-          data: {'id' : $('#al_user_id').val(),
-                 'al_username' : $('#al_user_username').val(),
-                 'al_password' : $('#al_user_password').val(),
-                 'al_email' : $('#al_user_email').val(),
-                 'roles' : $('#al_roles_form').serialize()
+          url: frontController + $('#al_available_languages').val() + '/al_saveRole',
+          data: {'id' : $('#al_role_id').val(),
+                 'al_rolename' : $('#al_role_role').val(),
              },
           beforeSend: function()
           {
@@ -28,7 +26,7 @@
           success: function(html)
           {
             $('#al_dialog').html(html);
-            ObserveUsers();
+            ObserveSecurity();
           },
           error: function(err)
           {
@@ -43,5 +41,5 @@
       return false;
     });
     
-    $('.al_list_users').ListUsers();
+    $('.al_list_roles').ListRoles();
 </script>
