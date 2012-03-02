@@ -176,9 +176,19 @@ function showRole(id)
 
 function deleteUser(id)
 {
-    if(confirm("Are you sure to remove the user?"))
+    if(confirm("Are you sure you want to remove the user?"))
     {
         remove('al_deleteUser', id);
+    }
+
+    return false;
+}
+
+function deleteRole(id)
+{
+    if(confirm("Are you sure you want to remove the role?"))
+    {
+        remove('al_deleteRole', id);
     }
 
     return false;
@@ -247,5 +257,4 @@ function ObserveSecurity()
     $('.al_add_role').unbind().AddRole();
     $('.al_edit_role').unbind().EditRole();
     $('.al_delete_role').unbind().DeleteRole();
-    
 }
