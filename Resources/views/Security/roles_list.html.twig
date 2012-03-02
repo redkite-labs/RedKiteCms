@@ -1,0 +1,6 @@
+<table>
+{% for role in roles %}
+    <tr><td>{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">Edit</a></td><td><a href="#" class="al_delete_role" rel="{{ role.id }}">Delete</a></td></tr>
+{% endfor %}
+    <tr><td><a href="#" class="al_add_role">New</a></td><td><a href="#" class="al_list_users">Users</a></td></tr>
+</table>

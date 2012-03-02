@@ -8,5 +8,5 @@
 {% for user in users %}
     <tr><td>{{ user.username }}</td><td>{{ user.email }}</td><td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td><td><a href="#" class="al_delete_user" rel="{{ user.id }}">Delete</a></td></tr>
 {% endfor %}
-    <tr><td><a href="#" class="al_add_user">New</a></td><td><a href="#" class="al_roles">Roles</a></td></tr>
+    <tr><td><a href="#" class="al_add_user">New</a></td><td><a href="#" class="al_list_roles">Roles</a></td></tr>
 </table>

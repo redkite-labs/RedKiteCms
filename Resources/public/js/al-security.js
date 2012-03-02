@@ -48,6 +48,39 @@
         });
     };
     
+    $.fn.AddRole = function()
+    {
+        this.each(function() 
+        {
+            $(this).click(function()
+            {
+                showRole();
+            });
+        });
+    };
+    
+    $.fn.EditRole = function()
+    {
+        this.each(function() 
+        {
+            $(this).click(function()
+            {
+                showRole($(this).attr('rel'));
+            });
+        });
+    };
+    
+    $.fn.DeleteRole = function()
+    {
+        this.each(function() 
+        {
+            $(this).click(function()
+            {
+                deleteRole($(this).attr('rel'));
+            });
+        });
+    };
+    
     $.fn.ListUsers = function()
     {
         this.List('al_userList');
@@ -76,7 +109,7 @@
                     {
                         $('#al_dialog').html(html);
                         $('#al_dialog').dialog('open');
-                        ObserveUsers();
+                        ObserveSecurity();
                     },
                     error: function(err)
                     {
@@ -96,6 +129,7 @@
         
 })($);
 
+/*
 function showUser(id)
 {
     if(id == null) id = 0;
@@ -122,42 +156,96 @@ function showUser(id)
     });
 
     return false;
+}*/
+
+function showUser(id)
+{
+    if(id == null) id = 0;
+    show('al_showUser', id);
+    
+    return false;
+}
+
+function showRole(id)
+{
+    if(id == null) id = 0;
+    show('al_showRole', id);
+    
+    return false;
 }
 
 function deleteUser(id)
 {
     if(confirm("Are you sure to remove the user?"))
     {
-        $.ajax({
-          type: 'GET',
-          url: frontController + $('#al_available_languages').val() + '/al_deleteUser',
-          data: {'id' : id },
-          beforeSend: function()
-          {
-            $('body').AddAjaxLoader();
-          },
-          success: function(html)
-          {
-            $('#al_dialog').html(html);
-            ObserveUsers();
-          },
-          error: function(err)
-          {
-            $('#al_error').html(err.responseText);
-          },
-          complete: function()
-          {
-            $('body').RemoveAjaxLoader();
-          }
-        });
+        remove('al_deleteUser', id);
     }
 
     return false;
 }
 
-function ObserveUsers()
+function show(route, id)
 {
+    $.ajax({
+      type: 'GET',
+      url: frontController + $('#al_available_languages').val() + '/' + route,
+      data: {'id' : id },
+      beforeSend: function()
+      {
+        $('body').AddAjaxLoader();
+      },
+      success: function(html)
+      {
+        $('#al_dialog').html(html);
+      },
+      error: function(err)
+      {
+        $('#al_error').html(err.responseText);
+      },
+      complete: function()
+      {
+        $('body').RemoveAjaxLoader();
+      }
+    });
+}
+
+function remove(route, id)
+{
+    $.ajax({
+      type: 'GET',
+      url: frontController + $('#al_available_languages').val() + '/' + route,
+      data: {'id' : id },
+      beforeSend: function()
+      {
+        $('body').AddAjaxLoader();
+      },
+      success: function(html)
+      {
+        $('#al_dialog').html(html);
+        ObserveSecurity();
+      },
+      error: function(err)
+      {
+        $('#al_error').html(err.responseText);
+      },
+      complete: function()
+      {
+        $('body').RemoveAjaxLoader();
+      }
+    });
+}
+
+function ObserveSecurity()
+{
+    $('.al_list_roles').unbind().ListRoles();
+    $('.al_list_users').unbind().ListUsers();
+    
     $('.al_add_user').unbind().AddUser();
     $('.al_edit_user').unbind().EditUser();
     $('.al_delete_user').unbind().DeleteUser();
+    
+    $('.al_add_role').unbind().AddRole();
+    $('.al_edit_role').unbind().EditRole();
+    $('.al_delete_role').unbind().DeleteRole();
+    
 }
