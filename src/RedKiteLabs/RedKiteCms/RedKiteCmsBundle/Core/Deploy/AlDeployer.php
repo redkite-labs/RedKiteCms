@@ -61,7 +61,7 @@ abstract class AlDeployer
     protected $cmsUploadFolder;
     protected $deployBundleAssetsFolder;
                 
-    private $assetsFolder = null;
+    protected $assetsFolder = null;
     
 
     /**
@@ -211,7 +211,8 @@ abstract class AlDeployer
     {
         $assetsFolder = $this->assetsFolder;
         $cmsAssetsFolder = str_replace('/', '\/', $this->cmsWebBundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir'));
-        
+        //echo preg_replace_callback('/(.*?)(' . $cmsAssetsFolder . ')/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder;}, $content)."<br>";
+        //return preg_replace_callback('/(.*?)(' . $cmsAssetsFolder . ')/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder;}, $content);
         return preg_replace_callback('/(.*\<img.*?src=["|\']\/)(' . $cmsAssetsFolder . ')(.*?["|\'])/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder.$matches[3];}, $content);
     }
         
