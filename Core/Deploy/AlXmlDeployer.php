@@ -50,7 +50,7 @@ class AlXmlDeployer extends AlDeployer
         {
             foreach($contents as $content)
             {
-                $slot = $xml->body->contents->addChild('slot', urlencode($content['HtmlContent']));
+                $slot = $xml->body->contents->addChild('slot', urlencode($this->setImagesPathForProduction($content['HtmlContent'])));
                 $slot->addAttribute('name', $slotName);
             }
         }

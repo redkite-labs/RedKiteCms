@@ -323,7 +323,6 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
             $this->checkEmptyParams($values);
             
-            
             $idLanguage = 0;
             $attributeParams = array('permalink', 'title', 'description', 'keywords');
             if(count(array_intersect($attributeParams, $values)) > 0)
