@@ -177,7 +177,8 @@ abstract class AlDeployer
      */
     protected function setup()
     {    
-        $this->cmsBundleFolder = AlToolkit::locateResource($this->container, '@AlphaLemonCmsBundle');
+        $this->cmsWebBundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+        $this->cmsBundleFolder = $this->container->getParameter('kernel.root_dir') . '/../web/' . $this->cmsWebBundleFolder;//echo $this->cmsBundleFolder;exit;
         $this->deployBundle = $this->baseDeployBundle;
         if(false === $deployBundle = AlToolkit::locateResource($this->container, $this->deployBundle))
         {
@@ -189,8 +190,8 @@ abstract class AlDeployer
         $this->translationsFolder = $this->resourcesFolder . "/" . $this->baseTranslationsDir;
         $this->assetsFolder = AlToolkit::retrieveBundleWebFolder($this->container, $this->deployBundle);     
         
-        $this->cmsUploadFolder = $this->cmsBundleFolder . $this->baseCmsResourcesDir . '/public/' . $this->container->getParameter('alcms.upload_assets_dir');
-        $this->deployBundleAssetsFolder = $this->resourcesFolder . '/public/'; 
+        $this->cmsUploadFolder = $this->cmsBundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir'); 
+        $this->deployBundleAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../web/' . $this->assetsFolder; 
     }
 
     /**
@@ -206,6 +207,14 @@ abstract class AlDeployer
         AlToolkit::executeCommand($this->container->get('kernel'), 'cache:clear');
     }
     
+    protected function setImagesPathForProduction($content)
+    {
+        $assetsFolder = $this->assetsFolder;
+        $cmsAssetsFolder = str_replace('/', '\/', $this->cmsWebBundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir'));
+        
+        return preg_replace_callback('/(.*\<img.*?src=["|\']\/)(' . $cmsAssetsFolder . ')(.*?["|\'])/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder.$matches[3];}, $content);
+    }
+        
     /**
      * Sets up the PageTree objects from the saved languages and pages  
      */
@@ -246,8 +255,8 @@ abstract class AlDeployer
         {
             $targetFolder = $this->deployBundleAssetsFolder . '/' . basename($folder->getFileName());
             $fs->remove($targetFolder);
-            $fs->mirror($folder , $targetFolder);
-        }
+            $fs->mirror($folder , $targetFolder, null, array('override' => true)); 
+        }        
     }
 
     /**
@@ -320,8 +329,8 @@ abstract class AlDeployer
                         if(empty($baseContents[$c])) {
                             $unit = $xml->file->body->addChild('trans-unit');
                             $unit->addAttribute('id', $id); 
-                            $unit->addChild('source', \urlencode($baseContents[$c]['HtmlContent']));
-                            $unit->addChild('target', \urlencode($content['HtmlContent']));
+                            $unit->addChild('source', \urlencode($this->setImagesPathForProduction($baseContents[$c]['HtmlContent'])));
+                            $unit->addChild('target', \urlencode($this->setImagesPathForProduction($content['HtmlContent'])));
                             $id++;
                             $c++;
                         }
