@@ -42,4 +42,3 @@ _navigation:
 _home:
   pattern:  /backend
   defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index }
-
