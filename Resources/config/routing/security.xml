@@ -4,42 +4,42 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
         
-    <route id="_user_list" pattern="/{_locale}/al_userList">
+    <route id="_user_list" pattern="/backend/users/{_locale}/al_userList">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:listUsers</default>
         <default key="_locale">en</default>
     </route>
     
-    <route id="_show_user" pattern="/{_locale}/al_showUser">
+    <route id="_show_user" pattern="/backend/users/{_locale}/al_showUser">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:showUser</default>
         <default key="_locale">en</default>
     </route>
     
-    <route id="_save_user" pattern="/{_locale}/al_saveUser">
+    <route id="_save_user" pattern="/backend/users/{_locale}/al_saveUser">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:saveUser</default>
         <default key="_locale">en</default>
     </route>
     
-    <route id="_delete_user" pattern="/{_locale}/al_deleteUser">
+    <route id="_delete_user" pattern="/backend/users/{_locale}/al_deleteUser">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:deleteUser</default>
         <default key="_locale">en</default>
     </route>
     
-    <route id="_roles_list" pattern="/{_locale}/al_rolesList">
+    <route id="_roles_list" pattern="/backend/users/{_locale}/al_rolesList">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:listRoles</default>
         <default key="_locale">en</default>
     </route>
     
-    <route id="_show_role" pattern="/{_locale}/al_showRole">
+    <route id="_show_role" pattern="/backend/users/{_locale}/al_showRole">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:showRole</default>
         <default key="_locale">en</default>
     </route>
     
-    <route id="_save_role" pattern="/{_locale}/al_saveRole">
+    <route id="_save_role" pattern="/backend/users/{_locale}/al_saveRole">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:saveRole</default>
         <default key="_locale">en</default>
     </route>
     
-    <route id="_delete_role" pattern="/{_locale}/al_deleteRole">
+    <route id="_delete_role" pattern="/backend/users/{_locale}/al_deleteRole">
         <default key="_controller">AlphaLemonCmsBundle:AlSecurity:deleteRole</default>
         <default key="_locale">en</default>
     </route>

@@ -35,12 +35,12 @@ class PagesController extends Controller
     {
         $pagesForm = $this->get('form.factory')->create(new PagesForm($this->container));
         $pageAttributesForm = $this->get('form.factory')->create(new PageAttributesForm($this->container));
-        
+
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
                         'pages' => ChoiceValues::getPages($this->container),
                         'pagesForm' => $pagesForm->createView(),
                         'pageAttributesForm' => $pageAttributesForm->createView());
-        
+
         return $this->render('AlphaLemonCmsBundle:Pages:index.html.twig', $params);
     }
 

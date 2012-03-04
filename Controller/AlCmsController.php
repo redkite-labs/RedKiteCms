@@ -49,9 +49,9 @@ class AlCmsController extends Controller
     {
         /*
         if (false === $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            //throw new AccessDeniedException();
-        }
-        */
+            throw new AccessDeniedException();
+        }*/
+        
         $request = $this->container->get('request'); 
         $pageTree = $this->container->get('al_page_tree');
         $skin = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');

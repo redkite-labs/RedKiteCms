@@ -1,12 +1,20 @@
-{% if app.session.flash('error') %}
-    <div class="flash-message">
-        <em>Notice</em>: {{ app.session.flash('error') }}
-    </div>
-{% endif %}
-
-<table>
-{% for user in users %}
-    <tr><td>{{ user.username }}</td><td>{{ user.email }}</td><td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td><td><a href="#" class="al_delete_user" rel="{{ user.id }}">Delete</a></td></tr>
-{% endfor %}
-    <tr><td><a href="#" class="al_add_user">New</a></td><td><a href="#" class="al_list_roles">Roles</a></td></tr>
-</table>
+<div class="al-items-list">
+    <table>
+    {% set i = 0 %}
+    {% for user in users %}
+        {% if (i % 2) == 0 %}
+            {% set class = 'row' %}
+        {% else %}
+            {% set class = 'alternate-row' %}
+        {% endif %}
+        <tr class="{{ class }}"><td>{{ user.username }}</td><td>{{ user.email }}</td><td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td><td><a href="#" class="al_delete_user" rel="{{ user.id }}">Delete</a></td></tr>
+        {% set i  = i + 1 %}
+    {% endfor %}
+    </table>
+</div>
+<div>
+    <ul>
+        <li><a href="#" class="al_add_user">New</a></li>
+        <li><a href="#" class="al_list_roles">Roles</a></li>
+    </ul>
+</div>

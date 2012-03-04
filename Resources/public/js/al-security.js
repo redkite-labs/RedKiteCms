@@ -93,13 +93,18 @@
     
     $.fn.List = function(route)
     {
+        var dialogOptions = {
+            width: 400
+        };
+        InitDialog('al_security_dialog', dialogOptions);
+                
         this.each(function() 
         {
             $(this).click(function()
             {
                 $.ajax({
                     type: 'GET',
-                    url: frontController + $('#al_available_languages').val() + '/' + route,
+                    url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/' + route,
                     data: {},
                     beforeSend: function()
                     {
@@ -107,14 +112,14 @@
                     },
                     success: function(html)
                     {
-                        $('#al_dialog').html(html);
-                        $('#al_dialog').dialog('open');
+                        $('#al_security_dialog').html(html);
+                        $('#al_security_dialog').dialog('open');
                         ObserveSecurity();
                     },
                     error: function(err)
                     {
-                        $('#al_dialog').html(err.responseText);
-                        $('#al_dialog').dialog('open');
+                        $('#al_security_dialog').html(err.responseText);
+                        $('#al_security_dialog').dialog('open');
                     },
                     complete: function()
                     {
@@ -128,35 +133,6 @@
     }
         
 })($);
-
-/*
-function showUser(id)
-{
-    if(id == null) id = 0;
-    $.ajax({
-      type: 'GET',
-      url: frontController + $('#al_available_languages').val() + '/al_showUser',
-      data: {'id' : id },
-      beforeSend: function()
-      {
-        $('body').AddAjaxLoader();
-      },
-      success: function(html)
-      {
-        $('#al_dialog').html(html);
-      },
-      error: function(err)
-      {
-        $('#al_error').html(err.responseText);
-      },
-      complete: function()
-      {
-        $('body').RemoveAjaxLoader();
-      }
-    });
-
-    return false;
-}*/
 
 function showUser(id)
 {
@@ -198,7 +174,7 @@ function show(route, id)
 {
     $.ajax({
       type: 'GET',
-      url: frontController + $('#al_available_languages').val() + '/' + route,
+      url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/' + route,
       data: {'id' : id },
       beforeSend: function()
       {
@@ -206,7 +182,7 @@ function show(route, id)
       },
       success: function(html)
       {
-        $('#al_dialog').html(html);
+        $('#al_security_dialog').html(html);
       },
       error: function(err)
       {
@@ -223,7 +199,7 @@ function remove(route, id)
 {
     $.ajax({
       type: 'GET',
-      url: frontController + $('#al_available_languages').val() + '/' + route,
+      url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/' + route,
       data: {'id' : id },
       beforeSend: function()
       {
@@ -231,7 +207,7 @@ function remove(route, id)
       },
       success: function(html)
       {
-        $('#al_dialog').html(html);
+        $('#al_security_dialog').html(html);
         ObserveSecurity();
       },
       error: function(err)

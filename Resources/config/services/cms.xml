@@ -43,6 +43,7 @@
         
         <parameter key="al_cms_setup_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlCmsSetupListener</parameter>
         <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlFinalizeContentsListener</parameter>
+        <parameter key="al_kernel_exception_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlKernelExceptionListener</parameter>
         
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
@@ -67,19 +68,22 @@
             <argument type="service" id="service_container" />
         </service>
         
-        
         <service id="al_cms_setup_listener.class" class="%al_cms_setup_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
             <argument type="service" id="service_container" />
         </service>
 
-         
         <service id="al_cms_finalize_content_listener.class" class="%al_cms_finalize_content_listener.class%">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0" />
             <argument type="service" id="service_container" />
         </service>
         
-
+        <service id="al_kernel_exception_listener.class" class="%al_kernel_exception_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.authentication.trust_resolver" />
+        </service>
+        
         <service id="el_finder_media_connector" class="%el_finder.media_connector%" >
             <argument type="service" id="service_container" />
         </service>

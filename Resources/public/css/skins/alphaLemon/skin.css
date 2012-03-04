@@ -339,6 +339,12 @@
   padding: 4px;
   border-bottom: 1px dotted #a5a5a5;
 }
+.al-items-list table {
+  width: 100%;
+}
+.al-items-list td {
+  padding: 6px;
+}
 .al-items-list .row {
   background-color: white;
 }
@@ -376,6 +382,10 @@
 
 #al_themes .al_themes_table td {
   padding: 4px;
+}
+
+.al_security_form label {
+  width: 300px;
 }
 
 .context-menu-item {

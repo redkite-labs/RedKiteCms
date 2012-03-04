@@ -86,6 +86,7 @@
   
   <table name="al_user" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="role_id" type="INTEGER" required="true" />
     <column name="username" type="VARCHAR" size="128" required="true" />
     <column name="password" type="VARCHAR" size="128" required="true" />
     <column name="salt" type="VARCHAR" size="128" required="true" />
@@ -99,12 +100,17 @@
     <unique name="I_USERNAME">
       <unique-column name="username" />
     </unique>
+    <index name="I_ROLE">
+      <index-column name="role_id" />
+    </index>
+    <foreign-key foreignTable="al_role" onDelete="CASCADE">
+      <reference local="role_id" foreign="id" />
+    </foreign-key>
   </table>
   
   <table name="al_role" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="role" type="VARCHAR" size="128" required="true" />
-    <column name="to_delete" type="INTEGER" />
     <unique name="I_ROLE">
       <unique-column name="id" />
     </unique>
@@ -112,7 +118,7 @@
       <unique-column name="role" />
     </unique>
   </table>
-  
+  <!--
   <table name="al_user_role" idMethod="native" isCrossRef="true">
     <column name="user_id" type="INTEGER" required="true" primaryKey="true" />
     <column name="role_id" type="INTEGER" required="true" primaryKey="true" />
@@ -122,5 +128,5 @@
     <foreign-key foreignTable="al_role" onDelete="CASCADE">
       <reference local="role_id" foreign="id" />
     </foreign-key>
-  </table>
+  </table>-->
 </database>
