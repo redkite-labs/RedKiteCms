@@ -3,11 +3,10 @@
 
 
     {% if error %}
-        <div class="error">{{ error.message }}</div>
+        <div class="error">{{ error }}</div>
     {% endif %}
 
     <form action="{{ path("_login_check") }}" method="post" id="login">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         
         <div>
             <label for="username">Username</label>

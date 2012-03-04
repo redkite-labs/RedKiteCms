@@ -11,17 +11,13 @@ class AlRoleType extends AbstractType
     {
         $builder->add('id', 'hidden');
         $builder->add('role');
-        /*
-        $builder->add('al_user_roles', 'model', array(
-            'class' => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlUserRole',
-            'multiple' => true,
-        ));*/
     }
 
     public function getDefaultOptions(array $options)
     {
         return array(
             'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlRole',
+            'csrf_protection' => false,
         );
     }
 

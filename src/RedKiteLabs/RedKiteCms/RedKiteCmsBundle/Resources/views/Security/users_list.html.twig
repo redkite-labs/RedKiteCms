@@ -7,14 +7,26 @@
         {% else %}
             {% set class = 'alternate-row' %}
         {% endif %}
-        <tr class="{{ class }}"><td>{{ user.username }}</td><td>{{ user.email }}</td><td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td><td><a href="#" class="al_delete_user" rel="{{ user.id }}">Delete</a></td></tr>
+        <tr class="{{ class }}">
+            <td width="100%">{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td>
+            
+            <td>
+                {% if(user.id != app.security.getToken().getUser().getPrimaryKey()) %}
+                <a href="#" class="al_delete_user" rel="{{ user.id }}">Delete</a>
+                {% else %}
+                -
+                {% endif %}
+            </td>            
+        </tr>
         {% set i  = i + 1 %}
     {% endfor %}
     </table>
 </div>
-<div>
+<div class="al_security_commands_box">
     <ul>
-        <li><a href="#" class="al_add_user">New</a></li>
-        <li><a href="#" class="al_list_roles">Roles</a></li>
+        <li><input type="submit" value="New" class="al_add_user input button al_large" /></li>
+        <li><input type="submit" value="Roles" class="al_list_roles input button al_large" /></li>
     </ul>
 </div>

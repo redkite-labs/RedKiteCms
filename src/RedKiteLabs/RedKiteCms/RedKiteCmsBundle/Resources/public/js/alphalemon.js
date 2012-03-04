@@ -129,7 +129,7 @@ $(document).ready(function(){
     
     $('#al_logout').click(function()
     {
-        location.href = frontController + 'logout';
+        location.href = frontController + 'backend/logout';
     });
     
     $('#al_open_pages_panel').click(function()

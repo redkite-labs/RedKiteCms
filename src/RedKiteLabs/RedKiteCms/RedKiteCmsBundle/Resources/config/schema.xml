@@ -93,7 +93,6 @@
     <column name="email" type="VARCHAR" size="255" />
     <column name="ip" type="VARCHAR" size="15" />
     <column name="created_at" type="DATE" required="true" />
-    <column name="to_delete" type="INTEGER" />
     <unique name="I_USER">
       <unique-column name="id" />
     </unique>
@@ -118,15 +117,4 @@
       <unique-column name="role" />
     </unique>
   </table>
-  <!--
-  <table name="al_user_role" idMethod="native" isCrossRef="true">
-    <column name="user_id" type="INTEGER" required="true" primaryKey="true" />
-    <column name="role_id" type="INTEGER" required="true" primaryKey="true" />
-    <foreign-key foreignTable="al_user" onDelete="CASCADE">
-      <reference local="user_id" foreign="id" />
-    </foreign-key>
-    <foreign-key foreignTable="al_role" onDelete="CASCADE">
-      <reference local="role_id" foreign="id" />
-    </foreign-key>
-  </table>-->
 </database>

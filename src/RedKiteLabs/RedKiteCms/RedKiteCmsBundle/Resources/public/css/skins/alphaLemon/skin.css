@@ -103,6 +103,7 @@
   color: #929292;
   border: 1px solid #cccccc;
   background-color: white;
+  cursor: pointer;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -o-border-radius: 3px;
@@ -384,8 +385,13 @@
   padding: 4px;
 }
 
-.al_security_form label {
-  width: 300px;
+.al_security_commands_box {
+  margin-top: 20px;
+}
+.al_security_commands_box li {
+  display: inline;
+  padding: 0 6px;
+  margin: 0;
 }
 
 .context-menu-item {

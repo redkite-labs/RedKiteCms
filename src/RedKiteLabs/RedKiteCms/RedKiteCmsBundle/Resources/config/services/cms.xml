@@ -58,7 +58,7 @@
     </parameters>
 
     <services>
-        <service id="alphalemon.cms.security.provider" class="AlphaLemon\AlphaLemonCmsBundle\Core\Security\Provider\AlCmsAlUserProvider" />
+        
         
         <service id="al_assets_builder" class="%alpalemon.assets_builder%">
             <argument type="service" id="service_container" />
