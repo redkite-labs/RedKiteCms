@@ -32,14 +32,14 @@ _al_elfinder:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
     
 _navigation1:
-  pattern:  /{page}
+  pattern:  /backend/{page}
   defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, page: index }
 
 _navigation:
-  pattern:  /{_locale}/{page}
+  pattern:  /backend/{_locale}/{page}
   defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index }
 
 _home:
-  pattern:  /
+  pattern:  /backend
   defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index }
 

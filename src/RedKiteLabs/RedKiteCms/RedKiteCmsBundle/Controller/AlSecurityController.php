@@ -43,7 +43,7 @@ class AlSecurityController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-
+        
         // get the error if any (works with forward and redirect -- see below)
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
@@ -63,12 +63,24 @@ class AlSecurityController extends Controller
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
         
         $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+        
+        $response = null;
+        if ($request->isXmlHttpRequest()) { 
+            $response = new Response();
+            $response->setStatusCode('403');
+        }
+        
+        $alPage = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery::create()->homePage()->findOne();
+        $alLanguage = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery::create()->mainLanguage()->findOne();
+        
         return $this->render('AlphaLemonCmsBundle:Security:login.html.twig', array(
             // last username entered by the user
             'last_username' => $lastUsername,
             'error'         => $error,
-            'csrf_token'    => $csrfToken,      
-        ));
+            'csrf_token'    => $csrfToken,    
+            'language_name'     => $alLanguage->getLanguage(),
+            'page_name'     => $alPage->getPageName(),
+        ), $response);
     }
     
     public function listUsersAction()
@@ -83,9 +95,18 @@ class AlSecurityController extends Controller
     
     public function showUserAction()
     {
+        
         $request = $this->getRequest();
         $user = (null !== $request->get('id') && 0 != $request->get('id')) ? AlUserQuery::create()->findPk($request->get('id')) : new AlUser();
+        $form = $this->createForm(new AlUserType(), $user);
         
+        return $this->render('AlphaLemonCmsBundle:Security:user.html.twig', array(
+            'form' => $form->createView(),
+            //'roles' => $roles,
+            //'assigned_roles' => $assignedRoles,
+        ));
+        
+        /*
         $roles = AlRoleQuery::create()->find();
         
         $assignedRoles = array();
@@ -100,7 +121,7 @@ class AlSecurityController extends Controller
             'form' => $form->createView(),
             'roles' => $roles,
             'assigned_roles' => $assignedRoles,
-        ));
+        ));*/
     }
     
     public function showRoleAction()
@@ -120,6 +141,8 @@ class AlSecurityController extends Controller
         try
         {
             $request = $this->getRequest();
+            
+            /*
             $params = array();
             $data = explode('&', $request->get('roles'));
             foreach($data as $value) {
@@ -136,28 +159,29 @@ class AlSecurityController extends Controller
                 $response = new Response();
                 $response->setStatusCode('404');
                 return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'Any role has been choosen'), $response);
-            }
-
+            }*/
 
             $user = (null !== $request->get('id') && 0 != $request->get('id')) ? AlUserQuery::create()->findPk($request->get('id')) : new AlUser();
+            $user->setRoleId($request->get('al_role_id'));
             $user->setUsername($request->get('al_username'));
             $user->setPassword($request->get('al_password'));
             $user->setEmail($request->get('al_email'));
             $user->save();
 
+            /*
             $userRoles = AlUserRoleQuery::create()->filterByAlUser($user)->delete();
             foreach($params['al_role'] as $roleId) {
                 $userRole = new AlUserRole();
                 $userRole->setUserId($user->getId());
                 $userRole->setRoleId($roleId);
                 $userRole->save();
-            }
+            }*/
             
             return $this->loadUsers();
         }
         catch(\PropelException $e)
         {
-            $response = new Responsense();
+            $response = new Response();
             $response->setStatusCode('404');
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
         }
@@ -221,8 +245,7 @@ class AlSecurityController extends Controller
             if (null !== $request->get('id'))
             {
                 $user = AlRoleQuery::create()->findPk($request->get('id'));
-                $user->setToDelete(1);
-                $user->save();
+                $user->delete();
             }
             
             return $this->loadRoles();
@@ -237,7 +260,7 @@ class AlSecurityController extends Controller
     
     private function loadUsers()
     {
-        $users = AlUserQuery::create()->filterByToDelete(0)->find();
+        $users = AlUserQuery::create('a')->where('a.Id <> ?', $this->get('security.context')->getToken()->getUser()->getPrimaryKey())->filterByToDelete(0)->find();
         
         return $this->render('AlphaLemonCmsBundle:Security:users_list.html.twig', array(
             'users' => $users,
@@ -246,7 +269,7 @@ class AlSecurityController extends Controller
     
     private function loadRoles()
     {
-        $roles = AlRoleQuery::create()->filterByToDelete(0)->find();
+        $roles = AlRoleQuery::create()->find();
         
         return $this->render('AlphaLemonCmsBundle:Security:roles_list.html.twig', array(
             'roles' => $roles,

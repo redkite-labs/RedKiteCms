@@ -13,13 +13,11 @@ class AlUserType extends AbstractType
         $builder->add('username');
         $builder->add('password');
         $builder->add('email');  
-        /*
-        $builder->add('al_user_roles', 'collection', array(
-            'type'          => new \AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserRoleType(),
-            'allow_add'     => true,
-            'allow_delete'  => true,
-            'by_reference'  => false,
-        ));*/
+        
+        $builder->add('AlRole', 'model', array(
+            'class'     => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlRole',
+            'property'  => 'Role',
+        ));
     }
 
     public function getDefaultOptions(array $options)

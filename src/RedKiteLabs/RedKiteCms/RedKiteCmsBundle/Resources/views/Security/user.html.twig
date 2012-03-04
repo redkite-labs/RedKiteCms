@@ -1,33 +1,6 @@
-
-    
-
-<form id="al_user_form">
+<form class="al_security_form">
     <div id="al_user_data">
     {{ form_widget(form) }}
-    </div>
-</form>
-<form id="al_roles_form">
-    <div id="al_roles">
-    {% set i = 0 %}
-    {% for role in roles %}
-        {% if (i % 2) == 0 %}
-            {% set class = 'row' %}
-        {% else %}
-            {% set class = 'alternate-row' %}
-        {% endif %}
-        
-        {% set checked = "" %}
-        {% if(role.id in assigned_roles) %}
-        {% set checked = "checked" %}
-        {% endif %}
-            
-        <div class="{{ class }}">
-            <div class="al_float_left" style="padding:4px;"><input id="cb_{{ role.id }}" value="{{ role.id }}" name="al_role" type="checkbox" class="input" value="{{ role.id }}" {{ checked }} /></div>
-            <div class="al_float_left" style="padding:4px;">{{ role.role }}</div>  
-            <div style="clear:left;"></div>
-        </div>    
-        {% set i  = i + 1 %}
-    {% endfor %}
     </div>
 </form>
 
@@ -38,12 +11,12 @@
     $('#al_save_user').click(function() {
       $.ajax({
           type: 'POST',
-          url: frontController + $('#al_available_languages').val() + '/al_saveUser',
+          url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/al_saveUser',
           data: {'id' : $('#al_user_id').val(),
                  'al_username' : $('#al_user_username').val(),
                  'al_password' : $('#al_user_password').val(),
                  'al_email' : $('#al_user_email').val(),
-                 'roles' : $('#al_roles_form').serialize()
+                 'al_role_id' : $('#al_user_AlRole').val(),
              },
           beforeSend: function()
           {
@@ -51,8 +24,8 @@
           },
           success: function(html)
           {
-            $('#al_dialog').html(html);
-            ObserveUsers();
+            $('#al_security_dialog').html(html);
+            ObserveSecurity();
           },
           error: function(err)
           {

@@ -1,6 +1,20 @@
-<table>
-{% for role in roles %}
-    <tr><td>{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">Edit</a></td><td><a href="#" class="al_delete_role" rel="{{ role.id }}">Delete</a></td></tr>
-{% endfor %}
-    <tr><td><a href="#" class="al_add_role">New</a></td><td><a href="#" class="al_list_users">Users</a></td></tr>
-</table>
+<div class="al-items-list">
+    <table>
+    {% set i = 0 %}
+    {% for role in roles %}
+        {% if (i % 2) == 0 %}
+            {% set class = 'row' %}
+        {% else %}
+            {% set class = 'alternate-row' %}
+        {% endif %}
+        <tr class="{{ class }}"><td>{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">Edit</a></td><td><a href="#" class="al_delete_role" rel="{{ role.id }}">Delete</a></td></tr>
+        {% set i  = i + 1 %}
+    {% endfor %}
+    </table>
+</div>
+<div>
+    <ul>
+        <li><a href="#" class="al_add_role">New</a></li>
+        <li><a href="#" class="al_list_users">Users</a></li>
+    </ul>
+</div>

@@ -82,6 +82,9 @@
             <li><a href="#" id="al_open_themes_panel">Themes</a></li>
             <li><a href="#" id="al_open_media_library">Media Library</a></li>
             <li><a href="#" id="al_deploy_site">Deploy</a></li>
+            {% if is_granted('ROLE_USER') %}
+                <li><a href="#" id="al_logout">Logout</a></li>
+            {% endif %}
         </ul>
     </div>
     <div id="al_navigator" class="al_float_right al_boxes_margins">

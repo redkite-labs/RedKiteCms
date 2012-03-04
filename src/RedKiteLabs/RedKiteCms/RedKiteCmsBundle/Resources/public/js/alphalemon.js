@@ -42,8 +42,6 @@
           event.preventDefault();
         });
         
-        
-
         return this;
     };
     
@@ -129,13 +127,18 @@ $(document).ready(function(){
 
     $('#al_open_users_manager').ListUsers();
     
+    $('#al_logout').click(function()
+    {
+        location.href = frontController + 'logout';
+    });
+    
     $('#al_open_pages_panel').click(function()
     {
         if($('#al_panel_contents').length == 0)
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + $('#al_available_languages').val() + '/al_showPages',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showPages',
                 data: {},
                 beforeSend: function()
                 {
@@ -166,7 +169,7 @@ $(document).ready(function(){
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + $('#al_available_languages').val() + '/al_showLanguages',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showLanguages',
                 data: {},
                 beforeSend: function()
                 {
@@ -197,7 +200,7 @@ $(document).ready(function(){
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + $('#al_available_languages').val() + '/al_showThemes',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showThemes',
                 data: {},
                 beforeSend: function()
                 {
@@ -226,7 +229,7 @@ $(document).ready(function(){
     {
         $.ajax({
             type: 'POST',
-            url: frontController + $('#al_available_languages').val() + '/al_showFilesManager',
+            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showFilesManager',
             data: {'page' :  $('#al_pages_navigator').val(),
                    'language' : $('#al_languages_navigator').val()},
             beforeSend: function()
@@ -255,7 +258,7 @@ $(document).ready(function(){
     {
         $.ajax({
             type: 'POST',
-            url: frontController + $('#al_available_languages').val() + '/al_deploy',
+            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deploy',
             data: {'page' :  $('#al_pages_navigator').val(),
                    'language' : $('#al_languages_navigator').val()},
             beforeSend: function()
