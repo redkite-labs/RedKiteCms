@@ -63,15 +63,17 @@ class AlSecurityController extends Controller
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
         
         $response = null;
+        $template = 'AlphaLemonCmsBundle:Security:graphical-login.html.twig';
         if ($request->isXmlHttpRequest()) { 
             $response = new Response();
             $response->setStatusCode('403');
+            $template = 'AlphaLemonCmsBundle:Security:login.html.twig';
         }
         
         $alPage = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery::create()->homePage()->findOne();
         $alLanguage = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery::create()->mainLanguage()->findOne();
         
-        return $this->render('AlphaLemonCmsBundle:Security:login.html.twig', array(
+        return $this->render($template, array(
             'last_username' => $lastUsername,
             'error'         => $error,
             'language_name'     => $alLanguage->getLanguage(),
