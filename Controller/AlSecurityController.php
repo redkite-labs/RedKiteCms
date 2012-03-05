@@ -25,12 +25,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserRoleQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
-
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserRole;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserRoleType;
 
 /**
  * Implements the authentication action to grant the use of the CMS. 
@@ -161,7 +157,6 @@ class AlSecurityController extends Controller
             try {
                 $request = $this->getRequest();
                 
-                $role = (null !== $request->get('id') && 0 != $request->get('id')) ? AlRoleQuery::create()->findPk($request->get('id')) : new AlRole();
                 $role->setRole($request->get('al_rolename'));
                 $validator = $this->get('validator');
                 $errors = $validator->validate($role);
