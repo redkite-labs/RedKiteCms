@@ -1,13 +1,29 @@
+ {#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
 
-    <h1>Login</h1>
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
 
 
-    {% if error %}
-        <div class="error">{{ error }}</div>
-    {% endif %}
+<h1>AlphaLemon CMS Login</h1>
+<p>Please authenticate yourself to manage the website with AlphaLemon CMS</p>
 
+{% if error %}
+    <div class="al_error">{{ error }}</div>
+{% endif %}
+
+<div id="al_login_form">
     <form action="{{ path("_login_check") }}" method="post" id="login">
-        
+
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" />
@@ -17,14 +33,15 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="_password" />
         </div>
-        
+
         <div>
             <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
             <label for="remember_me">Remember me</label>
         </div>
-        
+
         <input type="hidden" name="_target_path" value="/backend/{{ language_name }}/{{ page_name }}" />
-   
-        
+
+
         <input type="submit" class="symfony-button-grey" value="LOGIN" />
     </form>
+</div>
