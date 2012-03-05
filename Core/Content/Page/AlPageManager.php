@@ -244,7 +244,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     $idPage = $this->alPage->getId();
                     foreach ($alLanguages as $alLanguage)
                     {
-                        $rollBack = !$this->addPageAttributesAndBlocks(array_merge($values, array('idPage' => $idPage, 'idLanguage' => $alLanguage->getId())), $alLanguage);
+                        $pageAttributesParam = array_merge($values, array('idPage' => $idPage, 'idLanguage' => $alLanguage->getId()));
+                        if(!$alLanguage->getMainLanguage()) $pageAttributesParam['languageName'] = $alLanguage->getLanguage();
+                        $rollBack = !$this->addPageAttributesAndBlocks($pageAttributesParam, $alLanguage);
                         if($rollBack)
                         {  
                             break;
@@ -320,13 +322,18 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             $this->checkEmptyParams($values);
-            $this->checkRequiredParamsExists(array('languageId' => ''), $values); 
-
-            $idLanguage = $values['languageId'];
+            
+            $idLanguage = 0;
+            $attributeParams = array('permalink', 'title', 'description', 'keywords');
+            if(count(array_intersect($attributeParams, $values)) > 0)
+            {
+                $this->checkRequiredParamsExists(array('languageId' => ''), $values); 
+                $idLanguage = $values['languageId'];
+            }
         
             $rollBack = false;
             $this->connection->beginTransaction();
-
+            
             $templateChanged = '';
             if(isset($values['template']) && $values['template'] != "")
             {
@@ -367,7 +374,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     $c = new \Criteria();
                     $c->add(AlPageAttributePeer::TO_DELETE, 0);
                     $c->add(AlPageAttributePeer::LANGUAGE_ID, $idLanguage);
-                    $pageAttributes = $this->alPage->getAlPageAttributes($c); 
+                    $pageAttributes = $this->alPage->getAlPageAttributes($c);  
                     if(count($pageAttributes) == 0)
                     {                        
                         $rollBack = !$this->addPageAttributesAndBlocks(array_merge($values, array('idPage' => $this->alPage->getId(), 'idLanguage' => $idLanguage)));                        

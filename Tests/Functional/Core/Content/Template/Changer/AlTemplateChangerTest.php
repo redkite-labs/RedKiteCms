@@ -27,11 +27,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChang
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
-class Al2011ThemeBundleInternal1Slot extends AlTemplateSlots
+class AlphaLemonThemeBundleInternal1Slot extends AlTemplateSlots
 {
 }
 
-class Al2011ThemeBundleInternal2Slot extends AlTemplateSlots
+class AlphaLemonThemeBundleInternal2Slot extends AlTemplateSlots
 {
     public function configure()
     {
@@ -67,11 +67,11 @@ class AlTemplateChangerTest extends TestCase
         $alPage->setId(2);
         $alPage->save();
         
-        $container = $this->setupPageTree(2, 2)->getContainer();                 
-        $templateManager = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\Al2011ThemeBundleInternal1Slot');       
+        $container = $this->setupPageTree(2, 2)->getContainer();                      
+        $templateManager = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\AlphaLemonThemeBundleInternal1Slot');       
         $templateManager->populate();
         
-        $templateManager1 = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\Al2011ThemeBundleInternal2Slot');
+        $templateManager1 = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\AlphaLemonThemeBundleInternal2Slot');
         
         $templateChanger = new AlTemplateChanger($container, $templateManager, $templateManager1);
         $operations = $templateChanger->getOperations(); // print_r($operations);exit;
@@ -130,8 +130,8 @@ class AlTemplateChangerTest extends TestCase
     public function testGetOperations_1()
     {
         $container = $this->setupPageTree(2, 2)->getContainer();  
-        $templateManager = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\Al2011ThemeBundleInternal1Slot');       
-        $templateManager1 = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\Al2011ThemeBundleInternal2Slot');
+        $templateManager = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\AlphaLemonThemeBundleInternal1Slot');       
+        $templateManager1 = new AlTemplateManager($container, null, null, null, null, '\AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template\Changer\AlphaLemonThemeBundleInternal2Slot');
         
         $templateChanger = new AlTemplateChanger($container, $templateManager1, $templateManager);
         $operations = $templateChanger->getOperations();  

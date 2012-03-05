@@ -42,6 +42,7 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('skin')->end()
+                ->scalarNode('web_folder_name')->end()
                 ->variableNode('page_blocks')->end()
                 ->variableNode('javascripts')->end()
                 ->variableNode('stylesheets')->end()

@@ -91,7 +91,7 @@ class AlAssetsBuilder
                 // Recreates the full path
                 if(false === strpos($currentAsset, '@'))
                 {
-                    $currentAsset = $this->container->getParameter('kernel.root_dir') . '/../web/' . $currentAsset;
+                    $currentAsset = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . $currentAsset;
                 }
                 else
                 {

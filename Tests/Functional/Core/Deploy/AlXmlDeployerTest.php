@@ -62,7 +62,7 @@ class AlXmlDeployTest extends TestCase
         AlphaLemonDataPopulator::depopulate();
         
         $theme = new \AlphaLemon\ThemeEngineBundle\Model\AlTheme();
-        $theme->setThemeName('Al2011ThemeBundle');
+        $theme->setThemeName('ThemeBundle');
         $theme->setActive(1);
         $theme->save();
         

@@ -1,0 +1,60 @@
+<?php
+
+/*
+ * This file is part of the FOSUserBundle package.
+ *
+ * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Based on https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Tests/autoload.dist.php which gets all the credits
+ */
+
+$vendorDir = __DIR__.'/../vendor';
+require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
+$loader = new UniversalClassLoader();
+$loader->registerNamespaces(array(
+    'Symfony'                => array($vendorDir.'/symfony/src', $vendorDir.'/bundles'),
+    'Sensio'                 => $vendorDir.'/bundles',
+    'AlphaLemon'             => $vendorDir,  
+    'Themes'                 => $vendorDir.'/AlphaLemon/ThemeEngineBundle',
+    'Propel'                 => $vendorDir,
+));
+$loader->registerPrefixes(array(
+    'Twig_' => $vendorDir.'/twig/lib',
+));
+$loader->register();
+
+set_include_path($vendorDir.'/phing/classes'.PATH_SEPARATOR.get_include_path());
+
+$propelGeneratorFile = $vendorDir.'/propel/generator/lib/util/PropelQuickBuilder.php';
+$propelBehaviorFile = $vendorDir.'/propel-behavior/src/TypehintableBehavior.php';
+$propelSqlManager = $vendorDir.'/propel/generator/lib/util/PropelSqlManager.php';
+if (file_exists($propelGeneratorFile) && file_exists($propelBehaviorFile) && file_exists($propelSqlManager)) {
+    require_once $propelGeneratorFile;
+    require_once $propelBehaviorFile;
+    require_once $propelSqlManager;
+
+    // register Propel only when the generator exists otherwise the base classes are not available
+    $propelFile = $vendorDir.'/propel/runtime/lib/Propel.php';
+    if (file_exists($propelFile)) {
+        require_once $propelFile;
+    }
+}
+
+spl_autoload_register(function($class) {
+    if (0 === strpos($class, 'AlphaLemon\\AlphaLemonCmsBundle\\')) {
+        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
+        if (!stream_resolve_include_path($path)) {
+            return false;
+        }
+        require_once $path;
+        return true;
+    }
+});

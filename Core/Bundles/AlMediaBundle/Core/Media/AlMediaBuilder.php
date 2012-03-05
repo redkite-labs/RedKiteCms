@@ -37,7 +37,6 @@ class AlMediaBuilder
         $this->container = $container;
         $this->src = $media;
         $this->options = $options;
-        //$this->path = $path;
 
         $this->setMediaType($this->src);
     }
@@ -69,7 +68,7 @@ class AlMediaBuilder
         {
             throw new \RuntimeException($this->container->get('translator')->trans('You must implement a class named %className% to manage the media type %type%', array('%className%' => $className, '%type%' => $this->type)));
         }
-
+        
         $this->media = new $className($this->container, $this->src, $this->options);
     }
 
@@ -78,13 +77,16 @@ class AlMediaBuilder
         if(!$this->container->get('al_page_tree')->isCmsMode())
         {
             $file = \sprintf('%s/%s/%s', $this->container->getParameter('al.deploy_bundle_assets_base_dir'), $this->container->getParameter('al.deploy_bundle_media_folder'), $this->src);
+            $file = AlToolkit::locateResource($this->container, $file);
         }
         else
         {
-            $file = '@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_media_folder') . '/' . $this->src;
+            $bundleFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+            $file = $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_media_folder') . '/' . $this->src;
+            
         }
+        $file = AlToolkit::normalizePath($file);
         
-        $file = AlToolkit::locateResource($this->container, $file);
         if(is_file($file))
         {
             $type = AlToolkit::mimeContentType($file);

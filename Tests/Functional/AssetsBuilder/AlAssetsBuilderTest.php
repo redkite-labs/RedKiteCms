@@ -33,14 +33,19 @@ class AlAssetsBuilderTest extends TestCase
     {
         parent::setUp();
         
-        self::$resourcesPath = $this->getContainer()->getParameter('kernel.root_dir') . '/../vendor/bundles/AlphaLemon/AlphaLemonCmsBundle/' . self::$resourcesFolder;
-
+        $bundlePath = $this->getContainer()->getParameter('kernel.root_dir') . '/../vendor/bundles/AlphaLemon/AlphaLemonCmsBundle/';
+        if(!is_dir($bundlePath))
+        {
+            $bundlePath = __DIR__ . "/../../../../";
+        }
+        
+        self::$resourcesPath = $bundlePath . self::$resourcesFolder;
+//
         if(!is_dir(self::$resourcesPath))
         {
             $fs = new Filesystem();
             $fs->mkdir(self::$resourcesPath);
         }
-        
         
         $this->testAlAssetsBuilder = new AlAssetsBuilder(
             $this->getContainer()
@@ -110,8 +115,6 @@ class AlAssetsBuilderTest extends TestCase
         $this->assertEquals($assetsCount, count($testAlAssetsBuilder->getAssets()), '->addAssets() method has added an asset that had already added');  
     }
     
-    
-    
     /**
      * @expectedException \InvalidArgumentException
      */
@@ -145,7 +148,7 @@ class AlAssetsBuilderTest extends TestCase
     private function writeAssetFile(array $assets, $testAlAssetsBuilder = null)
     {
         $assetsFile = "temp.twig.html";
-        $assetsFilePath = self::$resourcesPath  . "/" .  $assetsFile;
+        $assetsFilePath = self::$resourcesPath  . "/" .  $assetsFile; 
         if(is_file($assetsFilePath)) unlink($assetsFilePath); 
      
         if(null === $testAlAssetsBuilder) $testAlAssetsBuilder = $this->testAlAssetsBuilder;

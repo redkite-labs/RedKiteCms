@@ -111,7 +111,10 @@ class AlLanguageManagerTest extends TestCase
         $this->assertEquals(0, $testAlLanguageManager1->get()->getMainLanguage(), "Another language added than the first has not been setted to 0 as expected");
         $this->assertEquals(2, AlLanguageQuery::create()->activeLanguages()->count());
         $this->assertNotEquals(0, AlContentQuery::create()->fromLanguageId($testAlLanguageManager1->get()->getId())->count(), '->save() has not copied the contents to the new language as expected');
-        $this->assertNotEquals(0, AlPageAttributeQuery::create()->fromLanguageId($testAlLanguageManager1->get()->getId())->count(), '->save() has not copied the page attriobutes to the new language as expected');
+        
+        $alPageAttribute = AlPageAttributeQuery::create()->fromLanguageId($testAlLanguageManager1->get()->getId());
+        $this->assertNotEquals(0, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
+        $this->assertEquals('it-this-is-a-website-fake-page', $alPageAttribute->findOne()->getPermalink());
         
         $testAlLanguageManager2 = new AlLanguageManager(
             $container

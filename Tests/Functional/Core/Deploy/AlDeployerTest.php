@@ -178,7 +178,7 @@ class AlDeployTest extends TestCase
     
     public function testFailedCreatedDataDirIntoANotWritableFolder()
     {
-        $fileSystem = new Filesystem();echo self::$alDeployer->getResourcesFolder();exit;
+        $fileSystem = new Filesystem();
         $fileSystem->mkdir(self::$alDeployer->getResourcesFolder(), 0644);
         try
         {
@@ -251,7 +251,7 @@ class AlDeployTest extends TestCase
         );
         
         $theme = new \AlphaLemon\ThemeEngineBundle\Model\AlTheme();
-        $theme->setThemeName('Al2011ThemeBundle');
+        $theme->setThemeName('AlphaLemonThemeBundle');
         $theme->setActive(1);
         $theme->save();
         

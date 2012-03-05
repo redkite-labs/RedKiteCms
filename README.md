@@ -9,6 +9,9 @@ This document contains information on how to download and start using AlphaLemon
 For a more detailed explanation, see the
 [Installation chapter](http://alphalemon.com/how-to-install-alphalemon-cms).
 
+[![Build Status](https://secure.travis-ci.org/alphalemon/AlphaLemonCmsBundle.png)](http://travis-ci.org/alphalemon/AlphaLemonCmsBundle)
+
+
 Vendor libraries installation
 -----------------------------
 

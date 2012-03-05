@@ -152,7 +152,10 @@ class AlPageManagerTest extends TestCase
         $this->assertTrue($testAlPageManager1->save($params));
         $this->assertEquals(0, $testAlPageManager1->get()->getIsHome(), 'When at least a page exists, is home must be false');        
         $this->checkAddedContents($testAlPageManager1, $repeated);
-       
+        
+        $alPageAttribute = AlPageAttributeQuery::create()->fromPageId($testAlPageManager1->get()->getId());
+        $this->assertEquals(1, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
+        
         $repeated = $this->retrieveRepeatedContentsByTemplate($container, 'Internal' );
         $testAlPageManager2 = new AlPageManager(
             $container
@@ -194,16 +197,6 @@ class AlPageManagerTest extends TestCase
         catch(\InvalidArgumentException $e)
         {
             $this->assertEquals('save() method requires at least one valid parameter, any one has been given', $e->getMessage());
-        }
-        
-        try 
-        {
-            $testAlPageManager->save(array('pageName' => 'fake name changed'));
-            $this->fail('->save() method should raise an exception when the passed parameter doesn\'t contains the languageId key' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires the following parameters: languageId. You must give languageId which is/are missing', $e->getMessage());
         }
         
         $pageAttributes = $testAlPageManager->get()->getAlPageAttributes(); 
@@ -260,6 +253,39 @@ class AlPageManagerTest extends TestCase
         $this->assertEquals(0, AlPageAttributeQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
     }
     
+    /**
+     * @depends testEdit
+     */
+    public function testAddPageWhenSiteHasMoreLanguages()
+    {
+        AlPageQuery::create()->deleteAll();
+        
+        $alLanguage = new AlLanguage();
+        $alLanguage->setLanguage('it');
+        $alLanguage->save(); 
+        
+        $container = $this->setupPageTree($alLanguage->getId())->getContainer(); 
+        $testAlPageManager = new AlPageManager(
+            $container
+        );
+        
+        $this->assertEquals(0, AlPageQuery::create()->filterByToDelete(0)->count());
+        $this->assertEquals(0, AlPageAttributeQuery::create()->filterByToDelete(0)->count());
+        
+        $params = array('pageName'      => 'fake add page', 
+                        'template'      => 'home',
+                        'permalink'     => 'this is a website fake page',
+                        'title'         => 'page title',
+                        'description'   => 'page description',
+                        'keywords'      => '');
+        $this->assertTrue($testAlPageManager->save($params));
+        $this->assertEquals(1, AlPageQuery::create()->filterByToDelete(0)->count());
+        $this->assertEquals(2, AlPageAttributeQuery::create()->filterByToDelete(0)->count());
+        $alPageAttribute = AlPageAttributeQuery::create()->fromPageAndLanguage($testAlPageManager->get()->getId(),$alLanguage->getId());
+        $this->assertEquals(1, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
+        $this->assertEquals('it-this-is-a-website-fake-page', $alPageAttribute->findOne()->getPermalink());
+    }
+    
     private function checkAddedContents($page, $repeated)
     {
         $pageContents = AlContentQuery::create('a')->where('a.LanguageId <> ?', 1)->filterByPageId($page->get()->getId())->filterByToDelete(0)->count();
@@ -268,7 +294,7 @@ class AlPageManagerTest extends TestCase
         
         $this->assertEquals($pageContents, count($repeated["page"]));
         $this->assertEquals($languageContents, count($repeated["language"]));
-        $this->assertEquals($siteContents, count($repeated["site"]));        
+        //$this->assertEquals($siteContents, count($repeated["site"]));        
     }
     
     private function retrieveRepeatedContentsByTemplate($container, $templateName)
