@@ -28,6 +28,10 @@ use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Security\Proxy\AlUser as AlUserProxy;
+
 /**
  * Populates the database after a fresh install
  *
@@ -75,6 +79,29 @@ class PopulateCommand extends ContainerAwareCommand
         
         $themeName = "AlphaLemonThemeBundle";
         $this->getContainer()->get('al_page_tree')->setThemeName($themeName);
+        
+        
+        $role = new AlRole();
+        $role->setRole('ROLE_ADMIN');
+        $role->save();
+        
+        
+        
+        $user = new AlUser();
+        $userProxy = new AlUserProxy($user);
+        $factory = $this->getContainer()->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($userProxy);
+
+        $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $password = $encoder->encodePassword('admin', $salt);
+
+        $user->setSalt($salt);
+        $user->setPassword($password);
+        $user->setRoleId($role->getId());
+        $user->setUsername('admin');                
+        $user->setEmail('');
+        $user->save();
+        
         
         $themeManager = new AlThemeManager($this->getContainer());
         $themeManager->add(array('name' => $themeName, 'active' => 1));
