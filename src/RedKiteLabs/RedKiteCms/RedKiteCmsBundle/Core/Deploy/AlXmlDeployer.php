@@ -43,14 +43,19 @@ class AlXmlDeployer extends AlDeployer
         $globals['globals'] = $this->container->getParameter(sprintf('themes.%s_%s.stylesheets', \str_replace('bundle', '', \strtolower($pageTree->getThemeName())), $pageTree->getTemplateName()));
 
         $xml->header->internal_stylesheets->addChild($languageName, $pageTree->getInternalStylesheet());
-        $xml->header->internal_javascripts->addChild($languageName, $pageTree->getInternalJavascript());
+        
+        $assetsFolder = $this->assetsFolder;
+        $cmsAssetsFolder = str_replace('/', '\/', $this->cmsWebBundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir'));
+        $internalJavascript = $pageTree->getInternalJavascript();
+        $internalJavascript = preg_replace_callback('/(.*?)(' . $cmsAssetsFolder . ')/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder;}, $internalJavascript);
+        $xml->header->internal_javascripts->addChild($languageName, $internalJavascript);
 
         // Writes contents section
         foreach($pageTree->getContents() as $slotName => $contents)
         {
             foreach($contents as $content)
             {
-                $slot = $xml->body->contents->addChild('slot', urlencode($content['HtmlContent']));
+                $slot = $xml->body->contents->addChild('slot', urlencode($this->setImagesPathForProduction($content['HtmlContent'])));
                 $slot->addAttribute('name', $slotName);
             }
         }

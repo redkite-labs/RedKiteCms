@@ -35,7 +35,7 @@
 			panelCloser.id = "al_panel_closer";
 			panel.appendChild(panelCloser);
 
-            $(panelCloser).html("<p>Click me to close the panel</p>").click(function()
+            $(panelCloser).html("Click me to close the panel").click(function()
             {
                 $(panel).animate({
                   height: "hide"

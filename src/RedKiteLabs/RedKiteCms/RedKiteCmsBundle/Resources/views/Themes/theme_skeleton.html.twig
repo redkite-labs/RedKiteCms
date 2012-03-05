@@ -38,10 +38,18 @@
             <tr>
               {% if theme_values.buttons is defined %}
                   {% if theme_values.buttons == 3 %}
-                    <td><a href="#" class="al_theme_activator {themeName: '{{ theme_values.theme_title }}'}">{{ "Activate" | trans([], domain) }}</a></td>
-                    <td><a href="#" class="al_theme_remover {themeName: '{{ theme_values.theme_title }}'}">{{ "Remove" | trans([], domain) }}</a></td>
+                    <td>
+                        {% if theme_values.compatible is defined and theme_values.compatible == "'0" %}
+                            {% set domElement = "al_themes_fixer" %}
+                        {% else %}
+                            {% set domElement = "al_theme_activator" %}
+                        {% endif %}
+                        <a href="#" class="input button link_button al_themes_fixer {themeName: '{{ theme_values.theme_title }}'}">{{ "Activate" | trans([], domain) }}</a>
+                        
+                    </td>
+                    <td><a href="#" class="input button link_button al_theme_remover {themeName: '{{ theme_values.theme_title }}'}">{{ "Remove" | trans([], domain) }}</a></td>
                   {% elseif theme_values.buttons == 2  %}
-                    <td colspan="2"><a href="#" class="al_theme_importer {themeName: '{{ theme_values.theme_title }}'}">{{ "Import" | trans([], domain) }}</a></td>
+                    <td colspan="2"><a href="#" class="input button link_button al_theme_importer {themeName: '{{ theme_values.theme_title }}'}">{{ "Import" | trans([], domain) }}</a></td>
                   {% endif %}
               {% endif %}
             </tr>

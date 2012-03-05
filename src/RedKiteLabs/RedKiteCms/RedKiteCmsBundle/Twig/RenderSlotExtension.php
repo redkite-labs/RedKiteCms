@@ -43,7 +43,7 @@ class RenderSlotExtension extends BaseRenderSlotExtension
 
         try
         {
-            $result = '';
+            $result = '';  
             $alContents = $this->pageTree->getContents($slotName);
             if(count($alContents) > 0)
             {
@@ -74,7 +74,7 @@ class RenderSlotExtension extends BaseRenderSlotExtension
                     $result .= sprintf('<div class="al_editable cmVoice {id: \'0\', slotName: \'%s\', cMenu:\'context_menu_1\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
                 }
             }
-
+            
             return sprintf('<div class="al_%s">%s</div>', $slotName, $result);
         }
         catch (\Exception $ex)
