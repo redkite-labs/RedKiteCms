@@ -57,3 +57,8 @@ propel:
         options:              {}
         attributes:           {}
         default_connection:   default
+
+services:
+    al_kernel_exception_listener.class:
+        class:        AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlKernelExceptionListener
+        arguments:    [security.context, security.authentication.trust_resolver]
