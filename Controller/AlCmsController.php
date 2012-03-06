@@ -46,9 +46,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class AlCmsController extends Controller
 {
     public function showAction()
-    {  
+    {
         $request = $this->container->get('request'); 
         $pageTree = $this->container->get('al_page_tree');
+        $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
         $skin = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');
         if(null !== $pageTree)
         {
@@ -90,6 +91,8 @@ class AlCmsController extends Controller
                 $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
                 $template = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
             }
+            
+            
            
             $languageId = (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0;
             $pageId = (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0;
@@ -113,6 +116,7 @@ class AlCmsController extends Controller
                                 'frontController' => $frontController,
                                 'dynamicStylesheets' => $dynamicStylesheets,
                                 'dynamicJavascripts' => $dynamicJavascripts,
+                                'is_secure' => $isSecure,
                                 ));
         } 
         else
@@ -131,6 +135,7 @@ class AlCmsController extends Controller
                                 'available_languages' => $this->container->getParameter('alcms.available_languages'),
                                 'base_template' => $this->container->getParameter('althemes.base_template'),
                                 'frontController' => $frontController,
+                                'is_secure' => $isSecure,
                                 ));
         }
     }

@@ -17,6 +17,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
 
 require_once __DIR__.'/CmsTestKernel/CmsTestKernel.php';
+require_once __DIR__.'/../../../../../app/AppKernel.php';
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
@@ -31,7 +32,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
     {
         if(null === $this->container)
         {
-            $app = new \CmsTestKernel('test', true);
+            $app = new \AppKernel('test', true);
             $app->boot();
             $this->container = $app->getContainer(); 
         }

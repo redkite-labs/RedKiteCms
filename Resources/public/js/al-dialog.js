@@ -26,7 +26,7 @@ InitDialog = function(id, options)
     }};
 
     if(id == null) id = "al_dialog";
-    if(options != null) $.extend (defaultOptions, options);
+    if(options !== null) $.extend (defaultOptions, options);
 
     if($('body').find(id).length == 0)
     {

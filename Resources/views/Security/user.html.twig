@@ -1,0 +1,93 @@
+<form class="al_security_form al-items-list">
+    <div id="al_user_data">
+        <table>
+            <tr>
+                <td>
+                    {{ form_label(form.username, "Username") }}
+                </td>
+                <td>
+                    {{ form_errors(form.username) }}
+                    {{ form_widget(form.username) }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(form.password, "Password") }}
+                </td>
+                <td>
+                    {{ form_errors(form.password) }}
+                    {{ form_widget(form.password, { 'type': 'password' }) }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(form.email, "Email") }}
+                </td>
+                <td>
+                    {{ form_errors(form.email) }}
+                    {{ form_widget(form.email) }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(form.AlRole, "Role") }}
+                </td>
+                <td>
+                    {{ form_errors(form.AlRole) }}
+                    {{ form_widget(form.AlRole) }}
+                </td>
+            </tr>
+        </table>    
+            
+        {{ form_rest(form) }}
+    </div>
+</form>
+
+<div class="al_security_commands_box">
+    <ul>
+        <li><input type="submit" id="al_save_user" value="Save" class="input button al_large" /></li>
+        <li><input type="submit" value="List" class="al_list_users input button al_large" /></li>
+    </ul>
+</div>
+
+<div id="al_error">
+    {% for error in errors %}
+    <p>{{ error.getMessage() }}</p>
+    {% endfor %}
+</div>
+
+<script>
+    $('#al_save_user').click(function() { 
+      $.ajax({
+          type: 'POST',
+          url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/al_showUser',
+          data: {'id' : $('#al_user_id').val(),
+                 'al_username' : $('#al_user_username').val(),
+                 'al_password' : $('#al_user_password').val(),
+                 'al_email' : $('#al_user_email').val(),
+                 'al_role_id' : $('#al_user_AlRole').val()
+             },
+          beforeSend: function()
+          {
+            $('body').AddAjaxLoader();
+          },
+          success: function(html)
+          {
+            $('#al_security_dialog').html(html);
+            ObserveSecurity();
+          },
+          error: function(err)
+          {
+            $('#al_error').html(err.responseText);
+          },
+          complete: function()
+          {
+            $('body').RemoveAjaxLoader();
+          }
+      });
+      
+      return false;
+    });
+    
+    $('.al_list_users').ListUsers();
+</script>
