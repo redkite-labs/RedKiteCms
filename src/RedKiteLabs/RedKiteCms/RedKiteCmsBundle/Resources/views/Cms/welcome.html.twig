@@ -13,25 +13,19 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'AlphaLemonThemeEngineBundle:Theme:base.html.twig' %}
+{% extends 'AlphaLemonCmsBundle:Cms:cms-background.html.twig' %}
 
-{% block body %}
-<div id="al_cms_background_basement">
-    <div id="al_cms_background_image">
-        <div id="al_cms_background">
-            <h1>Welcome to AlphaLemon CMS</h1>
-            <p>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons why you are seeing it, the most common are:</p>
-            <ul>
-                <li>The page and/or the language you have requested don't exist</li>
-                <li>The page has assigned a template not included in the theme you are using on your website</li>
-                <li>Your website has any page and/or language and/or theme</li>
-                <li>Something has gone wrong during the install process</li>
-            </ul>
-            {% if app.session.hasFlash('message') %}
-            <p style="font-weight: bold">The action you made returns this response:</p>
-            <p class="al_error">{{ app.session.flash('message') }}</p>
-            {% endif %}
-        </div>
-    </div>
-</div>
+{% block cms_content %}
+    <h1>Welcome to AlphaLemon CMS</h1>
+    <p>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons why you are seeing it, the most common are:</p>
+    <ul>
+        <li>The page and/or the language you have requested don't exist</li>
+        <li>The page has assigned a template not included in the theme you are using on your website</li>
+        <li>Your website has any page and/or language and/or theme</li>
+        <li>Something has gone wrong during the install process</li>
+    </ul>
+    {% if app.session.hasFlash('message') %}
+    <p style="font-weight: bold">The action you made returns this response:</p>
+    <p class="al_error">{{ app.session.flash('message') }}</p>
+    {% endif %}
 {% endblock %}

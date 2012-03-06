@@ -70,7 +70,7 @@
 }
 
 #al_cms_background {
-  width: 800px;
+  width: 600px;
   min-height: 400px;
   margin: 120px auto;
   padding: 8px 16px;
@@ -160,6 +160,7 @@
   color: #929292;
   border: 1px solid #cccccc;
   background-color: white;
+  cursor: pointer;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -o-border-radius: 3px;
@@ -382,6 +383,12 @@
   padding: 4px;
   border-bottom: 1px dotted #a5a5a5;
 }
+.al-items-list table {
+  width: 100%;
+}
+.al-items-list td {
+  padding: 6px;
+}
 .al-items-list .row {
   background-color: white;
 }
@@ -480,6 +487,23 @@
   width: 100%;
   height: 32px;
   padding: 6px;
+}
+
+#al_login_form {
+  margin-top: 0;
+  padding: 20px;
+}
+#al_login_form div {
+  margin-bottom: 10px;
+}
+
+.al_security_commands_box {
+  margin-top: 20px;
+}
+.al_security_commands_box li {
+  display: inline;
+  padding: 0 6px;
+  margin: 0;
 }
 
 .context-menu-item {

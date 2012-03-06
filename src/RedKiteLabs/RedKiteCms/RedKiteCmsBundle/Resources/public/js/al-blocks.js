@@ -58,7 +58,7 @@ var isEditorOpened = false;
 
         $.ajax({
             type: 'POST',
-            url: frontController + $('#al_available_languages').val() + '/al_showBlocksEditor',
+            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showBlocksEditor',
             data: {'page' :  $('#al_pages_navigator').val(),
                    'language' : $('#al_languages_navigator').val(),
                    'idBlock' : idBlock,
@@ -105,7 +105,7 @@ var isEditorOpened = false;
             var contentType = (type == null) ? data.contentType : type;
             $.ajax({
                 type: 'POST',
-                url: frontController + $('#al_available_languages').val() + '/addBlock',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/addBlock',
                 data: {'page' :  $('#al_pages_navigator').val(),
                        'language' : $('#al_languages_navigator').val(),
                        'idBlock' : idBlock,
@@ -141,7 +141,7 @@ var isEditorOpened = false;
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + $('#al_available_languages').val() + '/editBlock',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/editBlock',
                 data: {'page' :  $('#al_pages_navigator').val(),
                        'language' : $('#al_languages_navigator').val(),
                        'idBlock' : $('body').data('idBlock'),
@@ -180,7 +180,7 @@ var isEditorOpened = false;
             {
                 $.ajax({
                     type: 'POST',
-                    url: frontController + $('#al_available_languages').val() + '/showExternalFilesManager',
+                    url: frontController + 'backend/' + $('#al_available_languages').val() + '/showExternalFilesManager',
                     data: {'page' :  $('#al_pages_navigator').val(),
                            'language' : $('#al_languages_navigator').val(),
                            'key'       : key},
@@ -227,7 +227,7 @@ var isEditorOpened = false;
             {
                 $.ajax({
                     type: 'POST',
-                    url: frontController + $('#al_available_languages').val() + '/removeExternalFile',
+                    url: frontController + 'backend/' + $('#al_available_languages').val() + '/removeExternalFile',
                     data: {'page' :  $('#al_pages_navigator').val(),
                            'language' : $('#al_languages_navigator').val(),
                            'idBlock' : $('body').data('idBlock'),
@@ -278,7 +278,7 @@ var isEditorOpened = false;
         
         $.ajax({
             type: 'POST',
-            url: frontController + $('#al_available_languages').val() + '/deleteBlock',
+            url: frontController + 'backend/' + $('#al_available_languages').val() + '/deleteBlock',
             data: {'page' :  $('#al_pages_navigator').val(),
                    'language' : $('#al_languages_navigator').val(),
                    'slotName' : slotName,

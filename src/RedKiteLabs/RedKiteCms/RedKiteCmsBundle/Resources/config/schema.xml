@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database namespace="AlphaLemon\AlphaLemonCmsBundle\Model" name="default"  defaultIdMethod="native" >
 
-  <table name="al_content">
+  <table name="al_content" description="This table will be renamed as al_block">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="page_id" type="INTEGER" required="true" />
     <foreign-key foreignTable="al_page" onDelete="CASCADE">
@@ -81,6 +81,40 @@
     </index>
     <unique name="I_PAGE">
       <unique-column name="id" />
+    </unique>
+  </table>
+  
+  <table name="al_user" idMethod="native">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="role_id" type="INTEGER" required="true" />
+    <column name="username" type="VARCHAR" size="128" required="true" />
+    <column name="password" type="VARCHAR" size="128" required="true" />
+    <column name="salt" type="VARCHAR" size="128" required="true" />
+    <column name="email" type="VARCHAR" size="255" />
+    <column name="ip" type="VARCHAR" size="15" />
+    <column name="created_at" type="DATE" required="true" />
+    <unique name="I_USER">
+      <unique-column name="id" />
+    </unique>
+    <unique name="I_USERNAME">
+      <unique-column name="username" />
+    </unique>
+    <index name="I_ROLE">
+      <index-column name="role_id" />
+    </index>
+    <foreign-key foreignTable="al_role" onDelete="CASCADE">
+      <reference local="role_id" foreign="id" />
+    </foreign-key>
+  </table>
+  
+  <table name="al_role" idMethod="native">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="role" type="VARCHAR" size="128" required="true" />
+    <unique name="I_ROLE">
+      <unique-column name="id" />
+    </unique>
+    <unique name="I_ROLENAME">
+      <unique-column name="role" />
     </unique>
   </table>
 </database>

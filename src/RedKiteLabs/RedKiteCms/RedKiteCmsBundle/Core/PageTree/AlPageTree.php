@@ -148,7 +148,7 @@ class AlPageTree extends BaseAlPageTree
         }
         
         $pageName = $this->container->get('request')->get('page');
-        if(!$pageName || $pageName == "" || !is_string($pageName))
+        if(!$pageName || $pageName == "" || !is_string($pageName) || $pageName == "backend")
         {
             return null;
         }

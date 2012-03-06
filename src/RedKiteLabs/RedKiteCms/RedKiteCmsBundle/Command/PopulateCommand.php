@@ -28,6 +28,10 @@ use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+
 /**
  * Populates the database after a fresh install
  *
@@ -75,6 +79,28 @@ class PopulateCommand extends ContainerAwareCommand
         
         $themeName = "AlphaLemonThemeBundle";
         $this->getContainer()->get('al_page_tree')->setThemeName($themeName);
+        
+        $adminRoleId = 0;
+        $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
+        foreach ($roles as $role) {
+            $alRole = new AlRole();
+            $alRole->setRole($role);
+            $alRole->save();
+            
+            if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
+        }
+        
+        $user = new AlUser();
+        $encoder = new MessageDigestPasswordEncoder();
+        $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $password = $encoder->encodePassword('admin', $salt);
+
+        $user->setSalt($salt);
+        $user->setPassword($password);
+        $user->setRoleId($adminRoleId);
+        $user->setUsername('admin');                
+        $user->setEmail('');
+        $user->save();
         
         $themeManager = new AlThemeManager($this->getContainer());
         $themeManager->add(array('name' => $themeName, 'active' => 1));

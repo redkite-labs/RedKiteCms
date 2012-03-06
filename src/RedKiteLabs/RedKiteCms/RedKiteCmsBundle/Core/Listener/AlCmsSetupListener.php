@@ -25,6 +25,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
+
 /**
  * Sets up AlphaLemon CMS
  *
@@ -85,7 +87,7 @@ class AlCmsSetupListener
                 
         $fs = new Filesystem();
         $fs->mkdir($folders);
-
+        
         $pageTree = $this->container->get('al_page_tree');
         $pageTree->setup();
     }

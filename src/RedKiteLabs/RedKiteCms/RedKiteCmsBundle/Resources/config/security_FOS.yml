@@ -1,0 +1,52 @@
+security:
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+
+    encoders:
+        "FOS\UserBundle\Model\UserInterface": sha512
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout:       true
+            anonymous:    true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[a-z]+/al_showPages, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_savePage, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_deletePage, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_loadPageAttributes, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_showBlocksEditor, role: ROLE_USER }
+        - { path: ^/[a-z]+/addBlock, role: ROLE_USER }
+        - { path: ^/[a-z]+/editBlock, role: ROLE_USER }
+        - { path: ^/[a-z]+/deleteBlock, role: ROLE_USER }
+        - { path: ^/[a-z]+/showExternalFilesManager, role: ROLE_USER }
+        - { path: ^/[a-z]+/removeExternalFile, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_deploy, role: ROLE_ADMIN }
+        - { path: ^/[a-z]+/al_showFilesManager, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_elFinderMediaConnect, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_elFinderStylesheetsConnect, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_elFinderJavascriptsConnect, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_showLanguages, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_saveLanguage, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_deleteLanguage, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_loadLanguageAttributes, role: ROLE_USER }        
+        - { path: ^/[a-z]+/al_uploadFile, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_showThemes, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_importTheme, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_activateTheme, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_extractTheme, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_removeTheme, role: ROLE_USER }
+        - { path: ^/[a-z]+/al_installAssets, role: ROLE_USER }       
+
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
