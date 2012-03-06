@@ -95,7 +95,7 @@
 
 function Navigate()
 {
-    location.href = frontController +  $('#al_languages_navigator option:selected').attr('rel') + '/' + $('#al_pages_navigator option:selected').attr('rel');
+    location.href = frontController + 'backend/' + $('#al_languages_navigator option:selected').attr('rel') + '/' + $('#al_pages_navigator option:selected').attr('rel');
 }
 
 $(document).ready(function(){

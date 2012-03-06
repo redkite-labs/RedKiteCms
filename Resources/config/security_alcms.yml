@@ -6,13 +6,10 @@ security:
             security: false
             
         alphalemon_cms:
-            pattern:    ^/backend/
-            #anonymous: ~
+            pattern:    ^/backend
             form_login:
                 check_path:  /backend/login_check
                 login_path:  /backend/login
-                
-                #csrf_provider: form.csrf_provider
             logout:
                 path:   /backend/logout
                 target: /backend/
@@ -66,5 +63,5 @@ security:
         - { path: ^/backend, roles: ROLE_USER }
         
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_ADMIN:         ROLE_USER
+        ROLE_SUPER_ADMIN:   [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
