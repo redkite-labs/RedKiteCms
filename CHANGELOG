@@ -1,3 +1,9 @@
+Preview Release 5
+Implemented security for AlphaLemon CMS
+Moved the CMS under the backend token, this means it is reachable from http://localhost/alcms.php/backend/en/index instead of http://localhost/alcms.php/en/index
+Fixed assets management for environments that doesn't support symlinks
+Fixed alphalemon skin
+
 Preview Release 4
 Added A new interface to match page's templates when changing themes
 Updated to work with ThemeEngineBundle's new features
@@ -5,7 +11,6 @@ Fixed and styled the AlphaLemon CMS backgroud page
 Many style fixes for AlphaLemon CMS interface
 
 Preview Release 2
-New 
 Added A new internal bundle to create a menu for the website's languages
 Added method to rename automatically the links when a permalink is changed
 Added a method that fixes blocks' permalinks when needed, according the new inserting language
