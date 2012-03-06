@@ -65,7 +65,7 @@ function InitPagesCommands()
         var isHome = ($('#pages_isHome').is(':checked')) ? 1 : 0;        
         $.ajax({
             type: 'POST',
-            url: frontController + $('#al_available_languages').val() + '/al_savePage',
+            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_savePage',
             data: {'language' : $('#al_languages_navigator').val(),
                    'page' : $('#al_pages_navigator').val(),
                    'pageId' : $('#page_attributes_idPage').val(),
@@ -105,7 +105,7 @@ function InitPagesCommands()
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + $('#al_available_languages').val() + '/al_deletePage',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deletePage',
                 data: {'language' : $('#al_languages_navigator').val(),
                        'page' : $('#al_pages_navigator').val(),
                        'languageId' : $('#page_attributes_idLanguage').val(),
@@ -210,7 +210,7 @@ function LoadPageAttributes(idPage)
     $('#page_attributes_idPage').val(idPage);
     $.ajax({
         type: 'POST',
-        url: frontController + $('#al_available_languages').val() + '/al_loadPageAttributes',
+        url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadPageAttributes',
         data: {'language' : $('#al_languages_navigator').val(),
                'page' : $('#al_pages_navigator').val(),
                'languageId' : $('#page_attributes_idLanguage').val(),

@@ -5,6 +5,7 @@
 
     <parameters>
         <parameter key="alcms.skin">alphaLemon</parameter>
+        <parameter key="alcms.web_folder_name">web</parameter>
 
         <!-- Hardcoded in twig template until assetic could load assets dinamically -->
         <parameter key="alcms.stylesheets" type="collection">            
@@ -44,6 +45,7 @@
         
         <parameter key="al_cms_setup_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlCmsSetupListener</parameter>
         <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlFinalizeContentsListener</parameter>
+        <parameter key="al_kernel_exception_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlKernelExceptionListener</parameter>
         
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
@@ -59,7 +61,7 @@
     </parameters>
 
     <services>
-        <service id="alphalemon.cms.security.provider" class="AlphaLemon\AlphaLemonCmsBundle\Core\Security\Provider\AlCmsAlUserProvider" />
+        
         
         <service id="al_assets_builder" class="%alphalemon.assets_builder%">
             <argument type="service" id="service_container" />
@@ -73,12 +75,18 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
             <argument type="service" id="service_container" />
         </service>
-         
+        
         <service id="al_cms_finalize_content_listener.class" class="%al_cms_finalize_content_listener.class%">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0" />
             <argument type="service" id="service_container" />
         </service>
-
+        
+        <service id="al_kernel_exception_listener.class" class="%al_kernel_exception_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.authentication.trust_resolver" />
+        </service>
+        
         <service id="el_finder_media_connector" class="%el_finder.media_connector%" >
             <argument type="service" id="service_container" />
         </service>

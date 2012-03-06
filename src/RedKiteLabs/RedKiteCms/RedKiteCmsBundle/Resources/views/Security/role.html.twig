@@ -1,0 +1,62 @@
+<form class="al_security_form al-items-list">
+    <div id="al_role_data">
+        <table>
+            <tr>
+                <td>
+                    {{ form_label(form.role, "Role") }}
+                </td>
+                <td>
+                    {{ form_errors(form.role) }}
+                    {{ form_widget(form.role) }}
+                </td>
+            </tr>
+        </table> 
+        {{ form_rest(form) }}
+    </div>
+</form>
+
+<div class="al_security_commands_box">
+    <ul>
+        <li><input type="submit" id="al_save_role" value="Save" class="input button al_large" /></li>
+        <li><input type="submit" value="List" class="al_list_roles input button al_large" /></li>
+    </ul>
+</div>
+
+<div id="al_error">
+    {% for error in errors %}
+    <p>{{ error.getMessage() }}</p>
+    {% endfor %}
+</div>
+
+<script>
+    $('#al_save_role').click(function() {
+      $.ajax({
+          type: 'POST',
+          url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/al_showRole',
+          data: {'id' : $('#al_role_id').val(),
+                 'al_rolename' : $('#al_role_role').val(),
+             },
+          beforeSend: function()
+          {
+            $('body').AddAjaxLoader();
+          },
+          success: function(html)
+          {
+            $('#al_security_dialog').html(html);
+            ObserveSecurity();
+          },
+          error: function(err)
+          {
+            $('#al_error').html(err.responseText);
+          },
+          complete: function()
+          {
+            $('body').RemoveAjaxLoader();
+          }
+      });
+      
+      return false;
+    });
+    
+    $('.al_list_roles').ListRoles();
+</script>
