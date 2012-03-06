@@ -55,7 +55,7 @@ function InitLanguagesCommands()
         var isMain = ($('#languages_isMain').is(':checked')) ? 1 : 0;
         $.ajax({
             type: 'POST',
-            url: frontController + $('#al_available_languages').val() + '/al_saveLanguage',
+            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_saveLanguage',
             data: {'idLanguage' : retrieveIdLanguage(),
                    'newLanguage' : $('#languages_language').val(),
                    'language' : $('#al_languages_navigator').val(),
@@ -89,7 +89,7 @@ function InitLanguagesCommands()
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + $('#al_available_languages').val() + '/al_deleteLanguage',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deleteLanguage',
                 data: {'languageId' : retrieveIdLanguage(),
                        'language' : $('#al_languages_navigator').val(),
                        'page' : $('#al_pages_navigator').val()},
@@ -165,7 +165,7 @@ function LoadLanguageAttributes(idLanguage)
     $("#al_attributes_form").ResetFormElements();
     $.ajax({
         type: 'POST',
-        url: frontController + $('#al_available_languages').val() + '/al_loadLanguageAttributes',
+        url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadLanguageAttributes',
         data: {'language' : retrieveIdLanguage()},
         beforeSend: function()
         {

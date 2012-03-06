@@ -56,10 +56,8 @@ abstract class AlMedia
             $this->absoluteSrcPath = sprintf('/%s/%s/%s', $bundleDir, $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_media_folder'), $this->src);
         }
         
-        $this->realSrcPath = AlToolkit::locateResource($this->container, $file);
+        $this->realSrcPath = AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . $this->absoluteSrcPath);
 
-        
-        
         $this->options = $options;
     }
 

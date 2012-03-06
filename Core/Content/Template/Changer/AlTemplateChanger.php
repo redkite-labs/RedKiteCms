@@ -130,7 +130,6 @@ class AlTemplateChanger extends AlContentManagerBase
                     case 'remove':
                         foreach($slots as $slotNames)
                         {
-                            //AlContentQuery::create()->filterByPageId(array(1, $this->alPage->getId()))->filterBySlotName($slotNames)->delete();
                             AlContentQuery::create()->setContainer($this->container)->fromPageIdAndSlotName(array(1, $this->alPage->getId()), $slotNames)->delete();
                         }
                         break;
@@ -229,21 +228,8 @@ class AlTemplateChanger extends AlContentManagerBase
             {
                 $result['intersected'][] = $intersect;
             }
-            
-            /*
-            if(empty($t))
-            {
-                if(!empty($firstSlots))
-                {
-                    $result['found'][$aRepeated] = $firstSlots;
-                }
-            }
-            else
-            {
-                $result['intersected'] = $t;
-            }*/
         }
-        //exit;
+        
         return $result;
     }
 }

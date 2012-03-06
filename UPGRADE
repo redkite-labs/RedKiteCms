@@ -1,0 +1,17 @@
+UPGRADE FROM AlphaLemon CMS PR4 or less
+This new version has two more tables which must be added to your database. AlphaLemon provides a command that does this job for you.
+
+Open the console and launch the following command:
+
+    app/console --env=alcms alphalemon:update-db-to-PR5 [dsn]
+
+Don't forget to provide the right [dns] for your environment
+
+
+Upgrade a database which is not mysql
+AlphaLemon just provides the queries for mysql database, so if you are using another one you must adapt the queries on your own:
+
+    1. Move to /vendor/bundles/AlphaLemon/AlphaLemonCms/Resources/dbupdate
+    2. Copy the mysql folder and name it as the driver you are using
+    3. Enter that folder and fix the queries contained in the AlphaLemonCmsPr5.sql
+    4. Launch the command providing the driver option. This one must be the same of the folder created at step2

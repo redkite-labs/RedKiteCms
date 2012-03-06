@@ -25,7 +25,7 @@
 
                 $.ajax({
                   type: 'POST',
-                  url: frontController + $('#al_available_languages').val() + '/al_importTheme',
+                  url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_importTheme',
                   data: {'themeName' : data.themeName},
                   beforeSend: function()
                   {
@@ -57,7 +57,7 @@
             $(this).click(function()
             {
                 var data = $(this).metadata();
-                location.href = frontController + $('#al_available_languages').val() + '/al_activateTheme/' + data.themeName + '/' + $('#al_languages_navigator').val() + '/' + $('#al_pages_navigator').val();
+                location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/al_activateTheme/' + data.themeName + '/' + $('#al_languages_navigator').val() + '/' + $('#al_pages_navigator').val();
             });
         });
     };
@@ -102,7 +102,7 @@
         var success = false;
         $.ajax({
               type: 'POST',
-              url: frontController + $('#al_available_languages').val() + '/al_extractTheme',
+              url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_extractTheme',
               beforeSend: function()
               {
                 $('body').AddAjaxLoader();
@@ -130,7 +130,7 @@
     {
         $.ajax({
               type: 'POST',
-              url: frontController + $('#al_available_languages').val() + '/al_installAssets',
+              url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_installAssets',
               beforeSend: function()
               {
                 $('body').AddAjaxLoader();
@@ -162,7 +162,7 @@
 
                 $.ajax({
                   type: 'POST',
-                  url: frontController + $('#al_available_languages').val() + '/al_removeTheme',
+                  url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_removeTheme',
                   data: {'themeName' : data.themeName},
                   beforeSend: function()
                   {

@@ -1,0 +1,20 @@
+<div class="al-items-list">
+    <table>
+    {% set i = 0 %}
+    {% for role in roles %}
+        {% if (i % 2) == 0 %}
+            {% set class = 'row' %}
+        {% else %}
+            {% set class = 'alternate-row' %}
+        {% endif %}
+        <tr class="{{ class }}"><td width="100%">{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">Edit</a></td><td><a href="#" class="al_delete_role" rel="{{ role.id }}">Delete</a></td></tr>
+        {% set i  = i + 1 %}
+    {% endfor %}
+    </table>
+</div>
+<div class="al_security_commands_box">
+    <ul>
+        <li><input type="submit" value="New" class="al_add_role input button al_large" /></li>
+        <li><input type="submit" value="Users" class="al_list_users input button al_large" /></li>
+    </ul>
+</div>
