@@ -32,7 +32,7 @@ class AlThemeQuery extends BaseThemeQuery
      * Sets the container
      * 
      * @param ContainerInterface $v
-     * @return AlContentQuery 
+     * @return AlBlockQuery 
      */
     public function setContainer(ContainerInterface $v)
     {

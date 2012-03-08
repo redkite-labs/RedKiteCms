@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContent;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
@@ -34,26 +34,26 @@ class AlBlockManagerFactory
      * Creates an instance of an AlBlockManager object
      * 
      * @param ContainerInterface    $container
-     * @param mixed                 $content        An instance of an AlContent object or a valid content type
+     * @param mixed                 $content        An instance of an AlBlock object or a valid content type
      * 
      * @return AlBlockManager or null
      * @throws InvalidArgumentException When the class cannot be created
      */
     public static function createBlock(ContainerInterface $container, $content) 
     {
-        if(null === $content || !is_string($content) && !$content instanceOf AlContent)
+        if(null === $content || !is_string($content) && !$content instanceOf AlBlock)
         {
             return null;
         }
         
-        if($content instanceOf AlContent)
+        if($content instanceOf AlBlock)
         {
-            $alContent = $content;
-            $className = $alContent->getClassName();
+            $alBlock = $content;
+            $className = $alBlock->getClassName();
         }
         else
         {
-            $alContent = null;
+            $alBlock = null;
             $className = ucfirst(trim($content));
         }
 
@@ -68,7 +68,7 @@ class AlBlockManagerFactory
         }
 
         $alBlockManager = new $class($container);
-        if(null !== $alContent) $alBlockManager->set($alContent);
+        if(null !== $alBlock) $alBlockManager->set($alBlock);
         
         return $alBlockManager;
     }

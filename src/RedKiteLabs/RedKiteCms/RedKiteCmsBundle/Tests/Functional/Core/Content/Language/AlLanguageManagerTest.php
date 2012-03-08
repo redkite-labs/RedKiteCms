@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Language;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
@@ -110,7 +110,7 @@ class AlLanguageManagerTest extends TestCase
         $this->assertEquals('it', $testAlLanguageManager1->get()->getLanguage());
         $this->assertEquals(0, $testAlLanguageManager1->get()->getMainLanguage(), "Another language added than the first has not been setted to 0 as expected");
         $this->assertEquals(2, AlLanguageQuery::create()->activeLanguages()->count());
-        $this->assertNotEquals(0, AlContentQuery::create()->fromLanguageId($testAlLanguageManager1->get()->getId())->count(), '->save() has not copied the contents to the new language as expected');
+        $this->assertNotEquals(0, AlBlockQuery::create()->fromLanguageId($testAlLanguageManager1->get()->getId())->count(), '->save() has not copied the contents to the new language as expected');
         
         $alPageAttribute = AlPageAttributeQuery::create()->fromLanguageId($testAlLanguageManager1->get()->getId());
         $this->assertNotEquals(0, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
@@ -194,12 +194,12 @@ class AlLanguageManagerTest extends TestCase
         
         $testAlLanguageManager->get()->setMainLanguage(0);
         
-        $this->assertNotEquals(0, AlContentQuery::create()->fromLanguageId($testAlLanguageManager->get()->getId())->count(), 'Any content exists for the current language');
+        $this->assertNotEquals(0, AlBlockQuery::create()->fromLanguageId($testAlLanguageManager->get()->getId())->count(), 'Any content exists for the current language');
         $this->assertNotEquals(0, AlPageAttributeQuery::create()->fromLanguageId($testAlLanguageManager->get()->getId())->count(), 'Any page attribute exists for the current language');
         
         $this->assertTrue($testAlLanguageManager->delete());
         $this->assertEquals(1, $testAlLanguageManager->get()->getToDelete(), '->delete() method has not set to true the to_delete field as expected');
-        $this->assertEquals(0, AlContentQuery::create()->fromLanguageId($testAlLanguageManager->get()->getId())->count(), '->delete() method has not set to true the to_delete field as expected');
+        $this->assertEquals(0, AlBlockQuery::create()->fromLanguageId($testAlLanguageManager->get()->getId())->count(), '->delete() method has not set to true the to_delete field as expected');
         $this->assertEquals(0, AlPageAttributeQuery::create()->fromLanguageId($testAlLanguageManager->get()->getId())->count(), '->delete() method has not set to true the to_delete field as expected');
     }
 }
