@@ -29,14 +29,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 */
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContent;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributeQuery;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContentVersion;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockVersion;
 
 
 /**

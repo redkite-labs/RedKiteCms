@@ -43,14 +43,14 @@ class AlBlockManagerMedia extends AlBlockManager
     {
         $dv = $this->getDefaultValue();
 		$media = $this->buildMedia();
-		return (null !== $media) ? $media->render() : $this->alContent->getHtmlContent();
+		return (null !== $media) ? $media->render() : $this->alBlock->getHtmlContent();
 		
         return $dv["HtmlContent"];
     }
     
     protected function buildMedia()
     {
-        $mediaBuilder = new AlMediaBuilder($this->container, $this->alContent->getHtmlContent());
+        $mediaBuilder = new AlMediaBuilder($this->container, $this->alBlock->getHtmlContent());
         $mediaBuilder->createMedia();
 
         return $mediaBuilder->getMedia();

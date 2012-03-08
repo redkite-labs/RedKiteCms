@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database namespace="AlphaLemon\AlphaLemonCmsBundle\Model" name="default"  defaultIdMethod="native" >
 
-  <table name="al_content" description="This table will be renamed as al_block">
+  <table name="al_block" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="page_id" type="INTEGER" required="true" />
     <foreign-key foreignTable="al_page" onDelete="CASCADE">
@@ -21,7 +21,7 @@
     <column name="to_delete" type="INTEGER" required="true" default="0" />
     <column name="content_position" type="INTEGER" required="true" default="1" />
     <column name="created_at" type="timestamp" />
-    <unique name="I_CONTENT">
+    <unique name="I_BLOCK">
       <unique-column name="id" />
     </unique>
   </table>

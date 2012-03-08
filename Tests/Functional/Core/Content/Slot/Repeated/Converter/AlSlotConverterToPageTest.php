@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToPage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 class AlSlotConverterToPageTest extends AlSlotConverterBase
@@ -34,23 +34,23 @@ class AlSlotConverterToPageTest extends AlSlotConverterBase
         $languages = AlLanguageQuery::create()->activeLanguages()->find();
         
         $slot = new AlSlot('logo');
-        $this->assertEquals(1, AlContentQuery::create()->filterBySlotName('logo')->filterByToDelete(0)->count());
+        $this->assertEquals(1, AlBlockQuery::create()->filterBySlotName('logo')->filterByToDelete(0)->count());
         $converter = new AlSlotConverterToPage($container, $slot, $alPage, $alLanguage);
         $this->assertTrue($converter->convert());
-        $this->assertEquals(8, AlContentQuery::create()->filterBySlotName('logo')->filterByToDelete(0)->count());
+        $this->assertEquals(8, AlBlockQuery::create()->filterBySlotName('logo')->filterByToDelete(0)->count());
         foreach($languages as $language)
         {
-            $this->assertEquals(4, AlContentQuery::create()->filterBySlotName('logo')->filterByLanguageId($language->getId())->filterByToDelete(0)->count());
+            $this->assertEquals(4, AlBlockQuery::create()->filterBySlotName('logo')->filterByLanguageId($language->getId())->filterByToDelete(0)->count());
         }
         
         $slot = new AlSlot('search_box');
-        $this->assertEquals(2, AlContentQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
+        $this->assertEquals(2, AlBlockQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
         $converter = new AlSlotConverterToPage($container, $slot, $alPage, $alLanguage);
         $this->assertTrue($converter->convert());
-        $this->assertEquals(8, AlContentQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
+        $this->assertEquals(8, AlBlockQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
         foreach($languages as $language)
         {
-            $this->assertEquals(4, AlContentQuery::create()->filterBySlotName('search_box')->filterByLanguageId($language->getId())->filterByToDelete(0)->count());
+            $this->assertEquals(4, AlBlockQuery::create()->filterBySlotName('search_box')->filterByLanguageId($language->getId())->filterByToDelete(0)->count());
         }
     }
 }

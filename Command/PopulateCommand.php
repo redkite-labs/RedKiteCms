@@ -62,7 +62,7 @@ class PopulateCommand extends ContainerAwareCommand
     {
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
         
-        $queries = array('TRUNCATE al_content;',
+        $queries = array('TRUNCATE al_block;',
                          'TRUNCATE al_language;',
                          'TRUNCATE al_page;',
                          'TRUNCATE al_page_attribute;',
