@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 
 class AlTemplateManagerTest extends TestCase 
@@ -129,11 +129,11 @@ class AlTemplateManagerTest extends TestCase
         $idLanguage = array(1, $container->get('al_page_tree')->getAlLanguage()->getId());
         $idPage = array(1, $container->get('al_page_tree')->getAlPage()->getId());
         
-        $contents = AlContentQuery::create()->retrieveContents($idLanguage, $idPage)->count();
+        $contents = AlBlockQuery::create()->retrieveContents($idLanguage, $idPage)->count();
         $this->assertEquals(0, $contents, 'Some contents are saved, none was expected');
         $templateManager->populate();
         
-        $contents = AlContentQuery::create()->retrieveContents($idLanguage, $idPage)->count();
+        $contents = AlBlockQuery::create()->retrieveContents($idLanguage, $idPage)->count();
         $this->assertEquals(count($templateManager->getSlotManagers()), $contents, 'Not all the expected contents have been created');
     }
 }

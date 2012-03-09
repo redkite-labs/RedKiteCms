@@ -32,17 +32,17 @@ abstract class BaseActionEvent extends Event
     /**
      * Constructor
      * 
-     * @param AlContentManagerInterface $alContentManager 
+     * @param AlContentManagerInterface $alBlockManager 
      */
-    public function __construct(AlContentManagerInterface $alContentManager)
+    public function __construct(AlContentManagerInterface $alBlockManager)
     {
-        $this->alManager = $alContentManager;
+        $this->alManager = $alBlockManager;
     }
 
     /**
-     * Returns the current AlContentManager object
+     * Returns the current AlBlockManager object
      * 
-     * @return AlContentManager 
+     * @return AlBlockManager 
      */
     public function getContentManager()
     {

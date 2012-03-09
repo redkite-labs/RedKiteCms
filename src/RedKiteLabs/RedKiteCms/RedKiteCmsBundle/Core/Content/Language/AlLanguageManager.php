@@ -21,8 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContent;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 
@@ -285,13 +285,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             
             // Copies the contents to the new language
-            $contents = AlContentQuery::create()
+            $contents = AlBlockQuery::create()
                                 ->setContainer($this->container)
                                 ->fromLanguageId($idLanguage)
                                 ->find();
             foreach($contents as $content)
             {
-                $newContent = new AlContent();
+                $newContent = new AlBlock();
                 $values = $content->toArray();
                 unset($values['Id']);
                 unset($values['CreatedAt']);
@@ -446,7 +446,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $rollBack = false;
             $this->connection->beginTransaction();
 
-            $contents = AlContentQuery::create()
+            $contents = AlBlockQuery::create()
                         ->setContainer($this->container)
                         ->fromLanguageId($this->alLanguage->getId())
                         ->find();

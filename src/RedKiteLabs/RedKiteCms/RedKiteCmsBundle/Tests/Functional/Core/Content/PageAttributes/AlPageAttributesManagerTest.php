@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\PageAttri
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
