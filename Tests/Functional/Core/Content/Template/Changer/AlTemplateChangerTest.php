@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots;
@@ -104,23 +104,23 @@ class AlTemplateChangerTest extends TestCase
     public function testChange(AlTemplateChanger $templateChanger)
     {
         $templateChanger->change();
-        $addedContents = AlContentQuery::create()->retrieveContents(array(1, 2), array(1, 2), array('fake_slot_1', 'fake_slot_2', 'fake_slot_3'))->find(); 
+        $addedContents = AlBlockQuery::create()->retrieveContents(array(1, 2), array(1, 2), array('fake_slot_1', 'fake_slot_2', 'fake_slot_3'))->find(); 
         $this->assertNotNull($addedContents);
         $this->assertEquals(3, $addedContents->count());
         
-        $logo = AlContentQuery::create()->retrieveContents(2, 2, 'logo')->findOne();
+        $logo = AlBlockQuery::create()->retrieveContents(2, 2, 'logo')->findOne();
         $this->assertNotNull($logo);
         
-        $navMenu = AlContentQuery::create()->retrieveContents(2, 2, 'nav_menu')->findOne();
+        $navMenu = AlBlockQuery::create()->retrieveContents(2, 2, 'nav_menu')->findOne();
         $this->assertNotNull($navMenu);
         
-        $content = AlContentQuery::create()->retrieveContents(2, 1, 'content')->findOne();
+        $content = AlBlockQuery::create()->retrieveContents(2, 1, 'content')->findOne();
         $this->assertNotNull($content);
         
-        $middleSidebar = AlContentQuery::create()->retrieveContents(2, 1, 'middle_sidebar')->findOne();
+        $middleSidebar = AlBlockQuery::create()->retrieveContents(2, 1, 'middle_sidebar')->findOne();
         $this->assertNotNull($middleSidebar);
         
-        $adsBox = AlContentQuery::create()->retrieveContents(1, 1, 'ads_box')->findOne();
+        $adsBox = AlBlockQuery::create()->retrieveContents(1, 1, 'ads_box')->findOne();
         $this->assertNotNull($adsBox);
     }
     
@@ -166,22 +166,22 @@ class AlTemplateChangerTest extends TestCase
     public function testChange_1(AlTemplateChanger $templateChanger)
     {
         $templateChanger->change();
-        $removedContents = AlContentQuery::create()->retrieveContents(array(1, 2), array(1, 2), array('fake_slot_1', 'fake_slot_2', 'fake_slot_3'))->find(); 
+        $removedContents = AlBlockQuery::create()->retrieveContents(array(1, 2), array(1, 2), array('fake_slot_1', 'fake_slot_2', 'fake_slot_3'))->find(); 
         $this->assertEquals(0, $removedContents->count());
         
-        $logo = AlContentQuery::create()->retrieveContents(1, 1, 'logo')->findOne();
+        $logo = AlBlockQuery::create()->retrieveContents(1, 1, 'logo')->findOne();
         $this->assertNotNull($logo);
         
-        $navMenu = AlContentQuery::create()->retrieveContents(2, 1, 'nav_menu')->findOne();
+        $navMenu = AlBlockQuery::create()->retrieveContents(2, 1, 'nav_menu')->findOne();
         $this->assertNotNull($navMenu);
         
-        $content = AlContentQuery::create()->retrieveContents(2, 2, 'content')->findOne();
+        $content = AlBlockQuery::create()->retrieveContents(2, 2, 'content')->findOne();
         $this->assertNotNull($content);
         
-        $middleSidebar = AlContentQuery::create()->retrieveContents(2, 2, 'middle_sidebar')->findOne();
+        $middleSidebar = AlBlockQuery::create()->retrieveContents(2, 2, 'middle_sidebar')->findOne();
         $this->assertNotNull($middleSidebar);
         
-        $adsBox = AlContentQuery::create()->retrieveContents(2, 2, 'ads_box')->findOne();
+        $adsBox = AlBlockQuery::create()->retrieveContents(2, 2, 'ads_box')->findOne();
         $this->assertNotNull($adsBox);
     }
     

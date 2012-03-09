@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
@@ -234,8 +234,8 @@ class AlTemplateManager extends AlTemplateBase
         $slots = $this->templateSlots->getSlots();
         foreach($slots as $slotName => $slot)
         {
-            $alContents = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
-            $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alContents);
+            $alBlocks = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
+            $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alBlocks);
             
             $this->slotManagers[$slotName] = $slotManager;
         }
@@ -247,8 +247,8 @@ class AlTemplateManager extends AlTemplateBase
             if($slotName != "")
             {
                 $slot = new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot($slotName);
-                $alContents = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
-                $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alContents);
+                $alBlocks = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
+                $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alBlocks);
 
                 $this->slotManagers[$slotName] = $slotManager;
             }
@@ -267,10 +267,10 @@ class AlTemplateManager extends AlTemplateBase
         $idLanguage = array(1, $this->alLanguage->getId());
         $idPage = array(1, $this->alPage->getId());
         
-        $alContents = AlContentQuery::create()->setContainer($this->container)->retrieveContents($idLanguage, $idPage)->find();
-        foreach($alContents as $alContent)
+        $alBlocks = AlBlockQuery::create()->setContainer($this->container)->retrieveContents($idLanguage, $idPage)->find();
+        foreach($alBlocks as $alBlock)
         {
-            $contents[$alContent->getSlotName()][] = $alContent;
+            $contents[$alBlock->getSlotName()][] = $alBlock;
         }
         
         return $contents;

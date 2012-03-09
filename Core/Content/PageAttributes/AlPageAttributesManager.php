@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttribute;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -295,12 +295,12 @@ class AlPageAttributesManager extends AlContentManagerBase implements AlContentM
 
                 // Changes the old permalink for all the contents where the old permalink exists
                 if(!$rollBack && $isPermalinkChanged) {
-                    $alContents = AlContentQuery::create()->setContainer($this->container)->fromHtmlContent($oldPermalink)->find();
-                    foreach($alContents as $alContent) {
-                        $htmlContent = preg_replace('/' . $oldPermalink . '/s', $values["permalink"], $alContent->getHtmlContent());
-                        $alContent->setHtmlContent($htmlContent);
-                        $res = $alContent->save();
-                        if ($alContent->isModified() && $res == 0) {
+                    $alBlocks = AlBlockQuery::create()->setContainer($this->container)->fromHtmlContent($oldPermalink)->find();
+                    foreach($alBlocks as $alBlock) {
+                        $htmlContent = preg_replace('/' . $oldPermalink . '/s', $values["permalink"], $alBlock->getHtmlContent());
+                        $alBlock->setHtmlContent($htmlContent);
+                        $res = $alBlock->save();
+                        if ($alBlock->isModified() && $res == 0) {
                             $rollBack = true;
                             break;
                         }

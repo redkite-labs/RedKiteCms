@@ -35,7 +35,7 @@ class AlLanguageQuery extends BaseLanguageQuery
      * Sets the container
      * 
      * @param ContainerInterface $v
-     * @return AlContentQuery 
+     * @return AlBlockQuery 
      */
     public function setContainer(ContainerInterface $v)
     {

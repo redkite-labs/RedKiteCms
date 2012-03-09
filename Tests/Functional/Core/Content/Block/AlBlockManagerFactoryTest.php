@@ -72,7 +72,7 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->assertNotNull($contenManager, '::createBlock() has not created a text content');
         $this->assertNull($contenManager->get());
         
-        $content = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlContent();
+        $content = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
         $content->setId(1);
         $content->setClassName('Media');
         

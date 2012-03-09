@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\PageAttributes\PageAttributesForm;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
@@ -53,17 +53,17 @@ class BlocksController extends Controller
         try
         {
             $request = $this->getRequest();
-            $alContent = AlContentQuery::create()->findPK($request->get('idBlock'));
-            if ($alContent != null)
+            $alBlock = AlBlockQuery::create()->findPK($request->get('idBlock'));
+            if ($alBlock != null)
             {
-                $editorSettingsParamName = sprintf('al_%s_editor_settings', strtolower($alContent->getClassName())); 
+                $editorSettingsParamName = sprintf('al_%s_editor_settings', strtolower($alBlock->getClassName())); 
                 $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
-                $controller = sprintf('Al%sBundle:Block:%s_editor.html.twig', $alContent->getClassName(), strtolower($alContent->getClassName()));
+                $controller = sprintf('Al%sBundle:Block:%s_editor.html.twig', $alBlock->getClassName(), strtolower($alBlock->getClassName()));
                 
                 
-                $editor = $this->container->get('templating')->render($controller, array("alContent" => $alContent,
-                                                                                         "jsFiles" => explode(",", $alContent->getExternalJavascript()),
-                                                                                         "cssFiles" => explode(",", $alContent->getExternalStylesheet()),
+                $editor = $this->container->get('templating')->render($controller, array("alContent" => $alBlock,
+                                                                                         "jsFiles" => explode(",", $alBlock->getExternalJavascript()),
+                                                                                         "cssFiles" => explode(",", $alBlock->getExternalStylesheet()),
                                                                                          "language" => $request->get('language'),
                                                                                          "page" => $request->get('page'),
                                                                                          "editor_settings" => $editorSettings));
@@ -74,7 +74,7 @@ class BlocksController extends Controller
                 $dispatcher = $this->container->get('event_dispatcher');
                 if(null !== $dispatcher)
                 {
-                    $event = new Block\BlockEditorRenderedEvent($response, $alContent);
+                    $event = new Block\BlockEditorRenderedEvent($response, $alBlock);
                     $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERED, $event);
                     $response = $event->getResponse();
                 }
@@ -166,19 +166,19 @@ class BlocksController extends Controller
         try
         {
             $request = $this->get('request');
-            $alContent = AlContentQuery::create()->findPK($request->get('idBlock'));  
-            if ($alContent != null)
+            $alBlock = AlBlockQuery::create()->findPK($request->get('idBlock'));  
+            if ($alBlock != null)
             {
                 $editorContents = null;
                 $assetsBaseDir = AlToolkit::locateResource($this->container, $this->container->getParameter('al.deploy_bundle_assets_base_dir'));
                 if($request->get('key') == 'ExternalJavascript')
                 {
-                    $externalFiles =  $alContent->getExternalJavascript();
+                    $externalFiles =  $alBlock->getExternalJavascript();
                     $assetsBaseDir .= '/' . $this->container->getParameter('al.deploy_bundle_js_folder');
                 }
                 else
                 {
-                    $externalFiles =  $alContent->getExternalStylesheet();
+                    $externalFiles =  $alBlock->getExternalStylesheet();
                     $assetsBaseDir .= '/' . $this->container->getParameter('al.deploy_bundle_css_folder');
                 }
                 
@@ -190,7 +190,7 @@ class BlocksController extends Controller
                     $value = implode(",", $files);
                     
                     $values = array($request->get('key') => $value); 
-                    $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alContent, $request->get('slotName'));
+                    $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alBlock, $request->get('slotName'));
                     $res = $alBlockManager->save($values); 
                                         
                     $assetsBaseDir = AlToolkit::locateResource($this->container, $this->container->getParameter('al.deploy_bundle_assets_base_dir'));
@@ -204,7 +204,7 @@ class BlocksController extends Controller
                 $message = ($res) ? $this->get('translator')->trans('The content has successfully edited') : $this->get('translator')->trans('The content has not edited');
 
                 
-                return $this->buildJSonHeader(null, $alContent->getSlotName(), $editorContents);
+                return $this->buildJSonHeader(null, $alBlock->getSlotName(), $editorContents);
             }
             else
             {

@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery; 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery; 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
@@ -96,28 +96,28 @@ class AlRepeatedSlotManagerTest extends TestCase
         $this->assertTrue($testAlRepeatedSlotsManager->compareSlots('Home', $slots));
         $this->assertTrue(file_exists($this->activeThemeSlots), 'The activeThemeSlots file has not been created');
         
-        $this->assertEquals(1, AlContentQuery::create()->retrieveContentsBySlotName('stats_box')->count());
+        $this->assertEquals(1, AlBlockQuery::create()->retrieveContentsBySlotName('stats_box')->count());
         $slots['stats_box'] = new AlSlot('stats_box', array('repeated' => 'page'));
         $this->assertTrue($testAlRepeatedSlotsManager->compareSlots('Home', $slots));
-        $this->assertEquals(8, AlContentQuery::create()->retrieveContentsBySlotName('stats_box')->count());
+        $this->assertEquals(8, AlBlockQuery::create()->retrieveContentsBySlotName('stats_box')->count());
         
-        $this->assertEquals(2, AlContentQuery::create()->retrieveContentsBySlotName('nav_menu')->count());
+        $this->assertEquals(2, AlBlockQuery::create()->retrieveContentsBySlotName('nav_menu')->count());
         $slots['nav_menu'] = new AlSlot('nav_menu', array('repeated' => 'site'));
         $this->assertTrue($testAlRepeatedSlotsManager->compareSlots('Home', $slots));
-        $this->assertEquals(1, AlContentQuery::create()->retrieveContentsBySlotName('nav_menu')->count());
+        $this->assertEquals(1, AlBlockQuery::create()->retrieveContentsBySlotName('nav_menu')->count());
         
-        $this->assertEquals(8, AlContentQuery::create()->retrieveContentsBySlotName('header')->count());
+        $this->assertEquals(8, AlBlockQuery::create()->retrieveContentsBySlotName('header')->count());
         $slots['header'] = new AlSlot('header', array('repeated' => 'language'));
         $this->assertTrue($testAlRepeatedSlotsManager->compareSlots('Home', $slots));
-        $this->assertEquals(2, AlContentQuery::create()->retrieveContentsBySlotName('header')->count());
+        $this->assertEquals(2, AlBlockQuery::create()->retrieveContentsBySlotName('header')->count());
         
         $slots['ads_box'] = new AlSlot('ads_box', array('repeated' => 'site'));
         $slots['content'] = new AlSlot('content', array('repeated' => 'language'));
         $slots['sponsor_box'] = new AlSlot('sponsor_box', array('repeated' => 'page'));
         $this->assertTrue($testAlRepeatedSlotsManager->compareSlots('Home', $slots));
         
-        $this->assertEquals(1, AlContentQuery::create()->retrieveContentsBySlotName('ads_box')->count());
-        $this->assertEquals(2, AlContentQuery::create()->retrieveContentsBySlotName('content')->count());
-        $this->assertEquals(8, AlContentQuery::create()->retrieveContentsBySlotName('sponsor_box')->count());
+        $this->assertEquals(1, AlBlockQuery::create()->retrieveContentsBySlotName('ads_box')->count());
+        $this->assertEquals(2, AlBlockQuery::create()->retrieveContentsBySlotName('content')->count());
+        $this->assertEquals(8, AlBlockQuery::create()->retrieveContentsBySlotName('sponsor_box')->count());
     }
 }

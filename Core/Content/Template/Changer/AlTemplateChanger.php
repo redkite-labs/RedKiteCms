@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
@@ -130,7 +130,7 @@ class AlTemplateChanger extends AlContentManagerBase
                     case 'remove':
                         foreach($slots as $slotNames)
                         {
-                            AlContentQuery::create()->setContainer($this->container)->fromPageIdAndSlotName(array(1, $this->alPage->getId()), $slotNames)->delete();
+                            AlBlockQuery::create()->setContainer($this->container)->fromPageIdAndSlotName(array(1, $this->alPage->getId()), $slotNames)->delete();
                         }
                         break;
                 }
