@@ -58,7 +58,7 @@
 
 {% block external_javascripts %}
 {{ parent() }}
-{% javascripts  filter='?yui_js' 'bundles/alphalemonthemeengine/js/vendor/jquery/*' 'bundles/alphalemonthemeengine/js/vendor/*' 'bundles/alphalemoncms/js/vendor/medialize/*' 'bundles/alphalemoncms/js/*' %}
+{% javascripts  filter='?yui_js' "bundles/alphalemonthemeengine/js/vendor/jquery/*" 'bundles/alphalemonthemeengine/js/vendor/*' 'bundles/alphalemoncms/js/vendor/medialize/*' 'bundles/alphalemoncms/js/*' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 <script src="/js/tiny_mce/tiny_mce.js"></script>
