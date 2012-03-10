@@ -36,8 +36,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Assetic\AlAsseticDynamicFileManager\AlAs
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRenderer\BeforePageRenderingEvent;
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
 
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
 /**
  * Implements the controller to load AlphaLemon CMS
  *
@@ -45,6 +43,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class AlCmsController extends Controller
 {
+    private $cmsAssets = array();
+    
     public function showAction()
     {
         $request = $this->container->get('request'); 
@@ -53,6 +53,8 @@ class AlCmsController extends Controller
         $skin = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');
         if(null !== $pageTree)
         {
+            $this->cmsAssets = $this->retrieveCmsAssets();
+            
             $kernel = $this->container->get('kernel');
             $frontController = sprintf('/%s.php/', $kernel->getEnvironment());
             
@@ -92,8 +94,6 @@ class AlCmsController extends Controller
                 $template = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
             }
             
-            
-           
             $languageId = (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0;
             $pageId = (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0;
             
@@ -102,7 +102,7 @@ class AlCmsController extends Controller
                                 'metadescription' => $pageTree->getMetaDescription(),
                                 'metakeywords' => $pageTree->getMetaKeywords(),
                                 'internal_stylesheets' => $pageTree->getInternalStylesheet(),
-                                'internal_javascripts' => '',
+                                'internal_javascripts' => $pageTree->getInternalJavascript(),
                                 'values' => $pageTree->getContents(),
                                 'template' => $template,
                                 'page' => $pageId,
@@ -146,12 +146,17 @@ class AlCmsController extends Controller
         foreach($assets as $asset)
         {
             $filename = basename($asset);     
+            if(in_array($filename, $this->cmsAssets))
+            {
+                continue;
+            }
+            
             $currentAsset = $asset;
 
             // Checks if the assets is given with a relative path 
             if(false !== strpos($currentAsset, 'bundles') || false !== strpos($currentAsset, '@'))
             {    
-                preg_match('/^@([\w]+Bundle)\/Resources\/public\/([\w\/\.]+)/', $currentAsset, $match);
+                preg_match('/^@([\w]+Bundle)\/Resources\/public\/([\w\/\.-]+)/', $currentAsset, $match);
                 if(!empty($match))
                 {
                         $currentAsset = AlToolkit::retrieveBundleWebFolder($this->container, $match[1]) . '/' . $match[2];
@@ -163,6 +168,35 @@ class AlCmsController extends Controller
         }
 
         return $located;
+    }
+    
+    private function retrieveCmsAssets()
+    {
+        $alCmsAssetsFolders = array('js/vendor/jquery', 'js/vendor', );
+        $resourcesPath = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle/Resources/public');
+        $assets = $this->process($resourcesPath, $alCmsAssetsFolders);
+        
+        $alCmsAssetsFolders = array('js/vendor/medialize', 'js', );
+        $resourcesPath = AlToolkit::locateResource($this->container, '@AlphaLemonCmsBundle/Resources/public');
+        $assets = array_merge($assets, $this->process($resourcesPath, $alCmsAssetsFolders));
+        
+        return $assets;
+    }
+    
+    private function process($resourcesPath, $alCmsAssetsFolders)
+    {
+        $assets = array();
+        foreach($alCmsAssetsFolders as $alCmsAssetsFolder)
+        {
+            $finder = new Finder();
+            $finder->files()->depth(0)->in($resourcesPath . "/" .$alCmsAssetsFolder);
+            foreach($finder as $asset)
+            {
+                $assets[] = basename($asset->getFileName());
+            }
+        }
+        
+        return $assets;
     }
 }
 
