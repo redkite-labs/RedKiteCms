@@ -1,3 +1,9 @@
+UPGRADE FROM AlphaLemon CMS PR5
+The AlContent table has been renamed to AlBlock. To port this change to your database, open the console and launch the following command:
+
+    app/console --env=alcms alphalemon:update-db-to-PR6 [dsn]
+
+
 UPGRADE FROM AlphaLemon CMS PR4 or less
 This new version has two more tables which must be added to your database. AlphaLemon provides a command that does this job for you.
 
