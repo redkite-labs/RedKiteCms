@@ -33,35 +33,15 @@ class ThemesController extends BaseController
 {   
     public function showAction()
     {
-        $frontcontroller = $this->container->get('kernel')->getEnvironment() . '.php';
         $values = $this->retrieveThemeValues();        
-        $customOptions = array("panel_title" => "Themes uploader",
-                               "panel_info" => "",
-                               "allowed_extensions" => "'zip'",
-                               "upload_action" => $frontcontroller . "/al_uploadFile",
-                               "folder" => $this->locateThemesFolder(),
-                               "onComplete" => "extractTheme()"); 
-        $valumOptionsBuilder = new AlValumUploaderOptionsBuilder($this->container);
-        $valumOptionsBuilder->build($customOptions);
         
         $stylesheets = array();
         foreach($this->container->getParameter('althemes.stylesheets') as $stylesheet)
         {
             $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
         }
-        /*
-        $activeThemeTemplatesCount = iterator_count($this->retrieveTemplates($values['active_theme']['theme_title']));
         
-        $c = 0;
-        $availableThemes = $values["available_themes"]["themes"];
-        foreach($availableThemes as $availableTheme)
-        {
-            $r = $activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title']));
-            echo $activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title']));exit;
-            $values["available_themes"]["themes"][$c]["compatible"] = ($activeThemeTemplatesCount - iterator_count($this->retrieveTemplates($availableTheme['theme_title'])) >= 0) ? "0" : "1";
-            $c++;
-        }  */
-        
+        $valumOptionsBuilder = $this->setuValumUploader();
         $isWindows = (PHP_OS == "WINNT") ? true : false;
         return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
                                                                                          'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
@@ -70,6 +50,39 @@ class ThemesController extends BaseController
                                                                                          'values' => $values,
                                                                                          'is_windows' => $isWindows,
                                                                                          'valum' => $valumOptionsBuilder->getOptions()));
+    }
+    
+    public function extractThemesAction()
+    {
+        $this->extractTheme();
+        
+        $valumOptionsBuilder = $this->setuValumUploader();
+        $isWindows = (PHP_OS == "WINNT") ? true : false;
+        return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 
+                                                                                                        'values' => $this->retrieveThemeValues(),
+                                                                                                        'is_windows' => $isWindows,
+                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
+    }
+    
+    public function removeThemeAction()
+    {
+        try
+        {
+            $this->removeTheme();
+            
+            $valumOptionsBuilder = $this->setuValumUploader();
+            $isWindows = (PHP_OS == "WINNT") ? true : false;
+            return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 
+                                                                                                        'values' => $this->retrieveThemeValues(),
+                                                                                                        'is_windows' => $isWindows,
+                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
+        }
+        catch(Exception $e)
+        {
+            $response = new Response();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonCmsBundle:Pages:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
     }
     
     public function activateThemeAction($themeName, $activeLanguage = null, $activePage = null)
@@ -85,8 +98,6 @@ class ThemesController extends BaseController
             $page = AlPageQuery::create()->findPk($activePage);
             $pageName = (null !== $page) ? $page->getPageName() : 'index';
             
-            $this->installAssetsAction();
-            
             return new RedirectResponse($this->generateUrl('_navigation', array('_locale' => $languageName, 'page' => $pageName)));
         }
         catch(Exception $e)
@@ -97,7 +108,6 @@ class ThemesController extends BaseController
     
     public function showThemeFixerAction()
     {
-        /**/
         $templates = array();
         $request = $this->getRequest();
         $finder = $this->retrieveTemplates($request->get('themeName'));
@@ -107,7 +117,6 @@ class ThemesController extends BaseController
         }
         
         $pages = AlPageQuery::create('a')->
-                    //where('a.TemplateName NOT IN (\'' . implode('\', \'', $templates) . '\')')->
                     where('a.Id > 1') ->
                     filterByToDelete(0)->
                     orderByPageName()->
@@ -154,6 +163,21 @@ class ThemesController extends BaseController
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+    
+    protected function setuValumUploader()
+    {
+        $frontcontroller = $this->container->get('kernel')->getEnvironment() . '.php';
+        $customOptions = array("panel_title" => "Themes uploader",
+                               "panel_info" => "",
+                               "allowed_extensions" => "'zip'",
+                               "upload_action" => '/' . $frontcontroller . "/al_uploadFile",
+                               "folder" => $this->locateThemesFolder(),
+                               "onComplete" => "extractTheme()"); 
+        $valumOptionsBuilder = new AlValumUploaderOptionsBuilder($this->container);
+        $valumOptionsBuilder->build($customOptions);
+        
+        return $valumOptionsBuilder;
     }
     
     private function retrieveTemplates($themeName)

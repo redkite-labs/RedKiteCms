@@ -111,7 +111,7 @@
               {
                 $('#al_themes_sections').html(html);
                 ObserveThemeCommands();
-                success = true;
+                //success = true;
               },
               error: function(err)
               {
@@ -121,11 +121,11 @@
               complete: function()
               {
                 $('body').RemoveAjaxLoader();
-                if(success) installAssets();
+                //if(success) installAssets();
               }
             });
     };
-    
+    /*
     installAssets =function()
     {
         $.ajax({
@@ -150,7 +150,7 @@
                 $('body').RemoveAjaxLoader();
               }
             });
-    };
+    };*/
 
     $.fn.removeTheme =function()
     {
@@ -159,30 +159,32 @@
             $(this).click(function()
             {
                 var data = $(this).metadata();
-
-                $.ajax({
-                  type: 'POST',
-                  url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_removeTheme',
-                  data: {'themeName' : data.themeName},
-                  beforeSend: function()
-                  {
-                    $('body').AddAjaxLoader();
-                  },
-                  success: function(html)
-                  {
-                    $('#al_themes_sections').html(html);
-                    ObserveThemeCommands();
-                  },
-                  error: function(err)
-                  {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
-                  },
-                  complete: function()
-                  {
-                    $('body').RemoveAjaxLoader();
-                  }
-                });
+                if(confirm("Are you sure to remove the " + data.themeName + " theme?"))
+                {
+                    $.ajax({
+                      type: 'POST',
+                      url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_removeTheme',
+                      data: {'themeName' : data.themeName},
+                      beforeSend: function()
+                      {
+                        $('body').AddAjaxLoader();
+                      },
+                      success: function(html)
+                      {
+                        $('#al_themes_sections').html(html);
+                        ObserveThemeCommands();
+                      },
+                      error: function(err)
+                      {
+                        $('#al_dialog').html(err.responseText);
+                        $('#al_dialog').dialog('open');
+                      },
+                      complete: function()
+                      {
+                        $('body').RemoveAjaxLoader();
+                      }
+                    });
+                }
             });
         });
     };
