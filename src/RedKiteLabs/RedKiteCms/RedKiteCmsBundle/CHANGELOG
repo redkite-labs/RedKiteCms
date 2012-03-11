@@ -1,3 +1,10 @@
+Preview Release 6
+Renamed AlContent table to AlBlock table
+Website javascripts are now rendered when in cms navigation mode
+Themes import and activation has been fixed
+Fixed the regex that locates assets when the cms is loading
+Implemented workaround to avoid loading duplicated assets 
+
 Preview Release 5
 Implemented security for AlphaLemon CMS
 Moved the CMS under the backend token, this means it is reachable from http://localhost/alcms.php/backend/en/index instead of http://localhost/alcms.php/en/index
