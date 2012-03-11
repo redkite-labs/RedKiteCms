@@ -187,7 +187,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             {
                 throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'The page cannot be added because any parameter has been given'));
             }
-
+            
             $this->checkRequiredParamsExists(array('pageName' => '', 'template' => ''), $values);
 
             if (empty($values['pageName']))
