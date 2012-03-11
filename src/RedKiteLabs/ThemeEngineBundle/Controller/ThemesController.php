@@ -124,36 +124,20 @@ class ThemesController extends Controller
             $fs = new Filesystem();
             foreach($processedThemes as $themeName)
             {
-                if(in_array(strtolower(PHP_OS), array('unix', 'linux')))
+                $sourceDir = $themesBaseFolder . '/' . $themeName . '/Resources/public';
+                $targetDir = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/' . preg_replace('/bundle$/', '', strtolower($themeName));
+                if(in_array(strtolower(PHP_OS), array('unix', 'linux'))) 
                 {
-                    $fs->symlink($themesBaseFolder . '/' . $themeName . '/Resources/public', $this->container->getParameter('kernel.root_dir') . '/../web/bundles/' . preg_replace('/bundle$/', '', strtolower($themeName)));
+                    $fs->symlink($sourceDir, $targetDir);
+                }
+                else 
+                {
+                    $fs->mirror($sourceDir, $targetDir);
                 }
             }
             $this->removeCache();
         }
     }
-
-    /*
-    public function installAssetsAction()
-    {
-        $response = new Response();
-        return $response;
-        $url = $this->generateUrl('_themes');
-        
-        $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : ''; 
-        $command = sprintf('assets:install --env=%s %s %s', $this->container->get('kernel')->getEnvironment(), AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../web'), $symlink);
-        AlToolkit::executeCommand($this->container->get('kernel'), $command);
-        //$this->removeCache();
-        
-        $request = $this->get('request');
-        if(!$request->isXmlHttpRequest())
-        {
-            return $this->redirect($url);
-        }
-        
-        $response = new Response();
-        return $this->render('AlphaLemonCmsBundle:Pages:ajax_error.html.twig', array('message' => 'Theme installed'), $response);
-    }*/
     
     public function importThemeAction()
     {
