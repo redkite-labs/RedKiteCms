@@ -44,25 +44,25 @@ class RenderSlotExtension extends BaseRenderSlotExtension
         try
         {
             $result = '';  
-            $alContents = $this->pageTree->getContents($slotName);
-            if(count($alContents) > 0)
+            $alBlocks = $this->pageTree->getContents($slotName);
+            if(count($alBlocks) > 0)
             {
-                foreach($alContents as $alContent)
+                foreach($alBlocks as $alBlock)
                 {
-                    if(\array_key_exists('Id', $alContent))
+                    if(\array_key_exists('Id', $alBlock))
                     {
-                        $hideInEditMode = ($alContent['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-                        $result .= sprintf('<div class="al_editable %s cmVoice {id: \'%s\', slotName: \'%s\', type: \'%s\', cMenu:\'context_menu_1\'}">%s</div>', $hideInEditMode, $alContent['Id'], $slotName, strtolower($alContent['Type']), $alContent['HtmlContentCMSMode']);
+                        $hideInEditMode = ($alBlock['HideInEditMode']) ? 'al_hide_edit_mode' : '';
+                        $result .= sprintf('<div class="al_editable %s cmVoice {id: \'%s\', slotName: \'%s\', type: \'%s\', cMenu:\'context_menu_1\'}">%s</div>', $hideInEditMode, $alBlock['Id'], $slotName, strtolower($alBlock['Type']), $alBlock['HtmlContentCMSMode']);
                     }
                     else
                     {
-                        if(\array_key_exists('RenderView', $alContent))
+                        if(\array_key_exists('RenderView', $alBlock))
                         {
-                            $result .= $this->container->get('templating')->render($alContent['RenderView']['view'], $alContent['RenderView']['params']);
+                            $result .= $this->container->get('templating')->render($alBlock['RenderView']['view'], $alBlock['RenderView']['params']);
                         }
-                        else if(\array_key_exists('HtmlContent', $alContent))
+                        else if(\array_key_exists('HtmlContent', $alBlock))
                         {
-                            $result .= $alContent['HtmlContent'];
+                            $result .= $alBlock['HtmlContent'];
                         }
                     }
                 }

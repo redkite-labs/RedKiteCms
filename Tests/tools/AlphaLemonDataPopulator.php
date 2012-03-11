@@ -65,7 +65,7 @@ class AlphaLemonDataPopulator
     {
         /*
         $peerClasses = array(
-            '\AlphaLemon\AlphaLemonCmsBundle\Model\AlContentPeer',
+            '\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockPeer',
             '\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguagePeer',
             '\AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributePeer',
             '\AlphaLemon\AlphaLemonCmsBundle\Model\AlPagePeer',
@@ -97,7 +97,7 @@ class AlphaLemonDataPopulator
         $con->commit();*/
         
         $connection = \Propel::getConnection();
-        $queries = array('TRUNCATE al_content;',
+        $queries = array('TRUNCATE al_block;',
                          'TRUNCATE al_language;',
                          'TRUNCATE al_page;',
                          'TRUNCATE al_page_attribute;',

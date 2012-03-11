@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
@@ -249,7 +249,7 @@ class AlPageManagerTest extends TestCase
         
         $this->assertTrue($testAlPageManager->delete()); 
         $this->assertEquals(1, $testAlPageManager->get()->getToDelete(), '->delete() method has not set to true the to_delete field as expected');
-        $this->assertEquals(0, AlContentQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
+        $this->assertEquals(0, AlBlockQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
         $this->assertEquals(0, AlPageAttributeQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
     }
     
@@ -288,9 +288,9 @@ class AlPageManagerTest extends TestCase
     
     private function checkAddedContents($page, $repeated)
     {
-        $pageContents = AlContentQuery::create('a')->where('a.LanguageId <> ?', 1)->filterByPageId($page->get()->getId())->filterByToDelete(0)->count();
-        $languageContents = AlContentQuery::create('a')->where('a.LanguageId <> ?', 1)->filterByPageId(1)->filterByToDelete(0)->count();
-        $siteContents = AlContentQuery::create()->filterByLanguageId(1)->filterByPageId(1)->filterByToDelete(0)->count();
+        $pageContents = AlBlockQuery::create('a')->where('a.LanguageId <> ?', 1)->filterByPageId($page->get()->getId())->filterByToDelete(0)->count();
+        $languageContents = AlBlockQuery::create('a')->where('a.LanguageId <> ?', 1)->filterByPageId(1)->filterByToDelete(0)->count();
+        $siteContents = AlBlockQuery::create()->filterByLanguageId(1)->filterByPageId(1)->filterByToDelete(0)->count();
         
         $this->assertEquals($pageContents, count($repeated["page"]));
         $this->assertEquals($languageContents, count($repeated["language"]));

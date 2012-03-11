@@ -18,8 +18,8 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use Symfony\Component\DependencyInjection\Exception;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
@@ -30,7 +30,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
  * AlBlockManager is the base object that defines a block content on a slot.
- * It manages an AlContent object, implementig the base methods to add, edit and delete it
+ * It manages an AlBlock object, implementig the base methods to add, edit and delete it
  *
  * A new block content must inherit from this class.
  * 
@@ -38,7 +38,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface
 {
-    protected $alContent = null;
+    protected $alBlock = null;
             
 
     /*
@@ -69,7 +69,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function get()
     {
-        return $this->alContent;
+        return $this->alBlock;
     }
 
     /**
@@ -77,12 +77,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function set(\BaseObject $propelObject = null)
     {
-        if(null !== $propelObject && !$propelObject instanceof AlContent)
+        if(null !== $propelObject && !$propelObject instanceof AlBlock)
         {
-            throw new Exception\InvalidArgumentException('AlBlockManager accepts only AlContent propel objects');
+            throw new Exception\InvalidArgumentException('AlBlockManager accepts only AlBlock propel objects');
         }
 
-        $this->alContent = $propelObject;
+        $this->alBlock = $propelObject;
     }
 
     /**
@@ -90,7 +90,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function save(array $parameters)
     {
-        if(null === $this->alContent)
+        if(null === $this->alBlock)
         {
             return $this->add($parameters);
         }
@@ -124,9 +124,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $this->connection->beginTransaction();
 
             // Marks for deletion
-            $this->alContent->setToDelete(1);
-            $this->result = $this->alContent->save();
-            if ($this->alContent->isModified() && $this->result == 0)
+            $this->alBlock->setToDelete(1);
+            $this->result = $this->alBlock->save();
+            if ($this->alBlock->isModified() && $this->result == 0)
             {
                 $rollback = true;
             }
@@ -184,7 +184,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtmlContent()
     {
-        return $this->alContent->getHtmlContent();
+        return $this->alBlock->getHtmlContent();
     }
 
     /**
@@ -194,7 +194,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getExternalJavascript()
     {
-        $javascripts = trim($this->alContent->getExternalJavascript());
+        $javascripts = trim($this->alBlock->getExternalJavascript());
 
         return ($javascripts != "") ? explode(',', $javascripts) : array();
     }
@@ -206,7 +206,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getExternalStylesheet()
     {
-        $stylesheets = trim($this->alContent->getExternalStylesheet());
+        $stylesheets = trim($this->alBlock->getExternalStylesheet());
 
         return ($stylesheets != "") ? explode(',', $stylesheets) : array();
     }
@@ -220,13 +220,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getInternalJavascript()
     {
         $function = '';
-        if(trim($this->alContent->getInternalJavascript()) != '')
+        if(trim($this->alBlock->getInternalJavascript()) != '')
         {
             $function .= 'try{';
-            $function .= $this->alContent->getInternalJavascript();
+            $function .= $this->alBlock->getInternalJavascript();
             $function .= '}';
             $function .= 'catch(e){';
-            $function .= sprintf('alert("The javascript added to the slot %s has been generated an error, which reports:\n\n" + e);', $this->alContent->getSlotName());
+            $function .= sprintf('alert("The javascript added to the slot %s has been generated an error, which reports:\n\n" + e);', $this->alBlock->getSlotName());
             $function .= '}';
         }
         
@@ -240,18 +240,18 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getInternalStylesheet()
     {
-        return $this->alContent->getInternalStylesheet();
+        return $this->alBlock->getInternalStylesheet();
     }
 
     /** 
-     * Converts the AlContent object into an array
+     * Converts the AlBlock object into an array
      * 
      * @return array
      */
     public function toArray()
     {
         $content = array();
-        $content["Id"] = $this->alContent->getId();
+        $content["Id"] = $this->alBlock->getId();
         $content["HideInEditMode"] = $this->getHideInEditMode();
         $content["HtmlContent"] = $this->getHtmlContent();
         $content["HtmlContentCMSMode"] = $this->getHtmlContentCMSMode();
@@ -259,17 +259,17 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $content["InternalJavascript"] = $this->getInternalJavascript();
         $content["ExternalStylesheet"] = $this->getExternalStylesheet();
         $content["InternalStylesheet"] = $this->getInternalStylesheet();
-        $content["Position"] = $this->alContent->getContentPosition();
-        $content["Type"] = $this->alContent->getClassName();
+        $content["Position"] = $this->alBlock->getContentPosition();
+        $content["Type"] = $this->alBlock->getClassName();
 
         return $content;
     }
     
 
     /**
-     * Adds a content to the AlContent table
+     * Adds a content to the AlBlock table
      *
-     * @param array  $values     An array where keys are the AlContentField definition and values are the values to add     *
+     * @param array  $values     An array where keys are the AlBlockField definition and values are the values to add     *
      * @return Boolean
      */
     protected function add(array $values)
@@ -328,15 +328,15 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $this->connection->beginTransaction();
 
             // Saves the content
-            $alContent = new AlContent();
-            $alContent->fromArray($values);
-            $result = $alContent->save(); 
-            if ($alContent->isModified() && $result == 0) $rollback = true;
+            $alBlock = new AlBlock();
+            $alBlock->fromArray($values);
+            $result = $alBlock->save(); 
+            if ($alBlock->isModified() && $result == 0) $rollback = true;
 
             if (!$rollback)
             {
                 $this->connection->commit();
-                $this->alContent = $alContent;
+                $this->alBlock = $alBlock;
                 
                 if(null !== $dispatcher)
                 {
@@ -360,9 +360,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Edits the AlContent object
+     * Edits the AlBlock object
      *
-     * @param array  $values     An array where keys are the AlContentField definition and values are the values to edit     *
+     * @param array  $values     An array where keys are the AlBlockField definition and values are the values to edit     *
      * @return Boolean
      */
     protected function edit($values)
@@ -392,9 +392,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $this->connection->beginTransaction();
 
             // Edits the source content
-            $this->alContent->fromArray($values);
-            $this->result = $this->alContent->save();
-            if ($this->alContent->isModified() && $this->result == 0) $rollback = true;
+            $this->alBlock->fromArray($values);
+            $this->result = $this->alBlock->save();
+            if ($this->alBlock->isModified() && $this->result == 0) $rollback = true;
 
             if (!$rollback)
             {

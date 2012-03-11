@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `al_content`;
-CREATE TABLE IF NOT EXISTS `al_content` (
+DROP TABLE IF EXISTS `al_block`;
+CREATE TABLE IF NOT EXISTS `al_block` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `page_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,

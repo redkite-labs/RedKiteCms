@@ -34,8 +34,8 @@ class RenderedEditorListener
         {
             // The response editor is returned as a json response, ElFinder file manager must be rendered 
             // as a text response
-            $alContent = $event->getAlContent();            
-            if($alContent->getClassName() == 'Media')
+            $alBlock = $event->getAlBlock();            
+            if($alBlock->getClassName() == 'Media')
             {
                 $content = json_decode($event->getResponse()->getContent());
                 $event->setResponse(new Response($content[0]->{'value'}));

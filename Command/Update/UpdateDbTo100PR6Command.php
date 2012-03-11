@@ -23,20 +23,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-/*
-use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-*/
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributeQuery;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockVersion;
+use Propel\PropelBundle\Command\BuildModelCommand;
 
 
 /**
@@ -44,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockVersion;
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class UpdateDbTo100PR5Command extends ContainerAwareCommand
+class UpdateDbTo100PR6Command extends ContainerAwareCommand
 {
     /**
      * @see Command
@@ -52,14 +41,14 @@ class UpdateDbTo100PR5Command extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setDescription('Updates the database to AlphaLemon CMS PR5')
+            ->setDescription('Updates the database to AlphaLemon CMS PR6')
             ->setDefinition(array(
                 new InputArgument('dsn', InputArgument::REQUIRED, 'The dsn to connect the database'),
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
                 new InputOption('driver', null, InputOption::VALUE_OPTIONAL, 'The database driver', 'mysql'),
             ))
-            ->setName('alphalemon:update-db-to-PR5');
+            ->setName('alphalemon:update-db-to-PR6');
     }
 
     /**
@@ -71,7 +60,7 @@ class UpdateDbTo100PR5Command extends ContainerAwareCommand
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
         
         $sqlPath = AlToolkit::locateResource($this->getContainer(), '@AlphaLemonCmsBundle/Resources/dbupdate');
-        $sqlFile = $sqlPath . sprintf('/%s/AlphaLemonCmsPr5.sql', $input->getOption('driver'));
+        $sqlFile = $sqlPath . sprintf('/%s/AlphaLemonCmsPr6.sql', $input->getOption('driver'));
         if(is_file($sqlFile)) {
             $updateQueries = file_get_contents($sqlFile);
 
@@ -81,6 +70,10 @@ class UpdateDbTo100PR5Command extends ContainerAwareCommand
                 $statement = $connection->prepare($query);
                 $statement->execute();
             }
+            
+            $modelCommand = new BuildModelCommand();
+            $modelCommand->setApplication($this->getApplication());
+            $modelCommand->execute($input, $output);
             
             $output->writeln('<info>The database has been updated.</info>');
         }

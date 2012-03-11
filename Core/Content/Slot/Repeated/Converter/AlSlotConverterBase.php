@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContent;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,7 +35,7 @@ abstract class AlSlotConverterBase extends AlSlotManager implements AlSlotConver
     {
         parent::__construct($container, $slot, $alPage, $alLanguage);
         
-        $this->contents = AlContentQuery::create()
+        $this->contents = AlBlockQuery::create()
                             ->setContainer($this->container)
                             ->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())
                             ->find();
@@ -43,7 +43,7 @@ abstract class AlSlotConverterBase extends AlSlotManager implements AlSlotConver
     
     protected function removeContents()
     {
-        AlContentQuery::create()
+        AlBlockQuery::create()
                     ->setContainer($this->container)
                     ->retrieveContentsBySlotName($this->slot->getSlotName())
                     ->delete();        

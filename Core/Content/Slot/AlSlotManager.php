@@ -24,7 +24,7 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 
 /**
  * AlSlotManager represents a slot, the cage on the page where the page contents (blocks) live, which is responsible to add, 
@@ -45,15 +45,15 @@ class AlSlotManager extends AlTemplateBase
      * @param AlSlot $slot                      The slot to manage
      * @param AlPage $alPage                    The AlPage object where the slot lives. When null the current page is used
      * @param AlLanguage $alLanguage            The AlLanguage object where the slot lives. When null the current language is used
-     * @param array $alContents                 The contents to manage.When null the object retrieves them on its own. Contents are injected
+     * @param array $alBlocks                 The contents to manage.When null the object retrieves them on its own. Contents are injected
      *                                          just to reduce the number of queries and optimize performances
      */
-    public function __construct(ContainerInterface $container, AlSlot $slot, AlPage $alPage = null, AlLanguage $alLanguage = null, array $alContents = null)
+    public function __construct(ContainerInterface $container, AlSlot $slot, AlPage $alPage = null, AlLanguage $alLanguage = null, array $alBlocks = null)
     {
         parent::__construct($container, $alPage, $alLanguage);
         
         $this->slot = $slot;
-        $this->setUpContentManagers($alContents);
+        $this->setUpContentManagers($alBlocks);
     }
     
     /**
@@ -154,17 +154,17 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets up the slot's contentManagers
      * 
-     * @param array $alContents 
+     * @param array $alBlocks 
      */
-    protected function setUpContentManagers(array $alContents = null)
+    protected function setUpContentManagers(array $alBlocks = null)
     {
-        if(null === $alContents) $alContents = AlContentQuery::create()->setContainer($this->container)->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())->find();
+        if(null === $alBlocks) $alBlocks = AlBlockQuery::create()->setContainer($this->container)->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())->find();
         
         $this->contentManagers = array();
-        foreach($alContents as $alContent)
+        foreach($alBlocks as $alBlock)
         {
-            $slotName = $alContent->getSlotName();
-            $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alContent, $slotName);
+            $slotName = $alBlock->getSlotName();
+            $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alBlock, $slotName);
             $this->contentManagers[] = $alBlockManager;
         } 
     }
@@ -173,10 +173,10 @@ class AlSlotManager extends AlTemplateBase
      * Adds a new block on the managed slot
      * 
      * @param string    $type                   The content type. It must be a valid content as defined in the page_blocks parameter
-     * @param int       $referenceAlContentId   The id of the reference content. When given, the content is placed below this one
+     * @param int       $referenceAlBlockId   The id of the reference content. When given, the content is placed below this one
      * @return boolean 
      */
-    public function addBlock($type = 'Text', $referenceAlContentId = null)
+    public function addBlock($type = 'Text', $referenceAlBlockId = null)
     {
         try
         {
@@ -205,7 +205,7 @@ class AlSlotManager extends AlTemplateBase
             $isCopyingContent = (null !== $this->container->get('al_page_tree')->getAlPage() && $this->container->get('al_page_tree')->getAlPage()->getId() != $this->alPage->getId()) ? true : false;
             if(($idLanguage == 1 || $idPage == 1) && $isCopyingContent)
             {
-                if(AlContentQuery::create()->setContainer($this->container)->retrieveContents($idLanguage, $idPage, $this->slot->getSlotName())->count() > 0) return null;
+                if(AlBlockQuery::create()->setContainer($this->container)->retrieveContents($idLanguage, $idPage, $this->slot->getSlotName())->count() > 0) return null;
             }
             
             $rollBack = false;
@@ -214,9 +214,9 @@ class AlSlotManager extends AlTemplateBase
             $leftArray = array();
             $rightArray = array();
             $managersLength = $this->length();
-            if(null !== $referenceAlContentId)
+            if(null !== $referenceAlBlockId)
             {
-                $index = $this->getContentManagerIndex($referenceAlContentId);
+                $index = $this->getContentManagerIndex($referenceAlBlockId);
                 if(null !== $index)
                 {
                     // The new content must de added below the current one, so it must retrieve the content manager down the reference manager

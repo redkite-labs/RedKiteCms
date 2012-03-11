@@ -299,7 +299,6 @@ var isEditorOpened = false;
             complete: function()
             {
                 $('body').RemoveAjaxLoader();
-                //$(el).removeAttr("isOpen");
             }
         });
     };
