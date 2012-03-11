@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
@@ -142,7 +142,7 @@ class AlSlotManagerTest extends TestCase
     public function testDeleteContents(AlSlotManager $slotManager)
     {
         $slotManager->deleteBlocks(); 
-        $this->assertEquals(0, AlContentQuery::create()->fromPageIdAndSlotName(2, $slotManager->getSlotName())->count(), '->deleteBlocks() method has not deleted the contents as expected');
+        $this->assertEquals(0, AlBlockQuery::create()->fromPageIdAndSlotName(2, $slotManager->getSlotName())->count(), '->deleteBlocks() method has not deleted the contents as expected');
         $this->assertEquals(0, $slotManager->length(), '->deleteBlocks() method has not deleted the contents as expected');        
     }
     

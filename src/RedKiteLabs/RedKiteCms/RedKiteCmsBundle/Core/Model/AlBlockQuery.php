@@ -17,17 +17,17 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlContentQuery as BaseContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery as BaseBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\ContentsEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- *  Adds some filters to the AlContentQuery object
+ *  Adds some filters to the AlBlockQuery object
  * 
  *  @author AlphaLemon <info@alphalemon.com>
  */
-class AlContentQuery extends BaseContentQuery
+class AlBlockQuery extends BaseBlockQuery
 {
     protected $container = null;
     
@@ -35,7 +35,7 @@ class AlContentQuery extends BaseContentQuery
      * Sets the container
      * 
      * @param ContainerInterface $v
-     * @return AlContentQuery 
+     * @return AlBlockQuery 
      */
     public function setContainer(ContainerInterface $v)
     {
@@ -49,10 +49,10 @@ class AlContentQuery extends BaseContentQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof AlContentQuery) {
+        if ($criteria instanceof AlBlockQuery) {
                 return $criteria;
         }
-        $query = new AlContentQuery();
+        $query = new AlBlockQuery();
         if (null !== $modelAlias) {
                 $query->setModelAlias($modelAlias);
         }
@@ -207,4 +207,4 @@ class AlContentQuery extends BaseContentQuery
         
         return $query;
     }
-} // AlContentQuery
+} // AlBlockQuery

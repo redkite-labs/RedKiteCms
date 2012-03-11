@@ -23,7 +23,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\HttpKernel\Util\Filesystem;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
@@ -81,7 +81,7 @@ class AlXmlDeployTest extends TestCase
                         'keywords'      => 'home,page');
         self::$pageManager = $this->AddPage($container, $params);
         
-        $content = AlContentQuery::create()->fromPageIdAndSlotName(self::$pageManager->get()->getId(), 'header')->fromLanguageId($alLanguageManager->get()->getId())->findOne();
+        $content = AlBlockQuery::create()->fromPageIdAndSlotName(self::$pageManager->get()->getId(), 'header')->fromLanguageId($alLanguageManager->get()->getId())->findOne();
         $content->setInternalStylesheet('fake');
         $content->setInternalJavascript('fake');
         $content->setExternalJavascript('fake');
@@ -221,7 +221,7 @@ class AlXmlDeployTest extends TestCase
         $alLanguageManager->save($params);
         
         
-        $content = AlContentQuery::create()->fromPageIdAndSlotName(self::$pageManager->get()->getId(), 'header')->fromLanguageId($alLanguageManager->get()->getId())->findOne();
+        $content = AlBlockQuery::create()->fromPageIdAndSlotName(self::$pageManager->get()->getId(), 'header')->fromLanguageId($alLanguageManager->get()->getId())->findOne();
         $content->setHtmlContent('Translation test');
         $content->save(); 
         

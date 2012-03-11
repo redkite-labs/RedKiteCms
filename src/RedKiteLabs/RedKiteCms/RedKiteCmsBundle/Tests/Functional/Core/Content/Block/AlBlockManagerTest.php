@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
@@ -71,18 +71,18 @@ class AlBlockManagerTest extends TestCase
         try 
         {
             $testAlBlockManager->set($this->getMock('\BaseObject'));
-            $this->fail('->save() method should raise an exception when the passed parameter is not an instance of AlContent object' );
+            $this->fail('->save() method should raise an exception when the passed parameter is not an instance of AlBlock object' );
         }
         catch(\InvalidArgumentException $e)
         {
-            $this->assertEquals('AlBlockManager accepts only AlContent propel objects', $e->getMessage());
+            $this->assertEquals('AlBlockManager accepts only AlBlock propel objects', $e->getMessage());
         }
         
-        $testAlBlockManager->set($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlContent'));
-        $this->assertNotNull($testAlBlockManager->get(), 'The AlContent has not been set');
+        $testAlBlockManager->set($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'));
+        $this->assertNotNull($testAlBlockManager->get(), 'The AlBlock has not been set');
         
         $testAlBlockManager->set(null);
-        $this->assertNull($testAlBlockManager->get(), 'The AlContent has not been set as null');
+        $this->assertNull($testAlBlockManager->get(), 'The AlBlock has not been set as null');
     }
     
     
@@ -144,7 +144,7 @@ class AlBlockManagerTest extends TestCase
         $default = $testAlBlockManager->getDefaultValue();
         $this->assertEquals($default["HtmlContent"], $testAlBlockManager->get()->getHtmlContent(), '->save() method has not set the default content to html_content field');
         /*
-        $service = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlContentListener');
+        $service = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlBlockListener');
         $service->expects($this->once())
         ->method('onBeforeContentAdding');
         */
@@ -241,7 +241,7 @@ class AlBlockManagerTest extends TestCase
     /**
      * @depends testAdd
      */
-    public function testAlContentToArray($testAlBlockManager)
+    public function testAlBlockToArray($testAlBlockManager)
     { 
         $array = $testAlBlockManager->toArray();
         

@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToSite;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlContentQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 class AlSlotConverterToSiteTest extends AlSlotConverterBase
@@ -33,16 +33,16 @@ class AlSlotConverterToSiteTest extends AlSlotConverterBase
         $alLanguage = AlLanguageQuery::create()->mainLanguage()->findOne();
         
         $slot = new AlSlot('header');
-        $this->assertEquals(8, AlContentQuery::create()->filterBySlotName('header')->filterByToDelete(0)->count());
+        $this->assertEquals(8, AlBlockQuery::create()->filterBySlotName('header')->filterByToDelete(0)->count());
         $converter = new AlSlotConverterToSite($container, $slot, $alPage, $alLanguage);
         $this->assertTrue($converter->convert());
-        $this->assertEquals(1, AlContentQuery::create()->filterBySlotName('header')->filterByToDelete(0)->count());
+        $this->assertEquals(1, AlBlockQuery::create()->filterBySlotName('header')->filterByToDelete(0)->count());
         
         $slot = new AlSlot('search_box');
-        $this->assertEquals(2, AlContentQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
+        $this->assertEquals(2, AlBlockQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
         $converter = new AlSlotConverterToSite($container, $slot, $alPage, $alLanguage);
         $this->assertTrue($converter->convert());
-        $this->assertEquals(1, AlContentQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
+        $this->assertEquals(1, AlBlockQuery::create()->filterBySlotName('search_box')->filterByToDelete(0)->count());
         
     }
 }

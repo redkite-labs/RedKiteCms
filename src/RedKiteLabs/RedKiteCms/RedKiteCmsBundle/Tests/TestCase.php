@@ -16,7 +16,7 @@
  */
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
 
-require_once __DIR__.'/CmsTestKernel/CmsTestKernel.php';
+
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
@@ -31,7 +31,17 @@ class TestCase extends \PHPUnit_Framework_TestCase {
     {
         if(null === $this->container)
         {
-            $app = new \CmsTestKernel('test', true);
+            $isLocal = false;
+            $localKernel = __DIR__.'/../../../../../app/AppKernel.php';
+            if(is_file($localKernel)) {
+                require_once $localKernel;
+                $isLocal = true;
+            }
+            else {
+                require_once __DIR__.'/CmsTestKernel/CmsTestKernel.php';
+            }
+
+            $app = ($isLocal) ? new \AppKernel('test', true) : new \CmsTestKernel('test', true);
             $app->boot();
             $this->container = $app->getContainer(); 
         }
