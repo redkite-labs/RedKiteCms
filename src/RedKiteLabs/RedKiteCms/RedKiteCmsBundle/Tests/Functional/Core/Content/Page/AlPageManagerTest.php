@@ -28,6 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 
 class AlPageManagerTest extends TestCase
 {   
+    private static $testAlPageManager;
     
     public function testSetAndGet()
     {
@@ -51,28 +52,31 @@ class AlPageManagerTest extends TestCase
         $this->assertNull($testAlPageManager->get(), 'The AlPage has not been set as null');
     }
     
-    public function testAdd()
+    public function testAddingAnEmptyArrayAsInputThrowsAnException()
     {
         AlphaLemonDataPopulator::depopulate();
         
         $container = $this->setupPageTree()->getContainer(); 
-        $testAlPageManager = new AlPageManager(
+        self::$testAlPageManager = new AlPageManager(
             $container
         );
         
         try 
         {
-            $testAlPageManager->save(array());
+            self::$testAlPageManager->save(array());
             $this->fail('->save() method should raise an exception when the passed parameter is an empty array' );
         }
         catch(\InvalidArgumentException $e)
         {
             $this->assertEquals('The page cannot be added because any parameter has been given', $e->getMessage());
         }
-        
+    }
+    
+    public function testAdd()
+    {    
         try 
         {
-            $testAlPageManager->save(array('Fake' => 'content'));
+            self::$testAlPageManager->save(array('Fake' => 'content'));
             $this->fail('->save() method should raise an exception when the required parameters have not been given');
         }
         catch(\InvalidArgumentException $e)
@@ -82,7 +86,7 @@ class AlPageManagerTest extends TestCase
         
         try 
         {
-            $testAlPageManager->save(array('pageName' => '', 'template' => 'home'));
+            self::$testAlPageManager->save(array('pageName' => '', 'template' => 'home'));
             $this->fail('->save() method should raise an exception when the passed parameter doesn\'t contain the pageName parameter');
         }
         catch(\InvalidArgumentException $e)
@@ -92,7 +96,7 @@ class AlPageManagerTest extends TestCase
         
         try 
         {
-            $testAlPageManager->save(array('pageName' => 'fake page', 'template' => ''));
+            self::$testAlPageManager->save(array('pageName' => 'fake page', 'template' => ''));
             $this->fail('->save() method should raise an exception when the passed parameter doesn\'t contain the template parameter');
         }
         catch(\InvalidArgumentException $e)
@@ -102,7 +106,7 @@ class AlPageManagerTest extends TestCase
         
         try 
         {
-            $testAlPageManager->save(array('pageName' => 'fake page', 'template' => 'home'));
+            self::$testAlPageManager->save(array('pageName' => 'fake page', 'template' => 'home'));
             $this->fail('->save() method should raise an exception when the website has any language');
         }
         catch(\InvalidArgumentException $e)
@@ -116,7 +120,7 @@ class AlPageManagerTest extends TestCase
         $alLanguage->save(); 
         
         $container = $this->setupPageTree($alLanguage->getId())->getContainer(); 
-        $testAlPageManager = new AlPageManager(
+        self::$testAlPageManager = new AlPageManager(
             $container
         );
         
@@ -126,13 +130,13 @@ class AlPageManagerTest extends TestCase
                         'title'         => 'page title',
                         'description'   => 'page description',
                         'keywords'      => '');
-        $this->assertTrue($testAlPageManager->save($params));//exit;
-        $this->assertNotNull($testAlPageManager->get());
-        $this->assertEquals('fake-page', $testAlPageManager->get()->getPageName());
-        $this->assertEquals(1, $testAlPageManager->get()->getIsHome(), 'The first page added has not prometed as the website\'s home page');
+        $this->assertTrue(self::$testAlPageManager->save($params));//exit;
+        $this->assertNotNull(self::$testAlPageManager->get());
+        $this->assertEquals('fake-page', self::$testAlPageManager->get()->getPageName());
+        $this->assertEquals(1, self::$testAlPageManager->get()->getIsHome(), 'The first page added has not prometed as the website\'s home page');
         
         $repeated = $this->retrieveRepeatedContentsByTemplate($container, 'Home' );
-        $this->checkAddedContents($testAlPageManager, $repeated);
+        $this->checkAddedContents(self::$testAlPageManager, $repeated);
         
         $testAlPageManager1 = new AlPageManager(
             $container
@@ -172,26 +176,17 @@ class AlPageManagerTest extends TestCase
         $params['isHome'] = 1;
         $this->assertTrue($testAlPageManager3->save($params));        
         $this->assertEquals(1, $testAlPageManager3->get()->getIsHome(), 'When the isHome param is true, is home must be true');
-        $this->assertEquals(0, $testAlPageManager->get()->getIsHome(), 'When a page is promoted to home page, the previous home page isHomem parameter must be false');
-        
-        /*
-        $container = $this->setupPageTree()->getContainer(); 
-        $testAlLanguageManager = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager (
-            $container
-        );
-        $testAlLanguageManager->save(array('language' => 'it'));*/
-        
-        return $testAlPageManager;  
+        $this->assertEquals(0, self::$testAlPageManager->get()->getIsHome(), 'When a page is promoted to home page, the previous home page isHome parameter must be false');        
     }
         
     /**
      * @depends testAdd
      */
-    public function testEdit(AlPageManager $testAlPageManager)
+    public function testEdit()
     {
         try 
         {
-            $testAlPageManager->save(array());
+            self::$testAlPageManager->save(array());
             $this->fail('->save() method should raise an exception when the passed parameter is an empty array' );
         }
         catch(\InvalidArgumentException $e)
@@ -199,45 +194,71 @@ class AlPageManagerTest extends TestCase
             $this->assertEquals('save() method requires at least one valid parameter, any one has been given', $e->getMessage());
         }
         
-        $pageAttributes = $testAlPageManager->get()->getAlPageAttributes(); 
+        $pageAttributes = self::$testAlPageManager->get()->getAlPageAttributes(); 
         $languageId =  $pageAttributes[0]->getLanguageId();
         
-        $pageName = $testAlPageManager->get()->getPageName();
-        $templateName = $testAlPageManager->get()->getTemplateName();
-        $isHome = $testAlPageManager->get()->getIsHome();
+        $pageName = self::$testAlPageManager->get()->getPageName();
+        $templateName = self::$testAlPageManager->get()->getTemplateName();
+        $isHome = self::$testAlPageManager->get()->getIsHome();
         
-        //$this->assertTrue($testAlPageManager->save(array('languageId' => 0, 'pageName' => '', 'template' => '', 'isHome' => '')));exit;
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => 0, 'pageName' => '', 'template' => '', 'isHome' => '')));
         
-        $this->assertTrue($testAlPageManager->save(array('languageId' => $languageId, 'pageName' => '', 'template' => '', 'isHome' => '')));
-        $this->assertEquals($pageName, $testAlPageManager->get()->getPageName(), 'The page name has been set to empty string when it was expected to remain untouched');
-        $this->assertEquals($templateName, $testAlPageManager->get()->getTemplateName(), 'The template name has been set to empty string when it was expected to remain untouched');
-        $this->assertEquals($isHome, $testAlPageManager->get()->getIsHome(), 'The isHome page flag has been set to empty string when it was expected to remain untouched');
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'pageName' => '', 'template' => '', 'isHome' => '')));
+        $this->assertEquals($pageName, self::$testAlPageManager->get()->getPageName(), 'The page name has been set to empty string when it was expected to remain untouched');
+        $this->assertEquals($templateName, self::$testAlPageManager->get()->getTemplateName(), 'The template name has been set to empty string when it was expected to remain untouched');
+        $this->assertEquals($isHome, self::$testAlPageManager->get()->getIsHome(), 'The isHome page flag has been set to empty string when it was expected to remain untouched');
         
-        $this->assertTrue($testAlPageManager->save(array('languageId' => $languageId, 'pageName' => 'New fake name', 'template' => 'internal', 'isHome' => 1)));
-        $this->assertEquals('new-fake-name', $testAlPageManager->get()->getPageName(), 'The page name has not been changed');
-        $this->assertEquals('internal', $testAlPageManager->get()->getTemplateName(), 'The template name has not been changed');
-        $this->assertEquals(1, $testAlPageManager->get()->getIsHome(), 'The isHome page flag has not been changed ');
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'pageName' => 'New fake name', 'template' => 'internal', 'isHome' => 1)));
+        $this->assertEquals('new-fake-name', self::$testAlPageManager->get()->getPageName(), 'The page name has not been changed');
+        $this->assertEquals('internal', self::$testAlPageManager->get()->getTemplateName(), 'The template name has not been changed');
+        $this->assertEquals(1, self::$testAlPageManager->get()->getIsHome(), 'The isHome page flag has not been changed ');
         
-        $this->assertTrue($testAlPageManager->save(array('languageId' => $languageId, 'template' => 'home')));
-        $this->assertEquals('home', $testAlPageManager->get()->getTemplateName(), 'The template name has not been changed');
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'template' => 'home')));
+        $this->assertEquals('home', self::$testAlPageManager->get()->getTemplateName(), 'The template name has not been changed');
         
-        $this->assertTrue($testAlPageManager->save(array('languageId' => $languageId, 'isHome' => 1)));
-        $this->assertEquals(1, $testAlPageManager->get()->getIsHome(), 'The isHome page flag has been changed when it was expected to remain untouched');
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'isHome' => 1)));
+        $this->assertEquals(1, self::$testAlPageManager->get()->getIsHome(), 'The isHome page flag has been changed when it was expected to remain untouched');
         
         $home = AlPageQuery::create()->homePage()->count();
         $this->assertEquals(1, $home, 'The isHome page flag has been assigned to more than one page');  
         
-        return $testAlPageManager;
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'isHome' => 1)));
+    }
+    
+    public function testEditPermalink()
+    {
+        $pageAttributes = self::$testAlPageManager->get()->getAlPageAttributes();
+        $pageAttribute = $pageAttributes[0];
+        $this->assertEquals('this-is-a-website-fake-page', $pageAttribute->getPermalink());
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'permalink' => 'a new permalink')));
+        $this->assertEquals('a-new-permalink', $pageAttribute->getPermalink());
+    }
+    
+    public function testEditMetatags()
+    {
+        $pageAttributes = self::$testAlPageManager->get()->getAlPageAttributes();
+        $pageAttribute = $pageAttributes[0];
+        $this->assertEquals('page title', $pageAttribute->getMetaTitle());
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'title' => 'a new title')));
+        $this->assertEquals('a new title', $pageAttribute->getMetaTitle());
+        
+        $this->assertEquals('page description', $pageAttribute->getMetaDescription());
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'description' => 'a new description')));
+        $this->assertEquals('a new description', $pageAttribute->getMetaDescription());
+        
+        $this->assertEquals('', $pageAttribute->getMetaKeywords());
+        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'keywords' => 'some,fake,keywords')));
+        $this->assertEquals('some,fake,keywords', $pageAttribute->getMetaKeywords());
     }
     
     /**
      * @depends testEdit
      */
-    public function testDelete(AlPageManager $testAlPageManager)
+    public function testDelete()
     {
         try 
         {
-            $testAlPageManager->delete();
+            self::$testAlPageManager->delete();
             $this->fail('->delete() method should not delete the home page' );
         }
         catch(\RuntimeException $e)
@@ -245,12 +266,12 @@ class AlPageManagerTest extends TestCase
             $this->assertEquals('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one', $e->getMessage());
         }
         
-        $testAlPageManager->get()->setIsHome(0);
+        self::$testAlPageManager->get()->setIsHome(0);
         
-        $this->assertTrue($testAlPageManager->delete()); 
-        $this->assertEquals(1, $testAlPageManager->get()->getToDelete(), '->delete() method has not set to true the to_delete field as expected');
-        $this->assertEquals(0, AlBlockQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
-        $this->assertEquals(0, AlPageAttributeQuery::create()->fromPageId($testAlPageManager->get()->getId())->count());
+        $this->assertTrue(self::$testAlPageManager->delete()); 
+        $this->assertEquals(1, self::$testAlPageManager->get()->getToDelete(), '->delete() method has not set to true the to_delete field as expected');
+        $this->assertEquals(0, AlBlockQuery::create()->fromPageId(self::$testAlPageManager->get()->getId())->count());
+        $this->assertEquals(0, AlPageAttributeQuery::create()->fromPageId(self::$testAlPageManager->get()->getId())->count());
     }
     
     /**
@@ -265,7 +286,7 @@ class AlPageManagerTest extends TestCase
         $alLanguage->save(); 
         
         $container = $this->setupPageTree($alLanguage->getId())->getContainer(); 
-        $testAlPageManager = new AlPageManager(
+        self::$testAlPageManager = new AlPageManager(
             $container
         );
         
@@ -278,10 +299,10 @@ class AlPageManagerTest extends TestCase
                         'title'         => 'page title',
                         'description'   => 'page description',
                         'keywords'      => '');
-        $this->assertTrue($testAlPageManager->save($params));
+        $this->assertTrue(self::$testAlPageManager->save($params));
         $this->assertEquals(1, AlPageQuery::create()->filterByToDelete(0)->count());
         $this->assertEquals(2, AlPageAttributeQuery::create()->filterByToDelete(0)->count());
-        $alPageAttribute = AlPageAttributeQuery::create()->fromPageAndLanguage($testAlPageManager->get()->getId(),$alLanguage->getId());
+        $alPageAttribute = AlPageAttributeQuery::create()->fromPageAndLanguage(self::$testAlPageManager->get()->getId(),$alLanguage->getId());
         $this->assertEquals(1, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
         $this->assertEquals('it-this-is-a-website-fake-page', $alPageAttribute->findOne()->getPermalink());
     }
