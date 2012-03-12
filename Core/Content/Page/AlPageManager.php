@@ -325,12 +325,12 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             
             $idLanguage = 0;
             $attributeParams = array('permalink', 'title', 'description', 'keywords');
-            if(count(array_intersect($attributeParams, $values)) > 0)
+            if(count(array_intersect($attributeParams, array_keys($values))) > 0)
             {
                 $this->checkRequiredParamsExists(array('languageId' => ''), $values); 
                 $idLanguage = $values['languageId'];
             }
-        
+            
             $rollBack = false;
             $this->connection->beginTransaction();
             
