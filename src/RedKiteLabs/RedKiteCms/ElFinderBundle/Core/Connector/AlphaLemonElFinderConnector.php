@@ -31,8 +31,8 @@ class AlphaLemonElFinderConnector extends AlphaLemonElFinderBaseConnector
             'roots' => array(
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-                    'path'          => 'bundles/alphalemonelfinder/files/',         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/bundles/alphalemonelfinder/files/', // URL to files (REQUIRED)
+                    'path'          => 'bundles/alphalemonelfinder/vendor/ElFinder/files/',         // path to files (REQUIRED)
+                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/bundles/alphalemonelfinder/vendor/ElFinder/files/', // URL to files (REQUIRED)
                     'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
                 )
             )
