@@ -15,8 +15,8 @@
     "symfony/symfony":  ">=2.0.10,<dev-master",
     "propel/propel-bundle": "2.0-dev",
     "alphalemon/theme-engine-bundle": "1.1.*,dev-master",
-    "alphalemon/frontendbundle": "*",
-    "alphalemon/elfinder-bundle": "*"
+    "alphalemon/frontendbundle": "dev-master",
+    "alphalemon/elfinder-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\AlphaLemonCmsBundle": ""
