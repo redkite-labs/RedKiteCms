@@ -53,34 +53,45 @@ class BlocksController extends Controller
         try
         {
             $request = $this->getRequest();
-            $alBlock = AlBlockQuery::create()->findPK($request->get('idBlock'));
-            if ($alBlock != null)
+            $block = AlBlockQuery::create()->findPK($request->get('idBlock'));
+            if ($block != null)
             {
-                $editorSettingsParamName = sprintf('al_%s_editor_settings', strtolower($alBlock->getClassName())); 
+                $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getClassName())); 
                 $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
-                $controller = sprintf('Al%sBundle:Block:%s_editor.html.twig', $alBlock->getClassName(), strtolower($alBlock->getClassName()));
+                $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
                 
-                
-                $editor = $this->container->get('templating')->render($controller, array("alContent" => $alBlock,
-                                                                                         "jsFiles" => explode(",", $alBlock->getExternalJavascript()),
-                                                                                         "cssFiles" => explode(",", $alBlock->getExternalStylesheet()),
-                                                                                         "language" => $request->get('language'),
-                                                                                         "page" => $request->get('page'),
-                                                                                         "editor_settings" => $editorSettings));
-                $values[] = array("key" => "editor",
-                                  "value" => $editor);
-                $response = $this->buildJSonResponse($values);
+                $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $block);      
                 
                 $dispatcher = $this->container->get('event_dispatcher');
                 if(null !== $dispatcher)
                 {
-                    $event = new Block\BlockEditorRenderedEvent($response, $alBlock);
+                    $event = new Block\BlockEditorRenderingEvent($this->container, $request, $alBlockManager);
+                    $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERING, $event);
+                    $editor = $event->getEditor();
+                }
+                
+                if(null === $editor)
+                {
+                    $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
+                                                                                           "jsFiles" => explode(",", $block->getExternalJavascript()),
+                                                                                           "cssFiles" => explode(",", $block->getExternalStylesheet()),
+                                                                                           "language" => $request->get('language'),
+                                                                                           "page" => $request->get('page'),
+                                                                                           "editor_settings" => $editorSettings));
+                }
+                
+                $values[] = array("key" => "editor",
+                                  "value" => $editor);
+                $response = $this->buildJSonResponse($values);
+                
+                if(null !== $dispatcher)
+                {
+                    $event = new Block\BlockEditorRenderedEvent($response, $alBlockManager);
                     $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERED, $event);
                     $response = $event->getResponse();
                 }
                 
                 return $response;
-                //return $this->buildJSonResponse($values);
             }
             else
             {
@@ -101,12 +112,22 @@ class BlocksController extends Controller
         {
             $request = $this->get('request');
             $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
+            
             $templateManager = new AlTemplateManager($this->container);
             $slotManager = $templateManager->getSlotManager($request->get('slotName')); 
             $res = $slotManager->addBlock($contentType, $request->get('idBlock'));
+            
             $message = ($res) ? $this->get('translator')->trans('The content has been successfully added') : $this->get('translator')->trans('The content has not been added');
-
-            return $this->buildJSonHeader($message, $request->get('slotName'));
+           
+            $values = array();
+            if($message != null) $values[] = array("key" => "message", "value" => $message);
+        
+            $values[] = array("key" => "add-block",
+                              "insertAfter" => "block_" . $request->get('idBlock'),
+                              "slotName" => 'al_' . $request->get('slotName'),
+                              "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("add" => "AA", "block" => $slotManager->lastAdded()->toArray())));
+        
+            return $this->buildJSonResponse($values);
         }
         catch(\Exception $e)
         {
@@ -122,36 +143,132 @@ class BlocksController extends Controller
         {
             $request = $this->get('request');
             
-            $editorContents = null;
-            $value = urldecode($request->get('value'));
-            if($request->get('fileName') != null)
-            {
-                $fileName = basename($request->get('fileName'));
-                $files = explode(",", $value);                    
-                if(in_array($fileName, $files))
-                {
-                    return $this->buildJSonResponse(array());
-                }
-
-                $files[] = $fileName;
-                $value = implode(",", $files);
-                
-                $editorContents = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $this->getSectionFromKeyParam()));
-            }
-            
+            $value = urldecode($request->get('value'));            
             $values = array($request->get('key') => $value); 
+            if(null !== $request->get('options') && is_array($request->get('options'))) $values = array_merge($values, $request->get('options'));
+            
             $templateManager = new AlTemplateManager($this->container);
             $slotManager = $templateManager->getSlotManager($request->get('slotName'));
+            
+            $blockManager = $slotManager->getContentManager($request->get('idBlock'));
             $res = $slotManager->editBlock($request->get('idBlock'), $values);            
             if(null !== $res)
             {
                 $message = ($res) ? $this->get('translator')->trans('The content has successfully edited') : $this->get('translator')->trans('The content has not edited');
-                return $this->buildJSonHeader($message, $request->get('slotName'), $editorContents);
+                $blockManager = $slotManager->getContentManager($request->get('idBlock'));
+                
+                $dispatcher = $this->container->get('event_dispatcher');
+                if(null !== $dispatcher)
+                {
+                    $event = new Block\BlockEditedEvent($request, $blockManager);
+                    $dispatcher->dispatch(BlockEvents::BLOCK_EDITED, $event);
+                    $response = $event->getResponse();
+                    $blockManager = $event->getBlockManager();
+                }
+                
+                if(null === $response) {
+                    $values = array();
+                    if($message != null) $values[] = array("key" => "message", "value" => $message);
+
+                    $values[] = array("key" => "edit-block",
+                                      "blockName" => "block_" . $blockManager->get()->getId(),
+                                      "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray())));
+                }
+                
+                return $this->buildJSonResponse($values);
+            }
+            else 
+            {
+                throw new \RuntimeException($this->container->get('translator')->trans('The content you tried to edit does not exist anymore in the website'));                
+            }
+        }
+        catch(\Exception $e)
+        {
+            $response = new Response();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
+    }
+    
+    public function deleteBlockAction()
+    {
+        try
+        {
+            $request = $this->get('request');
+            
+            $templateManager = new AlTemplateManager($this->container);            
+            $slotManager = $templateManager->getSlotManager($request->get('slotName'));
+            $res = $slotManager->deleteBlock($request->get('idBlock'));
+            if(null !== $res)
+            {
+                $message = ($res) ? $this->get('translator')->trans('The content has been successfully removed') : $this->get('translator')->trans('The content has not been removed');
+                
+                $values = array();
+                if($message != null) $values[] = array("key" => "message", "value" => $message);
+
+                if($slotManager->length() > 0) {
+                    $values[] = array("key" => "remove-block",
+                                  "blockName" => "block_" . $request->get('idBlock'));
+                }
+                else {
+                    $this->get('al_page_tree')->setContents(array($request->get('slotName') => array()), true); 
+                    $values[] = array("key" => "redraw-slot", 
+                          "slotName" => 'al_' . $request->get('slotName'),
+                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'))));
+                }
+                 
+                return $this->buildJSonResponse($values);
             }
             else 
             {
                 throw new \RuntimeException($this->container->get('translator')->trans('The content you tried to remove does not exist anymore in the website'));                
             }
+        }
+        catch(\Exception $e)
+        {
+            $response = new Response();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
+    }
+
+    public function addExternalFileAction()
+    {
+        try
+        {
+            $request = $this->get('request');
+            
+            $file = urldecode($request->get('file'));  
+            if(null === $file || $file == '')
+            {
+                throw new \Exception("Any file has been selected");
+            }
+            
+            $file = preg_replace('/^[\w]+\//', '', $file);
+            $field = $request->get('field');
+            $values = array($field => $file); 
+
+            $templateManager = new AlTemplateManager($this->container);
+            $slotManager = $templateManager->getSlotManager($request->get('slotName'));
+            $alBlock = $slotManager->getContentManager($request->get('idBlock'))->get();
+
+            $arrayBlock = $alBlock->toArray();
+
+            $savedValues = array_intersect_key($arrayBlock, $values);
+            $savedValues = explode(',', $savedValues[$field]);
+            if(in_array($file, $savedValues))
+            {
+                throw new \Exception("The file is already added");
+            }
+            $savedValues[] = $file;
+            $values[$field] = implode(',', $savedValues);
+
+            $res = $slotManager->editBlock($request->get('idBlock'), $values);   
+
+            $section = $this->getSectionFromKeyParam();
+            $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $file, "files" => $savedValues, 'section' => $section));
+            
+            return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, "section" => $section));
         }
         catch(\Exception $e)
         {
@@ -170,41 +287,32 @@ class BlocksController extends Controller
             if ($alBlock != null)
             {
                 $editorContents = null;
-                $assetsBaseDir = AlToolkit::locateResource($this->container, $this->container->getParameter('al.deploy_bundle_assets_base_dir'));
-                if($request->get('key') == 'ExternalJavascript')
-                {
-                    $externalFiles =  $alBlock->getExternalJavascript();
-                    $assetsBaseDir .= '/' . $this->container->getParameter('al.deploy_bundle_js_folder');
-                }
-                else
-                {
-                    $externalFiles =  $alBlock->getExternalStylesheet();
-                    $assetsBaseDir .= '/' . $this->container->getParameter('al.deploy_bundle_css_folder');
-                }
                 
-                if($request->get('fileName') != null || $externalFiles == "")
+                $field = $request->get('field');
+                $externalFiles =  $alBlock->{'get' . $field}();
+                
+                if($request->get('file') != null || $externalFiles == "")
                 {
-                    $files = array_flip(explode(",", $externalFiles));
-                    unset($files[$request->get('fileName')]);  
+                    $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+                    $filePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_js_folder') . '/';
+                    $file = $filePath . $request->get('file');
+                    
+                    @unlink($file);
+                    $files = array_flip(explode(",", $externalFiles));                    
+                    unset($files[$request->get('file')]);  
                     $files = array_flip($files);
                     $value = implode(",", $files);
                     
-                    $values = array($request->get('key') => $value); 
-                    $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alBlock, $request->get('slotName'));
+                    $values = array($field => $value); 
+                    $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alBlock);
                     $res = $alBlockManager->save($values); 
-                                        
-                    $assetsBaseDir = AlToolkit::locateResource($this->container, $this->container->getParameter('al.deploy_bundle_assets_base_dir'));
-                    $editorContents = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $this->getSectionFromKeyParam()));
-                }
-                else
-                {
-                    return $this->buildJSonResponse(array());;
+                            
+                    $section = $this->getSectionFromKeyParam();
+                    $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $section));
+                    return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, 'section' => $section));
                 }
                 
-                $message = ($res) ? $this->get('translator')->trans('The content has successfully edited') : $this->get('translator')->trans('The content has not edited');
-
-                
-                return $this->buildJSonHeader(null, $alBlock->getSlotName(), $editorContents);
+                return $this->buildJSonResponse(array("key" => "message", "value" => "Any file has been selected"));
             }
             else
             {
@@ -219,50 +327,6 @@ class BlocksController extends Controller
         }
     }
 
-    public function deleteBlockAction()
-    {
-        try
-        {
-            $request = $this->get('request');
-            
-            $templateManager = new AlTemplateManager($this->container);            
-            $slotManager = $templateManager->getSlotManager($request->get('slotName'));
-            $res = $slotManager->deleteBlock($request->get('idBlock'));
-            if(null !== $res)
-            {
-                $message = ($res) ? $this->get('translator')->trans('The content has been successfully removed') : $this->get('translator')->trans('The content has not been removed');
-                return $this->buildJSonHeader($message, $request->get('slotName'));
-            }
-            else 
-            {
-                throw new \RuntimeException($this->container->get('translator')->trans('The content you tried to remove does not exist anymore in the website'));                
-            }
-        }
-        catch(\Exception $e)
-        {
-            $response = new Response();
-            $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
-        }
-    }
-
-    protected function buildJSonHeader($message = null, $slotName = null, $editorContents = null)
-    {
-        $values = array();
-        if($message != null) $values[] = array("key" => "message", "value" => $message);
-        
-        
-        $slotManager = new AlSlotManager($this->container, new AlSlot($slotName)); 
-        $this->get('al_page_tree')->setContents(array($slotName => $slotManager->toArray()), true);
-        $values[] = array("key" => "contents", 
-                          "slotName" => $slotName,
-                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $slotName, 'contents' => $this->get('al_page_tree')->getContents($slotName))));
-        
-        if($editorContents != null) $values[] = array("key" => "editorContents", "value" => $editorContents, "section" => $this->getSectionFromKeyParam());
-
-        return $this->buildJSonResponse($values);
-    }
-
     protected function buildJSonResponse($values)
     {
         $response = new Response(json_encode($values));
@@ -273,7 +337,7 @@ class BlocksController extends Controller
     
     private function getSectionFromKeyParam()
     {
-        return str_replace('External', '', $this->get('request')->get('key'));
+        return str_replace('External', '', $this->get('request')->get('field'));
     }
 }
 

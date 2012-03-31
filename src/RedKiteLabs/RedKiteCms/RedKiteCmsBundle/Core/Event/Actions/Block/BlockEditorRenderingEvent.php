@@ -17,38 +17,57 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
+use Symfony\Component\HttpFoundation\Request;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 
 /**
  * Defines the BlockEditorRenderedEvent event
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class BlockEditorRenderedEvent extends Event
+class BlockEditorRenderingEvent extends Event
 {
-    private $response = null;
-    private $alBlock = null;
+    private $container = null;
+    private $request = null;
+    private $alBlockManager = null;
+    private $editor = null;
     
-    public function __construct(Response $response, AlBlock $alBlock)
+    public function __construct(ContainerInterface $container, Request $request, AlContentManagerBase $alBlockManager)
     {
-        $this->response = $response;
-        $this->alBlock = $alBlock;
+        $this->container = $container;
+        $this->request = $request;
+        $this->alBlockManager = $alBlockManager;
     }
     
-    public function getResponse()
+    public function getRequest()
     {
-        return $this->response;
+        return $this->request;
     }
     
-    public function setResponse(Response $v)
+    public function setRequest(Request $v)
     {
-        $this->response = $v;
+        $this->request = $v;
     }
     
-    public function getAlBlock()
+    public function getAlBlockManager()
     {
-        return $this->alBlock;
+        return $this->alBlockManager;
+    }
+    
+    public function getContainer()
+    {
+        return $this->container;
+    }
+    
+    public function getEditor()
+    {
+        return $this->editor;
+    }
+    
+    public function setEditor($v)
+    {
+        $this->editor = $v;
     }
 }

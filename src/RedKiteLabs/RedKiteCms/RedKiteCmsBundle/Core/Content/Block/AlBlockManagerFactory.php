@@ -34,33 +34,33 @@ class AlBlockManagerFactory
      * Creates an instance of an AlBlockManager object
      * 
      * @param ContainerInterface    $container
-     * @param mixed                 $content        An instance of an AlBlock object or a valid content type
+     * @param mixed                 $block        An instance of an AlBlock object or a valid content type
      * 
      * @return AlBlockManager or null
      * @throws InvalidArgumentException When the class cannot be created
      */
-    public static function createBlock(ContainerInterface $container, $content) 
+    public static function createBlock(ContainerInterface $container, $block) 
     {
-        if(null === $content || !is_string($content) && !$content instanceOf AlBlock)
+        if(null === $block || !is_string($block) && !$block instanceOf AlBlock)
         {
             return null;
         }
         
-        if($content instanceOf AlBlock)
+        if($block instanceOf AlBlock)
         {
-            $alBlock = $content;
+            $alBlock = $block;
             $className = $alBlock->getClassName();
         }
         else
         {
             $alBlock = null;
-            $className = ucfirst(trim($content));
+            $className = ucfirst(trim($block));
         }
 
-        $class = sprintf("AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\Al%sBundle\Core\Block\AlBlockManager%1\$s", $className);
+        $class = sprintf("AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\%sBundle\Core\Block\AlBlockManager%1\$s", $className); 
         if(!class_exists($class))
         {
-            $class = sprintf("Al%1\$sBundle\Core\Block\AlBlockManager%1\$s", $className);
+            $class = sprintf("AlphaLemon\Block\%1\$sBundle\Core\Block\AlBlockManager%1\$s", $className); 
             if(!class_exists($class))
             {
                 throw new \InvalidArgumentException(AlToolkit::translateMessage($container, 'The class AlBlockManager%className% does not exist. Please create a new AlBlockManager%className% object that extends the AlBlockManager class to fix the problem.', array('%className%' => $className)));

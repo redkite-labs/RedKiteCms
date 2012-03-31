@@ -63,12 +63,12 @@
         {% block html_editor %}
         {% if showRichEditor  %}
         <form onsubmit="saveHtmlContent(); return false;">
-            <textarea id="al_html_editor" name="al_html_editor" class="input editor-inputs">
-                {{ alContent.htmlContent }}
+            <textarea id="al_html_editor" name="al_html_editor" class="input editor_inputs">
+                {{ alContent.getHtmlContentForEditor }}
             </textarea>
         </form>
         {% elseif showHtmlEditor %}
-        <textarea id="al_html_editor" name="al_html_editor" class="input editor-inputs">{{ alContent.htmlContent }}</textarea>
+        <textarea id="al_html_editor" name="al_html_editor" class="input editor_inputs">{{ alContent.getHtmlContentForEditor }}</textarea>
         <input id="al_html_saver" type="submit" value = "Save" class="input button" />
         {% endif %}
         {% endblock %}
@@ -79,7 +79,7 @@
     <div id="al-editor-tab-2">
         {% block internal_javascript_editor %}
         <div class="editor-contents">
-            <textarea id="al_internal_javascript" class="input editor-inputs">{{ alContent.internalJavascript }}</textarea>
+            <textarea id="al_internal_javascript" class="input editor_inputs">{{ alContent.getInternalJavascriptForEditor }}</textarea>
         </div>
         <div class="editor-commands">    
             <input id="al_internal_javascript_saver" type="submit" value = "Save" class="input button" />
@@ -91,7 +91,7 @@
     {% if showExternalJsEditor  %}
     <div id="al-editor-tab-3">
         {% block external_javascript_editor %}
-        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : alContent.externalJavascript, 'files' : jsFiles } %}
+        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : alContent.getExternalJavascript, 'files' : jsFiles } %}
         {% endblock %}
     </div>
     {% endif %}
@@ -100,7 +100,7 @@
     <div id="al-editor-tab-4">
         {% block internal_stylesheet_editor %}
         <div class="editor-contents">
-            <textarea id="al_internal_stylesheet" class="input editor-inputs">{{ alContent.internalStylesheet }}</textarea>
+            <textarea id="al_internal_stylesheet" class="input editor_inputs">{{ alContent.getInternalStylesheet }}</textarea>
         </div>
         <div class="editor-commands">
             <input id="al_internal_stylesheet_saver" type="submit" value = "Save" class="input button" />
@@ -112,9 +112,13 @@
     {% if showExternalCssEditor  %}
     <div id="al-editor-tab-5">
         {% block external_stylesheet_editor %}
-        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : alContent.externalStylesheet, 'files' : cssFiles } %}
+        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : alContent.getExternalStylesheet, 'files' : cssFiles } %}
         {% endblock %}
     </div>
+    {% endif %}
+        
+    {% if alContent.getReloadSuggested  %}
+        <div class="al_error">Warning: After adding or editing this kind of block, a page reload might be required, to properly display it</div>
     {% endif %}
 </div>
 

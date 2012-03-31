@@ -20,21 +20,21 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use AlphaLemon\ThemeEngineBundle\Twig\RenderSlotExtension as BaseRenderSlotExtension;
+use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
 
 /**
  * Adds the renderSlot function to Twig engine
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class RenderSlotExtension extends BaseRenderSlotExtension
+class SlotRendererExtension extends BaseSlotRendererExtension
 {
     public function __construct(ContainerInterface $container, AlPageTree $pageTree)
     {
         parent::__construct($container, $pageTree);
     }
 
-    public function render($slotName = null)
+    public function renderSlot($slotName = null)
     {
         if(null === $slotName)
         {
@@ -43,53 +43,89 @@ class RenderSlotExtension extends BaseRenderSlotExtension
 
         try
         {
-            $result = '';  
-            $alBlocks = $this->pageTree->getContents($slotName);
-            if(count($alBlocks) > 0)
+            $result = array();  
+            $blocks = $this->pageTree->getContents($slotName);
+            if(count($blocks) > 0)
             {
-                foreach($alBlocks as $alBlock)
+                foreach($blocks as $block)
                 {
-                    if(\array_key_exists('Id', $alBlock))
-                    {
-                        $hideInEditMode = ($alBlock['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-                        $result .= sprintf('<div class="al_editable %s cmVoice {id: \'%s\', slotName: \'%s\', type: \'%s\', cMenu:\'context_menu_1\'}">%s</div>', $hideInEditMode, $alBlock['Id'], $slotName, strtolower($alBlock['Type']), $alBlock['HtmlContentCMSMode']);
-                    }
-                    else
-                    {
-                        if(\array_key_exists('RenderView', $alBlock))
-                        {
-                            $result .= $this->container->get('templating')->render($alBlock['RenderView']['view'], $alBlock['RenderView']['params']);
-                        }
-                        else if(\array_key_exists('HtmlContent', $alBlock))
-                        {
-                            $result .= $alBlock['HtmlContent'];
-                        }
-                    }
+                    $result[] = $this->doRender($block, true);
                 }
             }
             else
             {
                 if($this->pageTree->isCmsMode())
                 {
-                    $result .= sprintf('<div class="al_editable cmVoice {id: \'0\', slotName: \'%s\', cMenu:\'context_menu_1\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
+                    $result[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
                 }
             }
             
-            return sprintf('<div class="al_%s">%s</div>', $slotName, $result);
+            return sprintf('<div class="al_%s">%s</div>', $slotName, implode("\n", $result));
         }
         catch (\Exception $ex)
         {
             throw $ex;
         }
     }
+    
+    public function renderBlock(array $block = null, $add = false)
+    {
+        if(null === $block)
+        {
+            throw new InvalidArgumentException("renderBlock function requires an array to render its contents. A null block parameter has given");
+        }
 
+        return $this->doRender($block, $add);
+    }
+    
+    protected function doRender(array $block = null, $add = false)
+    {
+        try
+        {
+            $result = "";
+            $slotName = $block["Block"]["SlotName"];
+            if(\array_key_exists('Id', $block))
+            {
+                
+                //$content = $block['HtmlContentCMSMode'] ;
+                if($block['InternalJavascript'] != "" && array_key_exists('added', $block)) $content .= sprintf('<script>%s</script>', $block['InternalJavascript']);
+                $result = $block['HtmlContentCMSMode'];
+                //$result = sprintf('<div class="%s {type: \'%s\'}">%s</div>', $hideInEditMode, strtolower($block['Block']['ClassName']), $content);
+            }
+            else
+            {
+                if(\array_key_exists('RenderView', $block))
+                {
+                    $result = $this->container->get('templating')->render($block['RenderView']['view'], $block['RenderView']['params']);
+                }
+                else if(\array_key_exists('HtmlContent', $block))
+                {
+                    $result = $block['HtmlContent'];
+                }
+            }
+            
+            $hideInEditMode = ($block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
+            $content = sprintf('<div class="al_%s">%s</div>', $slotName, $result);
+            if($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\'}">%s</div>', $block["Id"], $hideInEditMode, $block['Id'], $slotName, strtolower($block['Block']['ClassName']), $content);
+
+            return $content;
+        }
+        catch (\Exception $ex)
+        {
+            throw $ex;
+        }
+    }
+    
     /**
      * @return array
      */
     public function getFunctions()
     {
         return array(
-            'renderSlot' => new \Twig_Function_Method($this, 'render', array(
+            'renderSlot' => new \Twig_Function_Method($this, 'renderSlot', array(
+                'is_safe' => array('html'),
+            )),
+            'renderBlock' => new \Twig_Function_Method($this, 'renderBlock', array(
                 'is_safe' => array('html'),
             )),
         );
@@ -99,6 +135,6 @@ class RenderSlotExtension extends BaseRenderSlotExtension
      * @return string
      */
     public function getName() {
-        return 'renderSlot';
+        return 'slotRenderer';
     }
 }

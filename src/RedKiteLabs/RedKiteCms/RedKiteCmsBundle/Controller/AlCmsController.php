@@ -111,6 +111,16 @@ class AlCmsController extends Controller
             $languageId = (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0;
             $pageId = (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0;
             
+            $availableBlocks = array();
+            foreach ($kernel->getBundles() as $bundle)
+            {
+                if(method_exists($bundle, 'getAlphaLemonBundleDescription'))
+                {
+                    $bundleName = preg_replace('/Bundle$/', '', $bundle->getName());
+                    $availableBlocks[$bundleName] = $bundle->getAlphaLemonBundleDescription();
+                }
+            }
+            
             return $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', array(
                                 'metatitle' => $pageTree->getMetatitle(),
                                 'metadescription' => $pageTree->getMetaDescription(),
@@ -121,7 +131,7 @@ class AlCmsController extends Controller
                                 'template' => $template,
                                 'page' => $pageId,
                                 'language' => $languageId,
-                                'available_contents' => $this->container->getParameter('al_cms.page_blocks'),
+                                'available_contents' => $availableBlocks,
                                 'skin_path' => $skin,
                                 'pages' => ChoiceValues::getPages($this->container),
                                 'languages' => ChoiceValues::getLanguages($this->container),

@@ -15,13 +15,13 @@
  */
 
 (function( $ ){
-    $.fn.StartPageEditing = function()
+    $.fn.StartToEdit = function()
     {
-        $('.al_editable').unbind().ShowEditorContent();
-        $('.al_hide_edit_mode').HideContentsForEditMode();
-
         this.each(function()
         {
+            $(this).unbind().ShowBlockEditor();
+            $(this).HideContentsForEditMode();
+            
             $(this).addClass('al_edit_on');
             $(this).mouseover(function(event)
             {
@@ -36,16 +36,16 @@
                 
                 return false;
             });
-        });
-        
-        $("#al_cms_contents a").unbind().click(function(event) {
-          event.preventDefault();
+            
+            $(this).find("a").unbind().click(function(event) {
+                event.preventDefault();
+            });
         });
         
         return this;
     };
     
-    $.fn.StopPageEditing = function(closeEditor)
+    $.fn.StopToEdit = function(closeEditor)
     {
         if(closeEditor == null)
         {
@@ -67,10 +67,10 @@
     {
         this.each(function()
         {
-            if(!$(this).hasClass('is_hidden_in_edit_mode'))
+            if($(this).hasClass('al_hide_edit_mode'))
             {
                 var data = $(this).metadata(); 
-                $(this).data('content', $(this).html()).html('<p>A ' + data.type  + ' content is not renderable in edit mode</p>').addClass('is_hidden_in_edit_mode');
+                $(this).data('block', $(this).html()).html('<p>A ' + data.type  + ' block is not renderable in edit mode</p>').addClass('is_hidden_in_edit_mode');
             }
         });
     };
@@ -79,7 +79,7 @@
     {
         this.each(function()
         {
-            $(this).removeClass('is_hidden_in_edit_mode').html($(this).data('content'));
+            $(this).removeClass('is_hidden_in_edit_mode').html($(this).data('block'));
         });
     };
     
@@ -113,14 +113,14 @@ $(document).ready(function(){
 
     $('#al_start_editor').click(function()
     {
-        $('.al_editable').StartPageEditing();
+        $('.al_editable').StartToEdit();
         
         return false;
     });
 
     $('#al_stop_editor').click(function()
     {
-        $('.al_editable').StopPageEditing();
+        $('.al_editable').StopToEdit();
         
         return false;
     });
