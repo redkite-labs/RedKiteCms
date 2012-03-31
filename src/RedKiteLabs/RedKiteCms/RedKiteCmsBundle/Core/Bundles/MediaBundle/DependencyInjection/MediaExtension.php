@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\DependencyInjection;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -23,20 +23,20 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * AlMediaExtension
+ * MediaExtension
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class AlMediaExtension extends Extension
+class MediaExtension extends Extension
 {
-  public function load(array $configs, ContainerBuilder $container)
-  {
-      $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/service'));
-      $loader->load('al_media.xml');
-  }
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/service'));
+        $loader->load('services.xml');
+    }
 
-  public function getAlias()
-  {
-      return 'al_media';
-  }
+    public function getAlias()
+    {
+        return 'media';
+    }
 }

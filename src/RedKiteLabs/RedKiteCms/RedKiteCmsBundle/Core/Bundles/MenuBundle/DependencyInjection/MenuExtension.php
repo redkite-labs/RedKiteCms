@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMenuBundle\DependencyInjection;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MenuBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -25,20 +25,20 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
- * AlMediaImage
+ * MenuExtension
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class AlMenuExtension extends Extension
+class MenuExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('al_menu.xml');
+        $loader->load('services.xml');
     }
 
     public function getAlias()
     {
-        return 'al_menu';
+        return 'menu';
     }
 }

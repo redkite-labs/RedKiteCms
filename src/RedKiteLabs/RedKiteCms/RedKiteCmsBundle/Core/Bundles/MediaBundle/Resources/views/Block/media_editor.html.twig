@@ -33,7 +33,7 @@
                 destroy: function(event){ isEditorOpened = false;$('#al_editor_dialog').dialog('destroy').remove(); }
             },
             getFileCallback : function(file, fm) {
-                $('#al_file').val(file.name);
+                $('#al_file').val(file.path);
                 $('#al_file').EditBlock('HtmlContent');
                 $('#al_file').val('');
             }

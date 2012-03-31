@@ -15,16 +15,16 @@
  * 
  */
  
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Block;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Media\AlMediaBuilder;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media\AlMediaBuilder;
 
 /**
  * AlBlockManagerMedia
  *
  * @author AlphaLemon <info@alphalemon.com>
- */
+ */   
 class AlBlockManagerMedia extends AlBlockManager
 {
     public function getDefaultValue()
@@ -41,11 +41,9 @@ class AlBlockManagerMedia extends AlBlockManager
      */
     public function getHtmlContent()
     {
-        $dv = $this->getDefaultValue();
-		$media = $this->buildMedia();
-		return (null !== $media) ? $media->render() : $this->alBlock->getHtmlContent();
-		
-        return $dv["HtmlContent"];
+        $media = $this->buildMedia();
+        
+        return (null !== $media) ? $media->render() : $this->alBlock->getHtmlContent();
     }
     
     protected function buildMedia()
@@ -56,10 +54,9 @@ class AlBlockManagerMedia extends AlBlockManager
         return $mediaBuilder->getMedia();
     }
     
-    protected function edit($values)
+    protected function edit(array $values)
     {
-        // Just the filename is needed
-        $fileName = basename($values['HtmlContent']);
+        $fileName = preg_replace('/^[\w]+\//', '', $values['HtmlContent']);
         $values['HtmlContent'] = $fileName;
         
         return parent::edit($values);

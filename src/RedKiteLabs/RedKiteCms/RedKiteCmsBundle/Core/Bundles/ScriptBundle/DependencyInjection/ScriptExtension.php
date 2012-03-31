@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlScriptBundle\DependencyInjection;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -23,20 +23,20 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * AlScriptExtension
+ * ScriptExtension
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class AlScriptExtension extends Extension
+class ScriptExtension extends Extension
 {
-  public function load(array $configs, ContainerBuilder $container)
-  {
+    public function load(array $configs, ContainerBuilder $container)
+    {
       $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-      $loader->load('al_script.xml');
-  }
+      $loader->load('services.xml');
+    }
 
-  public function getAlias()
-  {
-      return 'al_script';
-  }
+    public function getAlias()
+    {
+      return 'script';
+    }
 }

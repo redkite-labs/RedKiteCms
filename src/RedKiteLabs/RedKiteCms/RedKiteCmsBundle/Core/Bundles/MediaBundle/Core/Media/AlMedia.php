@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Media;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media;
 
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 

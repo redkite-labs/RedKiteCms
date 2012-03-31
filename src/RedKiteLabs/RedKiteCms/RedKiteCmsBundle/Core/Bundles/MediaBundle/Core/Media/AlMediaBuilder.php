@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Media;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media;
 
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
@@ -63,7 +63,7 @@ class AlMediaBuilder
             return null;
         }
 
-        $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Media\AlMedia' . $this->type;
+        $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media\AlMedia' . $this->type;
         if (!class_exists($className)) 
         {
             throw new \RuntimeException($this->container->get('translator')->trans('You must implement a class named %className% to manage the media type %type%', array('%className%' => $className, '%type%' => $this->type)));
