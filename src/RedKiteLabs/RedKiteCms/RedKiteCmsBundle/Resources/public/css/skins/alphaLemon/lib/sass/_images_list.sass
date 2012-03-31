@@ -11,35 +11,24 @@
 // 
 // @license    GPL LICENSE Version 2.0
 
-#al_files_list
-    :width 530px
-    :height 284px
-    :margin-bottom 6px
-
-.al-items-list 
+.al_images_list 
     :border 2px solid #ccc
+    :padding 6px 
+    :height 450px
+    :max-height 450px
     :overflow auto
+    
+    .al_image 
+        :float left
+        :padding 2px
 
-    ul
-        :list-style-type none
-        :padding 0
-        :margin 0
+    .al_image img
+        :border 5px solid #c9c9c9
+        +border-radius(6px 6px 6px 6px)
 
-    li 
-        :padding 4px
-        :border-bottom 1px dotted #a5a5a5
+    .al_image_selected img
+        :border 5px solid #ff9900
+        +border-radius(6px 6px 6px 6px)
 
-    table
-        :width 100%
-
-    td
-        :padding 6px
-
-    .row 
-        :background-color #fff
-
-    .alternate-row 
-        :background-color #f3f5f5
-
-    .al-selected-item
-        :background-color #d5dbdb
+.al_images_selector_commands
+    :padding 6px 
