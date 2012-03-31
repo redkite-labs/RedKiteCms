@@ -15,12 +15,11 @@
 
 {% extends 'AlphaLemonCmsBundle:Elfinder:media_library.html.twig' %}
 
-
 {% block init_script %}
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
         $('<div/>').dialogelfinder({
-                url : frontController + 'backend/' + $('#al_available_languages').val() + '/al_elFinderJavascriptsConnect',
+                url : frontController + 'backend/' + $('#al_available_languages').val() + '/al_elFinderMediaConnect',
                 lang : 'en',
                 width : 840,
                 destroyOnClose : true,
@@ -29,8 +28,8 @@
                         onlyURL  : false,
                     }
                 },
-                getFileCallback : function(file, fm) {
-                    $('#al-javascript-external-files').EditBlock('ExternalJavascript', file.name);
+                getFileCallback : function(file, fm) { 
+                    $('body').AddImage(file.path);
                 }
         }).dialogelfinder('instance');
     });

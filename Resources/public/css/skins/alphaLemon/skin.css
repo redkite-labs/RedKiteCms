@@ -26,6 +26,10 @@
   float: right;
 }
 
+.al_float_clear {
+  clear: both;
+}
+
 .al_error {
   font-weight: bold;
   color: red;
@@ -364,39 +368,67 @@
   overflow: auto;
 }
 
-#al_files_list {
-  width: 530px;
-  height: 284px;
-  margin-bottom: 6px;
-}
-
-.al-items-list {
+.al_items_list {
   border: 2px solid #cccccc;
   overflow: auto;
 }
-.al-items-list ul {
+.al_items_list ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-.al-items-list li {
+.al_items_list li {
   padding: 4px;
   border-bottom: 1px dotted #a5a5a5;
 }
-.al-items-list table {
+.al_items_list table {
   width: 100%;
 }
-.al-items-list td {
+.al_items_list td {
   padding: 6px;
 }
-.al-items-list .row {
+.al_items_list .row {
   background-color: white;
 }
-.al-items-list .alternate-row {
+.al_items_list .alternate_row {
   background-color: #f3f5f5;
 }
-.al-items-list .al-selected-item {
+.al_items_list .al_selected_item {
   background-color: #d5dbdb;
+}
+
+.al_images_list {
+  border: 2px solid #cccccc;
+  padding: 6px;
+  height: 450px;
+  max-height: 450px;
+  overflow: auto;
+}
+.al_images_list .al_image {
+  float: left;
+  padding: 2px;
+}
+.al_images_list .al_image img {
+  border: 5px solid #c9c9c9;
+  -moz-border-radius: 6px 6px 6px 6px;
+  -webkit-border-radius: 6px 6px 6px 6px;
+  -o-border-radius: 6px 6px 6px 6px;
+  -ms-border-radius: 6px 6px 6px 6px;
+  -khtml-border-radius: 6px 6px 6px 6px;
+  border-radius: 6px 6px 6px 6px;
+}
+.al_images_list .al_image_selected img {
+  border: 5px solid #ff9900;
+  -moz-border-radius: 6px 6px 6px 6px;
+  -webkit-border-radius: 6px 6px 6px 6px;
+  -o-border-radius: 6px 6px 6px 6px;
+  -ms-border-radius: 6px 6px 6px 6px;
+  -khtml-border-radius: 6px 6px 6px 6px;
+  border-radius: 6px 6px 6px 6px;
+}
+
+.al_images_selector_commands {
+  padding: 6px;
 }
 
 .ui-dialog {
@@ -409,13 +441,14 @@
   z-index: 90000 !important;
 }
 
-.editor-contents {
-  width: 530px;
+.editor_contents {
+  width: 98%;
   height: 286px;
+  margin: 0 auto;
   margin-bottom: 16px;
 }
 
-.editor-inputs {
+.editor_inputs {
   width: 100%;
   height: 284px;
 }

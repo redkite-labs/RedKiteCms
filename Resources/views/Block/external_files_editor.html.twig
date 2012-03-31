@@ -13,15 +13,15 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-<div class="editor-contents al-items-list al-{{ section }}-list">
+<div class="editor_contents al_items_list al_{{ section }}_list">
     {% include 'AlphaLemonCmsBundle:Block:external_files_renderer.html.twig' %}
 </div>
 <div class="editor-commands">
-    <input class="al-{{ section }}-file-manager input button" type="submit" value="Manage external files" />
-    <input class="al-{{ section }}-item-remover input button" type="submit" value="Remove selected file" />
+    <input class="al_{{ section }}_file_manager input button" type="submit" value="Manage external files" />
+    <input class="al_{{ section }}_item_remover input button" type="submit" value="Remove selected file" />
 </div>
 
 <script type="text/javascript">
-        $('.al-{{ section }}-item-remover').RemoveExternalFile('External{{ section }}', $('.al-items .al-selected-item').attr('rel'));
-        $('.al-{{ section }}-file-manager').ShowExternalFilesManager('{{ section|lower }}');    
+        $('.al_{{ section }}_item_remover').RemoveExternalFile('External{{ section }}', $('.al_selected_item').attr('rel'));
+        $('.al_{{ section }}_file_manager').ShowExternalFilesManager('{{ section|lower }}');    
 </script>

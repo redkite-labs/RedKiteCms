@@ -13,15 +13,22 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-<div class="editor-contents al-items-list al-{{ section }}-list">
-    {% include 'AlphaLemonCmsBundle:Block:external_files_renderer.html.twig' %}
-</div>
-<div class="editor-commands">
-    <input class="al-{{ section }}-file-manager input button" type="submit" value="Manage external files" />
-    <input class="al-{{ section }}-item-remover input button" type="submit" value="Remove selected file" />
-</div>
+{% set i = 0 %}
+{% for image in alContent.getHtmlContentForEditor %}
+   <div class="al_image">{{ thumbnail(image) }}</div>
+   {% set i = i + 1 %}
+   {% if i == 6 %}
+       <div class="al_float_clear"></div>
+       {% set i = 0 %}
+   {% endif %}    
+{% endfor %}
+<div class="al_float_clear"></div> 
 
 <script type="text/javascript">
-        $('.al-{{ section }}-item-remover').RemoveExternalFile('External{{ section }}', $('.al-items .al-selected-item').attr('rel'));
-        $('.al-{{ section }}-file-manager').ShowExternalFilesManager('{{ section|lower }}');    
+        $('.al_image').click(function()
+        {
+            var isCurrentItemSelected = $(this).hasClass('al_image_selected');
+            $('.al_image').removeClass('al_image_selected'); 
+            if(!isCurrentItemSelected) $(this).addClass('al_image_selected');
+        });
 </script>
