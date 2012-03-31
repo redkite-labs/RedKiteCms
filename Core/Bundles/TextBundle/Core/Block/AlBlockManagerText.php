@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlTextBundle\Core\Block;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;

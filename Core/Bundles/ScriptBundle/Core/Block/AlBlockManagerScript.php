@@ -15,12 +15,12 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlScriptBundle\Core\Block;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
- * AlScriptExtension
+ * ScriptExtension
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
@@ -51,6 +51,10 @@ class AlBlockManagerScript extends AlBlockManager
      */
     public function getHideInEditMode()
     {
+        return true;
+    }
+    
+    public function getReloadSuggested() {
         return true;
     }
 }

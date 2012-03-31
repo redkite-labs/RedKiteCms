@@ -28,10 +28,7 @@ class InternalBundlesAutoloader extends BundlesAutoloader
 {
     protected function  configure()
     {
-        $params = array();
-        $params["pathToSeek"] = __DIR__ . '/../Bundles';
-        $params["nameSpace"] =  'AlphaLemon\AlphaLemonCmsBundle\Core\Bundles';
-
-        return $params;
+        return  array('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles' => __DIR__ . '/../Bundles',
+                      'AlphaLemon\Block' => __DIR__ . '/../../../../../../src/AlphaLemon/Block',);
     }
 }

@@ -15,15 +15,19 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlScriptBundle;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * AlScriptExtension
+ * ScriptExtension
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class AlScriptBundle extends Bundle
+class ScriptBundle extends Bundle
 {
+    public function getAlphaLemonBundleDescription()
+    {
+        return 'Javascript Content';
+    }
 }

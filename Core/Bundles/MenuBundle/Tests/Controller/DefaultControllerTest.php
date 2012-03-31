@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMenuBundle\Tests\Controller;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MenuBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

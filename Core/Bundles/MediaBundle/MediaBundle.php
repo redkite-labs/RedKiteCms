@@ -15,15 +15,19 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * AlMediaBundle
+ * MediaBundle
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class AlMediaBundle extends Bundle
+class MediaBundle extends Bundle
 {
+    public function getAlphaLemonBundleDescription()
+    {
+        return 'Media Content';
+    }
 }

@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlTextBundle\DependencyInjection;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -23,20 +23,20 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * TinyMCEController
+ * TextExtension
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class AlTextExtension extends Extension
+class TextExtension extends Extension
 {
   public function load(array $configs, ContainerBuilder $container)
   {
       $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-      $loader->load('al_text.xml');
+      $loader->load('services.xml');
   }
 
   public function getAlias()
   {
-      return 'al_text';
+      return 'text';
   }
 }

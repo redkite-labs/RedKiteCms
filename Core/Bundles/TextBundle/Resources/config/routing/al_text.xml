@@ -5,9 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="_create_images_list" pattern="/al_createImagesList">
-        <default key="_controller">AlTextBundle:TinyMCE:createImagesList</default>
+        <default key="_controller">TextBundle:TinyMCE:createImagesList</default>
     </route>
     <route id="_create_links_list" pattern="/al_createLinksList/{language}">
-        <default key="_controller">AlTextBundle:TinyMCE:createLinksList</default>
+        <default key="_controller">TextBundle:TinyMCE:createLinksList</default>
     </route>
 </routes>

@@ -15,14 +15,15 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Listener; 
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Listener; 
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderedEvent;
 use Symfony\Component\HttpFoundation\Response;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderedEvent;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Block\AlBlockManagerMedia;
 
 
 /**
- * Manipulates the block's editor response when the editor has been rendered 
+ * Converts the standard json response into an http response due to ElFinder library requirements
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
@@ -32,13 +33,11 @@ class RenderedEditorListener
     {
         try
         {
-            // The response editor is returned as a json response, ElFinder file manager must be rendered 
-            // as a text response
-            $alBlock = $event->getAlBlock();            
-            if($alBlock->getClassName() == 'Media')
+            $alBlockManager = $event->getAlBlockManager();        
+            if($alBlockManager instanceof AlBlockManagerMedia)
             {
-                $content = json_decode($event->getResponse()->getContent());
-                $event->setResponse(new Response($content[0]->{'value'}));
+                $content = json_decode($event->getResponse()->getContent(), true);
+                $event->setResponse(new Response($content[0]["value"]));
             }
         }
         catch(\Exception $ex)

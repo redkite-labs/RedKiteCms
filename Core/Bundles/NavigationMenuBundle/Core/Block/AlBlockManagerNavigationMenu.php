@@ -15,7 +15,7 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlNavigationMenuBundle\Core\Block;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\NavigationMenuBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributePeer;

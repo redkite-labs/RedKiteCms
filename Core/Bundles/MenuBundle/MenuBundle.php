@@ -1,9 +1,13 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMenuBundle;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MenuBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AlMenuBundle extends Bundle
+class MenuBundle extends Bundle
 {
+    public function getAlphaLemonBundleDescription()
+    {
+        return 'Menu Content';
+    }
 }
