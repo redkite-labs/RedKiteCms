@@ -1,0 +1,27 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+<div class="editor-contents al-items-list al-{{ section }}-list">
+    {% include 'AlphaLemonCmsBundle:Block:external_files_renderer.html.twig' %}
+</div>
+<div class="editor-commands">
+    <input class="al-{{ section }}-file-manager input button" type="submit" value="Manage external files" />
+    <input class="al-{{ section }}-item-remover input button" type="submit" value="Remove selected file" />
+</div>
+
+<script type="text/javascript">
+        $('.al-{{ section }}-item-remover').RemoveExternalFile('External{{ section }}', $('.al-items .al-selected-item').attr('rel'));
+        $('.al-{{ section }}-file-manager').ShowExternalFilesManager('{{ section|lower }}');    
+</script>
