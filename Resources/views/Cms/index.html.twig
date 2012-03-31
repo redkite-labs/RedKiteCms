@@ -38,8 +38,15 @@
                 "delete": {"name": "Delete", "icon": "cut", callback: function(key, opt){ opt.$trigger.DeleteContent(); }}
             }
         });
+        
+        {{ internal_javascripts|raw }}
     });
 </script>
+{% endblock %}
+
+{% block internal_header_stylesheets %}
+    {{ parent() }}
+    {{ internal_stylesheets|raw }}
 {% endblock %}
 
 {% block external_stylesheets %}

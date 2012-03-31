@@ -97,7 +97,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         else
         {
             return $this->edit($parameters);
-        }
+        }exit;
     }
     
     /**
@@ -166,15 +166,15 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         return false;
     }
-
+    
     /**
-     * Returns the content to display when the site is browsed in CMS mode
+     * Return true tu display a warnig on editor that suggest the used to reload the page when the block is added or edited
      * 
-     * @return string
+     * @return Boolean 
      */
-    public function getHtmlContentCMSMode()
+    public function getReloadSuggested()
     {
-        return $this->getHtmlContent();
+        return false;
     }
     
     /**
@@ -187,6 +187,26 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         return $this->alBlock->getHtmlContent();
     }
 
+    /**
+     * Returns the content to display when the site is browsed in CMS mode
+     * 
+     * @return string
+     */
+    public function getHtmlContentCMSMode()
+    {
+        return $this->getHtmlContent();
+    }
+    
+    /**
+     * Returns the content to be managed by the editor
+     * 
+     * @return string
+     */
+    public function getHtmlContentForEditor()
+    {
+        return $this->alBlock->getHtmlContent();
+    }
+    
     /**
      * Returns the current saved ExternalJavascript 
      * 
@@ -232,6 +252,16 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         
         return $function;
     }
+    
+    /**
+     * Returns the content to be managed by the editor
+     * 
+     * @return string
+     */
+    public function getInternalJavascriptForEditor()
+    {
+        return $this->alBlock->getInternalJavascript();
+    }
 
     /**
      * Returns the current saved InternalStylesheet 
@@ -259,8 +289,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $content["InternalJavascript"] = $this->getInternalJavascript();
         $content["ExternalStylesheet"] = $this->getExternalStylesheet();
         $content["InternalStylesheet"] = $this->getInternalStylesheet();
-        $content["Position"] = $this->alBlock->getContentPosition();
-        $content["Type"] = $this->alBlock->getClassName();
+        $content["Block"] = $this->alBlock->toArray();
+        //$content["Position"] = $this->alBlock->getContentPosition();
+        //$content["Type"] = $this->alBlock->getClassName();
 
         return $content;
     }
@@ -322,7 +353,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
                 $values = array_merge($values, $defaults);
             }
-            
+                        
             $result = false;
             $rollback = false;
             $this->connection->beginTransaction();
@@ -358,17 +389,17 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             throw $e;
         }
     }
-
+    
     /**
      * Edits the AlBlock object
      *
      * @param array  $values     An array where keys are the AlBlockField definition and values are the values to edit     *
      * @return Boolean
      */
-    protected function edit($values)
+    protected function edit(array $values)
     {
         try
-        {
+        {   
             $dispatcher = $this->container->get('event_dispatcher');
             if(null !== $dispatcher)
             {
@@ -387,7 +418,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             }
             
             $this->checkEmptyParams($values);
-
+            
             $rollback = false;
             $this->connection->beginTransaction();
 

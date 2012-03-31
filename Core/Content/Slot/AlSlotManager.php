@@ -35,6 +35,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 class AlSlotManager extends AlTemplateBase
 {
     protected $slot;
+    protected $lastAdded = null;
     protected $contentManagers = null;
     protected $useSlotAttributes = false;
     
@@ -148,6 +149,16 @@ class AlSlotManager extends AlTemplateBase
     public function length()
     {
         return count($this->contentManagers);
+    }
+    
+    /**
+     * Returns the last added content manager
+     * 
+     * @return AlBlockManager object or null
+     */
+    public function lastAdded()
+    {
+        return $this->lastAdded;
     }
 
     
@@ -274,6 +285,8 @@ class AlSlotManager extends AlTemplateBase
                 {
                     $this->contentManagers[] = $alBlockManager;
                 }
+                
+                $this->lastAdded = $alBlockManager;
                 
                 return true;
             }

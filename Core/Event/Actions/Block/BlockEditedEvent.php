@@ -18,23 +18,83 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
- * Defines the BlockEditorRenderedEvent event
+ * Defines the BlockEditedEvent event
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class BlockEditorRenderedEvent extends Event
+class BlockEditedEvent extends Event
+{
+    private $request = null;
+    private $blockManager = null;
+    private $response;
+    
+    public function __construct(Request $request, AlBlockManager $blockManager, Response $response = null)
+    {
+        $this->request = $request;
+        $this->blockManager = $blockManager;
+    }
+    
+    public function getRequest()
+    {
+        return $this->request;
+    }
+    
+    public function setRequest(Request $v)
+    {
+        $this->request = $v;
+    }
+    
+    public function getBlockManager()
+    {
+        return $this->blockManager;
+    }
+    
+    public function setBlockManager(AlBlockManager $v)
+    {
+        $this->blockManager = $v;
+    }
+    
+    public function getResponse()
+    {
+        return $this->response;
+    }
+    
+    public function setResponse(Response $v)
+    {
+        $this->response = $v;
+    }
+}
+
+
+/*
+ * class BlockEditedEvent extends Event
 {
     private $response = null;
-    private $alBlock = null;
+    private $request = null;
+    private $blockManager = null;
     
-    public function __construct(Response $response, AlBlock $alBlock)
+    public function __construct(Request $request, Response $response, AlBlockManager $blockManager)
     {
-        $this->response = $response;
-        $this->alBlock = $alBlock;
+        $this->request = $request;
+        $this->response = $response;        
+        $this->blockManager = $blockManager;
+    }
+    
+    public function getRequest()
+    {
+        return $this->request;
+    }
+    
+    public function setRequest(Request $v)
+    {
+        $this->request = $v;
     }
     
     public function getResponse()
@@ -47,8 +107,14 @@ class BlockEditorRenderedEvent extends Event
         $this->response = $v;
     }
     
-    public function getAlBlock()
+    public function getBlockManager()
     {
-        return $this->alBlock;
+        return $this->blockManager;
+    }
+    
+    public function setBlockManager(AlBlockManager $v)
+    {
+        $this->blockManager = $v;
     }
 }
+ */

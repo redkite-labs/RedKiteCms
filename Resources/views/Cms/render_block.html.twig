@@ -13,4 +13,8 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{{ renderSlot(slotName) }}
+{% if(add is not defined) %}
+{% set add = false %}
+{% endif %}
+
+{{ renderBlock(block, add) }}
