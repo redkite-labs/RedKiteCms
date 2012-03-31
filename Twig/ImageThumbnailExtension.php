@@ -17,70 +17,57 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 
-use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use AlphaLemon\ThemeEngineBundle\Twig\RenderSlotExtension as BaseRenderSlotExtension;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\ImageThumbnailer;
+
 
 /**
  * Adds the renderSlot function to Twig engine
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
-class RenderSlotExtension extends BaseRenderSlotExtension
+class ImageThumbnailExtension extends \Twig_Extension
 {
-    public function __construct(ContainerInterface $container, AlPageTree $pageTree)
+    private $container;
+    
+    public function __construct(ContainerInterface $container)
     {
-        parent::__construct($container, $pageTree);
+        $this->container = $container;
     }
-
-    public function render($slotName = null)
+    
+    public function thumbnail($image, $targetWidth = 100, $targetHeight = 100)
     {
-        if(null === $slotName)
+        $imagePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . $image;
+        $thumbnailer = new \AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\ImageThumbnailer($imagePath, $targetWidth, $targetHeight);
+        $thumbnailer->create();
+        $size = getimagesize($thumbnailer->getThumbnailImage());
+        
+        return sprintf('<img src="%s" width="%s" height="%s" rel="%s" />', dirname($image) .  '/' . $thumbnailer->getThumbnailFolder() . '/' . basename($thumbnailer->getThumbnailImage()), $size[0], $size[1], $image);
+        /*
+        $thumbnailsFolder = '.thumbnails';
+        $imagePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . $image;
+        
+        $imagine = new Imagine();
+        $targetPath = dirname($imagePath) . '/' . $thumbnailsFolder . '/';
+        
+        if(!is_dir($targetPath))
         {
-            throw new InvalidArgumentException("renderSlot function requires a valid slot name to render the contents");
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($targetPath);
         }
-
-        try
-        {
-            $result = '';  
-            $alBlocks = $this->pageTree->getContents($slotName);
-            if(count($alBlocks) > 0)
-            {
-                foreach($alBlocks as $alBlock)
-                {
-                    if(\array_key_exists('Id', $alBlock))
-                    {
-                        $hideInEditMode = ($alBlock['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-                        $result .= sprintf('<div class="al_editable %s cmVoice {id: \'%s\', slotName: \'%s\', type: \'%s\', cMenu:\'context_menu_1\'}">%s</div>', $hideInEditMode, $alBlock['Id'], $slotName, strtolower($alBlock['Type']), $alBlock['HtmlContentCMSMode']);
-                    }
-                    else
-                    {
-                        if(\array_key_exists('RenderView', $alBlock))
-                        {
-                            $result .= $this->container->get('templating')->render($alBlock['RenderView']['view'], $alBlock['RenderView']['params']);
-                        }
-                        else if(\array_key_exists('HtmlContent', $alBlock))
-                        {
-                            $result .= $alBlock['HtmlContent'];
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if($this->pageTree->isCmsMode())
-                {
-                    $result .= sprintf('<div class="al_editable cmVoice {id: \'0\', slotName: \'%s\', cMenu:\'context_menu_1\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
-                }
-            }
-            
-            return sprintf('<div class="al_%s">%s</div>', $slotName, $result);
-        }
-        catch (\Exception $ex)
-        {
-            throw $ex;
-        }
+        
+        $targetImage = $targetPath . md5($imagePath) . '.jpg';
+        $transformation = new Transformation();
+        $transformation->thumbnail(new Box($targetWidth, $targetHeight));
+        $transformation->apply($imagine->open($imagePath))
+                ->save($targetImage);
+        
+        $size = getimagesize($targetImage);
+        
+        return sprintf('<img src="%s" width="" height="" />', dirname($image) .  '/' . $thumbnailsFolder . '/' . basename($targetImage), $size[0], $size[1]);
+        */
+    
     }
 
     /**
@@ -89,7 +76,7 @@ class RenderSlotExtension extends BaseRenderSlotExtension
     public function getFunctions()
     {
         return array(
-            'renderSlot' => new \Twig_Function_Method($this, 'render', array(
+            'thumbnail' => new \Twig_Function_Method($this, 'thumbnail', array(
                 'is_safe' => array('html'),
             )),
         );
@@ -99,6 +86,6 @@ class RenderSlotExtension extends BaseRenderSlotExtension
      * @return string
      */
     public function getName() {
-        return 'renderSlot';
+        return 'images';
     }
 }
