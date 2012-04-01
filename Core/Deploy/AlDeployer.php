@@ -178,7 +178,7 @@ abstract class AlDeployer
     protected function setup()
     {    
         $this->cmsWebBundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
-        $this->cmsBundleFolder = $this->container->getParameter('kernel.root_dir') . '/../web/' . $this->cmsWebBundleFolder;//echo $this->cmsBundleFolder;exit;
+        $this->cmsBundleFolder = $this->container->getParameter('kernel.root_dir') . '/../web/' . $this->cmsWebBundleFolder;
         $this->deployBundle = $this->baseDeployBundle;
         if(false === $deployBundle = AlToolkit::locateResource($this->container, $this->deployBundle))
         {
