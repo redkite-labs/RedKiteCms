@@ -62,10 +62,6 @@ class AlphaLemonThemeEngineExtension extends Extension
             $container->setParameter('althemes.theme_skeleton_template', $config['theme_skeleton_template']);
         }
         
-        if (isset($config['base_dir'])) {
-            $container->setParameter('althemes.base_dir', $config['base_dir']);
-        }
-        
         if (isset($config['render_slot_class'])) {
             $container->setParameter('twig.extension.render_slot.class', $config['render_slot_class']);
         }

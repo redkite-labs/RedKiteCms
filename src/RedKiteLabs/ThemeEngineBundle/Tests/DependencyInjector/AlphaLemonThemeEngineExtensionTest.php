@@ -35,7 +35,6 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
         $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:index.html.twig', $container->getParameter('althemes.base_theme_manager_template'));
         $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', $container->getParameter('althemes.panel_sections_template'));
         $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig', $container->getParameter('althemes.theme_skeleton_template'));
-        $this->assertEquals('Themes', $container->getParameter('althemes.base_dir'));
         $this->assertSame(array('title', 'description', 'author', 'license', 'website', 'email', 'version'), $container->getParameter('althemes.info_valid_entries'));        
     }
 }

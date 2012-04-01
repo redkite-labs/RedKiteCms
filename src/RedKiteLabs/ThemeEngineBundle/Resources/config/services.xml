@@ -12,7 +12,7 @@
         <parameter key="althemes.base_theme_manager_template">AlphaLemonThemeEngineBundle:Themes:index.html.twig</parameter>
         <parameter key="althemes.panel_sections_template">AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig</parameter>
         <parameter key="althemes.theme_skeleton_template">AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig</parameter>
-        <parameter key="althemes.base_dir">Themes</parameter>
+        <parameter key="althemes.themes_dir">%kernel.root_dir%/../vendor/bundles/AlphaLemon/Theme</parameter>
         <parameter key="althemes.info_valid_entries" type="collection">
             <parameter>title</parameter>
             <parameter>description</parameter>

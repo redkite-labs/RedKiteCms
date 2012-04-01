@@ -47,13 +47,13 @@ class ThemesController extends Controller
                                "onComplete" => "location.href = '" . $this->generateUrl('_extract_themes') . "'"); 
         $valumOptionsBuilder = new AlValumUploaderOptionsBuilder($this->container);
         $valumOptionsBuilder->build($customOptions);
-        
+
         $stylesheets = array();
         foreach($this->container->getParameter('althemes.stylesheets') as $stylesheet)
         {
             $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
         }
-        
+
         return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
                                                                                          'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
                                                                                          'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
@@ -286,7 +286,10 @@ class ThemesController extends Controller
         }
         else
         {
-            $themesDir = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle')  . $this->container->getParameter('althemes.base_dir');
+            //$themesDir = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle')  . $this->container->getParameter('althemes.base_dir');
+            
+            $themesDir = $this->container->getParameter('althemes.themes_dir');
+            
             if(!is_dir($themesDir))
             {
                 mkdir ($themesDir);
@@ -296,8 +299,6 @@ class ThemesController extends Controller
             {
                 throw new \RuntimeException(sprintf('%s folder is not writable. Please check the permissions on that directory', $themesDir));
             }
-            
-            
         }
 		
         return AlToolkit::normalizePath($themesDir);

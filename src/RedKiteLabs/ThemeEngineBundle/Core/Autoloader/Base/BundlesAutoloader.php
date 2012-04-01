@@ -17,6 +17,7 @@
 namespace AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base;
 
 use Symfony\Component\Finder\Finder;
+use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Exception\InvalidAutoloaderException;
 
 /**
  * Instantiates all the bundles saved into a specific folder
@@ -25,9 +26,6 @@ use Symfony\Component\Finder\Finder;
  */
 abstract class BundlesAutoloader
 {
-    private $pathToSeek;
-    private $nameSpace;
-
     /**
      * Configures the autoloader
      */
@@ -38,21 +36,24 @@ abstract class BundlesAutoloader
      */
     public function __construct()
     {
-         $params = $this->configure();
+        $paths = $this->configure();
+        
+        if(null === $paths)
+        {
+            throw new InvalidAutoloaderException("The bundles autoloader has returned a null path.");
+        }
+        
+        if(!is_array($paths))
+        {
+            throw new InvalidAutoloaderException("The autoloader configure method must return an array of paths");
+        }
+        
+        if(empty($paths))
+        {
+            throw new InvalidAutoloaderException("Any path has been configured for autoloading. Please return at least a valid path from your bundles autoloader");
+        }
          
-         $required = array("pathToSeek" => "", "nameSpace" => ""); 
-         if(count(array_diff_key($required, $params)) != 0)
-         {
-             throw new \InvalidArgumentException(sprintf("Autoloader needs the following options: %s", implode(',', array_keys($required))));
-         }
-         
-         if(!is_dir($params["pathToSeek"]))
-         {
-             throw new \InvalidArgumentException(sprintf("The directory %s does not exist", $params["pathToSeek"]));
-         }
-         
-         $this->pathToSeek = $params["pathToSeek"];
-         $this->nameSpace = $params["nameSpace"];
+        $this->paths = $paths;
     }
 
     /**
@@ -62,19 +63,33 @@ abstract class BundlesAutoloader
      */
     public function getBundles()
     {
+        /*
+        $composer = new BundlesAutoloaderComposer('AlphaLemon\Block');
+        print_r($composer->getBundles());
+        exit;*/
         $bundles = array();
-        $finder = new Finder();
-        $internalBundles = $finder->directories()->depth(0)->directories()->in($this->pathToSeek); 
         
-        foreach($internalBundles as $internalBundle)
+        foreach($this->paths as $namespace => $path)
         {
-            $bundle = $internalBundle->getFileName();
-            $className = $this->nameSpace . "\\" . $bundle. "\\" . $bundle; 
-            if(!class_exists($className))
+            $finder = new Finder();
+            $internalBundles = $finder->directories()->depth(0)->directories()->in($path); 
+
+            foreach($internalBundles as $internalBundle)
             {
-                throw new \InvalidArgumentException(sprintf("The bundle class %s does not exist. Check your configure method ", $className));
+                $bundle = $internalBundle->getFileName();
+                
+                if(method_exists($bundle, 'getAlphaLemonBundleClassAlias'))
+                {
+                    $bundle = $bundle->getAlphaLemonBundleClassAlias();
+                }
+                
+                $className = $namespace . "\\" . $bundle. "\\" . $bundle; 
+                if(!class_exists($className))
+                {
+                    throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the autoloader configure method ", $className));
+                }
+                $bundles[] = new $className();
             }
-            $bundles[] = new $className();
         }
 
         return $bundles;

@@ -14,22 +14,8 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Autoloader;
+namespace AlphaLemon\ThemeEngineBundle\Core\Autoloader\Exception;
 
-use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloader;
-
-/**
- * Instantiates the themes 
- *
- * @author AlphaLemon
- */
-class ThemesAutoloader extends BundlesAutoloader
-{
-    /**
-     * @rinheritDoc
-     */
-    protected function  configure()
-    {
-        return array('AlphaLemon\Theme' => __DIR__ . '/../../../Theme');
-    }
+class InvalidAutoloaderException extends \LogicException {
+    
 }

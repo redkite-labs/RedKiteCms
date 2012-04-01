@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
  *
  * @author Giansimon Diblas
  */
-class RenderSlotExtension extends \Twig_Extension
+class SlotRendererExtension extends \Twig_Extension
 {
     protected $container;
     protected $pageTree;
@@ -87,6 +87,6 @@ class RenderSlotExtension extends \Twig_Extension
      * @return string
      */
     public function getName() {
-        return 'renderSlot';
+        return 'slotRenderer';
     }
 }

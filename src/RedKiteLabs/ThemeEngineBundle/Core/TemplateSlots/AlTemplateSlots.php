@@ -21,6 +21,7 @@ use Symfony\Component\Config\FileLocator;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidFixtureConfigurationException;
 use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidTemplateNameException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * This is the base class where the template's slots must be defined 
@@ -29,7 +30,8 @@ use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidTemplateNameException;
  */
 abstract class AlTemplateSlots
 {
-    private $slots = array();
+    protected $container;
+    private $slots = array();    
     private $defaultSlots = array('header' => 'page',
                                 'content' => 'page',
                                 'footer' => 'page',
@@ -62,8 +64,9 @@ abstract class AlTemplateSlots
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
         $this->loadSlots();
     }
 
@@ -132,7 +135,7 @@ abstract class AlTemplateSlots
      */
     protected function loadFixtures($themeName, $templateName)
     {
-        $fixturesFolder = __DIR__ . sprintf('/../../Themes/%s/Resources/fixtures', $themeName);
+        $fixturesFolder = AlToolkit::locateResource($this->container, $themeName) . 'Resources/fixtures';
         $fileName = $templateName . '.yml';
         if(is_dir($fixturesFolder) && is_file($fixturesFolder . '/' . $fileName))
         {
