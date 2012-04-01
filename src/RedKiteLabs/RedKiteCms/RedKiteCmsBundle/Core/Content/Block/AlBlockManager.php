@@ -97,7 +97,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         else
         {
             return $this->edit($parameters);
-        }exit;
+        }
     }
     
     /**

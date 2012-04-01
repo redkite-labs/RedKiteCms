@@ -38,9 +38,8 @@ class PagesForm extends AbstractType
 
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $themesDir = AlToolkit::locateResource($this->_container, '@AlphaLemonThemeEngineBundle') . $this->_container->getParameter('althemes.base_dir');
         $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($themesDir)));
+        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->_container->getParameter('althemes.themes_dir'))));
         $builder->add('isHome', 'checkbox');
         $builder->add('isPublished', 'checkbox');
     }

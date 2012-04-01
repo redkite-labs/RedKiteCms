@@ -33,23 +33,32 @@ class ThemesController extends BaseController
 {   
     public function showAction()
     {
-        $values = $this->retrieveThemeValues();        
-        
-        $stylesheets = array();
-        foreach($this->container->getParameter('althemes.stylesheets') as $stylesheet)
+        try
         {
-            $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
+            $values = $this->retrieveThemeValues();        
+
+            $stylesheets = array();
+            foreach($this->container->getParameter('althemes.stylesheets') as $stylesheet)
+            {
+                $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
+            }
+
+            $valumOptionsBuilder = $this->setuValumUploader();
+            $isWindows = (PHP_OS == "WINNT") ? true : false;
+            return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
+                                                                                             'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
+                                                                                             'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
+                                                                                             'stylesheets' => $stylesheets,
+                                                                                             'values' => $values,
+                                                                                             'is_windows' => $isWindows,
+                                                                                             'valum' => $valumOptionsBuilder->getOptions()));
         }
-        
-        $valumOptionsBuilder = $this->setuValumUploader();
-        $isWindows = (PHP_OS == "WINNT") ? true : false;
-        return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
-                                                                                         'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
-                                                                                         'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
-                                                                                         'stylesheets' => $stylesheets,
-                                                                                         'values' => $values,
-                                                                                         'is_windows' => $isWindows,
-                                                                                         'valum' => $valumOptionsBuilder->getOptions()));
+        catch(\Exception $e)
+        {
+            $response = new Response();
+            $response->setStatusCode('404');
+            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
     }
     
     public function extractThemesAction()

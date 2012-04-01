@@ -33,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 class AlRepeatedSlotsManager extends AlContentManagerBase
 { 
     protected $activeThemeName;
-    protected $activeThemeFile;
+    protected $themeSlotsFile;
 
     /**
      * Constructor 
@@ -45,14 +45,12 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
         parent::__construct($container);
         
         $this->activeThemeName = $activeThemeName;
-        
-        $targetPath = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle') . $this->container->getParameter('althemes.base_dir'); 
-        $this->activeThemeFile = $targetPath . '/active_theme_slots.xml'; 
+        $this->themeSlotsFile =  $container->getParameter('kernel.root_dir') . '/Resources/active_theme_slots.xml'; 
     }
     
     public function setActiveThemeSlotsFile($fileName)
     {
-        $this->activeThemeFile = $fileName;
+        $this->themeSlotsFile = $fileName;
     }
 
 
@@ -141,13 +139,13 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
     protected function loadSavedSlots($templateName)
     {
         $templateName = strtolower($templateName);
-        if(!is_file($this->activeThemeFile))
+        if(!is_file($this->themeSlotsFile))
         {
             return null;
         }
         
         $result = array();
-        $xml = simplexml_load_file($this->activeThemeFile);
+        $xml = simplexml_load_file($this->themeSlotsFile);
         foreach($xml->templates->children() as $template)
         {
             if($template["name"] == $templateName)
@@ -168,18 +166,17 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
      */
     protected function saveSlots()
     {
-        $bundlePath = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle');
-        $namespacePath = \sprintf('Themes\%s\Core\Slots', $this->activeThemeName); 
-        $path = $bundlePath . str_replace('\\', '/', $namespacePath);
+        $slotClassesPath = AlToolkit::locateResource($this->container, $this->activeThemeName) . 'Core/Slots';
+        $namespacePath = \sprintf('AlphaLemon\Theme\%s\Core\Slots', $this->activeThemeName); 
         
         $result = array();
         $finder = new Finder();
-        $files = $finder->depth(0)->files()->in($path);
+        $files = $finder->depth(0)->files()->in($slotClassesPath);
         foreach($files as $files)
         {
             $pathInfo = pathinfo($files);
             $className = $namespacePath . '\\' . $pathInfo["filename"];
-            $slotManager = new $className();
+            $slotManager = new $className($this->container);
             
             preg_match('/' . $this->activeThemeName . '(\w+)Slots/', $pathInfo["filename"], $match);
             $templateName = strtolower($match[1]);
@@ -226,6 +223,6 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
             }
         }
         
-        $xml->asXML($this->activeThemeFile);
+        $xml->asXML($this->themeSlotsFile);
     }
 }

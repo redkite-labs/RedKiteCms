@@ -43,7 +43,7 @@ class AlTemplateManagerTest extends TestCase
         }
         catch(\RuntimeException $ex)
         {
-            $this->assertEquals('The class \Themes\AlphaLemonThemeBundle\Core\Slots\AlphaLemonThemeBundleSlots does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', $ex->getMessage());
+            $this->assertEquals('The class \AlphaLemon\Theme\AlphaLemonThemeBundle\Core\Slots\AlphaLemonThemeBundleSlots does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', $ex->getMessage());
         }
         
         try
@@ -54,7 +54,7 @@ class AlTemplateManagerTest extends TestCase
         }
         catch(\RuntimeException $ex)
         {
-            $this->assertEquals('The class \Themes\AlphaLemonThemeBundle\Core\Slots\AlphaLemonThemeBundleFakeSlots does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', $ex->getMessage());
+            $this->assertEquals('The class \AlphaLemon\Theme\AlphaLemonThemeBundle\Core\Slots\AlphaLemonThemeBundleFakeSlots does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', $ex->getMessage());
         }
         
         $alPage->setTemplateName('home');

@@ -221,14 +221,14 @@ class AlTemplateManager extends AlTemplateBase
      */
     protected function setUpSlotManagers($class = null)
     {
-        $templateSlotsClass = (null === $class) ? \sprintf('\Themes\%s\Core\Slots\%s%sSlots', $this->themeName, $this->themeName, ucfirst($this->templateName)) : $class;
+        $templateSlotsClass = (null === $class) ? \sprintf('\AlphaLemon\Theme\%s\Core\Slots\%s%sSlots', $this->themeName, $this->themeName, ucfirst($this->templateName)) : $class;
         if(!\class_exists($templateSlotsClass))
         {
             throw new \RuntimeException(AlToolkit::translateMessage($this->container, 'The class %className% does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', array('%className%' => $templateSlotsClass)));
         }
         $this->templateSlotClass = $templateSlotsClass;
         
-        $this->templateSlots = new $templateSlotsClass();                
+        $this->templateSlots = new $templateSlotsClass($this->container);                
         $contents = $this->retrieveContents();
         
         $slots = $this->templateSlots->getSlots();
