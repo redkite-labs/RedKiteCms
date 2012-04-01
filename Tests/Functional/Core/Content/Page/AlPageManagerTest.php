@@ -321,7 +321,7 @@ class AlPageManagerTest extends TestCase
     private function retrieveRepeatedContentsByTemplate($container, $templateName)
     {
         $pageTree = $container->get('al_page_tree');
-        $className = \sprintf('\Themes\%s\Core\Slots\%s%sSlots', $pageTree->getThemeName(), $pageTree->getThemeName(), $templateName);
+        $className = \sprintf('\AlphaLemon\Theme\%s\Core\Slots\%s%sSlots', $pageTree->getThemeName(), $pageTree->getThemeName(), $templateName);
         $templateSlots = new $className();
         
         return $templateSlots->toArray();
