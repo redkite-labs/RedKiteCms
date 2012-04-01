@@ -13,6 +13,7 @@
   ],
   "repositories": [
     {
+        "name": "phing/phing",
         "type": "vcs",
         "url": "https://github.com/phingofficial/phing.git"
     }
@@ -23,7 +24,7 @@
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
     "propel/propel1": "dev-master",
-    "phing/phing": ">=2.4.*,<dev-master"
+    "phing/phing": ">=2.4,<dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": "",
