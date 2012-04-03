@@ -12,10 +12,6 @@
     }
   ],
   "repositories": {
-        "phing": {
-            "type": "pear",
-            "url": "http://pear.phing.info"
-        },
         "phingGit": {
             "type": "package",
             "package": {
