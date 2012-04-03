@@ -22,5 +22,6 @@
   "autoload": {
     "psr-0": { "AlphaLemon\\AlphaLemonCmsBundle": ""
     }
-  }
+  },
+  "target-dir" : "AlphaLemon/AlphaLemonCmsBundle"
 }
