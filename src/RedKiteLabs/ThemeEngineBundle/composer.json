@@ -17,7 +17,7 @@
             "type": "package",
             "package": {
                 "name": "phing",
-                "version": "master",
+                "version": "dev-master",
                 "source": {
                 "url": "git://github.com/Xosofox/phing.git",
                 "type": "git",
