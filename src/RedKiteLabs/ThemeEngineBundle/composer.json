@@ -11,19 +11,31 @@
       "email": "info@alphalemon.com"
     }
   ],
-  "repositories": [
-    {
-        "name": "phing/phing",
-        "type": "vcs",
-        "url": "https://github.com/phingofficial/phing.git"
-    }
-  ],
+  "repositories": {
+        "phing": {
+            "type": "pear",
+            "url": "http://pear.phing.info"
+        },
+        "phingGit": {
+            "type": "package",
+            "package": {
+	        	"name": "phing",
+	        	"version": "master",
+	        	"source": {
+	                "url": "git://github.com/Xosofox/phing.git",
+	                "type": "git",
+	                "reference": "master"
+	            }
+            }
+        }
+    },
   "require": {
     "symfony/symfony":  ">=2.0.10,<dev-master",
     "propel/propel-bundle": "2.0-dev",
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
-    "propel/propel1": "dev-master"
+    "propel/propel1": "dev-master",
+    "phing": "master",
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": "",
