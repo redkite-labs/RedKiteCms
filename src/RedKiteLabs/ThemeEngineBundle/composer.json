@@ -21,7 +21,7 @@
                 "source": {
                 "url": "git://github.com/Xosofox/phing.git",
                 "type": "git",
-                "reference": "master"
+                "reference": "dev-master"
                 }
             }
         }
@@ -32,7 +32,7 @@
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
     "propel/propel1": "dev-master",
-    "phing": "master"
+    "phing": "dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": "",
