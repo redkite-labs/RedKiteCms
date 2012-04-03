@@ -41,5 +41,6 @@
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": "",
                "Themes": "Themes/"
     }
-  }
+  },
+  "target-dir" : "AlphaLemon/ThemeEngineBundle"
 }
