@@ -15,18 +15,6 @@
       "phing": {
             "type": "pear",
             "url": "http://pear.phing.info"
-        },
-        "phingGit": {
-            "type": "package",
-            "package": {
-                "name": "phing",
-                "version": "master",
-                "source": {
-                    "url": "git://github.com/Xosofox/phing.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
         }
     },
   "require": {
