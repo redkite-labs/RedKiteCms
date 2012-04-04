@@ -26,14 +26,37 @@ class BundlesAutoloaderComposer
                 $bundles = array();
                 foreach($paths as $path)
                 {
-                     $bundles[] = $this->namespace . '\\' . $this->retrieveBundleName($path);
+                    $finder = new Finder();
+                    $internalBundles = $finder->files()->directories()->depth(0)->in($path);
+                    foreach($internalBundles as $bundle)
+                    {
+                        $bundles[] = $this->instantiateBundle($this->namespace, basename($bundle)); //$this->instantiateBundle($this->namespace, $bundleName);
+                    }
+        
+                    
                 }
-                
+                print_r($bundles);exit;
                 return $bundles;
             }
         }
         
         return array();
+    }
+    
+    protected function instantiateBundle($namespace, $bundle)
+    {
+        if(method_exists($bundle, 'getAlphaLemonBundleClassAlias'))
+        {
+            $bundle = $bundle->getAlphaLemonBundleClassAlias();
+        }
+
+        $className = $namespace . "\\" . $bundle; 
+        if(!class_exists($className))
+        {
+            throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the autoloader configure method ", $className));
+        }
+        
+        return new $className();
     }
     
     protected function retrieveBundleName($path)

@@ -63,35 +63,41 @@ abstract class BundlesAutoloader
      */
     public function getBundles()
     {
-        /*
-        $composer = new BundlesAutoloaderComposer('AlphaLemon\Block');
-        print_r($composer->getBundles());
-        exit;*/
-        $bundles = array();
-        
+        $bundles = array();        
         foreach($this->paths as $namespace => $path)
         {
-            $finder = new Finder();
-            $internalBundles = $finder->directories()->depth(0)->directories()->in($path); 
-
-            foreach($internalBundles as $internalBundle)
-            {
-                $bundle = $internalBundle->getFileName();
+            if($path == 'composer') {
+                $composer = new BundlesAutoloaderComposer($namespace);
+                $bundles = array_merge($bundles, $composer->getBundles()); 
+            }
+            else {
+                $finder = new Finder();
+                $internalBundles = $finder->directories()->depth(0)->directories()->in($path); 
                 
-                if(method_exists($bundle, 'getAlphaLemonBundleClassAlias'))
+                foreach($internalBundles as $internalBundle)
                 {
-                    $bundle = $bundle->getAlphaLemonBundleClassAlias();
+                    $bundle = $internalBundle->getFileName();
+                    $bundles[] = $this->instantiateBundle($namespace, $bundle);
                 }
-                
-                $className = $namespace . "\\" . $bundle. "\\" . $bundle; 
-                if(!class_exists($className))
-                {
-                    throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the autoloader configure method ", $className));
-                }
-                $bundles[] = new $className();
             }
         }
-
+        
         return $bundles;
+    }
+    
+    protected function instantiateBundle($namespace, $bundle)
+    {
+        if(method_exists($bundle, 'getAlphaLemonBundleClassAlias'))
+        {
+            $bundle = $bundle->getAlphaLemonBundleClassAlias();
+        }
+
+        $className = $namespace . "\\" . $bundle. "\\" . $bundle; 
+        if(!class_exists($className))
+        {
+            throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the autoloader configure method ", $className));
+        }
+        
+        return new $className();
     }
 }
