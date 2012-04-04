@@ -11,6 +11,7 @@
 
 namespace AlphaLemon\ElFinderBundle\Composer;
 
+use Composer\Script\Event;
 use Symfony\Component\Process\Process;
 
 /**
