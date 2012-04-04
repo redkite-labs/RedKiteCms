@@ -13,10 +13,10 @@
   ],
   "require": {
     "symfony/symfony":  ">=2.0.10,<dev-master",
-    "propel/propel-bundle": "2.0-dev",
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
-    "propel/propel1": "dev-master"
+    "propel/propel1": "dev-master",
+    "propel/propel-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": "",
