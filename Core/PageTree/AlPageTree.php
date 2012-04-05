@@ -120,7 +120,7 @@ class AlPageTree extends BaseAlPageTree
     protected function setupLanguageFromSession()
     {
         $language = $this->container->get('request')->get('language');        
-        if(null === $language) $language = $this->container->get('session')->getLocale();
+        if(null === $language) $language = method_exists ($this->container->get('session'), "getLocale") ? $this->container->get('session')->getLocale() : $this->container->get('request')->getLocale();
         
         $check = (int)$language;
         $alLanguage = ($check > 0) ? AlLanguageQuery::create()->findPk($language) : AlLanguageQuery::create()->fromLanguageName($language)->findOne();
