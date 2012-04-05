@@ -77,7 +77,7 @@ class PopulateCommand extends ContainerAwareCommand
             $statement->execute();
         }
         
-        $themeName = "AlphaLemonThemeBundle";
+        $themeName = "BusinessWebsiteThemeBundle";
         $this->getContainer()->get('al_page_tree')->setThemeName($themeName);
         
         $adminRoleId = 0;
