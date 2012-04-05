@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
