@@ -15,29 +15,34 @@ class BundlesAutoloaderComposer
     
     public function getBundles()
     {
-        $path = __DIR__ . '/../../../../../../.composer';
+        $path = __DIR__ . '/../../../../../../../.composer';
         if(is_dir($path))
         {
             $map = require $path . '/autoload_namespaces.php';
-            if(array_key_exists($this->namespace, $map)) {
-                $paths = $map[$this->namespace];
-                if(!is_array($paths)) $paths = array($paths);
-                
-                $bundles = array();
-                foreach($paths as $path)
-                {
-                    $finder = new Finder();
-                    $internalBundles = $finder->files()->directories()->depth(0)->in($path);
-                    foreach($internalBundles as $bundle)
-                    {
-                        $bundles[] = $this->instantiateBundle($this->namespace, basename($bundle)); //$this->instantiateBundle($this->namespace, $bundleName);
-                    }
-        
-                    
-                }
-                print_r($bundles);exit;
-                return $bundles;
+            
+            $paths = array();
+            foreach($map as $namespace => $path)
+            {
+                if (strpos($namespace, $this->namespace . '\\') !== false) $paths[$namespace] = $path;
             }
+            
+            //if(array_key_exists($this->namespace, $map)) {
+            //    $paths = $map[$this->namespace];}
+             //   if(!is_array($paths)) $paths = array($paths);
+                
+            $bundles = array();
+            foreach($paths as $namespace => $path)
+            {
+                $finder = new Finder();
+                $internalBundles = $finder->files()->directories()->depth(0)->in($path . str_replace('\\', '/', $this->namespace));
+                foreach($internalBundles as $bundle)
+                {
+                    $bundles[] = $this->instantiateBundle($namespace, basename($bundle)); //$this->instantiateBundle($this->namespace, $bundleName);
+                }
+            }
+
+            return $bundles;
+            
         }
         
         return array();
