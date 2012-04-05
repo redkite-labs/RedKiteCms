@@ -2,7 +2,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer;
 
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Filesystem\Filesystem;
 use Imagine\Gd\Imagine;
 use Imagine\Filter\Transformation;
 use Imagine\Image\Box;

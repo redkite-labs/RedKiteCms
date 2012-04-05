@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener;
 
 use Symfony\Component\HttpFoundation\Request;
 use AlRequestCore\Listener\AlRequestListener;
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;

@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\AssetsBuilder;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;

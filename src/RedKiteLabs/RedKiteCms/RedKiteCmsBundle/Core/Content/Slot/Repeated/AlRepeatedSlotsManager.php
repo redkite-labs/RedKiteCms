@@ -44,7 +44,7 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
     {
         parent::__construct($container);
         
-        $this->activeThemeName = $activeThemeName;
+        $this->activeThemeName = $activeThemeName; 
         $this->themeSlotsFile =  $container->getParameter('kernel.root_dir') . '/Resources/active_theme_slots.xml'; 
     }
     
