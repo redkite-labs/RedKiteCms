@@ -29,7 +29,6 @@ class InternalBundlesAutoloader extends BundlesAutoloader
     protected function  configure()
     {
         return  array('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles' => __DIR__ . '/../Bundles',
-                      'AlphaLemon\Block' => __DIR__ . '/../../../Block',
-                      'AlphaLemon\Block' => 'composer',);
+                      'AlphaLemon\Block' => array(__DIR__ . '/../../../../../../../src/AlphaLemon/Block', 'composer',));
     }
 }
