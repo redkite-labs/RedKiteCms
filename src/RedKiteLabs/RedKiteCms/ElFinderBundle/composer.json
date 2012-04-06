@@ -18,5 +18,10 @@
     "autoload": {
         "psr-0": { "AlphaLemon\\ElFinderBundle": "" }
     },
+    "scripts": {
+        "post-install-cmd": [
+            "AlphaLemon\\ElFinderBundle\\Composer\\ScriptHandler::installElFinderLibrary"
+        ]
+    },
     "target-dir" : "AlphaLemon/ElFinderBundle"
 }
