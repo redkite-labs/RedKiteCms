@@ -1,0 +1,299 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+set_time_limit(0);
+
+require_once __DIR__ . '/config.php';
+
+require_once __DIR__ . '/../vendor/symfony/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+require_once __DIR__ . '/../vendor/propel/propel1/runtime/lib/Propel.php';
+require_once __DIR__ . '/../vendor/propel/propel1/runtime/lib/connection/PropelPDO.php';
+require_once __DIR__ . '/../vendor/.composer/autoload.php';
+
+
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Kernel;
+use Sensio\Bundle\GeneratorBundle\Manipulator\KernelManipulator;
+
+$installer = new Installer();
+$installer->install($companyName, $bundleName, $dsn, $database, $user, $password, $driver);
+
+/**
+ * Description of installer
+ *
+ * @author giansimon
+ */
+class Installer {
+    private $deployBundle;
+    private $companyName;
+    private $bundleName;
+    private $dsn;
+    private $database;
+    private $user;
+    private $password;
+    private $driver;
+    
+    public function __construct() 
+    {
+        $this->rootDir = \AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit::normalizePath(__DIR__ . '/..');
+    }
+
+
+    public function install($companyName, $bundleName, $dsn, $database, $user, $password, $driver)
+    {
+        $this->companyName = $companyName;
+        $this->bundleName = $bundleName;
+        $this->dsn = $dsn;
+        
+        // strip the dsn from the database name because it might not be created yet
+        $this->shortDsn = preg_replace('/[;]?[\w]+=' . $database . '[;]?/', '', $dsn);
+        
+        $this->database = $database;
+        $this->user = $user;
+        $this->password = $password;
+        $this->driver = $driver;
+        $this->deployBundle = $companyName . $bundleName;
+                
+        $this->checkPrerequisites();
+        $this->setUpEnvironments();
+        $this->writeConfigurations();
+        $this->writeRoutes();
+        $this->createDb();
+        $this->manipulateAppKernel();
+        $this->setup();
+    }
+    
+    private function checkPrerequisites()
+    {
+        $dir = realpath($this->rootDir);
+        
+        $connection = $this->connectDb($this->shortDsn);
+        
+        $this->checkClass('propel', '\Propel');
+        $this->checkFolder($dir . '/vendor/pear-phing');
+        $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
+        $this->checkClass('AlphaLemonCmsBundle', 'AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle');
+        $this->checkClass('PageTreeBundle', 'AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle');
+        $this->checkClass('AlValumUploaderBundle', 'AlphaLemon\AlValumUploaderBundle\AlValumUploaderBundle');
+        $this->checkClass('AlValumUploaderBundle', 'AlphaLemon\AlValumUploaderBundle\AlValumUploaderBundle');
+        $this->checkClass('ElFinderBundle', 'AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle');
+        $this->checkClass('ThemeEngineBundle', 'AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle');
+        $this->checkFolder($dir . '/web/js/tiny_mce');
+        $this->checkFile($dir . '/app/Resources/java/yuicompressor.jar');
+        
+        $contents = file_get_contents($this->rootDir . '/app/AppKernel.php');
+        preg_match("/[\s|\t]+new " . $this->companyName . "\\\\" . $this->bundleName . "/s", $contents, $match);
+        if(empty ($match))
+        {
+            echo "\nAlphaLemon CMS requires an existing bundle to work with. You enter as working bundle the following: $this->companyName\\$this->bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
+            
+            die;
+        }
+    }
+    
+    private function manipulateAppKernel()
+    {
+        $updateFile = false;
+        $kernelFile = $this->rootDir . '/app/AppKernel.php';
+        $contents = file_get_contents($kernelFile);
+       
+        if(strpos($contents, 'new AlphaLemon\FrontendBundle\AlphaLemonFrontendBundle()') === false)
+        {
+            $cmsBundles = "\n            new Propel\PropelBundle\PropelBundle(),\n";
+            $cmsBundles .= "            new AlphaLemon\FrontendBundle\AlphaLemonFrontendBundle(),\n";
+            $cmsBundles .= "            new AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle(),\n";
+            $cmsBundles .= "            new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle(),\n";
+            $cmsBundles .= "        );";
+            $contents = preg_replace('/[\s]+\);/s', $cmsBundles, $contents);
+            $updateFile = true;
+        }
+        
+        if(strpos($contents, '$themes = new \AlphaLemon\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader()') === false)
+        {
+            $cmsBundles = "\$themes = new \AlphaLemon\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader();\n";
+            $cmsBundles .= "        \$bundles = array_merge(\$bundles, \$themes->getBundles());\n";            
+            $cmsBundles .= "        if (in_array(\$this->getEnvironment(), array('alcms', 'alcms_dev', 'test'))) {\n";
+            $cmsBundles .= "            \$bundles[] = new AlphaLemon\AlValumUploaderBundle\AlValumUploaderBundle();\n";
+            $cmsBundles .= "            \$bundles[] = new AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle();\n"; 
+            $cmsBundles .= "            \$bundles[] = new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle();\n";  
+            $cmsBundles .= "            \$internalBundles = new \AlphaLemon\AlphaLemonCmsBundle\Core\Autoloader\InternalBundlesAutoloader();\n";;
+            $cmsBundles .= "            \$bundles = array_merge(\$bundles, \$internalBundles->getBundles());\n";
+            $cmsBundles .= "        }\n\n";
+            $cmsBundles .= "        if (in_array(\$this->getEnvironment(), array('dev', 'test', 'alcms_dev'";
+
+            $contents = preg_replace('/if \(in_array\(\$this-\>getEnvironment\(\), array\(\'dev\', \'test\'/s', $cmsBundles, $contents);
+            $updateFile = true;
+        }
+        
+        if($updateFile) file_put_contents($kernelFile, $contents);
+        require_once __DIR__ . '/../app/AppKernel.php';
+    }
+    
+    private function addBundle(KernelManipulator $km, $bundleName)
+    {
+        try
+        {
+            $km->addBundle($bundleName);
+        }
+        catch (\RuntimeException $ex)
+        {
+            
+        }
+    }
+
+
+    private function checkClass($libraryName, $className)
+    {
+        if(!class_exists($className))
+        {
+            echo "\nAn error occoured. AlphaLemon CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
+            die;
+        }
+    }
+    
+    private function checkFolder($dirName)
+    {
+        if(!is_dir($dirName))
+        {
+            echo "\nAn error occoured. AlphaLemon CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
+            die;
+        }
+    }
+    
+    private function checkFile($fileName)
+    {
+        if(!is_file($fileName))
+        {
+            echo "\nAn error occoured. AlphaLemon CMS requires " . basename($fileName) . " installed into " . dirname($fileName) . " folder. Please install the required library then run the script again.\n";
+            die;
+        }
+    }
+    
+    private function setUpEnvironments()
+    {
+        $fs = new Filesystem();
+        $fs->copy($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->rootDir . '/web/alcms.php', true);
+        $fs->copy($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->rootDir . '/web/alcms_dev.php', true);
+        $fs->copy($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms.yml', $this->rootDir . '/app/config/config_alcms.yml', true);
+        $fs->copy($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms_dev.yml', $this->rootDir . '/app/config/config_alcms_dev.yml', true);
+        $fs->copy($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms.yml', $this->rootDir . '/app/config/routing_alcms.yml', true);
+        $fs->copy($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms_dev.yml', $this->rootDir . '/app/config/routing_alcms_dev.yml', true);
+        $fs->mkdir($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/media');
+        $fs->mkdir($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
+        $fs->mkdir($this->rootDir . '/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
+        $fs->mkdir($this->rootDir . '/src/AlphaLemon/Block');
+        $fs->mkdir($this->rootDir . '/src/AlphaLemon/Theme');
+    }
+    
+    private function writeConfigurations()
+    {
+        $configFile = $this->rootDir . '/app/config/config.yml';
+        $contents = file_get_contents($configFile);
+        preg_match('/alpha_lemon_frontend/', $contents, $match);
+        
+        if(empty($match))
+        {
+            $config = "\nalpha_lemon_frontend:\n";
+            $config .= "    deploy_bundle: $this->deployBundle\n\n";    
+            $config .= "alpha_lemon_theme_engine:\n";
+            $config .= "    base_template: AlphaLemonFrontendBundle:Theme:base.html.twig\n\n";
+            $config .= "propel:\n";
+            $config .= "    path:       \"%kernel.root_dir%/../vendor/propel\"\n";
+            $config .= "    phing_path: \"%kernel.root_dir%/../vendor/phing\"\n\n";
+            $config .= "    dbal:\n";
+            $config .= "        driver:               $this->driver\n";
+            $config .= "        user:                 $this->user\n";
+            $config .= "        password:             $this->password\n";
+            $config .= "        dsn:                  $this->dsn\n";
+            $config .= "        options:              {}\n";
+            $config .= "        attributes:           {}\n";
+            $config .= "        default_connection:   default\n\n";
+            $config .= "assetic:\n";
+            $config .= "    filters:\n";
+            $config .= "        cssrewrite: ~\n";
+            $config .= "        yui_css:\n";
+            $config .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar\n";
+            $config .= "        yui_js:\n";
+            $config .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar";
+            
+            file_put_contents($configFile, $contents . $config);
+        }
+    }
+    
+    private function writeRoutes()
+    {
+        $configFile = $this->rootDir . '/app/config/routing.yml';
+        $contents = file_get_contents($configFile);
+        preg_match("/_$this->deployBundle/", $contents, $match);
+        
+        if(empty($match))
+        {
+            $config = "_$this->deployBundle:\n";
+            $config .= "    resource: \"@$this->deployBundle/Resources/config/site_routing.yml\"\n\n";
+
+            file_put_contents($configFile, $config . $contents);
+
+            $siteRoutingFile = $this->rootDir . "/src/$this->companyName/$this->bundleName/Resources/config/site_routing.yml";
+            $fs = new Filesystem();
+            $fs->touch($siteRoutingFile);
+        }
+    }
+
+    private function connectDb($dsn = null)
+    {
+        try
+        {
+            $dsn = (null === $dsn) ? $this->dsn : $dsn;
+            
+            return new \PropelPDO($dsn, $this->user, $this->password);
+        }
+        catch(Exception $ex)
+        {
+            echo "\nERROR: An error occoured when trying to connect the database with the given parameters. The server returned the following error:\n\n" . $ex->getMessage() . "\n\nCheck your configuration parameters into the bin/config.php file and be sure that the database name given is the same exposed by the dsn\n\n";
+            die;
+        }
+    }
+    
+    private function createDb()
+    {
+        try
+        {
+            $connection = $this->connectDb($this->shortDsn);
+
+            $query = 'CREATE DATABASE ' . $this->database;
+            $statement = $connection->prepare($query);
+            $statement->execute();
+        }
+        catch(Exception $ex)
+        {
+            echo $ex->getMessage();
+        }
+    }
+    
+    private function setup()
+    {
+        $kernel = new \AppKernel('alcms_dev', true);
+        $kernel->boot();
+        $cmd = sprintf('alphalemon:populate %s --user=%s --password=%s', $this->dsn, $this->user, $this->password);
+
+        $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : ''; 
+        \AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit::executeCommand($kernel, array('propel:build',
+                                                                     'propel:insert-sql --force',
+                                                                     'assets:install ' . $this->rootDir . '/web' . $symlink,
+                                                                     $cmd,
+                                                                     'assetic:dump',
+                                                                     'cache:clear',
+            ));
+
+        echo "\n\nInstallation completed! To start up with AlphaLemonCMS you may do:\n\n";
+        echo "Open your browser at http://localhost to browse your website\n";
+        echo "Open your browser at http://localhost/alcms.php/backend/en/index to edit your website\n";
+        echo "Open your browser at http://localhost/alcms_dev.php/backend/en/index to edit your website in debug mode\n";
+        echo "\nDon't forget to fix permissions before starting\n\n";
+    }
+}
