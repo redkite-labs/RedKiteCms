@@ -64,20 +64,24 @@ abstract class BundlesAutoloader
     public function getBundles()
     {
         $bundles = array();        
-        foreach($this->paths as $namespace => $path)
+        foreach($this->paths as $namespace => $paths)
         {
-            if($path == 'composer') {
-                $composer = new BundlesAutoloaderComposer($namespace);
-                $bundles = array_merge($bundles, $composer->getBundles()); 
-            }
-            else {
-                $finder = new Finder();
-                $internalBundles = $finder->directories()->depth(0)->directories()->in($path); 
-                
-                foreach($internalBundles as $internalBundle)
-                {
-                    $bundle = $internalBundle->getFileName();
-                    $bundles[] = $this->instantiateBundle($namespace, $bundle);
+            if(!is_array($paths)) $paths = array($paths);
+            foreach($paths as $path)
+            {
+                if($path == 'composer') {
+                    $composer = new BundlesAutoloaderComposer($namespace);
+                    $bundles = array_merge($bundles, $composer->getBundles()); 
+                }
+                else {
+                    $finder = new Finder();
+                    $internalBundles = $finder->directories()->depth(0)->directories()->in($path); 
+
+                    foreach($internalBundles as $internalBundle)
+                    {
+                        $bundle = $internalBundle->getFileName();
+                        $bundles[] = $this->instantiateBundle($namespace, $bundle);
+                    }
                 }
             }
         }

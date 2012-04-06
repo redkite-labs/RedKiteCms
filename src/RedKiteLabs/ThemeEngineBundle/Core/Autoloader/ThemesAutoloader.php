@@ -26,7 +26,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloader;
 class ThemesAutoloader extends BundlesAutoloader
 {
     /**
-     * @rinheritDoc
+     * @inheritDoc
      */
     protected function  configure()
     {
