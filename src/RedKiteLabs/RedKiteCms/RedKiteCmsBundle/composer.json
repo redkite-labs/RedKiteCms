@@ -12,7 +12,7 @@
     }
   ],
   "require": {
-    "symfony/framework-standard-edition": "2.1.*",
+    "symfony/framework-standard-edition": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/frontendbundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
