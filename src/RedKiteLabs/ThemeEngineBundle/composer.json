@@ -13,16 +13,28 @@
   ],
   "repositories": {
     "phing": {
-      "type": "pear",
-      "url": "http://pear.phing.info"
-    }
+            "type": "pear",
+            "url": "http://pear.phing.info"
+        },
+        "phingGit": {
+            "type": "package",
+            "package": {
+            "name": "phing",
+            "version": "master",
+            "source": {
+            "url": "git://github.com/Xosofox/phing.git",
+            "type": "git",
+            "reference": "master"
+}
+            }
+        }
   },  
   "require": {
     "symfony/framework-standard-edition": "dev-master",
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
     "propel/propel-bundle": "dev-master",
-    "pear-phing": "2.4.*"
+    "phing": "master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
