@@ -22,7 +22,7 @@
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
     "propel/propel-bundle": "dev-master",
-    "pear-phing/phing": "*"
+    "pear-phing": "2.4.*"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
