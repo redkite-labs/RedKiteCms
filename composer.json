@@ -23,7 +23,7 @@
     }
   },
   "target-dir" : "AlphaLemon/AlphaLemonCmsBundle",
-  "bin": ["bin/cms-install"],
+  "bin": ["bin/cms-install", "bin/config.php"],
   "config": {
     "bin-dir": "bin"
   }
