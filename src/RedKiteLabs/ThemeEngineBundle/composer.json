@@ -11,11 +11,18 @@
       "email": "info@alphalemon.com"
     }
   ],
+  "repositories": {
+    "phing": {
+      "type": "pear",
+      "url": "http://pear.phing.info"
+    }
+  },  
   "require": {
     "symfony/framework-standard-edition": "dev-master",
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
-    "propel/propel-bundle": "dev-master"
+    "propel/propel-bundle": "dev-master",
+    "pear-phing/phing": "2.4.9"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
