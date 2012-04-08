@@ -71,7 +71,7 @@ abstract class BundlesAutoloader
             {
                 if($path == 'composer') {
                     $composer = new BundlesAutoloaderComposer($namespace);
-                    $bundles = array_merge($bundles, $composer->getBundles()); 
+                    $bundles = array_merge($bundles, $composer->getInstantiatedBundles()); 
                 }
                 else {
                     $finder = new Finder();
