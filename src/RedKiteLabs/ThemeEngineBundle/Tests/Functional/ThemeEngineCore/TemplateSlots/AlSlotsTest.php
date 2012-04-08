@@ -42,7 +42,7 @@ class AlSlotTest extends TestCase
     {
         $testAlSlot = new AlSlot('foo');
         $this->assertEquals('foo', $testAlSlot->getSlotName('foo'));
-        $this->assertEquals('This is the default text for the slot foo', $testAlSlot->getDefaultText('foo'));
+        $this->assertEquals('This is the default text for the slot foo', $testAlSlot->getHtmlContent('foo'));
         $this->assertEquals('page', $testAlSlot->getRepeated('foo'));
         $this->assertEquals('Text', $testAlSlot->getContentType('foo'));
         
@@ -68,7 +68,7 @@ class AlSlotTest extends TestCase
     {
         $testAlSlot = new AlSlot('foo', array('repeated' => 'language', 'defaultText' => 'Custom text', 'contentType' => 'image'));
         $this->assertEquals('language', $testAlSlot->getRepeated('foo'));
-        $this->assertEquals('Custom text', $testAlSlot->getDefaultText('foo'));
+        $this->assertEquals('Custom text', $testAlSlot->getHtmlContent('foo'));
         $this->assertEquals('Image', $testAlSlot->getContentType('foo'));
         $testAlSlot->setContentType('text');
         $this->assertEquals('Text', $testAlSlot->getContentType('foo'));

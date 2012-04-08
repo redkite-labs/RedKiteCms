@@ -25,15 +25,20 @@ namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 class AlSlot
 {
     private $repeated = 'page';
-    private $defaultText = null;
     private $slotName;
-    private $contentType = 'Text';
+    private $blockType = 'Text';
+    
+    private $htmlContent = null;
+    private $externalJavascript = null;
+    private $internalJavascript = null;
+    private $externalStylesheet = null;
+    private $internalStylesheet = null;
 
     /**
      * Constructor
      * 
      * @param string    $slotName   The slot name
-     * @param array     $options    An array of options, which are [repeated, contentType, defaultText]
+     * @param array     $options    An array of options, which are [repeated, blockType, htmlContent]
      */
     public function __construct($slotName, array $options = null)
     {
@@ -48,7 +53,7 @@ class AlSlot
         }
         
         $this->slotName = $slotName;
-        $this->defaultText = "This is the default text for the slot " . $slotName;
+        $this->htmlContent = "This is the default text for the slot " . $slotName;
         if(null !== $options) $this->fromArray($options);
     }
 
@@ -66,25 +71,65 @@ class AlSlot
     {
         return $this->repeated;
     }
-
-    public function setDefaultText($v)
+    
+    public function setBlockType($v)
     {
-        $this->defaultText = $v;
+        $this->blockType = ucfirst($v);
     }
 
-    public function getDefaultText()
+    public function getBlockType()
     {
-        return $this->defaultText;
+        return $this->blockType;
+    }
+    
+    public function setHtmlContent($v)
+    {
+        $this->htmlContent = $v;
     }
 
-    public function setContentType($v)
+    public function getHtmlContent()
     {
-        $this->contentType = ucfirst($v);
+        return $this->htmlContent;
+    }
+    
+    public function setExternalJavascript($v)
+    {
+        $this->externalJavascript = $v;
     }
 
-    public function getContentType()
+    public function getExternalJavascript()
     {
-        return $this->contentType;
+        return $this->externalJavascript;
+    }
+    
+    public function setInternalJavascript($v)
+    {
+        $this->internalJavascript = $v;
+    }
+
+    public function getInternalJavascript()
+    {
+        return $this->internalJavascript;
+    }
+    
+    public function setExternalStylesheet($v)
+    {
+        $this->externalStylesheet = $v;
+    }
+
+    public function getExternalStylesheet()
+    {
+        return $this->externalStylesheet;
+    }
+    
+    public function setInternalStylesheet($v)
+    {
+        $this->internalStylesheet = $v;
+    }
+
+    public function getInternalStylesheet()
+    {
+        return $this->internalStylesheet;
     }
 
     /**
@@ -96,9 +141,13 @@ class AlSlot
         $repeated = (array_key_exists('repeated', $options)) ? $options['repeated'] : 'page';
         $this->setRepeated($repeated);
         
-        $repeated = (array_key_exists('contentType', $options)) ? ucfirst($options['contentType']) : 'Text';
-        $this->setContentType($repeated);
+        $blockType = (array_key_exists('blockType', $options)) ? ucfirst($options['blockType']) : 'Text';
+        $this->setBlockType($blockType);
         
-        if(array_key_exists('defaultText', $options)) $this->setDefaultText($options['defaultText']);
+        if(array_key_exists('htmlContent', $options)) $this->setHtmlContent($options['htmlContent']);
+        if(array_key_exists('externalJavascript', $options)) $this->setExternalJavascript($options['externalJavascript']);
+        if(array_key_exists('internalJavascript', $options)) $this->setInternalJavascript($options['internalJavascript']);
+        if(array_key_exists('externalStylesheet', $options)) $this->setExternalStylesheet($options['externalStylesheet']);
+        if(array_key_exists('internalStylesheet', $options)) $this->setInternalStylesheet($options['internalStylesheet']);
     }
 }

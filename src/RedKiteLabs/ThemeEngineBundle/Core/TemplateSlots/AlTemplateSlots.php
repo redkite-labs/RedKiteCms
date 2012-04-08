@@ -108,7 +108,7 @@ abstract class AlTemplateSlots
     {
         if(!$this->checkSlotExists($slotName)) return null;
         
-        return $this->slots[$slotName]->getDefaultText();
+        return $this->slots[$slotName]->getHtmlContent();
     }
     
     /**
