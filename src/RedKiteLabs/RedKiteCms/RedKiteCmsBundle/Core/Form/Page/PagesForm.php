@@ -39,7 +39,7 @@ class PagesForm extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->_container->getParameter('althemes.themes_dir'))));
+        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates()));
         $builder->add('isHome', 'checkbox');
         $builder->add('isPublished', 'checkbox');
     }

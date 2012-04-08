@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\PageAttributes;
 
 use Symfony\Component\Validator\Validator;
-use Symfony\Component\DependencyInjection\Exception;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Defines the page attributes form fields
@@ -28,29 +28,29 @@ use Symfony\Component\DependencyInjection\Exception;
 class PageAttributes
 {
     /**
-     * @assert:NotBlank(message = "The page id, which the page attributes belongs, is mandatory")
+     * @Assert\NotBlank(message = "The page id, which the page attributes belongs, is mandatory")
      */
     protected $idPage;
 
     /**
      *
-     * @assert:NotBlank(message = "The language id, which the page attributes belongs, is mandatory")
+     * @Assert\NotBlank(message = "The language id, which the page attributes belongs, is mandatory")
      */
     protected $idLanguage;
     
     /**
-     * @assert:MaxLength(255)
+     * @Assert\MaxLength(255)
      */
     protected $permalink;
 
     /**
-     * @assert:MaxLength(60)
-     * @assert:NotBlank(message = "The metatag title value should not be blank")
+     * @Assert\MaxLength(60)
+     * @Assert\NotBlank(message = "The metatag title value should not be blank")
      */
     protected $title;
 
     /**
-     * @assert:NotBlank(message = "The metatag description value should not be blank")
+     * @Assert\NotBlank(message = "The metatag description value should not be blank")
      */
     protected $description;
     protected $keywords;
