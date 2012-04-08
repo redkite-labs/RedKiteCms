@@ -26,7 +26,7 @@ $installer->install($companyName, $bundleName, $dsn, $database, $user, $password
 /**
  * Description of installer
  *
- * @author giansimon
+ * @author alphalemon
  */
 class Installer {
     private $deployBundle;
@@ -73,7 +73,7 @@ class Installer {
         $connection = $this->connectDb($this->shortDsn);
         
         $this->checkClass('propel', '\Propel');
-        $this->checkFolder($this->rootDir . '/pear-phing');
+        $this->checkFolder($this->rootDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
         $this->checkClass('AlphaLemonCmsBundle', 'AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle');
         $this->checkClass('PageTreeBundle', 'AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle');
@@ -204,8 +204,7 @@ class Installer {
         $section .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar";
         $this->writeConfigFile($this->rootDir . '/../app/config/config.yml', '/alpha_lemon_frontend/', $section);
         
-        
-        $section = "propel:\n";
+        $section = "\n\npropel:\n";
         $section .= "    path:       \"%kernel.root_dir%/../vendor/propel/propel1\"\n";
         $section .= "    phing_path: \"%kernel.root_dir%/../vendor/pear-phing\"\n\n";            
         $section .= "    dbal:\n";
@@ -217,48 +216,6 @@ class Installer {
         $section .= "        attributes:           {}\n";
         $section .= "        default_connection:   default\n\n";
         $this->writeConfigFile($this->rootDir . '/../app/config/config_alcms.yml', '/propel/', $section);
-        
-        /*
-        $configFile = $this->rootDir . '/../app/config/config.yml';
-        $contents = file_get_contents($configFile);
-        preg_match('/alpha_lemon_frontend/', $contents, $match);        
-        if(empty($match))
-        {
-            $config = "\nalpha_lemon_frontend:\n";
-            $config .= "    deploy_bundle: $this->deployBundle\n\n";    
-            $config .= "alpha_lemon_theme_engine:\n";
-            $config .= "    base_template: AlphaLemonFrontendBundle:Theme:base.html.twig\n\n";
-            $config .= "assetic:\n";
-            $config .= "    filters:\n";
-            $config .= "        cssrewrite: ~\n";
-            $config .= "        yui_css:\n";
-            $config .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar\n";
-            $config .= "        yui_js:\n";
-            $config .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar";
-            
-            file_put_contents($configFile, $contents . $config);
-        }
-        
-        
-        $configFile = $this->rootDir . '/../app/config/config_alcms.yml';
-        $contents = file_get_contents($configFile);
-        preg_match('/propel/', $contents, $match);        
-        if(empty($match))
-        {
-            $config = "propel:\n";
-            $config .= "    path:       \"%kernel.root_dir%/../vendor/propel/propel1\"\n";
-            $config .= "    phing_path: \"%kernel.root_dir%/../vendor/pear-phing\"\n\n";            
-            $config .= "    dbal:\n";
-            $config .= "        driver:               $this->driver\n";
-            $config .= "        user:                 $this->user\n";
-            $config .= "        password:             $this->password\n";
-            $config .= "        dsn:                  $this->dsn\n";
-            $config .= "        options:              {}\n";
-            $config .= "        attributes:           {}\n";
-            $config .= "        default_connection:   default\n\n";
-            
-            file_put_contents($configFile, $contents . $config);
-        }*/
     }
     
     private function writeConfigFile($configFile, $sectionRegex, $sectionContents)
