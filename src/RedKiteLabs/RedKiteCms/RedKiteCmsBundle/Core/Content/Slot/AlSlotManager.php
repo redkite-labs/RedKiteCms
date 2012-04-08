@@ -258,7 +258,7 @@ class AlSlotManager extends AlTemplateBase
 
             if (!$rollBack)
             {
-                if($this->useSlotAttributes) $type = $this->slot->getContentType();
+                if($this->useSlotAttributes) $type = $this->slot->getBlockType();
                 $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $type); 
                 $contentValue = array(
                   "PageId"          => $idPage,
@@ -268,7 +268,13 @@ class AlSlotManager extends AlTemplateBase
                   "ContentPosition" => $position
                 );
                 
-                if($this->useSlotAttributes) $contentValue["HtmlContent"] = $this->slot->getDefaultText();
+                if($this->useSlotAttributes) {
+                    $contentValue["HtmlContent"] = $this->slot->getHtmlContent();
+                    $contentValue["ExternalJavascript"] = $this->slot->getExternalJavascript();
+                    $contentValue["InternalJavascript"] = $this->slot->getInternalJavascript();
+                    $contentValue["ExternalStylesheet"] = $this->slot->getExternalStylesheet();
+                    $contentValue["InternalStylesheet"] = $this->slot->getInternalStylesheet();
+                }
                 $rollBack = !$alBlockManager->save($contentValue);
             }
 
