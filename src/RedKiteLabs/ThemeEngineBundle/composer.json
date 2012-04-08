@@ -25,7 +25,8 @@
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
     "propel/propel-bundle": "2.0-dev",
-    "propel/propel1": "1.6.*"
+    "propel/propel1": "1.6.*",
+    "phing/phing": "2.4.*"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
