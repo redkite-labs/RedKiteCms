@@ -24,7 +24,8 @@
     "jms/security-extra-bundle":      "1.0.*",
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
-    "propel/propel-bundle": "2.0-dev"
+    "propel/propel-bundle": "2.0-dev",
+    "propel/propel1": "1.6.*"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
