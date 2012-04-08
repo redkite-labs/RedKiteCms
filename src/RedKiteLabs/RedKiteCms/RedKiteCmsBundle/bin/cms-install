@@ -202,11 +202,11 @@ class Installer {
         $section .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar\n";
         $section .= "        yui_js:\n";
         $section .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar";
-        $this->writeConfigFile($this->rootDir . '/../app/config/config.yml', '/alpha_lemon_frontend/', $section);
+        $this->writeConfigFile($this->rootDir . '/../app/config/config.yml', '/alpha_lemon_frontend/is', $section);
         
         $section = "\n\npropel:\n";
         $section .= "    path:       \"%kernel.root_dir%/../vendor/propel/propel1\"\n";
-        $section .= "    phing_path: \"%kernel.root_dir%/../vendor/pear-phing\"\n\n";            
+        $section .= "    phing_path: \"%kernel.root_dir%/../vendor/phing/phing\"\n\n";            
         $section .= "    dbal:\n";
         $section .= "        driver:               $this->driver\n";
         $section .= "        user:                 $this->user\n";
@@ -215,7 +215,7 @@ class Installer {
         $section .= "        options:              {}\n";
         $section .= "        attributes:           {}\n";
         $section .= "        default_connection:   default\n\n";
-        $this->writeConfigFile($this->rootDir . '/../app/config/config_alcms.yml', '/propel/', $section);
+        $this->writeConfigFile($this->rootDir . '/../app/config/config_alcms.yml', '/propel/is', $section);
     }
     
     private function writeConfigFile($configFile, $sectionRegex, $sectionContents)
