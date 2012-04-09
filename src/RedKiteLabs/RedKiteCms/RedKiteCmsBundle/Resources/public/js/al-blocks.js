@@ -378,19 +378,23 @@ function updateContentsJSon(response)
                 $('#' + item.blockName).remove();
                 break;
             case "editor":
-                var dialogOptions = {
-                    buttons:{},
-                    close: function(event, ui)
-                    { 
-                        isEditorOpened = false;
-                        if(tinyMCE != null) $('#al_html_editor').RemoveTinyMCE();   
-                        $('#al_editor_dialog').dialog('destroy').remove();
-                    }
-                };
-                InitDialog('al_editor_dialog', dialogOptions);
-                $('#al_editor_dialog').html(item.value);
                 var openEditor = (item.openEditor != null) ? item.openEditor : true;
-                if(openEditor) $('#al_editor_dialog').dialog('open');
+                if(openEditor) {
+                    var dialogOptions = {
+                        buttons:{},
+                        close: function(event, ui)
+                        { 
+                            isEditorOpened = false;
+                            if(tinyMCE != null) $('#al_html_editor').RemoveTinyMCE();   
+                            $('#al_editor_dialog').dialog('destroy').remove();
+                        }
+                    };
+                
+                    InitDialog('al_editor_dialog', dialogOptions);
+                    $('#al_editor_dialog').html(item.value);
+                    $('#al_editor_dialog').dialog('open');
+                }
+                
                 break;
             case "externalAssets":
                 $('.al_' + item.section  + '_list').html(item.value);
