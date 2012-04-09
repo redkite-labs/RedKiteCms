@@ -65,6 +65,11 @@ class AlphaLemonThemeEngineExtension extends Extension
         if (isset($config['render_slot_class'])) {
             $container->setParameter('twig.extension.render_slot.class', $config['render_slot_class']);
         }
+        
+        
+        $container->setParameter('althemes.app_themes_dir', $container->getParameter('kernel.root_dir') . '/../src/AlphaLemon/Theme');
+        
+        
     }
     
     public function getAlias()
