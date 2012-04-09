@@ -30,7 +30,6 @@ class ThemesAutoloader extends BundlesAutoloader
      */
     protected function  configure()
     {
-        return array('AlphaLemon\Theme' => __DIR__ . '/../../../Theme',
-            'AlphaLemon\Theme' => 'composer',);
+        return array('AlphaLemon\Theme' => array(__DIR__ . '/../../../../../../../src/AlphaLemon/Theme', 'composer'));
     }
 }

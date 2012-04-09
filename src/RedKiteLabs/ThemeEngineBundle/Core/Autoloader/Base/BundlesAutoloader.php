@@ -75,8 +75,8 @@ abstract class BundlesAutoloader
                 }
                 else {
                     $finder = new Finder();
-                    $internalBundles = $finder->directories()->depth(0)->directories()->in($path); 
-
+                    $internalBundles = $finder->directories()->depth(0)->directories()->in($path);
+                    
                     foreach($internalBundles as $internalBundle)
                     {
                         $bundle = $internalBundle->getFileName();
