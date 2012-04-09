@@ -166,6 +166,7 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
      */
     protected function saveSlots()
     {
+        
         $slotClassesPath = AlToolkit::locateResource($this->container, $this->activeThemeName) . 'Core/Slots';
         $namespacePath = \sprintf('AlphaLemon\Theme\%s\Core\Slots', $this->activeThemeName); 
         
