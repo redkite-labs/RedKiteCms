@@ -67,6 +67,8 @@ class PopulateCommand extends ContainerAwareCommand
                          'TRUNCATE al_page;',
                          'TRUNCATE al_page_attribute;',
                          'TRUNCATE al_theme;',
+                         'TRUNCATE al_user;',
+                         'TRUNCATE al_role;',
                          'INSERT INTO al_language (language) VALUES(\'-\');',
                          'INSERT INTO al_page (page_name) VALUES(\'-\');',
                         );
@@ -77,7 +79,7 @@ class PopulateCommand extends ContainerAwareCommand
             $statement->execute();
         }
         
-        $themeName = "AlphaLemonThemeBundle";
+        $themeName = "BusinessWebsiteThemeBundle";
         $this->getContainer()->get('al_page_tree')->setThemeName($themeName);
         
         $adminRoleId = 0;

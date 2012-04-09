@@ -14,28 +14,19 @@
 #}
 
 <ul class="al-{{ section }}">
-{% set i = 0 %}
 {% for file_name in files %}
     {% if file_name != "" %}
-        {% if (i % 2) == 0 %}
-            {% set class = 'row' %}
-        {% else %}
-            {% set class = 'alternate-row' %}
-        {% endif %}
-        <li class="al-{{ section }}-removable-item {{ class }}" rel="{{ file_name }}">{{ file_name }}</li>
-        {% set i  = i + 1 %}
+    <li class="al-{{ section }}-removable-item {{ cycle(['row', 'alternate_row'], loop.index) }}" rel="{{ file_name }}">{{ file_name }}</li>
     {% endif %}
 {% endfor %}
 </ul>
 <input id="al-{{ section|lower }}-external-files" type="hidden" value="{{ value }}" />
 
 <script type="text/javascript">
-    
-
         $('.al-{{ section }}-removable-item').click(function()
         {
-            $('.al-{{ section }} .al-selected-item').removeClass('al-selected-item'); 
-            $(this).addClass('al-selected-item');
+            var isCurrentItemSelected = $(this).hasClass('al_selected_item');
+            $('.al-{{ section }} .al_selected_item').removeClass('al_selected_item'); 
+            if(!isCurrentItemSelected) $(this).addClass('al_selected_item');
         });
-    
 </script>

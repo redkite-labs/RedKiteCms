@@ -17,9 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language;
 
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Validator\Validator;
-use Symfony\Component\DependencyInjection\Exception;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Defines the languages form fields
@@ -29,12 +28,12 @@ use Symfony\Component\DependencyInjection\Exception;
 class Language
 {
     /**
-     * @assert:NotBlank(message = "The language name value should not be blank")
+     * @Assert\NotBlank(message = "The language name value should not be blank")
      */
     protected $language;
 
     /**
-     * @assert:AssertType("boolean")
+     * @Assert\Type("boolean")
      */
     protected $isMain = false;
     

@@ -5,11 +5,17 @@
 
     <parameters>
         <parameter key="twig.extension.strings.class">AlphaLemon\AlphaLemonCmsBundle\Twig\StringsExtension</parameter>
+        <parameter key="twig.extension.images.class">AlphaLemon\AlphaLemonCmsBundle\Twig\ImageThumbnailExtension</parameter>
     </parameters>
 
     <services>
         <service id="twig.extension.strings" class="%twig.extension.strings.class%" public="false">
             <tag name="twig.extension" alias="strings" />
+        </service>
+        
+        <service id="twig.extension.images" class="%twig.extension.images.class%" public="false">
+            <tag name="twig.extension" alias="images" />
+            <argument type="service" id="service_container" />
         </service>
     </services>
 

@@ -41,7 +41,7 @@ class AlPageTree extends BaseAlPageTree
     protected $alPage = null;
     protected $alLanguage = null;
     protected $alTheme = null;
-    //protected $bridge = null;
+    protected $locatedAssets = array('css' => array(), 'js' => array());
 
     public function __construct(ContainerInterface $container)
     {
@@ -120,7 +120,7 @@ class AlPageTree extends BaseAlPageTree
     protected function setupLanguageFromSession()
     {
         $language = $this->container->get('request')->get('language');        
-        if(null === $language) $language = $this->container->get('session')->getLocale();
+        if(null === $language) $language = method_exists ($this->container->get('session'), "getLocale") ? $this->container->get('session')->getLocale() : $this->container->get('request')->getLocale();
         
         $check = (int)$language;
         $alLanguage = ($check > 0) ? AlLanguageQuery::create()->findPk($language) : AlLanguageQuery::create()->fromLanguageName($language)->findOne();
@@ -223,8 +223,10 @@ class AlPageTree extends BaseAlPageTree
      */
     public function addStylesheet($value)
     {
-        if($value != "" && !in_array($value, $this->externalStylesheets))
+        $assetName = basename($value);
+        if($value != "" && !in_array($assetName, $this->locatedAssets['css']))
         {
+            $this->locatedAssets['css'][] = $assetName; 
             $this->externalStylesheets[] = $value;
         }
     }
@@ -234,8 +236,10 @@ class AlPageTree extends BaseAlPageTree
      */
     public function addJavascript($value)
     {
-        if($value != "" && !in_array($value, $this->externalJavascripts))
+        $assetName = basename($value);
+        if($value != "" && !in_array($assetName, $this->locatedAssets['js']))
         {
+            $this->locatedAssets['js'][] = $assetName; 
             $this->externalJavascripts[] = $value;
         }
     }

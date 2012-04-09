@@ -26,5 +26,7 @@ final class BlockEvents
 {
     // alcms.event_listener
     
+    const BLOCK_EDITED= 'actions.block_edited';
+    const BLOCK_EDITOR_RENDERING = 'actions.block_editor_rendering';
     const BLOCK_EDITOR_RENDERED = 'actions.block_editor_rendered';
 }

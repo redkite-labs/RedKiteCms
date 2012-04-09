@@ -23,6 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlThemeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
 
 /**
  * Retrieves form the database the values used in the forms
@@ -57,14 +58,25 @@ class ChoiceValues
         return $languages;
     }
 
-    public static function getTemplates($themesDir, ContainerInterface $container = null)
+    public static function getTemplates()
     {
+        // Default templates
         $templates = array("none" => " ");
         
+        // Find the current active theme
         $theme = AlThemeQuery::create()->activeBackend()->findOne(); 
         if(null === $theme) return $templates;
-
-        $templatesPath = sprintf('%s/%s/Resources/views/Theme', $themesDir, $theme->getThemeName());
+        
+        $composer = new BundlesAutoloaderComposer('AlphaLemon\\Theme' );
+        $bundles = $composer->getBundles();  
+        
+        // Retrieves the path for the current theme
+        $themeNamespace = 'AlphaLemon\\Theme\\' . $theme->getThemeName();
+        if(!array_key_exists($themeNamespace, $bundles)) return $templates;        
+        $themeDir = $bundles[$themeNamespace];
+        
+        // Points the templates' folder and retrieve the templates
+        $templatesPath = sprintf('%s/Resources/views/Theme', $themeDir);
         $finder = new Finder();
         $templateFiles = $finder->files()->name('*.twig')->depth(0)->sortByName()->in($templatesPath);
 

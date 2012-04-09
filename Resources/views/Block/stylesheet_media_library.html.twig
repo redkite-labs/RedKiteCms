@@ -29,7 +29,7 @@
                     }
                 },
                 getFileCallback : function(file, fm) {
-                    $('#al-stylesheet-external-files').EditBlock('ExternalStylesheet', file.name);
+                    $('#al-stylesheet-external-files').AddExternalFile('ExternalStylesheet', file.name);
                 }
         }).dialogelfinder('instance');
     });

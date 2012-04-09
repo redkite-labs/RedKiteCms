@@ -35,6 +35,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 class AlSlotManager extends AlTemplateBase
 {
     protected $slot;
+    protected $lastAdded = null;
     protected $contentManagers = null;
     protected $useSlotAttributes = false;
     
@@ -149,6 +150,16 @@ class AlSlotManager extends AlTemplateBase
     {
         return count($this->contentManagers);
     }
+    
+    /**
+     * Returns the last added content manager
+     * 
+     * @return AlBlockManager object or null
+     */
+    public function lastAdded()
+    {
+        return $this->lastAdded;
+    }
 
     
     /**
@@ -247,7 +258,7 @@ class AlSlotManager extends AlTemplateBase
 
             if (!$rollBack)
             {
-                if($this->useSlotAttributes) $type = $this->slot->getContentType();
+                if($this->useSlotAttributes) $type = $this->slot->getBlockType();
                 $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $type); 
                 $contentValue = array(
                   "PageId"          => $idPage,
@@ -257,7 +268,13 @@ class AlSlotManager extends AlTemplateBase
                   "ContentPosition" => $position
                 );
                 
-                if($this->useSlotAttributes) $contentValue["HtmlContent"] = $this->slot->getDefaultText();
+                if($this->useSlotAttributes) {
+                    $contentValue["HtmlContent"] = $this->slot->getHtmlContent();
+                    $contentValue["ExternalJavascript"] = $this->slot->getExternalJavascript();
+                    $contentValue["InternalJavascript"] = $this->slot->getInternalJavascript();
+                    $contentValue["ExternalStylesheet"] = $this->slot->getExternalStylesheet();
+                    $contentValue["InternalStylesheet"] = $this->slot->getInternalStylesheet();
+                }
                 $rollBack = !$alBlockManager->save($contentValue);
             }
 
@@ -274,6 +291,8 @@ class AlSlotManager extends AlTemplateBase
                 {
                     $this->contentManagers[] = $alBlockManager;
                 }
+                
+                $this->lastAdded = $alBlockManager;
                 
                 return true;
             }

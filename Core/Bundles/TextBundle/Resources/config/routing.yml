@@ -1,0 +1,2 @@
+_create_images_list:
+    resource: "@TextBundle/Resources/config/routing/al_text.xml"
