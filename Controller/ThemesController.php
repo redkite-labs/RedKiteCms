@@ -43,7 +43,7 @@ class ThemesController extends BaseController
                 $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
             }
 
-            $valumOptionsBuilder = $this->setuValumUploader();
+            $valumOptionsBuilder = $this->setupValumUploader();
             $isWindows = (PHP_OS == "WINNT") ? true : false;
             return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
                                                                                              'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
@@ -65,7 +65,7 @@ class ThemesController extends BaseController
     {
         $this->extractTheme();
         
-        $valumOptionsBuilder = $this->setuValumUploader();
+        $valumOptionsBuilder = $this->setupValumUploader();
         $isWindows = (PHP_OS == "WINNT") ? true : false;
         return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 
                                                                                                         'values' => $this->retrieveThemeValues(),
@@ -79,7 +79,7 @@ class ThemesController extends BaseController
         {
             $this->removeTheme();
             
-            $valumOptionsBuilder = $this->setuValumUploader();
+            $valumOptionsBuilder = $this->setupValumUploader();
             $isWindows = (PHP_OS == "WINNT") ? true : false;
             return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'), 
                                                                                                         'values' => $this->retrieveThemeValues(),
@@ -98,7 +98,7 @@ class ThemesController extends BaseController
     {
         try
         {
-            $themeManager = new AlThemeManager($this->container, $this->locateThemesFolder(), $this->locateThemesFolder());
+            $themeManager = new AlThemeManager($this->container);
             $themeManager->activate($themeName);
 
             $language = AlLanguageQuery::create()->findPk($activeLanguage);
@@ -119,7 +119,7 @@ class ThemesController extends BaseController
     {
         $templates = array();
         $request = $this->getRequest();
-        $finder = $this->retrieveTemplates($request->get('themeName'));
+        $finder = $this->retrieveTemplatesIterator($request->get('themeName'));
         foreach($finder as $templateFile)
         {
             $templates[] = preg_replace_callback('/([\w]+Bundle)([\w]+)(Slots.php)/', function($matches) { return strtolower($matches[2]); }, $templateFile->getFileName());
@@ -174,14 +174,14 @@ class ThemesController extends BaseController
         return $response;
     }
     
-    protected function setuValumUploader()
+    protected function setupValumUploader()
     {
         $frontcontroller = $this->container->get('kernel')->getEnvironment() . '.php';
         $customOptions = array("panel_title" => "Themes uploader",
                                "panel_info" => "",
                                "allowed_extensions" => "'zip'",
                                "upload_action" => '/' . $frontcontroller . "/al_uploadFile",
-                               "folder" => $this->locateThemesFolder(),
+                               "folder" => $this->container->getParameter('althemes.app_themes_dir'),
                                "onComplete" => "extractTheme()"); 
         $valumOptionsBuilder = new AlValumUploaderOptionsBuilder($this->container);
         $valumOptionsBuilder->build($customOptions);
@@ -189,13 +189,13 @@ class ThemesController extends BaseController
         return $valumOptionsBuilder;
     }
     
-    private function retrieveTemplates($themeName)
+    private function retrieveTemplatesIterator($themeName)
     {
-        $themesFolder = $this->locateThemesFolder();
+        $themeFolder = $this->retrieveThemeFolder($themeName);
+        if(null === $themeFolder) return null;
         
         $finder = new Finder();
-        $templatesDir = sprintf('%s/%s/Core/Slots', $themesFolder, $themeName);
-        $finder->files()->depth(0)->name('*Slots.php')->in($templatesDir);
+        $finder->files()->depth(0)->name('*Slots.php')->in($themeFolder . '/Core/Slots');
         
         return $finder; 
     }
