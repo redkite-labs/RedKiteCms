@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 use AlphaLemon\CmsBundle\Controller\CmsController;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -33,17 +33,19 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\Config\FileLocator;
 
 use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
+use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
 
 class ThemesController extends Controller
-{   
+{       
     public function showAction()
     {
+        echo $this->container->getParameter('althemes.app_themes_dir');exit;
         $values = $this->retrieveThemeValues();        
         $customOptions = array("panel_title" => "Themes uploader",
                                "panel_info" => "",
                                "allowed_extensions" => "'zip'",
                                "upload_action" => "al_uploadFile",
-                               "folder" => $this->locateThemesFolder(),
+                               "folder" => $this->container->getParameter('althemes.app_themes_dir'),
                                "onComplete" => "location.href = '" . $this->generateUrl('_extract_themes') . "'"); 
         $valumOptionsBuilder = new AlValumUploaderOptionsBuilder($this->container);
         $valumOptionsBuilder->build($customOptions);
@@ -66,7 +68,7 @@ class ThemesController extends Controller
     {
         try
         {
-            $themeManager = new AlThemeManager($this->container, $this->locateThemesFolder(), $this->locateThemesFolder());
+            $themeManager = new AlThemeManager($this->container);
             $themeManager->activate($themeName);
             
             $request = $this->get('request');
@@ -195,7 +197,7 @@ class ThemesController extends Controller
     protected function retrieveThemeValues()
     {
         $values = array();
-        $values['active_theme'] = $this->retrieveActiveThemeAttributes();
+        $values['active_theme'] = $this->retrieveActiveThemeAttributes(); 
         $values['available_themes'] = $this->retrieveAvailableThemes($values['active_theme']);
         
         return $values;
@@ -206,18 +208,21 @@ class ThemesController extends Controller
         $theme = AlThemeQuery::create()->activeBackend()->findOne();
         if(null !== $theme)
         {
-            $backendValues = $this->retrieveThemeInfo($this->locateThemesFolder(), $theme->getThemeName());
-            $backendValues['theme_section_title'] = $this->get('translator')->trans('Active Theme');
-            $backendValues['theme_title'] = $theme->getThemeName();
-            $fileName = AlToolkit::retrieveBundleWebFolder($this->container, $theme->getThemeName()) . '/images/screenshot.png';
-            $backendValues['screenshot'] = is_file($fileName) ? $fileName : AlToolkit::retrieveBundleWebFolder($this->container, 'ThemeEngineBundle') . '/images/screenshot.png';
-        }
-        else
-        {
-            $backendValues = array('theme_title' => 'Not available',  'theme_error' => $this->get('translator')->trans('Any theme has been choosen for the backend. Please select one from the available themes in the right panel.'));
+            $themeDir = $this->retrieveThemeFolder($theme->getThemeName());
+            if(null !== $themeDir)
+            {                
+                $backendValues = $this->retrieveThemeInfo($themeDir);
+                $backendValues['theme_section_title'] = $this->get('translator')->trans('Active Theme');
+                $backendValues['theme_title'] = $theme->getThemeName();
+                $fileName = AlToolkit::retrieveBundleWebFolder($this->container, $theme->getThemeName()) . '/images/screenshot.png';
+                $backendValues['screenshot'] = is_file($fileName) ? $fileName : AlToolkit::retrieveBundleWebFolder($this->container, 'ThemeEngineBundle') . '/images/screenshot.png';
+
+                return $backendValues;
+            }
         }
         
-        return $backendValues;
+        return array('theme_title' => 'Not available',  'theme_error' => $this->get('translator')->trans('Any theme has been choosen for the backend. Please select one from the available themes in the right panel.'));        
+        
     }
 
     protected function retrieveAvailableThemes(array $backendAttributes = null)
@@ -232,30 +237,24 @@ class ThemesController extends Controller
         {
             $selectedTheme = $backendAttributes["theme_title"];
         }
+        
+        $themes = $this->retrieveThemeFolders();
+        foreach($themes as $themeDirectory) {
+            $themeName = basename($themeDirectory);
+            $availableTheme = $this->retrieveThemeInfo($themeDirectory); 
 
-        $themesBaseFolder = $this->locateThemesFolder();
-        $finder = new Finder();
-        $themesDirectories = $finder->directories()->depth(0)->sortByName()->in($themesBaseFolder);
-        if(count($themesDirectories) > 0)
-        {
-            foreach($themesDirectories as $templateDirectory)
-            {
-                $themeName = basename($templateDirectory);
-                $availableTheme = $this->retrieveThemeInfo($themesBaseFolder, $themeName);
-
-                // Calculates the buttons to display. The possibilities result are:
-                //
-                //  0: Anything defined
-                //  1: The theme has been loaded and it is the active one
-                //  2: The theme exists in the themes folder but it has not been loaded
-                //  3: The theme has been loaded and it is available
-                $buttons = (null !== AlThemeQuery::create()->fromName($themeName)->findOne()) ? 1 : 0;
-                $buttons += ($themeName != $selectedTheme) ? 2 : 0;                
-                $availableTheme['buttons'] = $buttons;
-                $fileName = AlToolkit::retrieveBundleWebFolder($this->container, $themeName) . '/images/screenshot.png';
-                $availableTheme['screenshot'] = is_file($fileName) ? $fileName : AlToolkit::retrieveBundleWebFolder($this->container, 'ThemeEngineBundle') . '/images/screenshot.png';
-                if(($themeName != $selectedTheme)) $themesArray[] = $availableTheme;
-            }
+            // Calculates the buttons to display. The possibilities result are:
+            //
+            //  0: Anything defined
+            //  1: The theme has been loaded and it is the active one
+            //  2: The theme exists in the themes folder but it has not been loaded
+            //  3: The theme has been loaded and it is available
+            $buttons = (null !== AlThemeQuery::create()->fromName($themeName)->findOne()) ? 1 : 0;
+            $buttons += ($themeName != $selectedTheme) ? 2 : 0;                
+            $availableTheme['buttons'] = $buttons;
+            $fileName = AlToolkit::retrieveBundleWebFolder($this->container, $themeName) . '/images/screenshot.png';
+            $availableTheme['screenshot'] = is_file($fileName) ? $fileName : AlToolkit::retrieveBundleWebFolder($this->container, 'ThemeEngineBundle') . '/images/screenshot.png';
+            if(($themeName != $selectedTheme)) $themesArray[] = $availableTheme;
         }
         $availableThemes["themes"] = $themesArray;
         $availableThemes['theme_section_title'] = 'Available Themes';
@@ -263,10 +262,11 @@ class ThemesController extends Controller
         return $availableThemes;
     }
 
-    protected function retrieveThemeInfo($dirName, $themeName)
+    protected function retrieveThemeInfo($themePath)
     {
+        $themeName = basename($themePath);
         $info = array('theme_title' => $themeName);
-        $fileName = \sprintf('%s/%s/Resources/data/info.yml', $dirName, $themeName);
+        $fileName = \sprintf('%s/Resources/data/info.yml', $themePath);
         
         if(file_exists($fileName))
         {
@@ -275,6 +275,33 @@ class ThemesController extends Controller
         }
 
         return $info;
+    }
+    
+    protected function retrieveThemeFolders()
+    {
+        $composer = new BundlesAutoloaderComposer('AlphaLemon\\Theme');
+        $themes = $composer->getBundles(); 
+        
+        $finder = new Finder();
+        $customThemes = $finder->depth(0)->files()->directories()->in($this->container->getParameter('althemes.app_themes_dir'));   
+        foreach($customThemes as $theme)
+        {
+            $namespace = 'AlphaLemon\\Theme\\' . $theme->getFilename();
+            $themes[$namespace] = (string)$theme;
+        }
+        
+        return $themes;
+    }
+    
+    protected function retrieveThemeFolder($themeName)
+    {
+        $themes = $this->retrieveThemeFolders();
+        $themeNamespace = 'AlphaLemon\\Theme\\' . $themeName;
+        if(array_key_exists($themeNamespace, $themes)) {
+            return $themes[$themeNamespace];
+        }
+        
+        return null;
     }
 
     protected function locateThemesFolder()
@@ -287,7 +314,7 @@ class ThemesController extends Controller
         else
         {
             //$themesDir = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle')  . $this->container->getParameter('althemes.base_dir');
-            
+            return $this->container->getParameter('althemes.app_themes_dir');
             $themesDir = $this->container->getParameter('althemes.themes_dir');
             
             if(!is_dir($themesDir))

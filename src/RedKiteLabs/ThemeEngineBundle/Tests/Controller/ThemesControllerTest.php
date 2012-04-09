@@ -18,7 +18,7 @@ namespace AlphaLemon\ThemeEngineBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AlphaLemon\ThemeEngineBundle\Tests\tools\AlphaLemonDataPopulator;
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ThemesControllerTest extends WebTestCase
 {
