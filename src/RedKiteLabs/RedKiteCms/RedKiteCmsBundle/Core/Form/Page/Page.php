@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
 
 use Symfony\Component\Validator\Validator;
 use Symfony\Component\DependencyInjection\Exception;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Defines the pages form fields
@@ -28,23 +29,23 @@ use Symfony\Component\DependencyInjection\Exception;
 class Page
 {
     /**
-     * @assert:MaxLength(255)
-     * @assert:NotBlank(message = "The page name value should not be blank")
+     * @Assert\MaxLength(255)
+     * @Assert\NotBlank(message = "The page name value should not be blank")
      */
     protected $pageName;
 
     /**
-     * @assert:NotBlank(message = "The template value should not be blank")
+     * @Assert\NotBlank(message = "The template value should not be blank")
      */
     protected $template;
 
     /**
-     * @assert:AssertType("boolean")
+     * @Assert\Type("boolean")
      */
     protected $isHome;
 
     /**
-     * @assert:AssertType("boolean")
+     * @Assert\Type("boolean")
      */
     protected $isPublished;
 

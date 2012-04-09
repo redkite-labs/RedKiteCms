@@ -1,0 +1,43 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonCmsBundle:Elfinder:media_library.html.twig' %}
+
+
+{% block init_script %}
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        $('<div/>').dialogelfinder({
+            url : frontController + 'backend/' + $('#al_available_languages').val() + '/al_elFinderMediaConnect',
+            lang : 'en',
+            width : 840,
+            destroyOnClose : true,
+            commandsOptions : {
+                getfile : {
+                    onlyURL  : false,
+                }
+            },
+            handlers: {
+                destroy: function(event){ isEditorOpened = false;$('#al_editor_dialog').dialog('destroy').remove(); }
+            },
+            getFileCallback : function(file, fm) {
+                $('#al_file').val(file.path);
+                $('#al_file').EditBlock('HtmlContent');
+                $('#al_file').val('');
+            }
+        }).dialogelfinder('instance');
+    });
+</script>
+{% endblock %}

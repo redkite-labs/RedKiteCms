@@ -101,8 +101,8 @@ class AlCmsController extends Controller
                 $template = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $kernelPath, $pageTree->getThemeName(), $pageTree->getTemplateName()))) ? sprintf('::%s/%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName()) : sprintf('%s:Theme:%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName());
             }
             
-            $themesDir = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle')  . $this->container->getParameter('althemes.base_dir');
-            if(!is_file($themesDir . '/' . $pageTree->getThemeName() .'/Resources/views/Theme/' . $pageTree->getTemplateName() . '.html.twig'))
+            $themeFolder = AlToolkit::locateResource($this->container, $pageTree->getThemeName()); 
+            if(false === $themeFolder || !is_file($themeFolder .'Resources/views/Theme/' . $pageTree->getTemplateName() . '.html.twig'))
             {
                 $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
                 $template = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
@@ -110,6 +110,16 @@ class AlCmsController extends Controller
             
             $languageId = (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0;
             $pageId = (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0;
+            
+            $availableBlocks = array();
+            foreach ($kernel->getBundles() as $bundle)
+            {
+                if(method_exists($bundle, 'getAlphaLemonBundleDescription'))
+                {
+                    $bundleName = preg_replace('/Bundle$/', '', $bundle->getName());
+                    $availableBlocks[$bundleName] = $bundle->getAlphaLemonBundleDescription();
+                }
+            }
             
             return $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', array(
                                 'metatitle' => $pageTree->getMetatitle(),
@@ -121,7 +131,7 @@ class AlCmsController extends Controller
                                 'template' => $template,
                                 'page' => $pageId,
                                 'language' => $languageId,
-                                'available_contents' => $this->container->getParameter('al_cms.page_blocks'),
+                                'available_contents' => $availableBlocks,
                                 'skin_path' => $skin,
                                 'pages' => ChoiceValues::getPages($this->container),
                                 'languages' => ChoiceValues::getLanguages($this->container),
