@@ -1,0 +1,23 @@
+{
+  "name": "alphalemon/alphalemon-bootstrap-bundle",
+  "description": "AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.",
+  "keywords": ["alphalemon", "bootstrap", "bundle", "autoload"],
+  "homepage": "http://alphalemon.com",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "AlphaLemon",
+      "email": "info@alphalemon.com"
+    }
+  ],
+  "require": {
+    "php":                            ">=5.3.2"
+  },
+  "autoload": {
+    "psr-0": { 
+        "AlphaLemon\\BootstrapBundle": ""
+    }
+  },
+  "target-dir" : "AlphaLemon/BootstrapBundle"
+}
