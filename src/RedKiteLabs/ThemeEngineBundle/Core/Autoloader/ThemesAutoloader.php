@@ -20,8 +20,9 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloader;
 
 /**
  * Instantiates the themes 
- *
+ * 
  * @author AlphaLemon
+ * @deprecated in favour of https://github.com/alphalemon/BootstrapBundle
  */
 class ThemesAutoloader extends BundlesAutoloader
 {

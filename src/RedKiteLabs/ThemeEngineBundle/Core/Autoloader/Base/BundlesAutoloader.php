@@ -21,8 +21,9 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Exception\InvalidAutoloaderExce
 
 /**
  * Instantiates all the bundles saved into a specific folder
- *
+ * 
  * @author AlphaLemon
+ * @deprecated in favour of https://github.com/alphalemon/BootstrapBundle
  */
 abstract class BundlesAutoloader
 {
@@ -74,13 +75,19 @@ abstract class BundlesAutoloader
                     $bundles = array_merge($bundles, $composer->getInstantiatedBundles()); 
                 }
                 else {
-                    $finder = new Finder();
-                    $internalBundles = $finder->directories()->depth(0)->directories()->in($path);
-                    
+                    $finder = new Finder();                    
+                    $internalBundles = $finder->depth(0)->directories()->in($path);
                     foreach($internalBundles as $internalBundle)
                     {
-                        $bundle = $internalBundle->getFileName();
-                        $bundles[] = $this->instantiateBundle($namespace, $bundle);
+                        $bundleFolder = trim($internalBundle->getFileName());
+                        
+                        $finder = new Finder();
+                        $files = $finder->depth(0)->files()->name('*.php')->in((string)$internalBundle);
+                        foreach($files as $file)
+                        {
+                            $bundles[] = $this->instantiateBundle($namespace, $bundleFolder . '\\' . basename($file, '.php'));
+                        }
+                        
                     }
                 }
             }
@@ -91,15 +98,10 @@ abstract class BundlesAutoloader
     
     protected function instantiateBundle($namespace, $bundle)
     {
-        if(method_exists($bundle, 'getAlphaLemonBundleClassAlias'))
-        {
-            $bundle = $bundle->getAlphaLemonBundleClassAlias();
-        }
-
-        $className = $namespace . "\\" . $bundle. "\\" . $bundle; 
+        $className = $namespace . "\\" . $bundle; 
         if(!class_exists($className))
         {
-            throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the autoloader configure method ", $className));
+            throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the %s configure method to fix the problem.", $className, get_class($this)));
         }
         
         return new $className();

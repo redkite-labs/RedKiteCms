@@ -1,0 +1,2 @@
+alpha_lemon_theme_engine:
+    base_template: AlphaLemonFrontendBundle:Theme:base.html.twig

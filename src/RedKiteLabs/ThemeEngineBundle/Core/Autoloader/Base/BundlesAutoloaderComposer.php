@@ -16,11 +16,13 @@
 namespace AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base;
 
 use Symfony\Component\Finder\Finder;
+use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Exception\InvalidAutoloaderException;
 
 /**
  * Retrive the bundles from a given namespace retrieving it from the .composer packages list
  *
  * @author AlphaLemon <info@alphalemon.com>
+ * @deprecated in favour of https://github.com/alphalemon/BootstrapBundle
  */
 class BundlesAutoloaderComposer
 {
@@ -75,15 +77,10 @@ class BundlesAutoloaderComposer
     
     protected function instantiateBundle($namespace, $bundle)
     {
-        if(method_exists($bundle, 'getAlphaLemonBundleClassAlias'))
-        {
-            $bundle = $bundle->getAlphaLemonBundleClassAlias();
-        }
-
         $className = $namespace . "\\" . $bundle; 
         if(!class_exists($className))
         {
-            throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the autoloader configure method ", $className));
+            throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the %s configure method to fix the problem.", $className, get_class($this)));
         }
         
         return new $className();
