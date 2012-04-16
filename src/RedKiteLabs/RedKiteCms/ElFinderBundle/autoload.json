@@ -1,0 +1,10 @@
+{
+    "bundles" : {
+        "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
+            "environments" : "all"
+        }
+    },
+    "scripts" : {
+        "package-installed" : "\\AlphaLemon\\ElFinderBundle\\Core\\Listener\\PackageInstalledListener"
+    }
+}
