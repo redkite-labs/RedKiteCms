@@ -77,6 +77,7 @@ class AlCmsController extends Controller
                 $pageTree = $event->getPageTree();
             }
             
+            /*
             $templateName = strtolower($pageTree->getTemplateName());
             $theme = preg_replace('/bundle$/', '', strtolower($pageTree->getThemeName()));
             $param = sprintf('themes.%s_%s.stylesheet_cms', $theme, $templateName);
@@ -89,7 +90,7 @@ class AlCmsController extends Controller
             if($this->container->hasParameter($param))
             {
                 $pageTree->addJavascripts($this->container->getParameter($param));
-            }
+            }*/
             
             $dynamicStylesheets = $this->locateAssets($pageTree->getExternalStylesheets());
             $dynamicJavascripts = $this->locateAssets($pageTree->getExternalJavascripts());

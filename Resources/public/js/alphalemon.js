@@ -55,6 +55,7 @@
 
         $('.al_hide_edit_mode').ShowHiddenContentsFromEditMode();
         if(closeEditor) $('#al_editor_dialog').dialog('close');
+        
         this.each(function()
         {
             $(this).unbind().removeClass('al_edit_on');
@@ -79,7 +80,10 @@
     {
         this.each(function()
         {
-            $(this).removeClass('is_hidden_in_edit_mode').html($(this).data('block'));
+            if($(this).hasClass('is_hidden_in_edit_mode'))
+            {
+                $(this).removeClass('is_hidden_in_edit_mode').html($(this).data('block'));
+            }
         });
     };
     
