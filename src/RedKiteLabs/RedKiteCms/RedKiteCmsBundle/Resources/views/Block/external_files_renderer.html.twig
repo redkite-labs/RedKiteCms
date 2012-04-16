@@ -16,7 +16,7 @@
 <ul class="al-{{ section }}">
 {% for file_name in files %}
     {% if file_name != "" %}
-    <li class="al-{{ section }}-removable-item {{ cycle(['row', 'alternate_row'], loop.index) }}" rel="{{ file_name }}">{{ file_name }}</li>
+    <li class="al-{{ section }}-removable-item {{ cycle(['alternate_row', 'row'], loop.index) }}" rel="{{ file_name }}">{{ file_name }}</li>
     {% endif %}
 {% endfor %}
 </ul>

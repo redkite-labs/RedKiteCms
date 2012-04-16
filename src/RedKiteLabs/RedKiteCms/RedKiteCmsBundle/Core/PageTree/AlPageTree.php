@@ -243,4 +243,47 @@ class AlPageTree extends BaseAlPageTree
             $this->externalJavascripts[] = $value;
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    protected function setupPageTree()
+    {
+        parent::setupPageTree();
+        
+        if($this->themeName != '' && $this->templateName != '') {
+            
+            $templateName = strtolower($this->templateName);
+            $theme = preg_replace('/bundle$/', '', strtolower($this->themeName));
+            $param = sprintf('themes.%s_%s.stylesheet_cms', $theme, $templateName);
+            if($this->container->hasParameter($param))
+            {
+                $this->addStylesheets($this->container->getParameter($param));
+            }
+            
+            $param = sprintf('themes.%s_%s.javascript_cms', $theme, $templateName);
+            if($this->container->hasParameter($param))
+            {
+                $this->addJavascripts($this->container->getParameter($param));
+            }
+            
+            $kernel = $this->container->get('kernel');
+            foreach ($kernel->getBundles() as $bundle)
+            {
+                $bundleName = preg_replace('/bundle$/', '', strtolower($bundle->getName()));
+                
+                $param = sprintf('%s_cms_javascripts', $bundleName); 
+                if($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
+
+                $param = sprintf('%s_cms_stylesheets', $bundleName); 
+                if($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
+                
+                $param = sprintf('%s_%s_cms_javascripts', $bundleName, $templateName); 
+                if($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
+
+                $param = sprintf('%s_%s_cms_stylesheets', $bundleName, $templateName); 
+                if($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
+            }
+        }
+    }
 }
