@@ -23,6 +23,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloader;
  * Autoload the internal block editors bundles 
  *
  * @author AlphaLemon <info@alphalemon.com>
+ * @deprecated in favour of https://github.com/alphalemon/BootstrapBundle
  */
 class InternalBundlesAutoloader extends BundlesAutoloader
 {

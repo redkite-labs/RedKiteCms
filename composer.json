@@ -29,7 +29,13 @@
     "alphalemon/business-website-theme-bundle": "dev-master"
   },
   "autoload": {
-    "psr-0": { "AlphaLemon\\AlphaLemonCmsBundle": ""
+    "psr-0": { 
+        "AlphaLemon\\AlphaLemonCmsBundle": "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\TextBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\MenuBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\MediaBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\ScriptBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\NavigationMenuBundle' : ""
     }
   },
   "target-dir" : "AlphaLemon/AlphaLemonCmsBundle",
