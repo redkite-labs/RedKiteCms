@@ -120,31 +120,16 @@ class BundlesAutoloader
      */
     protected function register($environment)
     {
-        foreach ($this->environmentsBundles[$environment] as $bundle) {
-            if (empty($this->instantiatedBundles) || !in_array($bundle, $this->instantiatedBundles)) {
-                if (!class_exists($bundle)) {
-                    throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem.", $bundle, get_class($this)));
-                }
-
-                $instantiatedBundle = new $bundle();
-                $this->bundles[] = $instantiatedBundle;
-                $this->instantiatedBundles[] = $bundle;
-            }
-        }
-        return;
-        foreach ($this->autoloaders as $autoloader) {
-            $bundles = $autoloader->getBundles();
-            if (isset($bundles[$environment])) {
-                foreach ($bundles[$environment] as $bundle) {
-                    if (empty($this->instantiatedBundles) || !in_array($bundle, $this->instantiatedBundles)) {
-                        if (!class_exists($bundle)) {
-                            throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem.", $bundle, get_class($this)));
-                        }
-                        
-                        $instantiatedBundle = new $bundle();
-                        $this->bundles[] = $instantiatedBundle;
-                        $this->instantiatedBundles[] = $bundle;
+        if (isset($this->environmentsBundles[$environment])) {
+            foreach ($this->environmentsBundles[$environment] as $bundle) {
+                if (empty($this->instantiatedBundles) || !in_array($bundle, $this->instantiatedBundles)) {
+                    if (!class_exists($bundle)) {
+                        throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem.", $bundle, get_class($this)));
                     }
+
+                    $instantiatedBundle = new $bundle();
+                    $this->bundles[] = $instantiatedBundle;
+                    $this->instantiatedBundles[] = $bundle;
                 }
             }
         }
@@ -216,7 +201,7 @@ class BundlesAutoloader
      */
     protected function retrieveInstalledBundles()
     {
-        $finder = new Finder();
+        $finder = new Finder(); 
         $autoloaders = $finder->files()->depth(0)->name('*.json')->in(realpath($this->autoloadersPath));
         foreach ($autoloaders as $autoloader) { 
             $bundleName = strtolower(basename($autoloader->getFilename(), '.json')); 
@@ -236,7 +221,7 @@ class BundlesAutoloader
     protected function getBundleName($path)
     {
         if (is_dir($path)) {
-            $finder = new Finder();
+            $finder = new Finder(); 
             $bundles = $finder->files()->depth(0)->name('*Bundle.php')->in($path);
             foreach ($bundles as $bundle) {
                 return basename($bundle->getFilename(), 'Bundle.php');
@@ -255,7 +240,7 @@ class BundlesAutoloader
     protected function hasAutoloader($path)
     {
         if (is_dir($path)) {
-            $finder = new Finder();
+            $finder = new Finder();  
             $bundles = $finder->files()->depth(0)->name('autoload.json')->in($path);
             foreach ($bundles as $bundle) {
                 return true;
