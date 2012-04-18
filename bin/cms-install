@@ -40,7 +40,7 @@ class Installer {
     
     public function __construct() 
     {
-        $this->rootDir = \AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit::normalizePath(realpath(__DIR__ . '/../../../../../'));
+        $this->rootDir = \AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit::normalizePath(realpath(__DIR__ . '/../../../../../'));        
     }
 
 
@@ -96,6 +96,44 @@ class Installer {
     
     private function manipulateAppKernel()
     {
+        $updateFile = false;
+        $kernelFile = $this->rootDir . '/../app/AppKernel.php';
+        $contents = file_get_contents($kernelFile);
+        
+        if(strpos($contents, 'new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle()') === false)
+        {
+            $cmsBundles = "\n            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),\n";
+            $cmsBundles .= "        );";
+            $contents = preg_replace('/[\s]+\);/s', $cmsBundles, $contents);
+            $updateFile = true;
+        }
+        
+        if(strpos($contents, 'new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
+        {
+            $cmsBundles = "\n\n        \$bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(\$this->getEnvironment(), \$bundles);\n";
+            $cmsBundles .= "        \$bundles = \$bootstrapper->getBundles();\n\n";
+            $cmsBundles .= "        return \$bundles;";
+            $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
+            $updateFile = true;
+        }
+        
+        if(strpos($contents, '$configFolder = __DIR__ . \'/config/bundles/config\';') === false)
+        {
+            $cmsBundles = "\n        \$configFolder = __DIR__ . '/config/bundles/config';\n";
+            $cmsBundles .= "        \$finder = new \Symfony\Component\Finder\Finder();\n";
+            $cmsBundles .= "        \$configFiles = \$finder->depth(0)->name('*.yml')->in(\$configFolder);\n";
+            $cmsBundles .= "        foreach (\$configFiles as \$config) {\n";
+            $cmsBundles .= "            \$loader->load((string)\$config);\n";
+            $cmsBundles .= "        };\n\n";
+            $cmsBundles .= "        \$loader->load(__DIR__.'/config/config_'.\$this->getEnvironment().'.yml');";
+        
+            $contents = preg_replace('/[\s]+\$loader\-\>load\(__DIR__\.\'\/config\/config_\'\.\$this\-\>getEnvironment\(\).\'.yml\'\);/s', $cmsBundles, $contents);
+            $updateFile = true;
+        }
+        
+        if($updateFile) file_put_contents($kernelFile, $contents);
+        exit;
+        
         $updateFile = false;
         $kernelFile = $this->rootDir . '/../app/AppKernel.php';
         $contents = file_get_contents($kernelFile);
@@ -191,9 +229,10 @@ class Installer {
     
     private function writeConfigurations()
     {
+        
         $section = "\nalpha_lemon_frontend:\n";
         $section .= "    deploy_bundle: $this->deployBundle\n\n";    
-        $section .= "alpha_lemon_theme_engine:\n";
+        /*$section .= "alpha_lemon_theme_engine:\n";
         $section .= "    base_template: AlphaLemonFrontendBundle:Theme:base.html.twig\n\n";
         $section .= "assetic:\n";
         $section .= "    filters:\n";
@@ -201,7 +240,7 @@ class Installer {
         $section .= "        yui_css:\n";
         $section .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar\n";
         $section .= "        yui_js:\n";
-        $section .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar";
+        $section .= "            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar";*/
         $this->writeConfigFile($this->rootDir . '/../app/config/config.yml', '/alpha_lemon_frontend/is', $section);
         
         $section = "\n\npropel:\n";
