@@ -474,7 +474,9 @@ class AlSlotManager extends AlTemplateBase
         $result = array();
         foreach($this->contentManagers as $contentManager)
         {
-            $result[] = $contentManager->toArray();
+            if (null !== $contentManager) {
+                $result[] = $contentManager->toArray();
+            }
         }
         
         return $result;
