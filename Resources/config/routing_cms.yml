@@ -1,4 +1,4 @@
-AlphaLemonBootstrapBundle:
+_AlphaLemonBootstrapBundle:
     resource: .
     type: bootstrap
     
@@ -23,20 +23,8 @@ _deploy:
 _valum_uploader:
     resource: "@AlValumUploaderBundle/Resources/config/routing/valum.xml"
 
-#_el_finder:
-#    resource: "@AlphaLemonElFinderBundle/Resources/config/routing.xml"
-    
-#_el_finder:
-#    resource: "@AlElFinderBundle/Resources/config/routing/el_finder.xml"
-
-#_al_text_bundle:
-#    resource: "@TextBundle/Resources/config/routing.yml"
-    
 _al_elfinder:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
-    
-#_al_markdown:
-#    resource: "@MarkdownBundle/Resources/config/routing/markdown.xml"
     
 _navigation1:
   pattern:  /backend/{page}
