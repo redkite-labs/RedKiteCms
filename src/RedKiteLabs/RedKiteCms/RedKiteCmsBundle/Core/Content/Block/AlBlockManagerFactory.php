@@ -56,14 +56,23 @@ class AlBlockManagerFactory
             $alBlock = null;
             $className = ucfirst(trim($block));
         }
-
+        
         $class = sprintf("AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\%sBundle\Core\Block\AlBlockManager%1\$s", $className); 
         if(!class_exists($class))
         {
             $class = sprintf("AlphaLemon\Block\%1\$sBundle\Core\Block\AlBlockManager%1\$s", $className); 
             if(!class_exists($class))
             {
-                throw new \InvalidArgumentException(AlToolkit::translateMessage($container, 'The class AlBlockManager%className% does not exist. Please create a new AlBlockManager%className% object that extends the AlBlockManager class to fix the problem.', array('%className%' => $className)));
+                if (null !== $alBlock) {
+                    // The block has been removed from the website and, cause of that, the block is deleted
+                    $alBlock->setToDelete(1);
+                    $alBlock->save();
+                    
+                    return null;
+                } else {                    
+                    // The block has never added so there's something wrong with the derived block class implementation
+                    throw new Exception\InvalidChildBlockClass(AlToolkit::translateMessage($container, 'The class AlBlockManager%className% does not exist. Please create a new AlBlockManager%className% object that extends the AlBlockManager class to fix the problem.', array('%className%' => $className)));
+                }
             }
         }
 
