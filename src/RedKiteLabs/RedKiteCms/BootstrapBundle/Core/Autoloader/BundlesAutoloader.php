@@ -43,6 +43,7 @@ class BundlesAutoloader
     private $autoloaders = array();
     private $installedBundles = array();
     private $environmentsBundles = array();
+    private $listeners = array();
     
     private $basePath;
     private $autoloadersPath;
@@ -67,6 +68,7 @@ class BundlesAutoloader
         $this->retrieveInstalledBundles(); 
         $this->parseComposer();
         $this->uninstall();
+        $this->writeListenersFile();
         $this->autoload();
     }
     
@@ -184,8 +186,7 @@ class BundlesAutoloader
         if ($res) {
             if (null !== $autoloader->getInstallScript($autoloader))
             {
-                $event = new PackageInstalledEvent($jsonAutoloader);
-                $this->dispatcher->dispatch(BootstrapperEvents::PACKAGE_INSTALLED, $event);
+                $this->listeners[BootstrapperEvents::PACKAGE_INSTALLED][] = $autoloader->getInstallScript();
             }
         }
 
@@ -276,7 +277,8 @@ class BundlesAutoloader
     /**
      * Removes the autoloader and config from the app/config/bundles folder
      */
-    protected function uninstall() { 
+    protected function uninstall() 
+    { 
         if (!empty($this->installedBundles)) {
             foreach ($this->installedBundles as $autoloader) {
                 @unlink($this->autoloadersPath . '/' . $autoloader->getBundleName() . '.json');
@@ -284,8 +286,7 @@ class BundlesAutoloader
                 @unlink($this->configPath . $filename);
                 @unlink($this->routingPath . $filename);
                 
-                $event = new PackageUninstalledEvent($autoloader);
-                $this->dispatcher->dispatch(BootstrapperEvents::PACKAGE_UNINSTALLED, $event);
+                $this->listeners[BootstrapperEvents::PACKAGE_UNINSTALLED][] = $autoloader->getUninstallScript();
             }
         }
     }
@@ -317,6 +318,16 @@ class BundlesAutoloader
     {
         if (!@mkdir($dir)) {
             throw new \RuntimeException(sprintf("The folder %s cannot be created. Please be sure to have the permissions to create a new folder", $dir));
+        }
+    }
+    
+    /**
+     * Stores the listener classes for the events required in the autoloader file in a temporary hidden json file 
+     */
+    private function writeListenersFile()
+    {
+        if (!empty($this->listeners)) {
+            file_put_contents($this->basePath . '/.listeners', json_encode($this->listeners));
         }
     }
 }

@@ -29,7 +29,7 @@ class JsonAutoloader
     private $installScript = null;
     private $uninstallScript = null;
     private $force = false;
-    
+    private $json = null;
     
     /**
      * Constructor
@@ -73,14 +73,19 @@ class JsonAutoloader
     {
         return $this->uninstallScript;
     }
+    
+    public function getSourceJson()
+    {
+        return $this->json;
+    }
 
     /**
      * Parses the json file and sets up the object
      */
     protected function setup()
     {
-        $json = file_get_contents($this->filename);
-        $autoloader = json_decode($json, true);
+        $this->json = file_get_contents($this->filename);
+        $autoloader = json_decode($this->json, true);
         if (null !== $autoloader) { 
             if (isset($autoloader["bundles"])) { 
                 foreach ($autoloader["bundles"] as $bundle => $options) { 
@@ -93,7 +98,7 @@ class JsonAutoloader
                 }
             }
             else {
-                throw new \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException(sprintf('The json file %s requires the bundles section. Please add that section to fix the problem', $file));
+                throw new \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException(sprintf('The json file %s requires the bundles section. Please add that section to fix the problem', $this->filename));
             }
             
             if (isset($autoloader["scripts"])) {
@@ -101,7 +106,7 @@ class JsonAutoloader
                if (isset($autoloader["scripts"]["package-uninstalled"])) $this->uninstallScript = $autoloader["scripts"]["package-uninstalled"];
             }
         } else {
-            throw new \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException(sprintf('The json file %s is malformed. Please check the file syntax to fix the problem', $file));
+            throw new \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException(sprintf('The json file %s is malformed. Please check the file syntax to fix the problem', $this->filename));
         }
     }
 }

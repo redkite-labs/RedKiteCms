@@ -17,7 +17,7 @@
 namespace AlphaLemon\BootstrapBundle\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use AlphaLemon\BootstrapBundle\Core\Json\JsonAutoloader;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines the BaseEvent event dispatched by the Bootstrap bundle
@@ -26,20 +26,20 @@ use AlphaLemon\BootstrapBundle\Core\Json\JsonAutoloader;
  */
 abstract class BaseEvent extends Event
 {
-    private $autoloader;
+    private $container;
     
     /**
-     * Contructor
+     * Constructor
      * 
-     * @param JsonAutoloader $autoloader 
+     * @param ContainerInterface $container 
      */
-    public function __construct(JsonAutoloader $autoloader)
+    public function __construct(ContainerInterface $container)
     {
-        $this->autoloader = $autoloader;
+        $this->container = $container;
     }
     
-    public function getAutoloader()
+    public function getContainer()
     {
-        return $this->autoloader;
+        return $this->container;
     }
 }
