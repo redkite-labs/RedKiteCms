@@ -131,43 +131,6 @@ class Installer {
             $updateFile = true;
         }
         
-        if($updateFile) file_put_contents($kernelFile, $contents);
-        exit;
-        
-        $updateFile = false;
-        $kernelFile = $this->rootDir . '/../app/AppKernel.php';
-        $contents = file_get_contents($kernelFile);
-       
-        if(strpos($contents, 'new AlphaLemon\FrontendBundle\AlphaLemonFrontendBundle()') === false)
-        {
-            $cmsBundles = "\n            new AlphaLemon\FrontendBundle\AlphaLemonFrontendBundle(),\n";
-            $cmsBundles .= "            new AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle(),\n";
-            $cmsBundles .= "            new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle(),\n";
-            $cmsBundles .= "        );";
-            $contents = preg_replace('/[\s]+\);/s', $cmsBundles, $contents);
-            $updateFile = true;
-        }
-        
-        if(strpos($contents, '$themes = new \AlphaLemon\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader()') === false)
-        {
-            $cmsBundles = "\$themes = new \AlphaLemon\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader();\n";
-            $cmsBundles .= "        \$bundles = array_merge(\$bundles, \$themes->getBundles());\n";            
-            $cmsBundles .= "        if (in_array(\$this->getEnvironment(), array('alcms', 'alcms_dev', 'test'))) {\n";
-            $cmsBundles .= "            \$bundles[] = new Propel\PropelBundle\PropelBundle();\n";
-            $cmsBundles .= "            \$bundles[] = new AlphaLemon\AlValumUploaderBundle\AlValumUploaderBundle();\n";
-            $cmsBundles .= "            \$bundles[] = new AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle();\n"; 
-            $cmsBundles .= "            \$bundles[] = new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle();\n";  
-            $cmsBundles .= "            \$internalBundles = new \AlphaLemon\AlphaLemonCmsBundle\Core\Autoloader\InternalBundlesAutoloader();\n";;
-            $cmsBundles .= "            \$bundles = array_merge(\$bundles, \$internalBundles->getBundles());\n";
-            $cmsBundles .= "        }\n\n";
-            $cmsBundles .= "        if (in_array(\$this->getEnvironment(), array('dev', 'test', 'alcms_dev'";
-
-            $contents = preg_replace('/if \(in_array\(\$this-\>getEnvironment\(\), array\(\'dev\', \'test\'/s', $cmsBundles, $contents);
-            $updateFile = true;
-        }
-        
-        if($updateFile) file_put_contents($kernelFile, $contents);
-        
         require_once $this->rootDir . '/../app/AppKernel.php';
     }
     
