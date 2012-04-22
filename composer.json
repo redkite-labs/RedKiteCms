@@ -13,5 +13,20 @@
   ],
   "require": {
     "php": ">=5.3.2"
+  },
+  "autoload": {
+    "psr-0": {
+        "AlphaLemon\\AlphaLemonCmsBundle": "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\TextBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\MenuBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\MediaBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\ScriptBundle' : "",
+        'AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\NavigationMenuBundle' : ""
+    }
+  },
+  "target-dir" : "AlphaLemon/AlphaLemonCmsBundle",
+  "bin": ["bin/cms-install", "bin/config.php"],
+  "config": {
+    "bin-dir": "bin"
   }
 }
