@@ -28,6 +28,12 @@ Import the routing configuration into the routing.yml file:
 
     _AlphaLemonElFinderBundle:
         resource: "@AlphaLemonElFinderBundle/Resources/config/routing.yml"
+
+Initialize submodules grabbing the ElFinder vendor library. Move inside the ElFinder folder than give this commands:
+
+    git submodule init
+    git submodule update
+
         
 To complete the bundle configuration you must install assets as follows:
 
