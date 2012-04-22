@@ -1,0 +1,23 @@
+{
+  "name": "alphalemon/alphalemon-cms-installer-bundle",
+  "description": "Installs the AlphaLemonCMS Bundle ",
+  "keywords": ["alphalemon", "cms", "installer"],
+  "homepage": "http://alphalemon.com",
+  "type": "symfony-bundle",
+  "license": "GPLv2",
+  "authors": [
+    {
+      "name": "AlphaLemon",
+      "email": "info@alphalemon.com"
+    }
+  ],
+  "require": {
+    "alphalemon/alphalemon-cms-bundle": "dev-develop"
+  },
+  "autoload": {
+    "psr-0": {
+        "AlphaLemon\\CmsInstallerBundle": ""
+    }
+  },
+  "target-dir" : "AlphaLemon/CmsInstallerBundle"
+}
