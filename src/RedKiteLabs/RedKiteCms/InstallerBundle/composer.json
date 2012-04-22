@@ -1,6 +1,6 @@
 {
   "name": "alphalemon/alphalemon-cms-installer-bundle",
-  "description": "Installs the AlphaLemonCMS Bundle ",
+  "description": "Provides a web interface and some commands to install AlphaLemonCMS Bundle",
   "keywords": ["alphalemon", "cms", "installer"],
   "homepage": "http://alphalemon.com",
   "type": "symfony-bundle",
@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-0": {
-        "AlphaLemon\\CmsInstallerBundle": ""
+        "AlphaLemon\\CmsInstallerBundle": ""    
     }
   },
   "target-dir" : "AlphaLemon/CmsInstallerBundle"
