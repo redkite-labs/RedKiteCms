@@ -108,7 +108,7 @@ The class AlphaLemonElFinderMediaConnector is instantiated into the DIC. Follows
 
     namespace Path\To\AlphaLemonElFinderMediaConnector;
     
-    use ElFinderCore\Connector\AlphaLemonElFinderBaseConnector;
+    use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
 
     class AlphaLemonElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
     {
