@@ -1,3 +1,0 @@
-_install:
-  pattern:  /install
-  defaults: { _controller: AlphaLemonCmsInstallerBundle:Installer:install }
