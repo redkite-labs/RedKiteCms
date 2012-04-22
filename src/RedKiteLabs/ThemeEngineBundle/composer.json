@@ -23,7 +23,8 @@
     "sensio/distribution-bundle":     "2.0.*",
     "jms/security-extra-bundle":      "1.0.*",
     "alphalemon/al-pagetree-bundle": "dev-master",
-    "alphalemon/al-valum-uploader-bundle": "dev-master",
+    "alphalemon/al-valum-uploader-bundle": "dev-master",    
+    "propel/propel-bundle": "2.0.x-dev",
     "propel/propel1": "1.6.*",
     "phing/phing": "2.4.*"
   },
