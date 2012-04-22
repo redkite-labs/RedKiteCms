@@ -16,7 +16,7 @@
 {% extends "form_div_layout.html.twig" %}
 
 {% block field_rows %}
-    <div class="symfony-form-errors">
+    <div class="al-form-errors">
         {{ form_errors(form) }}
     </div>
     {% for child in form.children %}
@@ -25,11 +25,11 @@
 {% endblock field_rows %}
 
 {% block field_row %}
-    <div class="symfony-form-row">
+    <div class="al-form-row">
         {{ form_label(form) }}
-        <div class="symfony-form-field">
+        <div class="al-form-field">
             {{ form_widget(form) }}
-            <div class="symfony-form-errors">
+            <div class="al-form-errors">
                 {{ form_errors(form) }}
             </div>
         </div>
@@ -40,7 +40,7 @@
     <label for="{{ id }}">
         {{ label|trans }}
         {% if required %}
-            <span class="symfony-form-required" title="This field is required">*</span>
+            <span class="al-form-required" title="This field is required">*</span>
         {% endif %}
     </label>
 {% endblock %}

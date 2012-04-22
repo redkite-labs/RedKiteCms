@@ -1,7 +1,0 @@
-{
-    "bundles" : {
-        "AlphaLemon\\CmsInstallerBundle\\AlphaLemonCmsInstallerBundle" : {
-            "environments" : ["prod", "dev", "test"]
-        }
-    }
-}

@@ -17,7 +17,11 @@
 {% form_theme form "AlphaLemonCmsInstallerBundle::Installer/form.html.twig" %}
 
 {% block external_stylesheets %}
+{% stylesheets filter='yui_css' '@AlphaLemonCmsInstallerBundle/Resources/public/css/*' %}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
 {% endblock %}
+
 {% block external_javascripts %}
     {% javascripts  filter='?yui_js' '@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*' %}
     <script src="{{ asset_url }}"></script>
@@ -66,41 +70,65 @@
 {% endblock %}
 
 {% block body %}
-<form action="{{ path('_install') }}" method="POST">
-    {% if app.session.hasFlash('error') %}
-    <div id="al_process_errors">
-        {{ app.session.flash('error') }}
-    </div>
-    {% endif %}
-    <div>
-        <h2>Bundle data</h2>
-        AlphaLemon CMS requires a ...
-    </div>
-    <div id="al_bundle_section">
-        {{ form_row(form.company) }}
-        {{ form_row(form.bundle) }}
-    </div>
-    <div>
-        <h2>Database</h2>
-    </div>
-    <div>
-        {{ form_row(form.driver) }}
-    </div>
-    <div id="al_db_standard_section">
-        {{ form_row(form.host) }}
-        {{ form_row(form.database) }}
-        {{ form_row(form.port) }}
-        {{ form_row(form.user) }}
-        {{ form_row(form.password) }}
-    </div>
-    <div id="al_db_dsn_section" style="display:none">
-        {{ form_row(form.dsn) }}
-    </div>
-    <div id="al_dsn_section">
-        {{ form_rest(form) }}
-    </div>
-    <div>
-        <input type="submit" value="install" />
-    </div>
-</form>
+<div id="al_main">
+<h1>AlphaLemonCMS Web-Installer interface</h1>
+<div id="al_installer_box">
+    <form action="{{ path('_install') }}" method="POST">
+        {% if app.session.hasFlash('error') %}
+        <div id="al_process_errors">
+            <h2>Ops. Something was wrong</h2>
+            <p>{{ app.session.flash('error') }}</p>
+        </div>
+        {% endif %}
+        <div>
+            <h2>Bundle data</h2>
+            <p>
+            AlphaLemon CMS requires a bundle where AlphaLemon CMS will save the contents you insert. Every time
+            you start a new Symfony2 project you always create a new bundle where your application lives:
+            the required external bundle, by AlphaLemon CMS, is exactly that bundle.
+            </p>
+        </div>
+        <div id="al_bundle_section">
+            <div class="al_column">
+            {{ form_row(form.company) }}
+            </div>
+            <div class="al_column">
+            {{ form_row(form.bundle) }}
+            </div>
+            <div class="al_clear"></div>          
+        </div>
+        <div>
+            <h2>Database</h2>
+            <p>
+            Please provide the information required to access your database
+            </p>
+        </div>
+        <div>
+            {{ form_row(form.driver) }}
+        </div>
+        <div id="al_db_standard_section">
+            <div class="al_column">
+            {{ form_row(form.host) }}
+            {{ form_row(form.database) }}
+            {{ form_row(form.port) }}
+            </div>
+            <div class="al_column">
+            {{ form_row(form.user) }}
+            {{ form_row(form.password) }}
+            </div>
+            <div class="al_clear"></div>
+        </div>
+        <div id="al_db_dsn_section" style="display:none">
+            {{ form_row(form.dsn) }}
+        </div>
+        <div id="al_dsn_section">
+            {{ form_rest(form) }}
+        </div>
+        <div>
+            <p>* Required field</p>
+            <input type="submit" value="install" />
+        </div>
+    </form>
+</div>
+</div>
 {% endblock %}
