@@ -60,6 +60,8 @@ class PopulateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        set_include_path($this->getContainer()->getParameter('kernel.root_dir').'/..'.PATH_SEPARATOR.$this->getContainer()->getParameter('propel.phing_path').'/classes'.PATH_SEPARATOR.get_include_path());
+        
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
         
         $queries = array('TRUNCATE al_block;',

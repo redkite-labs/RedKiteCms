@@ -20,8 +20,7 @@ namespace AlphaLemon\CmsInstallerBundle\Core\Installer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
 use Sensio\Bundle\GeneratorBundle\Manipulator\KernelManipulator;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\PhpExecutableFinder;
+use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
  * Description of installer
@@ -29,6 +28,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
  * @author alphalemon <webmaster@alphalemoncms.com>
  */
 class Installer {
+    
     private $deployBundle;
     private $companyName;
     private $bundleName;
@@ -39,9 +39,9 @@ class Installer {
     private $driver;
     private $rootDir;
     
-    public function __construct($basepath) 
+    public function __construct($basePath) 
     {
-        $this->rootDir = \AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit::normalizePath($basepath);        
+        $this->rootDir = AlToolkit::normalizePath($basePath);        
     }
 
 
@@ -132,6 +132,7 @@ class Installer {
             $updateFile = true;
         }
         require_once $this->rootDir . '/../app/AppKernel.php';
+        
         return;
         /*
         $updateFile = false;
@@ -334,9 +335,11 @@ class Installer {
         $kernel = new \AppKernel('alcms_dev', true);
         $kernel->boot();
         $cmd = sprintf('alphalemon:populate %s --user=%s --password=%s', $this->dsn, $this->user, $this->password);
-
+        
+        set_include_path($this->rootDir.'/phing/phing/classes'.PATH_SEPARATOR.get_include_path());
+        
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : ''; 
-        \AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit::executeCommand($kernel, array('propel:build',
+        AlToolkit::executeCommand($kernel, array('propel:build',
                                                                      'propel:insert-sql --force',
                                                                      'assets:install ' . $this->rootDir . '/../web' . $symlink,
                                                                      $cmd,

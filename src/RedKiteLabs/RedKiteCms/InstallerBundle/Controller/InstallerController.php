@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use AlphaLemon\CmsInstallerBundle\Core\Form\AlphaLemonCmsParametersType;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Installer\Installer;
+use AlphaLemon\CmsInstallerBundle\Core\Installer\Installer;
 
 /**
  * Implements the controller to install AlphaLemon CMS
