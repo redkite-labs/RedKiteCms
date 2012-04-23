@@ -18,6 +18,7 @@
 namespace AlphaLemon\ElFinderBundle\Core\Listener; 
 
 use AlphaLemon\BootstrapBundle\Core\Event\PackageInstalledEvent;
+use Symfony\Component\Process\Process;
 
 /**
  * Manipulates the block's editor response when the editor has been rendered 
