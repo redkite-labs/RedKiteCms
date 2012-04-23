@@ -27,6 +27,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class BaseEvent extends Event
 {
     private $container;
+    private $success = false;
+    private $alertWhenFails = false;
     
     /**
      * Constructor
@@ -41,5 +43,25 @@ abstract class BaseEvent extends Event
     public function getContainer()
     {
         return $this->container;
+    }
+    
+    public function getSuccess()
+    {
+        return $this->success;
+    }
+    
+    public function setSuccess($v)
+    {
+        $this->success = $v; 
+    }
+    
+    public function getAlertWhenFails()
+    {
+        return $this->alertWhenFails;
+    }
+    
+    public function setAlertWhenFails($v)
+    {
+        $this->alertWhenFails = $v; 
     }
 }
