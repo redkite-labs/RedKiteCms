@@ -1,0 +1,136 @@
+{#
+   This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonCmsInstallerBundle:Installer:base.html.twig' %}
+{% form_theme form "AlphaLemonCmsInstallerBundle::Installer/form.html.twig" %}
+
+{% block external_stylesheets %}
+{# stylesheets filter='yui_css' '@AlphaLemonCmsInstallerBundle/Resources/public/css/*' %}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets #}
+<link href="{{ asset('bundles/alphalemoncmsinstaller/css/style.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block external_javascripts %}
+    <link href="{{ asset('bundles/alphalemoncmsinstaller/js/jquery-last.min.js') }}" rel="stylesheet" type="text/css" />
+    {# javascripts  filter='?yui_js' '@AlphaLemonCmsInstallerBundle/Resources/public/js/*' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts #}
+{% endblock %}
+
+{% block internal_header_stylesheets %}
+    <script>
+    $(document).ready(function(){ 
+        
+        setByDriver($('#alphalemon_cms_parameters_driver').val());
+        $('#alphalemon_cms_parameters_driver').change(function(){            
+            
+            setByDriver($(this).val());
+            return false;
+        });
+        
+        function setByDriver(driver) {
+            switch(driver) {
+                case 'mysql':
+                    showStandardDbParams();
+                    $('#alphalemon_cms_parameters_port').val('3306');
+                    break;
+                case 'pgsql':
+                    showStandardDbParams();
+                    $('#alphalemon_cms_parameters_port').val('5432');
+                    break;
+                default:
+                    showDsnDbParams();
+                    break;
+            }
+        }
+
+        function showDsnDbParams() {
+            $('#al_db_standard_section').hide();
+            $('#al_db_dsn_section').show();
+        }
+        
+        function showStandardDbParams() {
+            $('#alphalemon_cms_parameters_dsn').val('');
+            $('#al_db_standard_section').show();
+            $('#al_db_dsn_section').hide();
+        }
+    });
+    </script>
+{% endblock %}
+
+{% block body %}
+<div id="al_main">
+<h1>AlphaLemonCMS Web-Installer interface</h1>
+<div id="al_installer_box">
+    <form action="{{ path('_install') }}" method="POST">
+        {% if app.session.hasFlash('error') %}
+        <div id="al_process_errors">
+            <h2>Ops. Something was wrong</h2>
+            <p>{{ app.session.flash('error') }}</p>
+        </div>
+        {% endif %}
+        <div>
+            <h2>Bundle data</h2>
+            <p>
+            AlphaLemon CMS requires a bundle where AlphaLemon CMS will save the contents you insert. Every time
+            you start a new Symfony2 project you always create a new bundle where your application lives:
+            the required external bundle, by AlphaLemon CMS, is exactly that bundle.
+            </p>
+        </div>
+        <div id="al_bundle_section">
+            <div class="al_column">
+            {{ form_row(form.company) }}
+            </div>
+            <div class="al_column">
+            {{ form_row(form.bundle) }}
+            </div>
+            <div class="al_clear"></div>          
+        </div>
+        <div>
+            <h2>Database</h2>
+            <p>
+            Please provide the information required to access your database
+            </p>
+        </div>
+        <div>
+            {{ form_row(form.driver) }}
+        </div>
+        <div id="al_db_standard_section">
+            <div class="al_column">
+            {{ form_row(form.host) }}
+            {{ form_row(form.database) }}
+            {{ form_row(form.port) }}
+            </div>
+            <div class="al_column">
+            {{ form_row(form.user) }}
+            {{ form_row(form.password) }}
+            </div>
+            <div class="al_clear"></div>
+        </div>
+        <div id="al_db_dsn_section" style="display:none">
+            {{ form_row(form.dsn) }}
+        </div>
+        <div id="al_dsn_section">
+            {{ form_rest(form) }}
+        </div>
+        <div>
+            <p>* Required field</p>
+            <input type="submit" value="install" />
+        </div>
+    </form>
+</div>
+</div>
+{% endblock %}

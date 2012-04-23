@@ -1,0 +1,46 @@
+{#
+   This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code. 
+
+   For extra documentation and help please visit http://www.alphalemon.com 
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends "form_div_layout.html.twig" %}
+
+{% block field_rows %}
+    <div class="al-form-errors">
+        {{ form_errors(form) }}
+    </div>
+    {% for child in form.children %}
+        {{ form_row(child) }}
+    {% endfor %}
+{% endblock field_rows %}
+
+{% block field_row %}
+    <div class="al-form-row">
+        {{ form_label(form) }}
+        <div class="al-form-field">
+            {{ form_widget(form) }}
+            <div class="al-form-errors">
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block field_label %}
+    <label for="{{ id }}">
+        {{ label|trans }}
+        {% if required %}
+            <span class="al-form-required" title="This field is required">*</span>
+        {% endif %}
+    </label>
+{% endblock %}

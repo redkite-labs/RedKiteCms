@@ -1,0 +1,70 @@
+body {
+  background-color: #c9c9c9;
+  color: #414141;
+  font: normal 16px/20px Arial, Verdana, Helvetica, sans-serif;
+}
+
+#al_main {
+  width: 540px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+#al_main h1 {
+  font: bold 26px/28px Arial, Verdana, Helvetica, sans-serif;
+  color: #000099;
+}
+
+#al_installer_box {
+  width: 540px;
+  background-color: white;
+  margin: 0 auto;
+  border: 1px solid #525252;
+  padding: 10px 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -o-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -khtml-border-radius: 20px;
+  border-radius: 20px;
+}
+#al_installer_box .al-form-row {
+  padding: 4px 0;
+  font-weight: bold;
+}
+#al_installer_box .al-form-field {
+  padding: 4px;
+}
+#al_installer_box .al-form-error {
+  padding: 4px;
+  color: #c20000;
+}
+#al_installer_box input, #al_installer_box select {
+  color: #525252;
+  padding: 2px;
+  -moz-box-shadow: #666666 3px 3px 3px;
+  -webkit-box-shadow: #666666 3px 3px 3px;
+  -o-box-shadow: #666666 3px 3px 3px;
+  box-shadow: #666666 3px 3px 3px;
+}
+#al_installer_box h2 {
+  padding: 0;
+  margin: 6px 0;
+  font: bold 22px/24px Arial, Verdana, Helvetica, sans-serif;
+}
+#al_installer_box p {
+  margin: 0;
+}
+
+#al_process_errors {
+  padding: 4px;
+  color: #c20000;
+}
+
+.al_column {
+  float: left;
+  padding: 10px 20px 10px 0;
+}
+
+.al_clear {
+  clear: left;
+}

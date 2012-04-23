@@ -1,0 +1,49 @@
+{#
+   This file is part of the AlphaLemon InstallerBundle and it is distributed
+   under the GPL LICENSE Version 2.0. In addiction, to use this bundle, you must leave
+   intact this copyright notice.
+ 
+    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ 
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+ +
+   For extra documentation and help please visit http://alphalemon.com
+  
+   @license    GPL LICENSE Version 2.0
+#}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{% if metatitle is defined %}{{ metatitle }}{% endif %}{% endblock %}</title>
+        <meta name="Description" content="{% if metadescription is defined %}{{ metadescription }}{% endif %}" />
+        <meta name="Keywords" content="{% if metakeywords is defined %}{{ metakeywords }}{% endif %}" />
+        <meta name="generator" content="AlphaLemon CMS" />
+        
+        {% block external_stylesheets %}
+            {% if stylesheets_template is defined and stylesheets_template != "" %}
+                {% include(stylesheets_template) %}
+            {% endif %}
+        {% endblock %}
+        {% block external_javascripts %}
+            {% if javascripts_template is defined and javascripts_template != "" %}
+                {% include(javascripts_template) %}
+            {% endif %}
+        {% endblock %}
+        
+        {% block internal_header_javascripts %}{% endblock %}
+        {% block internal_header_stylesheets %}{% endblock %}
+        
+        {% block conditional_assets %}
+        {% endblock %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    
+    {% block body_tag %}<body>{% endblock %}
+        {% block body %}{% endblock %}
+        {% block internal_body_javascripts %}{% endblock %}
+    </body>
+    
+</html>
