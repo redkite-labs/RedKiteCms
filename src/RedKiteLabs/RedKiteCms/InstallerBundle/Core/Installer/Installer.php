@@ -131,6 +131,9 @@ class Installer {
             $contents = preg_replace('/[\s]+\$loader\-\>load\(__DIR__\.\'\/config\/config_\'\.\$this\-\>getEnvironment\(\).\'.yml\'\);/s', $cmsBundles, $contents);
             $updateFile = true;
         }
+        
+        if($updateFile) file_put_contents($kernelFile, $contents);
+        
         require_once $this->rootDir . '/../app/AppKernel.php';
         
         return;
