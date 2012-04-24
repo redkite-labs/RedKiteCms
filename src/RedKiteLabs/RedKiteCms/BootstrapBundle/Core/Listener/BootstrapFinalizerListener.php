@@ -92,7 +92,9 @@ class BootstrapFinalizerListener
     
     private function addEventNotExecuted($listenerName, $listener)
     {
-        $this->eventsNotExecuted[$listenerName][] = $listener; 
+        if (!in_array($listener, $this->eventsNotExecuted[$listenerName])) {
+            $this->eventsNotExecuted[$listenerName][] = $listener; 
+        }
     }
     
     private function writeEventsNotExecuted()
