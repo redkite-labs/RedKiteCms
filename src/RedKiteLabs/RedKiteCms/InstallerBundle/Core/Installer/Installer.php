@@ -343,16 +343,16 @@ class Installer {
         $console = escapeshellarg($this->rootDir . '/../app/console');
 
         $process = new Process($php.' '.$console.' '.'propel:build --env=alcms_dev');
-        $process->run(function ($type, $buffer) { echo $buffer; });
+        $process->run(function ($type, $buffer) {  });
 
         $process = new Process($php.' '.$console.' '.'propel:insert-sql --force --env=alcms_dev');
-        $process->run(function ($type, $buffer) { echo $buffer; });
+        $process->run(function ($type, $buffer) {  });
 
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : ''; 
         $process = new Process($php.' '.$console.' '.'assets:install --env=alcms_dev ' . $this->rootDir . '/../web' . $symlink);
-        $process->run(function ($type, $buffer) { echo $buffer; });
+        $process->run(function ($type, $buffer) {  });
 
-        $cmd = sprintf('alphalemon:populate --env=alcms_dev %s --user=%s --password=%s', $this->dsn, $this->user, $this->password);
+        $cmd = sprintf('alphalemon:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);echo $cmd;
         $process = new Process($php.' '.$console.' '.$cmd);
         $process->run(function ($type, $buffer) { echo $buffer; });
 
