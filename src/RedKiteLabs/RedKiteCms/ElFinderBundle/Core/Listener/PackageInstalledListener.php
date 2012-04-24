@@ -28,13 +28,14 @@ use Symfony\Component\Process\Process;
 class PackageInstalledListener 
 {
     public function onPackageInstalled(PackageInstalledEvent $event)
-    {
+    {   
         chdir(__DIR__ . '/../../');
         
         $process = new Process('git submodule init');
         $process->run();
         
         $process = new Process('git submodule update');
-        $process->run();
+        $res = $process->run();
+        if($res === 0) $event->setSuccess (true);
     }
 }
