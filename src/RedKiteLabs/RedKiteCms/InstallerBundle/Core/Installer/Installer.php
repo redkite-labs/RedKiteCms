@@ -22,6 +22,11 @@ use Symfony\Component\HttpKernel\Kernel;
 use Sensio\Bundle\GeneratorBundle\Manipulator\KernelManipulator;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
+
+
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\PhpExecutableFinder;
+
 /**
  * Description of installer
  *
@@ -131,7 +136,10 @@ class Installer {
             $contents = preg_replace('/[\s]+\$loader\-\>load\(__DIR__\.\'\/config\/config_\'\.\$this\-\>getEnvironment\(\).\'.yml\'\);/s', $cmsBundles, $contents);
             $updateFile = true;
         }
-        require_once $this->rootDir . '/../app/AppKernel.php';
+
+        if($updateFile) file_put_contents($kernelFile, $contents);
+
+        
         
         return;
         /*
@@ -324,14 +332,43 @@ class Installer {
         $console = realpath($appDir.'/check.php');
         
         $process = new Process($php.' '.$console.' '.$cmd);
-        $process->run(function ($type, $buffer) { echo $buffer; });
+        $process->run(function ($type, $buffer) {  });
     }
     
     private function setup()
-    {/*
+    {
+
+        $phpFinder = new PhpExecutableFinder;
+        $php = escapeshellarg($phpFinder->find());
+        $console = escapeshellarg($this->rootDir . '/../app/console');
+
+        $process = new Process($php.' '.$console.' '.'propel:build --env=alcms_dev');
+        $process->run(function ($type, $buffer) {  });
+
+        $process = new Process($php.' '.$console.' '.'propel:insert-sql --force --env=alcms_dev');
+        $process->run(function ($type, $buffer) {  });
+
+        $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : ''; 
+        $process = new Process($php.' '.$console.' '.'assets:install --env=alcms_dev ' . $this->rootDir . '/../web' . $symlink);
+        $process->run(function ($type, $buffer) {  });
+
+        $cmd = sprintf('alphalemon:populate %s --user=%s --password=%s', $this->dsn, $this->user, $this->password);
+        $process = new Process($php.' '.$console.' '.$cmd);
+        $process->run(function ($type, $buffer) {  });
+
+        $process = new Process($php.' '.$console.' '.'assetic:dum --env=alcms_dev');
+        $process->run(function ($type, $buffer) {  });
+
+        $process = new Process($php.' '.$console.' '.'cache:clear --env=alcms_dev');
+        $process->run(function ($type, $buffer) {  });
+
+        return;
+/*
         $appDir = $this->rootDir . '/../app';
-        $this->executeCommand($appDir, 'cache:clear'); echo (is_dir($appDir)) ? "AAA" : "BBB";exit;*/
+        $this->executeCommand($appDir, 'cache:clear'); echo (is_dir($appDir)) ? "AAA" : "BBB";exit;
         
+        require_once $this->rootDir . '/../app/TempKernel.php';
+
         $kernel = new \AppKernel('alcms_dev', true);
         $kernel->boot();
         $cmd = sprintf('alphalemon:populate %s --user=%s --password=%s', $this->dsn, $this->user, $this->password);
@@ -345,6 +382,6 @@ class Installer {
                                                                      $cmd,
                                                                      'assetic:dump',
                                                                      'cache:clear',
-            ));
+            ));*/
     }
 }
