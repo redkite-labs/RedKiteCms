@@ -31,35 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class AlTemplateSlots
 {
     protected $container;
-    private $slots = array();    
-    private $defaultSlots = array('header' => 'page',
-                                'content' => 'page',
-                                'footer' => 'page',
-                                'logo' => 'site',
-                                'small_logo' => 'site',
-                                'nav_menu' => 'language',
-                                'nav_menu_1' => 'language',
-                                'nav_menu_2' => 'language',
-                                'nav_menu_3' => 'language',
-                                'nav_menu_4' => 'language',
-                                'left_sidebar' => 'page',
-                                'middle_sidebar' => 'page',
-                                'right_sidebar' => 'page',
-                                'screenshots_box' => 'page',
-                                'download_box' => 'page',
-                                'social_box' => 'page',
-                                'ads_box' => 'page',
-                                'slogan_box' => 'page',
-                                'search_box' => 'language',
-                                'information' => 'page',
-                                'license_box' => 'language',
-                                'copyright_box' => 'language',
-                                'friends_box' => 'language',
-                                'rss_box' => 'page',
-                                'sponsor_box' => 'site',
-                                'stats_box' => 'site',
-                                'alcopyright_box' => 'site',
-        );
+    private $slots = array(); 
 
     /**
      * Constructor
@@ -67,13 +39,17 @@ abstract class AlTemplateSlots
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->loadSlots();
+        $this->slots = $this->configure();
+        
+        //$this->loadSlots();
     }
 
     /**
      * Implement this method to add / edit slots or leave it empty to inherit the predefined slots
      */
-    public function configure(){ }
+    public function configure()
+    { 
+    }
 
     /**
      * Return the slots
@@ -165,7 +141,7 @@ abstract class AlTemplateSlots
         
         $baseSlots = $this->retrieveSlotsFromFixtureFile($themeName, 'base');
         $templateSlots = $this->retrieveSlotsFromFixtureFile($themeName, $templateName);
-        $fixturedSlots = array_merge($baseSlots, $templateSlots);
+        $fixturedSlots = array_merge($baseSlots, $templateSlots); 
         
         $slots = array();
         foreach($fixturedSlots as $key => $params)
@@ -210,20 +186,5 @@ abstract class AlTemplateSlots
     private function checkSlotExists($slotName)
     {
         return (!array_key_exists($slotName, $this->slots)) ? false : true;
-    }
-    
-
-    /**
-     * Loads the slots
-     */
-    final private function loadSlots()
-    {
-        foreach($this->defaultSlots as $slotName => $repeatStatus)
-        {   
-            $this->slots[$slotName] = new AlSlot($slotName, array('repeated' => $repeatStatus));
-        }
-
-        $customSlots = $this->configure();
-        if(is_array($customSlots)) $this->slots = \array_merge($this->slots, $customSlots);
     }
 }
