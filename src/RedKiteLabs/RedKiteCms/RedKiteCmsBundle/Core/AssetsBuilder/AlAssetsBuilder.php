@@ -25,8 +25,9 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Generates a twig file for the given assets.
+ * Generates a twig file for the given assets. 
  *
+ * @deprecated
  * @author AlphaLemon <info@alphalemon.com>
  */
 class AlAssetsBuilder
