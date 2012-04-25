@@ -56,17 +56,12 @@
         <parameter key="al_cms_languages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
 
         <parameter key="alphalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
-        <parameter key="alphalemon.assets_builder">AlphaLemon\AlphaLemonCmsBundle\Core\AssetsBuilder\AlAssetsBuilder</parameter>
         <parameter key="alphalemon.links_fixer.class">AlphaLemon\AlphaLemonCmsBundle\Core\LinksFixer\AlLinksFixer</parameter>
         
         <parameter key="images_block_edited.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\AlImagesBlockEditedListener</parameter>
     </parameters>
 
     <services>
-        <service id="al_assets_builder" class="%alphalemon.assets_builder%">
-            <argument type="service" id="service_container" />
-        </service>
-
         <service id="al_page_tree" class="%alphalemon.page_tree%">
             <argument type="service" id="service_container" />
         </service>
