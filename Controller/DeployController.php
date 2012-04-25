@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlXmlDeployer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer;
 
 class DeployController extends Controller
 {
@@ -27,7 +27,7 @@ class DeployController extends Controller
     {
         try
         {
-            $publisher = new AlXmlDeployer($this->container);
+            $publisher = new AlTwigDeployer($this->container);
             $publisher->deploy();
 
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'The site has been deployed'));

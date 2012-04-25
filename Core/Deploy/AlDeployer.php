@@ -46,7 +46,7 @@ abstract class AlDeployer
     private $baseDeployBundleAssetsFolder;
     private $baseCmsResourcesDir = 'Resources';
     private $baseTargetResourcesDir = 'Resources';
-    private $baseDataDir = 'data';
+    private $baseDataDir = 'views/AlphaLemon';
     private $baseTranslationsDir = 'translations';
     private $twigAssetsDir = null;
     
@@ -152,7 +152,7 @@ abstract class AlDeployer
         {
             if(!$fileSystem->mkdir($this->resourcesFolder))
             {
-                throw new \RuntimeException(sprintf('Cannot create the resources directory. Please check your permissions on %s folder.', $this->dataFolder));
+                throw new \RuntimeException(sprintf('Cannot create the resources directory. Please check your permissions on %s folder.', $this->resourcesFolder));
             }
         }
         
@@ -201,7 +201,6 @@ abstract class AlDeployer
     {
         $this->setupPageTrees();
         $this->writeDictionaryFiles();
-        $this->writeTwigAssetsFiles();
         $this->copyAssets();
         $this->generateRoutes($this->resourcesFolder . '/config');
         AlToolkit::executeCommand($this->container->get('kernel'), 'cache:clear');
@@ -404,28 +403,6 @@ abstract class AlDeployer
                 $this->writeTwigAssetsFile($outputFileName, 'javascripts_skeleton', array($baseJsAssets, $customAssets), array('?yui_js'));
             }
         }
-    }
-
-    /**
-     * Writes the twig assets file, using a twig skeleton model passed as reference
-     * 
-     * @param string    $outputFileName     The output file name
-     * @param string    $skeleton           The skeleton file to use
-     * @param array     $assets             The assets to write
-     * @param array     $filters            The filters to use
-     */
-    protected function writeTwigAssetsFile($outputFileName, $skeleton, array $assets, array $filters)
-    {
-        $assetsBuilder = $this->container->get('al_assets_builder');
-        $assetsBuilder->setOutputBundle($this->deployBundle);
-        if(null !== $this->twigAssetsDir) $assetsBuilder->setOutputFolder($this->twigAssetsDir);
-        
-        foreach($assets as $asset)
-        {
-            $assetsBuilder->addAssets($asset);
-        }
-        $assetsBuilder->writeAssetFile($skeleton, $outputFileName, $filters);
-        $assetsBuilder->cleanAssets();
     }
 
     /**
