@@ -1,2 +1,10 @@
 alpha_lemon_theme_engine:
     base_template: AlphaLemonFrontendBundle:Theme:base.html.twig
+     
+assetic:
+    filters:
+        cssrewrite: ~
+        yui_css:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
+        yui_js:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
