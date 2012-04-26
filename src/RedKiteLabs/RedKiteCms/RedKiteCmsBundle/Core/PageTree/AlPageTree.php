@@ -255,13 +255,13 @@ class AlPageTree extends BaseAlPageTree
             
             $templateName = strtolower($this->templateName);
             $theme = preg_replace('/bundle$/', '', strtolower($this->themeName));
-            $param = sprintf('themes.%s_%s.stylesheet_cms', $theme, $templateName);
+            $param = sprintf('themes.%s_%s.stylesheets_cms', $theme, $templateName);
             if($this->container->hasParameter($param))
             {
                 $this->addStylesheets($this->container->getParameter($param));
             }
             
-            $param = sprintf('themes.%s_%s.javascript_cms', $theme, $templateName);
+            $param = sprintf('themes.%s_%s.javascripts_cms', $theme, $templateName);
             if($this->container->hasParameter($param))
             {
                 $this->addJavascripts($this->container->getParameter($param));
@@ -272,16 +272,16 @@ class AlPageTree extends BaseAlPageTree
             {
                 $bundleName = preg_replace('/bundle$/', '', strtolower($bundle->getName()));
                 
-                $param = sprintf('%s_cms_javascripts', $bundleName); 
+                $param = sprintf('%s.javascripts_cms', $bundleName); 
                 if($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
 
-                $param = sprintf('%s_cms_stylesheets', $bundleName); 
+                $param = sprintf('%s.stylesheets_cms', $bundleName); 
                 if($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
                 
-                $param = sprintf('%s_%s_cms_javascripts', $bundleName, $templateName); 
+                $param = sprintf('%s.%s_javascripts_cms', $bundleName, $templateName); 
                 if($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
 
-                $param = sprintf('%s_%s_cms_stylesheets', $bundleName, $templateName); 
+                $param = sprintf('%s.%s_stylesheets_cms', $bundleName, $templateName); 
                 if($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
             }
         }
