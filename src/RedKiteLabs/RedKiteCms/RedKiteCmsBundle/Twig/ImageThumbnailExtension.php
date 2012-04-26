@@ -39,35 +39,13 @@ class ImageThumbnailExtension extends \Twig_Extension
     public function thumbnail($image, $targetWidth = 100, $targetHeight = 100)
     {
         $imagePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . $image;
-        $thumbnailer = new \AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\ImageThumbnailer($imagePath, $targetWidth, $targetHeight);
-        $thumbnailer->create();
-        $size = getimagesize($thumbnailer->getThumbnailImage());
-        
-        return sprintf('<img src="%s" width="%s" height="%s" rel="%s" />', dirname($image) .  '/' . $thumbnailer->getThumbnailFolder() . '/' . basename($thumbnailer->getThumbnailImage()), $size[0], $size[1], $image);
-        /*
-        $thumbnailsFolder = '.thumbnails';
-        $imagePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . $image;
-        
-        $imagine = new Imagine();
-        $targetPath = dirname($imagePath) . '/' . $thumbnailsFolder . '/';
-        
-        if(!is_dir($targetPath))
-        {
-            $filesystem = new Filesystem();
-            $filesystem->mkdir($targetPath);
+        if (is_file($imagePath)) {
+            $thumbnailer = new ImageThumbnailer($imagePath, $targetWidth, $targetHeight);
+            $thumbnailer->create();
+            $size = getimagesize($thumbnailer->getThumbnailImage());
+
+            return sprintf('<img src="%s" width="%s" height="%s" rel="%s" />', dirname($image) .  '/' . $thumbnailer->getThumbnailFolder() . '/' . basename($thumbnailer->getThumbnailImage()), $size[0], $size[1], $image);        
         }
-        
-        $targetImage = $targetPath . md5($imagePath) . '.jpg';
-        $transformation = new Transformation();
-        $transformation->thumbnail(new Box($targetWidth, $targetHeight));
-        $transformation->apply($imagine->open($imagePath))
-                ->save($targetImage);
-        
-        $size = getimagesize($targetImage);
-        
-        return sprintf('<img src="%s" width="" height="" />', dirname($image) .  '/' . $thumbnailsFolder . '/' . basename($targetImage), $size[0], $size[1]);
-        */
-    
     }
 
     /**
