@@ -79,7 +79,7 @@ class BootstrapFinalizerListener
                     break;
                 }
             }
-            unlink($listenersFile);
+            if(is_file($listenersFile)) unlink($listenersFile);
             $this->writeEventsNotExecuted();
         }
     }
@@ -92,7 +92,7 @@ class BootstrapFinalizerListener
     
     private function addEventNotExecuted($listenerName, $listener)
     {
-        if (!in_array($listener, $this->eventsNotExecuted[$listenerName])) {
+        if (empty($this->eventsNotExecuted) || !in_array($listener, $this->eventsNotExecuted[$listenerName])) {
             $this->eventsNotExecuted[$listenerName][] = $listener; 
         }
     }
