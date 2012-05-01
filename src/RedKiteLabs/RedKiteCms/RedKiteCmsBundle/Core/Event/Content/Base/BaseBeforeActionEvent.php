@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 /**
  * Defines a base event raised by a Content before an action occours
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class BaseBeforeActionEvent extends BaseActionEvent
 {

@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * MediaBundle
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class MediaBundle extends Bundle
 {

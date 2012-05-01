@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Base\BaseActionEvent;
 /**
  * Defines the HomePageQueringEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class HomePageQueringEvent extends BaseActionEvent
 {

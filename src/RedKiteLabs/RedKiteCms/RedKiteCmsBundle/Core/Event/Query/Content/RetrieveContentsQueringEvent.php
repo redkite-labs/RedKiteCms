@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Base\BaseActionEvent;
 /**
  * Defines the RetrieveContentsQueringEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class RetrieveContentsQueringEvent extends BaseActionEvent
 {

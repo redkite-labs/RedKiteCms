@@ -21,7 +21,7 @@ class CmsTestKernel extends Kernel
             new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle(),
             new AlphaLemon\AlValumUploaderBundle\AlValumUploaderBundle(),
             new AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle(),
-            new Themes\AlphaLemonThemeBundle\AlphaLemonThemeBundle(),
+            //new Themes\AlphaLemonThemeBundle\AlphaLemonThemeBundle(),
         );
         
         $internalBundles = new \AlphaLemon\AlphaLemonCmsBundle\Core\Autoloader\InternalBundlesAutoloader();

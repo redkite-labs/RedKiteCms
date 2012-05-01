@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Block\AlBlockMa
 /**
  * Converts the standard json response into an http response due to ElFinder library requirements
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class RenderedEditorListener 
 {

@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media\AlMediaBu
 /**
  * AlBlockManagerMedia
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */   
 class AlBlockManagerMedia extends AlBlockManager
 {

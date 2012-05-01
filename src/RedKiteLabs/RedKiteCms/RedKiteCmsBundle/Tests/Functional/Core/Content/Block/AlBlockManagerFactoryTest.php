@@ -26,62 +26,61 @@ use Symfony\Bundle\AsseticBundle\Tests\TestKernel;
 
 class AlBlockManagerFactoryTest extends TestCase
 {    
-    public function testcreateBlock()
+    private $dispatcher;
+    private $translator;
+      
+    protected function setUp() 
     {
-        $container = $this->setupPageTree()->getContainer();     
-        
-        $contenManager = AlBlockManagerFactory::createBlock(
-                $container, 
-                null, 
-                'logo'
-                );
+        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+    }
+    
+    public function testCreateBlockReturnsNullWhenTheBlockParamIsNull()
+    {
+        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, null);
         $this->assertNull($contenManager);
+    }
+    
+    public function testCreateBlockReturnsNullWhenTheBlokParamIsEmptyString()
+    {
+        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, "");
+        $this->assertNull($contenManager);
+    }
+    
+    public function testCreateBlockReturnsNullWhenTheBlokParamIsNotStringOrAlBlock()
+    {
+        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, array());
+        $this->assertNull($contenManager);
+    }
+    
+    public function testCreateBlockFailsWhenAnInesistentBlockTypeIsGiven()
+    {
+        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, 'fake');
+        $this->assertNull($contenManager);
+    }
+    
+    public function testCreateABlockFromAValidStringType()
+    {
+        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, 'text');
+        $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $contenManager);
+    }
+    
+    public function testCreateABlockFromAValidAlBlockObject()
+    {
+        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
         
-        try
-        {
-            $contenManager = AlBlockManagerFactory::createBlock(
-                    $container, 
-                    'fake', 
-                    'logo'
-                    );
-            $this->fail('::createBlock() has not generated an exception when the content type does not exists');
-        }
-        catch(\Exception $ex)
-        {
-        }
+        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, $block);
+        $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $contenManager);
+    }
+    
+    public function testCreatingFromARemovedBlockObjectDeletesTheBlock()
+    {
+        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
+        $block->setClassName('Fake');
+        $this->assertEquals(0, $block->getToDelete());
         
-        $contenManager = AlBlockManagerFactory::createBlock(
-                $container, 
-                '  text ', 
-                'logo'
-                );
-        $this->assertNotNull($contenManager, '::createBlock() has not created a text content when the class name has not required spaces');
-        
-        $contenManager = AlBlockManagerFactory::createBlock(
-                $container, 
-                'text', 
-                'logo'
-                );
-        $this->assertNotNull($contenManager, '::createBlock() has not created a text content when the class name is given in lowercase');
-        
-        $contenManager = AlBlockManagerFactory::createBlock(
-                $container, 
-                'Text', 
-                'logo'
-                );
-        $this->assertNotNull($contenManager, '::createBlock() has not created a text content');
-        $this->assertNull($contenManager->get());
-        
-        $content = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
-        $content->setId(1);
-        $content->setClassName('Media');
-        
-        $contenManager = AlBlockManagerFactory::createBlock(
-                $container, 
-                $content, 
-                'ads_box'
-                );
-        $this->assertNotNull($contenManager, '::createBlock() has not created a media content manager');
-        $this->assertEquals('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\AlMediaBundle\Core\Block\AlBlockManagerMedia', get_class($contenManager), '::createBlock() has not created the expected object');        
+        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, $block);
+        $this->assertNull($contenManager);
+        $this->assertEquals(1, $block->getToDelete());
     }
 }

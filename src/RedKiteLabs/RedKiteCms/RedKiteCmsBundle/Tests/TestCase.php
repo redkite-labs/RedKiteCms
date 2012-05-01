@@ -27,12 +27,38 @@ class TestCase extends \PHPUnit_Framework_TestCase {
  
     private $container = null;
     
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
+        $config = array("datasources" => array (
+            "default" => array (
+                "adapter" => "mysql",
+                "connection" => array
+                (
+                    "dsn" => "mysql:host=localhost;dbname=alphaLemonDevTest",
+                    "user" => "root",
+                    "password" => "passera73",
+                    "classname" => "DebugPDO",
+                    "options" => array(),
+                    "attributes" => array (),
+                    "settings" => array (),
+                )
+            )
+        ));
+        
+        if (!\Propel::isInit()) {
+            \Propel::setConfiguration($config);
+            \Propel::initialize();
+        }
+        
+        //tools\AlphaLemonDataPopulator::depopulate();
+
+        
+                                            
+        /*
         if(null === $this->container)
         {
             $isLocal = false;
-            $localKernel = __DIR__.'/../../../../../app/AppKernel.php';
+            $localKernel = __DIR__.'/../../../../../../app/AppKernel.php';
             if(is_file($localKernel)) {
                 require_once $localKernel;
                 $isLocal = true;
@@ -44,7 +70,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
             $app = ($isLocal) ? new \AppKernel('test', true) : new \CmsTestKernel('test', true);
             $app->boot();
             $this->container = $app->getContainer(); 
-        }
+        }*/
     }
     
     public function getContainer()
@@ -56,7 +82,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
     {
         $pageTree = new TestAlPageTree($this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface'), $languageId, $pageId);
         $this->container->set('al_page_tree', $pageTree);
-
+        
         return $this;
     }
 }
@@ -64,7 +90,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 
 class TestAlPageTree extends AlPageTree
 {
-    public function __construct(ContainerInterface $container, $languageId = null, $pageId = null, $themeName = 'AlphaLemonThemeBundle', $templateName = 'Home')
+    public function __construct(ContainerInterface $container, $languageId = null, $pageId = null, $themeName = 'BusinessWebsiteThemeBundle', $templateName = 'Home')
     {
         parent::__construct($container);
         

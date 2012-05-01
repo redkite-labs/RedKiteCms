@@ -28,7 +28,7 @@ use Symfony\Component\Form\Exception\InvalidConfigurationException;
 /**
  * Loads the CMS parameters into the DIC
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlphaLemonCmsExtension extends Extension
 {

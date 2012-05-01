@@ -28,7 +28,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
 /**
  * Retrieves form the database the values used in the forms
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class ChoiceValues
 {

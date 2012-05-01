@@ -38,7 +38,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 /**
  * The base object that implements the methods to deploy the website from development (CMS) to production (the deploy bundle)
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlDeployer
 {

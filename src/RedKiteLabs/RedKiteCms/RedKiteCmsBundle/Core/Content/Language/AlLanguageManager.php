@@ -17,30 +17,40 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\LanguageEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * Defines the language content manager object, that implements the methods to manage an AlLanguage object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     protected $alLanguage = null;
+    protected $pageAttributesManager = null;
+    protected $blockManager = null;
 
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlPageAttributesManager $pageAttributesManager, AlBlockManager $blockManager, \PropelPDO $connection = null)
+    {
+        parent::__construct($dispatcher, $translator, $connection);
+        
+        $this->pageAttributesManager = $pageAttributesManager;
+        $this->blockManager = $blockManager;
+    }
+    
     /**
      * {@inheritdoc}
      */
@@ -54,7 +64,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     public function set(\BaseObject $propelObject = null)
     {
-        if(null !== $propelObject && !$propelObject instanceof AlLanguage)
+        if (null !== $propelObject && !$propelObject instanceof AlLanguage)
         {
             throw new \InvalidArgumentException('AlLanguageManager accepts only AlLanguage propel objects.');
         }
@@ -67,7 +77,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     public function save(array $parameters)
     {
-        if(null === $this->alLanguage)
+        if (null === $this->alLanguage || null === $this->alLanguage->getId())
         {
             return $this->add($parameters);
         }
@@ -82,27 +92,23 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     public function delete()
     {
-        if (null === $this->alLanguage)
-        {
-            throw new \RuntimeException(AlToolkit::translateMessage($this->container, "Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
+        if (null === $this->alLanguage) {
+            throw new \RuntimeException($this->translator->trans("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
         }
         
-        if ($this->alLanguage->getMainLanguage() == 1)
-        {
-            throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
+        if ($this->alLanguage->getMainLanguage() == 1) {
+            throw new \RuntimeException($this->translator->trans("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
         }
         
         try
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
+            if (null !== $this->dispatcher) {
                 $event = new  Content\Language\BeforeLanguageDeletingEvent($this);
-                $dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE, $event);
+                $this->dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE, $event);
 
-                if($event->isAborted())
+                if ($event->isAborted())
                 {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The language deleting action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translator->trans("The language deleting action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
             }
 
@@ -124,10 +130,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             {
                 $this->connection->commit();
 
-                if(null !== $dispatcher)
-                {
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Language\AfterLanguageDeletedEvent($this);
-                    $dispatcher->dispatch(LanguageEvents::AFTER_DELETE_LANGUAGE, $event);
+                    $this->dispatcher->dispatch(LanguageEvents::AFTER_DELETE_LANGUAGE, $event);
                 }
 
                 return true;
@@ -140,7 +145,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
             throw $e;
         }    
     }
@@ -149,47 +154,42 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Adds a new AlLanguage object from the given params
      * 
      * @param array $values
+     * @throws InvalidArgumentException  When the expected parameters are invalid
+     * @throws RuntimeException  When the action is aborted by a calling event 
      * @return Boolean
      */
     protected function add(array $values)
     {
         try
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
+            if (null !== $this->dispatcher) {
                 $event = new  Content\Language\BeforeLanguageAddingEvent($this, $values);
-                $dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE, $event);
+                $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE, $event);
 
-                if($event->isAborted())
+                if ($event->isAborted())
                 {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The language adding action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translator->trans("The language adding action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
 
-                if($values !== $event->getValues())
+                if ($values !== $event->getValues())
                 {
                     $values = $event->getValues();
                 }
             }
 
             $result = false;
-            if(empty($values))
-            {
-                throw new \InvalidArgumentException($this->container->get('translator')->trans('The language cannot be added because any parameter has been given'));
-            }
+            $this->checkEmptyParams($values);
 
             $this->checkRequiredParamsExists(array('language' => ''), $values);
 
-            // Checks if page already exists
+            // Checks if the language already exists
             $language = AlLanguageQuery::create()
-                                        ->setContainer($this->container)
-                                        ->fromLanguageName($values["language"])
-                                        ->findOne();
-            if ($language != null)
-            {
-                throw new \InvalidArgumentException($this->container->get('translator')->trans("The language you are trying to add, already exists in the website."));
+                ->setDispatcher($this->dispatcher)
+                ->fromLanguageName($values["language"])
+                ->findOne();
+            if ($language != null) {
+                throw new \InvalidArgumentException($this->translator->trans("The language you are trying to add, already exists in the website."));
             }
-
         
             $rollback = false;
             $this->connection->beginTransaction();
@@ -209,7 +209,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             if (!$rollback)
             {
                 // Saves the language
-                $this->alLanguage = new AlLanguage();
+                if (null === $this->alLanguage) {
+                    $this->alLanguage = new AlLanguage();
+                }
                 $this->alLanguage->setLanguage($values["language"]);
                 $this->alLanguage->setMainLanguage($isMain);
                 $result = $this->alLanguage->save();
@@ -227,10 +229,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             {
                 $this->connection->commit();
                 
-                if(null !== $dispatcher)
-                {
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Language\AfterLanguageAddedEvent($this);
-                    $dispatcher->dispatch(LanguageEvents::AFTER_ADD_LANGUAGE, $event);
+                    $this->dispatcher->dispatch(LanguageEvents::AFTER_ADD_LANGUAGE, $event);
                 }
                 
                 return true;
@@ -243,7 +244,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
             throw $e;
         }
     }
@@ -262,9 +263,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $this->connection->beginTransaction();
             
             // Copies the page attributes to the new language
-            $alPageAttributesManager = $this->container->get('al_page_attributes_manager');
             $pagesAttributes = AlPageAttributeQuery::create()
-                                ->setContainer($this->container)
+                                //->setContainer($this->container)
                                 ->fromLanguageId($idLanguage)
                                 ->find();
             foreach($pagesAttributes as $pageAttributes)
@@ -276,9 +276,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                                 'title' => $pageAttributes->getMetaTitle(),
                                 'description' => $pageAttributes->getMetaDescription(),
                                 'keywords' => $pageAttributes->getMetaKeywords());                
-                $alPageAttributesManager->set(null);
-                $rollBack = !$alPageAttributesManager->save($values);
-                if($rollBack)
+                $this->pageAttributesManager->set(null);
+                $rollBack = !$this->pageAttributesManager->save($values);
+                if ($rollBack)
                 {
                     return false;
                 }
@@ -286,19 +286,21 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             
             // Copies the contents to the new language
             $contents = AlBlockQuery::create()
-                                ->setContainer($this->container)
+                                //->setContainer($this->container)
                                 ->fromLanguageId($idLanguage)
                                 ->find();
             foreach($contents as $content)
             {
-                $newContent = new AlBlock();
+                //$newContent = new AlBlock();
                 $values = $content->toArray();
                 unset($values['Id']);
                 unset($values['CreatedAt']);
-                $values['HtmlContent'] = $this->fixInternalLinks($values['HtmlContent']);
-                $newContent->fromArray($values);
-                $newContent->setLanguageId($this->alLanguage->getId());
-                $newContent->save($this->connection);
+                //$values['HtmlContent'] = $this->fixInternalLinks($values['HtmlContent']);
+                $values['LanguageId'] = $this->alLanguage->getId();
+                $this->blockManager->save($values);
+                //$newContent->fromArray($values);
+                //$newContent->setLanguageId($this->alLanguage->getId());
+                //$newContent->save($this->connection);
             }
 
             if (!$rollBack)
@@ -314,7 +316,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
             throw $e;
         }
     }
@@ -360,18 +362,18 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         try
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
+            $this->dispatcher = $this->container->get('event_dispatcher');
+            if (null !== $this->dispatcher)
             {
                 $event = new  Content\Language\BeforeLanguageEditingEvent($this, $values);
-                $dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE, $event);
+                $this->dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE, $event);
             
-                if($event->isAborted())
+                if ($event->isAborted())
                 {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The language editing action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translator->trans("The language editing action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
 
-                if($values !== $event->getValues())
+                if ($values !== $event->getValues())
                 {
                     $values = $event->getValues();
                 }
@@ -384,9 +386,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $this->connection->beginTransaction();
 
             $isMainChanged = false;
-            if(isset($values["isMain"]) && $values["isMain"] == 1)
+            if (isset($values["isMain"]) && $values["isMain"] == 1)
             {
-                if($this->alLanguage->getMainLanguage() != $values["isMain"])
+                if ($this->alLanguage->getMainLanguage() != $values["isMain"])
                 {
                     // If the language is declared as main, resets the previuos
                     $rollBack = !$this->resetMain();
@@ -397,7 +399,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
             if (!$rollBack)
             {
-                if(array_key_exists('language', $values) && $this->alLanguage->getLanguage() != $values["language"]) $this->alLanguage->setLanguage($values["language"]);
+                if (array_key_exists('language', $values) && $this->alLanguage->getLanguage() != $values["language"]) $this->alLanguage->setLanguage($values["language"]);
 
                 // Skips the control when the isMain param has been changed
                 If(!$isMainChanged && null !== AlLanguageQuery::create()->fromLanguageName($values["language"])->findOne())
@@ -413,10 +415,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             {
                 $this->connection->commit();
                 
-                if(null !== $dispatcher)
+                if (null !== $this->dispatcher)
                 {
                     $event = new  Content\Language\AfterLanguageEditedEvent($this);
-                    $dispatcher->dispatch(LanguageEvents::AFTER_EDIT_LANGUAGE, $event);
+                    $this->dispatcher->dispatch(LanguageEvents::AFTER_EDIT_LANGUAGE, $event);
                 }
                 
                 return true;
@@ -429,7 +431,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
             throw $e;
         }
     }
@@ -489,7 +491,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
             throw $e;
         }
     }
@@ -504,7 +506,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         try
         {
             $mainLanguage = AlLanguageQuery::create()->setContainer($this->container)->mainLanguage()->findOne();
-            if(null !== $mainLanguage)
+            if (null !== $mainLanguage)
             {
                 $mainLanguage->setMainLanguage(0);
                 $result = $mainLanguage->save();
@@ -516,7 +518,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
             throw new $e;
         }
     }

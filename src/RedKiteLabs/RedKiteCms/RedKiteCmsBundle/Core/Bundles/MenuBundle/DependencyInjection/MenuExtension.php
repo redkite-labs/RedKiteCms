@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 /**
  * MenuExtension
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class MenuExtension extends Extension
 {

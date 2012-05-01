@@ -25,7 +25,7 @@ use Symfony\Component\Config\FileLocator;
 /**
  * MediaExtension
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class MediaExtension extends Extension
 {

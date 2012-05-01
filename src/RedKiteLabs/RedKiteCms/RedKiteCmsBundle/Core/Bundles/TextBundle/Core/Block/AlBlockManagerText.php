@@ -23,7 +23,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 /**
  * AlBlockManagerText
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerText extends AlBlockManager
 {

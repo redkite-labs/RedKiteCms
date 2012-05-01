@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 /**
  * Defines the BlockEditorRenderedEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class BlockEditorRenderedEvent extends Event
 {

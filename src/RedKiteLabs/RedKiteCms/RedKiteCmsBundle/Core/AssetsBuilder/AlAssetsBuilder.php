@@ -28,7 +28,7 @@ use Symfony\Component\Finder\Finder;
  * Generates a twig file for the given assets. 
  *
  * @deprecated
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlAssetsBuilder
 {

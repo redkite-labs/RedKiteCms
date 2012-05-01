@@ -22,7 +22,7 @@ use AlphaLemon\ThemeEngineBundle\Model\AlThemeQuery as BaseThemeQuery;
 /**
  *  Adds some filters to the AlThemeQuery object
  * 
- *  @author AlphaLemon <info@alphalemon.com>
+ *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlThemeQuery extends BaseThemeQuery
 { 

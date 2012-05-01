@@ -21,7 +21,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
-
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 class AlBlockManagerFunctionalTest extends AlBlockManager
@@ -50,210 +49,365 @@ class AlBlockManagerFake1 extends AlBlockManager
     }
 }
 
-/*
-class Service
-{
-    public function onBeforeContentAdding(\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BeforeBlockAddingEvent $event)
-    {
-    }
-}*/
-
-/*
-*/
 class AlBlockManagerTest extends TestCase 
 {    
-    public function testSet()
+    private $dispatcher;
+    private $translator;
+    private  $testAlBlockManager;
+      
+    protected function setUp() 
     {
-        $testAlBlockManager = new AlBlockManagerFunctionalTest(
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface')
-        );
+        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         
-        try 
-        {
-            $testAlBlockManager->set($this->getMock('\BaseObject'));
-            $this->fail('->save() method should raise an exception when the passed parameter is not an instance of AlBlock object' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('AlBlockManager accepts only AlBlock propel objects', $e->getMessage());
-        }
-        
-        $testAlBlockManager->set($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'));
-        $this->assertNotNull($testAlBlockManager->get(), 'The AlBlock has not been set');
-        
-        $testAlBlockManager->set(null);
-        $this->assertNull($testAlBlockManager->get(), 'The AlBlock has not been set as null');
+        $this->testAlBlockManager = new AlBlockManagerFunctionalTest($this->dispatcher, $this->translator);
     }
     
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetFailsWhenANotValidPropelObjectIsGiven()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        
+        $this->testAlBlockManager->set($block);
+    }
+    
+    public function testSetANullAlBlock()
+    {
+        $this->testAlBlockManager->set(null);
+        $this->assertNull($this->testAlBlockManager->get());
+    }
+    
+    public function testSetAlBlock()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->testAlBlockManager->set($block);
+        $this->assertEquals($block, $this->testAlBlockManager->get());
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testAddFailsWhenAnyParamIsGiven()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $block->expects($this->any())
+            ->method('save')
+            ->will($this->throwException(new \InvalidArgumentException));
+        
+        $params = array();
+        $this->testAlBlockManager->set($block);
+        $this->testAlBlockManager->save($params); 
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testAddFailsWhenAnyExpectedParamIsGiven()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $block->expects($this->any())
+            ->method('save')
+            ->will($this->throwException(new \InvalidArgumentException));
+        
+        $params = array('Fake' => 'content');
+        $this->testAlBlockManager->set($block);
+        $this->testAlBlockManager->save($params); 
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testAddFailsWhenOneExpectedParamIsMissing()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $block->expects($this->any())
+            ->method('save')
+            ->will($this->throwException(new \InvalidArgumentException));
+        
+        $params = array("PageId" => 2,
+                        "LanguageId" => 2,
+                        "HtmlContent" => 'Fake content', 
+                        "ClassName" => "Text");
+        
+        $this->testAlBlockManager->set($block);
+        $this->testAlBlockManager->save($params); 
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testAddFailsWhenTheDefaultValueDoesNotReturnAnArray()
+    {
+        $testAlBlockManager = new AlBlockManagerFake($this->dispatcher, $this->translator);
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $block->expects($this->any())
+            ->method('save')
+            ->will($this->throwException(new \InvalidArgumentException));
+        
+        $params = array("PageId" => 2,
+                        "LanguageId" => 2,
+                        "SlotName" => 'test',
+                        "ClassName" => "Text");        
+        $testAlBlockManager->set($block);
+        $testAlBlockManager->save($params);
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testAddFailsWhenTheDefaultValueHasAnyOfTheRequiredOptions()
+    {
+        $testAlBlockManager = new AlBlockManagerFake1($this->dispatcher, $this->translator);
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $block->expects($this->any())
+            ->method('save')
+            ->will($this->throwException(new \InvalidArgumentException));
+        
+        $params = array("PageId" => 2,
+                        "LanguageId" => 2,
+                        "SlotName" => 'test',
+                        "ClassName" => "Text");        
+        $testAlBlockManager->set($block);
+        $testAlBlockManager->save($params);
+    }
     
     public function testAdd()
     {
-        AlphaLemonDataPopulator::depopulate();
-        
-        $testAlBlockManager = new AlBlockManagerFunctionalTest(        
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface')
-        );
-        
-        try 
-        {
-            $testAlBlockManager->save(array());
-            $this->fail('->save() method should raise an exception when the passed parameter is an empty array' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires at least one valid parameter, any one has been given', $e->getMessage());
-        }
-        
-        try 
-        {
-            $testAlBlockManager->save(array('Fake' => 'content'));
-            $this->fail('->save() method should raise an exception when the passed parameter doesn\'t contain any expected paremeter by the save() method');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires the following parameters: %required%. You must give %diff% which is/are missing', $e->getMessage());
-        }
-        
-        try 
-        {
-            $params = array("PageId" => 2,
-                            "LanguageId" => 2,
-                            "HtmlContent" => 'Fake content', 
-                            "ClassName" => "Text");
-            $testAlBlockManager->save($params);
-            $this->fail('->save() method should raise an exception when at least one of the required params are missing');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires the following parameters: %required%. You must give %diff% which is/are missing', $e->getMessage());
-        }
-        
-        // End test section -----------------------------------------
-        /*
-        $service = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Block\Service');
-        $container->set('service.listener', $service);
-
-        $dispatcher = new \Symfony\Bundle\FrameworkBundle\ContainerAwareEventDispatcher\ContainerAwareEventDispatcher($container);
-        $dispatcher->addListenerService('onEvent', array('service.listener', 'onEvent'), 5);
-        */
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
                         "ClassName" => "Text");
-        $result = $testAlBlockManager->save($params);
-        $default = $testAlBlockManager->getDefaultValue();
-        $this->assertEquals($default["HtmlContent"], $testAlBlockManager->get()->getHtmlContent(), '->save() method has not set the default content to html_content field');
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
+        $block->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params); 
+        $this->assertEquals(true, $result);
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testEditFailsWhenAnyParamIsGiven()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
+        
+        $params = array();
+        $this->testAlBlockManager->set($block);
+        $this->testAlBlockManager->save($params); 
+    }
+    
+    public function testEditHtmlContent()
+    {
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
+        
+        $block->expects($this->once())
+                ->method('save')
+                ->will($this->returnValue(1));
+        
+        $params = array('HtmlContent' => 'changed content');
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params); 
+        $this->assertEquals(true, $result);
+    }
+    
+    /*
+    public function testEditInternalJavascript()
+    {
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
+        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
+        $block->setInternalJavascript('saved internal javascript value');
+        $block->save();        
+        $this->assertEquals('saved internal javascript value', $block->getInternalJavascript());
+        
+        $params = array('InternalJavascript' => 'saved internal javascript value');
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params);  
+        $this->assertEquals(true, $result);
+        
+        $this->assertEquals('saved internal javascript value', $this->testAlBlockManager->get()->getInternalJavascript());exit;
+    }
+    
+    public function testEditExternalJavascript()
+    {
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
+        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
+        $block->setExternalJavascript('saved external javascript value');
+        $block->save();        
+        $this->assertEquals('saved external javascript value', $block->getExternalJavascript());
+        
+        $params = array('ExternalJavascript' => 'saved external javascript value');
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params);  
+        $this->assertEquals(true, $result);
+        
+        $this->assertEquals('saved external javascript value', $this->testAlBlockManager->get()->getExternalJavascript());
+    }
+    
+    public function testEditInternalStylesheet()
+    {
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
+        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
+        $block->setInternalStylesheet('saved internal stylesheet value');
+        $block->save();        
+        $this->assertEquals('saved internal stylesheet value', $block->getInternalStylesheet());
+        
+        $params = array('InternalStylesheet' => 'saved internal stylesheet value');
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params);  
+        $this->assertEquals(true, $result);
+        
+        $this->assertEquals('saved internal stylesheet value', $this->testAlBlockManager->get()->getInternalStylesheet());
+    }
+    
+    public function testEditExternalStylesheet()
+    {
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
+        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
+        $block->setExternalStylesheet('saved external stylesheet value');
+        $block->save();        
+        $this->assertEquals('saved external stylesheet value', $block->getExternalStylesheet());
+        
+        $params = array('ExternalStylesheet' => 'saved external stylesheet value');
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params);  
+        $this->assertEquals(true, $result);
+        
+        $this->assertEquals('saved external stylesheet value', $this->testAlBlockManager->get()->getExternalStylesheet());
+    }*/
+    
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testDeleteBlockFailsWhenAnyBlockIsSetted()
+    {
+        $this->dispatcher->expects($this->never())
+            ->method('dispatch');
+        
+        $this->testAlBlockManager->delete();
+    }
+    
+    public function testDeleteBlock()
+    {
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
         /*
-        $service = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlBlockListener');
-        $service->expects($this->once())
-        ->method('onBeforeContentAdding');
-        */
-        $testAlBlockManager1 = new AlBlockManagerFake(
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface')
-        );
+        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
+        $block->setToDelete(0);
+        $block->save(); */
         
-        try 
-        {
-            $params = array("PageId" => 2,
-                            "LanguageId" => 2,
-                            "SlotName" => 'test',
-                            "ClassName" => "Text");
-            $result = $testAlBlockManager1->save($params);
-            $this->fail('->save() method should raise an exception when the default value is not an array');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('The abstract method getDefaultValue() defined for the object %className% must return an array', $e->getMessage());
-        }
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
         
-        $testAlBlockManager2 = new AlBlockManagerFake1(
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface')
-        );
-        try 
-        {
-            $params = array("PageId" => 2,
-                            "LanguageId" => 2,
-                            "SlotName" => 'test',
-                            "ClassName" => "Text");
-            $result = $testAlBlockManager2->save($params);
-            $this->fail('->save() method should raise an exception when the default value has any of the available options');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('%className% requires at least one of the following options: "%options%". Your input parameters are: "%parameters%"', $e->getMessage());
-        }
+        $block->expects($this->once())
+                ->method('save')
+                ->will($this->returnValue(1));
         
-        return $testAlBlockManager;
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->delete();  
+        $this->assertEquals(true, $result);
+        
+        //$this->assertEquals(1, $this->testAlBlockManager->get()->getToDelete());
     }
     
-    /**
-     * @depends testAdd
-     */
-    public function testEdit($testAlBlockManager)
-    {
-        try 
-        {
-            $testAlBlockManager->save(array());
-            $this->fail('->save() method should raise an exception when the passed parameter is an empty array' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires at least one valid parameter, any one has been given', $e->getMessage());
-        }
-        
-        // End test section -----------------------------------------   
-        
-        $parameters = array('HtmlContent' => 'Fake html content saved');
-        
-        $testAlBlockManager->save($parameters);
-        $this->assertEquals('Fake html content saved', $testAlBlockManager->get()->getHtmlContent(), '->save() method has not set the default html_content field as expected');
-        
-        $parameters = array('InternalJavascript' => 'Fake internal javascript saved');        
-        $testAlBlockManager->save($parameters);
-        $this->assertEquals('Fake internal javascript saved', $testAlBlockManager->get()->getInternalJavascript(), '->save() method has not set the default internal_javascript field as expected');
-        
-        $parameters = array('ExternalJavascript' => 'Fake external javascript saved');        
-        $testAlBlockManager->save($parameters);
-        $this->assertEquals('Fake external javascript saved', $testAlBlockManager->get()->getExternalJavascript(), '->save() method has not set the default external_javascript field as expected');
-        
-        $parameters = array('InternalStylesheet' => 'Fake internal stylesheet saved');        
-        $testAlBlockManager->save($parameters);
-        $this->assertEquals('Fake internal stylesheet saved', $testAlBlockManager->get()->getInternalStylesheet(), '->save() method has not set the default internal_stylesheet field as expected');
-        
-        $parameters = array('ExternalStylesheet' => 'Fake external stylesheet saved');        
-        $testAlBlockManager->save($parameters);
-        $this->assertEquals('Fake external stylesheet saved', $testAlBlockManager->get()->getExternalStylesheet(), '->save() method has not set the default external_stylesheet field as expected');
-        
-        // End test section -----------------------------------------        
-               
-        return $testAlBlockManager;
-    }
-    
-    /**
-     * @depends testAdd
-     */
-    public function testDelete($testAlBlockManager)
-    {
-        $testAlBlockManager->delete();
-        $this->assertEquals(1, $testAlBlockManager->get()->getToDelete(), '->delete() method has not set to true the to_delete field as expected');        
-    }
-    
-    /**
-     * @depends testAdd
-     */
-    public function testAlBlockToArray($testAlBlockManager)
+    public function testToArrayReturnsAnEmptyArrayWhenAnyBlockHasBeenSet()
     { 
-        $array = $testAlBlockManager->toArray();
+        $array = $this->testAlBlockManager->toArray();
         
-        $this->assertTrue(array_key_exists('Id', $array), '->toArray() method has not set the expected key Id');
-        $this->assertTrue(array_key_exists('HideInEditMode', $array), '->toArray() method has not set the expected key HideInEditMode');
-        $this->assertTrue(array_key_exists('HtmlContent', $array), '->toArray() method has not set the expected key HtmlContent');
-        $this->assertTrue(array_key_exists('ExternalJavascript', $array), '->toArray() method has not set the expected key ExternalJavascript');
-        $this->assertTrue(array_key_exists('InternalJavascript', $array), '->toArray() method has not set the expected key InternalJavascript');
-        $this->assertTrue(array_key_exists('ExternalStylesheet', $array), '->toArray() method has not set the expected key ExternalStylesheet');
-        $this->assertTrue(array_key_exists('InternalStylesheet', $array), '->toArray() method has not set the expected key InternalStylesheet');
-        $this->assertTrue(array_key_exists('Position', $array), '->toArray() method has not set the expected key Position');
-        $this->assertTrue(array_key_exists('Type', $array), '->toArray() method has not set the expected key Type');
+        $this->assertEmpty($array);
          
+    }
+    
+    public function testAlBlockToArray()
+    { 
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getHtmlContent')
+                ->will($this->returnValue('my fancy content'));
+        
+        $this->testAlBlockManager->set($block);
+        $array = $this->testAlBlockManager->toArray();
+        
+        $this->assertTrue(array_key_exists('HideInEditMode', $array));
+        $this->assertTrue(array_key_exists('HtmlContent', $array));
+        $this->assertTrue(array_key_exists('ExternalJavascript', $array));
+        $this->assertTrue(array_key_exists('InternalJavascript', $array));
+        $this->assertTrue(array_key_exists('ExternalStylesheet', $array));
+        $this->assertTrue(array_key_exists('InternalStylesheet', $array));
+        $this->assertTrue(array_key_exists('Block', $array));
+        
+        $this->assertEquals('my fancy content', $array['HtmlContent']);
     }
 }

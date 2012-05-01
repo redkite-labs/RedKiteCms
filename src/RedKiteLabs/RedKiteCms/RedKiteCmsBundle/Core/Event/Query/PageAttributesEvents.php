@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query;
 /**
  * Defines the names for events dispatched when applying a filter on page attributes
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 final class PageAttributesEvents
 {

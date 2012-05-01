@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\ImageThumbnailer;
 /**
  * Adds the renderSlot function to Twig engine
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class ImageThumbnailExtension extends \Twig_Extension
 {

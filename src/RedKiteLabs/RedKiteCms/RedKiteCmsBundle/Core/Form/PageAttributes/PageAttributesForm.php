@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 /**
  * Defines the page attributes form 
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class PageAttributesForm extends AbstractType
 {

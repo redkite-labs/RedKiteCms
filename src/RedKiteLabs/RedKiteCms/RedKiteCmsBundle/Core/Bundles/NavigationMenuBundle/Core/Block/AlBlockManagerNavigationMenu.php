@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributePeer;
 /**
  * AlBlockManagerMenu
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerNavigationMenu extends AlBlockManager
 {

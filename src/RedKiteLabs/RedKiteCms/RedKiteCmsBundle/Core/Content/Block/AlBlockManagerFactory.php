@@ -17,52 +17,46 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
- * AlBlockManagerFactory creates a Block Manager object 
+ * AlBlockManagerFactory creates a BlockManager object 
  * 
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerFactory
+class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 {
     /**
-     * Creates an instance of an AlBlockManager object
-     * 
-     * @param ContainerInterface    $container
-     * @param mixed                 $block        An instance of an AlBlock object or a valid content type
-     * 
-     * @return AlBlockManager or null
-     * @throws InvalidArgumentException When the class cannot be created
+     * { @inheritDoc }
      */
-    public static function createBlock(ContainerInterface $container, $block) 
+    public function createBlock(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, $block)         
     {
-        if(null === $block || !is_string($block) && !$block instanceOf AlBlock)
-        {
+        if ((null === $block || !is_string($block)) && !$block instanceOf AlBlock) {
             return null;
         }
         
-        if($block instanceOf AlBlock)
-        {
+        if (is_string($block) && empty($block)) {
+            return null;
+        }
+        
+        if ($block instanceOf AlBlock) {
             $alBlock = $block;
             $className = $alBlock->getClassName();
         }
-        else
-        {
+        else {
             $alBlock = null;
             $className = ucfirst(trim($block));
         }
         
         $class = sprintf("AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\%sBundle\Core\Block\AlBlockManager%1\$s", $className); 
-        if(!class_exists($class))
-        {
+        if (!class_exists($class)) {
             $class = sprintf("AlphaLemon\Block\%1\$sBundle\Core\Block\AlBlockManager%1\$s", $className); 
-            if(!class_exists($class))
-            {
+            if (!class_exists($class)) {
                 if (null !== $alBlock) {
                     // The block has been removed from the website and, cause of that, the block is deleted
                     $alBlock->setToDelete(1);
@@ -71,13 +65,13 @@ class AlBlockManagerFactory
                     return null;
                 } else {                    
                     // The block has never added so there's something wrong with the derived block class implementation
-                    throw new Exception\InvalidChildBlockClass(AlToolkit::translateMessage($container, 'The class AlBlockManager%className% does not exist. Please create a new AlBlockManager%className% object that extends the AlBlockManager class to fix the problem.', array('%className%' => $className)));
+                    return null;
                 }
             }
         }
 
-        $alBlockManager = new $class($container);
-        if(null !== $alBlock) $alBlockManager->set($alBlock);
+        $alBlockManager = new $class($dispatcher, $translator);
+        if (null !== $alBlock) $alBlockManager->set($alBlock);
         
         return $alBlockManager;
     }

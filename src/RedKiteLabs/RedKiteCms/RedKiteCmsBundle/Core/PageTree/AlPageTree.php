@@ -34,7 +34,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 /**
  * Extends the bas AlPageTree object to work with the database
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPageTree extends BaseAlPageTree
 {

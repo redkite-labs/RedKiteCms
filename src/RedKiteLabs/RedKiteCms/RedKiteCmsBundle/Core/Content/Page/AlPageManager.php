@@ -40,7 +40,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 /**
  * Defines the page content manager object, that implements the methods to manage an AlPage object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPageManager extends AlContentManagerBase implements AlContentManagerInterface
 {

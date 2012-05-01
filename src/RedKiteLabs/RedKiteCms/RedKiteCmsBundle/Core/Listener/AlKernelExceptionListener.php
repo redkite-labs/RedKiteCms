@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverIn
 /**
  * Listens for kernel exceptions
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlKernelExceptionListener
 {

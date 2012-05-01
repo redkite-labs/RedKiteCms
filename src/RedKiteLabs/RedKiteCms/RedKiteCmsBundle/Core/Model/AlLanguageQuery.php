@@ -20,26 +20,26 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery as BaseLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Language;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\LanguagesEvents;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  *  Adds some filters to the AlLanguageQuery object
  * 
- *  @author AlphaLemon <info@alphalemon.com>
+ *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlLanguageQuery extends BaseLanguageQuery
 {
-    protected $container = null;
+    protected $dispatcher = null;
     
     /**
-     * Sets the container
+     * Sets the dispatcher
      * 
-     * @param ContainerInterface $v
+     * @param EventDispatcherInterface $v
      * @return AlBlockQuery 
      */
-    public function setContainer(ContainerInterface $v)
+    public function setDispatcher(EventDispatcherInterface $v)
     {
-        $this->container = $v;
+        $this->dispatcher = $v;
         
         return $this;
     }
@@ -72,18 +72,14 @@ class AlLanguageQuery extends BaseLanguageQuery
                              ->where('id != 1');
         }
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Language\MainLanguageQueringEvent($query);
-                $dispatcher->dispatch(LanguagesEvents::MAIN_LANGUAGE, $event);
+            $event = new Language\MainLanguageQueringEvent($query);
+            $this->dispatcher->dispatch(LanguagesEvents::MAIN_LANGUAGE, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -101,18 +97,14 @@ class AlLanguageQuery extends BaseLanguageQuery
         $query = $this->filterByToDelete(0)
                     ->filterByLanguage($languageName);
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Language\FromLanguageNameQueringEvent($query);
-                $dispatcher->dispatch(LanguagesEvents::FROM_LANGUAGE_NAME, $event);
+            $event = new Language\FromLanguageNameQueringEvent($query);
+            $this->dispatcher->dispatch(LanguagesEvents::FROM_LANGUAGE_NAME, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -128,18 +120,14 @@ class AlLanguageQuery extends BaseLanguageQuery
     {
         $query = $this->filterByToDelete(0)->where('id > 1');
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Language\ActiveLanguagesQueringEvent($query);
-                $dispatcher->dispatch(LanguagesEvents::ACTIVE_LANGUAGES, $event);
+            $event = new Language\ActiveLanguagesQueringEvent($query);
+            $this->dispatcher->dispatch(LanguagesEvents::ACTIVE_LANGUAGES, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         

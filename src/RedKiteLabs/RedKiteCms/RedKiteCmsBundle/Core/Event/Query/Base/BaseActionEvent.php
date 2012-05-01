@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * Defines a base event raised when a filter is applied on a ModelCriteria object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class BaseActionEvent extends Event
 {

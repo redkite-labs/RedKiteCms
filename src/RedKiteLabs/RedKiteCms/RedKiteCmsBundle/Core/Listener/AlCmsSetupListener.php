@@ -30,7 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
 /**
  * Sets up AlphaLemon CMS
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlCmsSetupListener
 {
