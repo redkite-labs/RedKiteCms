@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManager
 /**
  * Sets up AlphaLemon CMS
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlImagesBlockEditedListener
 {

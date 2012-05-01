@@ -20,7 +20,7 @@
     <parameter key="exception_listener.class">Symfony\Component\HttpKernel\EventListener\ExceptionListener</parameter>
     <parameter key="event_dispatcher.class">Symfony\Bundle\FrameworkBundle\ContainerAwareEventDispatcher</parameter>
     <parameter key="http_kernel.class">Symfony\Bundle\FrameworkBundle\HttpKernel</parameter>
-    <parameter key="filesystem.class">Symfony\Component\HttpKernel\Util\Filesystem</parameter>
+    <parameter key="filesystem.class">Symfony\Component\Filesystem\Filesystem</parameter>
     <parameter key="cache_warmer.class">Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate</parameter>
     <parameter key="file_locator.class">Symfony\Component\HttpKernel\Config\FileLocator</parameter>
     <parameter key="translator.class">Symfony\Bundle\FrameworkBundle\Translation\Translator</parameter>
@@ -211,7 +211,7 @@
     <service id="request" scope="request"/>
     <service id="service_container"/>
     <service id="kernel"/>
-    <service id="filesystem" class="Symfony\Component\HttpKernel\Util\Filesystem"/>
+    <service id="filesystem" class="Symfony\Component\Filesystem\Filesystem"/>
     <service id="file_locator" class="Symfony\Component\HttpKernel\Config\FileLocator">
       <argument type="service" id="kernel"/>
       <argument>/home/giansimon/www/alphaLemon/vendor/bundles/AlphaLemon/CmsBundle/Tests/Resources/Resources</argument>

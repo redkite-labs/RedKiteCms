@@ -27,7 +27,7 @@ use Symfony\Component\Locale\Stub\StubLocale;
 /**
  * Defines the languages form
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class LanguagesForm extends AbstractType
 {

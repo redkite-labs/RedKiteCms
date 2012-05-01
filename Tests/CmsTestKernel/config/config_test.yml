@@ -48,7 +48,7 @@ alpha_lemon_frontend:
 propel:
     path:       "%kernel.root_dir%/../../vendor/propel"
     phing_path: "%kernel.root_dir%/../../vendor/phing"
-
+    
     dbal:
         driver:               mysql
         user:                 root

@@ -111,11 +111,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return Symfony\Component\HttpKernel\Util\Filesystem A Symfony\Component\HttpKernel\Util\Filesystem instance.
+     * @return Symfony\Component\Filesystem\Filesystem A Symfony\Component\Filesystem\Filesystem instance.
      */
     protected function getFilesystemService()
     {
-        return $this->services['filesystem'] = new \Symfony\Component\HttpKernel\Util\Filesystem();
+        return $this->services['filesystem'] = new \Symfony\Component\Filesystem\Filesystem();
     }
 
     /**

@@ -23,7 +23,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 /**
  * AlBlockManagerMenu
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerMenu extends AlBlockManager
 {

@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media;
 /**
  * AlMediaFlash
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlMediaFlash extends AlMediaExt
 {

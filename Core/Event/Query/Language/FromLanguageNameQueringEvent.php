@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Base\BaseActionEvent;
 /**
  * Defines the FromLanguageNameQueringEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class FromLanguageNameQueringEvent extends BaseActionEvent
 {

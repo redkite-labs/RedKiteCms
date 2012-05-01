@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler\RegisterCmsListe
 /**
  * AlphaLemonCmsBundle
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlphaLemonCmsBundle extends Bundle
 {

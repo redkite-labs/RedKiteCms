@@ -17,23 +17,24 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
-
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
  * AlTemplateManager represents a template which is made by a serie of slots. It is responsibile to fill up 
  * the slots managers and to manage them
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlTemplateManager extends AlTemplateBase
 {
+    protected $kernel;
     protected $slotManagers = array();
     protected $themeName;
     protected $templateName;
@@ -43,29 +44,32 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Constructor
      * 
-     * @param ContainerInterface $container
-     * @param AlPage        $alPage
-     * @param AlLanguage    $alLanguage
-     * @param string        $themeName
-     * @param string        $templateName
-     * @param string        $templateSlotClass 
+     * @param EventDispatcherInterface $dispatcher
+     * @param TranslatorInterface $translator
+     * @param KernelInterface $kernel
+     * @param AlPage $alPage
+     * @param AlLanguage $alLanguage
+     * @param type $themeName
+     * @param type $templateName
+     * @param type $templateSlotClass
+     * @param \PropelPDO $connection 
      */
-    public function __construct(ContainerInterface $container, AlPage $alPage = null, AlLanguage $alLanguage = null, $themeName = null, $templateName = null, $templateSlotClass = null)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, KernelInterface $kernel, AlPage $alPage, AlLanguage $alLanguage, $themeName, $templateName = null, $templateSlotClass = null, \PropelPDO $connection = null)
     {
-        parent::__construct($container, $alPage, $alLanguage);
+        parent::__construct($dispatcher, $translator, $alPage, $alLanguage, $connection);
         
-        if(null !== $alPage) $this->alPage = $alPage;
-        if(null !== $alLanguage){ $this->alLanguage = $alLanguage;} 
+        $this->kernel = $kernel;
         
-        $this->themeName = (null === $themeName) ? $this->container->get('al_page_tree')->getThemeName() : $themeName;
-        $this->templateName = (null === $templateName) ? (null === $alPage) ? $this->alPage->getTemplateName() : $alPage->getTemplateName() : $templateName; 
+        if (null !== $alPage) $this->alPage = $alPage;
+        if (null !== $alLanguage){ $this->alLanguage = $alLanguage;} 
         
-        if(null !== $templateSlotClass)
-        {
+        $this->themeName = $themeName;
+        $this->templateName = (null === $templateName) ? $alPage->getTemplateName() : $templateName; 
+        
+        if (null !== $templateSlotClass) {
             $this->setUpSlotManagers($templateSlotClass);
         }
-        else
-        {
+        else {
             $this->setUpSlotManagers();
         }
     }
@@ -128,7 +132,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function getSlotManager($slotName)
     {
-        if(!is_string($slotName))
+        if (!is_string($slotName))
         {
             return null;
         }
@@ -144,13 +148,11 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function slotToArray($slotName)
     {
-        if(!is_string($slotName))
-        {
-            throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, "slotToArray accepts only strings"));
+        if (!is_string($slotName)) {
+            throw new \InvalidArgumentException($this->translator->trans("slotToArray accepts only strings"));
         }
         
-        if(!array_key_exists($slotName, $this->slotManagers))
-        {
+        if (!array_key_exists($slotName, $this->slotManagers)) {
             return array();
         }
         
@@ -163,10 +165,9 @@ class AlTemplateManager extends AlTemplateBase
      * 
      * @return array 
      */
-    public function slotsToArray()
-    {
+    public function slotsToArray() {
         $slotContents = array();        
-        foreach($this->slotManagers as $slotName => $slot)
+        foreach ($this->slotManagers as $slotName => $slot)
         {
             $slotContents[$slotName] = $slot->toArray();
         }
@@ -187,31 +188,32 @@ class AlTemplateManager extends AlTemplateBase
             $rollBack = false;
             $this->connection->beginTransaction();
             
-            foreach($this->slotManagers as $slotName => $slot)
-            {
+            foreach ($this->slotManagers as $slot) {
                 $slot->setUseSlotAttributes(true);
                 $result = $slot->addBlock(); 
-                if(null !== $result)
-                {
+                if (null !== $result) {
                     $rollBack = !$result;
-                    if($rollBack) break;
+                    if ($rollBack) break;
                 }
             }
             
-            if (!$rollBack)
-            {
+            if (!$rollBack) {
                 $this->connection->commit(); 
+                
                 return true;
             }
-            else
-            {
+            else {
                 $this->connection->rollback();
+                
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) {
+                $this->connection->rollback();
+            }
+            
             throw $e;
         }
     }
@@ -222,33 +224,29 @@ class AlTemplateManager extends AlTemplateBase
     protected function setUpSlotManagers($class = null)
     {
         $templateSlotsClass = (null === $class) ? \sprintf('\AlphaLemon\Theme\%s\Core\Slots\%s%sSlots', $this->themeName, $this->themeName, ucfirst($this->templateName)) : $class;
-        if(!\class_exists($templateSlotsClass))
-        {
-            throw new \RuntimeException(AlToolkit::translateMessage($this->container, 'The class %className% does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', array('%className%' => $templateSlotsClass)));
+        if (!\class_exists($templateSlotsClass)) {
+            throw new \RuntimeException($this->translator->trans('The class %className% does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', array('%className%' => $templateSlotsClass)));
         }
         $this->templateSlotClass = $templateSlotsClass;
         
-        $this->templateSlots = new $templateSlotsClass($this->container);                
+        $this->templateSlots = new $templateSlotsClass($this->kernel);                
         $contents = $this->retrieveContents();
         
         $slots = $this->templateSlots->getSlots();
-        foreach($slots as $slotName => $slot)
-        {
+        foreach ($slots as $slotName => $slot) {
             $alBlocks = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
-            $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alBlocks);
+            $slotManager = new AlSlotManager($this->dispatcher, $this->translator, $slot, $this->alPage, $this->alLanguage, $alBlocks);
             
             $this->slotManagers[$slotName] = $slotManager;
         }
         
         // Looks for existing slots on previous theme, not included in the theme in use
         $orphanSlots = array_diff(array_keys($contents), array_keys($slots));
-        foreach($orphanSlots as $slotName)
-        {   
-            if($slotName != "")
-            {
+        foreach ($orphanSlots as $slotName) {   
+            if ($slotName != "") {
                 $slot = new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot($slotName);
                 $alBlocks = array_key_exists($slotName, $contents) ? $contents[$slotName] : array();
-                $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage, $alBlocks);
+                $slotManager = new AlSlotManager($this->dispatcher, $this->translator, $slot, $this->alPage, $this->alLanguage, $alBlocks);
 
                 $this->slotManagers[$slotName] = $slotManager;
             }
@@ -267,9 +265,8 @@ class AlTemplateManager extends AlTemplateBase
         $idLanguage = array(1, $this->alLanguage->getId());
         $idPage = array(1, $this->alPage->getId());
         
-        $alBlocks = AlBlockQuery::create()->setContainer($this->container)->retrieveContents($idLanguage, $idPage)->find();
-        foreach($alBlocks as $alBlock)
-        {
+        $alBlocks = AlBlockQuery::create()->setDispatcher($this->dispatcher)->retrieveContents($idLanguage, $idPage)->find();
+        foreach ($alBlocks as $alBlock) {
             $contents[$alBlock->getSlotName()][] = $alBlock;
         }
         

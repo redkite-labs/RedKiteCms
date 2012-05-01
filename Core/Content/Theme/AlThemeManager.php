@@ -27,7 +27,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Interfaces\AlThemeManagerInterface;
 /**
  * Implements the AlThemeManagerInterface to manage a theme
  * 
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInterface
 {

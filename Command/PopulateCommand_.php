@@ -35,7 +35,7 @@ use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 /**
  * Populates the database after a fresh install
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class PopulateCommand extends ContainerAwareCommand
 {

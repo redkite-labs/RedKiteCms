@@ -17,63 +17,65 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
  * The base class that defines a content manager object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlContentManagerBase
 {
-    protected $container;
+    protected $dispatcher;
+    protected $translator;
     protected $connection;
 
     /**
-     * Container 
+     * Constructor
      * 
-     * @param ContainerInterface $container 
+     * @param EventDispatcherInterface $dispatcher
+     * @param TranslatorInterface $translator
+     * @param \PropelPDO $connection 
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, \PropelPDO $connection = null)
     {
-        $this->container = $container;
-        $this->connection =  \Propel::getConnection();
+        $this->dispatcher = $dispatcher;
+        $this->translator = $translator;
+        $this->connection = (null === $connection) ? \Propel::getConnection() : $connection;
     }
     
+    /**
+     * Returns the current PropelConnection 
+     * 
+     * @return PropelPDO 
+     */
     public function getConnection()
     {
         return $this->connection;
     }
-    
-    public function setConnection(Propel $v)
-    {
-        $this->connection = $v;
-    }
 
     protected function checkEmptyParams(array $values)
     {
-        if(empty($values))
-        {
-            throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'save() method requires at least one valid parameter, any one has been given'));
+        if(empty($values)) {
+            throw new \InvalidArgumentException($this->translator->trans('save() method requires at least one valid parameter, any one has been given', array(), 'exceptions'));
         }
     }
     
     protected function checkOnceValidParamExists(array $requiredParams, array $values)
     {
         $diff = array_diff_key($requiredParams, $values); 
-        if(count($diff) != 0 && count($diff) != count($values))
-        {
-            throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
+        if(count($diff) != 0 && count($diff) != count($values)) {
+            throw new \InvalidArgumentException($this->translator->trans('save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
         }
     }
     
     protected function checkRequiredParamsExists(array $requiredParams, array $values)
     {
         $diff = array_diff_key($requiredParams, $values);
-        if(count($diff) == count($requiredParams) || count($diff) > 0)
-        {
-            throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
+        if(count($diff) == count($requiredParams) || count($diff) > 0) {
+            throw new \InvalidArgumentException($this->translator->trans('save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
         }
     }
     

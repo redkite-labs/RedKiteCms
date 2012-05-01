@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseActionEvent;
 /**
  * Defines the AfterPageAttributesDeletedEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AfterPageAttributesDeletedEvent extends BaseActionEvent
 {

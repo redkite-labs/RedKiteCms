@@ -39,7 +39,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 /**
  * Implements the actions to manage the blocks on a slot's page
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class BlocksController extends Controller
 {

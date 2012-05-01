@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
 /**
  * TinyMCEController
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class TinyMCEController extends Controller
 {

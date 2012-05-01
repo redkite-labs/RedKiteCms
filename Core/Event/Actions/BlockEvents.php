@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions;
 /**
  * Defines the names for the block actions events
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 final class BlockEvents
 {

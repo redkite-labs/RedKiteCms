@@ -19,73 +19,99 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 
 /**
- * AlSlotManager represents a slot, the cage on the page where the page contents (blocks) live, which is responsible to add, 
- * edit and remove the contained blocks
+ * AlSlotManager represents a slot on a page. 
+ * 
+ * 
+ * A slot is a zone on the page where one or more blocks lives. This object is responsible to manage the blocks that it contains, 
+ * adding, editing and removing them. 
+ * 
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSlotManager extends AlTemplateBase
 {
     protected $slot;
     protected $lastAdded = null;
-    protected $contentManagers = null;
-    protected $useSlotAttributes = false;
+    protected $blockManagers = null;
+    protected $forceSlotAttributes = false;
+    protected $blockManagerFactory = null;
     
     /**
      * Constructor
      * 
-     * @param ContainerInterface $container
-     * @param AlSlot $slot                      The slot to manage
-     * @param AlPage $alPage                    The AlPage object where the slot lives. When null the current page is used
-     * @param AlLanguage $alLanguage            The AlLanguage object where the slot lives. When null the current language is used
-     * @param array $alBlocks                 The contents to manage.When null the object retrieves them on its own. Contents are injected
-     *                                          just to reduce the number of queries and optimize performances
+     * @param EventDispatcherInterface $dispatcher
+     * @param TranslatorInterface $translator
+     * @param AlSlot $slot                          The slot to manage
+     * @param AlPage $alPage                        The AlPage object where the slot lives.
+     * @param AlLanguage $alLanguage                The AlLanguage object where the slot lives.
+     * @param array $alBlocks                       The contents to manage.When null the object retrieves them on its own. Contents are injected
+     *                                              just to reduce the number of queries and optimize performances
+     * @param \PropelPDO $connection 
      */
-    public function __construct(ContainerInterface $container, AlSlot $slot, AlPage $alPage = null, AlLanguage $alLanguage = null, array $alBlocks = null)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlSlot $slot, AlPage $alPage, AlLanguage $alLanguage, AlBlockManagerFactoryInterface $blockManagerFactory = null, array $alBlocks = null, \PropelPDO $connection = null)
     {
-        parent::__construct($container, $alPage, $alLanguage);
+        if(null === $alPage->getId()) {
+            throw new \InvalidArgumentException('The page object cannot be empty');
+        }
         
+        if(null === $alLanguage->getId()) {
+            throw new \InvalidArgumentException('The language object cannot be empty');
+        }
+        
+        parent::__construct($dispatcher, $translator, $alPage, $alLanguage, $connection);
+        
+        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
         $this->slot = $slot;
-        $this->setUpContentManagers($alBlocks);
+        $this->setUpBlockManagers($alBlocks);
     }
     
     /**
-     * Returns the mode how the slot add a new content
+     * Returns the slot manager's behavior when a new block is added
      * 
      * @return boolean 
      */
-    public function getUseSlotAttributes()
+    public function getForceSlotAttributes()
     {
-        return $this->useSlotAttributes;
+        return $this->forceSlotAttributes;
     }
     
     /**
-     * Sets the mode how the slot add a new content. When true adds the content using the default slot attributes for the block
-     * type and block content
+     * Sets the slot manager's behavior when a new block is added
+     * 
+     * 
+     * When true forces the add operation to use the default AlSlot attributes for 
+     * the new block type
      * 
      * @param bool
      */
-    public function setUseSlotAttributes($v)
+    public function setForceSlotAttributes($v)
     {
-        if(!is_bool($v))
-        {
-            throw new \InvalidArgumentException("setUseSlotAttributes accepts only boolean values");
+        if (!is_bool($v)) {
+            throw new \InvalidArgumentException("setForceSlotAttributes accepts only boolean values");
         }
         
-        $this->useSlotAttributes = $v;
+        $this->forceSlotAttributes = $v;
+    }
+    
+    
+    public function setBlockManagerFactory(AlBlockManagerFactoryInterface $v)
+    {
+        $this->blockManagerFactory = $v;
     }
     
     /**
-     * Returns the slot's contents repeated status
+     * Returns the slot's blocks repeated status
      * 
+     * @api
      * @return string 
      */
     public function getRepeated()
@@ -104,56 +130,64 @@ class AlSlotManager extends AlTemplateBase
     }
 
     /**
-     * Returns the contents managers
+     * Returns the block managers
+     * 
+     * @api
      * @return array 
      */
-    public function getContentManagers()
+    public function getBlockManagers()
     {
-        return $this->contentManagers;
+        return $this->blockManagers;
     }
     
     /**
-     * Returns the first content manager
+     * Returns the first block manager placed on the slot
      * 
-     * @return AlBlockManager object or null when empty
+     * @api
+     * @return null|AlBlockManager
      */
     public function first()
     {
-        return ($this->length() > 0) ? $this->contentManagers[0] : null;
+        return ($this->length() > 0) ? $this->blockManagers[0] : null;
     }
     
     /**
-     * Returns the last content manager
+     * Returns the last block manager placed on the slot
      * 
-     * @return AlBlockManager object or null when empty
+     * @api
+     * @return null|AlBlockManager
      */
     public function last()
     {
-        return ($this->length() > 0) ? $this->contentManagers[$this->length() - 1] : null;
+        return ($this->length() > 0) ? $this->blockManagers[$this->length() - 1] : null;
     }
     
     /**
-     * Returns the content manager at the given index.
+     * Returns the block manager at the given index.
      * 
-     * @return AlBlockManager object or null when requesting a non existent index
+     * @api
+     * @return null|AlBlockManager
      */
     public function indexAt($index)
     {
-        return ($index >= 0 && $index <= $this->length() - 1) ? $this->contentManagers[$index] : null;
+        return ($index >= 0 && $index <= $this->length() - 1) ? $this->blockManagers[$index] : null;
     }
     
     /**
-     * The number of contents managers
+     * Returns the number of block managers managed by the slot manager
+     * 
+     * @api
      * @return int
      */
     public function length()
     {
-        return count($this->contentManagers);
+        return count($this->blockManagers);
     }
     
     /**
-     * Returns the last added content manager
+     * Returns the last block manager added to the slot manager
      * 
+     * @api
      * @return AlBlockManager object or null
      */
     public function lastAdded()
@@ -161,40 +195,25 @@ class AlSlotManager extends AlTemplateBase
         return $this->lastAdded;
     }
 
-    
     /**
-     * Sets up the slot's contentManagers
+     * Adds a new block instantiating a new block manager
      * 
-     * @param array $alBlocks 
-     */
-    protected function setUpContentManagers(array $alBlocks = null)
-    {
-        if(null === $alBlocks) $alBlocks = AlBlockQuery::create()->setContainer($this->container)->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())->find();
-        
-        $this->contentManagers = array();
-        foreach($alBlocks as $alBlock)
-        {
-            $slotName = $alBlock->getSlotName();
-            $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alBlock, $slotName);
-            $this->contentManagers[] = $alBlockManager;
-        } 
-    }
-    
-    /**
-     * Adds a new block on the managed slot
+     * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
+     * the new block is created under the block identified by the given id
      * 
-     * @param string    $type                   The content type. It must be a valid content as defined in the page_blocks parameter
-     * @param int       $referenceAlBlockId   The id of the reference content. When given, the content is placed below this one
+     * @api
+     * @param string    $type               The block type. By default a Text block is added
+     * @param int       $referenceBlockId   The id of the reference block. When given, the block is placed below this one
      * @return boolean 
+     * @throws \InvalidArgumentException     When the required content type does not exist
      */
-    public function addBlock($type = 'Text', $referenceAlBlockId = null)
+    public function addBlock($type = 'Text', $referenceBlockId = null)
     {
         try
         {
             $idPage = $this->alPage->getId();
             $idLanguage = $this->alLanguage->getId();
-            switch ($this->slot->getRepeated())
-            {
+            switch ($this->slot->getRepeated()) {
                 case 'site':
                     $idPage = 1;
                     $idLanguage = 1;
@@ -212,55 +231,51 @@ class AlSlotManager extends AlTemplateBase
                     break;
             }
             
-            // Someone is trying to copy the contents, i.e. when a new page is created, so repeated contents are skipped
-            $isCopyingContent = (null !== $this->container->get('al_page_tree')->getAlPage() && $this->container->get('al_page_tree')->getAlPage()->getId() != $this->alPage->getId()) ? true : false;
-            if(($idLanguage == 1 || $idPage == 1) && $isCopyingContent)
-            {
-                if(AlBlockQuery::create()->setContainer($this->container)->retrieveContents($idLanguage, $idPage, $this->slot->getSlotName())->count() > 0) return null;
+            $alBlockManager = $this->blockManagerFactory->createBlock($this->dispatcher, $this->translator, $type);
+            if (null === $alBlockManager) {
+                throw new \InvalidArgumentException("The $type type does not exist");
             }
             
+            // Someone is trying to copy the contents, i.e. when a new page is created, so repeated contents are skipped
+            // TODO
+            //$isCopyingContent = (null !== $this->container->get('al_page_tree')->getAlPage() && $this->container->get('al_page_tree')->getAlPage()->getId() != $this->alPage->getId()) ? true : false;
+            $isCopyingContent = false;
+            if (($idLanguage == 1 || $idPage == 1) && $isCopyingContent) {
+                if (AlBlockQuery::create()->setDispatcher($this->dispatcher)->retrieveContents($idLanguage, $idPage, $this->slot->getSlotName())->count() > 0) {
+                    return null;
+                }
+            }
+                        
             $rollBack = false;
             $this->connection->beginTransaction();
 
+            // Find the block position
             $leftArray = array();
             $rightArray = array();
             $managersLength = $this->length();
-            if(null !== $referenceAlBlockId)
-            {
-                $index = $this->getContentManagerIndex($referenceAlBlockId);
-                if(null !== $index)
-                {
-                    // The new content must de added below the current one, so it must retrieve the content manager down the reference manager
+            $position = $managersLength + 1;
+            if (null !== $referenceBlockId) {
+                $index = $this->getBlockManagerIndex($referenceBlockId);
+                if (null !== $index) {
+                    // The new block must de added below the current one, so it must retrieve the block manager down the reference manager
                     $index += 1;              
-                    if($managersLength > $index)
-                    {
-                        $leftArray = array_slice($this->contentManagers, 0 , $index);
-                        $rightArray = array_slice($this->contentManagers, $index , $managersLength - 1);
+                    if ($managersLength > $index) {
+                        $leftArray = array_slice($this->blockManagers, 0 , $index);
+                        $rightArray = array_slice($this->blockManagers, $index , $managersLength - 1);
 
-                        $manager = $this->contentManagers[$index];
+                        $manager = $this->blockManagers[$index];
                         $position = $manager->get()->getContentPosition();
                         $rollBack = !$this->adjustPosition('add', $rightArray);
                     }
-                    else
-                    {
-                        $position = $managersLength + 1;
-                    }
                 }
-                else
-                {
-                    $position = 1;
-                }
-            }
-            else
-            {
-                $position = $managersLength + 1;
             }
 
-            if (!$rollBack)
-            {
-                if($this->useSlotAttributes) $type = $this->slot->getBlockType();
-                $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $type); 
-                $contentValue = array(
+            if (!$rollBack) {
+                if ($this->forceSlotAttributes) {
+                    $type = $this->slot->getBlockType();
+                }
+                
+                $values = array(
                   "PageId"          => $idPage,
                   "LanguageId"      => $idLanguage,
                   "SlotName"        => $this->slot->getSlotName(),
@@ -268,43 +283,43 @@ class AlSlotManager extends AlTemplateBase
                   "ContentPosition" => $position
                 );
                 
-                if($this->useSlotAttributes) {
-                    $contentValue["HtmlContent"] = $this->slot->getHtmlContent();
-                    $contentValue["ExternalJavascript"] = $this->slot->getExternalJavascript();
-                    $contentValue["InternalJavascript"] = $this->slot->getInternalJavascript();
-                    $contentValue["ExternalStylesheet"] = $this->slot->getExternalStylesheet();
-                    $contentValue["InternalStylesheet"] = $this->slot->getInternalStylesheet();
+                if ($this->forceSlotAttributes) {
+                    $values["HtmlContent"] = $this->slot->getHtmlContent();
+                    $values["ExternalJavascript"] = $this->slot->getExternalJavascript();
+                    $values["InternalJavascript"] = $this->slot->getInternalJavascript();
+                    $values["ExternalStylesheet"] = $this->slot->getExternalStylesheet();
+                    $values["InternalStylesheet"] = $this->slot->getInternalStylesheet();
                 }
-                $rollBack = !$alBlockManager->save($contentValue);
+                
+                $rollBack = !$alBlockManager->save($values);
             }
 
-            if (!$rollBack)
-            {
+            if (!$rollBack) {
                 $this->connection->commit(); 
                 
-                if(!empty($leftArray) || !empty($rightArray))
-                {
+                if (!empty($leftArray) || !empty($rightArray)) {
                     $index = $position - 1;
-                    $this->contentManagers = array_merge($leftArray, array($index => $alBlockManager), $rightArray);
+                    $this->blockManagers = array_merge($leftArray, array($index => $alBlockManager), $rightArray);
                 }
-                else 
-                {
-                    $this->contentManagers[] = $alBlockManager;
+                else {
+                    $this->blockManagers[] = $alBlockManager;
                 }
                 
                 $this->lastAdded = $alBlockManager;
                 
                 return true;
             }
-            else
-            {
+            else {
                 $this->connection->rollback();
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) {
+                $this->connection->rollback();
+            }
+            
             throw $e;
         }
     }
@@ -312,16 +327,17 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Edits the block 
      * 
-     * @param   int       $idContent  The id of the content to edit
-     * @param   array     $values     The values to change
+     * @api
+     * @param   int       $idBlock  The id of the block to edit
+     * @param   array     $values   The new values
+     * 
      * @return  boolean    
      */
-    public function editBlock($idContent, array $values)
+    public function editBlock($idBlock, array $values)
     {
-        $contentManager = $this->getContentManager($idContent);
-        if($contentManager != null)
-        {
-            return $contentManager->save($values);
+        $blockManager = $this->getBlockManager($idBlock);
+        if ($blockManager != null) {
+            return $blockManager->save($values);
         }
         
         return null;
@@ -330,48 +346,46 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Deletes the block from the slot
      * 
-     * @param   int       $idContent The id of the content to remove
+     * @api
+     * @param   int       $idBlock The id of the block to remove
      * @return  boolean 
      */
-    public function deleteBlock($idContent)
+    public function deleteBlock($idBlock)
     {
         $leftArray = array();
         $rightArray = array();
-        $info = $this->getContentManagerAndIndex($idContent);
-        if($info != null)
-        {
+        $info = $this->getBlockManagerAndIndex($idBlock);
+        if ($info != null) {
             $index = $info['index'];
-            $leftArray = array_slice($this->contentManagers, 0 , $index); 
-            $rightArray = array_slice($this->contentManagers, $index + 1, $this->length() - 1);
+            $leftArray = array_slice($this->blockManagers, 0 , $index); 
+            $rightArray = array_slice($this->blockManagers, $index + 1, $this->length() - 1);
                  
             try
             {
                 $rollBack = false;
                 $this->connection->beginTransaction();
             
+                // Adjust the blocks position
                 $this->adjustPosition('del', $rightArray);
                 $res = $info['manager']->delete();
                 $rollBack = !$res;
                 
-                if (!$rollBack)
-                {
+                if (!$rollBack) {
                     $this->connection->commit(); 
                 }
-                else
-                {
+                else {
                     $this->connection->rollback();
                 }
                 
-                if($res)
-                {
-                    $this->contentManagers = array_merge($leftArray, $rightArray);
+                if ($res) {
+                    $this->blockManagers = array_merge($leftArray, $rightArray);
                 }
 
                 return $res;
             }
             catch(\Exception $e)
             {
-                if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+                if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
                 throw $e;
             }
         }
@@ -380,8 +394,9 @@ class AlSlotManager extends AlTemplateBase
     }
     
     /**
-     * Deletes the slot's blocks from the website
+     * Deletes all the blocks managed by the slot
      * 
+     * @api
      * @return  boolean 
      */
     public function deleteBlocks()
@@ -391,91 +406,101 @@ class AlSlotManager extends AlTemplateBase
             $rollBack = false;
             $this->connection->beginTransaction();
               
-            foreach($this->contentManagers as $contentManager)
-            {
-                $res = $contentManager->delete();
-                if(!$res)
-                {
+            foreach($this->blockManagers as $blockManager) {
+                $res = $blockManager->delete();
+                if (!$res) {
                     $rollBack = true;
                     break;
                 }
             }
 
-            if (!$rollBack)
-            {
+            if (!$rollBack) {
                 $this->connection->commit(); 
-                $this->contentManagers = array();
+                $this->blockManagers = array();
                 
                 return true;
             }
-            else
-            {
+            else {
                 $this->connection->rollback();
+                
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) {
+                $this->connection->rollback();
+            }
+            
             throw $e;
         }
     }
     
     /**
-     * Retrieves the content manager and the index from the content identity it manages
+     * Retrieves the block manager by the block's id
      * 
-     * @param   int     $idContent The id of the content to retrieve  
-     * @return  array 
+     * @api
+     * @param   int  $idBlock The id of the block to retrieve  
+     * @return  AlBlockManager|null
      */
-    protected function getContentManagerAndIndex($idContent)
+    public function getBlockManager($idBlock)
     {
-        foreach($this->contentManagers as $index => $contentManager)
-        {
-            if($contentManager->get()->getId() == $idContent)
-            {
-                return array('index' => $index, 'manager' => $contentManager);
-            }
-        }
+        $info = $this->getBlockManagerAndIndex($idBlock);
         
-        return null;
-    }
-    
-    /**
-     * Retrieves the content manager from the content identity it manages
-     * 
-     * @param   int                 $idContent The id of the content to retrieve  
-     * @return  AlBlockManager 
-     */
-    public function getContentManager($idContent)
-    {
-        $info = $this->getContentManagerAndIndex($idContent);
         return (null !== $info) ? $info['manager'] : null;
     }
     
     /**
-     * Retrieves the content manager index from the content identity it manages
+     * Retrieves the block manager index by the block's id
      * 
-     * @param   int                 $idContent The id of the content to retrieve  
+     * @api
+     * @param   int  $idBlock The id of the block to retrieve  
      * @return  int 
      */
-    public function getContentManagerIndex($idContent)
+    public function getBlockManagerIndex($idBlock)
     {
-        $info = $this->getContentManagerAndIndex($idContent);
+        $info = $this->getBlockManagerAndIndex($idBlock);
+        
         return (null !== $info) ? $info['index'] : null;
     }
     
+    
     /**
-     * Returns the managed contents as an array
+     * @deprecated
+     */
+    public function getContentManagers()
+    {
+        throw new \Exception ('Use the getBlockManagers() method instead of this one');
+    }
+    
+    /**
+     * @deprecated
+     */
+    public function getContentManager($idContent)
+    {
+        throw new \Exception ('Use the getBlockManager() method instead of this one');
+    }
+    
+    /**
+     * @deprecated
+     */
+    public function getContentManagerIndex($idContent)
+    {
+        throw new \Exception ('Use the getBlockManagerIndex() method instead of this one');
+    }
+    
+    /**
+     * Returns the managed blocks as an array
      * 
+     * @api
      * @return array 
      */
     public function toArray()
     {
         $result = array();
-        foreach($this->contentManagers as $contentManager)
-        {
-            if (null !== $contentManager) {
-                $result[] = $contentManager->toArray();
+        foreach($this->blockManagers as $blockManager) {
+            if (null !== $blockManager) {
+                $result[] = $blockManager->toArray();
             }
         }
         
@@ -483,18 +508,61 @@ class AlSlotManager extends AlTemplateBase
     }
     
     /**
-     * Adjusts the contents position on the slot, when a new content is added or a content is deleted. 
+     * Sets up the block managers.
      * 
-     * When add mode, it creates a space between the adding content's position and
-     * the contents below, incrementing their position by one
      * 
-     * When del mode, decrements by 1 the position of the contents placed below the
-     * removing content
+     * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
+     * 
+     * @param array $alBlocks 
+     */
+    protected function setUpBlockManagers(array $alBlocks = null)
+    {
+        if (null === $alBlocks) {
+            $alBlocks = AlBlockQuery::create()
+                ->setDispatcher($this->dispatcher)
+                ->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())
+                ->find();
+        }
+        
+        $this->blockManagers = array();
+        foreach($alBlocks as $alBlock)
+        {
+            $alBlockManager = $this->blockManagerFactory->createBlock($this->dispatcher, $this->translator, $alBlock);
+            $this->blockManagers[] = $alBlockManager;
+        } 
+    }
+    
+    /**
+     * Retrieves the block manager and the index by the block's id
+     * 
+     * @param   int     $idBlock The id of the block to retrieve  
+     * @return  null|array 
+     */
+    protected function getBlockManagerAndIndex($idBlock)
+    {
+        foreach($this->blockManagers as $index => $blockManager) {
+            if ($blockManager->get()->getId() == $idBlock) {
+                return array('index' => $index, 'manager' => $blockManager);
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Adjusts the blocks position on the slot, when a new block is added or a block is deleted. 
+     * 
+     * 
+     * When in *add* mode, it creates a space between the adding block's position and
+     * the blocks below, incrementing their position by one
+     * 
+     * When in *del* mode, decrements by 1 the position of the blocks placed below the
+     * removing block
      * 
      * @param   string      $op         The operation to do. It accepts add or del as valid values
-     * @param   array       $managers   An array of content managers
+     * @param   array       $managers   An array of block managers
      * @return  boolean 
-     * @throws  InvalidArgumentException    When an invalid option is given to the $op param
+     * @throws  \InvalidArgumentException    When an invalid option is given to the $op param
      * 
      */
     protected function adjustPosition($op, array $managers)
@@ -503,41 +571,41 @@ class AlSlotManager extends AlTemplateBase
         {
             // Checks the $op parameter. If doesn't match, throwns and exception
             $required = array("add", "del");
-            if (!in_array($op, $required))
-            {
-                throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"', array('%className%' => get_class($this), '%options%' => $required, '%parameter%' => $op), 'al_slot_manager_exceptions'));
+            if (!in_array($op, $required)) {
+                throw new \InvalidArgumentException($this->translator->trans('The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"', array('%className%' => get_class($this), '%options%' => $required, '%parameter%' => $op), 'al_slot_manager_exceptions'));
             }
             
             $rollback = false;
             $this->connection->beginTransaction();
             
-            foreach($managers as $contentManager)
-            {
-                $content = $contentManager->get();
-                $position = ($op == 'add') ? $content->getContentPosition() + 1 : $content->getContentPosition() - 1;
-                $content->setContentPosition($position);
-                $result = $content->save(); 
-                if ($content->isModified() && $result == 0)
-                {
-                  $rollback = true;
-                  break;
+            foreach($managers as $blockManager) {
+                $block = $blockManager->get();
+                $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
+                $block->setContentPosition($position);
+                $result = $block->save(); 
+                if ($block->isModified() && $result == 0) {
+                    $rollback = true;
+                    break;
                 }
             }
 
-            if (!$rollback)
-            {
+            if (!$rollback) {
                 $this->connection->commit();
+                
                 return true;
             }
-            else
-            {
+            else {
                 $this->connection->rollback();
+                
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) {
+                $this->connection->rollback();
+            }
+            
             throw $e;
         }
     }

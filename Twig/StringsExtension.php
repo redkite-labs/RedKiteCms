@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 /**
  * Adds some functions to Twig engine to manupulate strings from twig
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class StringsExtension extends \Twig_Extension
 {

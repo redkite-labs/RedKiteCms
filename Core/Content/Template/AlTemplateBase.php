@@ -17,7 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
@@ -25,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 /**
  * Defines the template content manager object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlTemplateBase extends AlContentManagerBase
 {
@@ -39,11 +40,15 @@ abstract class AlTemplateBase extends AlContentManagerBase
      * @param AlPage $alPage
      * @param AlLanguage $alLanguage 
      */
-    public function __construct(ContainerInterface $container, AlPage $alPage = null, AlLanguage $alLanguage = null) 
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlPage $alPage, AlLanguage $alLanguage, \PropelPDO $connection = null) 
     {
-        parent::__construct($container);
+        parent::__construct($dispatcher, $translator, $connection);
         
+        /*
         $this->alLanguage = (null !== $alLanguage) ? $alLanguage : $this->container->get('al_page_tree')->getAlLanguage(); 
         $this->alPage = (null !== $alPage) ? $alPage : $this->container->get('al_page_tree')->getAlPage(); 
+        */
+        $this->alLanguage = $alLanguage; 
+        $this->alPage = $alPage; 
     }
 }

@@ -28,7 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
  * to update the contents to reflect it. This job is achieved saving the current status for each slot 
  * in an xml file, which is used when the comparison with the active slots status is made.
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlRepeatedSlotsManager extends AlContentManagerBase
 { 

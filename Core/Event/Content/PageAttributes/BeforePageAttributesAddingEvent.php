@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent
 /**
  * Defines the BeforePageAttributesAddingEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class BeforePageAttributesAddingEvent extends BaseBeforeActionEvent
 {

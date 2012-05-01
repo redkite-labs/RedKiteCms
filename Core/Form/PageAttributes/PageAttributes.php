@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Defines the page attributes form fields
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class PageAttributes
 {

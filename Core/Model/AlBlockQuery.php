@@ -20,26 +20,26 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery as BaseBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\ContentsEvents;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  *  Adds some filters to the AlBlockQuery object
  * 
- *  @author AlphaLemon <info@alphalemon.com>
+ *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockQuery extends BaseBlockQuery
 {
-    protected $container = null;
+    protected $dispatcher = null;
     
     /**
-     * Sets the container
+     * Sets the dispatcher
      * 
-     * @param ContainerInterface $v
+     * @param EventDispatcherInterface $v
      * @return AlBlockQuery 
      */
-    public function setContainer(ContainerInterface $v)
+    public function setDispatcher(EventDispatcherInterface $v)
     {
-        $this->container = $v;
+        $this->dispatcher = $v;
         
         return $this;
     }
@@ -74,18 +74,14 @@ class AlBlockQuery extends BaseBlockQuery
                   ->orderBySlotName()
                   ->orderByContentPosition();
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Content\RetrieveContentsQueringEvent($query);
-                $dispatcher->dispatch(ContentsEvents::RETRIEVE_CONTENTS, $event);
+            $event = new Content\RetrieveContentsQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::RETRIEVE_CONTENTS, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -97,18 +93,14 @@ class AlBlockQuery extends BaseBlockQuery
         $query = $this->filterBySlotName($slotName)
                   ->filterByToDelete(0);
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Content\RetrieveContentsBySlotNameQueringEvent($query);
-                $dispatcher->dispatch(ContentsEvents::RETRIEVE_CONTENTS_BY_SLOT_NAME, $event);
+            $event = new Content\RetrieveContentsBySlotNameQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::RETRIEVE_CONTENTS_BY_SLOT_NAME, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -120,18 +112,14 @@ class AlBlockQuery extends BaseBlockQuery
         $query = $this->filterByLanguageId($languageId)
                   ->filterByToDelete(0);
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Content\FromLanguageIdQueringEvent($query);
-                $dispatcher->dispatch(ContentsEvents::FROM_LANGUAGE_ID, $event);
+            $event = new Content\FromLanguageIdQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::FROM_LANGUAGE_ID, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -143,18 +131,14 @@ class AlBlockQuery extends BaseBlockQuery
         $query = $this->filterByPageId($pageId)
                       ->filterByToDelete(0);
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Content\FromPageIdQueringEvent($query);
-                $dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID, $event);
+            $event = new Content\FromPageIdQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -167,18 +151,14 @@ class AlBlockQuery extends BaseBlockQuery
                       ->filterBySlotName($slotName)
                       ->filterByToDelete(0);
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
-                $dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID_AND_SLOT_NAME, $event);
+            $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID_AND_SLOT_NAME, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -190,18 +170,14 @@ class AlBlockQuery extends BaseBlockQuery
         $query = $this->filterByHtmlContent('%' . $search . '%')
                       ->filterByToDelete(0);
         
-        if(null !== $this->container)
+        if(null !== $this->dispatcher)
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
-                $dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID_AND_SLOT_NAME, $event);
+            $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID_AND_SLOT_NAME, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         

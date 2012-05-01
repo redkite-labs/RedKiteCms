@@ -32,7 +32,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 /**
  * Defines the page attributes content manager object, that implements the methods to manage an AlPageAttribute object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPageAttributesManager extends AlContentManagerBase implements AlContentManagerInterface
 {

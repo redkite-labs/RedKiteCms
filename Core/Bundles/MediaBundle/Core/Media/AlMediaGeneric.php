@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media;
 /**
  * AlMediaGeneric
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlMediaGeneric extends AlMedia
 {

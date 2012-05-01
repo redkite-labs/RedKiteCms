@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 /**
  * Defines the BlockEditedEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class BlockEditedEvent extends Event
 {

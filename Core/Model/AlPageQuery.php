@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  *  Adds some filters to the AlPageQuery object
  * 
- *  @author AlphaLemon <info@alphalemon.com>
+ *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPageQuery extends BasePageQuery
 {

@@ -25,7 +25,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 /**
  * Defines the pages form
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class PagesForm extends AbstractType
 {

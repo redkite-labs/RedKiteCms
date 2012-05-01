@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 /**
  * ScriptExtension
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerScript extends AlBlockManager
 {

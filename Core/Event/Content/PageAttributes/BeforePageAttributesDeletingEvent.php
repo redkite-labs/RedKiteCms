@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent
 /**
  * Defines the BeforePageAttributesDeletingEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class BeforePageAttributesDeletingEvent extends BaseBeforeActionEvent
 {

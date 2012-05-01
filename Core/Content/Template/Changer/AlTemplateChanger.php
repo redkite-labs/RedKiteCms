@@ -29,7 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 /**
  * Arranges the page's slot contents when a page changes its template
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlTemplateChanger extends AlContentManagerBase
 {

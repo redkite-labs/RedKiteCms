@@ -39,7 +39,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
 /**
  * Implements the controller to load AlphaLemon CMS
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlCmsController extends Controller
 {

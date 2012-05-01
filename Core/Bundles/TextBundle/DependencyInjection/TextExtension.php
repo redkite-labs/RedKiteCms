@@ -25,7 +25,7 @@ use Symfony\Component\Config\FileLocator;
 /**
  * TextExtension
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class TextExtension extends Extension
 {

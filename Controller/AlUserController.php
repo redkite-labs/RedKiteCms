@@ -33,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserRoleType;
 /**
  * Manages the CMS users
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlUserController extends Controller
 {

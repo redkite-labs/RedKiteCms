@@ -22,7 +22,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 /**
  * AlMedia
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlMedia
 {

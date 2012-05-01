@@ -25,7 +25,7 @@ use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererE
 /**
  * Adds the renderSlot function to Twig engine
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class SlotRendererExtension extends BaseSlotRendererExtension
 {
