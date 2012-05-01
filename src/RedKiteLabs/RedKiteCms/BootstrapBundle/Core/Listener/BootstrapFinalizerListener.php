@@ -60,7 +60,7 @@ class BootstrapFinalizerListener
                                 $this->addEventNotExecuted($listenerName, $listener);
                                 if ($event->getAlertWhenFails()) throw new \RuntimeException(sprintf("The event %s required by %s has not been executed. Please check the bundle you are trying to install or uninstall it if the problem persist.", $listenerName, $listener));
                             } else {
-                                if (in_array($listener, $notExecutedListeners[$listenerName])) unset($notExecutedListeners[$listenerName]);
+                                if (!empty($notExecutedListeners) && in_array($listener, $notExecutedListeners[$listenerName])) unset($notExecutedListeners[$listenerName]);
                             }
                                 
                         }
@@ -73,7 +73,7 @@ class BootstrapFinalizerListener
                                 $this->addEventNotExecuted($listenerName, $listener);
                                 if ($event->getAlertWhenFails()) throw new \RuntimeException(sprintf("The event %s required by %s has not been executed. You should do the uninstall operations manually", $listenerName, $listener));
                             } else {
-                                if (in_array($listener, $notExecutedListeners[$listenerName])) unset($notExecutedListeners[$listenerName]);
+                                if (!empty($notExecutedListeners) && in_array($listener, $notExecutedListeners[$listenerName])) unset($notExecutedListeners[$listenerName]);
                             }
                         }
                     break;
