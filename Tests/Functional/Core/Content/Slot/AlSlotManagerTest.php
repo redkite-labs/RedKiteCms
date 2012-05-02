@@ -524,7 +524,7 @@ class AlSlotManagerTest extends TestCase
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
         );
-        return;
+        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $this->setUpFactory('Text', $block);
         

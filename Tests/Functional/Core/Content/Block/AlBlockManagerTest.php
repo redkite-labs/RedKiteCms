@@ -264,86 +264,43 @@ class AlBlockManagerTest extends TestCase
         
         $block->expects($this->once())
                 ->method('save')
-                ->will($this->returnValue(1));
+                ->will($this->returnValue(true));
         
-        $params = array('HtmlContent' => 'changed content');
+        $block->expects($this->once())
+                ->method('getHtmlContent')
+                ->will($this->returnValue('changed html content'));
+        
+        $block->expects($this->once())
+                ->method('getInternalJavascript')
+                ->will($this->returnValue('changed internal javascript content'));
+        
+        $block->expects($this->once())
+                ->method('getExternalJavascript')
+                ->will($this->returnValue('changed external javascript content'));
+        
+        $block->expects($this->once())
+                ->method('getInternalStylesheet')
+                ->will($this->returnValue('changed internal stylesheet content'));
+        
+        $block->expects($this->once())
+                ->method('getExternalStylesheet')
+                ->will($this->returnValue('changed external stylesheet content'));
+        
+        $params = array('HtmlContent' => 'changed html content',
+            'InternalJavascript' => 'changed internal javascript content',
+            'ExternalJavascript' => 'changed external javascript content',
+            'InternalJavascript' => 'changed internal stylesheet content',
+            'ExternalStylesheet' => 'changed external stylesheet content',
+            );
         $this->testAlBlockManager->set($block);
         $result = $this->testAlBlockManager->save($params); 
         $this->assertEquals(true, $result);
+        $this->assertEquals('changed html content', $this->testAlBlockManager->get()->getHtmlContent());
+        $this->assertEquals('changed internal javascript content', $this->testAlBlockManager->get()->getInternalJavascript());
+        $this->assertEquals('changed external javascript content', $this->testAlBlockManager->get()->getExternalJavascript());
+        $this->assertEquals('changed internal stylesheet content', $this->testAlBlockManager->get()->getInternalStylesheet());
+        $this->assertEquals('changed external stylesheet content', $this->testAlBlockManager->get()->getExternalStylesheet());
     }
-    
-    /*
-    public function testEditInternalJavascript()
-    {
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
-        
-        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
-        $block->setInternalJavascript('saved internal javascript value');
-        $block->save();        
-        $this->assertEquals('saved internal javascript value', $block->getInternalJavascript());
-        
-        $params = array('InternalJavascript' => 'saved internal javascript value');
-        $this->testAlBlockManager->set($block);
-        $result = $this->testAlBlockManager->save($params);  
-        $this->assertEquals(true, $result);
-        
-        $this->assertEquals('saved internal javascript value', $this->testAlBlockManager->get()->getInternalJavascript());exit;
-    }
-    
-    public function testEditExternalJavascript()
-    {
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
-        
-        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
-        $block->setExternalJavascript('saved external javascript value');
-        $block->save();        
-        $this->assertEquals('saved external javascript value', $block->getExternalJavascript());
-        
-        $params = array('ExternalJavascript' => 'saved external javascript value');
-        $this->testAlBlockManager->set($block);
-        $result = $this->testAlBlockManager->save($params);  
-        $this->assertEquals(true, $result);
-        
-        $this->assertEquals('saved external javascript value', $this->testAlBlockManager->get()->getExternalJavascript());
-    }
-    
-    public function testEditInternalStylesheet()
-    {
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
-        
-        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
-        $block->setInternalStylesheet('saved internal stylesheet value');
-        $block->save();        
-        $this->assertEquals('saved internal stylesheet value', $block->getInternalStylesheet());
-        
-        $params = array('InternalStylesheet' => 'saved internal stylesheet value');
-        $this->testAlBlockManager->set($block);
-        $result = $this->testAlBlockManager->save($params);  
-        $this->assertEquals(true, $result);
-        
-        $this->assertEquals('saved internal stylesheet value', $this->testAlBlockManager->get()->getInternalStylesheet());
-    }
-    
-    public function testEditExternalStylesheet()
-    {
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
-        
-        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
-        $block->setExternalStylesheet('saved external stylesheet value');
-        $block->save();        
-        $this->assertEquals('saved external stylesheet value', $block->getExternalStylesheet());
-        
-        $params = array('ExternalStylesheet' => 'saved external stylesheet value');
-        $this->testAlBlockManager->set($block);
-        $result = $this->testAlBlockManager->save($params);  
-        $this->assertEquals(true, $result);
-        
-        $this->assertEquals('saved external stylesheet value', $this->testAlBlockManager->get()->getExternalStylesheet());
-    }*/
     
     /**
      * @expectedException RuntimeException
@@ -361,11 +318,6 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
-        /*
-        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
-        $block->setToDelete(0);
-        $block->save(); */
-        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
@@ -373,13 +325,16 @@ class AlBlockManagerTest extends TestCase
         
         $block->expects($this->once())
                 ->method('save')
+                ->will($this->returnValue(true));
+        
+        $block->expects($this->once())
+                ->method('getToDelete')
                 ->will($this->returnValue(1));
         
         $this->testAlBlockManager->set($block);
         $result = $this->testAlBlockManager->delete();  
-        $this->assertEquals(true, $result);
-        
-        //$this->assertEquals(1, $this->testAlBlockManager->get()->getToDelete());
+        $this->assertEquals(true, $result);        
+        $this->assertEquals(1, $this->testAlBlockManager->get()->getToDelete());
     }
     
     public function testToArrayReturnsAnEmptyArrayWhenAnyBlockHasBeenSet()
