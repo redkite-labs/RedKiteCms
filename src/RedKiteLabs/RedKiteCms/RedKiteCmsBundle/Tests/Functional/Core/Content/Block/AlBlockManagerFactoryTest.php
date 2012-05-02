@@ -33,35 +33,36 @@ class AlBlockManagerFactoryTest extends TestCase
     {
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->factory = new AlBlockManagerFactory();
     }
     
     public function testCreateBlockReturnsNullWhenTheBlockParamIsNull()
     {
-        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, null);
+        $contenManager = $this->factory->createBlock($this->dispatcher, $this->translator, null);
         $this->assertNull($contenManager);
     }
     
     public function testCreateBlockReturnsNullWhenTheBlokParamIsEmptyString()
     {
-        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, "");
+        $contenManager = $this->factory->createBlock($this->dispatcher, $this->translator, "");
         $this->assertNull($contenManager);
     }
     
     public function testCreateBlockReturnsNullWhenTheBlokParamIsNotStringOrAlBlock()
     {
-        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, array());
+        $contenManager = $this->factory->createBlock($this->dispatcher, $this->translator, array());
         $this->assertNull($contenManager);
     }
     
     public function testCreateBlockFailsWhenAnInesistentBlockTypeIsGiven()
     {
-        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, 'fake');
+        $contenManager = $this->factory->createBlock($this->dispatcher, $this->translator, 'fake');
         $this->assertNull($contenManager);
     }
     
     public function testCreateABlockFromAValidStringType()
     {
-        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, 'text');
+        $contenManager = $this->factory->createBlock($this->dispatcher, $this->translator, 'text');
         $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $contenManager);
     }
     
@@ -69,17 +70,25 @@ class AlBlockManagerFactoryTest extends TestCase
     {
         $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
         
-        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, $block);
+        $contenManager = $this->factory->createBlock($this->dispatcher, $this->translator, $block);
         $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $contenManager);
     }
     
     public function testCreatingFromARemovedBlockObjectDeletesTheBlock()
     {
-        $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
-        $block->setClassName('Fake');
-        $this->assertEquals(0, $block->getToDelete());
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         
-        $contenManager = AlBlockManagerFactory::createBlock($this->dispatcher, $this->translator, $block);
+        $block->expects($this->once())
+                ->method('setToDelete'); 
+        
+        $block->expects($this->once())
+                ->method('save'); 
+        
+        $block->expects($this->any())
+                ->method('getToDelete')
+                ->will($this->returnValue(1)); 
+        
+        $contenManager = $this->factory->createBlock($this->dispatcher, $this->translator, $block);
         $this->assertNull($contenManager);
         $this->assertEquals(1, $block->getToDelete());
     }
