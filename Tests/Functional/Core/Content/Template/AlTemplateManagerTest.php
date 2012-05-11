@@ -19,160 +19,154 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Core\Content\Template;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
+use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 class AlTemplateManagerTest extends TestCase 
 {    
     private $dispatcher;
     private $translator;
-    private $kernel;
-    private $alLanguage;
-    private $alPage;
-    
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        
-        AlphaLemonDataPopulator::depopulate();
-    }
     
     protected function setUp() 
     {
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        
-        $this->alLanguage = new AlLanguage();
-        $this->alLanguage->setId(2);        
-        $this->alPage = new AlPage();
-        $this->alPage->setId(2);
-        $this->alPage->setTemplateName('Home');
-        
-        //$this->templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->kernel, $this->alPage, $this->alLanguage, 'BusinessWebsiteThemeBundle');
+        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->pageContents = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface');
+        $this->factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+          
+        $this->blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+        $this->factory->expects($this->any())
+            ->method('createBlock')
+            ->will($this->returnValue($this->blockManager));
     }
     
-    /**
-     * @expectedException RuntimeException
-     */
-    public function testFailsWithInvalidTheme()
+    public function testAnySlotManagerIsInstantiatedWhenAnySlotISGiven()
     {
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->kernel, $this->alPage, $this->alLanguage, 'fake');
-    }
-    
-    public function testFailsWithInvalidTheme1()
-    {
-        $this->kernel->expects($this->any())
-                ->method('locateResource')
-                ->will($this->returnValue('aaa'));
-        $alLanguage = new AlLanguage();
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->kernel, $this->alPage, $alLanguage, 'BusinessWebsiteThemeBundle');
-    }
-
-
-    public function testSlotManagers()
-    {
-        return;
-        AlphaLemonDataPopulator::depopulate();
+        $this->templateSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue(array()));
         
-        $container = $this->setupPageTree()->getContainer(); 
-        $templateManager = new AlTemplateManager($container);        
-        $this->assertNotEquals(0, count($templateManager->getSlotManagers()), '_ctor() has not fill up the slot managers using the default template name for this test');
-     
-        $alPage = new AlPage();
-        try
-        {
-            $alPage->setTemplateName(null);
-            $templateManager = new AlTemplateManager($container, $alPage);
-            $this->fail('An exception should be thrown when the template name is null');
-        }
-        catch(\RuntimeException $ex)
-        {
-            $this->assertEquals('The class \AlphaLemon\Theme\AlphaLemonThemeBundle\Core\Slots\AlphaLemonThemeBundleSlots does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', $ex->getMessage());
-        }
+        $this->pageContents->expects($this->never())
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array()));
         
-        try
-        {
-            $alPage->setTemplateName('fake');
-            $templateManager = new AlTemplateManager($container, $alPage);
-            $this->fail('An exception should be thrown when the template\'s class does not exists');
-        }
-        catch(\RuntimeException $ex)
-        {
-            $this->assertEquals('The class \AlphaLemon\Theme\AlphaLemonThemeBundle\Core\Slots\AlphaLemonThemeBundleFakeSlots does not exist. You must create a [ThemeName][TemplateName]Slots class for each template of your theme', $ex->getMessage());
-        }
+        $this->pageContents->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue(array()));
         
-        $alPage->setTemplateName('home');
-        $templateManager = new AlTemplateManager($container, $alPage);
-        $this->assertNotEquals(0, count($templateManager->getSlotManagers()), '_ctor() has not fill up the slot managers using a template name given in lower case');
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->templateSlots, $this->pageContents, $this->factory);
         
-        return $templateManager;
-    }
-    
-    public function testSlotManager()
-    {
-        return;
-        $slotManager = $templateManager->getSlotManager(null);
+        $this->assertEquals(0, count($templateManager->getSlotManagers()));
+        $slotManager = $templateManager->getSlotManager('test');
         $this->assertNull($slotManager);
-        
-        $slotManager = $templateManager->getSlotManager('fake');
-        $this->assertNull($slotManager);
-        
-        $slotManager = $templateManager->getSlotManager('logo');
-        $this->assertNotNull($slotManager);
     }
     
-    public function testSlotToArray()
+    public function testCreatesASlotManagerWithoutAnyBlockManagerInstantiated()
     {
-        return;
-        try
-        {
-            $slotManager = $templateManager->slotToArray(null);
-            $this->fail('An exception should be thrown when a null argument is passed to ->slotToArray() method');
-        }
-        catch(\InvalidArgumentException $ex)
-        {
-            $this->assertEquals('slotToArray accepts only strings', $ex->getMessage());
-        }
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
         
-        try
-        {
-            $slotManager = $templateManager->slotToArray(1);
-            $this->fail('An exception should be thrown when a not string argument is passed to ->slotToArray() method');
-        }
-        catch(\InvalidArgumentException $ex)
-        {
-            $this->assertEquals('slotToArray accepts only strings', $ex->getMessage());
-        }
+        $this->pageContents->expects($this->once())
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array()));
         
-        $slotManager = $templateManager->slotToArray('logo');
-        $this->assertNotNull($slotManager);
+        $this->pageContents->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue(array()));
+        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->templateSlots, $this->pageContents, $this->factory);
+        
+        $slotManager = $templateManager->getSlotManager('test');
+        $this->assertEquals(1, count($templateManager->getSlotManagers())); 
+        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager', $slotManager);
+        $this->assertEquals(1, count($templateManager->slotsToArray())); 
+        $this->assertEmpty($templateManager->slotToArray('test'));
     }
     
-    public function testSlotsToArray()
+    public function testCreatesASlotManagerWithABlockManagerInstantiated()
     {
-        return;
-        $slotManagersArray = $templateManager->slotsToArray();        
-        $slotManagers = $templateManager->getSlotManagers();
-        $this->assertEquals(count($slotManagers),count($slotManagersArray));
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
         
-        $this->assertEquals($slotManagers['logo']->toArray(), $slotManagersArray['logo']);
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');  
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(1)); 
+        
+        $this->pageContents->expects($this->once())
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array($block)));
+        
+        $this->pageContents->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue(array('test' => array($block))));
+        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->templateSlots, $this->pageContents, $this->factory);
+        
+        $slotManager = $templateManager->getSlotManager('test');
+        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $slotManager->first());        
+        $this->assertEquals(1, count($templateManager->slotsToArray())); 
+        $this->assertEquals(1, count($templateManager->slotToArray('test')));         
+    }
+    
+    public function testCreatesASlotManagerFromPageContent()
+    {
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');  
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(1)); 
+        
+        $this->pageContents->expects($this->exactly(2))
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array($block)));
+        
+        $this->pageContents->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue(array('test1' => array($block))));
+        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->templateSlots, $this->pageContents, $this->factory);
+        
+        $slotManager = $templateManager->getSlotManager('test1');
+        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $slotManager->first());
     }
     
     public function testPopulate()
     {
-        return;
-        $container = $this->setupPageTree()->getContainer(); 
-        $idLanguage = array(1, $container->get('al_page_tree')->getAlLanguage()->getId());
-        $idPage = array(1, $container->get('al_page_tree')->getAlPage()->getId());
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
         
-        $contents = AlBlockQuery::create()->retrieveContents($idLanguage, $idPage)->count();
-        $this->assertEquals(0, $contents, 'Some contents are saved, none was expected');
-        $templateManager->populate();
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');  
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(1)); 
         
-        $contents = AlBlockQuery::create()->retrieveContents($idLanguage, $idPage)->count();
-        $this->assertEquals(count($templateManager->getSlotManagers()), $contents, 'Not all the expected contents have been created');
+        $this->pageContents->expects($this->once())
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array($block)));
+        
+        $this->pageContents->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue(array('test' => array($block))));
+        
+        $this->blockManager->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->templateSlots, $this->pageContents, $this->factory);
+        $result = $templateManager->populate(2, 2);
+        $this->assertTrue($result);
     }
 }

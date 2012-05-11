@@ -48,6 +48,12 @@
     <unique name="I_PAGE">
       <unique-column name="id" />
     </unique>
+    <unique name="U_PAGE_NAME">
+      <unique-column name="page_name" />
+    </unique>
+    <index name="I_PAGE_NAME">
+      <index-column name="page_name" />
+    </index>
   </table>
 
   <table name="al_page_attribute" idMethod="native">

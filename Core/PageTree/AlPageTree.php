@@ -62,11 +62,6 @@ class AlPageTree extends BaseAlPageTree
     {
         return $this->alTheme;
     }
-    
-    public function getBridge()
-    {
-        return $this->bridge;
-    }
 
     public function isCmsMode()
     {
@@ -85,23 +80,23 @@ class AlPageTree extends BaseAlPageTree
     {
         try
         {
-            $alTheme = AlThemeQuery::create()->activeBackend()->findOne();
-            if(!$alTheme)
-            {
-                return null;
-            }
-
-            $this->alTheme = $alTheme;
-            $this->setThemeName($this->alTheme->getThemeName());
-            
             $this->alLanguage = (null === $alLanguage) ? $this->setupLanguageFromSession() : $alLanguage;
             $this->alPage = (null === $alPage) ? $this->setupPageFromRequest() : $alPage;
-
             if(null === $this->alLanguage || null === $this->alPage) return null;
+            
+            $alTheme = AlThemeQuery::create()->activeBackend()->findOne();
+            if (!$alTheme) {
+                return null;
+            }
+            $this->alTheme = $alTheme;
+            $this->setThemeName($this->alTheme->getThemeName());            
             $this->setTemplateName($this->alPage->getTemplateName());
             
-            $templateManager = new AlTemplateManager($this->container, $this->alPage, $this->alLanguage, $this->themeName, $this->templateName);
-            $this->setContents($templateManager->slotsToArray(), true);
+            $this->pageContentsContainer = new AlPageContentsContainer($container->get('event_dispatcher'), $this->alLanguage, $this->alPage);
+            $this->templateManager = new AlTemplateManager($container->get('event_dispatcher'), $container->get('translator'), $this->templateSlots, $this->pageContentsContainer);
+            //$this->setupBlocks();
+            //$templateManager = new AlTemplateManager($this->container, $this->alPage, $this->alLanguage, $this->themeName, $this->templateName);
+            //$this->setContents($templateManager->slotsToArray(), true);
 
             $rs = new AlRepeatedSlotsManager($this->container, $alTheme->getThemeName());
             $rs->compareSlots($this->templateName, $this->getSlots(), true);
@@ -111,6 +106,8 @@ class AlPageTree extends BaseAlPageTree
             throw $ex;
         }
     }
+    
+    
     
     /**
      * Sets up the AlLanguage object from the current session

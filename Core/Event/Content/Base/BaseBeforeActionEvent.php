@@ -28,7 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 abstract class BaseBeforeActionEvent extends BaseActionEvent
 {
     protected $values;
-    protected $cancel = false;
+    protected $abort = false;
 
     public function __construct(AlContentManagerBase $contentManager, array $values = null)
     {
@@ -50,14 +50,14 @@ abstract class BaseBeforeActionEvent extends BaseActionEvent
     /** 
      * Stops the current action
      */
-    public function cancel()
+    public function abort()
     {
-        $this->cancel = true;
+        $this->abort = true;
     }
 
     public function isAborted()
     {
-        return $this->cancel;
+        return $this->abort;
     }
 }
 

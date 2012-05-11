@@ -57,14 +57,16 @@ class AlBlockManagerTest extends TestCase
       
     protected function setUp() 
     {
+        parent::setUp();
+        
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         
-        $this->testAlBlockManager = new AlBlockManagerFunctionalTest($this->dispatcher, $this->translator);
+        $this->testAlBlockManager = new AlBlockManagerFunctionalTest($this->dispatcher, $this->translator, $this->connection);
     }
     
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
@@ -88,7 +90,7 @@ class AlBlockManagerTest extends TestCase
     }
     
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
@@ -100,9 +102,8 @@ class AlBlockManagerTest extends TestCase
         $this->translator->expects($this->once())
             ->method('trans');
         
-        $block->expects($this->any())
-            ->method('save')
-            ->will($this->throwException(new \InvalidArgumentException));
+        $block->expects($this->never())
+            ->method('save');
         
         $params = array();
         $this->testAlBlockManager->set($block);
@@ -110,7 +111,7 @@ class AlBlockManagerTest extends TestCase
     }
     
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
@@ -122,9 +123,8 @@ class AlBlockManagerTest extends TestCase
         $this->translator->expects($this->once())
             ->method('trans');
         
-        $block->expects($this->any())
-            ->method('save')
-            ->will($this->throwException(new \InvalidArgumentException));
+        $block->expects($this->never())
+            ->method('save');
         
         $params = array('Fake' => 'content');
         $this->testAlBlockManager->set($block);
@@ -132,7 +132,7 @@ class AlBlockManagerTest extends TestCase
     }
     
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
      */
     public function testAddFailsWhenOneExpectedParamIsMissing()
     {
@@ -144,9 +144,8 @@ class AlBlockManagerTest extends TestCase
         $this->translator->expects($this->once())
             ->method('trans');
         
-        $block->expects($this->any())
-            ->method('save')
-            ->will($this->throwException(new \InvalidArgumentException));
+        $block->expects($this->never())
+            ->method('save');
         
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
@@ -158,11 +157,11 @@ class AlBlockManagerTest extends TestCase
     }
     
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      */
     public function testAddFailsWhenTheDefaultValueDoesNotReturnAnArray()
     {
-        $testAlBlockManager = new AlBlockManagerFake($this->dispatcher, $this->translator);
+        $testAlBlockManager = new AlBlockManagerFake($this->dispatcher, $this->translator, $this->connection);
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         
         $this->dispatcher->expects($this->once())
@@ -171,9 +170,8 @@ class AlBlockManagerTest extends TestCase
         $this->translator->expects($this->once())
             ->method('trans');
         
-        $block->expects($this->any())
-            ->method('save')
-            ->will($this->throwException(new \InvalidArgumentException));
+        $block->expects($this->never())
+            ->method('save');
         
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
@@ -184,11 +182,11 @@ class AlBlockManagerTest extends TestCase
     }
     
     /**
-     * @expectedException InvalidArgumentException
-     */
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+    */
     public function testAddFailsWhenTheDefaultValueHasAnyOfTheRequiredOptions()
     {
-        $testAlBlockManager = new AlBlockManagerFake1($this->dispatcher, $this->translator);
+        $testAlBlockManager = new AlBlockManagerFake1($this->dispatcher, $this->translator, $this->connection);
         
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         
@@ -198,9 +196,8 @@ class AlBlockManagerTest extends TestCase
         $this->translator->expects($this->once())
             ->method('trans');
         
-        $block->expects($this->any())
-            ->method('save')
-            ->will($this->throwException(new \InvalidArgumentException));
+        $block->expects($this->never())
+            ->method('save');
         
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
@@ -208,6 +205,40 @@ class AlBlockManagerTest extends TestCase
                         "ClassName" => "Text");        
         $testAlBlockManager->set($block);
         $testAlBlockManager->save($params);
+    }
+    
+    public function testSaveBlockDuringAddFails()
+    {
+        $params = array("PageId" => 2,
+                        "LanguageId" => 2,
+                        "SlotName" => 'test',
+                        "ClassName" => "Text");
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        
+        $this->connection->expects($this->once())
+            ->method('beginTransaction');
+        
+        $this->connection->expects($this->once())
+            ->method('rollback');
+        
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->never())
+            ->method('trans');
+        
+        $block->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(0));
+        
+        $block->expects($this->once())
+            ->method('isModified')
+            ->will($this->returnValue(true));
+        
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params); 
+        $this->assertEquals(false, $result);
     }
     
     public function testAdd()
@@ -219,12 +250,18 @@ class AlBlockManagerTest extends TestCase
         
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         
+        $this->connection->expects($this->once())
+            ->method('beginTransaction');
+        
+        $this->connection->expects($this->once())
+            ->method('commit');
+        
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
         $block->expects($this->once())
             ->method('save')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue(1));
         
         $this->testAlBlockManager->set($block);
         $result = $this->testAlBlockManager->save($params); 
@@ -232,7 +269,7 @@ class AlBlockManagerTest extends TestCase
     }
     
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException 
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
@@ -252,10 +289,47 @@ class AlBlockManagerTest extends TestCase
         $this->testAlBlockManager->save($params); 
     }
     
+    public function testSaveBlockDuringEditFails()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->connection->expects($this->once())
+            ->method('beginTransaction');
+        
+        $this->connection->expects($this->once())
+            ->method('rollback');
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
+        
+        $block->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(0));
+        
+        $block->expects($this->once())
+            ->method('isModified')
+            ->will($this->returnValue(true));
+        
+        $params = array('HtmlContent' => 'changed html content'
+            );
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->save($params); 
+        $this->assertEquals(false, $result);
+    }
+    
     public function testEditHtmlContent()
     {
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
+        
+        $this->connection->expects($this->once())
+            ->method('beginTransaction');
+        
+        $this->connection->expects($this->once())
+            ->method('commit');
         
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
@@ -264,7 +338,7 @@ class AlBlockManagerTest extends TestCase
         
         $block->expects($this->once())
                 ->method('save')
-                ->will($this->returnValue(true));
+                ->will($this->returnValue(1));
         
         $block->expects($this->once())
                 ->method('getHtmlContent')
@@ -303,7 +377,7 @@ class AlBlockManagerTest extends TestCase
     }
     
     /**
-     * @expectedException RuntimeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
      */
     public function testDeleteBlockFailsWhenAnyBlockIsSetted()
     {
@@ -311,6 +385,35 @@ class AlBlockManagerTest extends TestCase
             ->method('dispatch');
         
         $this->testAlBlockManager->delete();
+    }
+    
+    public function testSaveBlockDuringDeleteFails()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->connection->expects($this->once())
+            ->method('beginTransaction');
+        
+        $this->connection->expects($this->once())
+            ->method('rollback');
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
+        
+        $block->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(0));
+        
+        $block->expects($this->once())
+            ->method('isModified')
+            ->will($this->returnValue(true));
+        
+        $this->testAlBlockManager->set($block);
+        $result = $this->testAlBlockManager->delete();  
+        $this->assertEquals(false, $result);
     }
     
     public function testDeleteBlock()
