@@ -41,9 +41,8 @@ class AlSlotManager extends AlTemplateBase
 {
     protected $slot;
     protected $lastAdded = null;
-    protected $blockManagers = null;
+    protected $blockManagers = array();
     protected $forceSlotAttributes = false;
-    protected $blockManagerFactory = null;
     
     /**
      * Constructor
@@ -57,21 +56,12 @@ class AlSlotManager extends AlTemplateBase
      *                                              just to reduce the number of queries and optimize performances
      * @param \PropelPDO $connection 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlSlot $slot, AlPage $alPage, AlLanguage $alLanguage, AlBlockManagerFactoryInterface $blockManagerFactory = null, array $alBlocks = null, \PropelPDO $connection = null)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlSlot $slot, AlBlockManagerFactoryInterface $blockManagerFactory = null, array $alBlocks = array(), \PropelPDO $connection = null)
     {
-        if(null === $alPage->getId()) {
-            throw new \InvalidArgumentException('The page object cannot be empty');
-        }
+        parent::__construct($dispatcher, $translator, $blockManagerFactory, $connection);
         
-        if(null === $alLanguage->getId()) {
-            throw new \InvalidArgumentException('The language object cannot be empty');
-        }
-        
-        parent::__construct($dispatcher, $translator, $alPage, $alLanguage, $connection);
-        
-        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
         $this->slot = $slot;
-        $this->setUpBlockManagers($alBlocks);
+        if(!empty($alBlocks)) $this->setUpBlockManagers($alBlocks);
     }
     
     /**
@@ -196,23 +186,22 @@ class AlSlotManager extends AlTemplateBase
     }
 
     /**
-     * Adds a new block instantiating a new block manager
-     * 
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
      * 
      * @api
-     * @param string    $type               The block type. By default a Text block is added
-     * @param int       $referenceBlockId   The id of the reference block. When given, the block is placed below this one
-     * @return boolean 
-     * @throws \InvalidArgumentException     When the required content type does not exist
+     * @param int $idLanguage
+     * @param type $idPage
+     * @param type $type                The block type. By default a Text block is added
+     * @param type $referenceBlockId    The id of the reference block. When given, the block is placed below this one
+     * @return null|boolean
+     * @throws Exception
+     * @throws \InvalidArgumentException 
      */
-    public function addBlock($type = 'Text', $referenceBlockId = null)
+    public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
     {
         try
         {
-            $idPage = $this->alPage->getId();
-            $idLanguage = $this->alLanguage->getId();
             switch ($this->slot->getRepeated()) {
                 case 'site':
                     $idPage = 1;
@@ -515,16 +504,16 @@ class AlSlotManager extends AlTemplateBase
      * 
      * @param array $alBlocks 
      */
-    protected function setUpBlockManagers(array $alBlocks = null)
+    protected function setUpBlockManagers(array $alBlocks)
     {
+        /*
         if (null === $alBlocks) {
             $alBlocks = AlBlockQuery::create()
                 ->setDispatcher($this->dispatcher)
                 ->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())
                 ->find();
-        }
+        }*/
         
-        $this->blockManagers = array();
         foreach($alBlocks as $alBlock)
         {
             $alBlockManager = $this->blockManagerFactory->createBlock($this->dispatcher, $this->translator, $alBlock);

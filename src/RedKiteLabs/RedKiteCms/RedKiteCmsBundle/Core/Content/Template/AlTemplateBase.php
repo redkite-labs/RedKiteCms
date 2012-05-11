@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
@@ -30,8 +31,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
  */
 abstract class AlTemplateBase extends AlContentManagerBase
 {
-    protected $alLanguage; 
-    protected $alPage;
+    protected $blockManagerFactory;
     
     /**
      * Contructor
@@ -40,15 +40,33 @@ abstract class AlTemplateBase extends AlContentManagerBase
      * @param AlPage $alPage
      * @param AlLanguage $alLanguage 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlPage $alPage, AlLanguage $alLanguage, \PropelPDO $connection = null) 
+    public function __construct(EventDispatcherInterface $dispatcher = null, TranslatorInterface $translator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, \PropelPDO $connection = null) 
     {
         parent::__construct($dispatcher, $translator, $connection);
         
-        /*
-        $this->alLanguage = (null !== $alLanguage) ? $alLanguage : $this->container->get('al_page_tree')->getAlLanguage(); 
-        $this->alPage = (null !== $alPage) ? $alPage : $this->container->get('al_page_tree')->getAlPage(); 
-        */
-        $this->alLanguage = $alLanguage; 
-        $this->alPage = $alPage; 
+        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
+    }
+    
+    /**
+     * Sets the blockManager factory object
+     * 
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase (for fluent API)
+     */
+    public function setBlockManagerFactory(AlBlockManagerFactoryInterface $blockManagerFactory)
+    {
+        $this->blockManagerFactory = $blockManagerFactory;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the blockManager factory object
+     * 
+     * @return AlBlockManagerFactoryInterface
+     */
+    public function getBlockManagerFactory()
+    {
+        return $this->blockManagerFactory;
     }
 }

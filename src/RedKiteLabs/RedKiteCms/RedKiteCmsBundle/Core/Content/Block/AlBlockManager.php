@@ -19,13 +19,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use Symfony\Component\DependencyInjection\Exception;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlBlockManager wraps an AlBlock object. 
@@ -74,7 +74,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function set(\BaseObject $propelObject = null)
     {
         if (null !== $propelObject && !$propelObject instanceof AlBlock) {
-            throw new Exception\InvalidArgumentException('AlBlockManager accepts only AlBlock propel objects');
+            throw new General\InvalidParameterTypeException('AlBlockManager accepts only AlBlock propel objects');
         }
         
         $this->alBlock = $propelObject;
@@ -240,7 +240,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         try
         {
             if (null === $this->alBlock) {
-                throw new \RuntimeException($this->translator->trans("Any valid block has been setted. Nothing to delete", array()));
+                throw new General\ParameterIsEmptyException($this->translator->trans("Any valid block has been setted. Nothing to delete", array()));
             }
             
             if (null !== $this->dispatcher) {
@@ -248,7 +248,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_DELETE_BLOCK, $event);
                 
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translator->trans("The content deleting action has been aborted", array()));
+                    throw new Event\EventAbortedException($this->translator->trans("The content deleting action has been aborted", array()));
                 }
             }
             
@@ -330,7 +330,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
                
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translator->trans("The current block adding action has been aborted", array(), 'exceptions'));
+                    throw new Event\EventAbortedException($this->translator->trans("The current block adding action has been aborted", array(), 'exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {
@@ -343,7 +343,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => ""); 
             $this->checkRequiredParamsExists($requiredParameters, $values);
         
-            /* TODO Should be safety removed?
+            /* TODO Could this be safety removed?
             $languageId = (isset($values['LanguageId'])) ? $values['LanguageId'] : $this->container->get('al_page_tree')->getAlLanguage()->getId();
             $pageId = (isset($values['PageId'])) ? $values['PageId'] : $this->container->get('al_page_tree')->getAlPage()->getId();
             $values['LanguageId'] = $languageId;
@@ -354,16 +354,20 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if (!array_key_exists('HtmlContent', $values)) { 
                 $defaults = $this->getDefaultValue();
                 if (!is_array($defaults)) {
-                    throw new \InvalidArgumentException($this->translator->trans('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
+                    throw new General\InvalidParameterTypeException($this->translator->trans('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
                 }
-
-                $availableOptions = array('HtmlContent', 'InternalJavascript', 'ExternalJavascript', 'InternalStylesheet', 'ExternalStylesheet');
+                
+                $mergedValues = array_merge($values, $defaults);
+                
+                $availableOptions = array('HtmlContent' => '', 'InternalJavascript' => '', 'ExternalJavascript' => '', 'InternalStylesheet' => '', 'ExternalStylesheet' => '');
+                $this->checkOnceValidParamExists($availableOptions, $mergedValues);
+                /*
                 $diff = array_diff(array_keys($defaults), $availableOptions);
                 if (count($diff) == count($defaults)) {
                     throw new \InvalidArgumentException($this->translator->trans('%className% requires at least one of the following options: "%options%". Your input parameters are: "%parameters%"', array('%className%' => get_class($this), '%options%' => implode(', ', $availableOptions), '%parameters%' => implode(', ', array_keys($defaults))), 'al_content_manager_exceptions'));
-                }
+                }*/
                 
-                $values = array_merge($values, $defaults);
+                $values = $mergedValues;
             }
                         
             $result = false;
@@ -424,7 +428,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_EDIT_BLOCK, $event);
             
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translator->trans("The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
+                    throw new Event\EventAbortedException($this->translator->trans("The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
                 }
                 
                 if ($values !== $event->getValues()) {

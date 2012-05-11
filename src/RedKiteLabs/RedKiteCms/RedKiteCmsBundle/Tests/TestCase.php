@@ -23,12 +23,21 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 
+
+
+
 class TestCase extends \PHPUnit_Framework_TestCase {
  
-    private $container = null;
+    protected $connection = null;
     
-    public static function setUpBeforeClass()
+    protected function setUp()
     {
+        $this->connection = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Pdo\MockPDO');
+    }
+
+
+    public static function setUpBeforeClass()
+    {/*
         $config = array("datasources" => array (
             "default" => array (
                 "adapter" => "mysql",
@@ -49,11 +58,9 @@ class TestCase extends \PHPUnit_Framework_TestCase {
             \Propel::setConfiguration($config);
             \Propel::initialize();
         }
-        
+        /*
         //tools\AlphaLemonDataPopulator::depopulate();
-
-        
-                                            
+                               
         /*
         if(null === $this->container)
         {

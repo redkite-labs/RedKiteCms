@@ -19,7 +19,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
  * The base class that defines a content manager object
@@ -30,7 +31,7 @@ abstract class AlContentManagerBase
 {
     protected $dispatcher;
     protected $translator;
-    protected $connection;
+    protected $validator;
 
     /**
      * Constructor
@@ -39,48 +40,80 @@ abstract class AlContentManagerBase
      * @param TranslatorInterface $translator
      * @param \PropelPDO $connection 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, \PropelPDO $connection = null)
+    public function __construct(EventDispatcherInterface $dispatcher = null, TranslatorInterface $translator = null, AlParametersValidatorInterface $validator = null)
     {
         $this->dispatcher = $dispatcher;
         $this->translator = $translator;
-        $this->connection = (null === $connection) ? \Propel::getConnection() : $connection;
+        $this->validator = $validator;
     }
     
     /**
-     * Returns the current PropelConnection 
+     * Sets the event dispatcher object
      * 
-     * @return PropelPDO 
+     * @param EventDispatcherInterface $dispatcher
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase (for fluent API)
      */
-    public function getConnection()
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
-        return $this->connection;
+        $this->dispatcher = $dispatcher;
+        
+        return $this;
+    }
+    
+    /**
+     * Sets the tranlator object
+     * 
+     * @param TranslatorInterface $translator
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase (for fluent API)
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+        
+        return $this;
+    }
+    
+    /**
+     * Sets the parameters validator object
+     * 
+     * @param AlParametersValidatorInterface $validator
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase 
+     */
+    public function setValidator(AlParametersValidatorInterface $validator)
+    {
+        $this->validator = $validator;    
+    
+        return $this;
+    }
+        
+    
+    /**
+     * Returns the Event dispatcher object
+     * 
+     * @return EventDispatcherInterface 
+     */
+    public function getDispatcher()
+    {
+        return $this->dispatcher;
+    }
+    
+    /**
+     * Returns the Translator object
+     * 
+     * @return TranslatorInterface 
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
     }
 
-    protected function checkEmptyParams(array $values)
+    /**
+     * Returns the ParameterValidator object
+     * 
+     * @return TranslatorInterface 
+     */
+    public function getValidator()
     {
-        if(empty($values)) {
-            throw new \InvalidArgumentException($this->translator->trans('save() method requires at least one valid parameter, any one has been given', array(), 'exceptions'));
-        }
-    }
-    
-    protected function checkOnceValidParamExists(array $requiredParams, array $values)
-    {
-        $diff = array_diff_key($requiredParams, $values); 
-        if(count($diff) != 0 && count($diff) != count($values)) {
-            throw new \InvalidArgumentException($this->translator->trans('save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
-        }
-    }
-    
-    protected function checkRequiredParamsExists(array $requiredParams, array $values)
-    {
-        $diff = array_diff_key($requiredParams, $values);
-        if(count($diff) == count($requiredParams) || count($diff) > 0) {
-            throw new \InvalidArgumentException($this->translator->trans('save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
-        }
-    }
-    
-    private function doImplode(array $params)
-    {
-        return implode(',', array_keys($params));
+        return $this->validator;
     }
 }

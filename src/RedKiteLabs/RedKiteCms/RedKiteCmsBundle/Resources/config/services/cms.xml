@@ -43,9 +43,13 @@
         
         <parameter key="alcms.upload_assets_dir">uploads/assets</parameter>
         
-        <parameter key="al_cms_setup_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlCmsSetupListener</parameter>
-        <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlFinalizeContentsListener</parameter>
-        <parameter key="al_kernel_exception_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\AlKernelExceptionListener</parameter>
+        <parameter key="al_cms_setup_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\CmsSetupListener</parameter>
+        <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\FinalizeContentsListener</parameter>
+        <parameter key="al_kernel_exception_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\KernelExceptionListener</parameter>
+        <parameter key="al_add_page_attributes_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageAttributesListener</parameter>
+        <parameter key="al_add_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageContentsListener</parameter>
+        <parameter key="al_remove_page_attributes_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageAttributesListener</parameter>
+        <parameter key="al_remove_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageContentsListener</parameter>-->
         
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
@@ -64,22 +68,6 @@
     <services>
         <service id="al_page_tree" class="%alphalemon.page_tree%">
             <argument type="service" id="service_container" />
-        </service>
-        
-        <service id="al_cms_setup_listener.class" class="%al_cms_setup_listener.class%">
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
-            <argument type="service" id="service_container" />
-        </service>
-        
-        <service id="al_cms_finalize_content_listener.class" class="%al_cms_finalize_content_listener.class%">
-            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0" />
-            <argument type="service" id="service_container" />
-        </service>
-        
-        <service id="al_kernel_exception_listener.class" class="%al_kernel_exception_listener.class%">
-            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
-            <argument type="service" id="security.context" />
-            <argument type="service" id="security.authentication.trust_resolver" />
         </service>
         
         <service id="images_block_edited.class" class="%images_block_edited.class%">
@@ -110,5 +98,41 @@
         <service id="al_language_manager" class="%al_cms_languages_manager%">
             <argument type="service" id="service_container" />
         </service>
+        
+        <service id="al_cms_setup_listener.class" class="%al_cms_setup_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="al_cms_finalize_content_listener.class" class="%al_cms_finalize_content_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="al_kernel_exception_listener.class" class="%al_kernel_exception_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.authentication.trust_resolver" />
+        </service>
+        
+        <service id="al_add_page_attributes_listener.class" class="%al_add_page_attributes_listener.class%">
+            <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
+            <argument type="service" id="al_page_attributes_manager" />
+        </service>
+        
+        <service id="al_add_page_contents_listener.class" class="%al_add_page_contents_listener.class%">
+            <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
+        </service>
+        
+        <service id="al_remove_page_attributes_listener.class" class="%al_remove_page_attributes_listener.class%">
+            <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeDeletePageCommit" priority="0" />
+            <argument type="service" id="al_page_attributes_manager" />
+        </service>
+        
+        <service id="al_remove_page_contents_listener.class" class="%al_remove_page_contents_listener.class%">
+            <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeDeletePageCommit" priority="0" />
+        </service>
+        
+        
     </services>
 </container>

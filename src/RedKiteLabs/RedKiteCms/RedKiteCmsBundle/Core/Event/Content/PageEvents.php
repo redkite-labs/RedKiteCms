@@ -19,19 +19,23 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 
 /**
  * Defines the names for the page events
+ * 
+ * 
+ * All those events are tagged as alcms.event_listener
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 final class PageEvents
 {
-    // alcms.event_listener
-    
     const BEFORE_ADD_PAGE = 'pages.before_page_adding';
+    const BEFORE_ADD_PAGE_COMMIT = 'pages.before_add_page_commit';
     const AFTER_ADD_PAGE = 'pages.after_page_added';
 
     const BEFORE_EDIT_PAGE = 'pages.before_page_editing';
+    const BEFORE_EDIT_PAGE_COMMIT = 'pages.before_edit_page_commit';
     const AFTER_EDIT_PAGE = 'pages.after_page_edited';
 
     const BEFORE_DELETE_PAGE = 'pages.before_page_deleting';
+    const BEFORE_DELETE_PAGE_COMMIT = 'pages.before_delete_page_commit';
     const AFTER_DELETE_PAGE = 'pages.after_page_deleted';
 }

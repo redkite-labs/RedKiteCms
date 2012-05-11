@@ -23,106 +23,173 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
+use \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 class AlPageManagerTest extends TestCase
 {   
-    private static $testAlPageManager;
-    
-    public function testSetAndGet()
+    private $dispatcher;
+    private $translator;
+    private $pageManager;
+    private $templateManager;
+      
+    protected function setUp() 
     {
-        $testAlPageManager = new AlPageManager(
-            $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface')
-        );
+        parent::setUp();
         
-        try 
-        {
-            $testAlPageManager->set($this->getMock('\BaseObject'));
-            $this->fail('->set() method should raise an exception when the passed parameter is not an instance of AlPage object' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-        }
+        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         
-        $testAlPageManager->set($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage'));
-        $this->assertNotNull($testAlPageManager->get(), 'The AlPage has not been set');
+        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
         
-        $testAlPageManager->set(null);
-        $this->assertNull($testAlPageManager->get(), 'The AlPage has not been set as null');
+        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->pageManager = new AlPageManager($this->dispatcher, $this->translator, $this->validator, $this->templateManager, $this->pageModel);
     }
     
-    public function testAddingAnEmptyArrayAsInputThrowsAnException()
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     */
+    public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        AlphaLemonDataPopulator::depopulate();
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $this->pageModel->expects($this->once())
+            ->method('setModelObject')
+            ->will($this->throwException(new General\InvalidParameterTypeException()));
         
-        $container = $this->setupPageTree()->getContainer(); 
-        self::$testAlPageManager = new AlPageManager(
-            $container
-        );
-        
-        try 
-        {
-            self::$testAlPageManager->save(array());
-            $this->fail('->save() method should raise an exception when the passed parameter is an empty array' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('The page cannot be added because any parameter has been given', $e->getMessage());
-        }
+        $this->pageManager->set($page);
     }
     
-    public function testAdd()
-    {    
-        try 
-        {
-            self::$testAlPageManager->save(array('Fake' => 'content'));
-            $this->fail('->save() method should raise an exception when the required parameters have not been given');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires the following parameters: pageName,template. You must give pageName,template which is/are missing', $e->getMessage());
-        }
+    public function testSetANullAlPageObject()
+    {
+        $this->pageModel->expects($this->once())
+            ->method('setModelObject')
+            ->with(null)
+            ->will($this->returnValue(null));
         
-        try 
-        {
-            self::$testAlPageManager->save(array('pageName' => '', 'template' => 'home'));
-            $this->fail('->save() method should raise an exception when the passed parameter doesn\'t contain the pageName parameter');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('The name to assign to the page cannot be null', $e->getMessage());
-        }
+        $this->pageManager->set(null);
+        $this->assertNull($this->pageManager->get());
+    }
+    
+    
+    private function valorizePageModelSetAndGet($page)
+    {
+        $this->pageModel->expects($this->any())
+            ->method('setModelObject')
+            ->with($page)
+            ->will($this->returnSelf());
         
-        try 
-        {
-            self::$testAlPageManager->save(array('pageName' => 'fake page', 'template' => ''));
-            $this->fail('->save() method should raise an exception when the passed parameter doesn\'t contain the template parameter');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('The page requires at least a template', $e->getMessage());
-        }
+        $this->pageModel->expects($this->any())
+            ->method('getModelObject')
+            ->will($this->returnValue($page));
+    }
+    
+    public function testSetAlPageObject()
+    {
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->valorizePageModelSetAndGet($page);
+        $this->assertEquals($page, $this->pageManager->get());
+    }
+    
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     */
+    public function testAddFailsWhenAnyParamIsGiven()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+                
+        $this->validator->expects($this->once())
+            ->method('checkEmptyParams')
+            ->will($this->throwException(new General\EmptyParametersException()));
         
-        try 
-        {
-            self::$testAlPageManager->save(array('pageName' => 'fake page', 'template' => 'home'));
-            $this->fail('->save() method should raise an exception when the website has any language');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('The web site has any language inserted. Please add a new language before adding a page', $e->getMessage());
-        }
+        $values = array();
         
-        $alLanguage = new AlLanguage();
-        $alLanguage->setLanguage('en');
-        $alLanguage->setMainLanguage(1);
-        $alLanguage->save(); 
+        //$page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        //$this->pageManager->set($page);
+        $this->pageManager->save($values); 
+    }
+    
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     */
+    public function testAddFailsWhenAnyExpectedParamIsGiven()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+                
+        $this->validator->expects($this->once())
+            ->method('checkRequiredParamsExists')
+            ->will($this->throwException(new General\ParameterExpectedException()));
+                
+        $values = array('fake' => 'value');
         
-        $container = $this->setupPageTree($alLanguage->getId())->getContainer(); 
-        self::$testAlPageManager = new AlPageManager(
-            $container
-        );
+        //$page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        //$this->pageManager->set($page);
+        $this->pageManager->save($values); 
+    }
+    
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     */
+    public function testAddFailsWhenExpectedPageNameParamIsMissing()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $params = array('template'      => 'home', 
+                        'permalink'     => 'this is a website fake page',
+                        'title'         => 'page title',
+                        'description'   => 'page description',
+                        'keywords'      => '');
+        
+        //$page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        //$this->pageManager->set($page);
+        $this->pageManager->save($params); 
+    }
+    
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     */
+    public function testAddFailsWhenExpectedTemplateParamIsMissing()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $params = array('pageName'      => 'fake page', 
+                        'permalink'     => 'this is a website fake page',
+                        'title'         => 'page title',
+                        'description'   => 'page description',
+                        'keywords'      => '');
+        
+        //$page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        //$this->pageManager->set($page);
+        $this->pageManager->save($params); 
+    }
+    
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
+     */
+    public function testAddFailsWhenAnyLanguageHasBeenAddedAndTryingToAddPage()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->translator->expects($this->once())
+            ->method('trans');
+        
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(false));
         
         $params = array('pageName'      => 'fake page', 
                         'template'      => 'home',
@@ -130,200 +197,407 @@ class AlPageManagerTest extends TestCase
                         'title'         => 'page title',
                         'description'   => 'page description',
                         'keywords'      => '');
-        $this->assertTrue(self::$testAlPageManager->save($params));//exit;
-        $this->assertNotNull(self::$testAlPageManager->get());
-        $this->assertEquals('fake-page', self::$testAlPageManager->get()->getPageName());
-        $this->assertEquals(1, self::$testAlPageManager->get()->getIsHome(), 'The first page added has not prometed as the website\'s home page');
         
-        $repeated = $this->retrieveRepeatedContentsByTemplate($container, 'Home' );
-        $this->checkAddedContents(self::$testAlPageManager, $repeated);
-        
-        $testAlPageManager1 = new AlPageManager(
-            $container
-        );
-        
-        try 
-        {
-            $testAlPageManager1->save($params);
-            $this->fail('->save() method should raise an exception when the pagename already exists');
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('The name to assign to the page already exists in the website. Page name must be unique.', $e->getMessage());
-        }
-        
-        $params['pageName'] = 'fake page 1'; 
-        $this->assertTrue($testAlPageManager1->save($params));
-        $this->assertEquals(0, $testAlPageManager1->get()->getIsHome(), 'When at least a page exists, is home must be false');        
-        $this->checkAddedContents($testAlPageManager1, $repeated);
-        
-        $alPageAttribute = AlPageAttributeQuery::create()->fromPageId($testAlPageManager1->get()->getId());
-        $this->assertEquals(1, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
-        
-        $repeated = $this->retrieveRepeatedContentsByTemplate($container, 'Internal' );
-        $testAlPageManager2 = new AlPageManager(
-            $container
-        );
-        $params['pageName'] = 'fake page 2';
-        $params['template'] = 'internal';
-        $this->assertTrue($testAlPageManager2->save($params));
-        $this->checkAddedContents($testAlPageManager2, $repeated);
-        
-        $testAlPageManager3 = new AlPageManager(
-            $container
-        );
-        $params['pageName'] = 'fake page 3';
-        $params['isHome'] = 1;
-        $this->assertTrue($testAlPageManager3->save($params));        
-        $this->assertEquals(1, $testAlPageManager3->get()->getIsHome(), 'When the isHome param is true, is home must be true');
-        $this->assertEquals(0, self::$testAlPageManager->get()->getIsHome(), 'When a page is promoted to home page, the previous home page isHome parameter must be false');        
+        //$page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        //$this->pageManager->set($page);
+        $this->pageManager->save($params); 
     }
         
-    /**
-     * @depends testAdd
-     */
-    public function testEdit()
+    public function testAddNewPageFailsBecauseSaveFailsAtLast()
     {
-        try 
-        {
-            self::$testAlPageManager->save(array());
-            $this->fail('->save() method should raise an exception when the passed parameter is an empty array' );
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            $this->assertEquals('save() method requires at least one valid parameter, any one has been given', $e->getMessage());
-        }
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
         
-        $pageAttributes = self::$testAlPageManager->get()->getAlPageAttributes(); 
-        $languageId =  $pageAttributes[0]->getLanguageId();
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
         
-        $pageName = self::$testAlPageManager->get()->getPageName();
-        $templateName = self::$testAlPageManager->get()->getTemplateName();
-        $isHome = self::$testAlPageManager->get()->getIsHome();
+        $this->pageModel->expects($this->once())
+            ->method('rollback');
         
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => 0, 'pageName' => '', 'template' => '', 'isHome' => '')));
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(true));
         
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'pageName' => '', 'template' => '', 'isHome' => '')));
-        $this->assertEquals($pageName, self::$testAlPageManager->get()->getPageName(), 'The page name has been set to empty string when it was expected to remain untouched');
-        $this->assertEquals($templateName, self::$testAlPageManager->get()->getTemplateName(), 'The template name has been set to empty string when it was expected to remain untouched');
-        $this->assertEquals($isHome, self::$testAlPageManager->get()->getIsHome(), 'The isHome page flag has been set to empty string when it was expected to remain untouched');
+        $this->pageModel->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(false));
         
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'pageName' => 'New fake name', 'template' => 'internal', 'isHome' => 1)));
-        $this->assertEquals('new-fake-name', self::$testAlPageManager->get()->getPageName(), 'The page name has not been changed');
-        $this->assertEquals('internal', self::$testAlPageManager->get()->getTemplateName(), 'The template name has not been changed');
-        $this->assertEquals(1, self::$testAlPageManager->get()->getIsHome(), 'The isHome page flag has not been changed ');
-        
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'template' => 'home')));
-        $this->assertEquals('home', self::$testAlPageManager->get()->getTemplateName(), 'The template name has not been changed');
-        
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'isHome' => 1)));
-        $this->assertEquals(1, self::$testAlPageManager->get()->getIsHome(), 'The isHome page flag has been changed when it was expected to remain untouched');
-        
-        $home = AlPageQuery::create()->homePage()->count();
-        $this->assertEquals(1, $home, 'The isHome page flag has been assigned to more than one page');  
-        
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $languageId, 'isHome' => 1)));
-    }
-    
-    public function testEditPermalink()
-    {
-        $pageAttributes = self::$testAlPageManager->get()->getAlPageAttributes();
-        $pageAttribute = $pageAttributes[0];
-        $this->assertEquals('this-is-a-website-fake-page', $pageAttribute->getPermalink());
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'permalink' => 'a new permalink')));
-        $this->assertEquals('a-new-permalink', $pageAttribute->getPermalink());
-    }
-    
-    public function testEditMetatags()
-    {
-        $pageAttributes = self::$testAlPageManager->get()->getAlPageAttributes();
-        $pageAttribute = $pageAttributes[0];
-        $this->assertEquals('page title', $pageAttribute->getMetaTitle());
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'title' => 'a new title')));
-        $this->assertEquals('a new title', $pageAttribute->getMetaTitle());
-        
-        $this->assertEquals('page description', $pageAttribute->getMetaDescription());
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'description' => 'a new description')));
-        $this->assertEquals('a new description', $pageAttribute->getMetaDescription());
-        
-        $this->assertEquals('', $pageAttribute->getMetaKeywords());
-        $this->assertTrue(self::$testAlPageManager->save(array('languageId' => $pageAttribute->getLanguageId(), 'keywords' => 'some,fake,keywords')));
-        $this->assertEquals('some,fake,keywords', $pageAttribute->getMetaKeywords());
-    }
-    
-    /**
-     * @depends testEdit
-     */
-    public function testDelete()
-    {
-        try 
-        {
-            self::$testAlPageManager->delete();
-            $this->fail('->delete() method should not delete the home page' );
-        }
-        catch(\RuntimeException $e)
-        {
-            $this->assertEquals('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one', $e->getMessage());
-        }
-        
-        self::$testAlPageManager->get()->setIsHome(0);
-        
-        $this->assertTrue(self::$testAlPageManager->delete()); 
-        $this->assertEquals(1, self::$testAlPageManager->get()->getToDelete(), '->delete() method has not set to true the to_delete field as expected');
-        $this->assertEquals(0, AlBlockQuery::create()->fromPageId(self::$testAlPageManager->get()->getId())->count());
-        $this->assertEquals(0, AlPageAttributeQuery::create()->fromPageId(self::$testAlPageManager->get()->getId())->count());
-    }
-    
-    /**
-     * @depends testEdit
-     */
-    public function testAddPageWhenSiteHasMoreLanguages()
-    {
-        AlPageQuery::create()->deleteAll();
-        
-        $alLanguage = new AlLanguage();
-        $alLanguage->setLanguage('it');
-        $alLanguage->save(); 
-        
-        $container = $this->setupPageTree($alLanguage->getId())->getContainer(); 
-        self::$testAlPageManager = new AlPageManager(
-            $container
-        );
-        
-        $this->assertEquals(0, AlPageQuery::create()->filterByToDelete(0)->count());
-        $this->assertEquals(0, AlPageAttributeQuery::create()->filterByToDelete(0)->count());
-        
-        $params = array('pageName'      => 'fake add page', 
+        $params = array('pageName'      => 'fake page', 
                         'template'      => 'home',
                         'permalink'     => 'this is a website fake page',
                         'title'         => 'page title',
                         'description'   => 'page description',
                         'keywords'      => '');
-        $this->assertTrue(self::$testAlPageManager->save($params));
-        $this->assertEquals(1, AlPageQuery::create()->filterByToDelete(0)->count());
-        $this->assertEquals(2, AlPageAttributeQuery::create()->filterByToDelete(0)->count());
-        $alPageAttribute = AlPageAttributeQuery::create()->fromPageAndLanguage(self::$testAlPageManager->get()->getId(),$alLanguage->getId());
-        $this->assertEquals(1, $alPageAttribute->count(), '->save() has not copied the page attributes to the new language as expected');
-        $this->assertEquals('it-this-is-a-website-fake-page', $alPageAttribute->findOne()->getPermalink());
+        
+        //$page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        //$this->pageManager->set($page);
+        $res = $this->pageManager->save($params); 
+        $this->assertFalse($res);
+    }
+        
+    public function testAddNewPageFailsBecauseResetHomeFail()
+    {
+        $this->dispatcher->expects($this->once(1))
+            ->method('dispatch');
+        
+        $this->validator->expects($this->once())
+            ->method('hasPages')
+            ->will($this->returnValue(true));
+        
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(true));
+        
+        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->pageModel->expects($this->once())
+            ->method('homePage')
+            ->will($this->returnValue($homepage));
+        
+        $this->pageModel->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(false));
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('rollback');
+        
+        $params = array('pageName'      => 'fake page',
+                        'isHome'        => '1', 
+                        'template'      => 'home',
+                        'permalink'     => 'this is a website fake page',
+                        'title'         => 'page title',
+                        'description'   => 'page description',
+                        'keywords'      => '');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->valorizePageModelSetAndGet($page);      
+        
+        $res = $this->pageManager->save($params); 
+        $this->assertFalse($res);
     }
     
-    private function checkAddedContents($page, $repeated)
+    public function testAddNewHomePage()
     {
-        $pageContents = AlBlockQuery::create('a')->where('a.LanguageId <> ?', 1)->filterByPageId($page->get()->getId())->filterByToDelete(0)->count();
-        $languageContents = AlBlockQuery::create('a')->where('a.LanguageId <> ?', 1)->filterByPageId(1)->filterByToDelete(0)->count();
-        $siteContents = AlBlockQuery::create()->filterByLanguageId(1)->filterByPageId(1)->filterByToDelete(0)->count();
+        $this->dispatcher->expects($this->exactly(3))
+            ->method('dispatch');
         
-        $this->assertEquals($pageContents, count($repeated["page"]));
-        $this->assertEquals($languageContents, count($repeated["language"]));
-        //$this->assertEquals($siteContents, count($repeated["site"]));        
+        $this->validator->expects($this->once())
+            ->method('hasPages')
+            ->will($this->returnValue(true));
+        
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->exactly(2))
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->pageModel->expects($this->once())
+            ->method('homePage')
+            ->will($this->returnValue($homepage));
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('commit');
+        
+        $params = array('pageName'      => 'fake page',
+                        'isHome'        => '1', 
+                        'template'      => 'home',
+                        'permalink'     => 'this is a website fake page',
+                        'title'         => 'page title',
+                        'description'   => 'page description',
+                        'keywords'      => '');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->valorizePageModelSetAndGet($page);      
+        
+        $res = $this->pageManager->save($params); 
+        $this->assertTrue($res);
     }
     
-    private function retrieveRepeatedContentsByTemplate($container, $templateName)
+    public function testAddNewPage()
     {
-        $pageTree = $container->get('al_page_tree');
-        $className = \sprintf('\AlphaLemon\Theme\%s\Core\Slots\%s%sSlots', $pageTree->getThemeName(), $pageTree->getThemeName(), $templateName);
-        $templateSlots = new $className();
+        $this->dispatcher->expects($this->exactly(3))
+            ->method('dispatch');
         
-        return $templateSlots->toArray();
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('commit');
+        
+        $params = array('pageName'      => 'fake page', 
+                        'template'      => 'home',
+                        'permalink'     => 'this is a website fake page',
+                        'title'         => 'page title',
+                        'description'   => 'page description',
+                        'keywords'      => '');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->valorizePageModelSetAndGet($page);      
+        
+        $res = $this->pageManager->save($params); 
+        $this->assertTrue($res);
+    }
+    
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     */
+    public function testEditFailsWhenAnyParamIsGiven()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->validator->expects($this->once())
+            ->method('checkEmptyParams')
+            ->will($this->throwException(new General\EmptyParametersException()));
+        
+        /*
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->never())
+            ->method('save');*/
+        
+        $this->pageModel->expects($this->never())
+            ->method('save');
+        
+        $params = array();
+        //$this->pageManager->set($page);
+        $this->pageManager->save($params); 
+    }
+    
+    public function testEditFailsBecauseSaveFailsAtLast()
+    {
+        $this->dispatcher->expects($this->once(1))
+            ->method('dispatch');        
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(2));
+        
+        $page->expects($this->any())
+            ->method('getPageName')
+            ->will($this->returnValue('fake-page'));
+        
+        $this->valorizePageModelSetAndGet($page);      
+        
+        $this->pageModel->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(false));
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('rollback');
+        
+        $params = array('pageName' => 'fake page');
+        //$this->pageManager->set($page);
+        $res = $this->pageManager->save($params); 
+        $this->assertFalse($res);
+    }
+    
+    public function testEditPageName()
+    {
+        $this->dispatcher->expects($this->exactly(3))
+            ->method('dispatch');        
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(2));
+        
+        $page->expects($this->any())
+            ->method('getPageName')
+            ->will($this->returnValue('fake-page'));
+        
+        $this->valorizePageModelSetAndGet($page);      
+        
+        $this->pageModel->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('commit');
+        
+        $params = array('pageName' => 'fake page');
+        //$this->pageManager->set($page);
+        $res = $this->pageManager->save($params); 
+        $this->assertTrue($res);
+        $this->assertEquals('fake-page', $this->pageManager->get()->getPageName());
+    }
+    
+    public function testEditHomePageBecauseResetHomeFails()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->validator->expects($this->once())
+            ->method('hasPages')
+            ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(false));
+        
+        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->pageModel->expects($this->once())
+            ->method('homePage')
+            ->will($this->returnValue($homepage));
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('rollback');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(2));
+        
+        $this->valorizePageModelSetAndGet($page);      
+        
+        $params = array('isHome' => 1);
+        $res = $this->pageManager->save($params); 
+        $this->assertFalse($res);
+    }
+    
+    public function testEditHomePage()
+    {
+        $this->dispatcher->expects($this->exactly(3))
+            ->method('dispatch');
+        
+        $this->validator->expects($this->once())
+            ->method('hasPages')
+            ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->exactly(2))
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $this->pageModel->expects($this->once())
+            ->method('homePage')
+            ->will($this->returnValue($homepage));
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('commit');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(2));
+        
+        $this->valorizePageModelSetAndGet($page);      
+        
+        $params = array('isHome' => 1);
+        $res = $this->pageManager->save($params); 
+        $this->assertTrue($res);
+    }
+    
+    public function testEditTemplate()
+    {
+        $this->markTestSkipped();
+    }
+    
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     */
+    public function testDeleteFailsWhenTheManagedPageIsNull()
+    {
+        $this->dispatcher->expects($this->never())
+            ->method('dispatch');
+        
+        $this->pageManager->set(null);
+        $this->pageManager->delete(); 
+    }
+    
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
+     */
+    public function testDeleteFailsWhenTryingToRemoveTheHomePage()
+    {
+        $this->dispatcher->expects($this->never())
+            ->method('dispatch');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->once())
+                ->method('getIsHome')
+                ->will($this->returnValue(1));
+        
+        //$this->pageManager->set($page);
+        $this->valorizePageModelSetAndGet($page);        
+        $this->pageManager->delete(); 
+    }
+    
+    public function testDeleteFailsBecauseSaveFailsAtLast()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+                ->method('delete')
+                ->will($this->returnValue(false));
+        
+        $this->pageModel->expects($this->once())
+            ->method('rollback');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->any())
+                ->method('getIsHome')
+                ->will($this->returnValue(0));
+        
+        $this->valorizePageModelSetAndGet($page);     
+        $res = $this->pageManager->delete(); 
+        $this->assertFalse($res);
+    }
+    
+    public function testDelete()
+    {
+        $this->dispatcher->expects($this->exactly(3))
+            ->method('dispatch');
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+                ->method('delete')
+                ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->once())
+            ->method('commit');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->any())
+                ->method('getIsHome')
+                ->will($this->returnValue(0));
+        
+        $this->valorizePageModelSetAndGet($page);     
+        $res = $this->pageManager->delete(); 
+        $this->assertTrue($res);
     }
 }

@@ -22,7 +22,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\DependencyInjection\Exception;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\PagesEvents;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  *  Adds some filters to the AlPageQuery object
@@ -31,17 +31,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AlPageQuery extends BasePageQuery
 {
-    protected $container = null;
+    protected $dispatcher = null;
     
     /**
-     * Sets the container
+     * Sets the dispatcher
      * 
-     * @param ContainerInterface $v
+     * @param EventDispatcherInterface $v
      * @return AlBlockQuery 
      */
-    public function setContainer(ContainerInterface $v)
+    public function setDispatcher(EventDispatcherInterface $v)
     {
-        $this->container = $v;
+        $this->dispatcher = $v;
         
         return $this;
     }
@@ -75,18 +75,13 @@ class AlPageQuery extends BasePageQuery
                       ->where('id > 1')
                       ->orderby('PageName');
         
-        if(null !== $this->container)
-        {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Page\ActivePagesQueringEvent($query);
-                $dispatcher->dispatch(PagesEvents::ACTIVE_PAGES, $event);
+        if (null !== $this->dispatcher) {
+            $event = new Page\ActivePagesQueringEvent($query);
+            $this->dispatcher->dispatch(PagesEvents::ACTIVE_PAGES, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -111,18 +106,13 @@ class AlPageQuery extends BasePageQuery
         $query = $this->filterByToDelete(0)
                       ->filterByPageName(AlToolkit::slugify($pageName));
         
-        if(null !== $this->container)
-        {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Page\FromPageNameQueringEvent($query);
-                $dispatcher->dispatch(PagesEvents::FROM_PAGE_NAME, $event);
+        if (null !== $this->dispatcher) {
+            $event = new Page\FromPageNameQueringEvent($query);
+            $this->dispatcher->dispatch(PagesEvents::FROM_PAGE_NAME, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
         
@@ -145,18 +135,13 @@ class AlPageQuery extends BasePageQuery
                          ->where('id != 1');
         }
         
-        if(null !== $this->container)
-        {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new Page\HomePageQueringEvent($query);
-                $dispatcher->dispatch(PagesEvents::HOME_PAGE, $event);
+        if (null !== $this->dispatcher) {
+            $event = new Page\HomePageQueringEvent($query);
+            $this->dispatcher->dispatch(PagesEvents::HOME_PAGE, $event);
 
-                if($query !== $event->getQuery())
-                {
-                    $query = $event->getQuery();
-                }
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
             }
         }
 
