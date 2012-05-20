@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license infblockModelation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -19,26 +19,33 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 
 /**
- * Listen to the onBeforeAddPageCommit event to add contents when a new page is added
+ * Listen to the onBeforeAddPageCommit event to add the page's contents, when a new page is added
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
 class AddPageContentsListener
 {
-    private $templateManager;
+    private $languageModel;
     
-    public function __construct(AlTemplateManager $templateManager)
+    /**
+     * Constructor
+     * 
+     * @param LanguageModelInterface $languageModel 
+     */
+    public function __construct(LanguageModelInterface $languageModel)
     {
-        $this->templateManager = $templateManager;
+        $this->languageModel = $languageModel;
     }
     
     /**
      * Adds the contents for the page when a new page is added, for each language of the site
      * 
      * @param BeforeAddPageCommitEvent $event
-     * @throws \Exception 
+     * @throws Exception 
      */
     public function onBeforeAddPageCommit(BeforeAddPageCommitEvent $event)
     {
@@ -47,31 +54,38 @@ class AddPageContentsListener
         }
         
         $pageManager = $event->getContentManager(); 
-        $connection = $pageManager->getConnection();
-        
+        $templateManager = $pageManager->getTemplateManager();
+        $pageModel = $pageManager->getPageModel();
         try {
-            $rollBack = false;
-            $connection->beginTransaction();
+            $pageModel->startTransaction();
+            $languages = $this->languageModel->activeLanguages();
             
-            $languages= $pageManager->getValidator()->getSiteLanguages();
-            foreach ($languages as $alLanguage) {
-                $rollBack = !$this->templateManager->populate($alLanguage->getId(), $pageManager->get()->getId());
+            if (count($languages) > 0) {
+                $result = true;
+                // The min number of pages is setted to 1 because we are adding a page which has been saved but not 
+                // committed so it counts as one
+                $ignoreRepeatedSlots = $pageManager->getValidator()->hasPages(1); 
+                $idPage = $pageManager->get()->getId();
+                foreach ($languages as $alLanguage) {
+                    $result = $templateManager->populate($alLanguage->getId(), $idPage, $ignoreRepeatedSlots);
 
-                if ($rollBack) break;    
-            }
-            
-            if (!$rollBack) {
-                $connection->commit();
-            }
-            else {
-                $connection->rollback();
-                $event->abort();
+                    if (!$result) break;    
+                }
+
+                if ($result) {
+                    $pageModel->commit();
+                }
+                else {
+                    $pageModel->rollBack();
+                    
+                    $event->abort();
+                }
             }
         }
         catch(\Exception $e) {
             $event->abort();
-            if (isset($connection) && $connection !== null) {
-                $connection->rollback();
+            if (isset($pageModel) && $pageModel !== null) {
+                $pageModel->rollBack();
             }
             
             throw $e;

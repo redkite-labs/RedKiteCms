@@ -19,19 +19,32 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\SeoModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 
 /**
- * Listen to the onBeforeDeletePageCommit event to delete page contents when a page is removed
+ * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page is removed
  *
  * @author AlphaLemon <info@alphalemon.com>
  */
 class DeletePageContentsListener
 {
+    private $languageModel;
+    
     /**
-     * Deletes the page contents for all the site languages
+     * Constructor
+     * 
+     * @param LanguageModelInterface $languageModel 
+     */
+    public function __construct(LanguageModelInterface $languageModel)
+    {
+        $this->languageModel = $languageModel;
+    }
+    
+    /**
+     * Deletes the page's contents, for all the languages of the site
      * 
      * @param BeforeDeletePageCommitEvent $event
-     * @return type
      * @throws Exception 
      */
     public function onBeforeDeletePageCommit(BeforeDeletePageCommitEvent $event)
@@ -41,62 +54,35 @@ class DeletePageContentsListener
         }
         
         $pageManager = $event->getContentManager(); 
-        $connection = $pageManager->getConnection();
+        $pageModel = $pageManager->getPageModel();
         
         try {
-            $rollBack = false;
-            $connection->beginTransaction();
-            
-            $rollBack = !$this->removeBlocks($pageManager->getTemplateManager());
-            if (!$rollBack) {
-                $languages= $pageManager->getValidator()->getSiteLanguages();
+            $languages = $this->languageModel->activeLanguages();
+            if (count($languages) > 0) {                
+                $result = true;
+                $idPage = $pageManager->get()->getId();
+                $pageModel->startTransaction();
                 foreach ($languages as $alLanguage) {
-                    $pageContentsContainer = $pageManager->getTemplateManager()->getPageContentsContainer();
-                    if ($alLanguage !== $pageContentsContainer->getAlLanguage()) {
-                        $pageContentsContainer->setAlLanguage($alLanguage);
-                        $templateManager = $pageManager->getTemplateManager()->setPageContentsContainer($pageContentsContainer);
-                        $rollBack = !$this->removeBlocks($templateManager);
-                    }
-
-                    if ($rollBack) break;    
+                    $result = $pageManager->getTemplateManager()->clearPageBlocks($alLanguage->getId(), $idPage);
+                    if (!$result) break;    
                 }
-            }
-            
-            if (!$rollBack) {
-                $connection->commit();
-            }
-            else {
-                $connection->rollback();
-                $event->abort();
+
+                if ($result) {
+                    $pageModel->commit();
+                }
+                else {
+                    $pageModel->rollBack();
+                    $event->abort();
+                }
             }
         }
         catch(\Exception $e) {
             $event->abort();
-            if (isset($connection) && $connection !== null) {
-                $connection->rollback();
+            if (isset($pageModel) && $pageModel !== null) {
+                $pageModel->rollBack();
             }
             
             throw $e;
         }
     }
-    
-    /**
-     * Removes the blocks
-     * 
-     * @param AlTemplateManager $templateManager
-     * @return boolean 
-     */
-    private function removeBlocks($templateManager)
-    {
-        foreach ($templateManager->getSlotManagers() as $slotManager) {
-            $result = (strtolower($slotManager->getRepeated()) == 'page') ? $slotManager->deleteBlocks() : true;
-            
-            if (!$result) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
 }
-

@@ -56,23 +56,23 @@ class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInter
     {
         try
         {
-            $rollback = false;
+            $rollBack = false;
             $this->connection->beginTransaction();
 
             $theme = new AlTheme();
             $theme->setThemeName($themeName);
             if(array_key_exists('active_backend', $values)) $theme->setActive($values['active_backend']);
             $result = $theme->save();
-            if ($theme->isModified() && $result == 0) $rollback = true;
+            if ($theme->isModified() && $result == 0) $rollBack = true;
 
-            if (!$rollback)
+            if (!$rollBack)
             {
                 $this->connection->commit();
                 return true;
             }
             else
             {
-                $this->connection->rollback();
+                $this->connection->rollBack();
                 return false;
             }
         }
@@ -93,17 +93,17 @@ class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInter
             $theme = AlThemeQuery::create()->setContainer($this->container)->activeBackend()->findOne();
             if(null === $theme || $theme->getThemeName() != $themeName)
             {
-                $rollback = false;
+                $rollBack = false;
                 $this->connection->beginTransaction();
 
                 // Resets the current active theme
                 if(null !== $theme)
                 {
                     $theme->setActive(0)->save();
-                    if ($theme->isModified() && $result == 0) $rollback = true;
+                    if ($theme->isModified() && $result == 0) $rollBack = true;
                 }
                 
-                if(!$rollback)
+                if(!$rollBack)
                 {
                     // Activates the new one
                     $theme = AlThemeQuery::create()->setContainer($this->container)->fromName($themeName)->findOne();
@@ -111,15 +111,15 @@ class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInter
                     {
                         $theme->setActive(1);
                         $result = $theme->save();
-                        if ($theme->isModified() && $result == 0) $rollback = true;
+                        if ($theme->isModified() && $result == 0) $rollBack = true;
                     }
                     else
                     {
-                        $rollback = true;
+                        $rollBack = true;
                     }
                 }
                 
-                if (!$rollback)
+                if (!$rollBack)
                 {
                     $this->connection->commit();
                     return true;

@@ -31,7 +31,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlFinalizeContentsListener
+class FinalizeContentsListener
 {
     protected $container;
     

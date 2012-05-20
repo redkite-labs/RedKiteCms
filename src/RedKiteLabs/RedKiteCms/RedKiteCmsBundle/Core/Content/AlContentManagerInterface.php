@@ -39,7 +39,7 @@ interface  AlContentManagerInterface {
      * @api
      * @param   A BaseObject instance
      */
-    public function set(\BaseObject $propelObject = null);
+    public function set($propelObject = null);
     
     /**
      * Implements the base method to add or edit the managed object

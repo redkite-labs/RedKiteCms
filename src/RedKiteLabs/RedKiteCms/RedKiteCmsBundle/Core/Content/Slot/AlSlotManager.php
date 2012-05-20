@@ -18,14 +18,13 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModel;
 
 /**
  * AlSlotManager represents a slot on a page. 
@@ -34,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
  * A slot is a zone on the page where one or more blocks lives. This object is responsible to manage the blocks that it contains, 
  * adding, editing and removing them. 
  * 
- *
+ * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSlotManager extends AlTemplateBase
@@ -49,39 +48,77 @@ class AlSlotManager extends AlTemplateBase
      * 
      * @param EventDispatcherInterface $dispatcher
      * @param TranslatorInterface $translator
-     * @param AlSlot $slot                          The slot to manage
-     * @param AlPage $alPage                        The AlPage object where the slot lives.
-     * @param AlLanguage $alLanguage                The AlLanguage object where the slot lives.
-     * @param array $alBlocks                       The contents to manage.When null the object retrieves them on its own. Contents are injected
-     *                                              just to reduce the number of queries and optimize performances
-     * @param \PropelPDO $connection 
+     * @param AlSlot $slot
+     * @param BlockModelInterface $blockModel
+     * @param AlParametersValidatorInterface $validator
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlSlot $slot, AlBlockManagerFactoryInterface $blockManagerFactory = null, array $alBlocks = array(), \PropelPDO $connection = null)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlSlot $slot, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
     {
-        parent::__construct($dispatcher, $translator, $blockManagerFactory, $connection);
+        parent::__construct($dispatcher, $translator, $validator, $blockManagerFactory);
         
         $this->slot = $slot;
-        if(!empty($alBlocks)) $this->setUpBlockManagers($alBlocks);
+        $this->blockModel = $blockModel;        
     }
     
     /**
-     * Returns the slot manager's behavior when a new block is added
+     * Sets the slot object
      * 
-     * @return boolean 
+     * @api
+     * @param AlSlot $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager 
      */
-    public function getForceSlotAttributes()
+    public function setSlot(AlSlot $v)
     {
-        return $this->forceSlotAttributes;
+        $this->slot = $v;
+        
+        return $this;
     }
     
+    /**
+     * Returns the slot object
+     * 
+     * @api
+     * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     */
+    public function getSlot()
+    {
+        return $this->slot;
+    }
+    
+    /**
+     * Sets the block model object
+     * 
+     * @api
+     * @param BlockModelInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager 
+     */
+    public function setBlockModel(BlockModelInterface $v)
+    {
+        $this->blockModel = $v;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the block manager object
+     * 
+     * @api
+     * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     */
+    public function getBlockModel()
+    {
+        return $this->blockModel;
+    }
+
     /**
      * Sets the slot manager's behavior when a new block is added
      * 
-     * 
+     * @api
      * When true forces the add operation to use the default AlSlot attributes for 
      * the new block type
      * 
-     * @param bool
+     * @param Boolean
      */
     public function setForceSlotAttributes($v)
     {
@@ -90,12 +127,19 @@ class AlSlotManager extends AlTemplateBase
         }
         
         $this->forceSlotAttributes = $v;
+        
+        return $this;
     }
     
-    
-    public function setBlockManagerFactory(AlBlockManagerFactoryInterface $v)
+    /**
+     * Returns the slot manager's behavior when a new block is added
+     * 
+     * @api
+     * @return boolean 
+     */
+    public function getForceSlotAttributes()
     {
-        $this->blockManagerFactory = $v;
+        return $this->forceSlotAttributes;
     }
     
     /**
@@ -112,6 +156,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the name of the slot
      * 
+     * @api
      * @return string 
      */
     public function getSlotName()
@@ -186,6 +231,8 @@ class AlSlotManager extends AlTemplateBase
     }
 
     /**
+     * Adds a new AlBlock object to the slot
+     * 
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
      * 
@@ -220,23 +267,17 @@ class AlSlotManager extends AlTemplateBase
                     break;
             }
             
-            $alBlockManager = $this->blockManagerFactory->createBlock($this->dispatcher, $this->translator, $type);
+            $alBlockManager = $this->blockManagerFactory->createBlock($this->blockModel, $type);
             if (null === $alBlockManager) {
                 throw new \InvalidArgumentException("The $type type does not exist");
             }
             
-            // Someone is trying to copy the contents, i.e. when a new page is created, so repeated contents are skipped
-            // TODO
-            //$isCopyingContent = (null !== $this->container->get('al_page_tree')->getAlPage() && $this->container->get('al_page_tree')->getAlPage()->getId() != $this->alPage->getId()) ? true : false;
-            $isCopyingContent = false;
-            if (($idLanguage == 1 || $idPage == 1) && $isCopyingContent) {
-                if (AlBlockQuery::create()->setDispatcher($this->dispatcher)->retrieveContents($idLanguage, $idPage, $this->slot->getSlotName())->count() > 0) {
-                    return null;
-                }
+            if (count($this->blockModel->retrieveContents($idLanguage, $idPage, $this->slot->getSlotName())) > 0) {
+                return null;
             }
                         
-            $rollBack = false;
-            $this->connection->beginTransaction();
+            $result = true;
+            $this->blockModel->startTransaction();
 
             // Find the block position
             $leftArray = array();
@@ -254,12 +295,12 @@ class AlSlotManager extends AlTemplateBase
 
                         $manager = $this->blockManagers[$index];
                         $position = $manager->get()->getContentPosition();
-                        $rollBack = !$this->adjustPosition('add', $rightArray);
+                        $result = $this->adjustPosition('add', $rightArray);
                     }
                 }
             }
 
-            if (!$rollBack) {
+            if (false !== $result) {
                 if ($this->forceSlotAttributes) {
                     $type = $this->slot->getBlockType();
                 }
@@ -280,11 +321,12 @@ class AlSlotManager extends AlTemplateBase
                     $values["InternalStylesheet"] = $this->slot->getInternalStylesheet();
                 }
                 
-                $rollBack = !$alBlockManager->save($values);
+                $alBlockManager->set(null);
+                $result = $alBlockManager->save($values);
             }
 
-            if (!$rollBack) {
-                $this->connection->commit(); 
+            if ($result) {
+                $this->blockModel->commit(); 
                 
                 if (!empty($leftArray) || !empty($rightArray)) {
                     $index = $position - 1;
@@ -295,18 +337,16 @@ class AlSlotManager extends AlTemplateBase
                 }
                 
                 $this->lastAdded = $alBlockManager;
-                
-                return true;
             }
             else {
-                $this->connection->rollback();
-                return false;
+                $this->blockModel->rollBack();
             }
+            
+            return $result;
         }
-        catch(\Exception $e)
-        {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+        catch (\Exception $e) {
+            if (isset($this->blockModel) && $this->blockModel !== null) {
+                $this->blockModel->rollBack();
             }
             
             throw $e;
@@ -326,10 +366,28 @@ class AlSlotManager extends AlTemplateBase
     {
         $blockManager = $this->getBlockManager($idBlock);
         if ($blockManager != null) {
-            return $blockManager->save($values);
+            try {
+                $this->blockModel->startTransaction();
+
+                $result = $blockManager->save($values);
+
+                if ($result) {
+                    $this->blockModel->commit(); 
+                }
+                else {
+                    $this->blockModel->rollBack();
+                }
+                
+                return $result;
+            }
+            catch (\Exception $e) {
+                if (isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
+                }
+
+                throw $e;
+            }
         }
-        
-        return null;
     }
     
     /**
@@ -351,30 +409,31 @@ class AlSlotManager extends AlTemplateBase
                  
             try
             {
-                $rollBack = false;
-                $this->connection->beginTransaction();
+                $this->blockModel->startTransaction();
             
                 // Adjust the blocks position
-                $this->adjustPosition('del', $rightArray);
-                $res = $info['manager']->delete();
-                $rollBack = !$res;
-                
-                if (!$rollBack) {
-                    $this->connection->commit(); 
-                }
-                else {
-                    $this->connection->rollback();
+                $result = $this->adjustPosition('del', $rightArray);
+                if (false !== $result) {
+                    $result = $info['manager']->delete();
                 }
                 
-                if ($res) {
+                if ($result) {
+                    $this->blockModel->commit(); 
+                    
                     $this->blockManagers = array_merge($leftArray, $rightArray);
                 }
+                else {
+                    $this->blockModel->rollBack();
+                }
 
-                return $res;
+                return $result;
             }
             catch(\Exception $e)
             {
-                if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+                if (isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
+                }
+                
                 throw $e;
             }
         }
@@ -393,7 +452,7 @@ class AlSlotManager extends AlTemplateBase
         try
         {
             $rollBack = false;
-            $this->connection->beginTransaction();
+            $this->blockModel->startTransaction();
               
             foreach($this->blockManagers as $blockManager) {
                 $res = $blockManager->delete();
@@ -404,21 +463,21 @@ class AlSlotManager extends AlTemplateBase
             }
 
             if (!$rollBack) {
-                $this->connection->commit(); 
+                $this->blockModel->commit(); 
                 $this->blockManagers = array();
                 
                 return true;
             }
             else {
-                $this->connection->rollback();
+                $this->blockModel->rollBack();
                 
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+            if (isset($this->blockModel) && $this->blockModel !== null) {
+                $this->blockModel->rollBack();
             }
             
             throw $e;
@@ -452,7 +511,6 @@ class AlSlotManager extends AlTemplateBase
         
         return (null !== $info) ? $info['index'] : null;
     }
-    
     
     /**
      * @deprecated
@@ -502,21 +560,14 @@ class AlSlotManager extends AlTemplateBase
      * 
      * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
      * 
+     * @api
      * @param array $alBlocks 
      */
-    protected function setUpBlockManagers(array $alBlocks)
+    public function setUpBlockManagers(array $alBlocks)
     {
-        /*
-        if (null === $alBlocks) {
-            $alBlocks = AlBlockQuery::create()
-                ->setDispatcher($this->dispatcher)
-                ->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())
-                ->find();
-        }*/
-        
         foreach($alBlocks as $alBlock)
         {
-            $alBlockManager = $this->blockManagerFactory->createBlock($this->dispatcher, $this->translator, $alBlock);
+            $alBlockManager = $this->blockManagerFactory->createBlock($this->blockModel, $alBlock);
             $this->blockManagers[] = $alBlockManager;
         } 
     }
@@ -524,6 +575,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Retrieves the block manager and the index by the block's id
      * 
+     * @api
      * @param   int     $idBlock The id of the block to retrieve  
      * @return  null|array 
      */
@@ -548,6 +600,7 @@ class AlSlotManager extends AlTemplateBase
      * When in *del* mode, decrements by 1 the position of the blocks placed below the
      * removing block
      * 
+     * @api
      * @param   string      $op         The operation to do. It accepts add or del as valid values
      * @param   array       $managers   An array of block managers
      * @return  boolean 
@@ -564,35 +617,33 @@ class AlSlotManager extends AlTemplateBase
                 throw new \InvalidArgumentException($this->translator->trans('The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"', array('%className%' => get_class($this), '%options%' => $required, '%parameter%' => $op), 'al_slot_manager_exceptions'));
             }
             
-            $rollback = false;
-            $this->connection->beginTransaction();
-            
-            foreach($managers as $blockManager) {
-                $block = $blockManager->get();
-                $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
-                $block->setContentPosition($position);
-                $result = $block->save(); 
-                if ($block->isModified() && $result == 0) {
-                    $rollback = true;
-                    break;
-                }
-            }
+            if (count($managers) > 0) {
+                $result = null;
+                $this->blockModel->startTransaction();
+                foreach ($managers as $blockManager) {
+                    $block = $blockManager->get();
+                    $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
+                    $result = $this->blockModel
+                                    ->setModelObject($block)
+                                    ->save(array("ContentPosition" => $position));
 
-            if (!$rollback) {
-                $this->connection->commit();
-                
-                return true;
-            }
-            else {
-                $this->connection->rollback();
-                
-                return false;
+                    if (!$result) break;
+                }
+
+                if ($result) {
+                    $this->blockModel->commit();
+                }
+                else {
+                    $this->blockModel->rollBack();
+                }
+
+                return $result;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+            if (isset($this->blockModel) && $this->blockModel !== null) {
+                $this->blockModel->rollBack();
             }
             
             throw $e;

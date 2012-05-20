@@ -1,25 +1,25 @@
 {
     "bundles" : {
         "AlphaLemon\\AlphaLemonCmsBundle\\AlphaLemonCmsBundle" : {
-            "environments" : ["alcms", "alcms_dev", "test"]
+            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
         "AlphaLemon\\AlValumUploaderBundle\\AlValumUploaderBundle" : {
-            "environments" : ["alcms", "alcms_dev", "test"]
+            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
         "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
-            "environments" : ["alcms", "alcms_dev", "test"]
+            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
         "Propel\\PropelBundle\\PropelBundle" : {
-            "environments" : ["alcms", "alcms_dev", "test"]
+            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
         "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {
-            "environments" : ["alcms_dev"]
+            "environments" : ["alcms_dev", "alcms_test"]
         },
         "Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle" : {
-            "environments" : ["alcms_dev"]
+            "environments" : ["alcms_dev", "alcms_test"]
         },
         "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
-            "environments" : ["alcms_dev"]
+            "environments" : ["alcms_dev", "alcms_test"]
         }
     }
 }

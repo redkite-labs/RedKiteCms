@@ -56,7 +56,7 @@
     </index>
   </table>
 
-  <table name="al_page_attribute" idMethod="native">
+  <table name="al_seo" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="language_id" type="INTEGER" required="true" default="0" />
     <foreign-key foreignTable="al_language" onDelete="CASCADE">

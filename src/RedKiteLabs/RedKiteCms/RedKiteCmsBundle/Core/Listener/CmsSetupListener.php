@@ -32,7 +32,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlCmsSetupListener
+class CmsSetupListener
 {
     protected $container;
     
@@ -59,27 +59,27 @@ class AlCmsSetupListener
             return;
         }
         
-        if(AlToolkit::locateResource($this->container, $this->container->getParameter('alcms.deploy.xliff_skeleton'), true) === false)
+        if(AlToolkit::locateResource($kernel, $this->container->getParameter('alcms.deploy.xliff_skeleton'), true) === false)
         {
             throw new \Symfony\Component\Form\Exception\InvalidConfigurationException("The parameter xliff_skeleton is not configured well. Check your configuration file");
         }
 
-        if(AlToolkit::locateResource($this->container, $this->container->getParameter('alcms.deploy.xml_skeleton'), true) === false)
+        if(AlToolkit::locateResource($kernel, $this->container->getParameter('alcms.deploy.xml_skeleton'), true) === false)
         {
             throw new \Symfony\Component\Form\Exception\InvalidConfigurationException("The parameter xml_skeleton is not configured well. Check your configuration file");
         }
 
-        if(AlToolkit::locateResource($this->container, $this->container->getParameter('alcms.assets.skeletons_folder'), true) === false)
+        if(AlToolkit::locateResource($kernel, $this->container->getParameter('alcms.assets.skeletons_folder'), true) === false)
         {
             throw new \Symfony\Component\Form\Exception\InvalidConfigurationException("The parameter skeletons_folder is not configured well. Check your configuration file");
         }
         
-        $basePath = AlToolkit::locateResource($this->container, $this->container->getParameter('al.deploy_bundle_assets_base_dir'));
+        $basePath = AlToolkit::locateResource($kernel, $this->container->getParameter('al.deploy_bundle_assets_base_dir'));
         $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_media_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_js_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_css_folder');
         
-        $basePath = AlToolkit::locateResource($this->container,  '@AlphaLemonCmsBundle') . 'Resources/public/' . $this->container->getParameter('alcms.upload_assets_dir');   
+        $basePath = AlToolkit::locateResource($kernel,  '@AlphaLemonCmsBundle') . 'Resources/public/' . $this->container->getParameter('alcms.upload_assets_dir');   
         $folders[] = $basePath;
         $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_media_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_js_folder');
@@ -88,7 +88,7 @@ class AlCmsSetupListener
         $fs = new Filesystem();
         $fs->mkdir($folders);
         
-        $pageTree = $this->container->get('al_page_tree');
+        $pageTree = $this->container->get('al_page_tree');       
         $pageTree->setup();
     }
 }

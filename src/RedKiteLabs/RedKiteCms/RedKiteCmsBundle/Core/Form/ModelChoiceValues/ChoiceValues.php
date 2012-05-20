@@ -17,13 +17,15 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlThemeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
+
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\ThemeModelInterface;
 
 /**
  * Retrieves form the database the values used in the forms
@@ -32,39 +34,39 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
  */
 class ChoiceValues
 {
-    public static function getPages(ContainerInterface $container = null, $withNoneOption = true)
+    public static function getPages(PageModelInterface $pageModel, $withNoneOption = true)
     {
-        $pages = array();
+        $result = array();
         if($withNoneOption) $pages["none"] = " ";
-        $pagesQuery = AlPageQuery::create()->setContainer($container)->activePages()->find();
-        foreach($pagesQuery as $page)
+        $pages = $pageModel->activePages();
+        foreach($pages as $page)
         {
-            $pages[$page->getId()] = $page->getPageName();
+            $result[$page->getId()] = $page->getPageName();
         }
 
-        return $pages;
+        return $result;
     }
 
-    public static function getLanguages(ContainerInterface $container = null, $withNoneOption = true)
+    public static function getLanguages(LanguageModelInterface $languageModel, $withNoneOption = true)
     {
-        $languages = array();
+        $result = array();
         if($withNoneOption) $languages["none"] = " ";
-        $languagesQuery = AlLanguageQuery::create()->setContainer($container)->activeLanguages()->find(); 
-        foreach($languagesQuery as $language)
+        $languages = $languageModel->activeLanguages();
+        foreach($languages as $language)
         {
-            $languages[$language->getId()] = $language->getLanguage();
+            $result[$language->getId()] = $language->getLanguage();
         }
 
-        return $languages;
+        return $result;
     }
 
-    public static function getTemplates()
+    public static function getTemplates(ThemeModelInterface $themeModel)
     {
         // Default templates
         $templates = array("none" => " ");
         
         // Find the current active theme
-        $theme = AlThemeQuery::create()->activeBackend()->findOne(); 
+        $theme = $themeModel->activeBackend(); 
         if(null === $theme) return $templates;
         
         $composer = new BundlesAutoloaderComposer('AlphaLemon\\Theme' );

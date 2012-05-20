@@ -23,10 +23,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\ThemeEngineBundle\Model\AlTheme;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
+
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 

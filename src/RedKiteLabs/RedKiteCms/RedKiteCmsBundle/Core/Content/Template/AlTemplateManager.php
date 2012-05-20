@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license infblockModelation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -19,77 +19,62 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
- * AlTemplateManager manages the slots where the page contents are saved.
+ * AlTemplateManager is the object responsible to manage the template's slots.
  * 
- * The AlTemplateManager object collects the slots from the templated defined by and object derived 
- * from an AlTemplateSlotsInterface, then populates them using the contents defined by an object
- * derived from an AlPageContentsContainerInterface.
- *
+ * 
+ * The AlTemplateManager object collects the slots from the templated defined by an object derived 
+ * from an AlTemplateSlotsInterface. 
+ * 
+ * @api
+ * @see AlSlotManager
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlTemplateManager extends AlTemplateBase
 {
     protected $slotManagers = array();
     protected $templateSlotsClass;
-    private $templateSlots = null;
-    
+    protected $templateSlots = null;
+    protected $blockModel;
+    protected $pageContentsContainer;
+
     /**
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
      * @param TranslatorInterface $translator
-     * @param AlTemplateSlotsInterface $templateSlots
      * @param AlPageContentsContainerInterface $pageContentsContainer
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
-     * @param \PropelPDO $connection 
+     * @param BlockModelInterface $blockModel
+     * @param AlParametersValidatorInterface $validator
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlTemplateSlotsInterface $templateSlots, AlPageContentsContainerInterface $pageContentsContainer, AlBlockManagerFactoryInterface $blockManagerFactory = null, \PropelPDO $connection = null)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlPageContentsContainerInterface $pageContentsContainer, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
     {
-        parent::__construct($dispatcher, $translator, $blockManagerFactory, $connection);
+        parent::__construct($dispatcher, $translator, $validator, $blockManagerFactory);
         
-        $this->templateSlots = $templateSlots;
         $this->pageContentsContainer = $pageContentsContainer;
-        
-        $this->setUpSlotManagers();
+        $this->blockModel =  $blockModel;
     }
     
     /**
      * Sets the current AlTemplateSlots object
      * 
+     * @api
      * @param AlTemplateSlotsInterface $templateSlots 
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager 
      */
     public function setTemplateSlots(AlTemplateSlotsInterface $templateSlots)
     {
         $this->templateSlots = $templateSlots;
-        
-        if (null !== $this->pageContentsContainer) {
-            $this->setUpSlotManagers();
-        }
-        
-        return $this;
-    }
-    
-    /**
-     * Sets the page contents container object
-     * 
-     * @param AlPageContentsContainerInterface $pageContentsContainer
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager 
-     */
-    public function setPageContentsContainer(AlPageContentsContainerInterface $pageContentsContainer)
-    {
-        $this->pageContentsContainer = $pageContentsContainer;
-        
-        if (null !== $this->templateSlots) {
-            $this->setUpSlotManagers();
-        }
         
         return $this;
     }
@@ -106,6 +91,20 @@ class AlTemplateManager extends AlTemplateBase
     }
     
     /**
+     * Sets the page contents container object
+     * 
+     * @api
+     * @param AlPageContentsContainerInterface $pageContentsContainer
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager 
+     */
+    public function setPageContentsContainer(AlPageContentsContainerInterface $pageContentsContainer)
+    {
+        $this->pageContentsContainer = $pageContentsContainer;
+        
+        return $this;
+    }
+    
+    /**
      * Returns the current page contents container object
      * 
      * @api
@@ -114,6 +113,30 @@ class AlTemplateManager extends AlTemplateBase
     public function getPageContentsContainer()
     {
         return $this->pageContentsContainer;
+    }
+    
+    /**
+     * Sets the block model interface 
+     * 
+     * @api
+     * @param BlockModelInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager 
+     */
+    public function setBlockModel(BlockModelInterface $v)
+    {
+        $this->pageContentsContainer = $v;
+        
+        return $this;
+    }
+    
+    /**
+     * Sets the block model object associated to the template manager
+     * 
+     * @return BlockModelInterface 
+     */
+    public function getBlockModel()
+    {
+        return $this->blockModel;
     }
     
     /**
@@ -184,49 +207,152 @@ class AlTemplateManager extends AlTemplateBase
         return $slotContents;
     }
     
+    
+    public function refresh() 
+    {
+        $this->setUpSlotManagers();
+        
+        return $this;
+    }
+    
     /**
-     * Populates each slot and saves them to the database. 
+     * Populates each slot using the default contents and saves them to the database. 
+     * 
      * 
      * This method is used to add a new page based on the template managed by this object. The slots
      * are filled up using the dafault values provided by each single slot.
      * 
      * @api
-     * @param int $idLanguage   The id that identified the language to add
-     * @param int $idPage       The id that identified the page to add
-     * @return boolean
-     * @throws \Exception 
+     * @param int $idLanguage           The id that identified the language to add
+     * @param int $idPage               The id that identified the page to add
+     * @param Boolean $ignoreRepeated   True skips the slots that are repeated on page
+     * @return Boolean
+     * @throws Exception 
      */
-    public function populate($idLanguage, $idPage)
+    public function populate($idLanguage, $idPage, $ignoreRepeated = false)
     {
-        try
-        {
-            $rollBack = false;
-            $this->connection->beginTransaction();
-            
-            foreach ($this->slotManagers as $slot) {
-                $slot->setForceSlotAttributes(true);
-                $result = $slot->addBlock($idLanguage, $idPage); 
-                if (null !== $result) {
-                    $rollBack = !$result;
-                    if ($rollBack) break;
+        if (count($this->slotManagers) > 0) {
+            try {
+                $result = false;
+                $this->blockModel->startTransaction();                
+                foreach ($this->slotManagers as $slot) { 
+                    if ($ignoreRepeated && $slot->getRepeated() != 'page') {
+                        continue;
+                    }
+                        
+                    $slot->setForceSlotAttributes(true);
+                    $result = $slot->addBlock($idLanguage, $idPage); 
+                    if (null !== $result) { 
+                        if (!$result) break;
+                    }
                 }
-            }
-            
-            if (!$rollBack) {
-                $this->connection->commit(); 
+
+                if ($result) { 
+                    $this->blockModel->commit();
+                }
+                else {
+                    $this->blockModel->rollBack();
+                }
                 
-                return true;
+                return $result;
+            }
+            catch(\Exception $e)
+            {
+                if (isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
+                }
+
+                throw $e;
+            }
+        }
+    }
+    
+    /**
+     * Removes the blocks from the whole slot managers managed by the template manager
+     * 
+     * @api
+     * @param Boolean $ignoreRepeated
+     * @return type
+     * @throws Exception 
+     */
+    public function clearBlocks($ignoreRepeated = true)
+    {
+        if (count($this->slotManagers) > 0) {
+            try {
+                $result = null;
+                $this->blockModel->startTransaction();
+                foreach ($this->slotManagers as $slotManager) {
+                    if ($ignoreRepeated && $slotManager->getSlot()->getRepeated() != 'page') {
+                        continue;
+                    }
+                    $result = $slotManager->deleteBlocks();
+
+                    if (!$result) {
+                        break;
+                    }
+                }
+                
+                if ($result) { 
+                    $this->blockModel->commit();
+                }
+                else {
+                    $this->blockModel->rollBack();
+                }
+
+                return $result;
+            }
+            catch(\Exception $e)
+            {
+                if (isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
+                }
+
+                throw $e;
+            }
+        }
+        
+    }
+    
+    /**
+     * Clear the blocks from the whole slot managers managed by the template manager,
+     * for a page identified by the required parameters
+     * 
+     * @api
+     * @param type $languageId
+     * @param type $pageId
+     * @param type $ignoreRepeated
+     * @return type
+     * @throws Exception 
+     */
+    public function clearPageBlocks($languageId, $pageId, $ignoreRepeated = true)
+    {
+        try {
+            $this->blockModel->startTransaction();
+            
+            $pageContentsContainer = clone($this->pageContentsContainer);        
+            $this->pageContentsContainer
+                    ->setIdLanguage($languageId)
+                    ->setIdPage($pageId)
+                    ->refresh();
+            
+            $this->setUpSlotManagers();
+            $result = $this->clearBlocks($ignoreRepeated);
+            $this->pageContentsContainer = $pageContentsContainer;
+            $this->setUpSlotManagers();
+
+            if ($result) { 
+                $this->blockModel->commit();
             }
             else {
-                $this->connection->rollback();
-                
-                return false;
+                $this->blockModel->rollBack();
             }
+
+            return $result;
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+            if (isset($this->blockModel) && $this->blockModel !== null) {
+                $this->blockModel->rollBack();
             }
             
             throw $e;
@@ -235,10 +361,18 @@ class AlTemplateManager extends AlTemplateBase
     
     /**
      * Creates the slot managers from the current template slot class
+     * 
+     * @api
      */
     protected function setUpSlotManagers()
     {   
+        if (null === $this->templateSlots) {
+            throw new General\ParameterIsEmptyException("Any template has been set");
+        }
+        
         $slots = $this->templateSlots->getSlots();
+        if (empty($slots)) return;
+        
         foreach ($slots as $slotName => $slot) {
             $this->slotManagers[$slotName] = $this->createSlotManager($slot);
         }
@@ -256,14 +390,17 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Create the slot manager for the given slot
      * 
+     * @api
      * @param AlSlot $slot
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager 
      */
     protected function createSlotManager(AlSlot $slot)
     {
         $slotName = $slot->getSlotName();
-        $alBlocks = $this->pageContentsContainer->getSlotBlocks($slotName);
+        $alBlocks = $this->pageContentsContainer->getSlotBlocks($slotName);        
+        $slotManager = new AlSlotManager($this->dispatcher, $this->translator, $slot, $this->blockModel, $this->validator, $this->blockManagerFactory);         
+        $slotManager->setUpBlockManagers($alBlocks);
         
-        return new AlSlotManager($this->dispatcher, $this->translator, $slot, $this->blockManagerFactory, $alBlocks);   
+        return $slotManager;
     }
 }

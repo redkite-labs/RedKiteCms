@@ -23,7 +23,7 @@ use Symfony\Component\Finder\Finder;
 use AlRequestCore\PageTree\AlPageTree;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
+
 use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
@@ -44,20 +44,20 @@ use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
 class AlCmsController extends Controller
 {
     private $cmsAssets = array();
+    private $kernel = null;
     
     public function showAction()
     {
         $request = $this->container->get('request'); 
+        $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('al_page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
-        $skin = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');
+        $skin = AlToolkit::retrieveBundleWebFolder($this->kernel, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');
         if(null !== $pageTree)
         {
             $this->cmsAssets = $this->retrieveCmsAssets();
             
-            $kernel = $this->container->get('kernel');
-            $frontController = sprintf('/%s.php/', $kernel->getEnvironment());
-            
+            $frontController = sprintf('/%s.php/', $this->kernel->getEnvironment());            
             $dispatcher = $this->container->get('event_dispatcher');
                         
             $event = new BeforePageRenderingEvent($this->container->get('request'), $pageTree);
@@ -98,11 +98,11 @@ class AlCmsController extends Controller
             $template = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
             if($pageTree->getThemeName() != "" && $pageTree->getTemplateName() != "")
             {
-                $kernelPath = $this->container->getParameter('kernel.root_dir');
-                $template = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $kernelPath, $pageTree->getThemeName(), $pageTree->getTemplateName()))) ? sprintf('::%s/%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName()) : sprintf('%s:Theme:%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName());
+                $this->kernelPath = $this->container->getParameter('kernel.root_dir');
+                $template = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $this->kernelPath, $pageTree->getThemeName(), $pageTree->getTemplateName()))) ? sprintf('::%s/%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName()) : sprintf('%s:Theme:%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName());
             }
             
-            $themeFolder = AlToolkit::locateResource($this->container, $pageTree->getThemeName()); 
+            $themeFolder = AlToolkit::locateResource($this->kernel, $pageTree->getThemeName());
             if(false === $themeFolder || !is_file($themeFolder .'Resources/views/Theme/' . $pageTree->getTemplateName() . '.html.twig'))
             {
                 $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
@@ -113,7 +113,7 @@ class AlCmsController extends Controller
             $pageId = (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0;
             
             $availableBlocks = array();
-            foreach ($kernel->getBundles() as $bundle)
+            foreach ($this->kernel->getBundles() as $bundle)
             {
                 if(method_exists($bundle, 'getAlphaLemonBundleDescription'))
                 {
@@ -134,8 +134,8 @@ class AlCmsController extends Controller
                                 'language' => $languageId,
                                 'available_contents' => $availableBlocks,
                                 'skin_path' => $skin,
-                                'pages' => ChoiceValues::getPages($this->container),
-                                'languages' => ChoiceValues::getLanguages($this->container),
+                                'pages' => ChoiceValues::getPages($this->container->get('page_model')),
+                                'languages' => ChoiceValues::getLanguages($this->container->get('language_model')),
                                 'available_languages' => $this->container->getParameter('alcms.available_languages'),
                                 'base_template' => $this->container->getParameter('althemes.base_template'),
                                 'frontController' => $frontController,
@@ -184,7 +184,7 @@ class AlCmsController extends Controller
                 preg_match('/^@([\w]+Bundle)\/Resources\/public\/([\w\/\.-]+)/', $currentAsset, $match);
                 if(!empty($match))
                 {
-                        $currentAsset = AlToolkit::retrieveBundleWebFolder($this->container, $match[1]) . '/' . $match[2];
+                        $currentAsset = AlToolkit::retrieveBundleWebFolder($this->kernel, $match[1]) . '/' . $match[2];
                 }
 
                 $currentAsset = AlToolkit::normalizePath($currentAsset);
@@ -198,11 +198,11 @@ class AlCmsController extends Controller
     private function retrieveCmsAssets()
     {
         $alCmsAssetsFolders = array('js/vendor/jquery', 'js/vendor', );
-        $resourcesPath = AlToolkit::locateResource($this->container, '@AlphaLemonThemeEngineBundle/Resources/public');
+        $resourcesPath = AlToolkit::locateResource($this->kernel, '@AlphaLemonThemeEngineBundle/Resources/public');
         $assets = $this->process($resourcesPath, $alCmsAssetsFolders);
         
         $alCmsAssetsFolders = array('js/vendor/medialize', 'js', );
-        $resourcesPath = AlToolkit::locateResource($this->container, '@AlphaLemonCmsBundle/Resources/public');
+        $resourcesPath = AlToolkit::locateResource($this->kernel, '@AlphaLemonCmsBundle/Resources/public');
         $assets = array_merge($assets, $this->process($resourcesPath, $alCmsAssetsFolders));
         
         return $assets;

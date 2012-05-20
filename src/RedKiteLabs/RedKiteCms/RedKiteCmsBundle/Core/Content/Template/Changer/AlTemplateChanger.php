@@ -28,47 +28,46 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 
 /**
  * Arranges the page's slot contents when a page changes its template
+ * 
+ * 
+ * Requires two Template Manager objects, which are both parsed and analysed to find
+ * the slots presents on both the templates, the ones to add and the ones to remove.
+ * 
+ * When a new slot is added, the daefault value is used.
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlTemplateChanger extends AlContentManagerBase
+class AlTemplateChanger 
 {
-    protected $container;
-    protected $alLanguage; 
-    protected $alPage;
-    protected $previousTemplate;
-    protected $newTemplate; 
-    protected $operations = array();
-
+    protected $currentTemplateManager;
+    protected $newTemplateManager; 
+    
     /**
-     * Constructor
+     * Sets the current template used by the page
      * 
-     * @param ContainerInterface    $container
-     * @param string                $previousTemplate       The previous template name
-     * @param string                $newTemplate            The new template name
-     * @param AlPage                $alPage                 The AlPage object where the contents will live or null to use the curren page
-     * @param AlLanguage            $alLanguage             The AlLanguage object where the contents will live or null to use the curren page
+     * @api
+     * @param AlTemplateManager $templateManager
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger 
      */
-    public function __construct(ContainerInterface $container, AlTemplateManager $previousTemplate, AlTemplateManager $newTemplate, AlPage $alPage = null, AlLanguage $alLanguage = null) 
+    public function setCurrentTemplateManager(AlTemplateManager $templateManager)
     {
-        parent::__construct($container);
-
-        $this->container = $container;
-        $this->alPage = (null === $alPage) ? $this->container->get('al_page_tree')->getAlPage() : $alPage;
-        $this->alLanguage = (null === $alLanguage) ? $this->container->get('al_page_tree')->getAlLanguage() : $alLanguage; 
-        $this->previousTemplate = $previousTemplate;
-        $this->newTemplate = $newTemplate; 
+        $this->currentTemplateManager = $templateManager;
         
-        $this->analyse();
+        return $this;
     }
     
     /**
-     * Returns the required operations to do the changing
-     * @return array 
+     * Sets the new template the page will use
+     * 
+     * @api
+     * @param AlTemplateManager $templateManager
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger 
      */
-    public function getOperations()
+    public function setNewTemplateManager(AlTemplateManager $templateManager)
     {
-        return $this->operations;
+        $this->newTemplateManager = $templateManager;
+        
+        return $this;
     }
     
     /**
@@ -76,26 +75,24 @@ class AlTemplateChanger extends AlContentManagerBase
      */
     public function change()
     {
+        $blockModel = $this->currentTemplateManager->getBlockModel();
         try
         {
-            $rollBack = false;
-            $this->connection->beginTransaction();
+            $operations = $this->analyse();
             
-            $templateName = \ucfirst($this->newTemplate->getTemplateName()); 
-            foreach($this->operations as $operation => $slots)
-            {
-                switch($operation)
-                {
+            $rollBack = false;
+            $blockModel->startTransaction();
+            foreach($operations as $operation => $slots) {
+                switch($operation) {
                     case 'add':
-                        foreach($slots as $repeated => $slotNames)
-                        {
-                            foreach($slotNames as $slotName)
-                            {
+                        foreach($slots as $repeated => $slotNames) {
+                            foreach($slotNames as $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));                            
-                                $slotManager = new AlSlotManager($this->container, $slot, $this->alPage, $this->alLanguage);
-                                $result = $slotManager->addBlock();
-                                if(null !== $result)
-                                {   
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel);
+                                
+                                $pageContentsContainer = $this->currentTemplateManager->getPageContentsContainer();
+                                $result = $slotManager->addBlock($pageContentsContainer->getIdLanguage(), $pageContentsContainer->getIdPage());
+                                if (null !== $result) {    
                                     $rollBack = !$result;
                                     if($rollBack) break;
                                 }
@@ -105,19 +102,17 @@ class AlTemplateChanger extends AlContentManagerBase
                         break;
 
                     case 'change':
-                        foreach($slots as $intersections)
-                        {
-                            foreach($intersections as $oldRepeated => $intersection)
-                            {
-                                foreach($intersection as $repeated => $slotNames)
-                                {
-                                    foreach($slotNames as $slotName)
-                                    {
+                        foreach($slots as $intersections) {
+                            foreach($intersections as $intersection) {
+                                foreach($intersection as $repeated => $slotNames) {
+                                    foreach($slotNames as $slotName) {
+                                        // TODO
+                                        /*
                                         $slot = new AlSlot($slotName, array('repeated' => $repeated)); 
                                         $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($repeated));
                                         $converter = new $className($this->container, $slot, $this->alPage, $this->alLanguage);
                                         $rollBack = !$converter->convert();
-                                        if($rollBack) break;
+                                        if($rollBack) break;*/
                                     }
                                     if($rollBack) break;
                                 }
@@ -127,30 +122,39 @@ class AlTemplateChanger extends AlContentManagerBase
                         }
                         break;
 
-                    case 'remove':
-                        foreach($slots as $slotNames)
-                        {
-                            AlBlockQuery::create()->setContainer($this->container)->fromPageIdAndSlotName(array(1, $this->alPage->getId()), $slotNames)->delete();
+                    case 'remove': 
+                        foreach($slots as $slotNames) {
+                            foreach($slotNames as $slotName) {
+                                $slot = new AlSlot($slotName, array('repeated' => $repeated));     
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel);
+                                $blocks = $this->currentTemplateManager->getPageContentsContainer()->getSlotBlocks($slotName);
+                                $slotManager->setUpBlockManagers($blocks);
+                                $result = $slotManager->deleteBlocks();
+                                if (!$result) {echo "R";
+                                    $rollBack = true;
+                                    break;
+                                }
+                            }
                         }
                         break;
                 }
                 if($rollBack) break;
             }
 
-            if (!$rollBack)
-            {
-                $this->connection->commit(); 
+            if (!$rollBack) {
+                $blockModel->commit(); 
                 return true;
             }
-            else
-            {
-                $this->connection->rollback();
+            else {
+                $blockModel->rollBack();
                 return false;
             }
         }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+        catch(\Exception $e) {
+            if (isset($blockModel) && $blockModel !== null) {
+                $blockModel->rollBack();
+            }
+            
             throw $e;
         }
     }
@@ -163,8 +167,8 @@ class AlTemplateChanger extends AlContentManagerBase
      */
     private function analyse()
     {
-        $previousSlots = $this->previousTemplate->getTemplateSlots()->toArray();
-        $newSlots = $this->newTemplate->getTemplateSlots()->toArray();
+        $previousSlots = $this->currentTemplateManager->getTemplateSlots()->toArray();
+        $newSlots = $this->newTemplateManager->getTemplateSlots()->toArray();
         
         $diffsForNew = $this->calculateDifferences($newSlots, $previousSlots);
         $diffsForPrevious = $this->calculateDifferences($previousSlots, $newSlots);
@@ -172,9 +176,11 @@ class AlTemplateChanger extends AlContentManagerBase
         $add = $this->calculateIntersections($diffsForNew, $diffsForPrevious); 
         $remove = $this->calculateIntersections($diffsForPrevious, $diffsForNew);
         
-        $this->operations['add'] = (array_key_exists('found', $add)) ? $add['found'] : array();
-        $this->operations['change'] = (array_key_exists('intersected', $add)) ? $add['intersected'] : array();
-        $this->operations['remove'] = (array_key_exists('found', $remove)) ? $remove['found'] : array();
+        $operations['add'] = (array_key_exists('found', $add)) ? $add['found'] : array();
+        $operations['change'] = (array_key_exists('intersected', $add)) ? $add['intersected'] : array();
+        $operations['remove'] = (array_key_exists('found', $remove)) ? $remove['found'] : array();
+        
+        return $operations;
     }
     
     /**
@@ -187,8 +193,7 @@ class AlTemplateChanger extends AlContentManagerBase
     private function calculateDifferences(array $first, array $second)
     {
         $result = array();
-        foreach($first as $repeated => $slots)
-        {
+        foreach($first as $repeated => $slots) {
             $diff = array_diff($slots, $second[$repeated]);
             $result[$repeated] = $diff;
         }
@@ -206,26 +211,21 @@ class AlTemplateChanger extends AlContentManagerBase
     private function calculateIntersections(array $first, array $second)
     {
         $result = array();
-        foreach($first as $aRepeated => $firstSlots)
-        {
+        foreach($first as $aRepeated => $firstSlots) {
             $intersect = array();
-            foreach($second as $bRepeated => $secondSlots)
-            {
+            foreach($second as $bRepeated => $secondSlots) {
                 $diff = array_intersect($firstSlots, $secondSlots); 
-                if(!empty($diff))
-                {
+                if(!empty($diff)) {
                     $intersect[$bRepeated][$aRepeated] = $diff;
                     $firstSlots = array_diff($firstSlots, $diff); 
                 }
             }
             
-            if(!empty($firstSlots))
-            {
+            if(!empty($firstSlots)) {
                 $result['found'][$aRepeated] = $firstSlots;
             }
             
-            if(!empty($intersect))
-            {
+            if(!empty($intersect)) {
                 $result['intersected'][] = $intersect;
             }
         }

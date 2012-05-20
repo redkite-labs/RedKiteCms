@@ -20,16 +20,16 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\OrmInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
+
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
 
 /**
  * Extends the bas AlPageTree object to work with the database
@@ -41,11 +41,22 @@ class AlPageTree extends BaseAlPageTree
     protected $alPage = null;
     protected $alLanguage = null;
     protected $alTheme = null;
+    protected $languageModel;
+    protected $pageModel;
+    protected $themeModel;
+    protected $seoModel;
+    protected $templateManager;
     protected $locatedAssets = array('css' => array(), 'js' => array());
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, AlTemplateManager $templateManager, OrmInterface $languageModel, OrmInterface $pageModel, OrmInterface $themeModel, OrmInterface $seoModel)
     {
         parent::__construct($container);
+        
+        $this->languageModel = $languageModel;
+        $this->pageModel = $pageModel;
+        $this->themeModel = $themeModel;
+        $this->templateManager = $templateManager;
+        $this->seoModel = $seoModel;
     }
     
     public function getAlPage()
@@ -62,6 +73,11 @@ class AlPageTree extends BaseAlPageTree
     {
         return $this->alTheme;
     }
+    
+    public function getTemplateManager()
+    {
+        return $this->templateManager;
+    }
 
     public function isCmsMode()
     {
@@ -76,30 +92,33 @@ class AlPageTree extends BaseAlPageTree
      * @param   AlPage      $alPage     The AlPage object to use or none
      * @return  null        Returns null when something goes wrong 
      */
-    public function setup(AlLanguage $alLanguage = null, AlPage $alPage = null)
+    public function setup()
     {
         try
         {
-            $this->alLanguage = (null === $alLanguage) ? $this->setupLanguageFromSession() : $alLanguage;
+            /*
+            $this->alLanguage = (null === $alLanguage) ? $this->setupLanguageFromSession() : $alLanguage; 
             $this->alPage = (null === $alPage) ? $this->setupPageFromRequest() : $alPage;
-            if(null === $this->alLanguage || null === $this->alPage) return null;
+            if (null === $this->alLanguage || null === $this->alPage) return null;
+            */
             
-            $alTheme = AlThemeQuery::create()->activeBackend()->findOne();
-            if (!$alTheme) {
+            $this->alLanguage = $this->setupLanguageFromSession(); 
+            $this->alPage = $this->setupPageFromRequest();
+            if (null === $this->alLanguage || null === $this->alPage) return null;
+            
+            $this->alTheme = $this->themeModel->activeBackend();
+            if (!$this->alTheme) {
                 return null;
             }
-            $this->alTheme = $alTheme;
-            $this->setThemeName($this->alTheme->getThemeName());            
+            $this->setThemeName($this->alTheme->getThemeName());    
             $this->setTemplateName($this->alPage->getTemplateName());
             
-            $this->pageContentsContainer = new AlPageContentsContainer($container->get('event_dispatcher'), $this->alLanguage, $this->alPage);
-            $this->templateManager = new AlTemplateManager($container->get('event_dispatcher'), $container->get('translator'), $this->templateSlots, $this->pageContentsContainer);
-            //$this->setupBlocks();
-            //$templateManager = new AlTemplateManager($this->container, $this->alPage, $this->alLanguage, $this->themeName, $this->templateName);
-            //$this->setContents($templateManager->slotsToArray(), true);
-
-            $rs = new AlRepeatedSlotsManager($this->container, $alTheme->getThemeName());
-            $rs->compareSlots($this->templateName, $this->getSlots(), true);
+            $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
+            
+            $this->container->get('al_page_manager')
+                    ->setTemplateManager($this->templateManager);
+            
+            $this->setContents($this->templateManager->slotsToArray(), true);
         }
         catch(\Exception $ex)
         {
@@ -107,7 +126,19 @@ class AlPageTree extends BaseAlPageTree
         }
     }
     
-    
+    public function refresh($idLanguage, $idPage)
+    {
+        $this->pageContentsContainer = $this->templateManager
+                    ->getPageContentsContainer()
+                    ->setIdLanguage($idLanguage)
+                    ->setIdPage($idPage)
+                    ->refresh(); 
+            
+        $this->templateManager
+                    ->setPageContentsContainer($this->pageContentsContainer)
+                    ->setTemplateSlots($this->templateSlots)
+                    ->refresh();
+    }
     
     /**
      * Sets up the AlLanguage object from the current session
@@ -117,10 +148,9 @@ class AlPageTree extends BaseAlPageTree
     protected function setupLanguageFromSession()
     {
         $language = $this->container->get('request')->get('language');        
-        if(null === $language) $language = method_exists ($this->container->get('session'), "getLocale") ? $this->container->get('session')->getLocale() : $this->container->get('request')->getLocale();
+        if (null === $language) $language = method_exists ($this->container->get('session'), "getLocale") ? $this->container->get('session')->getLocale() : $this->container->get('request')->getLocale();
         
-        $check = (int)$language;
-        $alLanguage = ($check > 0) ? AlLanguageQuery::create()->findPk($language) : AlLanguageQuery::create()->fromLanguageName($language)->findOne();
+        $alLanguage = ((int)$language > 0) ? $this->languageModel->fromPK($language) : $this->languageModel->fromLanguageName($language);
         
         return $alLanguage;
     }
@@ -134,43 +164,35 @@ class AlPageTree extends BaseAlPageTree
      */
     protected function setupPageFromRequest(AlLanguage $alLanguage = null)
     {
-        if(null === $alLanguage && null === $this->alLanguage)
-        {
+        if (null === $alLanguage && null === $this->alLanguage) {
             return null;
         }
         
-        if(null === $alLanguage)
-        {
+        if (null === $alLanguage) {
             $alLanguage = $this->alLanguage;
         }
         
         $pageName = $this->container->get('request')->get('page');
-        if(!$pageName || $pageName == "" || !is_string($pageName) || $pageName == "backend")
-        {
+        if (!$pageName || $pageName == "" || !is_string($pageName) || $pageName == "backend") {
             return null;
         }
 
-        $alPageAttribute = AlPageAttributeQuery::create()->setContainer($this->container)->fromPermalink($pageName, $alLanguage->getId())->findOne();
-        if(!$alPageAttribute)
-        {
-            $alPageAttribute = AlPageAttributeQuery::create()->setContainer($this->container)->fromPageAndLanguage($pageName, $alLanguage->getId())->findOne();
+        $seo = $this->seoModel->fromPermalink($pageName, $alLanguage->getId());
+        if (null === $seo) {
+            $seo = $this->seoModel->fromPageAndLanguage($pageName, $alLanguage->getId());
         }
 
-        if(null === $alPageAttribute)
-        {
-            $alPage = AlPageQuery::create()->setContainer($this->container)->fromPageName($pageName)->findOne();
-            if(!$alPage)
-            {
-                $alPage = AlPageQuery::create()->findPk($pageName);
-                if(!$alPage)
-                {
+        if (null === $seo) {
+            $alPage = $this->pageModel->fromPageName($pageName);
+            if (null === $alPage) {
+                $alPage = $this->pageModel->fromPK($pageName);
+                if (!$alPage) {
                     return null;
                 }
             }
         }
-        else
-        {
-            $alPage = $alPageAttribute->getAlPage();
+        else {
+            $alPage = $seo->getAlPage();
         }
         
         return $alPage;
@@ -185,7 +207,7 @@ class AlPageTree extends BaseAlPageTree
     {
         parent::addContent($slotName, $content, $key);
 
-        if(array_key_exists("ExternalJavascript", $content))
+        if (array_key_exists("ExternalJavascript", $content))
         {
             $javascripts = (!is_array($content["ExternalJavascript"])) ? ($content["ExternalJavascript"] != "") ? \explode(',', $content["ExternalJavascript"]) : array(): $content["ExternalJavascript"];
             
@@ -195,12 +217,12 @@ class AlPageTree extends BaseAlPageTree
             }
         }
         
-        if(array_key_exists("InternalJavascript", $content) && $content["InternalJavascript"] != "")
+        if (array_key_exists("InternalJavascript", $content) && $content["InternalJavascript"] != "")
         {
             $this->appendInternalJavascript($content["InternalJavascript"]);
         }
 
-        if(array_key_exists("ExternalStylesheet", $content))
+        if (array_key_exists("ExternalStylesheet", $content))
         {
             $stylesheets = (!is_array($content["ExternalStylesheet"])) ? \explode(',', $content["ExternalStylesheet"]) : $content["ExternalStylesheet"];
             foreach($stylesheets as $stylesheet)
@@ -209,7 +231,7 @@ class AlPageTree extends BaseAlPageTree
             }
         }
 
-        if(array_key_exists("InternalStylesheet", $content) && $content["InternalStylesheet"] != "")
+        if (array_key_exists("InternalStylesheet", $content) && $content["InternalStylesheet"] != "")
         {
             $this->appendInternalStylesheet($content["InternalStylesheet"]);
         }
@@ -221,7 +243,7 @@ class AlPageTree extends BaseAlPageTree
     public function addStylesheet($value)
     {
         $assetName = basename($value);
-        if($value != "" && !in_array($assetName, $this->locatedAssets['css']))
+        if ($value != "" && !in_array($assetName, $this->locatedAssets['css']))
         {
             $this->locatedAssets['css'][] = $assetName; 
             $this->externalStylesheets[] = $value;
@@ -234,7 +256,7 @@ class AlPageTree extends BaseAlPageTree
     public function addJavascript($value)
     {
         $assetName = basename($value);
-        if($value != "" && !in_array($assetName, $this->locatedAssets['js']))
+        if ($value != "" && !in_array($assetName, $this->locatedAssets['js']))
         {
             $this->locatedAssets['js'][] = $assetName; 
             $this->externalJavascripts[] = $value;
@@ -248,18 +270,17 @@ class AlPageTree extends BaseAlPageTree
     {
         parent::setupPageTree();
         
-        if($this->themeName != '' && $this->templateName != '') {
-            
+        if ($this->themeName != '' && $this->templateName != '') {            
             $templateName = strtolower($this->templateName);
             $theme = preg_replace('/bundle$/', '', strtolower($this->themeName));
             $param = sprintf('themes.%s_%s.stylesheets_cms', $theme, $templateName);
-            if($this->container->hasParameter($param))
+            if ($this->container->hasParameter($param))
             {
                 $this->addStylesheets($this->container->getParameter($param));
             }
             
             $param = sprintf('themes.%s_%s.javascripts_cms', $theme, $templateName);
-            if($this->container->hasParameter($param))
+            if ($this->container->hasParameter($param))
             {
                 $this->addJavascripts($this->container->getParameter($param));
             }
@@ -270,16 +291,16 @@ class AlPageTree extends BaseAlPageTree
                 $bundleName = preg_replace('/bundle$/', '', strtolower($bundle->getName()));
                 
                 $param = sprintf('%s.javascripts_cms', $bundleName); 
-                if($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
+                if ($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
 
                 $param = sprintf('%s.stylesheets_cms', $bundleName); 
-                if($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
+                if ($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
                 
                 $param = sprintf('%s.%s_javascripts_cms', $bundleName, $templateName); 
-                if($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
+                if ($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
 
                 $param = sprintf('%s.%s_stylesheets_cms', $bundleName, $templateName); 
-                if($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
+                if ($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
             }
         }
     }
