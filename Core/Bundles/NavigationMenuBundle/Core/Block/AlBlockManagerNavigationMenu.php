@@ -51,13 +51,17 @@ class AlBlockManagerNavigationMenu extends AlBlockManager
                 $frontController = $this->container->get('kernel')->getEnvironment() . '.php';            
                 $content .= sprintf('<li><a href="/%s/%s/%s">%s</a></li>', $frontController, $language->getLanguage(), $this->container->get('al_page_tree')->getAlPage()->getPageName(), $language->getLanguage());
             }  */
+            
+                /* TODO
                 $c = new \Criteria();
                 $c->add(AlPageAttributePeer::TO_DELETE, 0);
                 $c->add(AlPageAttributePeer::LANGUAGE_ID, $language->getId());
                 $pageAttributes = $this->container->get('al_page_tree')->getAlPage()->getAlPageAttributes($c);            
                 $permalink = $pageAttributes[0]->getPermalink();
+                 * 
+                 */
                 //str_replace('-', '_', $language) . '_' . str_replace('-', '_', $this->container->get('al_page_tree')->getAlPage()->getPageName())
-                
+                $permalink = "";
                 $languageName = $language->getLanguage();
                 
                 try

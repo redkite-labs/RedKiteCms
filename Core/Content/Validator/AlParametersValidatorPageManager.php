@@ -1,13 +1,25 @@
 <?php
-
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This file is part of the AlphaLemon CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ *
+ * For the full copyright and license infpageModelation, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.alphalemon.com
+ * 
+ * @license    GPL LICENSE Version 2.0
+ * 
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
 
 /**
  * AlParametersValidator
@@ -16,54 +28,49 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class AlParametersValidatorPageManager extends AlParametersValidator
 {
-    public function __construct(TranslatorInterface $translator, $siteLanguages, $sitePages)
+    protected $languageModel;
+    protected $pageModel;
+    
+    public function __construct(TranslatorInterface $translator, LanguageModelInterface $languageModel, PageModelInterface $pageModel)
     {
         parent::__construct($translator);
         
-        $this->setSiteLanguages($siteLanguages);
-        $this->setSitePages($sitePages);
+        $this->languageModel = $languageModel;
+        $this->pageModel = $pageModel;
     }
     
-    public function setSiteLanguages($v) 
+    public function setLanguageModel(LanguageModelInterface $v) 
     {
-        if (!$this->isTraversable($v)) {
-            throw new General\InvalidParameterTypeException('The site languages parameter must be traversable');
-        }
-        
-        $this->siteLanguages = $v;
+        $this->languageModel = $v;
     }
     
-    public function setSitePages($v) 
+    public function setPageModel(PageModelInterface $v) 
     {
-        if (!$this->isTraversable($v)) {
-            throw new General\InvalidParameterTypeException('The site pages parameter must be traversable');
-        }
-        
-        $this->sitePages = $v;
+        $this->pageModel = $v;
     }
     
-    public function getSiteLanguages() 
+    public function getLanguageModel() 
     {
-        return $this->siteLanguages;
+        return $this->languageModel;
     }
     
-    public function getSitePages() 
+    public function getPageModel() 
     {
-        return $this->sitePages;
+        return $this->pageModel;
     }
     
     public function hasLanguages()
     {
-        return (count($this->siteLanguages) > 0) ? true : false;
+        return (count($this->languageModel->activeLanguages()) > 0) ? true : false;
     }
     
     public function hasPages($min = 0)
     {
-        return (count($this->sitePages) > $min) ? true : false;
+        return (count($this->pageModel->activePages()) > $min) ? true : false;
     }
     
-    private function isTraversable($v)
+    public function pageExists($pageName)
     {
-        return (!is_array($v) && !$v instanceof Traversable) ? false : true;
+        return (count($this->pageModel->fromPageName($pageName)) > 0) ? true : false;
     }
 }

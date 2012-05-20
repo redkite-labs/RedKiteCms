@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 
 /**
  * AlBlockManagerFactory creates a BlockManager object 
@@ -30,11 +31,10 @@ interface AlBlockManagerFactoryInterface
     /**
      * Creates an instance of an AlBlockManager object
      * 
-     * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
+     * @param BlockModelInterface $alBlockModel
      * @param mixed string | \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
      * 
      * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\class 
      */
-    public function createBlock(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, $block);
+    public function createBlock(BlockModelInterface $alBlockModel, $block);
 }

@@ -19,22 +19,40 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
- * AlBlockManagerFactory creates a BlockManager object 
+ * AlBlockManagerFactory is the object responsible to create a new BlockManager object 
  * 
+ * BlockManagers are created by an existing AlBlock object or by a valid string that identifies
+ * a valid AlBlockType
+ * 
+ * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 {
+    private $dispatcher;
+    private $translator;
+    
+    /**
+     * Constructor
+     * 
+     * @param EventDispatcherInterface $dispatcher
+     * @param TranslatorInterface $translator 
+     */
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator)
+    {
+        $this->dispatcher = $dispatcher;
+        $this->translator = $translator;
+    }
+    
     /**
      * { @inheritDoc }
      */
-    public function createBlock(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, $block)         
+    public function createBlock(BlockModelInterface $alBlockModel, $block)         
     {
         if ((null === $block || !is_string($block)) && !$block instanceOf AlBlock) {
             return null;
@@ -69,8 +87,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
                 }
             }
         }
-
-        $alBlockManager = new $class($dispatcher, $translator);
+        
+        $alBlockManager = new $class($this->dispatcher, $this->translator, $alBlockModel);
         if (null !== $alBlock) $alBlockManager->set($alBlock);
         
         return $alBlockManager;

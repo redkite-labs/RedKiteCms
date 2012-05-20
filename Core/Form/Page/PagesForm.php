@@ -21,6 +21,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlThemeModelPropel;
 
 /**
  * Defines the pages form
@@ -29,17 +31,17 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
  */
 class PagesForm extends AbstractType
 {
-    private $_container;
+    private $dispatcher;
 
-    public function __construct($container)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->_container = $container;
+        $this->dispatcher = $dispatcher;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates()));
+        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates(new AlThemeModelPropel($this->dispatcher))));
         $builder->add('isHome', 'checkbox');
         $builder->add('isPublished', 'checkbox');
     }

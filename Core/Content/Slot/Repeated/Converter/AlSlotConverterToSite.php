@@ -23,7 +23,7 @@ class AlSlotConverterToSite extends AlSlotConverterBase
     {
         try
         {
-            $rollback = false;
+            $rollBack = false;
             $this->connection->beginTransaction();
 
             $this->removeContents(); 
@@ -34,11 +34,11 @@ class AlSlotConverterToSite extends AlSlotConverterBase
                 $result = $newContent->save();
                 if ($newContent->isModified() && $result == 0)
                 {
-                    $rollback = true;
+                    $rollBack = true;
                 }
             }
 
-            if (!$rollback)
+            if (!$rollBack)
             {
                 $this->connection->commit();
                 return true;
@@ -51,7 +51,7 @@ class AlSlotConverterToSite extends AlSlotConverterBase
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if(isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }

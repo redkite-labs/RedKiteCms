@@ -37,7 +37,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 
 
     public static function setUpBeforeClass()
-    {/*
+    {
         $config = array("datasources" => array (
             "default" => array (
                 "adapter" => "mysql",

@@ -21,10 +21,23 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
 
 /**
  * The base class that defines a content manager object
+ * 
+ * Several entities are considered "content" by AlphaLemon CMS: 
+ * 
+ *   - Languages
+ *   - Pages
+ *   - Seo attributes
+ *   - Templates
+ *   - Slots
+ *   - Blocks
+ * 
+ * All of them extends this class
  *
+ * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlContentManagerBase
@@ -38,13 +51,13 @@ abstract class AlContentManagerBase
      * 
      * @param EventDispatcherInterface $dispatcher
      * @param TranslatorInterface $translator
-     * @param \PropelPDO $connection 
+     * @param AlParametersValidatorInterface $validator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher = null, TranslatorInterface $translator = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlParametersValidatorInterface $validator = null)
     {
         $this->dispatcher = $dispatcher;
         $this->translator = $translator;
-        $this->validator = $validator;
+        $this->validator = (null === $validator) ? new AlParametersValidator($translator) : $validator;
     }
     
     /**
@@ -76,6 +89,7 @@ abstract class AlContentManagerBase
     /**
      * Sets the parameters validator object
      * 
+     * @api
      * @param AlParametersValidatorInterface $validator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase 
      */
@@ -110,6 +124,7 @@ abstract class AlContentManagerBase
     /**
      * Returns the ParameterValidator object
      * 
+     * @api
      * @return TranslatorInterface 
      */
     public function getValidator()

@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
+
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
@@ -62,7 +62,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * {@inheritdoc}
      */
-    public function set(\BaseObject $propelObject = null)
+    public function set($propelObject = null)
     {
         if (null !== $propelObject && !$propelObject instanceof AlLanguage)
         {
@@ -139,13 +139,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->connection->rollback();
+                $this->connection->rollBack();
                 return false;
             }
         }
         catch(Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }    
     }
@@ -191,7 +191,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 throw new \InvalidArgumentException($this->translator->trans("The language you are trying to add, already exists in the website."));
             }
         
-            $rollback = false;
+            $rollBack = false;
             $this->connection->beginTransaction();
 
             // Retrieves the site's main language
@@ -202,11 +202,11 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $isMain = ($currentLanguageId == 0) ? 1 : 0; 
             if (array_key_exists("isMain", $values) && $values["isMain"] == 1)
             {
-                $rollback = !$this->resetMain();
+                $rollBack = !$this->resetMain();
                 $isMain = $values["isMain"];
             }
             
-            if (!$rollback)
+            if (!$rollBack)
             {
                 // Saves the language
                 if (null === $this->alLanguage) {
@@ -217,15 +217,15 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $result = $this->alLanguage->save();
                 if ($this->alLanguage->isModified() && $result == 0)
                 {
-                    $rollback = true;
+                    $rollBack = true;
                 }
                 else
                 {
-                    $rollback = !$this->addPageAttributesAndBlocks($currentLanguageId);
+                    $rollBack = !$this->addPageAttributesAndBlocks($currentLanguageId);
                 }
             }
 
-            if (!$rollback)
+            if (!$rollBack)
             {
                 $this->connection->commit();
                 
@@ -238,13 +238,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->connection->rollback();
+                $this->connection->rollBack();
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }
@@ -310,13 +310,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-              $this->connection->rollback();
+              $this->connection->rollBack();
               return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }
@@ -425,13 +425,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->connection->rollback();
+                $this->connection->rollBack();
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }
@@ -485,13 +485,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->connection->rollback();
+                $this->connection->rollBack();
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }
@@ -518,7 +518,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw new $e;
         }
     }

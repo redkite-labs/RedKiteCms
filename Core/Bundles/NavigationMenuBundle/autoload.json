@@ -1,7 +1,7 @@
 {
     "bundles" : {
         "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\NavigationMenuBundle\\NavigationMenuBundle" : {
-            "environments" : ["alcms", "alcms_dev", "test"]
+            "environments" : ["alcms", "alcms_dev", "alcms_test"]
         }
     }
 }

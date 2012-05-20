@@ -20,12 +20,14 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
- * Defines the template content manager object
+ * Implements the base object that defines a template
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -36,15 +38,16 @@ abstract class AlTemplateBase extends AlContentManagerBase
     /**
      * Contructor
      * 
-     * @param ContainerInterface $container
-     * @param AlPage $alPage
-     * @param AlLanguage $alLanguage 
+     * @param EventDispatcherInterface $dispatcher
+     * @param TranslatorInterface $translator
+     * @param AlParametersValidatorInterface $validator
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory 
      */
-    public function __construct(EventDispatcherInterface $dispatcher = null, TranslatorInterface $translator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, \PropelPDO $connection = null) 
+    public function __construct(EventDispatcherInterface $dispatcher = null, TranslatorInterface $translator = null, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null) 
     {
-        parent::__construct($dispatcher, $translator, $connection);
+        parent::__construct($dispatcher, $translator, $validator);
         
-        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
+        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory($dispatcher, $translator) : $blockManagerFactory;
     }
     
     /**

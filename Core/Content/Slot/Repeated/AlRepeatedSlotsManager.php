@@ -98,7 +98,7 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
     {
         try
         {
-            $rollback = false;
+            $rollBack = false;
             $this->connection->beginTransaction();
 
             $pageTree = $this->container->get('al_page_tree');
@@ -110,7 +110,7 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
                 if($rollBack) break;
             }
 
-            if (!$rollback)
+            if (!$rollBack)
             {
                 $this->connection->commit();
                 $this->saveSlots();
@@ -125,7 +125,7 @@ class AlRepeatedSlotsManager extends AlContentManagerBase
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if(isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }

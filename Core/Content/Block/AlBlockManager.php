@@ -18,30 +18,51 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block; 
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- * AlBlockManager wraps an AlBlock object. 
+ * AlBlockManager is the object responsible to manage an AlBlock object. 
  * 
  * 
- * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete it and 
- * provides several methods to change the behavior of the block, when it is rendered on the page.
+ * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete 
+ * that kind of object and provides several methods to change the behavior of the block itself, 
+ * when it is rendered on the page.
  * 
  * Every new block content must inherit from this class.
  * 
+ * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     protected $alBlock = null;
+    protected $blockModel = null;
     
+    /**
+     * Constructor
+     * 
+     * @param EventDispatcherInterface $dispatcher
+     * @param TranslatorInterface $translator
+     * @param BlockModelInterface $blockModel
+     * @param AlParametersValidatorInterface $validator 
+     */
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null)
+    {
+        parent::__construct($dispatcher, $translator, $validator);
+        
+        $this->blockModel = $blockModel;
+    }
 
     /**
      * Defines the default value of the managed block
@@ -71,13 +92,38 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * {@inheritdoc}
      */
-    public function set(\BaseObject $propelObject = null)
+    public function set($object = null)
     {
-        if (null !== $propelObject && !$propelObject instanceof AlBlock) {
-            throw new General\InvalidParameterTypeException('AlBlockManager accepts only AlBlock propel objects');
+        if (null !== $object && !$object instanceof AlBlock) {
+            throw new InvalidParameterTypeException('AlBlockManager is only able to manage AlBlock objects');
         }
         
-        $this->alBlock = $propelObject;
+        $this->alBlock = $object;
+    }
+    
+    /**
+     * Sets the block model object
+     * 
+     * @api
+     * @param BlockModelInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager 
+     */
+    public function setBlockModel(BlockModelInterface $v)
+    {
+        $this->blockModel = $v;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the block model object associated with this object
+     * 
+     * @api
+     * @return BlockModelInterface 
+     */
+    public function getBlockModel()
+    {
+        return $this->blockModel;
     }
 
     /**
@@ -118,7 +164,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtmlContent()
     {
-        return $this->alBlock->getHtmlContent();
+        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
     }
 
     /**
@@ -146,7 +192,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtmlContentForEditor()
     {
-        return $this->alBlock->getHtmlContent();
+        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
     }
     
     /**
@@ -157,8 +203,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getExternalJavascript()
     {
-        $javascripts = trim($this->alBlock->getExternalJavascript());
-
+        if (null !== $this->alBlock) {
+            $javascripts = trim($this->alBlock->getExternalJavascript());
+        }
+        
         return ($javascripts != "") ? explode(',', $javascripts) : array();
     }
     
@@ -170,8 +218,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getExternalStylesheet()
     {
-        $stylesheets = trim($this->alBlock->getExternalStylesheet());
-
+        if (null !== $this->alBlock) {
+            $stylesheets = trim($this->alBlock->getExternalStylesheet());
+        }
+        
         return ($stylesheets != "") ? explode(',', $stylesheets) : array();
     }
 
@@ -187,12 +237,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getInternalJavascript()
     {
         $function = '';
-        if (trim($this->alBlock->getInternalJavascript()) != '') {
-            $function .= "try{\n";
-            $function .= $this->alBlock->getInternalJavascript();
-            $function .= "\n} catch(e){\n";
-            $function .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports:\n\n' + e);\n", $this->alBlock->getSlotName());
-            $function .= "}\n";
+        if (null !== $this->alBlock) {
+            if (trim($this->alBlock->getInternalJavascript()) != '') {
+                $function .= "try{\n";
+                $function .= $this->alBlock->getInternalJavascript();
+                $function .= "\n} catch(e){\n";
+                $function .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports:\n\n' + e);\n", $this->alBlock->getSlotName());
+                $function .= "}\n";
+            }
         }
         
         return $function;
@@ -206,7 +258,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getInternalStylesheet()
     {
-        return $this->alBlock->getInternalStylesheet();
+        return (null !== $this->alBlock) ? $this->alBlock->getInternalStylesheet() : "";
     }
     
     /**
@@ -216,7 +268,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getInternalJavascriptForEditor()
     {
-        return $this->alBlock->getInternalJavascript();
+        return (null !== $this->alBlock) ? $this->alBlock->getInternalJavascript() : "";
     }
     
     /**
@@ -224,10 +276,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function save(array $parameters)
     {
-        if (null === $this->alBlock || null === $this->alBlock->getId()) {
+        if (null === $this->alBlock || $this->alBlock->getId() == null) {
+            
             return $this->add($parameters);
         }
         else {
+            
             return $this->edit($parameters);
         }
     }
@@ -252,18 +306,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 }
             }
             
-            $rollback = false;
-            $this->connection->beginTransaction();
-
-            // Marks for deletion
-            $this->alBlock->setToDelete(1);
-            $this->result = $this->alBlock->save();
-            if ($this->alBlock->isModified() && $this->result == 0) {
-                $rollback = true; 
-            }
+            $this->blockModel->startTransaction();
             
-            if (!$rollback) {
-                $this->connection->commit();
+            $result = $this->blockModel
+                        ->setModelObject($this->alBlock)
+                        ->delete();
+            if ($result) {
+                $this->blockModel->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockDeletedEvent($this);
@@ -273,14 +322,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 return true;
             }
             else {
-                $this->connection->rollBack();
+                $this->blockModel->rollBack();
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+            if (isset($this->blockModel) && $this->blockModel !== null) {
+                $this->blockModel->rollBack();
             }
             
             throw $e;
@@ -306,8 +355,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
-        $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
-        $blockManager["Block"] = $this->get()->toArray();
+        $blockManager["InternalStylesheet"] = $this->getInternalStylesheet(); 
+        $blockManager["Block"] = $this->alBlock->toArray(); 
 
         return $blockManager;
     }
@@ -316,6 +365,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Adds a new block to the AlBlock table
      *
+     * @api
      * @param array  $values      An array where keys are the AlBlockField definition and values are the values to add
      * @throws \InvalidArgumentException  When the expected parameters are invalid
      * @throws \RuntimeException  When the action is aborted by a calling event 
@@ -323,90 +373,67 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     protected function add(array $values)
     {
-        try
-        {
-            if (null !== $this->dispatcher) {
-                $event = new Content\Block\BeforeBlockAddingEvent($this, $values);
-                $this->dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
-               
-                if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translator->trans("The current block adding action has been aborted", array(), 'exceptions'));
-                }
+        if (null !== $this->dispatcher) {
+            $event = new Content\Block\BeforeBlockAddingEvent($this, $values);
+            $this->dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
 
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
+            if ($event->isAborted()) {
+                throw new Event\EventAbortedException($this->translator->trans("The current block adding action has been aborted", array(), 'exceptions'));
             }
-            
-            $this->checkEmptyParams($values);
 
-            $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => ""); 
-            $this->checkRequiredParamsExists($requiredParameters, $values);
-        
-            /* TODO Could this be safety removed?
-            $languageId = (isset($values['LanguageId'])) ? $values['LanguageId'] : $this->container->get('al_page_tree')->getAlLanguage()->getId();
-            $pageId = (isset($values['PageId'])) ? $values['PageId'] : $this->container->get('al_page_tree')->getAlPage()->getId();
-            $values['LanguageId'] = $languageId;
-            $values['PageId'] = $pageId;
-            */
-            
-            // When the Content is null the dafault text is inserted
-            if (!array_key_exists('HtmlContent', $values)) { 
-                $defaults = $this->getDefaultValue();
-                if (!is_array($defaults)) {
-                    throw new General\InvalidParameterTypeException($this->translator->trans('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
-                }
-                
-                $mergedValues = array_merge($values, $defaults);
-                
-                $availableOptions = array('HtmlContent' => '', 'InternalJavascript' => '', 'ExternalJavascript' => '', 'InternalStylesheet' => '', 'ExternalStylesheet' => '');
-                $this->checkOnceValidParamExists($availableOptions, $mergedValues);
-                /*
-                $diff = array_diff(array_keys($defaults), $availableOptions);
-                if (count($diff) == count($defaults)) {
-                    throw new \InvalidArgumentException($this->translator->trans('%className% requires at least one of the following options: "%options%". Your input parameters are: "%parameters%"', array('%className%' => get_class($this), '%options%' => implode(', ', $availableOptions), '%parameters%' => implode(', ', array_keys($defaults))), 'al_content_manager_exceptions'));
-                }*/
-                
-                $values = $mergedValues;
+            if ($values !== $event->getValues()) {
+                $values = $event->getValues();
             }
-                        
-            $result = false;
-            $rollback = false;
-            $this->connection->beginTransaction();
+        }
+
+        $this->validator->checkEmptyParams($values);
+
+        $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => ""); 
+        $this->validator->checkRequiredParamsExists($requiredParameters, $values);
+
+        // When the Content is null the dafault text is inserted
+        if (!array_key_exists('HtmlContent', $values)) { 
+            $defaults = $this->getDefaultValue();
+            if (!is_array($defaults)) {
+                throw new General\InvalidParameterTypeException($this->translator->trans('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
+            }
+
+            $mergedValues = array_merge($values, $defaults);
+            $availableOptions = array('HtmlContent' => '', 'InternalJavascript' => '', 'ExternalJavascript' => '', 'InternalStylesheet' => '', 'ExternalStylesheet' => '');
+            $this->validator->checkOnceValidParamExists($availableOptions, $mergedValues);
+            $values = $mergedValues;
+        }
+
+        try {
+            $this->blockModel->startTransaction();
 
             // Saves the content
             if (null === $this->alBlock) {
                 $this->alBlock = new AlBlock();
             }
             
-            $this->alBlock->fromArray($values); 
-            $result = $this->alBlock->save(); 
-            if ($this->alBlock->isModified() && $result == 0) {
-                $rollback = true;
-            }
+            $result = $this->blockModel
+                    ->setModelObject($this->alBlock)
+                    ->save($values); 
+            if ($result) {
+                $this->blockModel->commit();
 
-            if (!$rollback) {
-                $this->connection->commit();
-                
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockAddedEvent($this);
                     $this->dispatcher->dispatch(BlockEvents::AFTER_ADD_BLOCK, $event);
                 }
-                
-                return true;
             }
             else {
-                $this->connection->rollBack();
-                
-                return false;
-            }
-        }
-        catch(\Exception $e)
-        {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+                $this->blockModel->rollBack();
             }
             
+            return $result;
+        }
+        catch(\Exception $e) {
+            if (isset($this->blockModel) && $this->blockModel !== null) {
+                $this->blockModel->rollBack();
+            }
+
             throw $e;
         }
     }
@@ -414,7 +441,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Edits the current block object
      *
-     * @param array  $values     An array where keys are the AlBlockField definition and values are the values to edit
+     * @api
+     * @param array  $values  An array where keys are the AlBlockField definition and values are the values to edit
      * @throws \InvalidArgumentException  When the expected parameters are invalid
      * @throws \RuntimeException  When the action is aborted by a calling event 
      * @return Boolean
@@ -436,20 +464,16 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 }
             }
             
-            $this->checkEmptyParams($values);
+            $this->validator->checkEmptyParams($values);
             
-            $rollback = false;
-            $this->connection->beginTransaction();
+            $rollBack = false;
+            $this->blockModel->startTransaction();
             
             // Edits the source content
-            $this->alBlock->fromArray($values);
-            $this->result = $this->alBlock->save();
-            if ($this->alBlock->isModified() && $this->result == 0) {  
-                $rollback = true;
-            }
-
-            if (!$rollback) {
-                $this->connection->commit();
+            $this->blockModel->setModelObject($this->alBlock);
+            $rollBack = !$this->blockModel->save($values);
+            if (!$rollBack) {
+                $this->blockModel->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockEditedEvent($this);
@@ -459,15 +483,15 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 return true;
             }
             else {
-                $this->connection->rollBack();
+                $this->blockModel->rollBack();
                 
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+            if (isset($this->blockModel) && $this->blockModel !== null) {
+                $this->blockModel->rollBack();
             }
             
             throw $e;

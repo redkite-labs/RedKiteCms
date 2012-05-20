@@ -18,47 +18,50 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page;
 
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttribute;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributePeer;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\PageEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
-
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- * Defines the page content manager object, that implements the methods to manage an AlPage object
+ * AlPageManager is the object responsible to an AlPage object
  *
+ * AlPageManager manages an AlPage object, implementig the base methods to add, edit and delete 
+ * that kind of object.
+ * 
+ * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
-    //protected $alPage = null;
     protected $templateManager = null;
     protected $siteLanguages = array();
-    protected $alPageModel = null;
+    protected $alPageModel;
+    protected $alPage;
 
-    public function __construct(EventDispatcherInterface $dispatcher = null, TranslatorInterface $translator = null, AlParametersValidatorInterface $validator = null, AlTemplateManager $templateManager = null, AlPageModel $alPageModel = null)
+    /**
+     * Constructor
+     * 
+     * @param EventDispatcherInterface $dispatcher
+     * @param TranslatorInterface $translator
+     * @param AlTemplateManager $templateManager
+     * @param PageModelInterface $alPageModel
+     * @param AlParametersValidatorInterface $validator 
+     */
+    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlTemplateManager $templateManager, PageModelInterface $alPageModel, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $translator, $validator);
         
@@ -71,22 +74,69 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      */
     public function get()
     {
-        return $this->alPageModel->getModelObject();
+        return $this->alPage;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function set(\BaseObject $propelObject = null)
+    public function set($object = null)
     {
-        $this->alPageModel->setModelObject($propelObject);
-        
-        /*
-        if (null !== $propelObject && !$propelObject instanceof AlPage) {
-            throw new General\InvalidParameterTypeException('AlPageManager accepts only AlPage propel objects.');
+        if (null !== $object && !$object instanceof AlPage) {
+            throw new InvalidParameterTypeException('AlPageManager is only able to manage only AlPage objects');
         }
-
-        $this->alPage = $propelObject;*/
+        
+        $this->alPage = $object;
+    }
+    
+    /**
+     * Sets the template manager object
+     * 
+     * @api
+     * @param AlTemplateManager $templateManager
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager 
+     */
+    public function setTemplateManager(AlTemplateManager $templateManager)
+    {
+        $this->templateManager = $templateManager;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the template manager object associated with this object
+     * 
+     * @api
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     */
+    public function getTemplateManager()
+    {
+        return $this->templateManager;
+    }
+    
+    /**
+     * Sets the page model object
+     * 
+     * @api
+     * @param PageModelInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager 
+     */
+    public function setPageModel(PageModelInterface $v)
+    {
+        $this->alPageModel = $v;
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the page model object associated with this object
+     * 
+     * @api
+     * @return PageModelInterface  
+     */
+    public function getPageModel()
+    {
+        return $this->alPageModel;
     }
 
     /**
@@ -94,8 +144,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      */
     public function save(array $parameters)
     {
-        $alPage = $this->alPageModel->getModelObject();
-        if (null === $alPage || null === $alPage->getId()) {
+        if (null === $this->alPage || $this->alPage->getId() == null) {
             
             return $this->add($parameters);
         }
@@ -105,19 +154,13 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
         }
     }
     
-    public function getTemplateManager()
-    {
-        return $this->templateManager;
-    }
-    
     /**
      * {@inheritdoc}
      */
     public function delete()
     {
-        $alPage = $this->alPageModel->getModelObject();
-        if (null !== $alPage) {
-            if (0 === $alPage->getIsHome()) {
+        if (null !== $this->alPage) {
+            if (0 === $this->alPage->getIsHome()) {
                 try {
                     if (null !== $this->dispatcher) {
                         $event = new  Content\Page\BeforePageDeletingEvent($this);
@@ -127,50 +170,39 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                             throw new \RuntimeException($this->translator->trans("The page deleting action has been aborted", array(), 'al_page_manager_exceptions'));
                         }
                     }
-            
-                    /*
-                    $rollBack = false;
-                    $this->connection->beginTransaction();
-
-                    $this->alPage->setToDelete(1);
-                    $result = $this->alPage->save();
-                    if ($this->alPage->isModified() && $result == 0) {
-                        $rollBack = true;
-                    }*/
                     
-                    $rollBack = false;
                     $this->alPageModel->startTransaction();
-                    
-                    $rollBack = !$this->alPageModel->delete();
-                    if (!$rollBack) {
+                    $this->alPageModel->setModelObject($this->alPage);
+                    $result = $this->alPageModel->delete();
+                    if ($result) {
                         if (null !== $this->dispatcher) {
                             $event = new  Content\Page\BeforeDeletePageCommitEvent($this);
                             $this->dispatcher->dispatch(PageEvents::BEFORE_DELETE_PAGE_COMMIT, $event);
 
                             if ($event->isAborted()) {
-                                $rollBack = true;
+                                $result = false;
                             }
                         }
                     }
 
-                    if (!$rollBack) {
+                    if ($result) {
                         $this->alPageModel->commit();
                         
                         if (null !== $this->dispatcher) {
                             $event = new  Content\Page\AfterPageDeletedEvent($this);
                             $this->dispatcher->dispatch(PageEvents::AFTER_DELETE_PAGE, $event);
                         }
-                
-                        return true;
                     }
-                    else {
-                        $this->alPageModel->rollback();
-                        
-                        return false;
+                    else { 
+                        $this->alPageModel->rollBack();
                     }
+                    
+                    return $result;
                 }
-                catch(\Exception $e) {
-                    $this->alPageModel->rollback();
+                catch(\Exception $e) {                    
+                    if (isset($this->alPageModel) && $this->alPageModel !== null) {
+                        $this->alPageModel->rollBack();
+                    }
                     
                     throw $e;
                 }
@@ -187,6 +219,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Adds a new AlPage object from the given params
      * 
+     * @api
      * @param array $values
      * @return bool 
      */
@@ -207,90 +240,71 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
             
             $this->validator->checkEmptyParams($values);
-            $this->validator->checkRequiredParamsExists(array('pageName' => '', 'template' => ''), $values);
+            $this->validator->checkRequiredParamsExists(array('PageName' => '', 'TemplateName' => ''), $values);
 
-            if (empty($values['pageName'])) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("The name to assign to the page cannot be null"));
+            if (empty($values['PageName'])) {
+                throw new General\ParameterIsEmptyException($this->translator->trans("The name to assign to the page cannot be null. Please provide a valid page name to add your page"));
             }
 
-            if (empty($values['template'])) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("The page requires at least a template"));
+            if (empty($values['TemplateName'])) {
+                throw new General\ParameterIsEmptyException($this->translator->trans("The page requires at least a template. Please provide the template name to add your page"));
+            }
+            
+            if ($this->validator->pageExists($values['PageName'])) {
+                throw new Page\PageExistsException($this->translator->trans("The web site already contains the page you are trying to add. Please use another name for that page"));
             }
             
             if (!$this->validator->hasLanguages()) {
                 throw new Page\AnyLanguageExistsException($this->translator->trans("The web site has any language inserted. Please add a new language before adding a page"));
             }
 
-            $rollBack = false;
-            //$this->connection->beginTransaction();
+            $result = true;
             $this->alPageModel->startTransaction();
-                        
+            if (null === $this->alPage) {
+                $this->alPage = new AlPage();
+            }
+                
             $hasPages = $this->validator->hasPages();
-            $values['isHome'] = ($hasPages) ? (isset($values['isHome'])) ? $values['isHome'] : 0 : 1;
-            if ($values['isHome'] == 1 && $hasPages) $rollBack = !$this->resetHome();
+            $values['IsHome'] = ($hasPages) ? (isset($values['IsHome'])) ? $values['IsHome'] : 0 : 1; 
+            if ($values['IsHome'] == 1 && $hasPages) $result = $this->resetHome();
             
-            $values['pageName'] = AlToolkit::slugify($values['pageName']);
-            if (!$rollBack) {
-                $values['pageName'] = AlToolkit::slugify($values['pageName']);
+            if ($result) {
+                $values['PageName'] = AlToolkit::slugify($values['PageName']);
                 
                 // Saves the page
-                if (null === $this->alPageModel->getModelObject()) {
-                    $this->alPageModel->setModelObject(new AlPage());
-                }
-                
-                $rollBack = !$this->alPageModel->save($values);
-                if (!$rollBack) {
+                $result = $this->alPageModel
+                            ->setModelObject($this->alPage)
+                            ->save($values);
+                if ($result) {
                     if (null !== $this->dispatcher) {
                         $event = new  Content\Page\BeforeAddPageCommitEvent($this, $values);
                         $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE_COMMIT, $event);
                         
                         if ($event->isAborted()) {
-                            $rollBack = true;
+                            $result = false;
                         }
                     }
                 }
-                
-                /*
-                $this->alPage->setTemplateName($values['template']);
-                $this->alPage->setPageName(AlToolkit::slugify($values['pageName']));
-                $this->alPage->setIsHome($values['isHome']);*/
-                
-                /*
-                $this->alPage->fromArray($values);
-                $result = $this->alPage->save();
-                if ($this->alPage->isModified() && $result == 0) {
-                    $rollBack = true;
-                }
-                else {
-                    if (null !== $this->dispatcher) {
-                        $event = new  Content\Page\BeforeAddPageCommitEvent($this, $values);
-                        $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE_COMMIT, $event);
-                        
-                        if ($event->isAborted()) {
-                            $rollBack = true;
-                        }
-                    }
-                }*/
             }
             
-            if (!$rollBack) {
+            if ($result) {
                 $this->alPageModel->commit();
                 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Page\AfterPageAddedEvent($this);
                     $this->dispatcher->dispatch(PageEvents::AFTER_ADD_PAGE, $event);
                 }
-                
-                return true;
             }
             else {
-                $this->alPageModel->rollback();
-                
-                return false;
+                $this->alPageModel->rollBack();
             }
+            
+            return $result;
         }
         catch(\Exception $e) {
-            $this->alPageModel->rollback();
+            if (isset($this->alPageModel) && $this->alPageModel !== null) {
+                $this->alPageModel->rollBack();
+            }
             
             throw $e;
         }
@@ -299,6 +313,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Edits the managed page object
      * 
+     * @api
      * @param array $values
      * @return Boolean 
      */
@@ -319,92 +334,52 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             $this->validator->checkEmptyParams($values);
-            /*$attributeParams = array('permalink', 'title', 'description', 'keywords');
-            $this->validator->checkOnceValidParamExists($attributeParams, );
-            
-            $idLanguage = 0;
-            $attributeParams = array('permalink', 'title', 'description', 'keywords');
-            if (count(array_intersect($attributeParams, array_keys($values))) > 0)  {
-                $this->checkRequiredParamsExists(array('languageId' => ''), $values); 
-                $idLanguage = $values['languageId'];
-            }*/
-            
-            
-            $alPage = $this->alPageModel->getModelObject();
-            
-            if (isset($values['pageName']) && $values['pageName'] != "" && $alPage->getPageName() != $values['pageName']) {
-                $values['pageName'] = AlToolkit::slugify($values['pageName']);
-            }
-            
-            $rollBack = false;
             $this->alPageModel->startTransaction();
             
+            if (isset($values['PageName']) && $values['PageName'] != "" && $this->alPage->getPageName() != $values['PageName']) {
+                $values['PageName'] = AlToolkit::slugify($values['PageName']);
+            } else {
+                unset($values['PageName']);
+            }
+            
             $templateChanged = '';
-            if (isset($values['template']) && $values['template'] != "") {
-                $templateChanged = $alPage->getTemplateName(); 
-                if ($templateChanged != $values['template']) {
-                    $alTemplateSlots = null; 
-                    $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $alTemplateSlots, null, null, $this->connection);
-                    //$templateChanger = new AlTemplateChanger($this->container, $this->templateManager, $templateManager);
-                    //$rollBack = !$templateChanger->change();
+            if (isset($values['TemplateName']) && $values['TemplateName'] != "") {
+                $templateChanged = $this->alPage->getTemplateName(); 
+                if ($templateChanged != $values['TemplateName']) {
+                     $values['oldTemplateName'] = $templateChanged;
                 }
+            } else {
+                unset($values['TemplateName']);
             }
             
-            if (!$rollBack) {
-                if (isset($values['isHome']) && $values['isHome'] != "" && $values['isHome'] != 0 && $this->validator->hasPages(1)) {
-                    $rollBack = !$this->resetHome();
-                }
-                
-                if (!$rollBack) {
-                    $rollBack = !$this->alPageModel->save($values);
-                    if (!$rollBack) {
-                        if (null !== $this->dispatcher) {
-                            $event = new  Content\Page\BeforeEditPageCommitEvent($this, $values);
-                            $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE_COMMIT, $event);
+            $result = true;
+            if (isset($values['IsHome']) && $values['IsHome'] != "" && $values['IsHome'] != 0 && $this->validator->hasPages(1)) {
+                $result = $this->resetHome();
+            }
+            else {
+                unset($values['IsHome']);
+            }
 
-                            if ($event->isAborted()) {
-                                $rollBack = true;
-                            }
+            if ($result) {
+                if (!empty($values)) {
+                    $result = $this->alPageModel
+                                ->setModelObject($this->alPage)
+                                ->save($values);
+                }
+
+                if ($result) {
+                    if (null !== $this->dispatcher) {
+                        $event = new  Content\Page\BeforeEditPageCommitEvent($this, $values);
+                        $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE_COMMIT, $event);
+
+                        if ($event->isAborted()) {
+                            $result = false;
                         }
                     }
                 }
             }
-            
-            /*
-            if (!$rollBack) {
-                if (null !== $this->dispatcher) {
-                   
-                }
-                    
-                if ($idLanguage != 0) {
-                    $c = new \Criteria();
-                    $c->add(AlPageAttributePeer::TO_DELETE, 0);
-                    $c->add(AlPageAttributePeer::LANGUAGE_ID, $idLanguage);
-                    $pageAttributes = $this->alPage->getAlPageAttributes($c);  
-                    if (count($pageAttributes) == 0) {                        
-                        $rollBack = !$this->addPageAttributesAndBlocks(array_merge($values, array('idPage' => $this->alPage->getId(), 'idLanguage' => $idLanguage)));                        
-                    }
-                    else {
-                        if ($templateChanged != '') {
-                            $previousTemplate = new AlTemplateManager($this->container, null, null, null, $templateChanged);
-                            $newTemplate = new AlTemplateManager($this->container, null, null, null, $values['template']);
-                            $templateChanger = new AlTemplateChanger($this->container, $previousTemplate, $newTemplate);
-                            $rollBack = !$templateChanger->change();
-                        }
-                        
-                        if (!$rollBack) {
-                            $alPageAttributesManager = $this->container->get('al_page_attributes_manager');
-                            $alPageAttributesManager->set($pageAttributes[0]);
-                            $result = $alPageAttributesManager->save(array_merge($values, array('idPage' => $this->alPage->getId(), 'idLanguage' => $idLanguage)));
-                            if (null !== $result) {
-                                $rollBack = !$result;
-                            }
-                        }
-                    }
-                }
-            }*/
 
-            if (!$rollBack) {
+            if ($result) {
                 $this->alPageModel->commit();
                 
                 if (null !== $this->dispatcher) {
@@ -415,50 +390,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 return true;
             }
             else {
-                $this->alPageModel->rollback();
+                $this->alPageModel->rollBack();
                 
                 return false;
             }
         }
         catch(\Exception $e) {
-            $this->alPageModel->rollback();
-            
-            throw $e;
-        }
-    }
-    
-    /**
-     * Adds the page attribute and contents for the current page
-     * 
-     * @param type $pageAttributesParameters
-     * @return Boolean 
-     *
-    protected function addPageAttributesAndBlocks($pageAttributesParameters)
-    {
-        try {
-            $rollBack = false;
-            $this->connection->beginTransaction();
-            $this->pageAttributes->set(null);
-            $rollBack = !$this->pageAttributes->save($pageAttributesParameters); 
-           
-            if (!$rollBack) {
-                $rollBack = !$this->templateManager->populate($pageAttributesParameters['idLanguage'], $pageAttributesParameters['idPage']);
-            }
-            
-            if (!$rollBack) {
-                $this->connection->commit();
-                
-                return true;
-            }
-            else {
-                $this->connection->rollback();
-                
-                return false;
-            }
-        }
-        catch(\Exception $e) {
-            if (isset($this->connection) && $this->connection !== null) {
-                $this->connection->rollback();
+            if (isset($this->alPageModel) && $this->alPageModel !== null) {
+                $this->alPageModel->rollBack();
             }
             
             throw $e;
@@ -468,32 +407,25 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Degrades the home page to normal page
      * 
+     * @api
      * @return Boolean 
      */
     protected function resetHome()
     {
         try {
-            $page = $this->alPageModel->homePage();   //AlPageQuery::create()->setDispatcher($this->dispatcher)->homePage()->findOne();
-            if (null !== $page) {
-                
-                $alPage = $this->alPageModel->getModelObject();
-                $result = $this->alPageModel->setModelObject($page)->save(array('IsHome', 0));
-                $this->alPageModel->setModelObject($alPage);
+            $page = $this->alPageModel->homePage();
+            if (null !== $page) { 
+                $result = $this->alPageModel
+                            ->setModelObject($page)
+                            ->save(array('IsHome' => 0));
                 
                 return $result;
-                /*
-                $page->setIsHome(0);
-                $result = $page->save();
-
-                if ($page->isModified() && $result == 0) return false;
-                 * 
-                 */
             }
 
             return true;
         }
         catch(\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            throw $e;
         }
     }
 }

@@ -18,10 +18,8 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer; 
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlBlockManager wraps an AlBlock object. 
@@ -36,44 +34,50 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
  */
 class AlPageContentsContainer implements AlPageContentsContainerInterface
 {
-    private $alPage;
-    private $alLanguage;
-    private $dispatcher;
-    private $blocks = array();
+    protected $idPage = null;
+    protected $idLanguage = null;
+    protected $blockModel;
+    protected $dispatcher;
+    protected $blocks = array(); 
     
-    public function __construct(EventDispatcherInterface $dispatcher, AlLanguage $alLanguage, AlPage $alPage)
+    public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel)
     {
-        $this->alPage = $alPage;
-        $this->alLanguage = $alLanguage;
         $this->dispatcher = $dispatcher;
-        
-        $this->setUpBlocks();
+        $this->blockModel = $blockModel;
     }
     
-    public function setAlPage(AlPage $v)
+    public function setIdPage($v)
     {
-        $this->alPage = $v;
+        if (!is_numeric($v)) {
+            throw new General\InvalidParameterTypeException("The page id must be a numeric value");
+        }
         
-        return $this;
-    }
-    
-    public function setAlLanguage(AlLanguage $v)
-    {
-        $this->alLanguage = $v;
+        $this->idPage = $v;
         
         return $this;
     }
     
-    public function getAlPage()
+    public function setIdLanguage($v)
     {
-        return $this->alPage;
+        if (!is_numeric($v)) {
+            throw new General\InvalidParameterTypeException("The language id must be a numeric value");
+        }
+        
+        $this->idLanguage = $v;
+        
+        return $this;
     }
     
-    public function getAlLanguage()
+    public function getIdPage()
     {
-        return $this->alLanguage;
+        return $this->idPage;
     }
     
+    public function getIdLanguage()
+    {
+        return $this->idLanguage;
+    }
+
     public function getBlocks()
     {
         return $this->blocks;
@@ -81,9 +85,16 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
     
     public function getSlotBlocks($slotName)
     {
-        return $this->blocks[$slotName];
+        return (array_key_exists($slotName, $this->blocks)) ? $this->blocks[$slotName] : array();
     }
     
+    public function refresh()
+    {
+        $this->setUpBlocks();
+        
+        return $this;
+    }
+          
     /**
      * Retrieves from the database the contents by slot
      * 
@@ -91,12 +102,19 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
      */
     protected function setUpBlocks()
     {
-        $idLanguage = array(1, $this->alLanguage->getId());
-        $idPage = array(1, $this->alPage->getId());
+        if (null === $this->idLanguage) {
+            throw new General\ParameterIsEmptyException("Contents cannot be retrieved because the id language has not been set");
+        }
         
-        $alBlocks = AlBlockQuery::create()->setDispatcher($this->dispatcher)->retrieveContents($idLanguage, $idPage)->find();
+        if (null === $this->idPage) {
+            throw new General\ParameterIsEmptyException("Contents cannot be retrieved because the id page has not been set");
+        }
+        
+        $this->blocks = array();
+        
+        $alBlocks = $this->blockModel->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
         foreach ($alBlocks as $alBlock) {
-            $this->blocks[$slotName->getSlotName()][] = $alBlock; // contents[$alBlock->getSlotName()][] = $alBlock;
+            $this->blocks[$alBlock->getSlotName()][] = $alBlock; 
         }
     }
 }
