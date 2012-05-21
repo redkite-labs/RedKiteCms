@@ -32,6 +32,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  */
 class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
 {
+    public function getModelObjectClassName()
+    {
+        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo';
+    }
+    
     public function fromPK($id)
     {
         $query = AlSeoQuery::create();

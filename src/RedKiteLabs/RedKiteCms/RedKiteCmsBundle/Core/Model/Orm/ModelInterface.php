@@ -24,4 +24,5 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm;
  */
 interface ModelInterface {
     public function setModelObject($object = null);
+    public function getModelObjectClassName();
 }

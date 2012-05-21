@@ -451,27 +451,28 @@ class AlSlotManager extends AlTemplateBase
     {
         try
         {
-            $rollBack = false;
-            $this->blockModel->startTransaction();
-              
-            foreach($this->blockManagers as $blockManager) {
-                $res = $blockManager->delete();
-                if (!$res) {
-                    $rollBack = true;
-                    break;
-                }
-            }
+            if(count($this->blockManagers) > 0) {
+                $result = null;
+                $this->blockModel->startTransaction();
 
-            if (!$rollBack) {
-                $this->blockModel->commit(); 
-                $this->blockManagers = array();
-                
-                return true;
-            }
-            else {
-                $this->blockModel->rollBack();
-                
-                return false;
+                foreach($this->blockManagers as $blockManager) {
+                    $result = $blockManager->delete();
+                    if (!$result) {
+                        break;
+                    }
+                }
+
+                if ($result) {
+                    $this->blockModel->commit(); 
+                    $this->blockManagers = array();
+
+                    return true;
+                }
+                else {
+                    $this->blockModel->rollBack();
+
+                    return false;
+                }
             }
         }
         catch(\Exception $e)

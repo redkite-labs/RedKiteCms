@@ -17,23 +17,21 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
- * Arranges the page's slot contents when a page changes its template
+ * Arranges the page's slot contents, when the page changes its template
  * 
  * 
  * Requires two Template Manager objects, which are both parsed and analysed to find
  * the slots presents on both the templates, the ones to add and the ones to remove.
  * 
- * When a new slot is added, the daefault value is used.
+ * When a new slot is added, the default value is used.
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -41,7 +39,16 @@ class AlTemplateChanger
 {
     protected $currentTemplateManager;
     protected $newTemplateManager; 
+    protected $blockManagerFactory; 
+    protected $parametersValidator; 
     
+    public function __construct(AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $parametersValidator = null)
+    {
+        $this->blockManagerFactory = $blockManagerFactory;
+        $this->parametersValidator = $parametersValidator;
+    }
+
+
     /**
      * Sets the current template used by the page
      * 
@@ -75,6 +82,14 @@ class AlTemplateChanger
      */
     public function change()
     {
+        if (null === $this->currentTemplateManager) {
+            throw new General\ParameterIsEmptyException("The current template manager has not been set. The tempèlate cannot be changed until this value is given");
+        }
+        
+        if (null === $this->newTemplateManager) {
+            throw new General\ParameterIsEmptyException("The current template manager has not been set. The tempèlate cannot be changed until this value is given");
+        }
+        
         $blockModel = $this->currentTemplateManager->getBlockModel();
         try
         {
@@ -88,11 +103,12 @@ class AlTemplateChanger
                         foreach($slots as $repeated => $slotNames) {
                             foreach($slotNames as $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));                            
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
+                                $slotManager->setForceSlotAttributes(true);
                                 
                                 $pageContentsContainer = $this->currentTemplateManager->getPageContentsContainer();
                                 $result = $slotManager->addBlock($pageContentsContainer->getIdLanguage(), $pageContentsContainer->getIdPage());
-                                if (null !== $result) {    
+                                if (null !== $result) {     
                                     $rollBack = !$result;
                                     if($rollBack) break;
                                 }
@@ -107,12 +123,12 @@ class AlTemplateChanger
                                 foreach($intersection as $repeated => $slotNames) {
                                     foreach($slotNames as $slotName) {
                                         // TODO
-                                        /*
+                                        /**/
                                         $slot = new AlSlot($slotName, array('repeated' => $repeated)); 
                                         $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($repeated));
                                         $converter = new $className($this->container, $slot, $this->alPage, $this->alLanguage);
                                         $rollBack = !$converter->convert();
-                                        if($rollBack) break;*/
+                                        if($rollBack) break;
                                     }
                                     if($rollBack) break;
                                 }
@@ -124,15 +140,17 @@ class AlTemplateChanger
 
                     case 'remove': 
                         foreach($slots as $slotNames) {
-                            foreach($slotNames as $slotName) {
+                            foreach($slotNames as $repeated =>  $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));     
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
                                 $blocks = $this->currentTemplateManager->getPageContentsContainer()->getSlotBlocks($slotName);
                                 $slotManager->setUpBlockManagers($blocks);
                                 $result = $slotManager->deleteBlocks();
-                                if (!$result) {echo "R";
-                                    $rollBack = true;
-                                    break;
+                                if (null !== $result) { 
+                                    if (!$result) {
+                                        $rollBack = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -143,10 +161,12 @@ class AlTemplateChanger
 
             if (!$rollBack) {
                 $blockModel->commit(); 
+                
                 return true;
             }
             else {
                 $blockModel->rollBack();
+                
                 return false;
             }
         }
@@ -176,6 +196,7 @@ class AlTemplateChanger
         $add = $this->calculateIntersections($diffsForNew, $diffsForPrevious); 
         $remove = $this->calculateIntersections($diffsForPrevious, $diffsForNew);
         
+        $operations = array();
         $operations['add'] = (array_key_exists('found', $add)) ? $add['found'] : array();
         $operations['change'] = (array_key_exists('intersected', $add)) ? $add['intersected'] : array();
         $operations['remove'] = (array_key_exists('found', $remove)) ? $remove['found'] : array();

@@ -22,13 +22,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
- * AlBlockManager wraps an AlBlock object. 
+ * AlPageContentsContainer is the object responsible to manage the contents on a web page.
  * 
  * 
- * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete it and 
- * provides several methods to change the behavior of the block, when it is rendered on the page.
- * 
- * Every new block content must inherit from this class.
+ * Providing the page id and language id, it retrieves the contents and arrange them 
+ * into an array which keys are the name of slot where the contents live.
  * 
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -40,12 +38,25 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
     protected $dispatcher;
     protected $blocks = array(); 
     
+    /**
+     * Constructor
+     * 
+     * @param EventDispatcherInterface $dispatcher
+     * @param BlockModelInterface $blockModel 
+     */
     public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel)
     {
         $this->dispatcher = $dispatcher;
         $this->blockModel = $blockModel;
     }
     
+    /**
+     * The id of the page to retrieve
+     * 
+     * @param int $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer
+     * @throws General\InvalidParameterTypeException 
+     */
     public function setIdPage($v)
     {
         if (!is_numeric($v)) {
@@ -57,6 +68,13 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
         return $this;
     }
     
+    /**
+     * The id of the language to retrieve
+     * 
+     * @param type $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer
+     * @throws General\InvalidParameterTypeException 
+     */
     public function setIdLanguage($v)
     {
         if (!is_numeric($v)) {
@@ -68,26 +86,51 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
         return $this;
     }
     
+    /**
+     * Returns the current page id
+     * 
+     * @return int 
+     */
     public function getIdPage()
     {
         return $this->idPage;
     }
     
+    /**
+     * Returns the current language id
+     * 
+     * @return int 
+     */
     public function getIdLanguage()
     {
         return $this->idLanguage;
     }
 
+    /**
+     * Return all the page's blocks
+     * 
+     * @return array 
+     */
     public function getBlocks()
     {
         return $this->blocks;
     }
     
+    /**
+     * Return all blocks placed on the given slot name
+     * 
+     * @return array 
+     */
     public function getSlotBlocks($slotName)
     {
         return (array_key_exists($slotName, $this->blocks)) ? $this->blocks[$slotName] : array();
     }
     
+    /**
+     * Refreshes the blocks
+     * 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer 
+     */
     public function refresh()
     {
         $this->setUpBlocks();
@@ -96,7 +139,7 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
     }
           
     /**
-     * Retrieves from the database the contents by slot
+     * Retrieves from the database the contents and arranges them by slots
      * 
      * @return array
      */

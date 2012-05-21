@@ -119,7 +119,7 @@ class PagesController extends Controller
             }
         }
         catch(\Exception $e)
-        {
+        {//echo $e->getMessage() . "\n";
             $response = new Response();
             $response->setStatusCode('404');
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);

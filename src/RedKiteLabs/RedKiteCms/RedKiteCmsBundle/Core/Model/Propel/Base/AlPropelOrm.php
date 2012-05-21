@@ -88,11 +88,9 @@ class AlPropelOrm implements OrmInterface
     public function delete($modelObject = null)
     {
         try {
-            if(null !== $modelObject) $this->modelObject = $modelObject;
-            
             $values = array('ToDelete' => 1); 
             
-            return $this->save($values);
+            return $this->save($values, $modelObject);
         }
         catch(\Exception $ex) { echo $ex->getMessage();
             

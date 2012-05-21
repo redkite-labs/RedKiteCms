@@ -19,36 +19,98 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
 
-abstract class AlSlotConverterBase extends AlSlotManager implements AlSlotConverterInterface
+abstract class AlSlotConverterBase implements AlSlotConverterInterface
 {
-    protected $contents;
+    protected $pageContentsContainer;
+    protected $languageModel;
+    protected $pageModel;
+    protected $blockModel;
+    protected $slot;
+    protected $blocks;
+    protected $arrayBlocks;
 
-    public function __construct(ContainerInterface $container, AlSlot $slot, AlPage $alPage, AlLanguage $alLanguage)
+    public function __construct(AlSlot $slot, AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
     {
-        parent::__construct($container, $slot, $alPage, $alLanguage);
-        
-        $this->contents = AlBlockQuery::create()
-                            ->setContainer($this->container)
-                            ->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())
-                            ->find();
+        $this->slot = $slot;
+        $this->pageContentsContainer = $pageContentsContainer;
+        $this->languageModel = $languageModel;
+        $this->pageModel = $pageModel;
+        $this->blockModel = $blockModel;
+        $this->blocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
+        $this->blocksToArray();
     }
     
     protected function removeContents()
     {
-        AlBlockQuery::create()
-                    ->setContainer($this->container)
-                    ->retrieveContentsBySlotName($this->slot->getSlotName())
-                    ->delete();        
+        if(count($this->blocks) > 0) {
+            try {
+                $result = null;
+                $this->blockModel->startTransaction();
+                foreach($this->blocks as $block) {
+                    $result = $this->blockModel
+                                ->setModelObject($block)
+                                ->delete();
+
+                    if(!$result) break;
+                }
+
+                if ($result) {
+                    $this->blockModel->commit();
+                }
+                else {
+                    $this->blockModel->rollBack();
+                }
+                
+                return $result;
+            }
+            catch(\Exception $e)
+            {
+                if (isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
+                }
+
+                throw $e;
+            }
+        }
     }
     
+    private function blocksToArray()
+    {
+        foreach($this->blocks as $block) {
+            $aBlock = $block->toArray();
+            unset($aBlock["Id"]);
+            
+            $this->arrayBlocks[] = $aBlock;
+        }
+    }
+    
+    protected function updateBlock($block, $idLanguage, $idPage)
+    {
+        $block["LanguageId"] = $idLanguage;
+        $block["PageId"] = $idPage; 
+        
+        $className = $this->blockModel->getModelObjectClassName();
+        $modelObject = new $className();
+        
+        $result = $this->blockModel
+                    ->setModelObject($modelObject)
+                    ->save($block);
+
+        return $result;
+    }
+    
+    /*
     protected function cloneAndAddContent($content, $idLanguage, $idPage)
     {
         $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $content->getClassName()); 
@@ -67,5 +129,5 @@ abstract class AlSlotConverterBase extends AlSlotManager implements AlSlotConver
         $alBlockManager->save($contentValue);
         
         return $alBlockManager->get();
-    }
+    }*/
 }

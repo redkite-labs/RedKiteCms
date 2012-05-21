@@ -323,6 +323,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             }
             else {
                 $this->blockModel->rollBack();
+                
                 return false;
             }
         }
@@ -409,12 +410,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
             // Saves the content
             if (null === $this->alBlock) {
-                $this->alBlock = new AlBlock();
+                //$this->alBlock = new AlBlock();
+                $className = $this->blockModel->getModelObjectClassName();
+                $this->alBlock = new $className();
             }
             
             $result = $this->blockModel
                     ->setModelObject($this->alBlock)
-                    ->save($values); 
+                    ->save($values);  
             if ($result) {
                 $this->blockModel->commit();
 
