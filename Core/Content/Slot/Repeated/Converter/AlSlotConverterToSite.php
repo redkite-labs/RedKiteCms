@@ -21,6 +21,42 @@ class AlSlotConverterToSite extends AlSlotConverterBase
 { 
     public function convert()
     {
+        
+        if(count($this->arrayBlocks) > 0)
+        {
+            try
+            {
+                $result = null;
+                $this->blockModel->startTransaction();
+                $this->removeContents(); 
+
+                foreach($this->arrayBlocks as $block)
+                {
+                    $result = $this->updateBlock($block, 1, 1);
+                }
+
+                if ($result)
+                {
+                    $this->blockModel->commit();
+                }
+                else
+                {
+                    $this->blockModel->rollBack();
+                }
+
+                return $result;
+            }
+            catch(\Exception $e)
+            {
+                if(isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
+                }
+
+                throw $e;
+            }
+        }
+        
+        /*
         try
         {
             $rollBack = false;
@@ -53,6 +89,6 @@ class AlSlotConverterToSite extends AlSlotConverterBase
         {
             if(isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
-        }
+        }*/
     }
 }

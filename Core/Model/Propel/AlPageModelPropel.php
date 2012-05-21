@@ -32,6 +32,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  */
 class AlPageModelPropel extends Base\AlPropelModel implements PageModelInterface
 {    
+    public function getModelObjectClassName()
+    {
+        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage';
+    }
     
     public function setModelObject($object = null)
     {

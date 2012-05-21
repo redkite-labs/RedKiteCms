@@ -34,6 +34,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;*/
  */
 class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterface
 { 
+    public function getModelObjectClassName()
+    {
+        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlTheme';
+    }
+    
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlTheme) {

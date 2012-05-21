@@ -24,6 +24,48 @@ class AlSlotConverterToPage extends AlSlotConverterBase
 { 
     public function convert()
     {
+        if(count($this->arrayBlocks) > 0)
+        {
+            try
+            {
+                $result = null;
+                $this->blockModel->startTransaction();
+                $this->removeContents(); 
+
+                $languages = $this->languageModel->activeLanguages();
+                $pages = $this->languageModel->activePages();
+                foreach($this->arrayBlocks as $block)
+                {
+                    foreach($languages as $language)
+                    {
+                        foreach($pages as $page)
+                        {
+                            $result = $this->updateBlock($block, $language->getId(), $page->getId());
+                        }
+                    }
+                }
+
+                if ($result)
+                {
+                    $this->blockModel->commit();
+                }
+                else
+                {
+                    $this->blockModel->rollBack();
+                }
+
+                return $result;
+            }
+            catch(\Exception $e)
+            {
+                if(isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
+                }
+
+                throw $e;
+            }
+        }
+        /*
         try
         {
             $rollBack = false;
@@ -68,6 +110,6 @@ class AlSlotConverterToPage extends AlSlotConverterBase
         {
             if(isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
-        }
+        }*/
     }
 }

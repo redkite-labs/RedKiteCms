@@ -32,6 +32,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  */
 class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelInterface
 {
+    public function getModelObjectClassName()
+    {
+        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage';
+    }
+    
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlLanguage) {

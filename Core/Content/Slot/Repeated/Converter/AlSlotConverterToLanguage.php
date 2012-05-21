@@ -23,44 +23,42 @@ class AlSlotConverterToLanguage extends AlSlotConverterBase
 { 
     public function convert()
     {
-        try
+        if(count($this->arrayBlocks) > 0)
         {
-            $rollBack = false;
-            $this->connection->beginTransaction();
-
-            $this->removeContents(); 
-
-            $languages = AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
-            foreach($this->contents as $content)
+            try
             {
-                foreach($languages as $language)
-                {
-                    $newContent = $this->cloneAndAddContent($content, $language->getId(), 1);
-                    $result = $newContent->save();
+                $result = null;
+                $this->blockModel->startTransaction();
+                $this->removeContents(); 
 
-                    if ($newContent->isModified() && $result == 0)
+                $languages = $this->languageModel->activeLanguages();
+                foreach($this->arrayBlocks as $block)
+                {
+                    foreach($languages as $language)
                     {
-                        $rollBack = true;
-                        break;
+                        $result = $this->updateBlock($block, $language->getId(), 1);
                     }
                 }
-            }
 
-            if (!$rollBack)
-            {
-                $this->connection->commit();
-                return true;
+                if ($result)
+                {
+                    $this->blockModel->commit();
+                }
+                else
+                {
+                    $this->blockModel->rollBack();
+                }
+
+                return $result;
             }
-            else
+            catch(\Exception $e)
             {
-                $this->connection->rollBack();
-                return false;
+                if(isset($this->blocksModel) && $this->blocksModel !== null) {
+                    $this->blocksModel->rollBack();
+                }
+
+                throw $e;
             }
-        }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
-            throw $e;
         }
     }
 }

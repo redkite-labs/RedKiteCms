@@ -485,7 +485,6 @@ class AlSeoManagerTest extends TestCase
         $this->assertFalse($res);
     }
     
-    
     public function testDelete()
     {
         $seo = $this->setUpSeoObject();

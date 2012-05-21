@@ -32,6 +32,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  */
 class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterface
 {
+    public function getModelObjectClassName()
+    {
+        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock';
+    }
+    
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
