@@ -65,7 +65,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      */
     public function setSeoModel(SeoModelInterface $v)
     {
-        $this->alBlockModel = $v;
+        $this->seoModel = $v;
         
         return $this;
     }
@@ -78,7 +78,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      */
     public function getSeoModel()
     {
-        return $this->alBlockModel;
+        return $this->seoModel;
     }
     
     /**
