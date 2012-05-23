@@ -362,7 +362,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             else {
                 unset($values['IsHome']);
             }
-
+            
             if ($result) {
                 if (!empty($values)) {
                     $result = $this->pageModel

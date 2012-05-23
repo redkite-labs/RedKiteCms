@@ -183,6 +183,22 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     }
     
     /**
+     * Deletes the seo attribute identified by the given language and page
+     * @param int $languageId
+     * @param int $pageId
+     * @return Boolean 
+     */
+    public function deleteSeoAttributesFromLanguage($languageId, $pageId)
+    {
+        $alSeo = $this->seoModel->fromPageAndLanguage($languageId, $pageId);
+        $this->set($alSeo);
+        $result = $this->delete();
+        $this->set(null);
+        
+        return $result;
+    }
+    
+    /**
      * Adds a new AlSeo object from the given params
      * 
      * @param array $values
