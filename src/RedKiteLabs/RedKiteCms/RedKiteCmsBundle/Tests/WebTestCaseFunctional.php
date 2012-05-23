@@ -69,7 +69,8 @@ class WebTestCaseFunctional extends WebTestCase {
         
         $dir = realpath(__DIR__ . '/Functional/Resources/fixtures');
         $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);         
-        $templateManager = new AlTemplateManager($dispatcher, $translator, new AlPageContentsContainer($dispatcher, $blockModel), $blockModel);
+        $pageContentsContainer = new AlPageContentsContainer($dispatcher, $blockModel);
+        $templateManager = new AlTemplateManager($dispatcher, $translator, $pageContentsContainer, $blockModel);
         $templateManager->setTemplateSlots($templateSlots)
                 ->refresh();
         $seoManager = new AlSeoManager($dispatcher, $translator, $seoModel);
@@ -104,11 +105,11 @@ class WebTestCaseFunctional extends WebTestCase {
         $language->setMainLanguage(1);
         $language->save();
         // Temporary
-        
+        /*
         $language = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage();
         $language->setLanguage('it');
         $language->setMainLanguage(0);
-        $language->save();
+        $language->save();*/
         
         $alPageManager = new AlPageManager($dispatcher, $translator, $templateManager, $pageModel, new AlParametersValidatorPageManager($translator, $languageModel, $pageModel));
         $params = array('PageName'      => 'index', 
@@ -118,45 +119,7 @@ class WebTestCaseFunctional extends WebTestCase {
                         'Title'         => 'page title',
                         'Description'   => 'page description',
                         'Keywords'      => '');
-        $alPageManager->set(null)->save($params);
-        
-        $params = array('PageName'      => 'page 1', 
-                        'TemplateName'  => 'home',
-                        'IsHome'        => '0',
-                        'Permalink'     => 'this is a website fake page',
-                        'Title'         => 'page title',
-                        'Description'   => 'page description',
-                        'Keywords'      => '');
-        $alPageManager->set(null)->save($params);
-        
-        $params = array('PageName'      => 'page 2', 
-                        'TemplateName'  => 'home',
-                        'IsHome'        => '0',
-                        'Permalink'     => 'this is a website fake page',
-                        'Title'         => 'page title',
-                        'Description'   => 'page description',
-                        'Keywords'      => '');
-        $alPageManager->set(null)->save($params);
-        
-        $pcc = new AlPageContentsContainer($dispatcher, $blockModel);
-        $pcc->setIdLanguage(2)
-                ->setIdPage(2)
-                ->refresh();
-        $scf = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory(new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('logo', array('repeated' => 'site')), $pcc, $languageModel, $pageModel, $blockModel);
-        $cc = $scf->createConverter('language'); 
-        $cc->convert();
-        
-        $scf = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory(new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('main-menu', array('repeated' => 'language')), $pcc, $languageModel, $pageModel, $blockModel);
-        $cc = $scf->createConverter('page'); 
-        $cc->convert();
-        $scf = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory(new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('top_section_4', array('repeated' => 'page')), $pcc, $languageModel, $pageModel, $blockModel);
-        $cc = $scf->createConverter('language'); 
-        $cc->convert();
-        $scf = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory(new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('top_section_1', array('repeated' => 'page')), $pcc, $languageModel, $pageModel, $blockModel);
-        $cc = $scf->createConverter('site'); 
-        $cc->convert();
-        
-        exit;
+        $alPageManager->set(null)->save($params);        
     }
     
 }
