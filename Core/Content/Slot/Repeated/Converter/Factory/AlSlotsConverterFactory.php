@@ -22,6 +22,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageCont
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Slot\SameRepeatedStatusException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
 /**
  * 
@@ -59,12 +61,17 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
      */
     public function createConverter($newRepeatedStatus)
     {
-        $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
-        if(!class_exists($className)) {
-            throw new \InvalidArgumentException("Converter does not exist");
+        if ($this->slot->getRepeated() == $newRepeatedStatus)
+        {
+            throw new SameRepeatedStatusException("The new repeated status you required is the same of the current slot. Aborted ");
         }
         
-        $this->slot->setRepeated($newRepeatedStatus); // = new AlSlot($slotName, array('repeated' => $newRepeatedStatus)); 
+        $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
+        if(!class_exists($className)) {
+            throw new ClassNotFoundException(sprintf("The class %s that shoud define a new Slot Converter does not exist", $className));
+        }
+        
+        $this->slot->setRepeated($newRepeatedStatus); 
         
         return new $className($this->slot, $this->pageContentsContainer, $this->languageModel, $this->pageModel, $this->blockModel);
     }
