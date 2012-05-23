@@ -33,7 +33,7 @@ class AlSlotConverterToPage extends AlSlotConverterBase
                 $this->removeContents(); 
 
                 $languages = $this->languageModel->activeLanguages();
-                $pages = $this->languageModel->activePages();
+                $pages = $this->pageModel->activePages();
                 foreach($this->arrayBlocks as $block)
                 {
                     foreach($languages as $language)
