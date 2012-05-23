@@ -110,25 +110,4 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
 
         return $result;
     }
-    
-    /*
-    protected function cloneAndAddContent($content, $idLanguage, $idPage)
-    {
-        $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $content->getClassName()); 
-        $contentValue = array(
-            "PageId"                => $idPage,
-            "LanguageId"            => $idLanguage,
-            "SlotName"              => $content->getSlotName(),
-            "ClassName"             => $content->getClassName(),
-            "HtmlContent"           => $content->getHtmlContent(),
-            "InternalJavascript"    => $content->getInternalJavascript(),
-            "InternalStylesheet"    => $content->getInternalStylesheet(),
-            "ExternalJavascript"    => $content->getExternalJavascript(),
-            "ExternalStylesheet"    => $content->getExternalStylesheet(),
-            "ContentPosition"       => $content->getContentPosition()
-        );
-        $alBlockManager->save($contentValue);
-        
-        return $alBlockManager->get();
-    }*/
 }
