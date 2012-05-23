@@ -48,6 +48,10 @@ class AlPageManagerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
+        $this->pageModel->expects($this->any())
+            ->method('getModelObjectClassName')
+            ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage'));
+        
         $this->pageManager = new AlPageManager($this->dispatcher, $this->translator, $this->templateManager, $this->pageModel, $this->validator);
     }
     

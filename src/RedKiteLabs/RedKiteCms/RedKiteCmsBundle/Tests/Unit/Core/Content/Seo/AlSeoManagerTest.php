@@ -45,6 +45,10 @@ class AlSeoManagerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
+        $this->seoModel->expects($this->any())
+            ->method('getModelObjectClassName')
+            ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo'));
+        
         $this->seoManager = new AlSeoManager($this->dispatcher, $this->translator, $this->seoModel, $this->validator);
     }
     

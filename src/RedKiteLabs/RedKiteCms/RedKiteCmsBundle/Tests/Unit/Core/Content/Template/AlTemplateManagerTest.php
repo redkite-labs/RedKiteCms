@@ -31,7 +31,19 @@ class AlTemplateManagerTest extends TestCase
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->pageContents = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface');        
+        
+        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
+                           ->disableOriginalConstructor()
+                            ->getMock();
+        
+        $this->pageContents->expects($this->any())
+            ->method('getIdPage')
+            ->will($this->returnValue(2));
+        
+        $this->pageContents->expects($this->any())
+            ->method('getIdLanguage')
+            ->will($this->returnValue(2));
+        
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
