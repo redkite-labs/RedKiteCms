@@ -16,6 +16,7 @@
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
+
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
@@ -27,7 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlSlotsConverterFactory
+class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
 { 
     protected $slot;
     protected $pageContentsContainer;
