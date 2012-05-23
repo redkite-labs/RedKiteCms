@@ -37,7 +37,6 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     protected $pageModel;
     protected $blockModel;
     protected $slot;
-    protected $blocks;
     protected $arrayBlocks;
 
     public function __construct(AlSlot $slot, AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
@@ -47,17 +46,19 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         $this->languageModel = $languageModel;
         $this->pageModel = $pageModel;
         $this->blockModel = $blockModel;
-        $this->blocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
-        $this->blocksToArray();
+        $slotBlocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
+        $this->blocksToArray($slotBlocks);
     }
     
     protected function removeContents()
     {
-        if(count($this->blocks) > 0) {
+        $blocks = $this->blockModel->retrieveContentsBySlotName($this->slot->getSlotName());
+        if(count($blocks) > 0) {
             try {
                 $result = null;
+                
                 $this->blockModel->startTransaction();
-                foreach($this->blocks as $block) {
+                foreach($blocks as $block) {
                     $result = $this->blockModel
                                 ->setModelObject($block)
                                 ->delete();
@@ -85,9 +86,9 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         }
     }
     
-    private function blocksToArray()
+    private function blocksToArray(array $slotBlocks)
     {
-        foreach($this->blocks as $block) {
+        foreach($slotBlocks as $block) {
             $aBlock = $block->toArray();
             unset($aBlock["Id"]);
             
