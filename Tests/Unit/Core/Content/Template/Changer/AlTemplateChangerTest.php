@@ -65,7 +65,7 @@ class AlTemplateChangerTest extends TestCase
             ->will($this->returnValue($this->translator));
         
         //$this->validator = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator($this->translator);
-        /*$this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator')
+        /*$this->getMockBuuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator')
                                     ->disableOriginalConstructor()
                                     ->getMock();*/
         
@@ -87,9 +87,9 @@ class AlTemplateChangerTest extends TestCase
         
         
         $this->factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->slotsConverterFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
         
-        
-        $this->templateChanger = new AlTemplateChanger($this->factory);
+        $this->templateChanger = new AlTemplateChanger($this->factory, $this->slotsConverterFactory);
     }
     
     /**
@@ -127,7 +127,7 @@ class AlTemplateChangerTest extends TestCase
         
         $this->init($currentSlots, $newSlots);
         
-        $block = $this->setUpBlock(2);
+        $block = $this->setUpBlock();
         $blockManager = $this->setUpBlockManager($block);
         
         $blockManager->expects($this->once())
@@ -158,7 +158,7 @@ class AlTemplateChangerTest extends TestCase
         
         $this->init($currentSlots, $newSlots);
         
-        $block = $this->setUpBlock(2);
+        $block = $this->setUpBlock();
         $blockManager = $this->setUpBlockManager($block);
         
         $blockManager->expects($this->once())
@@ -181,6 +181,64 @@ class AlTemplateChangerTest extends TestCase
                     ->change();
         $this->assertTrue($result);
     }
+      
+    public function testTemplateChangeFailsWhenEditOperationFails()
+    { 
+        $currentSlots = array("site" => array("logo"));        
+        $newSlots = array("page" => array("logo"));
+                
+        $this->init($currentSlots, $newSlots);
+        
+        $converter = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');        
+        $converter->expects($this->any())
+            ->method('convert')
+            ->will($this->returnValue(false));
+        
+        $this->slotsConverterFactory->expects($this->any())
+            ->method('createConverter')
+            ->will($this->returnValue($converter));
+        
+        $this->blockModel->expects($this->any())
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->any())
+            ->method('rollBack');
+                
+        $result = $this->templateChanger
+                    ->setCurrentTemplateManager($this->currentTemplateManager)
+                    ->setNewTemplateManager($this->newTemplateManager)
+                    ->change();
+        $this->assertFalse($result);
+    }
+    
+    public function testChangeSlot()
+    { 
+        $currentSlots = array("site" => array("logo"));        
+        $newSlots = array("page" => array("logo"));
+                
+        $this->init($currentSlots, $newSlots);
+        
+        $converter = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');        
+        $converter->expects($this->any())
+            ->method('convert')
+            ->will($this->returnValue(true));
+        
+        $this->slotsConverterFactory->expects($this->any())
+            ->method('createConverter')
+            ->will($this->returnValue($converter));
+        
+        $this->blockModel->expects($this->any())
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->any())
+            ->method('commit');
+                
+        $result = $this->templateChanger
+                    ->setCurrentTemplateManager($this->currentTemplateManager)
+                    ->setNewTemplateManager($this->newTemplateManager)
+                    ->change();
+        $this->assertTrue($result);
+    }
     
     public function testTemplateChangeFailsWhenRemoveOperationFails()
     { 
@@ -189,7 +247,7 @@ class AlTemplateChangerTest extends TestCase
                 
         $this->init($currentSlots, $newSlots);
         
-        $block = $this->setUpBlock(2);
+        $block = $this->setUpBlock();
         $blockManager = $this->setUpBlockManager($block);
         
         $blockManager->expects($this->once())
@@ -224,7 +282,7 @@ class AlTemplateChangerTest extends TestCase
                 
         $this->init($currentSlots, $newSlots);
         
-        $block = $this->setUpBlock(2);
+        $block = $this->setUpBlock();
         $blockManager = $this->setUpBlockManager($block);
         
         $blockManager->expects($this->once())
@@ -252,9 +310,7 @@ class AlTemplateChangerTest extends TestCase
         $this->assertTrue($result);
     }
     
-    
-    /*
-    public function testTemplateChangeFailsWhenAddOperationFails1()
+    public function testTemplateChangeFailsWhenOneperationFails()
     { 
         $currentSlots = array("site" => array("logo", "copyright_box"),
                        "language" => array("nav_menu", 'nav_menu1'),
@@ -282,20 +338,110 @@ class AlTemplateChangerTest extends TestCase
         
         $this->pageContentsContainer->expects($this->once())
             ->method('getSlotBlocks')
-            ->will($this->returnValue(array($this->setUpBlock(2))));
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $block = $this->setUpBlock();
+        $blockManager1 = $this->setUpBlockManager($block);
+        
+        $blockManager1->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $block = $this->setUpBlock();
+        $blockManager2 = $this->setUpBlockManager($block);
+        
+        $blockManager2->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(false));
+        
+        $this->factory->expects($this->any())
+            ->method('createBlock')
+            ->will($this->onConsecutiveCalls($blockManager1, $blockManager2));
+        
+        $converter = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');        
+        $converter->expects($this->any())
+            ->method('convert')
+            ->will($this->returnValue(true));
+        
+        $this->slotsConverterFactory->expects($this->any())
+            ->method('createConverter')
+            ->will($this->returnValue($converter));
         
         $result = $this->templateChanger
                     ->setCurrentTemplateManager($this->currentTemplateManager)
                     ->setNewTemplateManager($this->newTemplateManager)
                     ->change();
         $this->assertFalse($result);
-    }*/
+    }
+    
+    public function testTemplateChange()
+    { 
+        $currentSlots = array("site" => array("logo", "copyright_box"),
+                       "language" => array("nav_menu", 'nav_menu1'),
+                       "page" => array("content", "left_box"),);
+        
+        $newSlots = array("site" => array("logo"),
+                       "language" => array("nav_menu", "copyright_box"),
+                       "page" => array("content", "left_box", "right_box"),);
+        
+        $this->init($currentSlots, $newSlots);
+        
+        $this->blockModel->expects($this->any())
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->any())
+            ->method('rollBack');
+        
+        $this->blockModel->expects($this->any())
+            ->method('save')
+            ->will($this->onConsecutiveCalls(true));
+        
+        $this->blockModel->expects($this->any())
+            ->method('delete')
+            ->will($this->onConsecutiveCalls(false));
+        
+        $this->pageContentsContainer->expects($this->once())
+            ->method('getSlotBlocks')
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $block = $this->setUpBlock();
+        $blockManager1 = $this->setUpBlockManager($block);
+        
+        $blockManager1->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $block = $this->setUpBlock();
+        $blockManager2 = $this->setUpBlockManager($block);
+        
+        $blockManager2->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(true));
+        
+        $this->factory->expects($this->any())
+            ->method('createBlock')
+            ->will($this->onConsecutiveCalls($blockManager1, $blockManager2));
+        
+        $converter = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');        
+        $converter->expects($this->any())
+            ->method('convert')
+            ->will($this->returnValue(true));
+        
+        $this->slotsConverterFactory->expects($this->any())
+            ->method('createConverter')
+            ->will($this->returnValue($converter));
+        
+        $result = $this->templateChanger
+                    ->setCurrentTemplateManager($this->currentTemplateManager)
+                    ->setNewTemplateManager($this->newTemplateManager)
+                    ->change();
+        $this->assertTrue($result);
+    }
     
     private function setUpBlockManager($block)
     {
         $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText')
-                                //->setConstructorArgs(array($this->dispatcher, $this->translator, $this->blockModel, $this->validator))
-                                 ->disableOriginalConstructor()
+                                ->disableOriginalConstructor()
                                 ->getMock();  
         
         $blockManager->expects($this->any())
@@ -305,12 +451,9 @@ class AlTemplateChangerTest extends TestCase
         return $blockManager;
     }
     
-    private function setUpBlock($id)
+    private function setUpBlock()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        /*$block->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($id));*/
         
         return $block;
     }
@@ -353,38 +496,4 @@ class AlTemplateChangerTest extends TestCase
             ->method('toArray')
             ->will($this->returnValue($newSlots));
     }
-    
-    /*
-    public function testContentsAreRetrieved()
-    {
-        $blocks = array(
-            $this->setUpBlock('logo'),
-            $this->setUpBlock('logo'),
-            $this->setUpBlock('menu'),
-        );
-        
-        $this->blockModel->expects($this->once())
-            ->method('retrieveContents')
-            ->will($this->returnValue($blocks));
-        
-        
-        $this->pageContentsContainer
-                ->setIdLanguage(2)
-                ->setIdPage(2)
-                ->refresh();
-        
-        $this->assertEquals(2, count($this->pageContentsContainer->getBlocks()));
-        $this->assertEquals(2, count($this->pageContentsContainer->getSlotBlocks('logo')));
-        $this->assertEquals(1, count($this->pageContentsContainer->getSlotBlocks('menu')));
-    }
-    
-    private function setUpBlock($slotName)
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getSlotName')
-            ->will($this->returnValue($slotName));
-        
-        return $block;
-    }*/
 }

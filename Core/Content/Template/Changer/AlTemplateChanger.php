@@ -23,6 +23,7 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
 
 /**
  * Arranges the page's slot contents, when the page changes its template
@@ -41,10 +42,12 @@ class AlTemplateChanger
     protected $newTemplateManager; 
     protected $blockManagerFactory; 
     protected $parametersValidator; 
+    protected $slotsConverterFactory;
     
-    public function __construct(AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $parametersValidator = null)
+    public function __construct(AlBlockManagerFactoryInterface $blockManagerFactory, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlParametersValidatorInterface $parametersValidator = null)
     {
         $this->blockManagerFactory = $blockManagerFactory;
+        $this->slotsConverterFactory = $slotsConverterFactory;
         $this->parametersValidator = $parametersValidator;
     }
 
@@ -93,7 +96,7 @@ class AlTemplateChanger
         $blockModel = $this->currentTemplateManager->getBlockModel();
         try
         {
-            $operations = $this->analyse();
+            $operations = $this->analyse();//print_r($operations);
             
             $rollBack = false;
             $blockModel->startTransaction();
@@ -117,17 +120,21 @@ class AlTemplateChanger
                         }
                         break;
 
-                    case 'change':
+                    case 'change': 
                         foreach($slots as $intersections) {
                             foreach($intersections as $intersection) {
                                 foreach($intersection as $repeated => $slotNames) {
                                     foreach($slotNames as $slotName) {
                                         // TODO
-                                        /**/
+                                        /*
                                         $slot = new AlSlot($slotName, array('repeated' => $repeated)); 
                                         $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($repeated));
                                         $converter = new $className($this->container, $slot, $this->alPage, $this->alLanguage);
+                                        $rollBack = !$converter->convert();*/
+                                        
+                                        $converter = $this->slotsConverterFactory->createConverter($repeated);
                                         $rollBack = !$converter->convert();
+                                        
                                         if($rollBack) break;
                                     }
                                     if($rollBack) break;
@@ -190,6 +197,9 @@ class AlTemplateChanger
         $previousSlots = $this->currentTemplateManager->getTemplateSlots()->toArray();
         $newSlots = $this->newTemplateManager->getTemplateSlots()->toArray();
         
+        $previousSlots = $this->fixArrayKeys($previousSlots);
+        $newSlots = $this->fixArrayKeys($newSlots);
+        
         $diffsForNew = $this->calculateDifferences($newSlots, $previousSlots);
         $diffsForPrevious = $this->calculateDifferences($previousSlots, $newSlots);
         
@@ -202,6 +212,17 @@ class AlTemplateChanger
         $operations['remove'] = (array_key_exists('found', $remove)) ? $remove['found'] : array();
         
         return $operations;
+    }
+    
+    /**
+     * Makes sure that the array has all the required keys
+     * 
+     * @param array $array
+     * @return array 
+     */
+    private function fixArrayKeys($array)
+    {
+        return array_merge(array("site" => array(), "language" => array(), "page" => array()), $array);
     }
     
     /**

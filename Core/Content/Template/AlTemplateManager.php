@@ -233,6 +233,8 @@ class AlTemplateManager extends AlTemplateBase
     {
         if (count($this->slotManagers) > 0) {
             try {
+                $this->refreshPageContentsContainer($idLanguage, $idPage);
+                
                 $result = false;
                 $this->blockModel->startTransaction();                
                 foreach ($this->slotManagers as $slot) { 
@@ -329,13 +331,9 @@ class AlTemplateManager extends AlTemplateBase
         try {
             $this->blockModel->startTransaction();
             
-            $pageContentsContainer = clone($this->pageContentsContainer);        
-            $this->pageContentsContainer
-                    ->setIdLanguage($languageId)
-                    ->setIdPage($pageId)
-                    ->refresh();
+            $pageContentsContainer = clone($this->pageContentsContainer);     
+            $this->refreshPageContentsContainer($languageId, $pageId);
             
-            $this->setUpSlotManagers();
             $result = $this->clearBlocks($ignoreRepeated);
             $this->pageContentsContainer = $pageContentsContainer;
             $this->setUpSlotManagers();
@@ -397,10 +395,28 @@ class AlTemplateManager extends AlTemplateBase
     protected function createSlotManager(AlSlot $slot)
     {
         $slotName = $slot->getSlotName();
-        $alBlocks = $this->pageContentsContainer->getSlotBlocks($slotName);        
+        $alBlocks = $this->pageContentsContainer->getSlotBlocks($slotName);      
         $slotManager = new AlSlotManager($this->dispatcher, $this->translator, $slot, $this->blockModel, $this->validator, $this->blockManagerFactory);         
         $slotManager->setUpBlockManagers($alBlocks);
         
         return $slotManager;
     }
+    
+    /**
+     * Refreshes the page container
+     * 
+     * @param int $idLanguage
+     * @param int $idPage 
+     */
+    private function refreshPageContentsContainer($idLanguage, $idPage)
+    {
+        if($idLanguage != $this->pageContentsContainer->getIdLanguage() || $idPage != $this->pageContentsContainer->getIdPage()) {
+            $this->pageContentsContainer
+                ->setIdLanguage($idLanguage)
+                ->setIdPage($idPage)
+                ->refresh();
+            $this->setUpSlotManagers();
+        }
+    }
+    
 }
