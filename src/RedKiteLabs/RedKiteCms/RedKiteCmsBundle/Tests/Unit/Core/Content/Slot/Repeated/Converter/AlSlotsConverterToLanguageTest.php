@@ -25,9 +25,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToSite;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToLanguage;
 
-class AlSlotsConverterToSiteTest extends TestCase 
+class AlSlotsConverterToLanguageTest extends TestCase 
 {    
     protected function setUp() 
     {
@@ -67,7 +67,31 @@ class AlSlotsConverterToSiteTest extends TestCase
             ->will($this->returnValue(array()));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $this->assertNull($converter->convert());
+    }
+    
+    public function testConvertReturnsNullWhenAnyLanguageExists()
+    {
+        $this->pageContents->expects($this->once())
+            ->method('getSlotBlocks')
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $this->blockModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->once())
+            ->method('rollback');
+        
+        $this->blockModel->expects($this->once())
+            ->method('save');
+        
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($this->setUpLanguage(2))));
+        
+        $slot = new AlSlot('test', array('repeated' => 'page'));
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         $this->assertNull($converter->convert());
     }
     
@@ -82,13 +106,17 @@ class AlSlotsConverterToSiteTest extends TestCase
         
         $this->blockModel->expects($this->once())
             ->method('rollback');
-          
+        
         $this->blockModel->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($this->setUpLanguage(2))));
+        
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         $this->assertFalse($converter->convert());
     }
     
@@ -116,16 +144,20 @@ class AlSlotsConverterToSiteTest extends TestCase
             ->will($this->returnValue(false));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         $this->assertFalse($converter->convert());
     }
     
-    public function testSingleBlockSlotHasBeenConverted()
+    public function testSingleBlockSlotWhenSingleLanguageHasBeenConverted()
     {
         $block = $this->setUpBlock();
         $this->pageContents->expects($this->once())
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block)));
+        
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($this->setUpLanguage(2))));
         
         $this->blockModel->expects($this->exactly(2))
             ->method('startTransaction');
@@ -146,11 +178,11 @@ class AlSlotsConverterToSiteTest extends TestCase
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         $this->assertTrue($converter->convert());
     }
     
-    public function testMoreBlockSlotHasBeenConverted()
+    public function testMoreBlockSlotWhenSingleLanguageHasBeenConverted()
     {
         $block = $this->setUpBlock();
         $block1 = $this->setUpBlock();
@@ -158,6 +190,10 @@ class AlSlotsConverterToSiteTest extends TestCase
         $this->pageContents->expects($this->once())
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block, $block1, $block2)));
+        
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($this->setUpLanguage(2))));
         
         $this->blockModel->expects($this->exactly(2))
             ->method('startTransaction');
@@ -178,7 +214,77 @@ class AlSlotsConverterToSiteTest extends TestCase
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $this->assertTrue($converter->convert());
+    }
+    
+    public function testSingleBlockSlotWhenMoreLanguagesHasBeenConverted()
+    {
+        $block = $this->setUpBlock();
+        $this->pageContents->expects($this->once())
+            ->method('getSlotBlocks')
+            ->will($this->returnValue(array($block)));
+        
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($this->setUpLanguage(2), $this->setUpLanguage(3))));
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('commit');
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $this->blockModel->expects($this->any())
+            ->method('retrieveContentsBySlotName')
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $this->blockModel->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(true));
+        
+        $slot = new AlSlot('test', array('repeated' => 'page'));
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $this->assertTrue($converter->convert());
+    }
+    
+    public function testMoreBlockSlotWhenMoreLanguagesHasBeenConverted()
+    {
+        $block = $this->setUpBlock();
+        $block1 = $this->setUpBlock();
+        $block2 = $this->setUpBlock();
+        $this->pageContents->expects($this->once())
+            ->method('getSlotBlocks')
+            ->will($this->returnValue(array($block, $block1, $block2)));
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('commit');
+        
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($this->setUpLanguage(2),$this->setUpLanguage(3))));
+        
+        $this->blockModel->expects($this->exactly(6))
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $this->blockModel->expects($this->any())
+            ->method('retrieveContentsBySlotName')
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $this->blockModel->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(true));
+        
+        $slot = new AlSlot('test', array('repeated' => 'page'));
+        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         $this->assertTrue($converter->convert());
     }
     
@@ -188,6 +294,16 @@ class AlSlotsConverterToSiteTest extends TestCase
         $block->expects($this->any())
             ->method('toArray')
             ->will($this->returnValue(array("Id" => 2, "ClassName" => "Text")));
+        
+        return $block;
+    }
+    
+    private function setUpLanguage($id)
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');        
+        $block->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($id));
         
         return $block;
     }
