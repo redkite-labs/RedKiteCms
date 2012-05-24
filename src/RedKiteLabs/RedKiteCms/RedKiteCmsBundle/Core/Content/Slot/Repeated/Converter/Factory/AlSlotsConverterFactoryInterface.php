@@ -18,11 +18,18 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
 /**
- * 
+ * Used by the Slots converter factory to create the appropriate converter to change the
+ * repeated status of a slot to another one
  *
+ * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface AlSlotsConverterFactoryInterface
 { 
+    /**
+     * Creates the appropriate conver using the given parameter
+     * 
+     * @param string $newRepeatedStatus  The new repeated status the slot must get
+     */
     public function createConverter($newRepeatedStatus);
 }

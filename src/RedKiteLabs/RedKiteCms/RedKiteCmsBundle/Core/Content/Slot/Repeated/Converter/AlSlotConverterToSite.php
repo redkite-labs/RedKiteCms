@@ -17,33 +17,44 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
+/**
+ * Converts a slot to site repeated status
+ * 
+ * @api
+ * @author alphalemon <webmaster@alphalemon.com> 
+ */
 class AlSlotConverterToSite extends AlSlotConverterBase
 { 
+    /**
+     * {inheritdoc}
+     * 
+     * @return null|boolean
+     * @throws Exception 
+     */
     public function convert()
     {
-        
         if(count($this->arrayBlocks) > 0)
         {
             try
             {
-                $result = null;
                 $this->blockModel->startTransaction();
-                $this->removeContents(); 
+                $result = $this->deleteBlocks();
+                if (false !== $result) {
+                    foreach($this->arrayBlocks as $block)
+                    {
+                        $result = $this->updateBlock($block, 1, 1);
+                    }
 
-                foreach($this->arrayBlocks as $block)
-                {
-                    $result = $this->updateBlock($block, 1, 1);
+                    if ($result)
+                    {
+                        $this->blockModel->commit();
+                    }
+                    else
+                    {
+                        $this->blockModel->rollBack();
+                    }
                 }
-
-                if ($result)
-                {
-                    $this->blockModel->commit();
-                }
-                else
-                {
-                    $this->blockModel->rollBack();
-                }
-
+                
                 return $result;
             }
             catch(\Exception $e)
@@ -55,40 +66,5 @@ class AlSlotConverterToSite extends AlSlotConverterBase
                 throw $e;
             }
         }
-        
-        /*
-        try
-        {
-            $rollBack = false;
-            $this->connection->beginTransaction();
-
-            $this->removeContents(); 
-
-            foreach($this->contents as $content)
-            {
-                $newContent = $this->cloneAndAddContent($content, 1, 1);
-                $result = $newContent->save();
-                if ($newContent->isModified() && $result == 0)
-                {
-                    $rollBack = true;
-                }
-            }
-
-            if (!$rollBack)
-            {
-                $this->connection->commit();
-                return true;
-            }
-            else
-            {
-                $this->connection->rollBack();
-                return false;
-            }
-        }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
-            throw $e;
-        }*/
     }
 }
