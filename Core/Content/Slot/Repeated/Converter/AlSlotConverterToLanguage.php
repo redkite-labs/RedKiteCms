@@ -21,34 +21,40 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 
 class AlSlotConverterToLanguage extends AlSlotConverterBase
 { 
+    /**
+     * {inheritdoc}
+     * 
+     * @return null|boolean
+     * @throws Exception 
+     */
     public function convert()
     {
         if(count($this->arrayBlocks) > 0)
         {
             try
             {
-                $result = null;
                 $this->blockModel->startTransaction();
-                $this->removeContents(); 
-
-                $languages = $this->languageModel->activeLanguages();
-                foreach($this->arrayBlocks as $block)
-                {
-                    foreach($languages as $language)
+                $result = $this->deleteBlocks(); 
+                if(false !== $result) {
+                    $languages = $this->languageModel->activeLanguages();
+                    foreach($this->arrayBlocks as $block)
                     {
-                        $result = $this->updateBlock($block, $language->getId(), 1);
+                        foreach($languages as $language)
+                        {
+                            $result = $this->updateBlock($block, $language->getId(), 1);
+                        }
+                    }
+
+                    if ($result)
+                    {
+                        $this->blockModel->commit();
+                    }
+                    else
+                    {
+                        $this->blockModel->rollBack();
                     }
                 }
-
-                if ($result)
-                {
-                    $this->blockModel->commit();
-                }
-                else
-                {
-                    $this->blockModel->rollBack();
-                }
-
+                
                 return $result;
             }
             catch(\Exception $e)

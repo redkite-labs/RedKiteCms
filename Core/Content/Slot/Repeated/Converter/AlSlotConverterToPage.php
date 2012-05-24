@@ -22,38 +22,43 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 
 class AlSlotConverterToPage extends AlSlotConverterBase
 { 
+    /**
+     * {inheritdoc}
+     * 
+     * @return null|boolean
+     * @throws Exception 
+     */
     public function convert()
     {
         if(count($this->arrayBlocks) > 0)
         {
             try
             {
-                $result = null;
                 $this->blockModel->startTransaction();
-                $this->removeContents(); 
-
-                $languages = $this->languageModel->activeLanguages();
-                $pages = $this->pageModel->activePages();
-                foreach($this->arrayBlocks as $block)
-                {
-                    foreach($languages as $language)
+                $result = $this->deleteBlocks(); 
+                if(false !== $result) {
+                    $languages = $this->languageModel->activeLanguages();
+                    $pages = $this->pageModel->activePages();
+                    foreach($this->arrayBlocks as $block)
                     {
-                        foreach($pages as $page)
+                        foreach($languages as $language)
                         {
-                            $result = $this->updateBlock($block, $language->getId(), $page->getId());
+                            foreach($pages as $page)
+                            {
+                                $result = $this->updateBlock($block, $language->getId(), $page->getId());
+                            }
                         }
                     }
-                }
 
-                if ($result)
-                {
-                    $this->blockModel->commit();
+                    if ($result)
+                    {
+                        $this->blockModel->commit();
+                    }
+                    else
+                    {
+                        $this->blockModel->rollBack();
+                    }
                 }
-                else
-                {
-                    $this->blockModel->rollBack();
-                }
-
                 return $result;
             }
             catch(\Exception $e)
@@ -65,51 +70,5 @@ class AlSlotConverterToPage extends AlSlotConverterBase
                 throw $e;
             }
         }
-        /*
-        try
-        {
-            $rollBack = false;
-            $this->connection->beginTransaction();
-
-            $this->removeContents(); 
-
-            $languages = AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find(); 
-            $pages = AlPageQuery::create()->setContainer($this->container)->activePages()->find();
-            foreach($this->contents as $content)
-            {
-                foreach($languages as $language)
-                {
-                    foreach($pages as $page)
-                    {
-                        $newContent = $this->cloneAndAddContent($content, $language->getId(), $page->getId());
-                        $result = $newContent->save();
-
-                        if ($newContent->isModified() && $result == 0)
-                        {
-                            $rollBack = true;
-                            break;
-                        }
-                    }
-
-                    if($rollBack) break;
-                }
-            }
-
-            if (!$rollBack)
-            {
-                $this->connection->commit();
-                return true;
-            }
-            else
-            {
-                $this->connection->rollBack();
-                return false;
-            }
-        }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
-            throw $e;
-        }*/
     }
 }

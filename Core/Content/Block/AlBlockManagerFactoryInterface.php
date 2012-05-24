@@ -24,6 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 /**
  * AlBlockManagerFactory creates a BlockManager object 
  * 
+ * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface AlBlockManagerFactoryInterface

@@ -30,6 +30,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageCont
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
 
+/**
+ * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
+ * which is changing its repeated status
+ * 
+ * 
+ * @api
+ * @author alphalemon <webmaster@alphalemon.com>
+ */
 abstract class AlSlotConverterBase implements AlSlotConverterInterface
 {
     protected $pageContentsContainer;
@@ -37,8 +45,17 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     protected $pageModel;
     protected $blockModel;
     protected $slot;
-    protected $arrayBlocks;
+    protected $arrayBlocks = array();
 
+    /**
+     * Constructor
+     * 
+     * @param AlSlot $slot
+     * @param AlPageContentsContainerInterface $pageContentsContainer
+     * @param LanguageModelInterface $languageModel
+     * @param PageModelInterface $pageModel
+     * @param BlockModelInterface $blockModel 
+     */
     public function __construct(AlSlot $slot, AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
     {
         $this->slot = $slot;
@@ -50,7 +67,13 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         $this->blocksToArray($slotBlocks);
     }
     
-    protected function removeContents()
+    /**
+     * Removes the blocks placed on the current slot from the database
+     * 
+     * @return null|boolean
+     * @throws Exception 
+     */
+    protected function deleteBlocks()
     {
         $blocks = $this->blockModel->retrieveContentsBySlotName($this->slot->getSlotName());
         if(count($blocks) > 0) {
@@ -62,7 +85,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
                     $result = $this->blockModel
                                 ->setModelObject($block)
                                 ->delete();
-
+                    
                     if(!$result) break;
                 }
 
@@ -86,17 +109,16 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         }
     }
     
-    private function blocksToArray(array $slotBlocks)
-    {
-        foreach($slotBlocks as $block) {
-            $aBlock = $block->toArray();
-            unset($aBlock["Id"]);
-            
-            $this->arrayBlocks[] = $aBlock;
-        }
-    }
-    
-    protected function updateBlock($block, $idLanguage, $idPage)
+    /**
+     * Updates the block, according the page and language with the new repeated status
+     * 
+     * @param array $block
+     * @param int $idLanguage
+     * @param int $idPage
+     * 
+     * @return boolean 
+     */
+    protected function updateBlock(array $block, $idLanguage, $idPage)
     {
         $block["LanguageId"] = $idLanguage;
         $block["PageId"] = $idPage; 
@@ -109,5 +131,20 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
                     ->save($block);
 
         return $result;
+    }
+    
+    /**
+     * Converts to array the blocks placed on the current slot
+     * 
+     * @param array $slotBlocks 
+     */
+    private function blocksToArray(array $slotBlocks)
+    {
+        foreach($slotBlocks as $block) {
+            $aBlock = $block->toArray();
+            unset($aBlock["Id"]);
+            
+            $this->arrayBlocks[] = $aBlock;
+        }
     }
 }
