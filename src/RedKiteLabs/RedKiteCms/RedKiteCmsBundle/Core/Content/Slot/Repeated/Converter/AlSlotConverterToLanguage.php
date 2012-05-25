@@ -59,8 +59,8 @@ class AlSlotConverterToLanguage extends AlSlotConverterBase
             }
             catch(\Exception $e)
             {
-                if(isset($this->blocksModel) && $this->blocksModel !== null) {
-                    $this->blocksModel->rollBack();
+                if(isset($this->blockModel) && $this->blockModel !== null) {
+                    $this->blockModel->rollBack();
                 }
 
                 throw $e;
