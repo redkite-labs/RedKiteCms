@@ -120,6 +120,73 @@ class AlSlotsConverterToSiteTest extends TestCase
         $this->assertFalse($converter->convert());
     }
     
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testConvertFailsWhenAnUnespectedExceptionIsThrowsWhenRemovingBlocks()
+    {
+        $this->pageContents->expects($this->once())
+            ->method('getSlotBlocks')
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('rollback');
+        
+        $this->blockModel->expects($this->never())
+            ->method('save');
+        
+        $this->blockModel->expects($this->any())
+            ->method('retrieveContentsBySlotName')
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $this->blockModel->expects($this->once())
+            ->method('delete')
+            ->will($this->throwException(new \RuntimeException));
+        
+        $slot = new AlSlot('test', array('repeated' => 'page'));
+        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $this->assertFalse($converter->convert());
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testConvertFailsWhenAnUnespectedExceptionIsThrowsWhenSavingNewBlocks()
+    {
+        $block = $this->setUpBlock();
+        $this->pageContents->expects($this->once())
+            ->method('getSlotBlocks')
+            ->will($this->returnValue(array($block)));
+        
+        $this->blockModel->expects($this->exactly(2))
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->once())
+            ->method('commit');
+        
+        $this->blockModel->expects($this->once())
+            ->method('rollback');
+        
+        $this->blockModel->expects($this->once())
+            ->method('save')
+            ->will($this->throwException(new \RuntimeException));
+        
+        $this->blockModel->expects($this->any())
+            ->method('retrieveContentsBySlotName')
+            ->will($this->returnValue(array($this->setUpBlock())));
+        
+        $this->blockModel->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(true));
+        
+        $slot = new AlSlot('test', array('repeated' => 'page'));
+        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $this->assertTrue($converter->convert());
+    }
+    
     public function testSingleBlockSlotHasBeenConverted()
     {
         $block = $this->setUpBlock();
