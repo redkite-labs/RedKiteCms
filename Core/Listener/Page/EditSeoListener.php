@@ -55,30 +55,32 @@ class EditSeoListener
         }
             
         try {
-            $rollBack = false;
-            $pageModel->startTransaction();
             $idPage = $pageManager->get()->getId();  
             $idLanguage = $pageManager->getTemplateManager()
                     ->getPageContentsContainer()
                     ->getIdLanguage();
             $seo = $this->seoManager->getSeoModel()->fromPageAndLanguage($idLanguage, $idPage);
-            $this->seoManager->set($seo);
-            $values = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $idLanguage));
-            $rollBack = !$this->seoManager->save($values); 
+            if( null !== $seo) {
+                $pageModel->startTransaction();
+                $this->seoManager->set($seo);
+                $values = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $idLanguage));
+                $result = $this->seoManager->save($values); 
 
-            if (!$rollBack) {
-                $pageModel->commit();
-            }
-            else {
-                $pageModel->rollBack();
-                $event->abort();
+                if ($result) {
+                    $pageModel->commit();
+                }
+                else {
+                    $pageModel->rollBack();
+                    
+                    $event->abort();
+                }
             }
         }
         catch(\Exception $e) {          
             $event->abort();
             
             if (isset($pageModel) && $pageModel !== null) {
-                $pageManager->getPageModel()->rollBack();
+                $pageModel->rollBack();
             }
             
             throw $e;
