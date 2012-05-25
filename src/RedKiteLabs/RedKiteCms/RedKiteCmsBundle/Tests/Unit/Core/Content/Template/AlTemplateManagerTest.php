@@ -21,6 +21,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
+/**
+ * AlTemplateManagerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlTemplateManagerTest extends TestCase 
 {    
     private $dispatcher;

@@ -20,6 +20,11 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageContentsListener;
 
+/**
+ * AddPageContentsListenerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AddPageContentsListenerTest extends Base\BaseListenerTest
 {   
     private $event;

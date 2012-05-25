@@ -26,6 +26,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory;
 
+/**
+ * AlSlotsConverterFactoryTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlSlotsConverterFactoryTest extends TestCase 
 {    
     protected function setUp() 

@@ -19,6 +19,11 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddSeoListener;
 
+/**
+ * AddSeoListenerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AddSeoListenerTest extends Base\BaseListenerTest
 {   
     protected $event;

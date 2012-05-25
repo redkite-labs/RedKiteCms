@@ -25,6 +25,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
+/**
+ * AlSlotsConverterFactoryTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlSlotManagerTest extends TestCase 
 {    
     private $dispatcher;

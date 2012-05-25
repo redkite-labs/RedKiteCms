@@ -24,32 +24,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
-class AlBlockManagerUnitTest extends AlBlockManager
-{
-    public function getDefaultValue()
-    {
-        return array("HtmlContent" => "Test value");
-    }
-}
-
-// This class has default value not valid because an array is required
-class AlBlockManagerFake extends AlBlockManager
-{
-    public function getDefaultValue()
-    {
-        return "Test value";
-    }
-}
-
-// This class has a valid default value but any of the available options is defined
-class AlBlockManagerFake1 extends AlBlockManager
-{
-    public function getDefaultValue()
-    {
-        return array("Fake" => "Test value");
-    }
-}
-
+/**
+ * AlBlockManagerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlBlockManagerTest extends TestCase 
 {    
     private $dispatcher;
@@ -593,5 +572,31 @@ class AlBlockManagerTest extends TestCase
         $this->blockModel->expects($this->any())
             ->method('getModelObject')
             ->will($this->returnValue($block));
+    }
+}
+
+class AlBlockManagerUnitTest extends AlBlockManager
+{
+    public function getDefaultValue()
+    {
+        return array("HtmlContent" => "Test value");
+    }
+}
+
+// This class has default value not valid because an array is required
+class AlBlockManagerFake extends AlBlockManager
+{
+    public function getDefaultValue()
+    {
+        return "Test value";
+    }
+}
+
+// This class has a valid default value but any of the available options is defined
+class AlBlockManagerFake1 extends AlBlockManager
+{
+    public function getDefaultValue()
+    {
+        return array("Fake" => "Test value");
     }
 }

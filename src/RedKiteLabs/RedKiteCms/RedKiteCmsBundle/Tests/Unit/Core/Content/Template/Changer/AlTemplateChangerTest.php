@@ -19,10 +19,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Template\Change
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger;
-//use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+/**
+ * AlTemplateChangerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlTemplateChangerTest extends TestCase
 {   
     private $templateChanger;
@@ -64,11 +67,6 @@ class AlTemplateChangerTest extends TestCase
             ->method('getTranslator')
             ->will($this->returnValue($this->translator));
         
-        //$this->validator = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator($this->translator);
-        /*$this->getMockBuuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();*/
-        
         $this->newTemplateSlots = $this->getMockBuilder('AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots')
                                         ->disableOriginalConstructor()
                                         ->getMock();
@@ -76,15 +74,6 @@ class AlTemplateChangerTest extends TestCase
         $this->pageContentsContainer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
                                         ->disableOriginalConstructor()
                                         ->getMock();
-        /*
-        $this->blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
-                                        ->disableOriginalConstructor()
-                                        ->getMockForAbstractClass();  
-        */
-        
-        
-        //, TranslatorInterface , BlockModelInterface $blockModel, AlParametersValidatorInterface $validator
-        
         
         $this->factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $this->slotsConverterFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');

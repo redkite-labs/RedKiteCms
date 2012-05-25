@@ -24,6 +24,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPage;
 
 use Symfony\Bundle\AsseticBundle\Tests\TestKernel;
 
+/**
+ * AlBlockManagerFactoryTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlBlockManagerFactoryTest extends TestCase
 {    
     private $dispatcher;

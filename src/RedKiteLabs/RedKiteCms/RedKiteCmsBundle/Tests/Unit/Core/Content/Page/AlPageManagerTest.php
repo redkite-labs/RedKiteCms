@@ -23,6 +23,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+/**
+ * AlPageManagerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlPageManagerTest extends TestCase
 {   
     private $dispatcher;
