@@ -20,9 +20,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Seo;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+/**
+ * AlSeoManagerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlSeoManagerTest extends TestCase
 {   
     private $dispatcher;

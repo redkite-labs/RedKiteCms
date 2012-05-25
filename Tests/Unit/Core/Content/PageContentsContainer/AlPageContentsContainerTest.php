@@ -19,9 +19,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\PageContentsCon
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+/**
+ * AlPageContentsContainerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlPageContentsContainerTest extends TestCase
 {   
     private $dispatcher;

@@ -19,6 +19,11 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageContentsListener;
 
+/**
+ * DeletePageContentsListenerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class DeletePageContentsListenerTest extends Base\BaseListenerTest
 {   
     protected $event;

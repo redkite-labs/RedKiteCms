@@ -27,6 +27,11 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToLanguage;
 
+/**
+ * AlSlotsConverterToLanguageTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
 class AlSlotsConverterToLanguageTest extends TestCase 
 {    
     protected function setUp() 
