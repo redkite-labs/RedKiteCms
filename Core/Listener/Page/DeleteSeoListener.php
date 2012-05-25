@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 /**
  * Listen to the onBeforeDeletePageCommit event to delete the page's seo attributes, when a page is removed
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class DeleteSeoListener
 {

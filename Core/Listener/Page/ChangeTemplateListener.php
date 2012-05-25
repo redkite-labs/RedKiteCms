@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChang
 /**
  * Listen to the onBeforeAddPageCommit event to add the page attributes when a new page is added
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class ChangeTemplateListener
 {

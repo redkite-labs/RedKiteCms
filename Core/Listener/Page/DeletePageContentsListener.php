@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 /**
  * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page is removed
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class DeletePageContentsListener
 {
