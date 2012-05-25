@@ -29,6 +29,12 @@ Import the routing configuration into the routing.yml file:
     _AlphaLemonElFinderBundle:
         resource: "@AlphaLemonElFinderBundle/Resources/config/routing.yml"
 
+Register the bundle into the Assetic bundles in config.yml:
+
+    # Assetic Configuration
+    assetic:
+        bundles: [ "AlphaLemonElFinderBundle" ]
+
 Initialize submodules grabbing the ElFinder vendor library. Move inside the ElFinder folder than give this commands:
 
     git submodule init
