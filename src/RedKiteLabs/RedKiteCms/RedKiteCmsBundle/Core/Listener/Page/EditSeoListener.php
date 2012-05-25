@@ -21,9 +21,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitE
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 
 /**
- * Listen to the onBeforeAddPageCommit event to add the page attributes when a new page is added
+ * Listen to the onBeforeEditPageCommit event to edit the seo attributes when a new page is edited
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class EditSeoListener
 {
@@ -35,10 +35,11 @@ class EditSeoListener
     }
 
     /**
-     * Adds the page attributes when a new page is added, for each language of the site
+     * Edits the seo attributes when a new page is edited
      * 
-     * @param BeforeAddPageCommitEvent $event
-     * @throws \Exception 
+     * @param BeforeEditPageCommitEvent $event
+     * @throws \InvalidArgumentException
+     * @throws Exception 
      */
     public function onBeforeEditPageCommit(BeforeEditPageCommitEvent $event)
     {
