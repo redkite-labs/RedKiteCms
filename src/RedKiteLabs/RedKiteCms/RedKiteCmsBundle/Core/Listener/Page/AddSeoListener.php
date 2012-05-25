@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when a new page is added
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AddSeoListener
 {

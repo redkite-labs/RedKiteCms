@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent
 /**
  * Defines the AfterPageAddedEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class BeforeAddSeoCommitEvent extends BaseBeforeActionEvent
 {

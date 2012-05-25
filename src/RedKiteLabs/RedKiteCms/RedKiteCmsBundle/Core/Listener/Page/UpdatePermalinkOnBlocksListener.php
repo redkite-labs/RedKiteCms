@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInter
 /**
  * Listen to the onBeforeAddPageCommit event to add the page attributes when a new page is added
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class UpdatePermalinkOnBlocksListener
 {
