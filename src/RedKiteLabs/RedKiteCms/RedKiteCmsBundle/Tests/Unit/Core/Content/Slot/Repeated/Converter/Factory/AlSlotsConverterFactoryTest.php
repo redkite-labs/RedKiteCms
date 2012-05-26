@@ -60,9 +60,9 @@ class AlSlotsConverterFactoryTest extends TestCase
     public function testCreateConverterThrowsAnExceptionGivingTheSameRepeatedStatus()
     {
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         
-        $slotsConverterFactory->createConverter('page');
+        $slotsConverterFactory->createConverter($slot, 'page');
     }
     
     /**
@@ -71,9 +71,9 @@ class AlSlotsConverterFactoryTest extends TestCase
     public function testCreateConverterThrowsAnExceptionWhenTheConvertedClassCannotBeInstantiated()
     {
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         
-        $slotsConverterFactory->createConverter('fake');
+        $slotsConverterFactory->createConverter($slot, 'fake');
     }
     
     public function testConverterHasBeenInstantiated()
@@ -83,8 +83,8 @@ class AlSlotsConverterFactoryTest extends TestCase
             ->will($this->returnValue(array()));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
         
-        $slotsConverterFactory->createConverter('site');
+        $slotsConverterFactory->createConverter($slot, 'site');
     }
 }
