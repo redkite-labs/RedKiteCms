@@ -51,7 +51,6 @@ class ChangeTemplateListener
         }
         
         $pageManager = $event->getContentManager();
-        $currentTemplateManager = $pageManager->getTemplateManager();
         $values = $event->getValues();
         
         if (!is_array($values)) {
@@ -60,17 +59,18 @@ class ChangeTemplateListener
         
         if (array_key_exists("oldTemplateName", $values)) {
             $result = true;
+            $currentTemplateManager = $pageManager->getTemplateManager();
             $blockModel = $currentTemplateManager->getBlockModel();            
             try {
                 $themeName = $currentTemplateManager->getTemplateSlots()->getThemeName();
                 $blockModel->startTransaction();
                 $templateSlots = $this->templateSlotsFactory->create($themeName, $values["TemplateName"]);
-                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $currentTemplateManager->getTranslator(), $currentTemplateManager->getPageContentsContainer(), $currentTemplateManager->getBlockModel());
+                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $currentTemplateManager->getTranslator(), $currentTemplateManager->getPageContentsContainer(), $blockModel);
                 $newTemplateManager->setTemplateSlots($templateSlots);
                 $result = $this->templateChanger->setCurrentTemplateManager($currentTemplateManager)
                             ->setNewTemplateManager($newTemplateManager)
                             ->change();
-
+                
                 if ($result) {
                     $blockModel->commit();
                 }
