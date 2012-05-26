@@ -93,11 +93,11 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     public function delete()
     {
         if (null === $this->alLanguage) {
-            throw new \RuntimeException($this->translator->trans("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
+            throw new \RuntimeException($this->translate("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
         }
         
         if ($this->alLanguage->getMainLanguage() == 1) {
-            throw new \RuntimeException($this->translator->trans("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
+            throw new \RuntimeException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
         }
         
         try
@@ -108,7 +108,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
                 if ($event->isAborted())
                 {
-                    throw new \RuntimeException($this->translator->trans("The language deleting action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language deleting action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
             }
 
@@ -168,7 +168,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
                 if ($event->isAborted())
                 {
-                    throw new \RuntimeException($this->translator->trans("The language adding action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language adding action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues())
@@ -188,7 +188,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 ->fromLanguageName($values["language"])
                 ->findOne();
             if ($language != null) {
-                throw new \InvalidArgumentException($this->translator->trans("The language you are trying to add, already exists in the website."));
+                throw new \InvalidArgumentException($this->translate("The language you are trying to add, already exists in the website."));
             }
         
             $rollBack = false;
@@ -370,7 +370,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             
                 if ($event->isAborted())
                 {
-                    throw new \RuntimeException($this->translator->trans("The language editing action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language editing action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues())

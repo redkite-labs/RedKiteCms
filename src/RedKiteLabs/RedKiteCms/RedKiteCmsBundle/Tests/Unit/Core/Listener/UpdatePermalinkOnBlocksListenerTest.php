@@ -38,7 +38,6 @@ class UpdatePermalinkOnBlocksListenerTest extends Base\BaseListenerTest
         parent::setUp();
         
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         
         $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel')
                                     ->disableOriginalConstructor()

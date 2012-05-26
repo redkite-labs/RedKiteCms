@@ -32,7 +32,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 class AlBlockManagerTest extends TestCase 
 {    
     private $dispatcher;
-    private $translator;
     private  $blockManager;
       
     protected function setUp() 
@@ -40,7 +39,6 @@ class AlBlockManagerTest extends TestCase
         parent::setUp();
         
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -50,7 +48,7 @@ class AlBlockManagerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->blockManager = new AlBlockManagerUnitTest($this->dispatcher, $this->translator, $this->blockModel, $this->validator);
+        $this->blockManager = new AlBlockManagerUnitTest($this->dispatcher, $this->blockModel, $this->validator);
     }
     
     /**
@@ -136,7 +134,7 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueDoesNotReturnAnArray()
     {
-        $blockManager = new AlBlockManagerFake($this->dispatcher, $this->translator, $this->blockModel, $this->validator);
+        $blockManager = new AlBlockManagerFake($this->dispatcher, $this->blockModel, $this->validator);
         
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -154,7 +152,7 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueHasAnyOfTheRequiredOptions()
     {
-        $blockManager = new AlBlockManagerFake1($this->dispatcher, $this->translator, $this->blockModel, $this->validator);        
+        $blockManager = new AlBlockManagerFake1($this->dispatcher, $this->blockModel, $this->validator);        
         
         $this->dispatcher->expects($this->once())
             ->method('dispatch');

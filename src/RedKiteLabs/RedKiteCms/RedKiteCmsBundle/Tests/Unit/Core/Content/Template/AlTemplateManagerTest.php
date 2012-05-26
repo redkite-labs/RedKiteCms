@@ -29,12 +29,10 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 class AlTemplateManagerTest extends TestCase 
 {    
     private $dispatcher;
-    private $translator;
     
     protected function setUp() 
     {
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         
         $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
@@ -75,7 +73,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array()));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -99,7 +97,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getBlocks')
                 ->will($this->returnValue(array()));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -130,7 +128,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -160,7 +158,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test1' => array($block))));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -199,7 +197,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('save')
             ->will($this->onConsecutiveCalls(true, false));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -240,7 +238,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         $templateManager->populate(2, 2);
@@ -276,7 +274,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('save')
             ->will($this->returnValue(true));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -290,7 +288,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getSlots')
                 ->will($this->returnValue(array()));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -331,7 +329,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->throwException(new \RuntimeException()));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -369,7 +367,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(false));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -407,7 +405,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -448,7 +446,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -489,7 +487,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
         
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->translator, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         

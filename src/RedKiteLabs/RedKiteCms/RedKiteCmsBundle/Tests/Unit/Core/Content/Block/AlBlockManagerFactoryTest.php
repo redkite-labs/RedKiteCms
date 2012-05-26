@@ -32,16 +32,14 @@ use Symfony\Bundle\AsseticBundle\Tests\TestKernel;
 class AlBlockManagerFactoryTest extends TestCase
 {    
     private $dispatcher;
-    private $translator;
       
     protected function setUp() 
     {
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->factory = new AlBlockManagerFactory($this->dispatcher, $this->translator);
+        $this->factory = new AlBlockManagerFactory($this->dispatcher);
     }
     
     public function testCreateBlockReturnsNullWhenTheBlockParamIsNull()

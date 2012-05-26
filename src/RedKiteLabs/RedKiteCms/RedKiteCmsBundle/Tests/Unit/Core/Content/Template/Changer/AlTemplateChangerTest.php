@@ -62,11 +62,6 @@ class AlTemplateChangerTest extends TestCase
             ->method('getDispatcher')
             ->will($this->returnValue($this->dispatcher));
         
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->currentTemplateManager->expects($this->any())
-            ->method('getTranslator')
-            ->will($this->returnValue($this->translator));
-        
         $this->newTemplateSlots = $this->getMockBuilder('AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots')
                                         ->disableOriginalConstructor()
                                         ->getMock();

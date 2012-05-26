@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
 
@@ -31,10 +30,8 @@ class AlParametersValidatorPageManager extends AlParametersValidator
     protected $languageModel;
     protected $pageModel;
     
-    public function __construct(TranslatorInterface $translator, LanguageModelInterface $languageModel, PageModelInterface $pageModel)
+    public function __construct(LanguageModelInterface $languageModel, PageModelInterface $pageModel)
     {
-        parent::__construct($translator);
-        
         $this->languageModel = $languageModel;
         $this->pageModel = $pageModel;
     }

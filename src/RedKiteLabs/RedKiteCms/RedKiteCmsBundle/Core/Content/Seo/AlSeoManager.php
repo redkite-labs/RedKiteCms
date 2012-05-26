@@ -46,13 +46,12 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
      * @param SeoModelInterface $alSeoModel
      * @param AlParametersValidatorInterface $validator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, SeoModelInterface $alSeoModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, SeoModelInterface $alSeoModel, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $translator, $validator);
+        parent::__construct($dispatcher, $validator);
         
         $this->seoModel = $alSeoModel;
     }
@@ -132,7 +131,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
                     if ($event->isAborted())
                     {
-                        throw new \RuntimeException($this->translator->trans("The page attributes deleting action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
+                        throw new \RuntimeException($this->translate("The page attributes deleting action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
                     }
                 }
                     
@@ -178,7 +177,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         }
         else
         {
-            throw new General\ParameterIsEmptyException($this->translator->trans('The seo model object is null'));
+            throw new General\ParameterIsEmptyException($this->translate('The seo model object is null'));
         }
     }
     
@@ -212,7 +211,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->dispatcher->dispatch(SeoEvents::BEFORE_ADD_SEO, $event);
 
                 if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translator->trans("The seo adding action has been aborted"));
+                    throw new Event\EventAbortedException($this->translate("The seo adding action has been aborted"));
                 }
 
                 if ($values !== $event->getValues()) {
@@ -224,15 +223,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             $this->validator->checkRequiredParamsExists(array('PageId' => '', 'LanguageId' => '', 'Permalink' => ''), $values);
             
             if (empty($values['PageId'])) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("The PageId parameter is mandatory to save a seo object"));
+                throw new General\ParameterIsEmptyException($this->translate("The PageId parameter is mandatory to save a seo object"));
             }
 
             if (empty($values['LanguageId'])) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("The LanguageId parameter is mandatory to save a seo object"));
+                throw new General\ParameterIsEmptyException($this->translate("The LanguageId parameter is mandatory to save a seo object"));
             }
             
             if (empty($values['Permalink'])) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("The Permalink parameter is mandatory to save a seo object"));
+                throw new General\ParameterIsEmptyException($this->translate("The Permalink parameter is mandatory to save a seo object"));
             }
             
             $values["Permalink"] = AlToolkit::slugify($values["Permalink"]);
@@ -301,7 +300,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->dispatcher->dispatch(SeoEvents::BEFORE_EDIT_SEO, $event);
 
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translator->trans("The page attributes editing action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The page attributes editing action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {

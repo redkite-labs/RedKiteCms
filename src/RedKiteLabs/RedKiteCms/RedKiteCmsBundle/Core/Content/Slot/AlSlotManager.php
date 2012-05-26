@@ -23,7 +23,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModel;
 
 /**
@@ -47,15 +46,14 @@ class AlSlotManager extends AlTemplateBase
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
      * @param AlSlot $slot
      * @param BlockModelInterface $blockModel
      * @param AlParametersValidatorInterface $validator
      * @param AlBlockManagerFactoryInterface $blockManagerFactory 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlSlot $slot, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
     {
-        parent::__construct($dispatcher, $translator, $validator, $blockManagerFactory);
+        parent::__construct($dispatcher, $validator, $blockManagerFactory);
         
         $this->slot = $slot;
         $this->blockModel = $blockModel;        
@@ -615,7 +613,7 @@ class AlSlotManager extends AlTemplateBase
             // Checks the $op parameter. If doesn't match, throwns and exception
             $required = array("add", "del");
             if (!in_array($op, $required)) {
-                throw new \InvalidArgumentException($this->translator->trans('The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"', array('%className%' => get_class($this), '%options%' => $required, '%parameter%' => $op), 'al_slot_manager_exceptions'));
+                throw new \InvalidArgumentException($this->translate('The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"', array('%className%' => get_class($this), '%options%' => $required, '%parameter%' => $op), 'al_slot_manager_exceptions'));
             }
             
             if (count($managers) > 0) {

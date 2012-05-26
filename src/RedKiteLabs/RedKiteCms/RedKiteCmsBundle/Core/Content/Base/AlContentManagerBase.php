@@ -43,21 +43,19 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
 abstract class AlContentManagerBase
 {
     protected $dispatcher;
-    protected $translator;
     protected $validator;
+    protected $translator;
 
     /**
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
      * @param AlParametersValidatorInterface $validator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlParametersValidatorInterface $validator = null)
     {
         $this->dispatcher = $dispatcher;
-        $this->translator = $translator;
-        $this->validator = (null === $validator) ? new AlParametersValidator($translator) : $validator;
+        $this->validator = (null === $validator) ? new AlParametersValidator() : $validator;
     }
     
     /**
@@ -130,5 +128,10 @@ abstract class AlContentManagerBase
     public function getValidator()
     {
         return $this->validator;
+    }
+    
+    protected function translate($message, array $parameters = array(), $domain = 'messages', $locale = null)
+    {
+        return (null !== $this->translator) ? $this->translator->trans($message, $parameters, $domain, $locale) : $message;
     }
 }
