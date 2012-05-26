@@ -26,7 +26,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
@@ -53,13 +52,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
      * @param BlockModelInterface $blockModel
      * @param AlParametersValidatorInterface $validator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $translator, $validator);
+        parent::__construct($dispatcher, $validator);
         
         $this->blockModel = $blockModel;
     }
@@ -294,7 +292,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         try
         {
             if (null === $this->alBlock) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("Any valid block has been setted. Nothing to delete", array()));
+                throw new General\ParameterIsEmptyException($this->translate("Any valid block has been setted. Nothing to delete", array()));
             }
             
             if (null !== $this->dispatcher) {
@@ -302,7 +300,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_DELETE_BLOCK, $event);
                 
                 if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translator->trans("The content deleting action has been aborted", array()));
+                    throw new Event\EventAbortedException($this->translate("The content deleting action has been aborted", array()));
                 }
             }
             
@@ -379,7 +377,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $this->dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
 
             if ($event->isAborted()) {
-                throw new Event\EventAbortedException($this->translator->trans("The current block adding action has been aborted", array(), 'exceptions'));
+                throw new Event\EventAbortedException($this->translate("The current block adding action has been aborted", array(), 'exceptions'));
             }
 
             if ($values !== $event->getValues()) {
@@ -396,7 +394,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (!array_key_exists('HtmlContent', $values)) { 
             $defaults = $this->getDefaultValue();
             if (!is_array($defaults)) {
-                throw new General\InvalidParameterTypeException($this->translator->trans('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
+                throw new General\InvalidParameterTypeException($this->translate('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
             }
 
             $mergedValues = array_merge($values, $defaults);
@@ -459,7 +457,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_EDIT_BLOCK, $event);
             
                 if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translator->trans("The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
+                    throw new Event\EventAbortedException($this->translate("The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
                 }
                 
                 if ($values !== $event->getValues()) {

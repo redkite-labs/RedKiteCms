@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
@@ -27,18 +26,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  */
 class AlParametersValidator implements AlParametersValidatorInterface
 {
-    protected $translator;
-    
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
-
     public function checkEmptyParams(array $values)
     {
         if(empty($values)) {
-            throw new General\EmptyParametersException($this->translator->trans('Any parameter has been given.'));
+            throw new General\EmptyParametersException($this->translate('Any parameter has been given.'));
         }
     }
     
@@ -47,12 +38,12 @@ class AlParametersValidator implements AlParametersValidatorInterface
         /*
         $diff = array_diff_key($requiredParams, $values); 
         if(count($diff) != 0 && count($diff) != count($values)) {
-            throw new General\AnyValidParameterGivenException($this->translator->trans('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
+            throw new General\AnyValidParameterGivenException($this->translate('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
         }*/
         
         $diff = array_intersect_key($requiredParams, $values);
         if(empty($diff)) {
-            throw new General\ParameterExpectedException($this->translator->trans('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
+            throw new General\ParameterExpectedException($this->translate('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
         }
     }
     
@@ -60,7 +51,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
     {
         $diff = array_intersect_key($requiredParams, $values);
         if($diff != $requiredParams) {
-            throw new General\ParameterExpectedException($this->translator->trans('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
+            throw new General\ParameterExpectedException($this->translate('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
         }
     }
     

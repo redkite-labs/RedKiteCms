@@ -21,7 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Translation;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page as Listener;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
@@ -61,7 +60,6 @@ class WebTestCaseFunctional extends WebTestCase {
         }
         
         $dispatcher = new EventDispatcher();
-        $translator = new Translation\Translator('en', new Translation\MessageSelector());
         $seoModel = new Propel\AlSeoModelPropel($dispatcher);    
         $languageModel = new Propel\AlLanguageModelPropel($dispatcher);   
         $pageModel = new Propel\AlPageModelPropel($dispatcher);
@@ -70,10 +68,10 @@ class WebTestCaseFunctional extends WebTestCase {
         $dir = realpath(__DIR__ . '/Functional/Resources/fixtures');
         $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);         
         $pageContentsContainer = new AlPageContentsContainer($dispatcher, $blockModel);
-        $templateManager = new AlTemplateManager($dispatcher, $translator, $pageContentsContainer, $blockModel);
+        $templateManager = new AlTemplateManager($dispatcher, $pageContentsContainer, $blockModel);
         $templateManager->setTemplateSlots($templateSlots)
                 ->refresh();
-        $seoManager = new AlSeoManager($dispatcher, $translator, $seoModel);
+        $seoManager = new AlSeoManager($dispatcher, $seoModel);
         
         $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $languageModel), 'onBeforeAddPageCommit'));
         $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageContentsListener($languageModel), 'onBeforeAddPageCommit'));
@@ -111,7 +109,7 @@ class WebTestCaseFunctional extends WebTestCase {
         $language->setMainLanguage(0);
         $language->save();*/
         
-        $alPageManager = new AlPageManager($dispatcher, $translator, $templateManager, $pageModel, new AlParametersValidatorPageManager($translator, $languageModel, $pageModel));
+        $alPageManager = new AlPageManager($dispatcher, $templateManager, $pageModel, new AlParametersValidatorPageManager($languageModel, $pageModel));
         $params = array('PageName'      => 'index', 
                         'TemplateName'  => 'home',
                         'IsHome'        => '1',

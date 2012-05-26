@@ -31,7 +31,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 class AlPageManagerTest extends TestCase
 {   
     private $dispatcher;
-    private $translator;
     private $pageManager;
     private $templateManager;
       
@@ -40,7 +39,6 @@ class AlPageManagerTest extends TestCase
         parent::setUp();
         
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -57,7 +55,7 @@ class AlPageManagerTest extends TestCase
             ->method('getModelObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage'));
         
-        $this->pageManager = new AlPageManager($this->dispatcher, $this->translator, $this->templateManager, $this->pageModel, $this->validator);
+        $this->pageManager = new AlPageManager($this->dispatcher, $this->templateManager, $this->pageModel, $this->validator);
     }
     
     /**
@@ -141,9 +139,6 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->translator->expects($this->once())
-            ->method('trans');
-        
         $params = array('PageName'      => 'fake page', 
                         'Permalink'     => 'this is a website fake page',
                         'Title'         => 'page title',
@@ -160,9 +155,6 @@ class AlPageManagerTest extends TestCase
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
-        
-        $this->translator->expects($this->once())
-            ->method('trans');
         
         $this->validator->expects($this->once())
             ->method('pageExists')
@@ -185,9 +177,6 @@ class AlPageManagerTest extends TestCase
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
-        
-        $this->translator->expects($this->once())
-            ->method('trans');
         
         $this->validator->expects($this->once())
             ->method('hasLanguages')

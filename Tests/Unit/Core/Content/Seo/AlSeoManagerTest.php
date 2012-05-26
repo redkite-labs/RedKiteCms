@@ -30,7 +30,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 class AlSeoManagerTest extends TestCase
 {   
     private $dispatcher;
-    private $translator;
     private $seoManager;
     private $templateManager;
       
@@ -39,7 +38,6 @@ class AlSeoManagerTest extends TestCase
         parent::setUp();
         
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -53,7 +51,7 @@ class AlSeoManagerTest extends TestCase
             ->method('getModelObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo'));
         
-        $this->seoManager = new AlSeoManager($this->dispatcher, $this->translator, $this->seoModel, $this->validator);
+        $this->seoManager = new AlSeoManager($this->dispatcher, $this->seoModel, $this->validator);
     }
     
     /**
@@ -147,9 +145,6 @@ class AlSeoManagerTest extends TestCase
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
-        
-        $this->translator->expects($this->once())
-            ->method('trans');
         
         $params = array('PageId' => '', 
                         'LanguageId' => '');

@@ -65,7 +65,7 @@ class ChangeTemplateListener
                 $themeName = $currentTemplateManager->getTemplateSlots()->getThemeName();
                 $blockModel->startTransaction();
                 $templateSlots = $this->templateSlotsFactory->create($themeName, $values["TemplateName"]);
-                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $currentTemplateManager->getTranslator(), $currentTemplateManager->getPageContentsContainer(), $blockModel);
+                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $currentTemplateManager->getPageContentsContainer(), $blockModel);
                 $newTemplateManager->setTemplateSlots($templateSlots);
                 $result = $this->templateChanger->setCurrentTemplateManager($currentTemplateManager)
                             ->setNewTemplateManager($newTemplateManager)

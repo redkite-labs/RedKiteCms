@@ -221,10 +221,6 @@ class ChangeTemplateListenerTest extends Base\BaseListenerTest
             ->will($this->returnValue($this->dispatcher));
         
         $this->templateManager->expects($this->once())
-            ->method('getTranslator')
-            ->will($this->returnValue($this->translator));
-        
-        $this->templateManager->expects($this->once())
             ->method('getPageContentsContainer')
             ->will($this->returnValue($this->pageContents));
         

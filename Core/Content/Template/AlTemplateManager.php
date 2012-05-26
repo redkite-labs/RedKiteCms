@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface;
@@ -51,15 +50,14 @@ class AlTemplateManager extends AlTemplateBase
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
      * @param AlPageContentsContainerInterface $pageContentsContainer
      * @param BlockModelInterface $blockModel
      * @param AlParametersValidatorInterface $validator
      * @param AlBlockManagerFactoryInterface $blockManagerFactory 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlPageContentsContainerInterface $pageContentsContainer, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlPageContentsContainerInterface $pageContentsContainer, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
     {
-        parent::__construct($dispatcher, $translator, $validator, $blockManagerFactory);
+        parent::__construct($dispatcher, $validator, $blockManagerFactory);
         
         $this->pageContentsContainer = $pageContentsContainer;
         $this->blockModel =  $blockModel;
@@ -178,7 +176,7 @@ class AlTemplateManager extends AlTemplateBase
     public function slotToArray($slotName)
     {
         if (!is_string($slotName)) {
-            throw new \InvalidArgumentException($this->translator->trans("slotToArray accepts only strings"));
+            throw new \InvalidArgumentException($this->translate("slotToArray accepts only strings"));
         }
         
         if (!array_key_exists($slotName, $this->slotManagers)) {
@@ -396,7 +394,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         $slotName = $slot->getSlotName();
         $alBlocks = $this->pageContentsContainer->getSlotBlocks($slotName);      
-        $slotManager = new AlSlotManager($this->dispatcher, $this->translator, $slot, $this->blockModel, $this->validator, $this->blockManagerFactory);         
+        $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockModel, $this->validator, $this->blockManagerFactory);         
         $slotManager->setUpBlockManagers($alBlocks);
         
         return $slotManager;

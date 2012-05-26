@@ -35,18 +35,15 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 {
     private $dispatcher;
-    private $translator;
     
     /**
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
-        $this->translator = $translator;
     }
     
     /**
@@ -88,7 +85,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
             }
         }
         
-        $alBlockManager = new $class($this->dispatcher, $this->translator, $alBlockModel);
+        $alBlockManager = new $class($this->dispatcher,  $alBlockModel);
         if (null !== $alBlock) $alBlockManager->set($alBlock);
         
         return $alBlockManager;

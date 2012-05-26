@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page;
 
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
@@ -56,14 +55,13 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
      * @param AlTemplateManager $templateManager
      * @param PageModelInterface $pageModel
      * @param AlParametersValidatorInterface $validator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, TranslatorInterface $translator, AlTemplateManager $templateManager, PageModelInterface $pageModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, PageModelInterface $pageModel, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $translator, $validator);
+        parent::__construct($dispatcher, $validator);
         
         $this->templateManager = $templateManager;
         $this->pageModel = $pageModel;
@@ -169,7 +167,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                         $this->dispatcher->dispatch(PageEvents::BEFORE_DELETE_PAGE, $event);
 
                         if ($event->isAborted()) {
-                            throw new \RuntimeException($this->translator->trans("The page deleting action has been aborted", array(), 'al_page_manager_exceptions'));
+                            throw new \RuntimeException($this->translate("The page deleting action has been aborted", array(), 'al_page_manager_exceptions'));
                         }
                     }
                     
@@ -210,11 +208,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 }
             }
             else {
-                throw new Page\RemoveHomePageException($this->translator->trans('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one'));
+                throw new Page\RemoveHomePageException($this->translate('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one'));
             }
         }
         else {
-            throw new General\ParameterIsEmptyException($this->translator->trans('Any page is actually managed, so there\'s nothing to remove'));
+            throw new General\ParameterIsEmptyException($this->translate('Any page is actually managed, so there\'s nothing to remove'));
         }
     }
     
@@ -233,7 +231,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE, $event);
 
                 if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translator->trans("The page adding action has been aborted", array(), 'al_page_manager_exceptions'));
+                    throw new Event\EventAbortedException($this->translate("The page adding action has been aborted", array(), 'al_page_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {
@@ -245,19 +243,19 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $this->validator->checkRequiredParamsExists(array('PageName' => '', 'TemplateName' => ''), $values);
 
             if (empty($values['PageName'])) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("The name to assign to the page cannot be null. Please provide a valid page name to add your page"));
+                throw new General\ParameterIsEmptyException($this->translate("The name to assign to the page cannot be null. Please provide a valid page name to add your page"));
             }
 
             if (empty($values['TemplateName'])) {
-                throw new General\ParameterIsEmptyException($this->translator->trans("The page requires at least a template. Please provide the template name to add your page"));
+                throw new General\ParameterIsEmptyException($this->translate("The page requires at least a template. Please provide the template name to add your page"));
             }
             
             if ($this->validator->pageExists($values['PageName'])) {
-                throw new Page\PageExistsException($this->translator->trans("The web site already contains the page you are trying to add. Please use another name for that page"));
+                throw new Page\PageExistsException($this->translate("The web site already contains the page you are trying to add. Please use another name for that page"));
             }
             
             if (!$this->validator->hasLanguages()) {
-                throw new Page\AnyLanguageExistsException($this->translator->trans("The web site has any language inserted. Please add a new language before adding a page"));
+                throw new Page\AnyLanguageExistsException($this->translate("The web site has any language inserted. Please add a new language before adding a page"));
             }
 
             $result = true;
@@ -328,7 +326,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE, $event);
 
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translator->trans("The page editing action has been aborted", array(), 'al_page_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The page editing action has been aborted", array(), 'al_page_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {

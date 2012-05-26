@@ -39,15 +39,14 @@ abstract class AlTemplateBase extends AlContentManagerBase
      * Contructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param TranslatorInterface $translator
      * @param AlParametersValidatorInterface $validator
      * @param AlBlockManagerFactoryInterface $blockManagerFactory 
      */
-    public function __construct(EventDispatcherInterface $dispatcher = null, TranslatorInterface $translator = null, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null) 
+    public function __construct(EventDispatcherInterface $dispatcher = null, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null) 
     {
-        parent::__construct($dispatcher, $translator, $validator);
+        parent::__construct($dispatcher, $validator);
         
-        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory($dispatcher, $translator) : $blockManagerFactory;
+        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory($dispatcher) : $blockManagerFactory;
     }
     
     /**
