@@ -30,7 +30,6 @@ class ChangeTemplateListenerTest extends Base\BaseListenerTest
     private $event;
     private $testListener;
     private $pageManager;
-    private $pageModel;
     private $blockModel;
     private $templateManager;
     private $pageContents;
