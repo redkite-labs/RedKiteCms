@@ -106,7 +106,7 @@ class AlTemplateChanger
                         foreach($slots as $repeated => $slotNames) {
                             foreach($slotNames as $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));                            
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
                                 $slotManager->setForceSlotAttributes(true);
                                 
                                 $pageContentsContainer = $this->currentTemplateManager->getPageContentsContainer();
@@ -124,15 +124,9 @@ class AlTemplateChanger
                         foreach($slots as $intersections) {
                             foreach($intersections as $intersection) {
                                 foreach($intersection as $repeated => $slotNames) {
-                                    foreach($slotNames as $slotName) {
-                                        // TODO
-                                        /*
-                                        $slot = new AlSlot($slotName, array('repeated' => $repeated)); 
-                                        $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($repeated));
-                                        $converter = new $className($this->container, $slot, $this->alPage, $this->alLanguage);
-                                        $rollBack = !$converter->convert();*/
-                                        
-                                        $converter = $this->slotsConverterFactory->createConverter($repeated);
+                                    foreach($slotNames as $slotName) {           
+                                        $slot = new AlSlot($slotName, array('repeated' => $repeated));
+                                        $converter = $this->slotsConverterFactory->createConverter($slot, $repeated);
                                         $rollBack = !$converter->convert();
                                         
                                         if($rollBack) break;
@@ -149,7 +143,7 @@ class AlTemplateChanger
                         foreach($slots as $slotNames) {
                             foreach($slotNames as $repeated =>  $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));     
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $this->currentTemplateManager->getTranslator(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
                                 $blocks = $this->currentTemplateManager->getPageContentsContainer()->getSlotBlocks($slotName);
                                 $slotManager->setUpBlockManagers($blocks);
                                 $result = $slotManager->deleteBlocks();

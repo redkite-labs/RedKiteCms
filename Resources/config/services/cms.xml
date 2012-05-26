@@ -45,6 +45,7 @@
         <parameter key="alcms.upload_assets_dir">uploads/assets</parameter>
         
         <parameter key="block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+        <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
         <parameter key="al_cms_setup_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\CmsSetupListener</parameter>
         <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\FinalizeContentsListener</parameter>
         <parameter key="al_kernel_exception_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\KernelExceptionListener</parameter>
@@ -110,11 +111,9 @@
         
         <service id="block_manager_factory" class="%block_manager_factory.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="translator" />
         </service>
         
         <service id="page_manager_parameters_validator" class="%page_manager_parameters_validator.class%">
-            <argument type="service" id="translator" />
             <argument type="service" id="language_model" />
             <argument type="service" id="page_model" />
         </service>
@@ -126,7 +125,6 @@
         
         <service id="template_manager" class="%template_manager.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="translator" />
             <argument type="service" id="page_contents_container" />
             <argument type="service" id="block_model" />
         </service>
@@ -142,7 +140,6 @@
         
         <service id="al_page_manager" class="%al_cms_pages_manager%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="translator" />
             <argument type="service" id="template_manager" />
             <argument type="service" id="page_model" />
             <argument type="service" id="page_manager_parameters_validator" />
@@ -150,7 +147,6 @@
 
         <service id="al_seo_manager" class="%al_cms_seo_manager%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="translator" />
             <argument type="service" id="seo_model" />
         </service>
 
@@ -158,7 +154,16 @@
             <argument type="service" id="service_container" />
         </service>
         
+        <service id="slots_converter_factory" class="%slots_converter_factory.class%">
+            <argument type="service" id="page_contents_container" />
+            <argument type="service" id="language_model" />
+            <argument type="service" id="page_model" />
+            <argument type="service" id="block_model" />
+        </service>
+        
         <service id="template_changer" class="%template_changer.class%">
+            <argument type="service" id="block_manager_factory" />
+            <argument type="service" id="slots_converter_factory" />
         </service>
         
         <service id="images_block_edited.class" class="%images_block_edited.class%">

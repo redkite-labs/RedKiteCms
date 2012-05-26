@@ -17,6 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
+use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+
 /**
  * Used by the Slots converter factory to create the appropriate converter to change the
  * repeated status of a slot to another one
@@ -31,5 +33,5 @@ interface AlSlotsConverterFactoryInterface
      * 
      * @param string $newRepeatedStatus  The new repeated status the slot must get
      */
-    public function createConverter($newRepeatedStatus);
+    public function createConverter(AlSlot $slot, $newRepeatedStatus);
 }

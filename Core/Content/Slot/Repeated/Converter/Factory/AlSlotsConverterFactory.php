@@ -32,7 +32,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundE
  */
 class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
 { 
-    protected $slot;
     protected $pageContentsContainer;
     protected $languageModel;
     protected $pageModel;
@@ -43,9 +42,8 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
      * @param ContainerInterface    $container
      * @param string                $activeThemeName  The active theme
      */
-    public function __construct(AlSlot $slot, AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
+    public function __construct(AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
     {
-        $this->slot = $slot;
         $this->pageContentsContainer = $pageContentsContainer;
         $this->languageModel = $languageModel;
         $this->pageModel = $pageModel;
@@ -59,9 +57,9 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
      * @throws \InvalidArgumentException 
      */
-    public function createConverter($newRepeatedStatus)
+    public function createConverter(AlSlot $slot, $newRepeatedStatus)
     {
-        if ($this->slot->getRepeated() == $newRepeatedStatus)
+        if ($slot->getRepeated() == $newRepeatedStatus)
         {
             throw new SameRepeatedStatusException("The new repeated status you required is the same of the current slot. Aborted ");
         }
@@ -71,8 +69,8 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
             throw new ClassNotFoundException(sprintf("The class %s that shoud define a new Slot Converter does not exist", $className));
         }
         
-        $this->slot->setRepeated($newRepeatedStatus); 
+        $slot->setRepeated($newRepeatedStatus); 
         
-        return new $className($this->slot, $this->pageContentsContainer, $this->languageModel, $this->pageModel, $this->blockModel);
+        return new $className($slot, $this->pageContentsContainer, $this->languageModel, $this->pageModel, $this->blockModel);
     }
 }
