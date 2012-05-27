@@ -363,7 +363,7 @@ class AlSlotManager extends AlTemplateBase
      * @param   int       $idBlock  The id of the block to edit
      * @param   array     $values   The new values
      *
-     * @return  boolean
+     * @return  null!Boolean
      */
     public function editBlock($idBlock, array $values)
     {
@@ -371,9 +371,8 @@ class AlSlotManager extends AlTemplateBase
         if ($blockManager != null) {
             try {
                 $this->blockModel->startTransaction();
-
+                
                 $result = $blockManager->save($values);
-
                 if ($result) {
                     $this->blockModel->commit();
                 }
