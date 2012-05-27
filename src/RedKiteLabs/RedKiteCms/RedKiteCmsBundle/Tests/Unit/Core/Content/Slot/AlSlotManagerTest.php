@@ -831,49 +831,64 @@ class AlSlotManagerTest extends TestCase
         $this->assertEquals($this->slotManager->first(), $this->slotManager->getBlockManager($this->slotManager->first()->get()->getId()));
     }
     
-    public function testAddBlock()
-    {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-    
-    public function testRollbackPreviousTests()
-    {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-    
     public function testToArray()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $this->setUpFactory('Text', $block);
+        $factory = $this->setUpFactory('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText', $block);
         
+        $this->slotManager->setBlockManagerFactory($factory);
+        
+        $this->blockManager->expects($this->once())
+                ->method('set')
+                ->with(null);
         $this->assertTrue($this->slotManager->addBlock(2, 2));
         
-        $blockManagers = $this->slotManager->toArray();
-        $this->assertEquals(count($blockManagers),count($this->slotManager->getBlockManagers()));
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $factory = $this->setUpFactory('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText', $block);
         
-        $array = $blockManagers[0];
-        $this->assertTrue(array_key_exists('HideInEditMode', $array));
-        $this->assertTrue(array_key_exists('HtmlContent', $array));
-        $this->assertTrue(array_key_exists('ExternalJavascript', $array));
-        $this->assertTrue(array_key_exists('InternalJavascript', $array));
-        $this->assertTrue(array_key_exists('ExternalStylesheet', $array));
-        $this->assertTrue(array_key_exists('InternalStylesheet', $array));
-        $this->assertTrue(array_key_exists('Block', $array));
+        $this->slotManager->setBlockManagerFactory($factory);
+        
+        $this->blockManager->expects($this->once())
+                ->method('set')
+                ->with(null);
+        $this->assertTrue($this->slotManager->addBlock(2, 2, 'Script'));
+        
+        $blockManagers = $this->slotManager->toArray();
+        $this->assertEquals(2, count($blockManagers));
     }
     
     public function testForceAttributes()
     {
-        $this->markTestIncomplete(
-        'This test has not been implemented yet.'
-        );
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $factory = $this->setUpFactory('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText', $block);
+        
+        $this->blockManager->expects($this->once())
+                ->method('set')
+                ->with(null);
+        
+        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        
+        $slot->expects($this->once())
+                ->method('getHtmlContent');
+        
+        $slot->expects($this->once())
+                ->method('getExternalJavascript');
+        
+        $slot->expects($this->once())
+                ->method('getInternalJavascript');
+        
+        $slot->expects($this->once())
+                ->method('getExternalStylesheet');
+        
+        $slot->expects($this->once())
+                ->method('getInternalStylesheet');
+        
+        $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockModel, $this->validator, $factory);
+        $slotManager->setBlockManagerFactory($factory);        
+        $slotManager->setForceSlotAttributes(true);
+        $slotManager->addBlock(2, 2);
     }
     
     private function setUpBlockManager($class, $block = null, $method = "save")
