@@ -379,6 +379,9 @@ class AlPageManagerTest extends TestCase
         $this->pageModel->expects($this->once())
             ->method('commit');
         
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
+        
         $this->pageModel->expects($this->exactly(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
@@ -413,6 +416,9 @@ class AlPageManagerTest extends TestCase
         
         $this->pageModel->expects($this->once())
             ->method('commit');
+        
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
         
         $this->pageModel->expects($this->once())
                 ->method('setModelObject')
@@ -542,6 +548,9 @@ class AlPageManagerTest extends TestCase
         $this->pageModel->expects($this->once())
             ->method('commit');
         
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
+        
         $params = array('PageName' => 'fake page');
         $this->pageManager->set($page);
         $res = $this->pageManager->save($params); 
@@ -658,6 +667,9 @@ class AlPageManagerTest extends TestCase
         $this->pageModel->expects($this->once())
             ->method('commit');
         
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
+        
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
         $page->expects($this->once())
             ->method('getId')
@@ -671,7 +683,38 @@ class AlPageManagerTest extends TestCase
     
     public function testEditTemplate()
     {
-        $this->markTestSkipped();
+        $this->dispatcher->expects($this->exactly(3))
+            ->method('dispatch');
+                
+        $this->pageModel->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+        
+        $this->pageModel->expects($this->once(2))
+                ->method('setModelObject')
+                ->will($this->returnSelf());
+        
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
+        
+        $this->pageModel->expects($this->once())
+            ->method('commit');
+        
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
+        
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(2));
+        
+        $page->expects($this->once())
+            ->method('getTemplateName');
+        
+        $params = array('TemplateName' => 'new');
+        $this->pageManager->set($page);
+        $res = $this->pageManager->save($params); 
+        $this->assertTrue($res);
     }
     
     /**
@@ -769,6 +812,9 @@ class AlPageManagerTest extends TestCase
         
         $this->pageModel->expects($this->once())
             ->method('commit');
+        
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
         
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
         $page->expects($this->once())
