@@ -205,6 +205,9 @@ class AlSlotsConverterToSiteTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->blockModel->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
@@ -236,6 +239,9 @@ class AlSlotsConverterToSiteTest extends TestCase
         
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->exactly(3))
             ->method('save')

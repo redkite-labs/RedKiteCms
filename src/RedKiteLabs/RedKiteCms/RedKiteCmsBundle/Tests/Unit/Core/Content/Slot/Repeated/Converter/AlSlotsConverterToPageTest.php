@@ -257,6 +257,9 @@ class AlSlotsConverterToPageTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->blockModel->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
@@ -296,6 +299,9 @@ class AlSlotsConverterToPageTest extends TestCase
         
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->exactly(3))
             ->method('save')
@@ -337,6 +343,9 @@ class AlSlotsConverterToPageTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->blockModel->expects($this->exactly(6))
             ->method('save')
             ->will($this->returnValue(true));
@@ -374,6 +383,9 @@ class AlSlotsConverterToPageTest extends TestCase
         
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->exactly(2))
             ->method('save')
@@ -415,6 +427,9 @@ class AlSlotsConverterToPageTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->blockModel->expects($this->exactly(6))
             ->method('save')
             ->will($this->returnValue(true));
@@ -454,6 +469,9 @@ class AlSlotsConverterToPageTest extends TestCase
         
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->exactly(12))
             ->method('save')

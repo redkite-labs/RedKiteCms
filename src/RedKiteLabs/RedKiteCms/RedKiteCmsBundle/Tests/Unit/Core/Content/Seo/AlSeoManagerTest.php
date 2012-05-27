@@ -222,6 +222,9 @@ class AlSeoManagerTest extends TestCase
         $this->seoModel->expects($this->once())
             ->method('commit');
         
+        $this->seoModel->expects($this->never())
+            ->method('rollback');
+        
         $this->seoModel->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
@@ -371,6 +374,9 @@ class AlSeoManagerTest extends TestCase
         $this->seoModel->expects($this->once())
             ->method('commit');
         
+        $this->seoModel->expects($this->never())
+            ->method('rollback');
+        
         $params = array('Permalink' => 'fake page has been renamed');
         $this->seoManager->set($seo);
         $res = $this->seoManager->save($params); 
@@ -410,6 +416,9 @@ class AlSeoManagerTest extends TestCase
         
         $this->seoModel->expects($this->once())
             ->method('commit');
+        
+        $this->seoModel->expects($this->never())
+            ->method('rollback');
         
         $params = array('MetaTitle' => 'new title',
                         'MetaDescription' => 'new decription',
@@ -508,6 +517,9 @@ class AlSeoManagerTest extends TestCase
         
         $this->seoModel->expects($this->once())
             ->method('commit');
+        
+        $this->seoModel->expects($this->never())
+            ->method('rollback');
         
         $this->seoManager->set($seo);   
         $res = $this->seoManager->delete(); 

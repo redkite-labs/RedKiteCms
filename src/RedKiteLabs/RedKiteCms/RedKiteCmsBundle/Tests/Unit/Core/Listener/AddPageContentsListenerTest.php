@@ -212,6 +212,9 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
         $this->pageModel->expects($this->once())
             ->method('commit');
         
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
+        
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
@@ -300,6 +303,9 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
         
         $this->pageModel->expects($this->once())
             ->method('commit');
+        
+        $this->pageModel->expects($this->never())
+            ->method('rollback');
         
         $this->event->expects($this->once())
             ->method('getContentManager')
