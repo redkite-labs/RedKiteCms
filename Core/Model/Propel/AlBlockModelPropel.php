@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
 
 /**
  *  Adds some filters to the AlBlockQuery object
- * 
+ *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterface
@@ -36,23 +36,23 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock';
     }
-    
+
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
             throw new InvalidParameterTypeException('AlBlockModelPropel accepts only AlBlock propel objects');
         }
-        
+
         return parent::setModelObject($object);
     }
-    
+
     public function fromPK($id)
     {
         $query = AlBlockQuery::create();
-        
+
         if(null !== $this->dispatcher)
         {
-            /*
+            /*TODO
             $event = new Content\FromPageIdQueringEvent($query);
             $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID, $event);
 
@@ -61,10 +61,10 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 $query = $event->getQuery();
             }*/
         }
-        
+
         return $query->findPk($id);
     }
-    
+
     public function retrieveContents($idLanguage, $idPage, $slotName = null)
     {
         $query = AlBlockQuery::create()
@@ -76,7 +76,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 ->filterByToDelete(0)
                 ->orderBySlotName()
                 ->orderByContentPosition();
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Content\RetrieveContentsQueringEvent($query);
@@ -87,16 +87,16 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
     }
-    
+
     public function retrieveContentsBySlotName($slotName)
     {
         $query = AlBlockQuery::create()
                 ->filterBySlotName($slotName)
                 ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Content\RetrieveContentsBySlotNameQueringEvent($query);
@@ -107,16 +107,16 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
     }
-    
+
     public function fromLanguageId($languageId)
     {
         $query = AlBlockQuery::create()
                 ->filterByLanguageId($languageId)
                 ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Content\FromLanguageIdQueringEvent($query);
@@ -127,16 +127,16 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
     }
-    
+
     public function fromPageId($pageId)
     {
         $query = AlBlockQuery::create()
                 ->filterByPageId($pageId)
                 ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Content\FromPageIdQueringEvent($query);
@@ -147,17 +147,17 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
     }
-    
+
     public function fromPageIdAndSlotName($pageId, $slotName)
     {
         $query = AlBlockQuery::create()
                 ->filterByPageId($pageId)
                 ->filterBySlotName($slotName)
                 ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
@@ -168,16 +168,16 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
-    }    
-    
+    }
+
     public function fromHtmlContent($search)
     {
         $query = AlBlockQuery::create()
                 ->filterByHtmlContent('%' . $search . '%')
                 ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
@@ -188,7 +188,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
     }
 }
