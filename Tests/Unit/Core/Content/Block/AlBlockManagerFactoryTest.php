@@ -101,4 +101,18 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->assertNull($contenManager);
         $this->assertEquals(1, $block->getToDelete());
     }
+    
+    public function testCreateBlockWithTranslator()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+                ->method('getClassName')
+                ->will($this->returnValue('Text')); 
+        
+        $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        
+        $factory = new AlBlockManagerFactory($this->dispatcher, $translator);
+        $contenManager = $factory->createBlock($this->blockModel, $block);
+        $this->assertInstanceOf('Symfony\Component\Translation\TranslatorInterface', $contenManager->getTranslator());
+    }
 }
