@@ -292,6 +292,8 @@ class AlTemplateManager extends AlTemplateBase
                     }
                 }
                 
+                if(null === $result) return;
+                
                 if ($result) { 
                     $this->blockModel->commit();
                 }

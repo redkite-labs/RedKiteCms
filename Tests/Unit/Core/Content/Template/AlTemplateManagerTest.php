@@ -507,10 +507,153 @@ class AlTemplateManagerTest extends TestCase
         $this->assertTrue($result);
     }
     
+    public function testClearPageBlocksFailsWhenBlocksRemovingFails()
+    {
+         $this->blockModel->expects($this->exactly(3))
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->exactly(3))
+            ->method('rollback');
+        
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->exactly(3))
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');  
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(1)); 
+        
+        $this->pageContents->expects($this->exactly(3))
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array($block)));
+        
+        $this->pageContents->expects($this->exactly(3))
+                ->method('getBlocks')
+                ->will($this->returnValue(array('test' => array($block))));
+        
+        $this->pageContents->expects($this->once())
+                ->method('setIdLanguage')
+                ->with(3)
+                ->will($this->returnSelf());
+        
+        $this->pageContents->expects($this->once())
+                ->method('setIdPage')
+                ->with(3)
+                ->will($this->returnSelf());
+        
+        $this->blockManager->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(false));
+        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager->setTemplateSlots($this->templateSlots)
+                ->refresh();
+        
+        $result = $templateManager->clearPageBlocks(3, 3);
+        $this->assertFalse($result);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testClearPageBlocksFailsWhenAnUnexpectedExceptionIsThrown()
+    {
+         $this->blockModel->expects($this->exactly(3))
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->exactly(3))
+            ->method('rollback');
+        
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->exactly(2))
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');  
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(1)); 
+        
+        $this->pageContents->expects($this->exactly(2))
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array($block)));
+        
+        $this->pageContents->expects($this->exactly(2))
+                ->method('getBlocks')
+                ->will($this->returnValue(array('test' => array($block))));
+        
+        $this->pageContents->expects($this->once())
+                ->method('setIdLanguage')
+                ->with(3)
+                ->will($this->returnSelf());
+        
+        $this->pageContents->expects($this->once())
+                ->method('setIdPage')
+                ->with(3)
+                ->will($this->returnSelf());
+        
+        $this->blockManager->expects($this->once())
+            ->method('delete')
+            ->will($this->throwException(new \RuntimeException()));
+        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager->setTemplateSlots($this->templateSlots)
+                ->refresh();
+        
+        $result = $templateManager->clearPageBlocks(3, 3);
+        $this->assertFalse($result);
+    }
+    
     public function testClearPageBlocks()
     {
-        $this->markTestSkipped(
-            'Test page contents container before this one'
-        );
+         $this->blockModel->expects($this->exactly(3))
+            ->method('startTransaction');
+        
+        $this->blockModel->expects($this->exactly(3))
+            ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->exactly(3))
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
+        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');  
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(1)); 
+        
+        $this->pageContents->expects($this->exactly(3))
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array($block)));
+        
+        $this->pageContents->expects($this->exactly(3))
+                ->method('getBlocks')
+                ->will($this->returnValue(array('test' => array($block))));
+        
+        $this->pageContents->expects($this->once())
+                ->method('setIdLanguage')
+                ->with(3)
+                ->will($this->returnSelf());
+        
+        $this->pageContents->expects($this->once())
+                ->method('setIdPage')
+                ->with(3)
+                ->will($this->returnSelf());
+        
+        $this->blockManager->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(true));
+        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->pageContents, $this->blockModel, $this->validator, $this->factory);
+        $templateManager->setTemplateSlots($this->templateSlots)
+                ->refresh();
+        
+        $result = $templateManager->clearPageBlocks(3, 3);
+        $this->assertTrue($result);
     }
 }
