@@ -24,6 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
  * AlSlotManager represents a slot on a page.
@@ -245,6 +246,14 @@ class AlSlotManager extends AlTemplateBase
      */
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
     {
+        if ((int)$idLanguage == 0) {
+            throw new InvalidParameterTypeException("idLanguage parameter must be a valid integer");
+        }
+
+        if ((int)$idPage == 0) {
+            throw new InvalidParameterTypeException("idPage parameter must be a valid integer");
+        }
+
         try
         {
             switch ($this->slot->getRepeated()) {
