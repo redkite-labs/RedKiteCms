@@ -111,6 +111,7 @@
         
         <service id="block_manager_factory" class="%block_manager_factory.class%">
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="translator" />
         </service>
         
         <service id="page_manager_parameters_validator" class="%page_manager_parameters_validator.class%">
