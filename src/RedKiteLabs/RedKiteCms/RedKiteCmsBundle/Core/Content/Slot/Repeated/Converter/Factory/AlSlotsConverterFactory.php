@@ -26,8 +26,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Slot\SameRepeatedStatu
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
 /**
- * 
- *
+ * Creates a slot converter from a known repeated status.
+ *  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
@@ -38,9 +38,12 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     protected $blockModel;
     
     /**
-     * Constructor 
-     * @param ContainerInterface    $container
-     * @param string                $activeThemeName  The active theme
+     * Constructor
+     * 
+     * @param AlPageContentsContainerInterface $pageContentsContainer
+     * @param LanguageModelInterface $languageModel
+     * @param PageModelInterface $pageModel
+     * @param BlockModelInterface $blockModel 
      */
     public function __construct(AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
     {
@@ -53,9 +56,11 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * Create the slot converter
      * 
-     * @param string $newRepeatedStatus
+     * @param AlSlot $slot
+     * @param type $newRepeatedStatus
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
-     * @throws \InvalidArgumentException 
+     * @throws SameRepeatedStatusException
+     * @throws ClassNotFoundException 
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus)
     {
