@@ -130,6 +130,16 @@ abstract class AlContentManagerBase
         return $this->validator;
     }
     
+    /**
+     * Translates the message when the translator has been set or returns the message when null
+     * 
+     * @param string $message
+     * @param array $parameters
+     * @param string $domain
+     * @param string $locale
+     * 
+     * @return string 
+     */
     protected function translate($message, array $parameters = array(), $domain = 'messages', $locale = null)
     {
         return (null !== $this->translator) ? $this->translator->trans($message, $parameters, $domain, $locale) : $message;

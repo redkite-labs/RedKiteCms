@@ -3,13 +3,13 @@
 <routes xmlns="http://symfony.com/schema/routing"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
-        
+
     <route id="_show_blocks_editor" pattern="/backend/{_locale}/al_showBlocksEditor">
         <default key="_controller">AlphaLemonCmsBundle:Blocks:showBlocksEditor</default>
         <default key="_locale">en</default>
     </route>
 
-    <route id="_save_block" pattern="/backend/{_locale}/addBlock">
+    <route id="_add_block" pattern="/backend/{_locale}/addBlock">
         <default key="_controller">AlphaLemonCmsBundle:Blocks:addBlock</default>
         <default key="_locale">en</default>
         <requirement key="_method">POST</requirement>
@@ -26,18 +26,18 @@
         <default key="_locale">en</default>
         <requirement key="_method">POST</requirement>
     </route>
-    
+
     <route id="_show_external_files_manager" pattern="/backend/{_locale}/showExternalFilesManager">
         <default key="_controller">AlphaLemonCmsBundle:Blocks:showExternalFilesManager</default>
         <default key="_locale">en</default>
     </route>
-    
+
     <route id="_add_external_file" pattern="/backend/{_locale}/addExternalFile">
         <default key="_controller">AlphaLemonCmsBundle:Blocks:addExternalFile</default>
         <default key="_locale">en</default>
         <requirement key="_method">POST</requirement>
     </route>
-    
+
     <route id="_remove_external_file" pattern="/backend/{_locale}/removeExternalFile">
         <default key="_controller">AlphaLemonCmsBundle:Blocks:removeExternalFile</default>
         <default key="_locale">en</default>

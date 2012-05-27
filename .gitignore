@@ -6,3 +6,5 @@
 /Resources/public/css/skins/alphaLemon/lib/.sass-cache/*
 /Tests/CmsTestKernel/cache/
 /*~
+/Core/nbproject/private/
+/nbproject/private/

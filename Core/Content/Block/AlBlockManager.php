@@ -10,12 +10,12 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block; 
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModel;
@@ -31,15 +31,15 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- * AlBlockManager is the object responsible to manage an AlBlock object. 
- * 
- * 
- * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete 
- * that kind of object and provides several methods to change the behavior of the block itself, 
+ * AlBlockManager is the object responsible to manage an AlBlock object.
+ *
+ *
+ * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete
+ * that kind of object and provides several methods to change the behavior of the block itself,
  * when it is rendered on the page.
- * 
+ *
  * Every new block content must inherit from this class.
- * 
+ *
  * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -47,25 +47,25 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 {
     protected $alBlock = null;
     protected $blockModel = null;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param EventDispatcherInterface $dispatcher
      * @param BlockModelInterface $blockModel
-     * @param AlParametersValidatorInterface $validator 
+     * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
-        
+
         $this->blockModel = $blockModel;
     }
 
     /**
      * Defines the default value of the managed block
-     * 
-     * 
+     *
+     *
      * Returns an array which may contain one or more of these keys:
      *
      *   - *HtmlContent*            The html content displayed on the page
@@ -73,12 +73,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *   - *InternalJavascript*     A javascript code
      *   - *ExternalStylesheet*     A comma separated external stylesheets files
      *   - *InternalStylesheet*     A stylesheet code
-     * 
+     *
      * @api
      * @return array
      */
     abstract function getDefaultValue();
-    
+
     /**
      * {@inheritdoc}
      */
@@ -95,29 +95,29 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (null !== $object && !$object instanceof AlBlock) {
             throw new InvalidParameterTypeException('AlBlockManager is only able to manage AlBlock objects');
         }
-        
+
         $this->alBlock = $object;
     }
-    
+
     /**
      * Sets the block model object
-     * 
+     *
      * @api
      * @param BlockModelInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
      */
     public function setBlockModel(BlockModelInterface $v)
     {
         $this->blockModel = $v;
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the block model object associated with this object
-     * 
+     *
      * @api
-     * @return BlockModelInterface 
+     * @return BlockModelInterface
      */
     public function getBlockModel()
     {
@@ -125,38 +125,38 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Defines when a content is rendered or not in edit mode. 
-     * 
-     * 
-     * By default the content is rendered when the edit mode is active. To hide the content, simply override 
+     * Defines when a content is rendered or not in edit mode.
+     *
+     *
+     * By default the content is rendered when the edit mode is active. To hide the content, simply override
      * this method and return true
-     * 
+     *
      * @api
-     * @return Boolean 
+     * @return Boolean
      */
     public function getHideInEditMode()
     {
         return false;
     }
-    
+
     /**
      * Displays a message inside the editor to suggest a page relead
-     * 
+     *
      * Return true tu display a warnig on editor that suggest the used to reload the page when the block is added or edited
-     * 
+     *
      * @api
-     * @return Boolean 
+     * @return Boolean
      */
     public function getReloadSuggested()
     {
         return false;
     }
-    
+
     /**
      * Returns the content that must be displayed on the page
-     * 
+     *
      * The content that is displayed on the page not always is the same saved in the database.
-     * 
+     *
      * @api
      * @return string
      */
@@ -167,10 +167,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
     /**
      * Returns the content to display, when the site is in CMS mode
-     * 
-     * When the CMS mode is active, AlphaLemon CMS renders the same content displayed on the page. 
+     *
+     * When the CMS mode is active, AlphaLemon CMS renders the same content displayed on the page.
      * Override this method to change the content to display
-     * 
+     *
      * @api
      * @return string
      */
@@ -178,13 +178,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         return $this->getHtmlContent();
     }
-    
+
     /**
      * Returns the content displayed in the editor
-     * 
+     *
      * The editor that manages the content gets the content saved into the database.
      * Override this method to change the content to display
-     * 
+     *
      * @api
      * @return string
      */
@@ -192,10 +192,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
     }
-    
+
     /**
      * Returns the current saved ExternalJavascript value
-     * 
+     *
      * @api
      * @return array
      */
@@ -204,13 +204,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (null !== $this->alBlock) {
             $javascripts = trim($this->alBlock->getExternalJavascript());
         }
-        
+
         return ($javascripts != "") ? explode(',', $javascripts) : array();
     }
-    
+
     /**
      * Returns the current saved ExternalStylesheet value
-     * 
+     *
      * @api
      * @return array
      */
@@ -219,16 +219,16 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (null !== $this->alBlock) {
             $stylesheets = trim($this->alBlock->getExternalStylesheet());
         }
-        
+
         return ($stylesheets != "") ? explode(',', $stylesheets) : array();
     }
 
     /**
-     * Returns the current saved InternalJavascript. 
-     * 
-     * When the values is setted, it is encapsulated in a try/catch 
+     * Returns the current saved InternalJavascript.
+     *
+     * When the values is setted, it is encapsulated in a try/catch
      * block to avoid breaking the execution of AlphaLemon javascripts
-     * 
+     *
      * @api
      * @return string
      */
@@ -244,13 +244,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $function .= "}\n";
             }
         }
-        
+
         return $function;
     }
-    
+
     /**
-     * Returns the current saved InternalStylesheet 
-     * 
+     * Returns the current saved InternalStylesheet
+     *
      * @api
      * @return string
      */
@@ -258,32 +258,32 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         return (null !== $this->alBlock) ? $this->alBlock->getInternalStylesheet() : "";
     }
-    
+
     /**
      * Returns the current saved InternalStylesheet displayed in the editor
-     * 
+     *
      * @return string
      */
     public function getInternalJavascriptForEditor()
     {
         return (null !== $this->alBlock) ? $this->alBlock->getInternalJavascript() : "";
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function save(array $parameters)
     {
         if (null === $this->alBlock || $this->alBlock->getId() == null) {
-            
+
             return $this->add($parameters);
         }
         else {
-            
+
             return $this->edit($parameters);
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -294,18 +294,18 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if (null === $this->alBlock) {
                 throw new General\ParameterIsEmptyException($this->translate("Any valid block has been setted. Nothing to delete", array()));
             }
-            
+
             if (null !== $this->dispatcher) {
                 $event = new  Content\Block\BeforeBlockDeletingEvent($this);
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_DELETE_BLOCK, $event);
-                
+
                 if ($event->isAborted()) {
                     throw new Event\EventAbortedException($this->translate("The content deleting action has been aborted", array()));
                 }
             }
-            
+
             $this->blockModel->startTransaction();
-            
+
             $result = $this->blockModel
                         ->setModelObject($this->alBlock)
                         ->delete();
@@ -316,12 +316,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                     $event = new  Content\Block\AfterBlockDeletedEvent($this);
                     $this->dispatcher->dispatch(BlockEvents::AFTER_DELETE_BLOCK, $event);
                 }
-                
+
                 return true;
             }
             else {
                 $this->blockModel->rollBack();
-                
+
                 return false;
             }
         }
@@ -330,14 +330,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if (isset($this->blockModel) && $this->blockModel !== null) {
                 $this->blockModel->rollBack();
             }
-            
+
             throw $e;
         }
     }
 
-    /** 
+    /**
      * Converts the AlBlockManager object into an array
-     * 
+     *
      * @api
      * @return array
      */
@@ -346,7 +346,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (null === $this->alBlock) {
             return array();
         }
-            
+
         $blockManager = array();
         $blockManager["HideInEditMode"] = $this->getHideInEditMode();
         $blockManager["HtmlContent"] = $this->getHtmlContent();
@@ -354,12 +354,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
-        $blockManager["InternalStylesheet"] = $this->getInternalStylesheet(); 
-        $blockManager["Block"] = $this->alBlock->toArray(); 
+        $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
+        $blockManager["Block"] = $this->alBlock->toArray();
 
         return $blockManager;
     }
-    
+
 
     /**
      * Adds a new block to the AlBlock table
@@ -367,7 +367,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @api
      * @param array  $values      An array where keys are the AlBlockField definition and values are the values to add
      * @throws \InvalidArgumentException  When the expected parameters are invalid
-     * @throws \RuntimeException  When the action is aborted by a calling event 
+     * @throws \RuntimeException  When the action is aborted by a calling event
      * @return Boolean
      */
     protected function add(array $values)
@@ -387,11 +387,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         $this->validator->checkEmptyParams($values);
 
-        $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => ""); 
+        $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => "");
         $this->validator->checkRequiredParamsExists($requiredParameters, $values);
 
         // When the Content is null the dafault text is inserted
-        if (!array_key_exists('HtmlContent', $values)) { 
+        if (!array_key_exists('HtmlContent', $values)) {
             $defaults = $this->getDefaultValue();
             if (!is_array($defaults)) {
                 throw new General\InvalidParameterTypeException($this->translate('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
@@ -412,10 +412,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $className = $this->blockModel->getModelObjectClassName();
                 $this->alBlock = new $className();
             }
-            
+
             $result = $this->blockModel
                     ->setModelObject($this->alBlock)
-                    ->save($values);  
+                    ->save($values);
             if ($result) {
                 $this->blockModel->commit();
 
@@ -427,7 +427,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             else {
                 $this->blockModel->rollBack();
             }
-            
+
             return $result;
         }
         catch(\Exception $e) {
@@ -438,63 +438,58 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             throw $e;
         }
     }
-    
+
     /**
      * Edits the current block object
      *
      * @api
      * @param array  $values  An array where keys are the AlBlockField definition and values are the values to edit
      * @throws \InvalidArgumentException  When the expected parameters are invalid
-     * @throws \RuntimeException  When the action is aborted by a calling event 
+     * @throws \RuntimeException  When the action is aborted by a calling event
      * @return Boolean
      */
     protected function edit(array $values)
     {
         try
-        {               
+        {
             if (null !== $this->dispatcher) {
                 $event = new  Content\Block\BeforeBlockEditingEvent($this, $values);
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_EDIT_BLOCK, $event);
-            
+
                 if ($event->isAborted()) {
                     throw new Event\EventAbortedException($this->translate("The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
                 }
-                
+
                 if ($values !== $event->getValues()) {
-                    $values = $event->getValues(); 
+                    $values = $event->getValues();
                 }
             }
-            
+
             $this->validator->checkEmptyParams($values);
-            
-            $rollBack = false;
-            $this->blockModel->startTransaction();
-            
+
             // Edits the source content
+            $this->blockModel->startTransaction();
             $this->blockModel->setModelObject($this->alBlock);
-            $rollBack = !$this->blockModel->save($values);
-            if (!$rollBack) {
+            $result = $this->blockModel->save($values); 
+            if ($result) {
                 $this->blockModel->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockEditedEvent($this);
                     $this->dispatcher->dispatch(BlockEvents::AFTER_EDIT_BLOCK, $event);
                 }
-                
-                return true;
             }
             else {
                 $this->blockModel->rollBack();
-                
-                return false;
             }
+            return $result;
         }
         catch(\Exception $e)
         {
             if (isset($this->blockModel) && $this->blockModel !== null) {
                 $this->blockModel->rollBack();
             }
-            
+
             throw $e;
         }
     }
