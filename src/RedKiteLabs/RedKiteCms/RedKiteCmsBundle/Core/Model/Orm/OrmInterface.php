@@ -10,16 +10,16 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm;
 
 /**
  * AlPageContentsContainerInterface
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface OrmInterface {
@@ -30,4 +30,5 @@ interface OrmInterface {
     public function rollBack();
     public function save(array $values, $modelObject = null);
     public function delete($modelObject = null);
+    public function getAffectedRecords();
 }

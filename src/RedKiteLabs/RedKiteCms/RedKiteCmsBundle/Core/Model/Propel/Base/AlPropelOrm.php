@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\Base;
@@ -22,13 +22,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\OrmInterface;
 
 /**
  *  Adds some filters to the AlBlockQuery object
- * 
+ *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPropelOrm implements OrmInterface
 {
     protected static $connection = null;
-    
+    protected $affectedRecords = null;
+
     public function __construct(\PropelPDO $connection = null)
     {
         self::$connection = (null === $connection) ? \Propel::getConnection() : $connection;
@@ -38,36 +39,47 @@ class AlPropelOrm implements OrmInterface
     {
         self::$connection = $connection;
     }
-    
+
     public function getConnection()
     {
         return self::$connection;
     }
-    
+
     public function startTransaction()
     {
         self::$connection->beginTransaction();
     }
-    
+
     public function commit()
     {
         self::$connection->commit();
     }
-    
+
     public function rollBack()
     {
         self::$connection->rollBack();
     }
-    
+
+    public function getAffectedRecords()
+    {
+        return $this->affectedRecords;
+    }
+
     public function save(array $values, $modelObject = null)
     {
         try {
             if(null !== $modelObject) $this->modelObject = $modelObject;
-            
-            $this->startTransaction();        
+
+            $this->startTransaction();
             $this->modelObject->fromArray($values);
-            $result = $this->modelObject->save();
-            $success = ($this->modelObject->isModified() && $result == 0) ? false : true;
+            $this->affectedRecords = $this->modelObject->save();
+
+            if($this->affectedRecords == 0) {
+                $success = ($this->modelObject->isModified()) ? false : null;
+            }
+            else {
+                $success = true;
+            }
             
             if ($success) {
                 $this->commit();
@@ -80,21 +92,21 @@ class AlPropelOrm implements OrmInterface
         }
         catch(\Exception $ex) {
             $this->rollBack();
-            
+
             throw $ex;
         }
     }
-    
+
     public function delete($modelObject = null)
     {
         try {
-            $values = array('ToDelete' => 1); 
-            
+            $values = array('ToDelete' => 1);
+
             return $this->save($values, $modelObject);
         }
         catch(\Exception $ex) { echo $ex->getMessage();
-            
+
             throw $ex;
         }
     }
-} 
+}
