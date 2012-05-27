@@ -159,6 +159,9 @@ class AlTemplateChangerTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $result = $this->templateChanger
                     ->setCurrentTemplateManager($this->currentTemplateManager)
                     ->setNewTemplateManager($this->newTemplateManager)
@@ -216,6 +219,9 @@ class AlTemplateChangerTest extends TestCase
         
         $this->blockModel->expects($this->any())
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
                 
         $result = $this->templateChanger
                     ->setCurrentTemplateManager($this->currentTemplateManager)
@@ -282,6 +288,9 @@ class AlTemplateChangerTest extends TestCase
         
         $this->blockModel->expects($this->any())
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
                 
         $this->pageContentsContainer->expects($this->once())
             ->method('getSlotBlocks')

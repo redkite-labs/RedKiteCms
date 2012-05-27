@@ -135,6 +135,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->once())
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $factory = $this->setUpFactory('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText', $block);        
         $this->slotManager->setBlockManagerFactory($factory);
         
@@ -159,6 +162,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->once())
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $factory = $this->setUpFactory('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
@@ -178,6 +184,9 @@ class AlSlotManagerTest extends TestCase
         
         $this->blockModel->expects($this->exactly(4))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->once())
             ->method('setModelObject')
@@ -266,6 +275,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getClassName')
@@ -309,6 +321,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->once())
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getClassName')
@@ -347,6 +362,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->once())
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getClassName')
@@ -384,6 +402,9 @@ class AlSlotManagerTest extends TestCase
         
         $this->blockModel->expects($this->once())
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         
@@ -432,6 +453,9 @@ class AlSlotManagerTest extends TestCase
         
         $this->blockModel->expects($this->once())
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         
@@ -497,6 +521,9 @@ class AlSlotManagerTest extends TestCase
         
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->once())
             ->method('setModelObject')
@@ -578,6 +605,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->once())
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $block1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');        
         $block1->expects($this->any())
                 ->method('getId')
@@ -649,6 +679,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->once())
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->assertNull($this->slotManager->first());
         
         $this->addBlockManagerOnlyWithClassName('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText');
@@ -663,6 +696,9 @@ class AlSlotManagerTest extends TestCase
         
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->assertNull($this->slotManager->last());
         
@@ -680,6 +716,9 @@ class AlSlotManagerTest extends TestCase
         
         $this->blockModel->expects($this->exactly(4))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->once())
             ->method('setModelObject')
@@ -729,6 +768,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->exactly(3))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->assertNull($this->slotManager->indexAt(0));
         $this->addBlockManagerOnlyWithClassName('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText');  
         $this->addBlockManagerOnlyWithClassName('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');  
@@ -748,6 +790,9 @@ class AlSlotManagerTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->assertEquals(0, $this->slotManager->length());
         $this->addBlockManagerOnlyWithClassName('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText');
         $this->assertEquals(1, $this->slotManager->length());
@@ -762,6 +807,9 @@ class AlSlotManagerTest extends TestCase
         
         $this->blockModel->expects($this->once())
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->assertNull($this->slotManager->getBlockManager(99999999));
         

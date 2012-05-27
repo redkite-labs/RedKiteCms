@@ -252,6 +252,9 @@ class AlTemplateManagerTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
         $this->templateSlots->expects($this->once())
                 ->method('getSlots')
@@ -383,6 +386,9 @@ class AlTemplateManagerTest extends TestCase
         $this->blockModel->expects($this->exactly(2))
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
         $this->templateSlots->expects($this->once())
                 ->method('getSlots')
@@ -420,6 +426,9 @@ class AlTemplateManagerTest extends TestCase
         
         $this->blockModel->expects($this->exactly(5))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $slots = array('test' => new AlSlot('test', array('repeated' => 'language')),
                        'test1' => new AlSlot('test1', array('repeated' => 'page')),
@@ -461,6 +470,9 @@ class AlTemplateManagerTest extends TestCase
         
         $this->blockModel->expects($this->exactly(3))
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $slots = array('test' => new AlSlot('test', array('repeated' => 'language')),
                        'test1' => new AlSlot('test1', array('repeated' => 'page')),

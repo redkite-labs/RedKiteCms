@@ -253,6 +253,9 @@ class AlBlockManagerTest extends TestCase
         $this->blockModel->expects($this->once())
             ->method('commit');
         
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
+        
         $this->blockModel->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
@@ -393,6 +396,9 @@ class AlBlockManagerTest extends TestCase
         
         $this->blockModel->expects($this->once())
             ->method('commit');
+        
+        $this->blockModel->expects($this->never())
+            ->method('rollback');
         
         $this->blockModel->expects($this->once())
                 ->method('save')
