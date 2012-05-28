@@ -42,7 +42,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->seoModel = new AlSeoModelPropel($dispatcher);
         $this->blockModel = new AlBlockModelPropel($dispatcher);
     }
-/*
+
     public function testEditorReturnsAnErrorMessageWhenTheBlockIdIsNotGiven()
     {
         $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor');
@@ -350,7 +350,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp("/al\_elFinderStylesheetsConnect/s", $crawler->text());
-    }*/
+    }
 
     public function testExternalFileIsNotAddedWhenAnyValidParameterHasBeenGiven()
     {
