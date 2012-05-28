@@ -42,7 +42,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->seoModel = new AlSeoModelPropel($dispatcher);
         $this->blockModel = new AlBlockModelPropel($dispatcher);
     }
-
+/*
     public function testEditorReturnsAnErrorMessageWhenTheBlockIdIsNotGiven()
     {
         $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor');
@@ -283,32 +283,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue($crawler->filter('html:contains("The content you tried to remove does not exist anymore in the website")')->count() > 0);
     }
 
-    public function testDeleteBlockDoesNothingWhenKeyDoesNotMatchAnyBlockFieldName()
-    {
-        $params = array("page" => "2",
-                        "language" => "2",
-                        'slotName' => 'left_sidebar_content');
-
-        $crawler = $this->client->request('POST', 'backend/en/deleteBlock', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The content you tried to remove does not exist anymore in the website")')->count() > 0);
-    }
-
-    public function testDeleteBlockDoesNothingWhenKeyDoesNotMatchAnyBlockFieldName2()
-    {
-        $params = array("page" => "2",
-                        "language" => "2",
-                        'slotName' => 'left_sidebar_content',
-                        'idBlock' => 9999);
-
-        $crawler = $this->client->request('POST', 'backend/en/deleteBlock', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The content you tried to remove does not exist anymore in the website")')->count() > 0);
-    }
-
-    public function testDeleteBlockDoesNothingWhenKeyDoesNotMatchAnyBlockFieldName1()
+    public function testDeleteBlock()
     {
         $blockId = $this->getLastBlock("left_sidebar_content")->getId();
         $params = array("page" => "2",
@@ -375,6 +350,172 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp("/al\_elFinderStylesheetsConnect/s", $crawler->text());
+    }*/
+
+    public function testExternalFileIsNotAddedWhenAnyValidParameterHasBeenGiven()
+    {
+        $crawler = $this->browse('backend/en/addExternalFile');
+        $this->assertTrue($crawler->filter('html:contains("External file cannot be added because any file has been given")')->count() > 0);
+    }
+
+    public function testExternalFileIsNotAddedWhenFieldParameterMissing()
+    {
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile");
+        $crawler = $this->browse('backend/en/addExternalFile', $params);
+        $this->assertTrue($crawler->filter('html:contains("External file cannot be added because any valid field name has been given")')->count() > 0);
+    }
+
+    public function testExternalFileIsNotAddedWhenAnyValidSlotNameHasBeenGiven()
+    {
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript");
+        $this->slotNameIsInvalid('backend/en/addExternalFile', $params);
+    }
+
+    public function testExternalFileIsNotAddedWhenAnyValidBlockIdHasBeenGiven()
+    {
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "left_sidebar_content");
+        $crawler = $this->browse('backend/en/addExternalFile', $params);
+        $this->assertTrue($crawler->filter('html:contains("You are trying to add an external file on a content that doesn\'t exist anymore")')->count() > 0);
+    }
+
+    public function testExternalFileIsAdded()
+    {
+        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $crawler = $this->client->request('POST', 'backend/en/addExternalFile', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(3, count($json));
+        $this->assertTrue(array_key_exists("key", $json));
+        $this->assertEquals("externalAssets", $json["key"]);
+        $this->assertTrue(array_key_exists("value", $json));
+        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item row[^\>]+rel=\"myfile\"\>myfile\<\/li\>/s", $json["value"]);
+        $this->assertTrue(array_key_exists("section", $json));
+        $this->assertEquals("Javascript", $json["section"]);
+
+        $block = $this->blockModel->fromPK($blockId);
+        $this->assertEquals('myfile', $block->getExternalJavascript());
+    }
+
+    public function testAnotherExternalFileIsAdded()
+    {
+        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $params = array('page' => '2', 'language' => '2', "file" => "another-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $crawler = $this->client->request('POST', 'backend/en/addExternalFile', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(3, count($json));
+        $this->assertTrue(array_key_exists("key", $json));
+        $this->assertEquals("externalAssets", $json["key"]);
+        $this->assertTrue(array_key_exists("value", $json));
+        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item alternate_row[^\>]+rel=\"another-file\"\>another-file<\/li\>/s", $json["value"]);
+        $this->assertTrue(array_key_exists("section", $json));
+        $this->assertEquals("Javascript", $json["section"]);
+
+        $block = $this->blockModel->fromPK($blockId);
+        $this->assertEquals('myfile,another-file', $block->getExternalJavascript());
+    }
+
+    public function testAnExternalFileCannotBeAddedMoreThanOnce()
+    {
+        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $params = array('page' => '2', 'language' => '2', "file" => "another-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $crawler = $this->browse('backend/en/addExternalFile', $params);
+        $this->assertTrue($crawler->filter('html:contains("The block has already assigned the external file you are trying to add")')->count() > 0);
+    }
+
+    public function testExternalFileIsNotRemovedWhenAnyValidParameterHasBeenGiven()
+    {
+        $crawler = $this->browse('backend/en/removeExternalFile');
+        $this->assertTrue($crawler->filter('html:contains("External file cannot be removed because any file has been given")')->count() > 0);
+    }
+
+    public function testExternalFileIsNotDeletedWhenFieldParameterMissing()
+    {
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile");
+        $crawler = $this->browse('backend/en/removeExternalFile', $params);
+        $this->assertTrue($crawler->filter('html:contains("External file cannot be removed because any valid field name has been given")')->count() > 0);
+    }
+/**/
+    public function testExternalFileIsNotDeletedWhenAnyValidSlotNameHasBeenGiven()
+    {
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript");
+        $this->slotNameIsInvalid('backend/en/removeExternalFile', $params);
+    }
+
+    public function testExternalFileIsNotDeletedWhenAnyValidBlockIdHasBeenGiven()
+    {
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content");
+        $crawler = $this->browse('backend/en/removeExternalFile', $params);
+        $this->assertTrue($crawler->filter('html:contains("You are trying to delete an external file from a content that doesn\'t exist anymore")')->count() > 0);
+    }
+
+    public function testExternalFileIsDeletedButNotRemovedFromTheDbBecauseItIsNotSavedIn()
+    {
+        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $params = array('page' => '2', 'language' => '2', "file" => "not-saved-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(2, count($json));
+        $this->assertTrue(array_key_exists("key", $json));
+        $this->assertEquals("message", $json["key"]);
+        $this->assertTrue(array_key_exists("value", $json));
+        $this->assertEquals("The file has been removed", $json["value"]);
+    }
+
+    public function testExternalFileIsDeleted()
+    {
+        // Adds a fake-file reference just to check that the result will be a comma separated string
+        $block = $this->getLastBlock("right_sidebar_content");
+        $block->setExternalJavascript($block->getExternalJavascript() . ',fake-file');
+        $block->save();
+        $blockId = $block->getId();
+        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(3, count($json));
+        $this->assertTrue(array_key_exists("key", $json));
+        $this->assertEquals("externalAssets", $json["key"]);
+        $this->assertTrue(array_key_exists("value", $json));
+        $this->assertNotRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item row[^\>]+rel=\"myfile\"\>myfile\<\/li\>/s", $json["value"]);
+        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item row[^\>]+rel=\"another-file\"\>another-file<\/li\>/s", $json["value"]);
+        $this->assertTrue(array_key_exists("section", $json));
+        $this->assertEquals("Javascript", $json["section"]);
+
+        $block = $this->blockModel->fromPK($blockId);
+        $this->assertEquals('another-file,fake-file', $block->getExternalJavascript());
+    }
+
+    public function testDeletesAnotherExternalFile()
+    {
+        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $params = array('page' => '2', 'language' => '2', "file" => "fake-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(3, count($json));
+        $this->assertTrue(array_key_exists("key", $json));
+        $this->assertEquals("externalAssets", $json["key"]);
+        $this->assertTrue(array_key_exists("value", $json));
+        $this->assertNotRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item alternate_row[^\>]+rel=\"fake-file\"\>fake-file<\/li\>/s", $json["value"]);
+        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item row[^\>]+rel=\"another-file\"\>another-file<\/li\>/s", $json["value"]);
+        $this->assertTrue(array_key_exists("section", $json));
+        $this->assertEquals("Javascript", $json["section"]);
+
+        $block = $this->blockModel->fromPK($blockId);
+        $this->assertEquals('another-file', $block->getExternalJavascript());
     }
 
     private function getSlotBlocks($slotName)
@@ -389,11 +530,18 @@ class BlocksControllerTest extends WebTestCaseFunctional
         return $blocks[count($blocks) - 1];
     }
 
-    private function anyValidParameterIsGiven($route)
+    private function browse($route, $params = array(), $method = 'POST')
     {
-        $crawler = $this->client->request('POST', $route);
+        $crawler = $this->client->request($method, $route, $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
+
+        return $crawler;
+    }
+
+    private function anyValidParameterIsGiven($route)
+    {
+        $crawler = $this->browse($route);
         $this->assertTrue($crawler->filter('html:contains("The page you are trying to edit does not exist")')->count() > 0);
     }
 
@@ -401,50 +549,33 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $params = array('page' => '4',
                         'language' => '2');
-
-        $crawler = $this->client->request('POST', $route, $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
+        $crawler = $this->browse($route, $params);
         $this->assertTrue($crawler->filter('html:contains("The page you are trying to edit does not exist")')->count() > 0);
     }
 
-    private function slotNameIsInvalid($route)
+    private function slotNameIsInvalid($route, $params = null)
     {
-        $params = array('page' => '2',
-                        'language' => '2',
-                        "slotName" => "fake");
+        $params = (null === $params) ? array('page' => '2', 'language' => '2', 'slotName' => 'fake') : $params;
 
-        $crawler = $this->client->request('POST', $route, $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The slot you are trying to add a new block does not exist on this page, or the slot name is empty")')->count() > 0);
+        $crawler = $this->browse($route, $params);
+        $this->assertTrue($crawler->filter('html:contains("You are trying to add a new block on a slot that does not exist on this page, or the slot name is empty")')->count() > 0);
     }
 
-    public function blockIdIsNull($route)
+    private function blockIdIsNull($route)
     {
         $params = array("page" => "2",
                         "language" => "2",
                         'slotName' => 'left_sidebar_content');
-
-        $crawler = $this->client->request('POST', $route, $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-
-        return $crawler;
+        return $this->browse($route, $params);
     }
 
-    public function blockIdDoesNotExist($route)
+    private function blockIdDoesNotExist($route)
     {
         $params = array("page" => "2",
                         "language" => "2",
                         'slotName' => 'left_sidebar_content',
                         'idBlock' => 9999);
-
-        $crawler = $this->client->request('POST', $route, $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-
-        return $crawler;
+        return $this->browse($route, $params);
     }
 
 

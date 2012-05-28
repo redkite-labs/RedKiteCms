@@ -77,7 +77,6 @@ class BlocksController extends Controller
                 $values[] = array("key" => "editor",
                                   "value" => $editor);
                 $response = $this->buildJSonResponse($values);
-
                 if(null !== $dispatcher)
                 {
                     $event = new Block\BlockEditorRenderedEvent($response, $alBlockManager);
@@ -217,7 +216,7 @@ class BlocksController extends Controller
             }
             else
             {
-                throw new \RuntimeException($this->container->get('translator')->trans('The content you tried to remove does not exist anymore in the website'));
+                throw new \RuntimeException('The content you tried to remove does not exist anymore in the website');
             }
         }
         catch(\Exception $e)
@@ -256,34 +255,50 @@ class BlocksController extends Controller
             $file = urldecode($request->get('file'));
             if(null === $file || $file == '')
             {
-                throw new \Exception("Any file has been selected");
+                throw new \Exception("External file cannot be added because any file has been given");
             }
 
-            $file = preg_replace('/^[\w]+\//', '', $file);
-            $field = $request->get('field');
-            $values = array($field => $file);
-
-            $templateManager = new AlTemplateManager($this->container);
-            $slotManager = $templateManager->getSlotManager($request->get('slotName'));
-            $alBlock = $slotManager->getContentManager($request->get('idBlock'))->get();
-
-            $arrayBlock = $alBlock->toArray();
-
-            $savedValues = array_intersect_key($arrayBlock, $values);
-            $savedValues = explode(',', $savedValues[$field]);
-            if(in_array($file, $savedValues))
+            $field = urldecode($request->get('field'));
+            if(null === $field || $field == '')
             {
-                throw new \Exception("The file is already added");
+                throw new \Exception("External file cannot be added because any valid field name has been given");
             }
-            $savedValues[] = $file;
-            $values[$field] = implode(',', $savedValues);
 
-            $res = $slotManager->editBlock($request->get('idBlock'), $values);
+            $slotManager = $this->fetchSlotManager($request);
+            $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
+            if (null !== $blockManager) {
+                $file = preg_replace('/^[\w]+\//', '', $file);
+                $field = $request->get('field');
+                $values = array($field => $file);
+                $alBlock = $blockManager->get();
 
-            $section = $this->getSectionFromKeyParam();
-            $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $file, "files" => $savedValues, 'section' => $section));
+                $files = array();
+                $externalFiles =  $alBlock->{'get' . $field}();
+                if(!empty($externalFiles)) {
+                    $externalFiles = explode(',', $externalFiles);
+                    if(in_array($file, $externalFiles))
+                    {
+                        throw new \Exception("The block has already assigned the external file you are trying to add");
+                    }
+                    $files = $externalFiles;
+                }
+                $files[] = $file;
+                $values[$field] = implode(',', $files);
 
-            return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, "section" => $section));
+                $res = $slotManager->editBlock($request->get('idBlock'), $values);
+                if ($res) {
+                    $section = $this->getSectionFromKeyParam();
+                    $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $file, "files" => $files, 'section' => $section));
+
+                    return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, "section" => $section));
+                }
+                else {
+                    throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
+                }
+            }
+            else {
+                throw new \RuntimeException('You are trying to add an external file on a content that doesn\'t exist anymore');
+            }
         }
         catch(\Exception $e)
         {
@@ -298,38 +313,63 @@ class BlocksController extends Controller
         try
         {
             $request = $this->get('request');
-            $alBlock = AlBlockQuery::create()->findPK($request->get('idBlock'));
-            if ($alBlock != null)
-            {
-                $field = $request->get('field');
-                $externalFiles =  $alBlock->{'get' . $field}();
 
-                if($request->get('file') != null || $externalFiles == "")
+            $file = urldecode($request->get('file'));
+            if(null === $file || $file == '')
+            {
+                throw new \Exception("External file cannot be removed because any file has been given");
+            }
+
+            $field = urldecode($request->get('field'));
+            if(null === $field || $field == '')
+            {
+                throw new \Exception("External file cannot be removed because any valid field name has been given");
+            }
+
+            $slotManager = $this->fetchSlotManager($request);
+            $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
+            if (null !== $blockManager) {
+                $field = $request->get('field');
+                $externalFiles =  $blockManager->get()->{'get' . $field}();
+
+                if($request->get('file') != null) // TODO  || $externalFiles == "" Check this control validity
                 {
-                    $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+                    $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonCmsBundle');
                     $filePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_js_folder') . '/';
                     $file = $filePath . $request->get('file');
-
                     @unlink($file);
-                    $files = array_flip(explode(",", $externalFiles));
-                    unset($files[$request->get('file')]);
-                    $files = array_flip($files);
-                    $value = implode(",", $files);
 
-                    $values = array($field => $value);
-                    $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $alBlock);
-                    $res = $alBlockManager->save($values);
+                    if(!empty($externalFiles))
+                    {
+                        $files = array_flip(explode(",", $externalFiles));
+                        if(array_key_exists($request->get('file'), $files)) {
+                            unset($files[$request->get('file')]);
+                            $files = array_flip($files);
+                            $value = implode(",", $files);
 
-                    $section = $this->getSectionFromKeyParam();
-                    $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $section));
-                    return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, 'section' => $section));
+                            $values = array($field => $value);
+                            $result = $slotManager->editBlock($request->get('idBlock'), $values);
+                            if ($result) {
+                                $section = $this->getSectionFromKeyParam();
+                                $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $section));
+
+                                return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, 'section' => $section));
+                            }
+                            else {
+                                throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
+                            }
+                        }
+                    }
+
+                    return $this->buildJSonResponse(array("key" => "message", "value" => "The file has been removed"));
                 }
-
-                return $this->buildJSonResponse(array("key" => "message", "value" => "Any file has been selected"));
+                else {
+                    return $this->buildJSonResponse(array("key" => "message", "value" => "Any file has been selected"));
+                }
             }
             else
             {
-                throw new \RuntimeException($this->container->get('translator')->trans('The content you tried to edit does not exist anymore in the website'));
+                throw new \RuntimeException('You are trying to delete an external file from a content that doesn\'t exist anymore');
             }
         }
         catch(\Exception $e)
@@ -362,7 +402,7 @@ class BlocksController extends Controller
 
         $slotManager = $this->container->get('template_manager')->getSlotManager($request->get('slotName'));
         if(null === $slotManager) {
-            throw new \RuntimeException('The slot you are trying to add a new block does not exist on this page, or the slot name is empty');
+            throw new \RuntimeException('You are trying to add a new block on a slot that does not exist on this page, or the slot name is empty');
         }
 
         return $slotManager;
