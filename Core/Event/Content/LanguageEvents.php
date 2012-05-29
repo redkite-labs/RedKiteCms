@@ -27,11 +27,14 @@ final class LanguageEvents
     // alcms.event_listener
     
     const BEFORE_ADD_LANGUAGE = 'languages.before_language_adding';
+    const BEFORE_ADD_LANGUAGE_COMMIT = 'pages.before_add_language_commit';
     const AFTER_ADD_LANGUAGE = 'languages.after_language_added';
 
     const BEFORE_EDIT_LANGUAGE = 'languages.before_language_editing';
+    const BEFORE_EDIT_LANGUAGE_COMMIT = 'pages.before_edit_language_commit';
     const AFTER_EDIT_LANGUAGE = 'languages.after_language_edited';
 
     const BEFORE_DELETE_LANGUAGE = 'languages.before_language_deleting';
+    const BEFORE_DELETE_LANGUAGE_COMMIT = 'pages.before_delete_language_commit';
     const AFTER_DELETE_LANGUAGE = 'languages.after_language_deleted';
 }
