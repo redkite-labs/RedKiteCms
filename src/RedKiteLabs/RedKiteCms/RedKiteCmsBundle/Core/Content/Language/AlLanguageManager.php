@@ -85,6 +85,30 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     }
 
     /**
+     * Sets the language model object
+     *
+     * @api
+     * @param LanguageModelInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager
+     */
+    public function setLanguageModel(LanguageModelInterface $v)
+    {
+        $this->languageModel = $v;
+
+        return $this;
+    }
+
+    /**
+     * Returns the block model object associated with this object
+     *
+     * @return LanguageModelInterface
+     */
+    public function getLanguageModel()
+    {
+        return $this->languageModel;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function save(array $parameters)
