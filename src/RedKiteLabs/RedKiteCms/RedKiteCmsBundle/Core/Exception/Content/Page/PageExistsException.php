@@ -18,10 +18,10 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 
 /**
- * Thrown when any language is added to the website
+ * Thrown when the page to add already exists
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class PageExistsException extends \RuntimeException
+class PageExistsException extends \InvalidArgumentException
 {
 }
