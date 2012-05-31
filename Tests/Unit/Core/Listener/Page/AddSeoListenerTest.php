@@ -15,16 +15,17 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddSeoListener;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
  * AddSeoListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AddSeoListenerTest extends Base\BaseListenerTest
+class AddSeoListenerTest extends BaseListenerTest
 {   
     protected $event;
     protected $testListener;
