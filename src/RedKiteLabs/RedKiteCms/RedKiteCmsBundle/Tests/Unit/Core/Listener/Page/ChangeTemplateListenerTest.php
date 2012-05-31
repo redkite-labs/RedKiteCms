@@ -15,17 +15,18 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\ChangeTemplateListener;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
  * ChangeTemplateListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class ChangeTemplateListenerTest extends Base\BaseListenerTest
+class ChangeTemplateListenerTest extends BaseListenerTest
 {   
     private $event;
     private $testListener;

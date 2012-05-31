@@ -15,17 +15,18 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\UpdatePermalinkOnBlocksListener;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
  * UpdatePermalinkOnBlocksListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class UpdatePermalinkOnBlocksListenerTest extends Base\BaseListenerTest
+class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
 {   
     private $event;
     private $testListener;

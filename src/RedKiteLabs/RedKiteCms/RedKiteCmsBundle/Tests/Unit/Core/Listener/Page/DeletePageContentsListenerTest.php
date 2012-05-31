@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license infpageModelation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -15,22 +15,23 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeleteSeoListener;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageContentsListener;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
- * DeleteSeoListenerTest
+ * DeletePageContentsListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class DeleteSeoListenerTest extends Base\BaseListenerTest
+class DeletePageContentsListenerTest extends BaseListenerTest
 {   
     protected $event;
     protected $testListener;
     protected $pageManager;
-    protected $seoManager;
+    protected $templateManager;    
+    protected $pageContentsContainer;
     protected $pageModel;
     protected $languageModel;
     
@@ -38,13 +39,10 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
     {
         parent::setUp();
         
-        $this->seoManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager')
+        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
                                     ->disableOriginalConstructor()
-                                    ->getMock();
+                                    ->getMock();        
         
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModelPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
         
         $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent')
                                     ->disableOriginalConstructor()
@@ -54,11 +52,19 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
+        $this->pageContentsContainer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModelPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
         $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->testListener = new DeleteSeoListener($this->seoManager, $this->languageModel);
+        $this->testListener = new DeletePageContentsListener($this->languageModel);
     }
     
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
@@ -70,61 +76,51 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
         $this->testListener->onBeforeDeletePageCommit($this->event);
     }
     
-    public function testNothingIsDeletedWhenAnyLanguageExists()
+    public function testDeleteFailsWhenAnyLanguageExists()
     {
-        $this->pageModel->expects($this->never())
-            ->method('startTransaction');
-        
-        $this->pageModel->expects($this->never())
-            ->method('commit');
-        
-        $this->pageModel->expects($this->never())
-            ->method('rollBack');
-        
-        $this->event->expects($this->once())
-            ->method('getContentManager')
-            ->will($this->returnValue($this->pageManager));
-        
-        $this->event->expects($this->never())
-            ->method('abort');
-        
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array()));
         
-        $this->pageManager->expects($this->once())
-            ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
-        
-        $this->testListener->onBeforeDeletePageCommit($this->event);
-    }
-    
-    public function testDeleteWithOneLanguageFails()
-    {
-        $page = $this->setUpPage(2);
-        $language = $this->setUpLanguage(2);
-        
-        $this->pageModel->expects($this->once())
+        $this->pageModel->expects($this->never())
             ->method('startTransaction');
-        
-        $this->pageModel->expects($this->once())
-            ->method('rollBack');
         
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
-        
-        $this->event->expects($this->once())
+                
+        $this->event->expects($this->never())
             ->method('abort');
+        
+        $this->pageManager->expects($this->once())
+            ->method('getPageModel')
+            ->will($this->returnValue($this->pageModel));        
+        
+        $this->testListener->onBeforeDeletePageCommit($this->event);
+    }
+    
+    public function testDeleteFailsWhenBlockDeleteFails()
+    {
+        $page = $this->setUpPage(2);
+        $language = $this->setUpLanguage(2);
         
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
         
-        $this->seoManager->expects($this->once())
-            ->method('deleteSeoAttributesFromLanguage')
-            ->will($this->returnValue(false));
+        $this->pageModel->expects($this->once())
+            ->method('startTransaction');
         
+        $this->pageModel->expects($this->once())
+            ->method('rollBack');
+        
+        $this->event->expects($this->once())
+            ->method('getContentManager')
+            ->will($this->returnValue($this->pageManager));
+                
+        $this->event->expects($this->once())
+            ->method('abort');
+                
         $this->pageManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($page));
@@ -132,6 +128,14 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
+        
+        $this->pageManager->expects($this->once())
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
+        
+        $this->templateManager->expects($this->once())
+            ->method('clearPageBlocks')
+            ->will($this->returnValue(false));
         
         $this->testListener->onBeforeDeletePageCommit($this->event);
     }
@@ -139,10 +143,14 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
     /**
      * @expectedException \RuntimeException
      */
-    public function testDeleteFailsBecauseAndUnespectedExceptionIsThrown()
+    public function testSaveFailsBecauseAndUnespectedExceptionIsThrown()
     {
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
+        
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($language)));
         
         $this->pageModel->expects($this->once())
             ->method('startTransaction');
@@ -156,15 +164,7 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
         
         $this->event->expects($this->once())
             ->method('abort');
-        
-        $this->languageModel->expects($this->once())
-            ->method('activeLanguages')
-            ->will($this->returnValue(array($language)));
-        
-        $this->seoManager->expects($this->once())
-            ->method('deleteSeoAttributesFromLanguage')
-            ->will($this->throwException(new \RuntimeException()));
-        
+                                
         $this->pageManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($page));
@@ -173,13 +173,29 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
+        $this->pageManager->expects($this->once())
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
+        
+        $this->templateManager->expects($this->once())
+            ->method('clearPageBlocks')
+            ->will($this->throwException(new \RuntimeException()));
+        
+        $this->templateManager->expects($this->any())
+            ->method('getPageContentsContainer')
+            ->will($this->returnValue($this->pageContentsContainer));
+        
         $this->testListener->onBeforeDeletePageCommit($this->event);
     }
-        
+    
     public function testDeleteWithOneLanguage()
     {
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
+        
+        $this->languageModel->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($language)));
         
         $this->pageModel->expects($this->once())
             ->method('startTransaction');
@@ -193,18 +209,7 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
-        
-        $this->event->expects($this->never())
-            ->method('abort');
-        
-        $this->languageModel->expects($this->once())
-            ->method('activeLanguages')
-            ->will($this->returnValue(array($language)));
-        
-        $this->seoManager->expects($this->once())
-            ->method('deleteSeoAttributesFromLanguage')
-            ->will($this->returnValue(true));
-        
+                                
         $this->pageManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($page));
@@ -212,6 +217,18 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
+        
+        $this->pageManager->expects($this->once())
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
+        
+        $this->templateManager->expects($this->once())
+            ->method('clearPageBlocks')
+            ->will($this->returnValue(true));
+        
+        $this->templateManager->expects($this->any())
+            ->method('getPageContentsContainer')
+            ->will($this->returnValue($this->pageContentsContainer));
         
         $this->testListener->onBeforeDeletePageCommit($this->event);
     }
@@ -220,29 +237,29 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
     {
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
-        $language2 = $this->setUpLanguage(3);
+        $language2  = $this->setUpLanguage(3);
         
+        // Orm
         $this->pageModel->expects($this->once())
             ->method('startTransaction');
         
         $this->pageModel->expects($this->once())
             ->method('rollBack');
         
+        // Event
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
         
-        $this->event->expects($this->once())
-            ->method('abort');
+        // Template manager
+        $this->templateManager->expects($this->exactly(2))
+            ->method('clearPageBlocks')
+            ->will($this->onConsecutiveCalls(true, false));
         
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
-        
-        $this->seoManager->expects($this->exactly(2))
-            ->method('deleteSeoAttributesFromLanguage')
-            ->will($this->onConsecutiveCalls(true, false));
-        
+                
         $this->pageManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($page));
@@ -251,6 +268,10 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
+        $this->pageManager->expects($this->exactly(2))
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
+        
         $this->testListener->onBeforeDeletePageCommit($this->event);
     }
     
@@ -258,8 +279,9 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
     {
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
-        $language2 = $this->setUpLanguage(3);
+        $language2  = $this->setUpLanguage(3);
         
+        // Orm
         $this->pageModel->expects($this->once())
             ->method('startTransaction');
         
@@ -269,20 +291,24 @@ class DeleteSeoListenerTest extends Base\BaseListenerTest
         $this->pageModel->expects($this->never())
             ->method('rollback');
         
+        // Event
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
-        
-        $this->event->expects($this->never())
-            ->method('abort');
         
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
         
-        $this->seoManager->expects($this->exactly(2))
-            ->method('deleteSeoAttributesFromLanguage')
+        // Template manager
+        $this->templateManager->expects($this->exactly(2))
+            ->method('clearPageBlocks')
             ->will($this->returnValue(true));
+        
+        // Page manager        
+        $this->pageManager->expects($this->exactly(2))
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
         
         $this->pageManager->expects($this->once())
             ->method('get')

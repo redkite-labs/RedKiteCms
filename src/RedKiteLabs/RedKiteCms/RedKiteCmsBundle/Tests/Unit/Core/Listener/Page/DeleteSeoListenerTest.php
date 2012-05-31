@@ -15,39 +15,31 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageContentsListener;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeleteSeoListener;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
- * AddPageContentsListenerTest
+ * DeleteSeoListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AddPageContentsListenerTest extends Base\BaseListenerTest
+class DeleteSeoListenerTest extends BaseListenerTest
 {   
-    private $event;
-    private $testListener;
-    private $pageManager;
-    private $templateManager;
-    private $validator;
-    private $pageModel;
-    private $languageModel;
-
+    protected $event;
+    protected $testListener;
+    protected $pageManager;
+    protected $seoManager;
+    protected $pageModel;
+    protected $languageModel;
+    
     protected function setUp() 
     {
         parent::setUp();
         
-        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        
-        $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        
-        $this->pageManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
+        $this->seoManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
@@ -55,15 +47,19 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
+        $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->pageManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
         $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        
-        $this->testListener = new AddPageContentsListener($this->languageModel);
+        $this->testListener = new DeleteSeoListener($this->seoManager, $this->languageModel);
     }
     
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
@@ -72,12 +68,12 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('isAborted')
             ->will($this->returnValue(true));
         
-        $this->testListener->onBeforeAddPageCommit($this->event);
+        $this->testListener->onBeforeDeletePageCommit($this->event);
     }
     
-    public function testNothingIsAddedWhenAnyLanguageExists()
+    public function testNothingIsDeletedWhenAnyLanguageExists()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageModel->expects($this->never())
             ->method('startTransaction');
         
         $this->pageModel->expects($this->never())
@@ -101,10 +97,10 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
-        $this->testListener->onBeforeAddPageCommit($this->event);
+        $this->testListener->onBeforeDeletePageCommit($this->event);
     }
-        
-    public function testSaveFailsWhenContentsAreNotSaved()
+    
+    public function testDeleteWithOneLanguageFails()
     {
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
@@ -118,17 +114,17 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
-                
+        
         $this->event->expects($this->once())
             ->method('abort');
-                
+        
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
         
-        $this->validator->expects($this->once())
-            ->method('hasPages')
-            ->will($this->returnValue(true));
+        $this->seoManager->expects($this->once())
+            ->method('deleteSeoAttributesFromLanguage')
+            ->will($this->returnValue(false));
         
         $this->pageManager->expects($this->once())
             ->method('get')
@@ -138,31 +134,16 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
-        $this->pageManager->expects($this->once())
-            ->method('getValidator')
-            ->will($this->returnValue($this->validator));
-        
-        $this->pageManager->expects($this->once())
-            ->method('getTemplateManager')
-            ->will($this->returnValue($this->templateManager));
-        
-        $this->templateManager->expects($this->once())
-            ->method('populate')
-            ->will($this->returnValue(false));
-        
-        $this->testListener->onBeforeAddPageCommit($this->event);
+        $this->testListener->onBeforeDeletePageCommit($this->event);
     }
     
     /**
      * @expectedException \RuntimeException
      */
-    public function testSaveFailsBecauseAndUnespectedExceptionIsThrown()
+    public function testDeleteFailsBecauseAndUnespectedExceptionIsThrown()
     {
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
-        
-        $this->event->expects($this->once())
-            ->method('abort');
         
         $this->pageModel->expects($this->once())
             ->method('startTransaction');
@@ -173,10 +154,17 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
-                
+        
+        $this->event->expects($this->once())
+            ->method('abort');
+        
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
+        
+        $this->seoManager->expects($this->once())
+            ->method('deleteSeoAttributesFromLanguage')
+            ->will($this->throwException(new \RuntimeException()));
         
         $this->pageManager->expects($this->once())
             ->method('get')
@@ -186,22 +174,10 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
-        $this->pageManager->expects($this->once())
-            ->method('getValidator')
-            ->will($this->returnValue($this->validator));
-        
-        $this->pageManager->expects($this->once())
-            ->method('getTemplateManager')
-            ->will($this->returnValue($this->templateManager));
-        
-        $this->templateManager->expects($this->once())
-            ->method('populate')
-            ->will($this->throwException(new \RuntimeException()));
-        
-        $this->testListener->onBeforeAddPageCommit($this->event);
+        $this->testListener->onBeforeDeletePageCommit($this->event);
     }
-    
-    public function testSave()
+        
+    public function testDeleteWithOneLanguage()
     {
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
@@ -218,10 +194,17 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
-                
+        
+        $this->event->expects($this->never())
+            ->method('abort');
+        
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
+        
+        $this->seoManager->expects($this->once())
+            ->method('deleteSeoAttributesFromLanguage')
+            ->will($this->returnValue(true));
         
         $this->pageManager->expects($this->once())
             ->method('get')
@@ -231,22 +214,10 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
-        $this->pageManager->expects($this->once())
-            ->method('getValidator')
-            ->will($this->returnValue($this->validator));
-        
-        $this->pageManager->expects($this->once())
-            ->method('getTemplateManager')
-            ->will($this->returnValue($this->templateManager));
-        
-        $this->templateManager->expects($this->once())
-            ->method('populate')
-            ->will($this->returnValue(true));
-        
-        $this->testListener->onBeforeAddPageCommit($this->event);
+        $this->testListener->onBeforeDeletePageCommit($this->event);
     }
     
-    public function testSaveFailsWhenAtLeastAtributeIsNotSaved()
+    public function testDeleteWithMoreLanguagesFailsWhenOneDeleteOperationFails()
     {
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
@@ -261,14 +232,18 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
-                
+        
         $this->event->expects($this->once())
             ->method('abort');
-                
+        
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
-                
+        
+        $this->seoManager->expects($this->exactly(2))
+            ->method('deleteSeoAttributesFromLanguage')
+            ->will($this->onConsecutiveCalls(true, false));
+        
         $this->pageManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($page));
@@ -277,22 +252,10 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
-        $this->pageManager->expects($this->once())
-            ->method('getValidator')
-            ->will($this->returnValue($this->validator));
-        
-        $this->pageManager->expects($this->once())
-            ->method('getTemplateManager')
-            ->will($this->returnValue($this->templateManager));
-        
-        $this->templateManager->expects($this->exactly(2))
-            ->method('populate')
-            ->will($this->onConsecutiveCalls(true, false));
-        
-        $this->testListener->onBeforeAddPageCommit($this->event);
+        $this->testListener->onBeforeDeletePageCommit($this->event);
     }
     
-    public function testSaveWhenSiteHasMoreLanguages()
+    public function testDeleteWithMoreLanguages()
     {
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
@@ -311,10 +274,17 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
         
+        $this->event->expects($this->never())
+            ->method('abort');
+        
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
-                
+        
+        $this->seoManager->expects($this->exactly(2))
+            ->method('deleteSeoAttributesFromLanguage')
+            ->will($this->returnValue(true));
+        
         $this->pageManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($page));
@@ -323,18 +293,6 @@ class AddPageContentsListenerTest extends Base\BaseListenerTest
             ->method('getPageModel')
             ->will($this->returnValue($this->pageModel));
         
-        $this->pageManager->expects($this->once())
-            ->method('getValidator')
-            ->will($this->returnValue($this->validator));
-        
-        $this->pageManager->expects($this->once())
-            ->method('getTemplateManager')
-            ->will($this->returnValue($this->templateManager));
-        
-        $this->templateManager->expects($this->exactly(2))
-            ->method('populate')
-            ->will($this->returnValue(true));
-        
-        $this->testListener->onBeforeAddPageCommit($this->event);
+        $this->testListener->onBeforeDeletePageCommit($this->event);
     }
 }
