@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
@@ -30,46 +30,45 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 class AddPageContentsListener
 {
     private $languageModel;
-    
+
     /**
      * Constructor
-     * 
-     * @param LanguageModelInterface $languageModel 
+     *
+     * @param LanguageModelInterface $languageModel
      */
     public function __construct(LanguageModelInterface $languageModel)
     {
         $this->languageModel = $languageModel;
     }
-    
+
     /**
      * Adds the contents for the page when a new page is added, for each language of the site
-     * 
+     *
      * @param BeforeAddPageCommitEvent $event
-     * @throws Exception 
+     * @throws Exception
      */
     public function onBeforeAddPageCommit(BeforeAddPageCommitEvent $event)
     {
         if ($event->isAborted()) {
             return;
         }
-        
-        $pageManager = $event->getContentManager(); 
+
+        $pageManager = $event->getContentManager();
         $templateManager = $pageManager->getTemplateManager();
         $pageModel = $pageManager->getPageModel();
         try {
-            $pageModel->startTransaction();
             $languages = $this->languageModel->activeLanguages();
-            
             if (count($languages) > 0) {
                 $result = true;
-                // The min number of pages is setted to 1 because we are adding a page which has been saved but not 
+                $pageModel->startTransaction();
+                // The min number of pages is setted to 1 because we are adding a page which has been saved but not
                 // committed so it counts as one
-                $ignoreRepeatedSlots = $pageManager->getValidator()->hasPages(1); 
+                $ignoreRepeatedSlots = $pageManager->getValidator()->hasPages(1);
                 $idPage = $pageManager->get()->getId();
                 foreach ($languages as $alLanguage) {
                     $result = $templateManager->populate($alLanguage->getId(), $idPage, $ignoreRepeatedSlots);
 
-                    if (!$result) break;    
+                    if (!$result) break;
                 }
 
                 if ($result) {
@@ -77,7 +76,7 @@ class AddPageContentsListener
                 }
                 else {
                     $pageModel->rollBack();
-                    
+
                     $event->abort();
                 }
             }
@@ -87,7 +86,7 @@ class AddPageContentsListener
             if (isset($pageModel) && $pageModel !== null) {
                 $pageModel->rollBack();
             }
-            
+
             throw $e;
         }
     }
