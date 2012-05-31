@@ -23,19 +23,18 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * Listen to the onBeforeAddLanguageCommit event to copy the contents from the main language
- * to the adding one
+ * when a new language is adding
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AddLanguageContentsListener
+class AddLanguageContentsListener extends Base\AddLanguageBaseListener
 {
     private $blockManager;
-    private $languageManager = null;
 
     /**
      * Constructor
      *
-     * @param LanguageModelInterface $languageModel
+     * @param AlBlockManager $blockManager
      */
     public function __construct(AlBlockManager $blockManager)
     {
@@ -43,62 +42,51 @@ class AddLanguageContentsListener
     }
 
     /**
-     * Adds the contents for the page when a new page is added, for each language of the site
-     *
-     * @param BeforeAddPageCommitEvent $event
-     * @throws Exception
+     * {@inheritdoc}
+     * 
+     * @return A model collection instance depending on the used ORM (i.e PropelCollection) 
      */
-    public function onBeforeAddLanguageCommit(BeforeAddLanguageCommitEvent $event)
+    protected function setUpSourceObjects()
     {
-        if ($event->isAborted()) {
-            return;
-        }
-
-        $this->languageManager = $event->getContentManager();
-        $languageModel = $languageManager->getLanguageModel();
-
-        $mainLanguage = $this->languageModel->getMainLanguage();
-        $blocks = $this->blockManager
+        return $this->blockManager
                         ->getBlockModel()
-                        ->fromLanguageId($mainLanguage->getId())
-                        ->find();
-        if (count($blocks) > 0) {
-            try {
-                $languageModel->startTransaction();
-                foreach($blocks as $block)
-                {
-                    $values = $block->toArray();
-                    unset($values['Id']);
-                    unset($values['CreatedAt']);
-                    $values['HtmlContent'] = $this->fixInternalLinks($values['HtmlContent']);
-                    $values['LanguageId'] = $this->alLanguage->getId();
-                    $this->blockManager
-                            ->set(null)
-                            ->save($values);
-                }
-            }
-            catch(\Exception $e) {
-                $event->abort();
-                if (isset($languageModel) && $languageModel !== null) {
-                    $languageModel->rollBack();
-                }
-
-                throw $e;
-            }
-        }
+                        ->fromLanguageId($this->mainLanguage->getId());
     }
 
     /**
+     * { @inheritdoc }
+     * 
+     * @param array $values
+     * @return boolean 
+     */
+    protected function copy(array $values)
+    {
+        unset($values['Id']);
+        unset($values['CreatedAt']);
+        //TODO $values['HtmlContent'] = $this->fixInternalLinks($values['HtmlContent']);
+        $values['LanguageId'] = $this->languageManager->get()->getId();
+        $result = $this->blockManager
+                    ->set(null)
+                    ->save($values);
+
+        return $result;
+    }
+
+    /**
+     * TODO 
      * Fixes all the internal links according with the new language
      *
-     * @param string $content
-     * @return string
+     * @param type $content
+     * @return type
      */
     protected function fixInternalLinks($content)
     {
         if(null === $this->languageManager) {
             return $content;
         }
+        
+        //preg_match('/_(en)_[\w]+/s', $content, $matches);
+        //print_r($matches);exit;
 
         $languageName =  $this->languageManager->get()->getLanguage();
         $content = preg_replace_callback('/(\<a[\s+\w+]href=[\"\'])(.*?)([\"\'])/s', function ($matches) use($router, $languageName) {
