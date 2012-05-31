@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
@@ -36,12 +36,12 @@ class LanguagesController extends Controller
             $response->setStatusCode('404');
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
         }
-            
+
         $languagesForm = new LanguagesForm($this->container);
         $form = $this->get('form.factory')->create($languagesForm);
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
-                        'languages' => ChoiceValues::getLanguages($this->container),
+                        'languages' => ChoiceValues::getLanguages($this->container->get('language_model')),
                         'form' => $form->createView());
         return $this->render('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
     }
@@ -51,17 +51,17 @@ class LanguagesController extends Controller
         try
         {
             $request = $this->get('request');
-            $alLanguage = ($request->get('idLanguage') != 'none') ? AlLanguageQuery::create()->findPk($request->get('idLanguage')) : null;
-
-            $parameters = array('isMain' => $request->get('isMain'),
-                                'language' => $request->get('newLanguage'));
             $languageManager = $this->container->get('al_language_manager');
+            $languageModel = $languageManager->getLanguageModel();
+            $alLanguage = ($request->get('idLanguage') != 'none') ? $languageModel->fromPk($request->get('idLanguage')) : null;
             if(null !== $alLanguage)
             {
                 $languageManager->set($alLanguage);
             }
+            $parameters = array('isMain' => $request->get('isMain'),
+                                'language' => $request->get('newLanguage'));
             $message = ($languageManager->save($parameters)) ? 'The language has been successfully saved' : 'The language has not been saved';
-            
+
             return $this->buildJSonHeader($message);
         }
         catch(\Exception $e)
@@ -81,7 +81,7 @@ class LanguagesController extends Controller
 
             if($alLanguage != null)
             {
-                $languageManager = $this->container->get('al_language_manager'); 
+                $languageManager = $this->container->get('al_language_manager');
                 $languageManager->set($alLanguage);
                 $result = $languageManager->delete();
                 if($result)
@@ -125,7 +125,7 @@ class LanguagesController extends Controller
             $values[] = array("name" => "#languages_language", "value" => $alLanguage->getLanguage());
             $values[] = array("name" => "#languages_isMain", "value" => $alLanguage->getMainLanguage());
         }
-        
+
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
 
