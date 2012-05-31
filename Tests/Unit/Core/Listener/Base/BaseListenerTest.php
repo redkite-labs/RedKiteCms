@@ -14,25 +14,25 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class BaseListenerTest extends TestCase
+abstract class BaseListenerTest extends TestCase
 {
     protected function setUpLanguage($returnId)
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');   
+        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));
-        
+
         return $language;
     }
-    
+
     protected function setUpPage($returnId)
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');   
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
         $page->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));
-        
+
         return $page;
-    }    
+    }
 }
