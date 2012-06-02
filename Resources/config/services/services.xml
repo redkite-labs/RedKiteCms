@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+
+        <parameter key="block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+        <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
+        <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
+        <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
+        <parameter key="al_block_manager_service">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService</parameter>
+        <parameter key="al_cms_pages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager</parameter>
+        <parameter key="al_cms_seo_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager</parameter>
+        <parameter key="al_cms_languages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
+        <parameter key="alphalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
+        <parameter key="language_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\AlLanguageModel%alcms.orm%</parameter>
+        <parameter key="page_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\AlPageModel%alcms.orm%</parameter>
+        <parameter key="seo_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\AlSeoModel%alcms.orm%</parameter>
+        <parameter key="block_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\AlBlockModel%alcms.orm%</parameter>
+        <parameter key="theme_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\AlThemeModel%alcms.orm%</parameter>
+        <parameter key="orm_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\Base\Al%alcms.orm%Orm</parameter>
+        <parameter key="page_contents_container.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer</parameter>
+        <parameter key="template_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
+        <parameter key="language_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
+        <parameter key="page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
+        <parameter key="template_changer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger</parameter>
+
+    </parameters>
+
+    <services>
+        <service id="language_model" class="%language_model.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="page_model" class="%page_model.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="seo_model" class="%seo_model.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="block_model" class="%block_model.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="orm_model" class="%orm_model.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="theme_model" class="%theme_model.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="block_manager_factory" class="%block_manager_factory.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="language_manager_parameters_validator" class="%language_manager_parameters_validator.class%">
+            <argument type="service" id="language_model" />
+        </service>
+
+        <service id="page_manager_parameters_validator" class="%page_manager_parameters_validator.class%">
+            <argument type="service" id="language_model" />
+            <argument type="service" id="page_model" />
+        </service>
+
+        <service id="page_contents_container" class="%page_contents_container.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="block_model" />
+        </service>
+
+        <service id="template_manager" class="%template_manager.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="page_contents_container" />
+            <argument type="service" id="block_model" />
+        </service>
+
+        <service id="al_page_tree" class="%alphalemon.page_tree%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="template_manager" />
+            <argument type="service" id="language_model" />
+            <argument type="service" id="page_model" />
+            <argument type="service" id="theme_model" />
+            <argument type="service" id="seo_model" />
+        </service>
+        
+        <service id="al_block_manager" class="%al_block_manager_service%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="block_model" />
+        </service>
+        
+        <service id="al_page_manager" class="%al_cms_pages_manager%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="template_manager" />
+            <argument type="service" id="page_model" />
+            <argument type="service" id="page_manager_parameters_validator" />
+        </service>
+
+        <service id="al_seo_manager" class="%al_cms_seo_manager%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="seo_model" />
+        </service>
+
+        <service id="al_language_manager" class="%al_cms_languages_manager%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="language_model" />
+            <argument type="service" id="language_manager_parameters_validator" />
+        </service>
+
+        <service id="slots_converter_factory" class="%slots_converter_factory.class%">
+            <argument type="service" id="page_contents_container" />
+            <argument type="service" id="language_model" />
+            <argument type="service" id="page_model" />
+            <argument type="service" id="block_model" />
+        </service>
+
+        <service id="template_changer" class="%template_changer.class%">
+            <argument type="service" id="block_manager_factory" />
+            <argument type="service" id="slots_converter_factory" />
+        </service>
+
+        <service id="el_finder_media_connector" class="%el_finder.media_connector%" >
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="el_finder_css_connector" class="%el_finder.css_connector%" >
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="el_finder_js_connector" class="%el_finder.js_connector%" >
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+</container>

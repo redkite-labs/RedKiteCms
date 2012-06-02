@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\DependencyInjection;
@@ -35,7 +35,9 @@ class AlphaLemonCmsExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services/cms.xml');
+        $loader->load('services/parameters.xml');
+        $loader->load('services/services.xml');
+        $loader->load('services/listeners.xml');
         $loader->load('services/twig.xml');
 
         $processor = new Processor();
@@ -45,19 +47,19 @@ class AlphaLemonCmsExtension extends Extension
         if (isset($config['skin'])) {
             $container->setParameter('alcms.skin', $config['skin']);
         }
-        
+
         if (isset($config['web_folder_name'])) {
             $container->setParameter('alcms.web_folder_name', $config['web_folder_name']);
         }
-        
+
         if (isset($config['page_blocks'])) {
-            $this->mergeArrayParameter($container, $config, 'al_cms.page_blocks', 'page_blocks'); 
+            $this->mergeArrayParameter($container, $config, 'al_cms.page_blocks', 'page_blocks');
         }
-        
+
         if (isset($config['stylesheets'])) {
             $this->mergeArrayParameter($container, $config, 'alcms.stylesheets', 'stylesheets');
         }
-        
+
         if (isset($config['javascripts'])) {
             $this->mergeArrayParameter($container, $config, 'alcms.javascripts', 'javascripts');
         }
@@ -87,14 +89,14 @@ class AlphaLemonCmsExtension extends Extension
     {
         return 'alpha_lemon_cms';
     }
-    
+
     private function mergeArrayParameter(ContainerBuilder $container, $config, $parameterName, $configName)
     {
         if(!is_array($config[$configName]))
         {
             throw new \Symfony\Component\Form\Exception\InvalidConfigurationException(sprintf('%s param must be an array', $configName));
         }
-        
+
         $param = $container->getParameter($parameterName);
         $param = array_merge($param, $config[$configName]);
         $container->setParameter($parameterName, $param);
