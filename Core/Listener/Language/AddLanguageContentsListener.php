@@ -23,8 +23,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Listen to the onBeforeAddLanguageCommit event to copy the contents from the main language
- * when a new language is adding
+ * Listen to the onBeforeAddLanguageCommit event to copy blocks from a language
+ * to the adding language
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
@@ -51,7 +51,7 @@ class AddLanguageContentsListener extends Base\AddLanguageBaseListener
      */
     protected function setUpSourceObjects()
     {
-        $baseLanguage = $this->getBaseLanguage(); 
+        $baseLanguage = $this->getBaseLanguage();
 
         return $this->blockManager
                         ->getBlockModel()

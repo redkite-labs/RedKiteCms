@@ -22,8 +22,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguage
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
- * Listen to the onBeforeDeleteLanguageCommit event to delete the contents which 
- * belongs the current language
+ * Listen to the onBeforeDeleteLanguageCommit event to delete the blocks which
+ * belongs the language to remove
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
@@ -43,8 +43,8 @@ class DeleteLanguageContentsListener extends Base\DeleteLanguageBaseListener
 
     /**
      * {@inheritdoc}
-     * 
-     * @return null|A model collection instance depending on the used ORM (i.e PropelCollection) 
+     *
+     * @return null|A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
     {
@@ -52,7 +52,7 @@ class DeleteLanguageContentsListener extends Base\DeleteLanguageBaseListener
         if (null === $language) {
             return null;
         }
-        
+
         return $this->blockManager
                         ->getBlockModel()
                         ->fromLanguageId($language->getId());
@@ -60,9 +60,9 @@ class DeleteLanguageContentsListener extends Base\DeleteLanguageBaseListener
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @param AlBlock
-     * @return boolean 
+     * @return boolean
      */
     protected function delete($object)
     {
