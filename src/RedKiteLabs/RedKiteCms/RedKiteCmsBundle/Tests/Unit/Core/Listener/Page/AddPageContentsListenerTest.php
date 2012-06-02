@@ -18,15 +18,15 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageContentsListener;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageBlocksListener;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
- * AddPageContentsListenerTest
+ * AddPageBlocksListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AddPageContentsListenerTest extends BaseListenerTest
+class AddPageBlocksListenerTest extends BaseListenerTest
 {
     private $event;
     private $testListener;
@@ -64,7 +64,7 @@ class AddPageContentsListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->testListener = new AddPageContentsListener($this->languageModel);
+        $this->testListener = new AddPageBlocksListener($this->languageModel);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()

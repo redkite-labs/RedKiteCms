@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class DeletePageContentsListener
+class DeletePageBlocksListener
 {
     private $languageModel;
     

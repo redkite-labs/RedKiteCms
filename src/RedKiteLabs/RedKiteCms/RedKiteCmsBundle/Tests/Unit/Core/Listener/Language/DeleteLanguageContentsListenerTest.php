@@ -18,14 +18,14 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Language;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageContentsListener;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageBlocksListener;
 
 /**
- * DeleteLanguageContentsListenerTest
+ * DeleteLanguageBlocksListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class DeleteLanguageContentsListenerTest extends Base\DeleteLanguageBaseListenerTest
+class DeleteLanguageBlocksListenerTest extends Base\DeleteLanguageBaseListenerTest
 {    
     protected function setUp()
     {
@@ -43,7 +43,7 @@ class DeleteLanguageContentsListenerTest extends Base\DeleteLanguageBaseListener
         
         parent::setUp();
         
-        $this->testListener = new DeleteLanguageContentsListener($this->manager);
+        $this->testListener = new DeleteLanguageBlocksListener($this->manager);
     }
     
     protected function setUpObject()

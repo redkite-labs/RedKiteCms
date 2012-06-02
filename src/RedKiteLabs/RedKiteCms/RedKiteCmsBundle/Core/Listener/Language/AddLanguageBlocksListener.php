@@ -28,7 +28,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AddLanguageContentsListener extends Base\AddLanguageBaseListener
+class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 {
     private $blockManager;
 
