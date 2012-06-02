@@ -22,8 +22,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLangu
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
- * Listen to the onBeforeAddLanguageCommit event to copy the seo attributes from the main language
- * to the new one
+ * Listen to the onBeforeDeleteLanguageCommit event to delete the seo attributes which
+ * belongs the language to remove
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
@@ -33,8 +33,8 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 
     /**
      * Constructor
-     * 
-     * @param AlSeoManager $seoManager 
+     *
+     * @param AlSeoManager $seoManager
      */
     public function __construct(AlSeoManager $seoManager)
     {
@@ -43,7 +43,7 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 
     /**
      *{ @inheritdoc }
-     * 
+     *
      * @return A model collection instance (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
@@ -52,7 +52,7 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
         if (null === $language) {
             return null;
         }
-        
+
         return $this->seoManager
                     ->getSeoModel()
                     ->fromLanguageId($language->getId());
@@ -60,9 +60,9 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @param AlSeo
-     * @return boolean 
+     * @return boolean
      */
     protected function delete($object)
     {

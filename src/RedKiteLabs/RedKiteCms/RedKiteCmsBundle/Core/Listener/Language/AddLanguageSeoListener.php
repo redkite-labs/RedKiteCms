@@ -23,8 +23,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Listen to the onBeforeAddLanguageCommit event to copy the seo attributes from the main language
- * to the new one
+ * Listen to the onBeforeAddLanguageCommit event to copy blocks from a language
+ * to the adding language
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
