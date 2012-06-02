@@ -34,6 +34,7 @@ class LanguagesController extends Controller
         if (!extension_loaded('intl')) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
         }
 
@@ -52,17 +53,18 @@ class LanguagesController extends Controller
         {
             $request = $this->get('request');
             $languageManager = $this->container->get('al_language_manager');
-            $languageModel = $languageManager->getLanguageModel();
-            $alLanguage = ($request->get('idLanguage') != 'none') ? $languageModel->fromPk($request->get('idLanguage')) : null;
-            if(null !== $alLanguage)
-            {
-                $languageManager->set($alLanguage);
-            }
-            $parameters = array('isMain' => $request->get('isMain'),
-                                'language' => $request->get('newLanguage'));
-            $message = ($languageManager->save($parameters)) ? 'The language has been successfully saved' : 'The language has not been saved';
+            $languageManager->setTranslator($this->container->get('translator'));
+            $alLanguage = $this->fetchLanguage($request->get('idLanguage'), $languageManager);
+            $languageManager->set($alLanguage);
 
-            return $this->buildJSonHeader($message);
+            $parameters = array('MainLanguage' => $request->get('isMain'),
+                                'Language' => $request->get('newLanguage'));
+            if ($languageManager->save($parameters)) {
+                return $this->buildJSonHeader('The language has been successfully saved');
+            }
+            else {
+                throw new \RuntimeException('An error has been occoured, so the language has not been saved');
+            }
         }
         catch(\Exception $e)
         {
@@ -77,13 +79,13 @@ class LanguagesController extends Controller
         try
         {
             $request = $this->get('request');
-            $alLanguage = ($request->get('languageId') != 'none') ? AlLanguageQuery::create()->findPk($request->get('languageId')) : null;
-
+            $languageManager = $this->container->get('al_language_manager');
+            $alLanguage = $this->fetchLanguage($request->get('idLanguage'), $languageManager);
             if($alLanguage != null)
             {
-                $languageManager = $this->container->get('al_language_manager');
-                $languageManager->set($alLanguage);
-                $result = $languageManager->delete();
+                $result = $languageManager
+                            ->set($alLanguage)
+                            ->delete();
                 if($result)
                 {
                     $message = $this->get('translator')->trans('The language has been successfully removed');
@@ -134,7 +136,7 @@ class LanguagesController extends Controller
 
     protected function buildJSonHeader($message)
     {
-        $languages = ChoiceValues::getLanguages($this->container);
+        $languages = ChoiceValues::getLanguages($this->container->get('language_model'));
 
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
@@ -146,5 +148,12 @@ class LanguagesController extends Controller
 
         return $response;
     }
-}
 
+    private function fetchLanguage($id, $languageManager = null)
+    {
+        $languageManager = (null === $languageManager) ? $this->container->get('al_language_manager') : $languageManager;
+        $languageModel = $languageManager->getLanguageModel();
+
+        return ($id != 'none') ? $languageModel->fromPk($id) : null;
+    }
+}

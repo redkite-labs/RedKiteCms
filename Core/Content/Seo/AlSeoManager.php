@@ -98,6 +98,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         }
         
         $this->alSeo = $object;
+        
+        return $this;
     }
 
     /**

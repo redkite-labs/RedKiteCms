@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Listen to the onBeforeAddLanguageCommit event to copy the contents from the main language
@@ -36,28 +37,32 @@ class AddLanguageContentsListener extends Base\AddLanguageBaseListener
      *
      * @param AlBlockManager $blockManager
      */
-    public function __construct(AlBlockManager $blockManager)
+    public function __construct(AlBlockManager $blockManager, ContainerInterface $container = null)
     {
+        parent::__construct($container);
+
         $this->blockManager = $blockManager;
     }
 
     /**
      * {@inheritdoc}
-     * 
-     * @return A model collection instance depending on the used ORM (i.e PropelCollection) 
+     *
+     * @return A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
     {
+        $baseLanguage = $this->getBaseLanguage(); 
+
         return $this->blockManager
                         ->getBlockModel()
-                        ->fromLanguageId($this->mainLanguage->getId());
+                        ->fromLanguageId($baseLanguage->getId());
     }
 
     /**
      * { @inheritdoc }
-     * 
+     *
      * @param array $values
-     * @return boolean 
+     * @return boolean
      */
     protected function copy(array $values)
     {
@@ -73,7 +78,7 @@ class AddLanguageContentsListener extends Base\AddLanguageBaseListener
     }
 
     /**
-     * TODO 
+     * TODO
      * Fixes all the internal links according with the new language
      *
      * @param type $content
@@ -84,7 +89,7 @@ class AddLanguageContentsListener extends Base\AddLanguageBaseListener
         if(null === $this->languageManager) {
             return $content;
         }
-        
+
         //preg_match('/_(en)_[\w]+/s', $content, $matches);
         //print_r($matches);exit;
 

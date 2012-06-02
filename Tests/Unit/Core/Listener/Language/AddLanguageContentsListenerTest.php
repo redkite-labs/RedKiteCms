@@ -26,26 +26,43 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageContentsLis
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AddLanguageContentsListenerTest extends Base\AddLanguageBaseListenerTest
-{    
+{
     protected function setUp()
     {
         $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $this->manager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $this->manager->expects($this->any())
             ->method('getBlockModel')
             ->will($this->returnValue($this->objectModel));
-        
+
         parent::setUp();
-        
+
         $this->testListener = new AddLanguageContentsListener($this->manager);
     }
-    
+
+    public function testDbRecorsHaveBeenCopiedFromRequestLanguage()
+    {
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request->expects($this->once())
+            ->method('getLanguages')
+            ->will($this->returnValue(array('en-gb', 'en')));
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($request));
+
+        $testListener = new AddLanguageContentsListener($this->manager, $container);
+
+        parent::testDbRecorsHaveBeenCopiedFromRequestLanguage($testListener);
+    }
+
     protected function setUpObject()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');

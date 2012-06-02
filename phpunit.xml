@@ -5,13 +5,9 @@
 
     <testsuites>
         <testsuite name="AlphaLemonCmsBundle Test Suite">
-            <directory suffix="Test.php">Tests</directory>
+            <directory suffix="Test.php">Tests/Unit</directory>
         </testsuite>
     </testsuites>
-    
-    <php>
-        <server name="KERNEL_DIR" value="./Tests/CmsTestKernel" />
-    </php>
 
     <filter>
         <whitelist>
