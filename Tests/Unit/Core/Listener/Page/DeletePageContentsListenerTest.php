@@ -17,15 +17,15 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageContentsListener;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageBlocksListener;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
- * DeletePageContentsListenerTest
+ * DeletePageBlocksListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class DeletePageContentsListenerTest extends BaseListenerTest
+class DeletePageBlocksListenerTest extends BaseListenerTest
 {   
     protected $event;
     protected $testListener;
@@ -64,7 +64,7 @@ class DeletePageContentsListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->testListener = new DeletePageContentsListener($this->languageModel);
+        $this->testListener = new DeletePageBlocksListener($this->languageModel);
     }
     
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()

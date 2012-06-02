@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class DeleteLanguageContentsListener extends Base\DeleteLanguageBaseListener
+class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
 {
     private $blockManager;
 

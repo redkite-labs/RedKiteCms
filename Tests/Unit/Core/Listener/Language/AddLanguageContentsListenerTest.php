@@ -18,14 +18,14 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Language;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageContentsListener;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageBlocksListener;
 
 /**
- * AddLanguageContentsListenerTest
+ * AddLanguageBlocksListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AddLanguageContentsListenerTest extends Base\AddLanguageBaseListenerTest
+class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 {
     protected function setUp()
     {
@@ -43,7 +43,7 @@ class AddLanguageContentsListenerTest extends Base\AddLanguageBaseListenerTest
 
         parent::setUp();
 
-        $this->testListener = new AddLanguageContentsListener($this->manager);
+        $this->testListener = new AddLanguageBlocksListener($this->manager);
     }
 
     public function testDbRecorsHaveBeenCopiedFromRequestLanguage()
@@ -58,7 +58,7 @@ class AddLanguageContentsListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('get')
             ->will($this->returnValue($request));
 
-        $testListener = new AddLanguageContentsListener($this->manager, $container);
+        $testListener = new AddLanguageBlocksListener($this->manager, $container);
 
         parent::testDbRecorsHaveBeenCopiedFromRequestLanguage($testListener);
     }

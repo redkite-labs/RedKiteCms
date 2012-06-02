@@ -74,7 +74,7 @@ class WebTestCaseFunctional extends WebTestCase {
         $seoManager = new AlSeoManager($dispatcher, $seoModel);
         
         $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $languageModel), 'onBeforeAddPageCommit'));
-        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageContentsListener($languageModel), 'onBeforeAddPageCommit'));
+        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageBlocksListener($languageModel), 'onBeforeAddPageCommit'));
         
         $connection = \Propel::getConnection();
         $queries = array('TRUNCATE al_block;',
