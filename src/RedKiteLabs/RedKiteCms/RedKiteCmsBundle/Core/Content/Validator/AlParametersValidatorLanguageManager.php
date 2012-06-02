@@ -67,6 +67,8 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      */
     public function languageExists($laguageName)
     {
-        return (count($this->languageModel->fromLanguageName($laguageName)) > 0) ? true : false;
+        $language = $this->languageModel->fromLanguageName($laguageName);
+
+        return (null !== $language && count($language) > 0) ? true : false;
     }
 }

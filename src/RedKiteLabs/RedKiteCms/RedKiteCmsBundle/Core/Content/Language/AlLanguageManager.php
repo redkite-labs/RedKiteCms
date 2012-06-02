@@ -131,8 +131,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         if (null === $this->alLanguage) {
             throw new General\ParameterIsEmptyException($this->translate("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
         }
-
-        if ($this->languageModel->mainLanguage() == 1) {
+        
+        if ($this->alLanguage->getMainLanguage() == 1) {
             throw new Language\RemoveMainLanguageException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
         }
 
@@ -220,7 +220,11 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('Language' => ''), $values);
             if($this->validator->languageExists($values["Language"])) {
-                throw new LanguageExistsException($this->translate("The language you are trying to add, already exists in the website."));
+                throw new LanguageExistsException($this->translate("The language you are trying to add, already exists in the website"));
+            }
+
+            if (empty($values['Language'])) {
+                throw new General\ParameterIsEmptyException($this->translate("A language cannot be null. Please provide a valid language name to add the language"));
             }
 
             $result = true;
@@ -242,7 +246,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                             ->setModelObject($this->alLanguage)
                             ->save($values);
                 if ($result) {
-                    if (null !== $this->dispatcher) {
+                    if (null !== $this->dispatcher) { 
                         $event = new Content\Language\BeforeAddLanguageCommitEvent($this, $values);
                         $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE_COMMIT, $event);
 
@@ -331,7 +335,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 {
                     unset($values["Language"]);
                 }
-
+                
                 if (!empty($values)) {
                     $result = $this->languageModel
                                 ->setModelObject($this->alLanguage)
@@ -454,7 +458,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             {
                 $result = $this->languageModel
                             ->setModelObject($language)
-                            ->save(array('IsHome' => 0));
+                            ->save(array('MainLanguage' => 0));
 
                 return $result;
             }

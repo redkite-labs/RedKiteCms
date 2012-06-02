@@ -32,20 +32,37 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
         $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlSeoModelPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $this->manager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $this->manager->expects($this->any())
             ->method('getSeoModel')
             ->will($this->returnValue($this->objectModel));
-        
+
         parent::setUp();
-        
+
         $this->testListener = new AddLanguageSeoListener($this->manager);
     }
-    
+
+    public function testDbRecorsHaveBeenCopiedFromRequestLanguage()
+    {
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request->expects($this->once())
+            ->method('getLanguages')
+            ->will($this->returnValue(array('en-gb', 'en')));
+
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($request));
+
+        $testListener = new AddLanguageSeoListener($this->manager, $container);
+
+        parent::testDbRecorsHaveBeenCopiedFromRequestLanguage($testListener);
+    }
+
     protected function setUpObject()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');

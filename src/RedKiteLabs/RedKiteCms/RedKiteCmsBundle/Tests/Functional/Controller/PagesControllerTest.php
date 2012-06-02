@@ -232,6 +232,13 @@ class PagesControllerTest extends WebTestCaseFunctional
         // Previous home page has been degraded
         $page = $this->pageModel->fromPk(2);
         $this->assertEquals(0, $page->getIsHome());
+
+        $seo = $this->seoModel->fromPageAndLanguage(2, 4);
+        $this->assertNotNull($seo);
+
+        // Repeated contents have not been added
+        $pagesSlots = $this->retrievePageSlots();
+        $this->assertEquals(count($pagesSlots), count($this->blockModel->retrieveContents(2, 4, $pagesSlots)));
     }
 
     public function testEditPage()

@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
@@ -80,12 +80,12 @@ class PagesController extends Controller
             {
                 throw new \InvalidArgumentException("The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes");
             }
-            
-            $pageManager = $this->container->get('al_page_manager');  
+
+            $pageManager = $this->container->get('al_page_manager');
             $pageModel = $pageManager->getPageModel();
             if ($request->get('pageId') != 'none') {
                 $alPage = $pageModel->fromPk($request->get('pageId'));
-                
+
                 // Refreshes the page manager using the given page to update
                 $pageContentsContainer = $pageManager->getTemplateManager()->getPageContentsContainer();
                 if($request->get('pageId') != "" && $request->get('pageId') != $pageContentsContainer->getIdPage()) {
@@ -94,21 +94,21 @@ class PagesController extends Controller
                 }
             }
             else {
-                $alPage = null; 
+                $alPage = null;
             }
-            
+
             $pageManager->set($alPage);
             $template = ($request->get('templateName') != "none") ? $request->get('templateName') : '';
             $permalink = ($request->get('permalink') == "") ? $request->get('pageName') : $request->get('permalink');
-            
+
             $values = array('PageName' => $request->get('pageName'),
                             'TemplateName' => $template,
                             'IsHome' => $request->get('isHome'),
                             'Permalink' => $permalink,
                             'MetaTitle' => $request->get('title'),
                             'MetaDescription' => $request->get('description'),
-                            'MetaKeywords' => $request->get('keywords'));                
-            
+                            'MetaKeywords' => $request->get('keywords'));
+
             if($pageManager->save($values))
             {
                 return $this->buildJSonHeader('The page has been successfully saved');
@@ -119,7 +119,7 @@ class PagesController extends Controller
             }
         }
         catch(\Exception $e)
-        {//echo $e->getMessage() . "\n";
+        {
             $response = new Response();
             $response->setStatusCode('404');
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
@@ -131,7 +131,7 @@ class PagesController extends Controller
         try
         {
             $request = $this->get('request');
-            $pageManager = $this->container->get('al_page_manager');    
+            $pageManager = $this->container->get('al_page_manager');
             $alPage = ($request->get('pageId') != 'none') ? $pageManager->getPageModel()->fromPK($request->get('pageId')) : null;
             if($alPage != null)
             {
@@ -148,7 +148,7 @@ class PagesController extends Controller
                         if ($result) {
                             $pageManager->getPageModel()->commit();
                         }
-                        else { 
+                        else {
                             $pageManager->getPageModel()->rollBack();
                         }
                     }
@@ -156,7 +156,7 @@ class PagesController extends Controller
                         throw $ex;
                         $pageManager->getPageModel()->rollBack();
                     }
-                    
+
                     if($result)
                     {
                         $message = $this->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
@@ -202,18 +202,18 @@ class PagesController extends Controller
     {
         $pages = $this->getPages();
 
-        $request = $this->getRequest(); 
-        $values = array(); 
+        $request = $this->getRequest();
+        $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "pages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Pages:pages_list.html.twig', array('pages' => $pages)));
         $values[] = array("key" => "pages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_combo.html.twig', array('id' => 'al_pages_navigator', 'selected' => $request->get('page'), 'items' => $pages)));
-        
+
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
-        
+
         return $response;
     }
-    
+
     protected function getPages()
     {
         return ChoiceValues::getPages(new AlPageModelPropel($this->container->get('event_dispatcher')));

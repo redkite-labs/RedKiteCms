@@ -18,10 +18,11 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * The base class that defines a content manager object
@@ -40,11 +41,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
  * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
-abstract class AlContentManagerBase
+abstract class AlContentManagerBase extends AlTranslator
 {
     protected $dispatcher;
     protected $validator;
-    protected $translator;
 
     /**
      * Constructor
@@ -72,19 +72,6 @@ abstract class AlContentManagerBase
     }
     
     /**
-     * Sets the tranlator object
-     * 
-     * @param TranslatorInterface $translator
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase (for fluent API)
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-        
-        return $this;
-    }
-    
-    /**
      * Sets the parameters validator object
      * 
      * @api
@@ -97,7 +84,21 @@ abstract class AlContentManagerBase
     
         return $this;
     }
+    
+    /**
+     * Sets the tranlator object
+     * 
+     * @param TranslatorInterface $translator
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator 
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        parent::setTranslator($translator);
         
+        $this->validator->setTranslator($translator);
+        
+        return $this;
+    }
     
     /**
      * Returns the Event dispatcher object
@@ -110,16 +111,6 @@ abstract class AlContentManagerBase
     }
     
     /**
-     * Returns the Translator object
-     * 
-     * @return TranslatorInterface 
-     */
-    public function getTranslator()
-    {
-        return $this->translator;
-    }
-
-    /**
      * Returns the ParameterValidator object
      * 
      * @api
@@ -128,20 +119,5 @@ abstract class AlContentManagerBase
     public function getValidator()
     {
         return $this->validator;
-    }
-    
-    /**
-     * Translates the message when the translator has been set or returns the message when null
-     * 
-     * @param string $message
-     * @param array $parameters
-     * @param string $domain
-     * @param string $locale
-     * 
-     * @return string 
-     */
-    protected function translate($message, array $parameters = array(), $domain = 'messages', $locale = null)
-    {
-        return (null !== $this->translator) ? $this->translator->trans($message, $parameters, $domain, $locale) : $message;
     }
 }

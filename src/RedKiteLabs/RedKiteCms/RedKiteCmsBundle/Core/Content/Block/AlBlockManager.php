@@ -97,6 +97,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         }
 
         $this->alBlock = $object;
+        
+        return $this;
     }
 
     /**

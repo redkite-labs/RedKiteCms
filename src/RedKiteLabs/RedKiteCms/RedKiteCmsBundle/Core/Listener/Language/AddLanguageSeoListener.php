@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Listen to the onBeforeAddLanguageCommit event to copy the seo attributes from the main language
@@ -33,36 +34,39 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 
     /**
      * Constructor
-     * 
-     * @param AlSeoManager $seoManager 
+     *
+     * @param AlSeoManager $seoManager
      */
-    public function __construct(AlSeoManager $seoManager)
+    public function __construct(AlSeoManager $seoManager, ContainerInterface $container = null)
     {
+        parent::__construct($container);
+
         $this->seoManager = $seoManager;
     }
 
     /**
      *{ @inheritdoc }
-     * 
+     *
      * @return A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
     {
         return $this->seoManager
                     ->getSeoModel()
-                    ->fromLanguageId($this->mainLanguage->getId());
+                    ->fromLanguageId($this->getBaseLanguage()->getId());
     }
 
     /**
      * { @inheritdoc }
-     * 
+     *
      * @param array $values
-     * @return boolean 
+     * @return boolean
      */
     protected function copy(array $values)
     {
-        $values['idLanguage'] = $this->languageManager->get()->getId();
-        $values['languageName'] = $this->languageManager->get()->getLanguage();
+        unset($values['Id']);
+        $values['LanguageId'] = $this->languageManager->get()->getId();
+        $values['LanguageName'] = $this->languageManager->get()->getLanguage();
         $result = $this->seoManager
                     ->set(null)
                     ->save($values);

@@ -655,8 +655,8 @@ class AlLanguageManagerTest extends TestCase
         $this->languageModel->expects($this->never())
                 ->method('delete');
 
-        $this->languageModel->expects($this->once())
-                ->method('mainLanguage')
+        $language->expects($this->once())
+                ->method('getMainLanguage')
                 ->will($this->returnValue(1));
 
         $this->languageManager->set($language);
