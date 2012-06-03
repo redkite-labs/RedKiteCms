@@ -131,7 +131,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         if (null === $this->alLanguage) {
             throw new General\ParameterIsEmptyException($this->translate("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
         }
-        
+
         if ($this->alLanguage->getMainLanguage() == 1) {
             throw new Language\RemoveMainLanguageException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
         }
@@ -230,7 +230,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $result = true;
             $this->languageModel->startTransaction();
 
-            $hasLanguages = $this->languageModel->activeLanguages();
+            $hasLanguages = $this->validator->hasLanguages();
             $values['MainLanguage'] = ($hasLanguages) ? (isset($values['MainLanguage'])) ? $values['MainLanguage'] : 0 : 1;
             if ($values['MainLanguage'] == 1 && $hasLanguages) $result = $this->resetMain();
 
@@ -246,7 +246,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                             ->setModelObject($this->alLanguage)
                             ->save($values);
                 if ($result) {
-                    if (null !== $this->dispatcher) { 
+                    if (null !== $this->dispatcher) {
                         $event = new Content\Language\BeforeAddLanguageCommitEvent($this, $values);
                         $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE_COMMIT, $event);
 
@@ -335,7 +335,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 {
                     unset($values["Language"]);
                 }
-                
+
                 if (!empty($values)) {
                     $result = $this->languageModel
                                 ->setModelObject($this->alLanguage)

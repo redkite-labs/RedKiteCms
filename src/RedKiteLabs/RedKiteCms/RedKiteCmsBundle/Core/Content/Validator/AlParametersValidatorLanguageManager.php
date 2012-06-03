@@ -59,6 +59,11 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
         return $this->languageModel;
     }
 
+    public function hasLanguages()
+    {
+        return (count($this->languageModel->activeLanguages()) > 0) ? true : false;
+    }
+
     /**
      * Checks when the give language name is already saved
      *
