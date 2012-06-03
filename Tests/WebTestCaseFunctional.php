@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page as Listener;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 use AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots;
 
 /**
@@ -35,14 +35,25 @@ use AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeB
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class WebTestCaseFunctional extends WebTestCase {
-    
+
     protected $client;
-    
+    protected static $languages;
+    protected static $pages;
+
     public static function setUpBeforeClass()
     {
+        self::$languages = array(array('Language'      => 'en',));
+
+        self::$pages = array(array('PageName'    => 'index',
+                                    'TemplateName'      => 'home',
+                                    'IsHome'            => '1',
+                                    'Permalink'         => 'this is a website fake page',
+                                    'MetaTitle'         => 'page title',
+                                    'MetaDescription'   => 'page description',
+                                    'MetaKeywords'      => ''));
         self::populateDb();
     }
-    
+
     protected function setUp()
     {
         $this->client = static::createClient(array(
@@ -58,24 +69,24 @@ class WebTestCaseFunctional extends WebTestCase {
             \Propel::setConfiguration($config);
             \Propel::initialize();
         }
-        
+
         $dispatcher = new EventDispatcher();
-        $seoModel = new Propel\AlSeoModelPropel($dispatcher);    
-        $languageModel = new Propel\AlLanguageModelPropel($dispatcher);   
+        $seoModel = new Propel\AlSeoModelPropel($dispatcher);
+        $languageModel = new Propel\AlLanguageModelPropel($dispatcher);
         $pageModel = new Propel\AlPageModelPropel($dispatcher);
         $blockModel = new Propel\AlBlockModelPropel($dispatcher);
-        
+
         $dir = realpath(__DIR__ . '/Functional/Resources/fixtures');
-        $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);         
+        $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);
         $pageContentsContainer = new AlPageContentsContainer($dispatcher, $blockModel);
         $templateManager = new AlTemplateManager($dispatcher, $pageContentsContainer, $blockModel);
         $templateManager->setTemplateSlots($templateSlots)
                 ->refresh();
         $seoManager = new AlSeoManager($dispatcher, $seoModel);
-        
+
         $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $languageModel), 'onBeforeAddPageCommit'));
         $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageBlocksListener($languageModel), 'onBeforeAddPageCommit'));
-        
+
         $connection = \Propel::getConnection();
         $queries = array('TRUNCATE al_block;',
                          'TRUNCATE al_language;',
@@ -85,39 +96,27 @@ class WebTestCaseFunctional extends WebTestCase {
                          'INSERT INTO al_language (language) VALUES(\'-\');',
                          'INSERT INTO al_page (page_name) VALUES(\'-\');',
                         );
-        
+
         foreach($queries as $query)
         {
             $statement = $connection->prepare($query);
             $statement->execute();
         }
-        
+
         // Temporary
         $theme = new \AlphaLemon\ThemeEngineBundle\Model\AlTheme();
         $theme->setThemeName('BusinessWebsiteThemeBundle');
         $theme->setActive(1);
         $theme->save();
-        
-        $language = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage();
-        $language->setLanguage('en');
-        $language->setMainLanguage(1);
-        $language->save();
-        // Temporary
-        /*
-        $language = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage();
-        $language->setLanguage('it');
-        $language->setMainLanguage(0);
-        $language->save();*/
-        
-        $alPageManager = new AlPageManager($dispatcher, $templateManager, $pageModel, new AlParametersValidatorPageManager($languageModel, $pageModel));
-        $params = array('PageName'      => 'index', 
-                        'TemplateName'  => 'home',
-                        'IsHome'        => '1',
-                        'Permalink'     => 'this is a website fake page',
-                        'Title'         => 'page title',
-                        'Description'   => 'page description',
-                        'Keywords'      => '');
-        $alPageManager->set(null)->save($params);        
+
+        $alLanguageManager = new AlLanguageManager($dispatcher, $languageModel, new Validator\AlParametersValidatorLanguageManager($languageModel));
+        foreach(self::$languages as $language) {
+            $alLanguageManager->set(null)->save($language);
+        }
+
+        $alPageManager = new AlPageManager($dispatcher, $templateManager, $pageModel, new Validator\AlParametersValidatorPageManager($languageModel, $pageModel));
+        foreach(self::$pages as $page) {
+            $alPageManager->set(null)->save($page);
+        }
     }
-    
 }
