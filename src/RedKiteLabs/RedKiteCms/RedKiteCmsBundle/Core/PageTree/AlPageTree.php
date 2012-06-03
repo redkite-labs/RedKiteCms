@@ -120,9 +120,9 @@ class AlPageTree extends BaseAlPageTree
             if (!$this->alTheme) {
                 return null;
             }
+
             $this->setThemeName($this->alTheme->getThemeName());
             $this->setTemplateName($this->alPage->getTemplateName());
-
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
             $this->container->get('al_page_manager')
@@ -205,6 +205,9 @@ class AlPageTree extends BaseAlPageTree
         }
         else {
             $alPage = $seo->getAlPage();
+            $this->metaTitle = $seo->getMetaTitle();
+            $this->metaDescription = $seo->getMetaDescription();
+            $this->metaKeywords = $seo->getMetaKeywords();
         }
 
         $this->isValidPage = true;

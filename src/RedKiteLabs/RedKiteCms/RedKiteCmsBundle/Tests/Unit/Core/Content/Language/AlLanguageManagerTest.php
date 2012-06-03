@@ -219,8 +219,8 @@ class AlLanguageManagerTest extends TestCase
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
-                ->method('activeLanguages')
+        $this->validator->expects($this->once())
+                ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
         $this->languageModel->expects($this->once())
@@ -253,8 +253,8 @@ class AlLanguageManagerTest extends TestCase
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
-                ->method('activeLanguages')
+        $this->validator->expects($this->once())
+                ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
         $this->languageModel->expects($this->once())
@@ -265,7 +265,8 @@ class AlLanguageManagerTest extends TestCase
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $params = array('Language'  => 'en', 'MainLanguage' => 1);
+        $params = array('Language'  => 'en',
+                        'MainLanguage' => 1);
         $this->assertFalse($this->languageManager->save($params));
     }
 
@@ -284,8 +285,8 @@ class AlLanguageManagerTest extends TestCase
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
-                ->method('activeLanguages')
+        $this->validator->expects($this->once())
+                ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
         $this->languageModel->expects($this->once())
@@ -318,8 +319,8 @@ class AlLanguageManagerTest extends TestCase
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
-                ->method('activeLanguages')
+        $this->validator->expects($this->once())
+                ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
         $this->languageModel->expects($this->once())

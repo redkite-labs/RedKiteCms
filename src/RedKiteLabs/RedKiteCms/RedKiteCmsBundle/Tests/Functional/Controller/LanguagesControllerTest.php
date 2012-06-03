@@ -103,7 +103,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $seo = $this->seoModel->fromPageAndLanguage(3, 2);
         $this->assertNotNull($seo);
         $this->assertEquals('this-is-a-website-fake-page', $seo->getPermalink());
-        
+
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
         $this->assertEquals(count($pagesSlots), count($this->blockModel->retrieveContents(3, 2, $pagesSlots)));
@@ -118,7 +118,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#block_32')->count());
         $this->assertEquals(22, $crawler->filter('.al_editable')->count());
     }
-    
+
     public function testAddLanguageFailsWhenTheLanguageNameAlreadyExists()
     {
         $params = array('page' => 'index',
@@ -147,7 +147,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         // Previous home page has been degraded
         $language = $this->languageModel->fromPk(2);
         $this->assertEquals(0, $language->getMainLanguage());
-        
+
         $seo = $this->seoModel->fromPageAndLanguage(4, 2);
         $this->assertNotNull($seo);
     }
@@ -197,7 +197,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'idLanguage' => $language->getId());
-        
+
         $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
@@ -209,7 +209,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'idLanguage' => 2);
-        
+
         $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -217,7 +217,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
-        $json = json_decode($response->getContent(), true); 
+        $json = json_decode($response->getContent(), true);
         $this->assertEquals(3, count($json));
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);

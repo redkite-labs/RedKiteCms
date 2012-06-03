@@ -6,9 +6,9 @@
    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
 
    For the full copyright and license information, please view the LICENSE
-   file that was distributed with this source code. 
+   file that was distributed with this source code.
 
-   For extra documentation and help please visit http://www.alphalemon.com 
+   For extra documentation and help please visit http://www.alphalemon.com
 
    @license    GPL LICENSE Version 2.0
 #}
@@ -21,14 +21,14 @@
     $(document).ready(function()
     {
         frontController = '{{ frontController }}';
-    
+
         $.contextMenu({
             selector: '.al_edit_on',
             items: {
                 "addmenu": {
-                    "name": "Add", 
+                    "name": "Add",
                     "items": {
-                        {% for item, description in available_contents %}
+                        {% for item, description in available_blocks %}
                         "{{ item }}": {"name": "{{ description }}", callback: function(key, opt){ opt.$trigger.AddBlock("{{ item }}"); }},
                         {% endfor %}
                     }
@@ -38,7 +38,7 @@
                 "delete": {"name": "Delete", "icon": "cut", callback: function(key, opt){ opt.$trigger.DeleteContent(); }}
             }
         });
-        
+
         {{ internal_javascripts|raw }}
     });
 </script>
@@ -53,7 +53,7 @@
 
 {{ parent() }}
 
-{% for value in dynamicStylesheets %}
+{% for value in templateStylesheets %}
 <link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
 {% endfor %}
 
@@ -69,18 +69,18 @@
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 <script src="/js/tiny_mce/tiny_mce.js"></script>
-{% for value in dynamicJavascripts %}
+{% for value in templateJavascripts %}
 <script src="{{ asset(value) }}"></script>
 {% endfor %}
 {% endblock %}
-  
+
 {% block body %}
 <div id="al_toolbar">
     <div class="al_float_left al_boxes_margins small_logo"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></div>
     <div id="al_menu" class="al_float_left">
         <ul>
             <li><a href="#" id="al_start_editor">Edit</a></li>
-            <li><a href="#" id="al_stop_editor">Stop</a></li>            
+            <li><a href="#" id="al_stop_editor">Stop</a></li>
             <li><a href="#" id="al_open_pages_panel">Pages</a></li>
             <li><a href="#" id="al_open_languages_panel">Languages</a></li>
             <li><a href="#" id="al_open_themes_panel">Themes</a></li>

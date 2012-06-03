@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
@@ -43,7 +43,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
 
         try
         {
-            $result = array();  
+            $result = array();
             $blocks = $this->pageTree->getContents($slotName);
             if(count($blocks) > 0)
             {
@@ -59,7 +59,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     $result[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
                 }
             }
-            
+
             return sprintf('<div class="al_%s">%s</div>', $slotName, implode("\n", $result));
         }
         catch (\Exception $ex)
@@ -67,7 +67,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             throw $ex;
         }
     }
-    
+
     public function renderBlock(array $block = null, $add = false)
     {
         if(null === $block)
@@ -77,7 +77,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
 
         return $this->doRender($block, $add);
     }
-    
+
     protected function doRender(array $block = null, $add = false)
     {
         try
@@ -100,9 +100,9 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     $result = $block['HtmlContent'];
                 }
             }
-            
+
             $hideInEditMode = ($block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-            $content = sprintf('<div class="al_%s">%s</div>', $slotName, $result);
+            $content = sprintf('<div>%s</div>', $result);
             if($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['ClassName']), $content);
 
             return $content;
@@ -112,7 +112,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             throw $ex;
         }
     }
-    
+
     /**
      * @return array
      */

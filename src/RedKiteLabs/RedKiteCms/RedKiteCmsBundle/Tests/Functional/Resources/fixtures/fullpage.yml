@@ -1,6 +1,6 @@
 slots:
-  page_content: 
-    defaultText: |
+  page_content:
+    htmlContent: |
       <h5><span class="dropcap"><strong>28</strong><span>06</span></span>Lorem ipsum dolor sit amet consectetur adipisicing elit</h5>
       <div class="wrapper pad_bot2">
           <figure class="left marg_right1"><img src="/bundles/businesswebsitetheme/images/page2_img1.jpg" alt=""></figure>
@@ -19,7 +19,7 @@ slots:
           <p class="pad_bot1">Vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis.</p>
           <a href="#" class="link1">Read More</a>
       </div>
-      
+
       <ul class="nav">
           <li class="selected"><a href="#tab1">1</a></li>
           <li><a href="#tab2">2</a></li>
@@ -28,16 +28,3 @@ slots:
           <li><a href="#tab5">5</a></li>
           <li><a href="#tab6">6</a></li>
       </ul>
-  nav_menu:  
-    blockType: BusinessMenu
-    repeated: page
-    htmlContent: |
-      <ul class="business-menu">
-        <li><a href="#">[Home, Welcome!]</a></li>
-        <li><a href="#">[News, Fresh]</a></li>
-        <li><a href="#">[Services, for you]</a></li>
-        <li><a href="#">[Products, The best]</a></li>
-        <li><a href="#">[Contacts, Our Address]</a></li>
-      </ul>
-    internalJavascript: |
-      $(".business-menu a").doCufon();
