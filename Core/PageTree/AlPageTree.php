@@ -30,9 +30,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
 
 /**
- * Extends the bas AlPageTree object to work with the database
+ * Extends the bas AlPageTree object to fetch page information from the database
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -51,42 +53,87 @@ class AlPageTree extends BaseAlPageTree
     protected $isValidPage = false;
     protected $isValid;
 
-    public function __construct(ContainerInterface $container, AlTemplateManager $templateManager, OrmInterface $languageModel, OrmInterface $pageModel, OrmInterface $themeModel, OrmInterface $seoModel)
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $container
+     * @param AlTemplateManager $templateManager
+     * @param Orm\LanguageModelInterface $languageModel
+     * @param Orm\PageModelInterface $pageModel
+     * @param Orm\ThemeModelInterface $themeModel
+     * @param Orm\SeoModelInterface $seoModel
+     */
+    public function __construct(ContainerInterface $container,
+                                AlTemplateManager $templateManager,
+                                Orm\LanguageModelInterface $languageModel = null,
+                                Orm\PageModelInterface $pageModel = null,
+                                Orm\ThemeModelInterface $themeModel = null,
+                                Orm\SeoModelInterface $seoModel = null)
     {
         parent::__construct($container);
 
-        $this->languageModel = $languageModel;
-        $this->pageModel = $pageModel;
-        $this->themeModel = $themeModel;
         $this->templateManager = $templateManager;
-        $this->seoModel = $seoModel;
+        $this->languageModel = (null === $languageModel) ? new Propel\AlLanguageModelPropel() : $languageModel;
+        $this->pageModel = (null === $pageModel) ? new Propel\AlPageModelPropel() : $pageModel;
+        $this->themeModel = (null === $themeModel) ? new Propel\AlThemeModelPropel() : $themeModel;
+        $this->seoModel = (null === $seoModel) ? new Propel\AlSeoModelPropel() : $seoModel;
     }
 
+    /**
+     * Returns the current AlPage object
+     *
+     * @return AlPage
+     */
     public function getAlPage()
     {
         return $this->alPage;
     }
 
+    /**
+     * Returns the current AlLanguage object
+     *
+     * @return AlLanguage
+     */
     public function getAlLanguage()
     {
         return $this->alLanguage;
     }
 
+    /**
+     * Returns the current AlTheme object
+     *
+     * @return AlTheme
+     */
     public function getAlTheme()
     {
         return $this->alTheme;
     }
 
+    /**
+     * Returns the current AlTemplateManager object
+     *
+     * @return AlTemplateManager
+     */
     public function getTemplateManager()
     {
         return $this->templateManager;
     }
 
+    /**
+     * AlphaLemon is in CMS mode
+     *
+     * @return boolean
+     */
     public function isCmsMode()
     {
         return true;
     }
 
+    /**
+     * Returns true when both page and language have been setted
+     *
+     * @return boolean
+     */
     public function isValid()
     {
         return ($this->isValidPage && $this->isValidLanguage) ? true : false;
@@ -100,16 +147,17 @@ class AlPageTree extends BaseAlPageTree
      * @param   AlPage      $alPage     The AlPage object to use or none
      * @return  null        Returns null when something goes wrong
      */
+
+    /**
+     * Sets up the page tree object from current request or session (symfony 2.0.x)
+     *
+     * @return null
+     * @throws Exception
+     */
     public function setup()
     {
         try
         {
-            /*
-            $this->alLanguage = (null === $alLanguage) ? $this->setupLanguageFromSession() : $alLanguage;
-            $this->alPage = (null === $alPage) ? $this->setupPageFromRequest() : $alPage;
-            if (null === $this->alLanguage || null === $this->alPage) return null;
-            */
-
             $this->alLanguage = $this->setupLanguageFromSession();
             $this->alPage = $this->setupPageFromRequest();
             if (null === $this->alLanguage || null === $this->alPage) {
@@ -117,7 +165,7 @@ class AlPageTree extends BaseAlPageTree
             }
 
             $this->alTheme = $this->themeModel->activeBackend();
-            if (!$this->alTheme) {
+            if (null === $this->alTheme) {
                 return null;
             }
 
@@ -125,10 +173,11 @@ class AlPageTree extends BaseAlPageTree
             $this->setTemplateName($this->alPage->getTemplateName());
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
-            $this->container->get('al_page_manager')
-                    ->setTemplateManager($this->templateManager);
-
             $this->setContents($this->templateManager->slotsToArray(), true);
+
+            // TODO
+            //$rs = new AlRepeatedSlotsManager($this->container, $alTheme->getThemeName());
+            //$rs->compareSlots($this->templateName, $this->getSlots(), true);
         }
         catch(\Exception $ex)
         {
@@ -136,6 +185,12 @@ class AlPageTree extends BaseAlPageTree
         }
     }
 
+    /**
+     * Refreshes the page tree object with the given language and page ids
+     *
+     * @param int $idLanguage
+     * @param int $idPage
+     */
     public function refresh($idLanguage, $idPage)
     {
         $this->pageContentsContainer = $this->templateManager
@@ -148,71 +203,6 @@ class AlPageTree extends BaseAlPageTree
                     ->setPageContentsContainer($this->pageContentsContainer)
                     ->setTemplateSlots($this->templateSlots)
                     ->refresh();
-    }
-
-    /**
-     * Sets up the AlLanguage object from the current session
-     *
-     * @return AlLanguage or null
-     */
-    protected function setupLanguageFromSession()
-    {
-        $language = $this->container->get('request')->get('language');
-        if (null === $language) $language = method_exists ($this->container->get('session'), "getLocale") ? $this->container->get('session')->getLocale() : $this->container->get('request')->getLocale();
-
-        $alLanguage = ((int)$language > 0) ? $this->languageModel->fromPK($language) : $this->languageModel->fromLanguageName($language);
-
-        $this->isValidLanguage = true;
-
-        return $alLanguage;
-    }
-
-    /**
-     * Sets up the AlLanguage object from the current session and language
-     *
-     * @param AlLanguage    $alLanguage The AlLanguage object
-     *
-     * @return AlPage or null
-     */
-    protected function setupPageFromRequest(AlLanguage $alLanguage = null)
-    {
-        if (null === $alLanguage && null === $this->alLanguage) {
-            return null;
-        }
-
-        if (null === $alLanguage) {
-            $alLanguage = $this->alLanguage;
-        }
-
-        $pageName = $this->container->get('request')->get('page');
-        if (!$pageName || $pageName == "" || !is_string($pageName) || $pageName == "backend") {
-            return null;
-        }
-
-        $seo = $this->seoModel->fromPermalink($pageName, $alLanguage->getId());
-        if (null === $seo) {
-            $seo = $this->seoModel->fromPageAndLanguage($pageName, $alLanguage->getId());
-        }
-
-        if (null === $seo) {
-            $alPage = $this->pageModel->fromPageName($pageName);
-            if (null === $alPage) {
-                $alPage = $this->pageModel->fromPK($pageName);
-                if (!$alPage) {
-                    return null;
-                }
-            }
-        }
-        else {
-            $alPage = $seo->getAlPage();
-            $this->metaTitle = $seo->getMetaTitle();
-            $this->metaDescription = $seo->getMetaDescription();
-            $this->metaKeywords = $seo->getMetaKeywords();
-        }
-
-        $this->isValidPage = true;
-
-        return $alPage;
     }
 
     /**
@@ -281,6 +271,68 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
+     * Sets up the AlLanguage object from the current request or session (symfony 2.0.x)
+     *
+     * @return null|AlLanguage
+     */
+    protected function setupLanguageFromSession()
+    {
+        $request = $this->container->get('request');
+        $language = $request->get('language');
+        if (null === $language) {
+            $session = $this->container->get('session');
+            $language = method_exists ($session, "getLocale") ? $session->getLocale() : $request->getLocale();
+        }
+
+        $alLanguage = ((int)$language > 0) ? $this->languageModel->fromPK($language) : $this->languageModel->fromLanguageName($language);
+        $this->isValidLanguage = true;
+
+        return $alLanguage;
+    }
+
+    /**
+     * Sets up the AlLanguage object from the current request
+     *
+     * @return null
+     */
+    protected function setupPageFromRequest()
+    {
+        if (null === $this->alLanguage) {
+            return null;
+        }
+
+        $pageName = $this->container->get('request')->get('page');
+        if (!$pageName || $pageName == "" || $pageName == "backend") {
+            return null;
+        }
+
+        $seo = $this->seoModel->fromPermalink($pageName, $this->alLanguage->getId());
+        if (null === $seo) {
+            $seo = $this->seoModel->fromPageAndLanguage($pageName, $this->alLanguage->getId());
+        }
+
+        if (null === $seo) {
+            $alPage = $this->pageModel->fromPageName($pageName);
+            if (null === $alPage) {
+                $alPage = $this->pageModel->fromPK($pageName);
+                if (!$alPage) {
+                    return null;
+                }
+            }
+        }
+        else {
+            $alPage = $seo->getAlPage();
+            $this->metaTitle = $seo->getMetaTitle();
+            $this->metaDescription = $seo->getMetaDescription();
+            $this->metaKeywords = $seo->getMetaKeywords();
+        }
+
+        $this->isValidPage = true;
+
+        return $alPage;
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function setupPageTree()
@@ -290,16 +342,17 @@ class AlPageTree extends BaseAlPageTree
         if ($this->themeName != '' && $this->templateName != '') {
             $templateName = strtolower($this->templateName);
             $theme = preg_replace('/bundle$/', '', strtolower($this->themeName));
-            $param = sprintf('themes.%s_%s.stylesheets_cms', $theme, $templateName);
-            if ($this->container->hasParameter($param))
-            {
-                $this->addStylesheets($this->container->getParameter($param));
-            }
 
             $param = sprintf('themes.%s_%s.javascripts_cms', $theme, $templateName);
             if ($this->container->hasParameter($param))
             {
                 $this->addJavascripts($this->container->getParameter($param));
+            }
+
+            $param = sprintf('themes.%s_%s.stylesheets_cms', $theme, $templateName);
+            if ($this->container->hasParameter($param))
+            {
+                $this->addStylesheets($this->container->getParameter($param));
             }
 
             $kernel = $this->container->get('kernel');
