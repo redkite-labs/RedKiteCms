@@ -156,7 +156,7 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         $menu = '<ul class="business-menu">
             <li><a href="this-is-a-website-fake-page">home</a></li>
-            <li><a href="page-1">page1</a></li>
+            <li><a href="page1">page1</a></li>
         </ul>';
 
         $block = $this->blockModel->fromPK(2);
