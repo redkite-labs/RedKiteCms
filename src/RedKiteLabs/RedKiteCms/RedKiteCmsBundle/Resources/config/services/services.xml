@@ -6,7 +6,7 @@
     <parameters>
 
         <parameter key="block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
-        <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="slots_converter_facttemplate_changer.classory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
@@ -26,7 +26,8 @@
         <parameter key="language_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
         <parameter key="page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
         <parameter key="template_changer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger</parameter>
-
+        <parameter key="repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
+        <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
     </parameters>
 
     <services>
@@ -47,7 +48,6 @@
         </service>
 
         <service id="orm_model" class="%orm_model.class%">
-            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="theme_model" class="%theme_model.class%">
@@ -87,12 +87,12 @@
             <argument type="service" id="theme_model" />
             <argument type="service" id="seo_model" />
         </service>
-        
+
         <service id="al_block_manager" class="%al_block_manager_service%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="block_model" />
         </service>
-        
+
         <service id="al_page_manager" class="%al_cms_pages_manager%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="template_manager" />
@@ -133,6 +133,13 @@
 
         <service id="el_finder_js_connector" class="%el_finder.js_connector%" >
             <argument type="service" id="service_container" />
+        </service>
+
+        <service id="repeated_slots_aligner" class="%repeated_slots_aligner.class%">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="template_slots_factory" />
+            <argument type="service" id="slots_converter_factory" />
+            <argument type="service" id="orm_model" />
         </service>
     </services>
 </container>

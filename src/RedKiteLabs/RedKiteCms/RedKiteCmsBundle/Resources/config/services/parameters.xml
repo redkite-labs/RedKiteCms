@@ -43,5 +43,10 @@
         <parameter key="alcms.assets.output_folder">Resources/views/Assets</parameter>
 
         <parameter key="alcms.upload_assets_dir">uploads/assets</parameter>
+
+        <parameter key="al.deploy_bundle_assets_base_dir">Resources/public</parameter>
+        <parameter key="al.deploy_bundle_media_folder">media</parameter>
+        <parameter key="al.deploy_bundle_js_folder">js</parameter>
+        <parameter key="al.deploy_bundle_css_folder">css</parameter>
     </parameters>
 </container>
