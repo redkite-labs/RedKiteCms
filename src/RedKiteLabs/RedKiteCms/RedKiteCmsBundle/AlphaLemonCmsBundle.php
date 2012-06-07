@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle;
@@ -28,6 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler\RegisterCmsListe
  */
 class AlphaLemonCmsBundle extends Bundle
 {
+
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
