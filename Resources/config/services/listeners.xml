@@ -5,9 +5,9 @@
 
     <parameters>
         <parameter key="images_block_edited.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\AlImagesBlockEditedListener</parameter>
-        <parameter key="al_cms_setup_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\CmsSetupListener</parameter>
+        <parameter key="al_cms_bootstrap_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
         <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\FinalizeContentsListener</parameter>
-        <parameter key="al_kernel_exception_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\KernelExceptionListener</parameter>
+        <parameter key="al_access_deniend_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
         <parameter key="al_add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddSeoListener</parameter>
         <parameter key="al_add_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
         <parameter key="al_edit_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\EditSeoListener</parameter>
@@ -15,7 +15,6 @@
         <parameter key="al_remove_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
         <parameter key="al_update_permalink_on_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\UpdatePermalinkOnBlocksListener</parameter>
         <parameter key="al_change_template_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\ChangeTemplateListener</parameter>
-
         <parameter key="al_language_add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageSeoListener</parameter>
         <parameter key="al_language_add_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageBlocksListener</parameter>
         <parameter key="al_language_remove_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageSeoListener</parameter>
@@ -28,7 +27,7 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="al_cms_setup_listener" class="%al_cms_setup_listener.class%">
+        <service id="al_cms_bootstrap_listener" class="%al_cms_bootstrap_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
             <argument type="service" id="service_container" />
         </service>
@@ -38,7 +37,7 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="al_kernel_exception_listener" class="%al_kernel_exception_listener.class%">
+        <service id="al_access_deniend_listener" class="%al_access_deniend_listener.class%">
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
             <argument type="service" id="security.context" />
             <argument type="service" id="security.authentication.trust_resolver" />
