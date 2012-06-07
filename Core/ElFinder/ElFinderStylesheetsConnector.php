@@ -31,7 +31,7 @@ class ElFinderStylesheetsConnector extends AlphaLemonElFinderBaseConnector
     protected function configure()
     {
         $request = $this->container->get('request');
-        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonCmsBundle');
         $absolutePath = $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_css_folder') . '/';
         
         $options = array(
@@ -40,7 +40,8 @@ class ElFinderStylesheetsConnector extends AlphaLemonElFinderBaseConnector
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
                     'path'          => $absolutePath,         // path to files (REQUIRED)
                     'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $absolutePath, // URL to files (REQUIRED)
-                    'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
+                    'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
+                    'rootAlias'     => 'Stylesheets',
                 )
             )
         );
