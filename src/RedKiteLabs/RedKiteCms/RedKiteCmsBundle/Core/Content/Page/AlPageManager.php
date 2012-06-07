@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\pageModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
