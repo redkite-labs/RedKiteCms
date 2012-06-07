@@ -20,8 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 
 /**
- * Extends the base parameters validator object to add specific validations for
- * the languages
+ * AlParametersValidatorLanguageManager adds specific validations for languages
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -43,10 +42,13 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      * Sets the language model
      *
      * @param LanguageModelInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager
      */
     public function setLanguageModel(LanguageModelInterface $v)
     {
         $this->languageModel = $v;
+
+        return $this;
     }
 
     /**
@@ -59,13 +61,18 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
         return $this->languageModel;
     }
 
+    /**
+     * Checks if any language exists
+     *
+     * @return boolean
+     */
     public function hasLanguages()
     {
         return (count($this->languageModel->activeLanguages()) > 0) ? true : false;
     }
 
     /**
-     * Checks when the give language name is already saved
+     * Checks when the given language name exists
      *
      * @param string $laguageName
      * @return  boolean
