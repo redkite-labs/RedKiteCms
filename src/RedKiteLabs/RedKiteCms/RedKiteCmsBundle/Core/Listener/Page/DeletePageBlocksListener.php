@@ -19,8 +19,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\SeoModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\SeoModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
 
 /**
  * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page is removed
