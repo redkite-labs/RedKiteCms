@@ -21,7 +21,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
 
 /**
- * AlParametersValidator
+ * AlParametersValidatorPageManager adds specific validations for pages
+ *
+ * PageManager depends on website's languages, because before a page can be added
+ * at least a language must esist. For this reason the AlParametersValidatorPageManager
+ * inherits from AlParametersValidatorLanguageManager instead of the base validator
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -29,6 +33,11 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
 {
     protected $pageModel;
 
+    /**
+     * Constructor
+     *
+     * @param PageModelInterface $pageModel
+     */
     public function __construct(LanguageModelInterface $languageModel, PageModelInterface $pageModel)
     {
         parent::__construct($languageModel);
@@ -36,31 +45,47 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
         $this->pageModel = $pageModel;
     }
 
-    public function setLanguageModel(LanguageModelInterface $v)
-    {
-        $this->languageModel = $v;
-    }
-
+    /**
+     * Sets the page model object
+     *
+     * @param PageModelInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
+     */
     public function setPageModel(PageModelInterface $v)
     {
         $this->pageModel = $v;
+
+        return $this;
     }
 
-    public function getLanguageModel()
-    {
-        return $this->languageModel;
-    }
-
+    /**
+     * Returns the page model object
+     *
+     * @return PageModelInterface
+     */
     public function getPageModel()
     {
         return $this->pageModel;
     }
 
+    /**
+     * Checks if any page exists. When the min parameter is specified, checks thatthe number of existing pages
+     * is greater than the given value
+     *
+     * @param int $min
+     * @return boolean
+     */
     public function hasPages($min = 0)
     {
         return (count($this->pageModel->activePages()) > $min) ? true : false;
     }
 
+    /**
+     * Checks when the given page name exists
+     *
+     * @param int $pageName
+     * @return boolean
+     */
     public function pageExists($pageName)
     {
         return (count($this->pageModel->fromPageName($pageName)) > 0) ? true : false;

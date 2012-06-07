@@ -21,35 +21,68 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
 
 /**
- * AlParametersValidator
+ * AlParametersValidator validates consistence of array parameters
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlParametersValidator extends AlTranslator implements AlParametersValidatorInterface
 {
-    public function checkEmptyParams(array $values)
+    /**
+     * {@inheritdoc}
+     * 
+     * @throws General\EmptyParametersException 
+     */
+    public function checkEmptyParams(array $values, $message = null)
     {
         if(empty($values)) {
-            throw new General\EmptyParametersException($this->translate('Any parameter has been given.'));
+            if(null === $message) $message = 'Any parameter has been given';
+            
+            throw new General\EmptyParametersException($this->translate($message));
         }
     }
 
-    public function checkOnceValidParamExists(array $requiredParams, array $values)
+    /**
+     * {@inheritdoc}
+     * 
+     * @throws General\ParameterExpectedException 
+     */
+    public function checkOnceValidParamExists(array $requiredParams, array $values, $message = null)
     {
+        $this->checkEmptyParams($requiredParams, 'Checking that at least a valid parameter exist cannot validate nothing when any required parameters has been given');
+        $this->checkEmptyParams($values, 'Checking that at least a valid parameter exist cannot validate nothing when any value has been given');
+        
         $diff = array_intersect_key($requiredParams, $values);
         if(empty($diff)) {
-            throw new General\ParameterExpectedException($this->translate('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
+            if(null === $message) $message = $this->translate('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff)));
+            
+            throw new General\ParameterExpectedException($message);
         }
     }
 
-    public function checkRequiredParamsExists(array $requiredParams, array $values)
+    /**
+     * {@inheritdoc}
+     * 
+     * @throws General\ParameterExpectedException 
+     */
+    public function checkRequiredParamsExists(array $requiredParams, array $values, $message = null)
     {
+        $this->checkEmptyParams($requiredParams, 'Checking that all the required parameters exist cannot validate nothing when any required parameters has been given');
+        $this->checkEmptyParams($values, 'Checking that all the required parameters exist cannot validate nothing when any value has been given');
+        
         $diff = array_intersect_key($requiredParams, $values);
         if($diff != $requiredParams) {
-            throw new General\ParameterExpectedException($this->translate('The following parameters are required: %required%. The parameters you gave are %values%', array('%required%' => $this->doImplode($requiredParams), '%values%' => $this->doImplode($values))));
+            if(null === $message) $message = $this->translate('The following parameters are required: %required%. The parameters you gave are %values%', array('%required%' => $this->doImplode($requiredParams), '%values%' => $this->doImplode($values)));
+            
+            throw new General\ParameterExpectedException($message);
         }
     }
 
+    /**
+     * Implodes the given array
+     * 
+     * @param array $params
+     * @return type 
+     */
     protected function doImplode(array $params)
     {
         return implode(',', array_keys($params));
