@@ -31,7 +31,7 @@ class ElFinderJavascriptsConnector extends AlphaLemonElFinderBaseConnector
     protected function configure()
     {
         $request = $this->container->get('request');
-        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonCmsBundle');
         $absolutePath = $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_js_folder') . '/';
         
         $options = array(
@@ -41,7 +41,7 @@ class ElFinderJavascriptsConnector extends AlphaLemonElFinderBaseConnector
                     'path'          => $absolutePath,         // path to files (REQUIRED)
                     'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $absolutePath, // URL to files (REQUIRED)
                     'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
-                    'rootAlias'       => 'Javascripts',
+                    'rootAlias'     => 'Javascripts',
                 )
             )
         );
