@@ -10,24 +10,21 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
- * ModelInterface
- * 
+ * PageModelInterface
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface BlockModelInterface {
+interface PageModelInterface {
     public function fromPK($id);
-    public function retrieveContents($idLanguage, $idPage, $slotName = null);
-    public function retrieveContentsBySlotName($slotName);
-    public function fromLanguageId($languageId);
-    public function fromPageId($pageId);
-    public function fromPageIdAndSlotName($pageId, $slotName);
-    public function fromHtmlContent($search);
+    public function activePages();
+    public function fromPageName($pageName);
+    public function homePage();
 }

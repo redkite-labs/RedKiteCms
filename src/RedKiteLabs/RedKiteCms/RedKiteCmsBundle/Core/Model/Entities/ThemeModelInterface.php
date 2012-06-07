@@ -15,17 +15,14 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
  * ModelInterface
  * 
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface PageModelInterface {
-    public function fromPK($id);
-    public function activePages();
-    public function fromPageName($pageName);
-    public function homePage();
-    
+interface ThemeModelInterface {
+    public function fromName($themeName);
+    public function activeBackend();
 }

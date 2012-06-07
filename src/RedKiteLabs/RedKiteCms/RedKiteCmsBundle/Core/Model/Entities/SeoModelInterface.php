@@ -15,14 +15,18 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
  * ModelInterface
  * 
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface ModelInterface {
-    public function setModelObject($object = null);
-    public function getModelObjectClassName();
+interface SeoModelInterface {
+    public function fromPK($id);
+    public function fromPageAndLanguage($languageId, $pageId);
+    public function fromPermalink($permalink, $languageId);
+    public function fromPageId($pageId);
+    public function fromLanguageId($languageId);
+    public function fromPageIdWithLanguages($pageId);
 }
