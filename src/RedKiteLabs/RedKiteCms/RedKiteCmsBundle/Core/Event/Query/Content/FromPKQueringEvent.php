@@ -15,19 +15,15 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content;
+
+use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Base\BaseActionEvent;
 
 /**
- * Defines the names for events dispatched when applying a filter on page attributes
+ * Defines the FromPKQueringEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-final class SeoEvents
+class FromPKQueringEvent extends BaseActionEvent
 {
-    const FROM_PK = 'query_seo.from_pk';
-    const FROM_PAGE_AND_LANGUAGE = 'query_seo.from_page_and_language';
-    const FROM_PERMALINK = 'query_seo.from_permalink';
-    const FROM_LANGUAGE_ID = 'query_seo.from_language_id';    
-    const FROM_PAGE_ID = 'query_seo.from_page_id';    
-    const FROM_PAGE_ID_WITH_LANGUAGES = 'query_seo.from_page_id_with_languages';  
 }

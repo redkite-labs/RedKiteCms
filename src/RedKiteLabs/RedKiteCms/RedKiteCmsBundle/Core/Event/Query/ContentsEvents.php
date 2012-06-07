@@ -24,9 +24,11 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query;
  */
 final class ContentsEvents
 {
+    const FROM_PK = 'query_contents.from_pk';
     const RETRIEVE_CONTENTS = 'query_contents.retrieve_contents';
     const FROM_LANGUAGE_ID = 'query_contents.from_language_id';
     const RETRIEVE_CONTENTS_BY_SLOT_NAME = 'query_contents.retrieve_contents_by_slot_name';
     const FROM_PAGE_ID = 'query_contents.from_page_id';
     const FROM_PAGE_ID_AND_SLOT_NAME = 'query_contents.from_page_id_and_slot_name';
+    const FROM_HTML_CONTENT = 'query_contents.from_html_content';    
 }

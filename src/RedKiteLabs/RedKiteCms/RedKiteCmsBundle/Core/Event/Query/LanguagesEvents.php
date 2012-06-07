@@ -24,7 +24,9 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query;
  */
 final class LanguagesEvents
 {
+    const FROM_PK = 'query_languages.from_pk';
     const ACTIVE_LANGUAGES = 'query_languages.active_languages';
     const FROM_LANGUAGE_NAME = 'query_languages.from_language_name';
     const MAIN_LANGUAGE = 'query_languages.main_language';
+    const FIRST_ONE = 'query_languages.first_one';
 }    
