@@ -24,6 +24,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query;
  */
 final class PagesEvents
 {
+    const FROM_PK = 'query_pages.from_pk';
     const ACTIVE_PAGES = 'query_pages.active_pages';
     const FROM_PAGE_NAME = 'query_pages.from_page_name';
     const HOME_PAGE = 'query_pages.home_page';
