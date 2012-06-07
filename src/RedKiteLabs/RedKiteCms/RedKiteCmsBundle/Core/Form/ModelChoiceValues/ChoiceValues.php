@@ -23,9 +23,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
 use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\ThemeModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\ThemeModelInterface;
 
 /**
  * Retrieves form the database the values used in the forms

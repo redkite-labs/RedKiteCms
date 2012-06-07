@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\OrmInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\EntitiesInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
@@ -30,7 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
 
 /**
@@ -58,17 +58,17 @@ class AlPageTree extends BaseAlPageTree
      *
      * @param ContainerInterface $container
      * @param AlTemplateManager $templateManager
-     * @param Orm\LanguageModelInterface $languageModel
-     * @param Orm\PageModelInterface $pageModel
-     * @param Orm\ThemeModelInterface $themeModel
-     * @param Orm\SeoModelInterface $seoModel
+     * @param Entities\LanguageModelInterface $languageModel
+     * @param Entities\PageModelInterface $pageModel
+     * @param Entities\ThemeModelInterface $themeModel
+     * @param Entities\SeoModelInterface $seoModel
      */
     public function __construct(ContainerInterface $container,
                                 AlTemplateManager $templateManager,
-                                Orm\LanguageModelInterface $languageModel = null,
-                                Orm\PageModelInterface $pageModel = null,
-                                Orm\ThemeModelInterface $themeModel = null,
-                                Orm\SeoModelInterface $seoModel = null)
+                                Entities\LanguageModelInterface $languageModel = null,
+                                Entities\PageModelInterface $pageModel = null,
+                                Entities\ThemeModelInterface $themeModel = null,
+                                Entities\SeoModelInterface $seoModel = null)
     {
         parent::__construct($container);
 
@@ -174,10 +174,6 @@ class AlPageTree extends BaseAlPageTree
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
             $this->setContents($this->templateManager->slotsToArray(), true);
-
-            // TODO
-            //$rs = new AlRepeatedSlotsManager($this->container, $alTheme->getThemeName());
-            //$rs->compareSlots($this->templateName, $this->getSlots(), true);
         }
         catch(\Exception $ex)
         {
@@ -208,11 +204,11 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Overrides the base method to add extra functionalities
      *
-     * @see   AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree->addContent()
+     * @see   AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree->addBlock()
      */
-    public function addContent($slotName, array $content, $key = null)
+    public function addBlock($slotName, array $content, $key = null)
     {
-        parent::addContent($slotName, $content, $key);
+        parent::addBlock($slotName, $content, $key);
 
         if (array_key_exists("ExternalJavascript", $content))
         {
