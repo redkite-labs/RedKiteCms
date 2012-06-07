@@ -35,7 +35,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
         $this->connection = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Pdo\MockPDO');
     }
 
-
     public static function setUpBeforeClass()
     {
         $config = array("datasources" => array (
@@ -58,59 +57,14 @@ class TestCase extends \PHPUnit_Framework_TestCase {
             \Propel::setConfiguration($config);
             \Propel::initialize();
         }
-        /*
-        //tools\AlphaLemonDataPopulator::depopulate();
-                               
-        /*
-        if(null === $this->container)
-        {
-            $isLocal = false;
-            $localKernel = __DIR__.'/../../../../../../app/AppKernel.php';
-            if(is_file($localKernel)) {
-                require_once $localKernel;
-                $isLocal = true;
-            }
-            else {
-                require_once __DIR__.'/CmsTestKernel/CmsTestKernel.php';
-            }
-
-            $app = ($isLocal) ? new \AppKernel('test', true) : new \CmsTestKernel('test', true);
-            $app->boot();
-            $this->container = $app->getContainer(); 
-        }*/
     }
     
-    public function getContainer()
+    protected static function callMethod($obj, $name, array $args = array())
     {
-        return $this->container;
-    }
-
-    public function setupPageTree($languageId = null, $pageId = null)
-    {
-        $pageTree = new TestAlPageTree($this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface'), $languageId, $pageId);
-        $this->container->set('al_page_tree', $pageTree);
+        $object = new \ReflectionClass($obj);
+        $method = $object->getMethod($name);
+        $method->setAccesible(true);
         
-        return $this;
-    }
-}
-
-
-class TestAlPageTree extends AlPageTree
-{
-    public function __construct(ContainerInterface $container, $languageId = null, $pageId = null, $themeName = 'BusinessWebsiteThemeBundle', $templateName = 'Home')
-    {
-        parent::__construct($container);
-        
-        $languageId = (null != $languageId) ? $languageId : 2;
-        $this->alLanguage = new AlLanguage();
-        $this->alLanguage->setId($languageId);
-        
-        $pageId = (null != $pageId) ? $pageId : 2;
-        $this->alPage = new AlPage();
-        $this->alPage->setId($pageId);
-        $this->alPage->setTemplateName($templateName);
-        
-        $this->setThemeName($themeName);
-        $this->setTemplateName($templateName);
+        return $method->invokeArgs($obj, $args);
     }
 }
