@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
 
 /**
  * AlParametersValidatorLanguageManager adds specific validations for languages

@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
 
 /**
  * AlParametersValidatorPageManager adds specific validations for pages

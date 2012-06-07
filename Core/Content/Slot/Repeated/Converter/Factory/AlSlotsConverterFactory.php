@@ -19,9 +19,9 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Fa
 
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\PageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Slot\SameRepeatedStatusException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
