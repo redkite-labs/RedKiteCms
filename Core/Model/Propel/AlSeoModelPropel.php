@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
@@ -22,55 +22,66 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Seo;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\SeoEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeoQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\SeoModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\SeoModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
  *  Adds some filters to the AlSeoQuery object
- * 
+ *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getModelObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo';
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function fromPK($id)
     {
         $query = AlSeoQuery::create();
-        
+
         if(null !== $this->dispatcher)
         {
-            /* TODO
-            $event = new Language\MainLanguageQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::MAIN_LANGUAGE, $event);
+            $event = new Seo\FromPKQueringEvent($query);
+            $this->dispatcher->dispatch(SeoEvents::FROM_PK, $event);
 
             if($query !== $event->getQuery())
             {
                 $query = $event->getQuery();
-            }*/
+            }
         }
-        
+
         return $query->findPk($id);
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
             throw new InvalidParameterTypeException('AlSeoModel accepts only AlSeo propel objects.');
         }
-        
+
         return parent::setModelObject($object);
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function fromPageAndLanguage($languageId, $pageId)
     {
         $query = AlSeoQuery::create()->filterByPageId($pageId)
                       ->filterByLanguageId($languageId)
                       ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Seo\FromPageAndLanguageQueringEvent($query);
@@ -81,16 +92,19 @@ class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->findOne();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromPermalink($permalink, $languageId)
     {
         $query = AlSeoQuery::create()->filterByPermalink($permalink)
                       ->filterByLanguageId($languageId)
                       ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Seo\FromPermalinkQueringEvent($query);
@@ -101,15 +115,18 @@ class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->findOne();
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function fromPageId($pageId)
     {
         $query = AlSeoQuery::create()->filterByPageId($pageId)
                       ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Seo\FromPageIdQueringEvent($query);
@@ -120,15 +137,18 @@ class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
                 $query = $event->getQuery();
             }
         }
-        
+
         return $this->find();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromLanguageId($languageId)
     {
         $query = AlSeoQuery::create()->filterByLanguageId($languageId)
                       ->filterByToDelete(0);
-        
+
         if(null !== $this->dispatcher)
         {
             $event = new Seo\FromLanguageIdQueringEvent($query);
@@ -139,10 +159,13 @@ class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function fromPageIdWithLanguages($pageId)
     {
         $query = AlSeoQuery::create()
@@ -160,7 +183,7 @@ class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
                 $query = $event->getQuery();
             }
         }
-        
+
         return $query->find();
     }
-} 
+}

@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\ModelInterface;
 
 /**
- *  Adds some filters to the AlBlockQuery object
+ *  Implements the ModelInterface to define the base class any propel model must inherit
  * 
  *  @author alphalemon <webmaster@alphalemon.com>
  */
@@ -33,15 +33,23 @@ abstract class AlPropelModel extends AlPropelOrm implements ModelInterface
     /**
      * Constructor
      * 
-     * @param EventDispatcherInterface $v 
+     * @param EventDispatcherInterface $v
+     * @param \PropelPDO $connection 
      */
-    public function __construct(EventDispatcherInterface $v, \PropelPDO $connection = null)
+    public function __construct(EventDispatcherInterface $v = null, \PropelPDO $connection = null)
     {
         parent::__construct($connection);
         
         $this->dispatcher = $v;
     }
     
+    /**
+     * {@inheritdoc}
+     * 
+     * @param BaseObject $object
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\Base\AlPropelModel
+     * @throws General\InvalidParameterTypeException 
+     */
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof \BaseObject) {
@@ -53,6 +61,11 @@ abstract class AlPropelModel extends AlPropelOrm implements ModelInterface
         return $this;
     }
     
+    /**
+     * Returns the current model object
+     * 
+     * @return AlPropelModel 
+     */
     public function getModelObject()
     {
         return $this->modelObject;
@@ -62,17 +75,12 @@ abstract class AlPropelModel extends AlPropelOrm implements ModelInterface
      * Sets the dispatcher
      * 
      * @param EventDispatcherInterface $v
-     * @return AlBlockQuery 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\Base\AlPropelModel 
      */
     public function setDispatcher(EventDispatcherInterface $v)
     {
         $this->dispatcher = $v;
         
         return $this;
-    }
-    
-    private function isModelObjectSetted($object)
-    {
-        return (null === $this->modelObject && null === $object) ? false : true;            
     }
 } 

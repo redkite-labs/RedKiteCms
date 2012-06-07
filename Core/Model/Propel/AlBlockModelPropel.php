@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\ContentsEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
@@ -32,11 +32,17 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  */
 class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getModelObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
@@ -46,25 +52,30 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         return parent::setModelObject($object);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromPK($id)
     {
         $query = AlBlockQuery::create();
 
         if(null !== $this->dispatcher)
         {
-            /*TODO
-            $event = new Content\FromPageIdQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID, $event);
+            $event = new Content\FromPKQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::FROM_PK, $event);
 
             if($query !== $event->getQuery())
             {
                 $query = $event->getQuery();
-            }*/
+            }
         }
 
         return $query->findPk($id);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function retrieveContents($idLanguage, $idPage, $slotName = null)
     {
         $query = AlBlockQuery::create()
@@ -91,6 +102,9 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         return $query->find();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function retrieveContentsBySlotName($slotName)
     {
         $query = AlBlockQuery::create()
@@ -111,6 +125,9 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         return $query->find();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromLanguageId($languageId)
     {
         $query = AlBlockQuery::create()
@@ -131,6 +148,9 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         return $query->find();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromPageId($pageId)
     {
         $query = AlBlockQuery::create()
@@ -151,6 +171,9 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         return $query->find();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromPageIdAndSlotName($pageId, $slotName)
     {
         $query = AlBlockQuery::create()
@@ -172,6 +195,9 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         return $query->find();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromHtmlContent($search)
     {
         $query = AlBlockQuery::create()
@@ -180,8 +206,8 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
 
         if(null !== $this->dispatcher)
         {
-            $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID_AND_SLOT_NAME, $event);
+            $event = new Content\FromHtmlContentQueringEvent($query);
+            $this->dispatcher->dispatch(ContentsEvents::FROM_HTML_CONTENT, $event);
 
             if($query !== $event->getQuery())
             {
