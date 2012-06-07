@@ -41,14 +41,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
  */
 abstract class AlDeployer
 {
-    private $baseDeployBundle;
-    private $baseDeployBundleAssetsFolder;
-    private $baseCmsResourcesDir = 'Resources';
-    private $baseTargetResourcesDir = 'Resources';
-    private $baseDataDir = 'views/AlphaLemon';
-    private $baseTranslationsDir = 'translations';
-    private $twigAssetsDir = null;
-    
     protected $pageTrees = array();
     protected $container = null;
     protected $resourcesFolder = null;
@@ -58,11 +50,17 @@ abstract class AlDeployer
     protected $deployBundle = null;
     protected $cmsBundleFolder;
     protected $cmsUploadFolder;
-    protected $deployBundleAssetsFolder;
-                
+    protected $deployBundleAssetsFolder;                
     protected $assetsFolder = null;
+    protected $kernel;
     
-
+    private $baseDeployBundle;
+    private $baseDeployBundleAssetsFolder;
+    private $baseCmsResourcesDir = 'Resources';
+    private $baseTargetResourcesDir = 'Resources';
+    private $baseDataDir = 'views/AlphaLemon';
+    private $baseTranslationsDir = 'translations';
+    
     /**
      * Implements the method to save the page
      */
@@ -71,14 +69,14 @@ abstract class AlDeployer
     public function  __construct(ContainerInterface $container)
     {
         $this->container = $container; 
+        $this->kernel = $container->get('kernel'); 
         $this->baseDeployBundle = $this->container->getParameter('al.deploy_bundle');
         $this->baseDeployBundleAssetsFolder = $this->container->getParameter('al.deploy_bundle_assets_base_dir');
     }
 
-
     /**
-    * Publish all the website's pages
-    */
+     * Publish all the website's pages
+     */
     public function deploy()
     {
         $this->setup();
@@ -122,13 +120,6 @@ abstract class AlDeployer
     public function translationsDir($v)
     {
         $this->baseTranslationsDir = $v;
-        
-        return $this;
-    }
-    
-    public function twigAssetsFolder($v)
-    {
-        $this->twigAssetsDir = $v;
         
         return $this;
     }
@@ -199,7 +190,7 @@ abstract class AlDeployer
     protected function run()
     {
         $this->setupPageTrees();
-        $this->writeDictionaryFiles();
+        //$this->writeDictionaryFiles();
         $this->copyAssets();
         $this->generateRoutes($this->resourcesFolder . '/config');
         AlToolkit::executeCommand($this->container->get('kernel'), 'cache:clear');
@@ -339,67 +330,6 @@ abstract class AlDeployer
                 $filename = sprintf('%s/%s.%s.xliff', $this->translationsFolder, $pageTree->getAlPage()->getPageName(), $pageTree->getAlLanguage()->getLanguage());
                 if(\is_file($filename)) unlink($filename);
                 $xml->asXML($filename);
-            }
-        }
-    }
-
-    /**
-     * Writes a twig file that contains the assets for each page where any kind of assets is required.
-     */
-    protected function writeTwigAssetsFiles()
-    {
-        $fs = new Filesystem();
-        $outputFolder = AlToolkit::locateResource($this->container, $this->deployBundle, true) . $this->container->getParameter('alcms.assets.output_folder');
-        if(!is_dir($outputFolder))
-        {
-            $fs->mkdir($outputFolder);
-        }
-
-        $finder = new Finder();
-        $files = $finder->files()->in($outputFolder); 
-        
-        
-        $fs->remove($files);
-
-        foreach($this->pageTrees as $pageTree)
-        {
-            $languageName = $pageTree->getAlLanguage()->getLanguage();
-            $pageName = $pageTree->getAlPage()->getPageName(); 
-            $themeName = preg_replace('/bundle$/', '', \strtolower($pageTree->getThemeName()));
-            $templateName = \strtolower($pageTree->getTemplateName()); 
-            
-            // Writes the base stylesheets for the current template
-            $templateStylesheets = sprintf('themes.%s_%s.stylesheets', $themeName, $templateName);
-            $baseCssAssets = ($this->container->hasParameter($templateStylesheets)) ? $this->container->getParameter($templateStylesheets) : array();
-            $outputFileName = sprintf('%s_stylesheets.html.twig', $templateName);
-            if(!file_exists($outputFileName))
-            {
-                $this->writeTwigAssetsFile($outputFileName, 'stylesheets_skeleton', array($baseCssAssets), array('?yui_css', 'cssrewrite'));                
-            }
-
-            // Writes the base javascripts for the current template
-            $templateJavascripts = sprintf('themes.%s_%s.javascripts', $themeName, $templateName);
-            $baseJsAssets = ($this->container->hasParameter($templateJavascripts)) ? $this->container->getParameter($templateJavascripts) : array();
-            $outputFileName = sprintf('%s_javascripts.html.twig', $templateName);
-            if(!file_exists($outputFileName))
-            {
-                $this->writeTwigAssetsFile($outputFileName, 'javascripts_skeleton', array($baseJsAssets), array('?yui_js'));
-            }
-            
-            // Writes the stylesheets template for the current language and page when needed
-            $customAssets = $pageTree->getExternalStylesheets();
-            if(!empty($customAssets))
-            {
-                $outputFileName = sprintf('%s_%s_stylesheets.html.twig', $languageName, $pageName);
-                $this->writeTwigAssetsFile($outputFileName, 'stylesheets_skeleton', array($baseCssAssets, $customAssets), array('?yui_css', 'cssrewrite'));
-            }
-            
-            // Writes the javascripts template for the current language and page when needed
-            $customAssets = $pageTree->getExternalJavascripts(); 
-            if(!empty($customAssets))
-            {
-                $outputFileName = sprintf('%s_%s_javascripts.html.twig', $languageName, $pageName);            
-                $this->writeTwigAssetsFile($outputFileName, 'javascripts_skeleton', array($baseJsAssets, $customAssets), array('?yui_js'));
             }
         }
     }

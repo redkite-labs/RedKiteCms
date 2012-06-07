@@ -39,7 +39,7 @@ class AlTwigDeployer extends AlDeployer {
 
         // Writes page contents
         $twigContents = $this->writeComment("Contents section");
-        ;
+        
         $apps = Array();
         $slots = array_keys($pageTree->getSlots());
         foreach ($pageTree->getContents() as $slotName => $contents) {
@@ -103,13 +103,15 @@ class AlTwigDeployer extends AlDeployer {
         file_put_contents($filePath . '/' . $pageTree->getAlPage()->getPageName() . '.html.twig', $twig . $twigContents);
     }
 
-    protected function writeComment($comment) {
+    protected function writeComment($comment)
+    {
         $comment = strtoupper($comment);
 
         return "\n{#################  $comment  #################}\n";
     }
 
-    protected function writeBlock($blockName, $content) {
+    protected function writeBlock($blockName, $content) 
+    {
         if (empty($content))
             return "";
 
@@ -120,7 +122,8 @@ class AlTwigDeployer extends AlDeployer {
         return $block;
     }
 
-    protected function writeAssetic($sectionName, $assets, $content, $filter = null, $output = null) {
+    protected function writeAssetic($sectionName, $assets, $content, $filter = null, $output = null) 
+    {
         $section = $sectionName . " " . $assets;
         if (null !== $filter)
             $section .= " filter=\"$filter\"";
@@ -133,7 +136,8 @@ class AlTwigDeployer extends AlDeployer {
         return $block;
     }
 
-    protected function writeContent($slotName, $content) {
+    protected function writeContent($slotName, $content) 
+    {
         $block = "  {% if(slots.$slotName is not defined) %}\n";
         $block .= $this->formatContent($content) . "\n";
         $block .= "  {% else %}\n";
@@ -143,7 +147,8 @@ class AlTwigDeployer extends AlDeployer {
         return $block;
     }
 
-    protected function assetsToString($assets) {
+    protected function assetsToString($assets) 
+    {
         $res = array();
         foreach ($assets as $asset) {
             $res[] = '"' . $asset . '"';
@@ -152,7 +157,8 @@ class AlTwigDeployer extends AlDeployer {
         return implode(" ", $res);
     }
 
-    protected function formatContent($content) {
+    protected function formatContent($content) 
+    {
         $formattedContents = array();
         $tokens = explode("\n", $content);
         foreach ($tokens as $token) {
@@ -177,7 +183,8 @@ class AlTwigDeployer extends AlDeployer {
      * @param array     $assets
      * @return array    The normalized paths
      */
-    protected function normalizeAssetsPath(array $assets) {
+    protected function normalizeAssetsPath(array $assets) 
+    {
         $assetsFound = array();
         foreach ($assets as $asset) {
             $filename = basename($asset);
@@ -236,5 +243,4 @@ class AlTwigDeployer extends AlDeployer {
 
         return $normalizedAssets;
     }
-
 }
