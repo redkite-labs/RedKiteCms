@@ -23,13 +23,6 @@ class AlPageTreeTest extends TestCase
     {
         parent::setUp();
 
-        /*
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-
-        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();*/
-
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
         $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
@@ -374,7 +367,7 @@ class AlPageTreeTest extends TestCase
         $this->assertNull($this->pageTree->setup());
     }
 
-    public function testPageBeenSetted()
+    public function testPageTreeHasBeenSetted()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
@@ -459,6 +452,114 @@ class AlPageTreeTest extends TestCase
         $this->assertEquals($page, $this->pageTree->getAlPage());
         $this->assertEquals($theme, $this->pageTree->getAlTheme());
         $this->assertTrue($this->pageTree->isCmsMode());
+
+        return $this->pageTree;
+    }
+
+    /**
+     * @depends testPageTreeHasBeenSetted
+     *
+     * To avoid continuosly setting up of PageTree object
+     */
+    public function testAddANewBlockToPageTree1($pageTree)
+    {
+        $blocks = $pageTree->getContents();
+
+        $newBlock = array('HtmlContent' => 'Another fake block');
+        $pageTree->addBlock('logo', $newBlock);
+
+        $blocks['logo'][] = $newBlock;
+
+        $this->assertEquals($blocks, $pageTree->getContents());
+    }
+
+    /**
+     * @depends testPageTreeHasBeenSetted
+     */
+    public function testAddANewBlockWithAllAttributesToPageTree($pageTree)
+    {
+        $blocks = $pageTree->getContents();
+        $internalJavascript = $pageTree->getInternalJavascript();
+        $internalStylesheet = $pageTree->getInternalStylesheet();
+        $externalJavascript = $pageTree->getExternalJavascripts();
+        $externalStylesheet = $pageTree->getExternalStylesheets();
+
+
+        $newBlock = array('HtmlContent' => 'Another fake block',
+                          'ExternalJavascript' => 'Another fake external javascript',
+                          'InternalJavascript' => 'Another fake internal javascript',
+                          'ExternalStylesheet' => 'Another fake external stylesheet',
+                          'InternalStylesheet' => 'Another fake internal stylesheet',);
+        $pageTree->addBlock('logo', $newBlock);
+
+        $blocks['logo'][] = $newBlock;
+        $externalJavascript[] = $newBlock['ExternalJavascript'];
+        $externalStylesheet[] = $newBlock['ExternalStylesheet'];
+
+        $this->assertEquals($blocks, $pageTree->getContents());
+        $this->assertEquals($internalJavascript . $newBlock['InternalJavascript'], $pageTree->getInternalJavascript());
+        $this->assertEquals($internalStylesheet . $newBlock['InternalStylesheet'], $pageTree->getInternalStylesheet());
+        $this->assertEquals($externalJavascript, $pageTree->getExternalJavascripts());
+        $this->assertEquals($externalStylesheet, $pageTree->getExternalStylesheets());
+    }
+
+    /**
+     * @depends testPageTreeHasBeenSetted
+     */
+    public function testAddANewExternalJavascript($pageTree)
+    {
+        $externalJavascripts = $pageTree->getExternalJavascripts();
+
+        $asset = 'new fake external javascript';
+        $pageTree->addJavascript($asset);
+
+        $externalJavascripts[] = $asset;
+
+        $this->assertEquals($externalJavascripts, $pageTree->getExternalJavascripts());
+    }
+
+    /**
+     * @depends testPageTreeHasBeenSetted
+     */
+    public function testAnExternalJavascriptCannotBeAddedMoreThanOnce($pageTree)
+    {
+        $externalJavascripts = $pageTree->getExternalJavascripts();
+
+        $asset = 'fake external javascript added once';
+        $pageTree->addJavascript($asset);
+        $pageTree->addJavascript($asset);
+        $externalJavascripts[] = $asset;
+
+        $this->assertEquals($externalJavascripts, $pageTree->getExternalJavascripts());
+    }
+
+    /**
+     * @depends testPageTreeHasBeenSetted
+     */
+    public function testAddANewExternalStylesheet($pageTree)
+    {
+        $externalStylesheets = $pageTree->getExternalStylesheets();
+
+        $asset = 'new fake stylesheet javascript';
+        $pageTree->addStylesheet($asset);
+        $externalStylesheets[] = $asset;
+
+        $this->assertEquals($externalStylesheets, $pageTree->getExternalStylesheets());
+    }
+
+    /**
+     * @depends testPageTreeHasBeenSetted
+     */
+    public function testAnExternalStylesheetCannotBeAddedMoreThanOnce($pageTree)
+    {
+        $externalStylesheets = $pageTree->getExternalStylesheets();
+
+        $asset = 'fake external stylesheet added once';
+        $pageTree->addStylesheet($asset);
+        $pageTree->addStylesheet($asset);
+        $externalStylesheets[] = $asset;
+
+        $this->assertEquals($externalStylesheets, $pageTree->getExternalStylesheets());
     }
 
     private function configureLanguage()
