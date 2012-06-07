@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Language;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\LanguagesEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
@@ -32,11 +32,17 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  */
 class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getModelObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlLanguage) {
@@ -46,36 +52,34 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
         return parent::setModelObject($object);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromPK($id)
     {
         $query = AlLanguageQuery::create();
 
         if(null !== $this->dispatcher)
         {
-            /* TODO
-            $event = new Language\MainLanguageQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::MAIN_LANGUAGE, $event);
+            $event = new Language\FromPKQueringEvent($query);
+            $this->dispatcher->dispatch(LanguagesEvents::FROM_PK, $event);
 
             if($query !== $event->getQuery())
             {
                 $query = $event->getQuery();
-            }*/
+            }
         }
 
         return $query->findPk($id);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function mainLanguage()
     {
         $query = AlLanguageQuery::create()->filterByMainLanguage(1)
                           ->filterByToDelete(0);
-
-        // TODO Check out this behavior
-        /*if(!$query->findOne())
-        {
-            $query = $this->filterByToDelete(0)
-                             ->where('id != 1');
-        }*/
 
         if(null !== $this->dispatcher)
         {
@@ -91,6 +95,9 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
         return $query->findOne();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fromLanguageName($languageName)
     {
         if (null === $languageName)
@@ -121,10 +128,8 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
     }
 
     /**
-    * Retrieves the active languages in the website
-    *
-    * @return  array of objects
-    */
+     * {@inheritdoc}
+     */
     public function activeLanguages()
     {
         $query = AlLanguageQuery::create()->filterByToDelete(0)->where('id > 1');
@@ -143,20 +148,22 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
         return $query->find();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function firstOne()
     {
         $query = AlLanguageQuery::create()->filterByToDelete(0)->where('id > 1');
 
         if(null !== $this->dispatcher)
         {
-            /* TODO
-            $event = new Language\MainLanguageQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::MAIN_LANGUAGE, $event);
+            $event = new Language\FirstOneQueringEvent($query);
+            $this->dispatcher->dispatch(LanguagesEvents::FIRST_ONE, $event);
 
             if($query !== $event->getQuery())
             {
                 $query = $event->getQuery();
-            }*/
+            }
         }
 
         return $query->findOne();

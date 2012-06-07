@@ -10,48 +10,53 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\ThemeModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\ThemeModelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
-/*
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\AlSeo;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Seo;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;*/
 
 /**
  *  Adds some filters to the AlThemeQuery object
- * 
+ *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
 class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterface
-{ 
+{
+    /**
+     * {@inheritdoc}
+     */
     public function getModelObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlTheme';
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function setModelObject($object = null)
     {
         if (null !== $object && !$object instanceof AlTheme) {
             throw new InvalidParameterTypeException('AlThemeModelPropel accepts only AlTheme propel objects');
         }
-        
+
         return parent::setModelObject($object);
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function fromName($themeName)
     {
         $query = AlThemeQuery::create()->filterByThemeName($themeName);
-        
+
         /* TODO
         if(null !== $this->dispatcher)
         {
@@ -63,14 +68,17 @@ class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterfa
                 $query = $event->getQuery();
             }
         }*/
-        
+
         return $query;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function activeBackend()
     {
         $query = AlThemeQuery::create()->filterByActive(1);
-        
+
         /* TODO
         if(null !== $this->dispatcher)
         {
@@ -82,7 +90,7 @@ class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterfa
                 $query = $event->getQuery();
             }
         }*/
-        
+
         return $query->findOne();
     }
 }

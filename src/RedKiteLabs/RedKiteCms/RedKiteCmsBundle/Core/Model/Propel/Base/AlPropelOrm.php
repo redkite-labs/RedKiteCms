@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Orm\OrmInterface;
 
 /**
- *  Adds some filters to the AlBlockQuery object
+ *  Implements the OrmInterface for Propel Orm
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
@@ -30,31 +30,51 @@ class AlPropelOrm implements OrmInterface
     protected static $connection = null;
     protected $affectedRecords = null;
 
+    /**
+     * Constructor
+     * 
+     * @param \PropelPDO $connection 
+     */
     public function __construct(\PropelPDO $connection = null)
     {
         self::$connection = (null === $connection) ? \Propel::getConnection() : $connection;
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function setConnection($connection)
     {
         self::$connection = $connection;
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function getConnection()
     {
         return self::$connection;
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function startTransaction()
     {
         self::$connection->beginTransaction();
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function commit()
     {
         self::$connection->commit();
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function rollBack()
     {
         self::$connection->rollBack();
@@ -65,6 +85,9 @@ class AlPropelOrm implements OrmInterface
         return $this->affectedRecords;
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function save(array $values, $modelObject = null)
     {
         try {
@@ -97,6 +120,9 @@ class AlPropelOrm implements OrmInterface
         }
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function delete($modelObject = null)
     {
         try {
