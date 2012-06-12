@@ -15,18 +15,18 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\PageContentsContainer;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\PageBlocks;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
- * AlPageContentsContainerTest
+ * AlPageBlocksTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlPageContentsContainerTest extends TestCase
+class AlPageBlocksTest extends TestCase
 {   
     private $dispatcher;
     private $blockModel;
@@ -41,7 +41,7 @@ class AlPageContentsContainerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageContentsContainer = new AlPageContentsContainer($this->dispatcher, $this->blockModel);
+        $this->pageContentsContainer = new AlPageBlocks($this->dispatcher, $this->blockModel);
     }
     
     /**
