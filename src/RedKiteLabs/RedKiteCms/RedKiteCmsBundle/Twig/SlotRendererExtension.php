@@ -29,10 +29,11 @@ use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererE
  */
 class SlotRendererExtension extends BaseSlotRendererExtension
 {
-    public function __construct(ContainerInterface $container, AlPageTree $pageTree)
+    /*
+    public function __construct(AlPageTree $pageTree, \Symfony\Component\Templating $templating)
     {
-        parent::__construct($container, $pageTree);
-    }
+        parent::__construct($container,);
+    }*/
 
     public function renderSlot($slotName = null)
     {
@@ -44,17 +45,17 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         try
         {
             $result = array();
-            $blocks = $this->pageTree->getContents($slotName);
-            if(count($blocks) > 0)
+            $blockManagers = $this->container->get('al_page_tree')->getBlockManagers($slotName);
+            if(count($blockManagers) > 0)
             {
-                foreach($blocks as $block)
+                foreach($blockManagers as $blockManager)
                 {
-                    $result[] = $this->doRender($block, true);
+                    $result[] = $this->doRender($blockManager->toArray(), true);
                 }
             }
             else
             {
-                if($this->pageTree->isCmsMode())
+                if($this->container->get('al_page_tree')->isCmsMode())
                 {
                     $result[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
                 }
@@ -86,7 +87,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $slotName = $block["Block"]["SlotName"];
             if(\array_key_exists('Id', $block))
             {
-                if($block['InternalJavascript'] != "" && array_key_exists('added', $block)) $content .= sprintf('<script>%s</script>', $block['InternalJavascript']);
+                //if($block['InternalJavascript'] != "" && array_key_exists('added', $block)) $content .= sprintf('<script>%s</script>', $block['InternalJavascript']);
                 $result = $block['HtmlContentCMSMode'];
             }
             else

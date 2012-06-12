@@ -87,7 +87,7 @@ class PagesController extends Controller
                 $alPage = $pageModel->fromPk($request->get('pageId'));
 
                 // Refreshes the page manager using the given page to update
-                $pageContentsContainer = $pageManager->getTemplateManager()->getPageContentsContainer();
+                $pageContentsContainer = $pageManager->getTemplateManager()->getPageBlocks();
                 if($request->get('pageId') != "" && $request->get('pageId') != $pageContentsContainer->getIdPage()) {
                     $this->container->get('al_page_tree')->refresh($pageContentsContainer->getIdLanguage(), $request->get('pageId'));
                     $pageManager->setTemplateManager($this->container->get('al_page_tree')->getTemplateManager());

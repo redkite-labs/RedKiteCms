@@ -66,7 +66,7 @@ class AlTemplateChangerTest extends TestCase
                                         ->disableOriginalConstructor()
                                         ->getMock();
         
-        $this->pageContentsContainer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
+        $this->pageContentsContainer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                         ->disableOriginalConstructor()
                                         ->getMock();
         
@@ -470,7 +470,7 @@ class AlTemplateChangerTest extends TestCase
             ->will($this->returnValue($this->blockModel));
         
         $this->currentTemplateManager->expects($this->any())
-            ->method('getPageContentsContainer')
+            ->method('getPageBlocks')
             ->will($this->returnValue($this->pageContentsContainer));
         
         $this->currentTemplateSlots->expects($this->once())

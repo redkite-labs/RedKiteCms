@@ -140,17 +140,24 @@ class CmsBootstrapListenerTest extends TestCase
         $this->pageTree->expects($this->once())
             ->method('setup');
 
-        $this->pageTree->expects($this->once())
+        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+        $template->expects($this->once())
             ->method('getThemeName')
             ->will($this->returnValue('Theme'));
 
-        $this->pageTree->expects($this->once())
+        $template->expects($this->once())
             ->method('getTemplateName')
             ->will($this->returnValue('Template'));
 
-        $this->pageTree->expects($this->once())
+        $template->expects($this->once())
             ->method('getSlots')
             ->will($this->returnValue(array('fake' => 'slots')));
+
+        $this->pageTree->expects($this->once())
+            ->method('getTemplate')
+            ->will($this->returnValue($template));
 
         $this->aligner->expects($this->once())
             ->method('align');

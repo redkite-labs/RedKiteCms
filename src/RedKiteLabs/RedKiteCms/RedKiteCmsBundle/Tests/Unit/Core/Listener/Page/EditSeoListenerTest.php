@@ -66,7 +66,7 @@ class EditSeoListenerTest extends BaseListenerTest
                            ->disableOriginalConstructor()
                             ->getMock();
         
-        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
+        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();
         
@@ -234,7 +234,7 @@ class EditSeoListenerTest extends BaseListenerTest
     private function setUpCommonObjects()
     {
         $this->templateManager->expects($this->once())
-            ->method('getPageContentsContainer')
+            ->method('getPageBlocks')
             ->will($this->returnValue($this->pageContents));
         
         $this->pageContents->expects($this->once())

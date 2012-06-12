@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
@@ -31,12 +31,12 @@ class AddSeoListener
 {
     private $seoManager;
     private $languageModel;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param AlSeoManager $seoManager
-     * @param LanguageModelInterface $languageModel 
+     * @param LanguageModelInterface $languageModel
      */
     public function __construct(AlSeoManager $seoManager, LanguageModelInterface $languageModel)
     {
@@ -46,25 +46,25 @@ class AddSeoListener
 
     /**
      * Adds the page's seo attributes when a new page is added, for each language of the site
-     * 
+     *
      * @param BeforeAddPageCommitEvent $event
-     * @throws \Exception 
+     * @throws \Exception
      */
     public function onBeforeAddPageCommit(BeforeAddPageCommitEvent $event)
     {
         if ($event->isAborted()) {
             return;
         }
-        
-        $pageManager = $event->getContentManager();   
+
+        $pageManager = $event->getContentManager();
         $pageModel = $pageManager->getPageModel();
         $values = $event->getValues();
-        
+
         if (!is_array($values)) {
             throw new \InvalidArgumentException("The values param is expected to be an array");
         }
-            
-        try {                   
+
+        try {
             $languages = $this->languageModel->activeLanguages();
             if (count($languages)) {
                 $result = true;
@@ -74,14 +74,14 @@ class AddSeoListener
                     $seoManagerValues = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $alLanguage->getId()));
                     if (!$alLanguage->getMainLanguage() && array_key_exists('Permalink', $seoManagerValues)) $seoManagerValues['Permalink'] = $alLanguage->getLanguage() . '-' . $seoManagerValues['Permalink'];
                     $this->seoManager->set(null);
-                    $result = $this->seoManager->save($seoManagerValues); 
-
-                    if (!$result) break;    
+                    $result = $this->seoManager->save($seoManagerValues);
+                    
+                    if (!$result) break;
                 }
 
                 if(null === $result) return;
 
-                if ($result) { 
+                if ($result) {
                     $pageModel->commit();
                 }
                 else {
@@ -91,13 +91,13 @@ class AddSeoListener
                 }
             }
         }
-        catch(\Exception $e) {          
+        catch(\Exception $e) {
             $event->abort();
-            
+
             if (isset($pageModel) && $pageModel !== null) {
                 $pageModel->rollBack();
             }
-            
+
             throw $e;
         }
     }

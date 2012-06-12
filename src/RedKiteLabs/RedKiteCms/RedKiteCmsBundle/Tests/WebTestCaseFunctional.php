@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page as Listener;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 use AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots;
 
@@ -53,7 +53,7 @@ class WebTestCaseFunctional extends WebTestCase {
                                     'MetaKeywords'      => ''));
         self::populateDb();
     }
-
+/**/
     protected function setUp()
     {
         $this->client = static::createClient(array(
@@ -76,11 +76,19 @@ class WebTestCaseFunctional extends WebTestCase {
         $pageModel = new Propel\AlPageModelPropel($dispatcher);
         $blockModel = new Propel\AlBlockModelPropel($dispatcher);
 
+        
+        $client = static::createClient(array(
+            'environment' => 'alcms_test',
+            'debug'       => true,
+            ));
+        
         $dir = realpath(__DIR__ . '/Functional/Resources/fixtures');
         $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);
-        $pageContentsContainer = new AlPageContentsContainer($dispatcher, $blockModel);
-        $templateManager = new AlTemplateManager($dispatcher, $pageContentsContainer, $blockModel);
-        $templateManager->setTemplateSlots($templateSlots)
+        $template = new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate(new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets(), $client->getContainer()->get('kernel'), $client->getContainer()->get('template_slots_factory'));
+        $template->setTemplateSlots($templateSlots);
+        $pageContentsContainer = new AlPageBlocks($dispatcher, $blockModel);
+        $templateManager = new AlTemplateManager($dispatcher, $template, $pageContentsContainer, $blockModel);
+        $templateManager //->setTemplateSlots($templateSlots)
                 ->refresh();
         $seoManager = new AlSeoManager($dispatcher, $seoModel);
 

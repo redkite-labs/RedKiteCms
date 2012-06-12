@@ -29,6 +29,22 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
+        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $this->templateManager->expects($this->once())
+            ->method('getTemplate')
+            ->will($this->returnValue($this->template));
+
+        $this->templateManager->expects($this->any())
+            ->method('getPageBlocks')
+            ->will($this->returnValue($this->pageContents));
+
         $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
@@ -322,6 +338,15 @@ class AlPageTreeTest extends TestCase
         $alPage = $this->setUpPage(2);
         $alSeo = $this->setUpSeo(2);
         $alSeo->expects($this->once())
+            ->method('getMetaTitle');
+
+        $alSeo->expects($this->once())
+            ->method('getMetaDescription');
+
+        $alSeo->expects($this->once())
+            ->method('getMetaKeywords');
+        
+        $alSeo->expects($this->once())
             ->method('getAlPage')
             ->will($this->returnValue($alPage));
 
@@ -375,191 +400,50 @@ class AlPageTreeTest extends TestCase
         $request->expects($this->exactly(2))
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
-
-        $slots = array('logo' => 'fake', 'content' => 'fake');
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $templateSlots->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue($slots));
-
-        $templateSlotsFactory = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface');
-        $templateSlotsFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($templateSlots));
-
-        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
-        $bundle->expects($this->exactly(2))
-            ->method('getName')
-            ->will($this->returnValue('FakeBundle'));
-
-        $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $kernel->expects($this->exactly(2))
-            ->method('getBundles')
-            ->will($this->returnValue(array($bundle)));
-
+        
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($request, $request, $templateSlotsFactory, $kernel, $kernel));
-
-        $this->container->expects($this->any())
-            ->method('hasParameter')
-            ->will($this->returnValue(true));
-
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls('internal javascript',                     // Internal javascript setted from the cms
-                                             'internal stylesheet',                     // Internal stylesheet setted from the cms
-                                             array('external javascript'),              // External javascript setted from the cms
-                                             array('external stylesheet'),              // External stylesheet setted from the cms
-                                             array('theme external javascript'),        // External javascript setted as parameter by the theme
-                                             array('theme external stylesheet'),        // External stylesheet setted as parameter by the theme
-                                             array('template external javascript'),     // External javascript setted as parameter by the template
-                                             array('template external stylesheet'),     // External stylesheet setted as parameter by the template
-                                             array('cms_external javascript'),          // External javascript setted as parameter by the cms
-                                             array('cms_external stylesheet'),          // External stylesheet setted as parameter for the cms
-                                             array('cms_theme external javascript'),    // External javascript setted as parameter by the theme for the cms
-                                             array('cms_theme external stylesheet'),    // External stylesheet setted as parameter by the theme for the cms
-                                             array('cms_template external javascript'), // External javascript setted as parameter by the template for the cms
-                                             array('cms_template external stylesheet')  // External stylesheet setted as parameter by the template for the cms
-                                             ));
-
-        $blocks = array('logo' => array(array('HtmlContent' => 'fake')),
-                        'content' => array(array('HtmlContent' => 'fake content 1'),
-                                           array('HtmlContent' => 'fake content 2')));
-        $this->templateManager->expects($this->once())
-            ->method('slotsToArray')
-            ->will($this->returnValue($blocks));
-
-        $this->setUpPageContentsContainer();
+            ->will($this->returnValue($request));
+        
         $language = $this->configureLanguage();
-        $page = $this->configurePage();
-        $page->expects($this->once())
-            ->method('getTemplateName')
-            ->will($this->returnValue('Home'));
+        $page = $this->setUpPage(2); 
         $theme = $this->configureTheme();
+        
+        $this->setUpPageBlocks();
+        
+        $alSeo = $this->setUpSeo(2);  
+        
+        // Two times because the first one is when the page is setted up from seo
+        // then the second one when the page is refreshed
+        $alSeo->expects($this->exactly(2)) 
+            ->method('getMetaTitle');
 
+        $alSeo->expects($this->exactly(2))
+            ->method('getMetaDescription');
+
+        $alSeo->expects($this->exactly(2))
+            ->method('getMetaKeywords');
+        
+        $alSeo->expects($this->once())
+            ->method('getAlPage')
+            ->will($this->returnValue($page));
+        
+        $this->seoModel->expects($this->exactly(2))
+            ->method('fromPageAndLanguage')
+            ->will($this->returnValue($alSeo));
+        
+        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');        
+        $this->template->expects($this->any())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($templateSlots));
+        
         $this->pageTree->setup();
-        $this->assertEquals('FakeTheme', $this->pageTree->getThemeName());
-        $this->assertEquals('Home', $this->pageTree->getTemplateName());
-        $this->assertEquals($slots, $this->pageTree->getSlots());
-        $this->assertEquals('internal javascript', $this->pageTree->getInternalJavascript());
-        $this->assertEquals('internal stylesheet', $this->pageTree->getInternalStylesheet());
-        $this->assertEquals(array('external javascript', 'theme external javascript', 'template external javascript', 'cms_external javascript', 'cms_theme external javascript', 'cms_template external javascript'), $this->pageTree->getExternalJavascripts());
-        $this->assertEquals(array('external stylesheet', 'theme external stylesheet', 'template external stylesheet', 'cms_external stylesheet', 'cms_theme external stylesheet', 'cms_template external stylesheet'), $this->pageTree->getExternalStylesheets());
-        $this->assertEquals($blocks, $this->pageTree->getContents());
-        $this->assertEquals($this->templateManager, $this->pageTree->getTemplateManager());
+        
         $this->assertEquals($language, $this->pageTree->getAlLanguage());
         $this->assertEquals($page, $this->pageTree->getAlPage());
         $this->assertEquals($theme, $this->pageTree->getAlTheme());
+        $this->assertTrue($this->pageTree->isValid());
         $this->assertTrue($this->pageTree->isCmsMode());
-
-        return $this->pageTree;
-    }
-
-    /**
-     * @depends testPageTreeHasBeenSetted
-     *
-     * To avoid continuosly setting up of PageTree object
-     */
-    public function testAddANewBlockToPageTree1($pageTree)
-    {
-        $blocks = $pageTree->getContents();
-
-        $newBlock = array('HtmlContent' => 'Another fake block');
-        $pageTree->addBlock('logo', $newBlock);
-
-        $blocks['logo'][] = $newBlock;
-
-        $this->assertEquals($blocks, $pageTree->getContents());
-    }
-
-    /**
-     * @depends testPageTreeHasBeenSetted
-     */
-    public function testAddANewBlockWithAllAttributesToPageTree($pageTree)
-    {
-        $blocks = $pageTree->getContents();
-        $internalJavascript = $pageTree->getInternalJavascript();
-        $internalStylesheet = $pageTree->getInternalStylesheet();
-        $externalJavascript = $pageTree->getExternalJavascripts();
-        $externalStylesheet = $pageTree->getExternalStylesheets();
-
-
-        $newBlock = array('HtmlContent' => 'Another fake block',
-                          'ExternalJavascript' => 'Another fake external javascript',
-                          'InternalJavascript' => 'Another fake internal javascript',
-                          'ExternalStylesheet' => 'Another fake external stylesheet',
-                          'InternalStylesheet' => 'Another fake internal stylesheet',);
-        $pageTree->addBlock('logo', $newBlock);
-
-        $blocks['logo'][] = $newBlock;
-        $externalJavascript[] = $newBlock['ExternalJavascript'];
-        $externalStylesheet[] = $newBlock['ExternalStylesheet'];
-
-        $this->assertEquals($blocks, $pageTree->getContents());
-        $this->assertEquals($internalJavascript . $newBlock['InternalJavascript'], $pageTree->getInternalJavascript());
-        $this->assertEquals($internalStylesheet . $newBlock['InternalStylesheet'], $pageTree->getInternalStylesheet());
-        $this->assertEquals($externalJavascript, $pageTree->getExternalJavascripts());
-        $this->assertEquals($externalStylesheet, $pageTree->getExternalStylesheets());
-    }
-
-    /**
-     * @depends testPageTreeHasBeenSetted
-     */
-    public function testAddANewExternalJavascript($pageTree)
-    {
-        $externalJavascripts = $pageTree->getExternalJavascripts();
-
-        $asset = 'new fake external javascript';
-        $pageTree->addJavascript($asset);
-
-        $externalJavascripts[] = $asset;
-
-        $this->assertEquals($externalJavascripts, $pageTree->getExternalJavascripts());
-    }
-
-    /**
-     * @depends testPageTreeHasBeenSetted
-     */
-    public function testAnExternalJavascriptCannotBeAddedMoreThanOnce($pageTree)
-    {
-        $externalJavascripts = $pageTree->getExternalJavascripts();
-
-        $asset = 'fake external javascript added once';
-        $pageTree->addJavascript($asset);
-        $pageTree->addJavascript($asset);
-        $externalJavascripts[] = $asset;
-
-        $this->assertEquals($externalJavascripts, $pageTree->getExternalJavascripts());
-    }
-
-    /**
-     * @depends testPageTreeHasBeenSetted
-     */
-    public function testAddANewExternalStylesheet($pageTree)
-    {
-        $externalStylesheets = $pageTree->getExternalStylesheets();
-
-        $asset = 'new fake stylesheet javascript';
-        $pageTree->addStylesheet($asset);
-        $externalStylesheets[] = $asset;
-
-        $this->assertEquals($externalStylesheets, $pageTree->getExternalStylesheets());
-    }
-
-    /**
-     * @depends testPageTreeHasBeenSetted
-     */
-    public function testAnExternalStylesheetCannotBeAddedMoreThanOnce($pageTree)
-    {
-        $externalStylesheets = $pageTree->getExternalStylesheets();
-
-        $asset = 'fake external stylesheet added once';
-        $pageTree->addStylesheet($asset);
-        $pageTree->addStylesheet($asset);
-        $externalStylesheets[] = $asset;
-
-        $this->assertEquals($externalStylesheets, $pageTree->getExternalStylesheets());
     }
 
     private function configureLanguage()
@@ -629,41 +513,25 @@ class AlPageTreeTest extends TestCase
             ->method('getId')
             ->will($this->returnValue($returnId));
 
-        $seo->expects($this->once())
-            ->method('getMetaTitle');
-
-        $seo->expects($this->once())
-            ->method('getMetaDescription');
-
-        $seo->expects($this->once())
-            ->method('getMetaKeywords');
-
         return $seo;
     }
 
-    private function setUpPageContentsContainer()
+    private function setUpPageBlocks()
     {
-        $pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $pageContents->expects($this->once())
+        $this->pageContents->expects($this->once())
             ->method('setIdLanguage')
             ->will($this->returnSelf());
 
-        $pageContents->expects($this->once())
+        $this->pageContents->expects($this->once())
             ->method('setIdPage')
             ->will($this->returnSelf());
 
-        $pageContents->expects($this->once())
+        $this->pageContents->expects($this->once())
             ->method('refresh')
             ->will($this->returnSelf());
-
+        
         $this->templateManager->expects($this->once())
-            ->method('getPageContentsContainer')
-            ->will($this->returnValue($pageContents));
-
-        $this->templateManager->expects($this->once())
-            ->method('setPageContentsContainer')
+            ->method('setPageBlocks')
             ->will($this->returnSelf());
 
         $this->templateManager->expects($this->once())

@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer;
@@ -27,23 +27,23 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\
 
 /**
  * Arranges the page's slot contents, when the page changes its template
- * 
- * 
+ *
+ *
  * Requires two Template Manager objects, which are both parsed and analysed to find
  * the slots presents on both the templates, the ones to add and the ones to remove.
- * 
+ *
  * When a new slot is added, the default value is used.
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlTemplateChanger 
+class AlTemplateChanger
 {
     protected $currentTemplateManager;
-    protected $newTemplateManager; 
-    protected $blockManagerFactory; 
-    protected $parametersValidator; 
+    protected $newTemplateManager;
+    protected $blockManagerFactory;
+    protected $parametersValidator;
     protected $slotsConverterFactory;
-    
+
     public function __construct(AlBlockManagerFactoryInterface $blockManagerFactory, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlParametersValidatorInterface $parametersValidator = null)
     {
         $this->blockManagerFactory = $blockManagerFactory;
@@ -54,32 +54,32 @@ class AlTemplateChanger
 
     /**
      * Sets the current template used by the page
-     * 
+     *
      * @api
      * @param AlTemplateManager $templateManager
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger
      */
     public function setCurrentTemplateManager(AlTemplateManager $templateManager)
     {
         $this->currentTemplateManager = $templateManager;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the new template the page will use
-     * 
+     *
      * @api
      * @param AlTemplateManager $templateManager
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger
      */
     public function setNewTemplateManager(AlTemplateManager $templateManager)
     {
         $this->newTemplateManager = $templateManager;
-        
+
         return $this;
     }
-    
+
     /**
      * Arranges the page's contents accordig the new template's slots
      */
@@ -88,16 +88,16 @@ class AlTemplateChanger
         if (null === $this->currentTemplateManager) {
             throw new General\ParameterIsEmptyException("The current template manager has not been set. The tempèlate cannot be changed until this value is given");
         }
-        
+
         if (null === $this->newTemplateManager) {
             throw new General\ParameterIsEmptyException("The current template manager has not been set. The tempèlate cannot be changed until this value is given");
         }
-        
+
         $blockModel = $this->currentTemplateManager->getBlockModel();
         try
         {
             $operations = $this->analyse();//print_r($operations);
-            
+
             $rollBack = false;
             $blockModel->startTransaction();
             foreach($operations as $operation => $slots) {
@@ -105,13 +105,13 @@ class AlTemplateChanger
                     case 'add':
                         foreach($slots as $repeated => $slotNames) {
                             foreach($slotNames as $slotName) {
-                                $slot = new AlSlot($slotName, array('repeated' => $repeated));                            
+                                $slot = new AlSlot($slotName, array('repeated' => $repeated));
                                 $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
                                 $slotManager->setForceSlotAttributes(true);
-                                
-                                $pageContentsContainer = $this->currentTemplateManager->getPageContentsContainer();
+
+                                $pageContentsContainer = $this->currentTemplateManager->getPageBlocks();
                                 $result = $slotManager->addBlock($pageContentsContainer->getIdLanguage(), $pageContentsContainer->getIdPage());
-                                if (null !== $result) {     
+                                if (null !== $result) {
                                     $rollBack = !$result;
                                     if($rollBack) break;
                                 }
@@ -120,15 +120,15 @@ class AlTemplateChanger
                         }
                         break;
 
-                    case 'change': 
+                    case 'change':
                         foreach($slots as $intersections) {
                             foreach($intersections as $intersection) {
                                 foreach($intersection as $repeated => $slotNames) {
-                                    foreach($slotNames as $slotName) {           
+                                    foreach($slotNames as $slotName) {
                                         $slot = new AlSlot($slotName, array('repeated' => $repeated));
                                         $converter = $this->slotsConverterFactory->createConverter($slot, $repeated);
                                         $rollBack = !$converter->convert();
-                                        
+
                                         if($rollBack) break;
                                     }
                                     if($rollBack) break;
@@ -139,15 +139,15 @@ class AlTemplateChanger
                         }
                         break;
 
-                    case 'remove': 
+                    case 'remove':
                         foreach($slots as $slotNames) {
                             foreach($slotNames as $repeated =>  $slotName) {
-                                $slot = new AlSlot($slotName, array('repeated' => $repeated));     
+                                $slot = new AlSlot($slotName, array('repeated' => $repeated));
                                 $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
-                                $blocks = $this->currentTemplateManager->getPageContentsContainer()->getSlotBlocks($slotName);
+                                $blocks = $this->currentTemplateManager->getPageBlocks()->getSlotBlocks($slotName);
                                 $slotManager->setUpBlockManagers($blocks);
                                 $result = $slotManager->deleteBlocks();
-                                if (null !== $result) { 
+                                if (null !== $result) {
                                     if (!$result) {
                                         $rollBack = true;
                                         break;
@@ -161,13 +161,13 @@ class AlTemplateChanger
             }
 
             if (!$rollBack) {
-                $blockModel->commit(); 
-                
+                $blockModel->commit();
+
                 return true;
             }
             else {
                 $blockModel->rollBack();
-                
+
                 return false;
             }
         }
@@ -175,56 +175,56 @@ class AlTemplateChanger
             if (isset($blockModel) && $blockModel !== null) {
                 $blockModel->rollBack();
             }
-            
+
             throw $e;
         }
     }
 
     /**
      * Analyzes both the templates and retrieves the slot's differences. A slot can be added, removed or changed,
-     * where changed means that the slot has changed how the contents are repeated. 
-     * 
+     * where changed means that the slot has changed how the contents are repeated.
+     *
      * This method fills up the operations array where are saved the information required to change the template
      */
     private function analyse()
     {
         $previousSlots = $this->currentTemplateManager->getTemplateSlots()->toArray();
-        $newSlots = $this->newTemplateManager->getTemplateSlots()->toArray();
-        
+        $newSlots = $this->newTemplateManager->getTemplateSlots()->toArray(); 
+
         $previousSlots = $this->fixArrayKeys($previousSlots);
         $newSlots = $this->fixArrayKeys($newSlots);
-        
+
         $diffsForNew = $this->calculateDifferences($newSlots, $previousSlots);
         $diffsForPrevious = $this->calculateDifferences($previousSlots, $newSlots);
-        
-        $add = $this->calculateIntersections($diffsForNew, $diffsForPrevious); 
+
+        $add = $this->calculateIntersections($diffsForNew, $diffsForPrevious);
         $remove = $this->calculateIntersections($diffsForPrevious, $diffsForNew);
-        
+
         $operations = array();
         $operations['add'] = (array_key_exists('found', $add)) ? $add['found'] : array();
         $operations['change'] = (array_key_exists('intersected', $add)) ? $add['intersected'] : array();
         $operations['remove'] = (array_key_exists('found', $remove)) ? $remove['found'] : array();
-        
+
         return $operations;
     }
-    
+
     /**
      * Makes sure that the array has all the required keys
-     * 
+     *
      * @param array $array
-     * @return array 
+     * @return array
      */
     private function fixArrayKeys($array)
     {
         return array_merge(array("site" => array(), "language" => array(), "page" => array()), $array);
     }
-    
+
     /**
      * Calculates the differences between two arrays of slots
-     * 
+     *
      * @param array $first
      * @param array $second
-     * @return array 
+     * @return array
      */
     private function calculateDifferences(array $first, array $second)
     {
@@ -233,13 +233,13 @@ class AlTemplateChanger
             $diff = array_diff($slots, $second[$repeated]);
             $result[$repeated] = $diff;
         }
-        
+
         return $result;
     }
-    
+
     /**
      * Calculates the intersections between the differences found on the arrays of slots
-     * 
+     *
      * @param array $first
      * @param array $second
      * @return array
@@ -250,22 +250,22 @@ class AlTemplateChanger
         foreach($first as $aRepeated => $firstSlots) {
             $intersect = array();
             foreach($second as $bRepeated => $secondSlots) {
-                $diff = array_intersect($firstSlots, $secondSlots); 
+                $diff = array_intersect($firstSlots, $secondSlots);
                 if(!empty($diff)) {
                     $intersect[$bRepeated][$aRepeated] = $diff;
-                    $firstSlots = array_diff($firstSlots, $diff); 
+                    $firstSlots = array_diff($firstSlots, $diff);
                 }
             }
-            
+
             if(!empty($firstSlots)) {
                 $result['found'][$aRepeated] = $firstSlots;
             }
-            
+
             if(!empty($intersect)) {
                 $result['intersected'][] = $intersect;
             }
         }
-        
+
         return $result;
     }
 }

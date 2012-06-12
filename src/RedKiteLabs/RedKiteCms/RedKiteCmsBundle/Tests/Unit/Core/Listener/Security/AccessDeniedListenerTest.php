@@ -78,14 +78,14 @@ class AccessDeniedListenerTest extends TestCase
         $this->testListener->onKernelException($this->event);
     }
 
-    public function testTheResponseIsNotChangedWhenTheRequestIsNotAnAjaxRequest1()
+    public function testTheResponseGetsTheAccessDeniendMessage()
     {
         $this->setUpXmlHttpRequestRequest();
         $this->setUpException();
         $this->setUpAuthenticationTrustResolver();
         $this->event->expects($this->once())
             ->method('setResponse');
-        
+
         $this->testListener->onKernelException($this->event);
     }
 

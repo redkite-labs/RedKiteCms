@@ -115,8 +115,9 @@ class CmsBootstrapListener
 
     private function checkTemplatesSlots()
     {
+        $template = $this->pageTree->getTemplate();
         $slotsAligner = $this->container->get('repeated_slots_aligner');
-        $slotsAligner->align($this->pageTree->getThemeName(), $this->pageTree->getTemplateName(), $this->pageTree->getSlots());
+        $slotsAligner->align($template->getThemeName(), $template->getTemplateName(), $template->getSlots());
     }
 }
 

@@ -29,7 +29,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
 
@@ -52,6 +52,7 @@ class AlPageTree extends BaseAlPageTree
     protected $isValidLanguage = false;
     protected $isValidPage = false;
     protected $isValid;
+    protected $parameterSchema = array('%s.%s_%s', '%s.%s_%s.cms');
 
     /**
      * Constructor
@@ -70,7 +71,7 @@ class AlPageTree extends BaseAlPageTree
                                 Entities\ThemeModelInterface $themeModel = null,
                                 Entities\SeoModelInterface $seoModel = null)
     {
-        parent::__construct($container);
+        parent::__construct($container, $templateManager->getTemplate(), $templateManager->getPageBlocks());
 
         $this->templateManager = $templateManager;
         $this->languageModel = (null === $languageModel) ? new Propel\AlLanguageModelPropel() : $languageModel;
@@ -163,17 +164,19 @@ class AlPageTree extends BaseAlPageTree
             if (null === $this->alLanguage || null === $this->alPage) {
                 return null;
             }
-
-            $this->alTheme = $this->themeModel->activeBackend();
+            
+            $this->alTheme = $this->themeModel->activeBackend(); 
             if (null === $this->alTheme) {
                 return null;
             }
-
-            $this->setThemeName($this->alTheme->getThemeName());
-            $this->setTemplateName($this->alPage->getTemplateName());
+            
+            $this->template->setThemeName($this->alTheme->getThemeName());
+            $this->template->setTemplateName($this->alPage->getTemplateName());
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
-            $this->setContents($this->templateManager->slotsToArray(), true);
+            //$this->setContents($this->templateManager->slotsToArray(), true);
+
+            return $this;
         }
         catch(\Exception $ex)
         {
@@ -186,84 +189,35 @@ class AlPageTree extends BaseAlPageTree
      *
      * @param int $idLanguage
      * @param int $idPage
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
      */
     public function refresh($idLanguage, $idPage)
     {
         $this->pageContentsContainer = $this->templateManager
-                    ->getPageContentsContainer()
+                    ->getPageBlocks()
                     ->setIdLanguage($idLanguage)
                     ->setIdPage($idPage)
                     ->refresh();
 
         $this->templateManager
-                    ->setPageContentsContainer($this->pageContentsContainer)
-                    ->setTemplateSlots($this->templateSlots)
+                    ->setPageBlocks($this->pageContentsContainer)
+                    ->setTemplateSlots($this->template->getTemplateSlots())
                     ->refresh();
+
+        $seo = $this->seoModel->fromPageAndLanguage($idLanguage, $idPage);
+        $this->setUpMetaTags($seo);
+
+        return $this;
     }
 
     /**
-     * Overrides the base method to add extra functionalities
+     * Returns the template's slots
      *
-     * @see   AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree->addBlock()
+     * @return array
      */
-    public function addBlock($slotName, array $content, $key = null)
+    public function getBlockManagers($slotName = null)
     {
-        parent::addBlock($slotName, $content, $key);
-
-        if (array_key_exists("ExternalJavascript", $content))
-        {
-            $javascripts = (!is_array($content["ExternalJavascript"])) ? ($content["ExternalJavascript"] != "") ? \explode(',', $content["ExternalJavascript"]) : array(): $content["ExternalJavascript"];
-
-            foreach($javascripts as $javascript)
-            {
-                $this->addJavascript($javascript);
-            }
-        }
-
-        if (array_key_exists("InternalJavascript", $content) && $content["InternalJavascript"] != "")
-        {
-            $this->appendInternalJavascript($content["InternalJavascript"]);
-        }
-
-        if (array_key_exists("ExternalStylesheet", $content))
-        {
-            $stylesheets = (!is_array($content["ExternalStylesheet"])) ? \explode(',', $content["ExternalStylesheet"]) : $content["ExternalStylesheet"];
-            foreach($stylesheets as $stylesheet)
-            {
-                $this->addStylesheet($stylesheet);
-            }
-        }
-
-        if (array_key_exists("InternalStylesheet", $content) && $content["InternalStylesheet"] != "")
-        {
-            $this->appendInternalStylesheet($content["InternalStylesheet"]);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addStylesheet($value)
-    {
-        $assetName = basename($value);
-        if ($value != "" && !in_array($assetName, $this->locatedAssets['css']))
-        {
-            $this->locatedAssets['css'][] = $assetName;
-            $this->externalStylesheets[] = $value;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addJavascript($value)
-    {
-        $assetName = basename($value);
-        if ($value != "" && !in_array($assetName, $this->locatedAssets['js']))
-        {
-            $this->locatedAssets['js'][] = $assetName;
-            $this->externalJavascripts[] = $value;
-        }
+        return $this->templateManager->getSlotManager($slotName)->getBlockManagers();
     }
 
     /**
@@ -306,7 +260,7 @@ class AlPageTree extends BaseAlPageTree
         if (null === $seo) {
             $seo = $this->seoModel->fromPageAndLanguage($pageName, $this->alLanguage->getId());
         }
-
+        
         if (null === $seo) {
             $alPage = $this->pageModel->fromPageName($pageName);
             if (null === $alPage) {
@@ -318,56 +272,20 @@ class AlPageTree extends BaseAlPageTree
         }
         else {
             $alPage = $seo->getAlPage();
-            $this->metaTitle = $seo->getMetaTitle();
-            $this->metaDescription = $seo->getMetaDescription();
-            $this->metaKeywords = $seo->getMetaKeywords();
+            $this->setUpMetaTags($seo);
         }
-
+        
         $this->isValidPage = true;
 
         return $alPage;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setupPageTree()
+    protected function setUpMetaTags($seo)
     {
-        parent::setupPageTree();
-
-        if ($this->themeName != '' && $this->templateName != '') {
-            $templateName = strtolower($this->templateName);
-            $theme = preg_replace('/bundle$/', '', strtolower($this->themeName));
-
-            $param = sprintf('themes.%s_%s.javascripts_cms', $theme, $templateName);
-            if ($this->container->hasParameter($param))
-            {
-                $this->addJavascripts($this->container->getParameter($param));
-            }
-
-            $param = sprintf('themes.%s_%s.stylesheets_cms', $theme, $templateName);
-            if ($this->container->hasParameter($param))
-            {
-                $this->addStylesheets($this->container->getParameter($param));
-            }
-
-            $kernel = $this->container->get('kernel');
-            foreach ($kernel->getBundles() as $bundle)
-            {
-                $bundleName = preg_replace('/bundle$/', '', strtolower($bundle->getName()));
-
-                $param = sprintf('%s.javascripts_cms', $bundleName);
-                if ($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
-
-                $param = sprintf('%s.stylesheets_cms', $bundleName);
-                if ($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
-
-                $param = sprintf('%s.%s_javascripts_cms', $bundleName, $templateName);
-                if ($this->container->hasParameter($param)) $this->addJavascripts($this->container->getParameter($param));
-
-                $param = sprintf('%s.%s_stylesheets_cms', $bundleName, $templateName);
-                if ($this->container->hasParameter($param)) $this->addStylesheets($this->container->getParameter($param));
-            }
+        if(null !== $seo) {
+            $this->metaTitle = $seo->getMetaTitle();
+            $this->metaDescription = $seo->getMetaDescription();
+            $this->metaKeywords = $seo->getMetaKeywords();
         }
     }
 }
