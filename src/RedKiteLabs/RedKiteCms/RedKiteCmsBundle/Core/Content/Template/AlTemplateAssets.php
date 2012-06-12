@@ -25,6 +25,9 @@ use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets as BaseTemplateA
  */
 class AlTemplateAssets extends BaseTemplateAssets
 {
+    /**
+     * Overrides the base setUp method to add assets that must be used when the cms is opened
+     */
     protected function setUp()
     {
         if ($this->themeName != '' && $this->templateName != '') {
