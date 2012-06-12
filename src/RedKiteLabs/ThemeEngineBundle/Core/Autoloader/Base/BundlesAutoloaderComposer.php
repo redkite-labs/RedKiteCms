@@ -21,7 +21,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Exception\InvalidAutoloaderExce
 /**
  * Retrive the bundles from a given namespace retrieving it from the .composer packages list
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  * @deprecated in favour of https://github.com/alphalemon/BootstrapBundle
  */
 class BundlesAutoloaderComposer

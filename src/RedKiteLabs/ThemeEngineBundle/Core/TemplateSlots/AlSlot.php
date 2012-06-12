@@ -131,6 +131,17 @@ class AlSlot
     {
         return $this->internalStylesheet;
     }
+    
+    public function toArray()
+    {
+        return array('repeated' => $this->repeated,
+            'blockType' => $this->blockType,
+            'htmlContent' => $this->htmlContent,
+            'externalJavascript' => $this->externalJavascript,
+            'internalJavascript' => $this->internalJavascript,
+            'externalStylesheet' => $this->externalStylesheet,
+            'internalStylesheet' => $this->internalStylesheet,);
+    }
 
     /**
      * 
@@ -139,10 +150,10 @@ class AlSlot
     protected function fromArray(array $options)
     {
         $repeated = (array_key_exists('repeated', $options)) ? $options['repeated'] : 'page';
-        $this->setRepeated($repeated);
+        $this->repeated = $repeated;
         
         $blockType = (array_key_exists('blockType', $options)) ? ucfirst($options['blockType']) : 'Text';
-        $this->setBlockType($blockType);
+        $this->blockType = $blockType;
         
         if(array_key_exists('htmlContent', $options)) $this->setHtmlContent($options['htmlContent']);
         if(array_key_exists('externalJavascript', $options)) $this->setExternalJavascript($options['externalJavascript']);

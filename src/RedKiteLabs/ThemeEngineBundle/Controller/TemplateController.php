@@ -158,14 +158,14 @@ class TemplateController extends Controller
                     foreach($contents as $content)
                     {
                         $content = $this->container->get('translator')->trans($content, array(), $dictionary, $locale); 
-                        $pageTree->addContent($slotName, array('HtmlContent' => $content)); 
+                        $pageTree->addBlock($slotName, array('HtmlContent' => $content)); 
                     }
                 }
                 else
                 {
                     foreach($contents as $content)
                     {
-                        $pageTree->addContent($slotName, array('HtmlContent' => $content)); 
+                        $pageTree->addBlock($slotName, array('HtmlContent' => $content)); 
                     }
                 }
             }
