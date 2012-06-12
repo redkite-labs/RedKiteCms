@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface;
+use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
 
@@ -51,12 +51,12 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      * Constructor
      * 
      * @param AlSlot $slot
-     * @param AlPageContentsContainerInterface $pageContentsContainer
+     * @param AlPageBlocksInterface $pageContentsContainer
      * @param LanguageModelInterface $languageModel
      * @param PageModelInterface $pageModel
      * @param BlockModelInterface $blockModel 
      */
-    public function __construct(AlSlot $slot, AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
+    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
     {
         $this->slot = $slot;
         $this->pageContentsContainer = $pageContentsContainer;

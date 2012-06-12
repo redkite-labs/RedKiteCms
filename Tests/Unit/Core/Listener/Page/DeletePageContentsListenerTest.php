@@ -52,7 +52,7 @@ class DeletePageBlocksListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageContentsContainer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer')
+        $this->pageContentsContainer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
@@ -182,7 +182,7 @@ class DeletePageBlocksListenerTest extends BaseListenerTest
             ->will($this->throwException(new \RuntimeException()));
         
         $this->templateManager->expects($this->any())
-            ->method('getPageContentsContainer')
+            ->method('getPageBlocks')
             ->will($this->returnValue($this->pageContentsContainer));
         
         $this->testListener->onBeforeDeletePageCommit($this->event);
@@ -227,7 +227,7 @@ class DeletePageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue(true));
         
         $this->templateManager->expects($this->any())
-            ->method('getPageContentsContainer')
+            ->method('getPageBlocks')
             ->will($this->returnValue($this->pageContentsContainer));
         
         $this->testListener->onBeforeDeletePageCommit($this->event);

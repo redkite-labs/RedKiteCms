@@ -58,7 +58,7 @@ class EditSeoListener
         try {
             $idPage = $pageManager->get()->getId();  
             $idLanguage = $pageManager->getTemplateManager()
-                    ->getPageContentsContainer()
+                    ->getPageBlocks()
                     ->getIdLanguage();
             $seo = $this->seoManager->getSeoModel()->fromPageAndLanguage($idLanguage, $idPage);
             if( null !== $seo) {

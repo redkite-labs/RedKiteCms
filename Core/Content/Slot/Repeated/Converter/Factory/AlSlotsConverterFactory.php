@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainerInterface;
+use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
@@ -40,12 +40,12 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * Constructor
      * 
-     * @param AlPageContentsContainerInterface $pageContentsContainer
+     * @param AlPageBlocksInterface $pageContentsContainer
      * @param LanguageModelInterface $languageModel
      * @param PageModelInterface $pageModel
      * @param BlockModelInterface $blockModel 
      */
-    public function __construct(AlPageContentsContainerInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
+    public function __construct(AlPageBlocksInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
     {
         $this->pageContentsContainer = $pageContentsContainer;
         $this->languageModel = $languageModel;

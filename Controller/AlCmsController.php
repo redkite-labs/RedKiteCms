@@ -80,7 +80,6 @@ class AlCmsController extends Controller
                                 'metakeywords' => $pageTree->getMetaKeywords(),
                                 'internal_stylesheets' => $pageTree->getInternalStylesheet(),
                                 'internal_javascripts' => $pageTree->getInternalJavascript(),
-                                'values' => $pageTree->getContents(),
                                 'template' => $template,
                                 'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
                                 'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
@@ -127,19 +126,21 @@ class AlCmsController extends Controller
     private function findTemplate(AlPageTree $pageTree)
     {
         $template = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
+        $themeName = $pageTree->getTemplate()->getThemeName();
+        $templateName = $pageTree->getTemplate()->getTemplateName();
 
-        $themeFolder = AlToolkit::locateResource($this->kernel, $pageTree->getThemeName());
-        if(false === $themeFolder || !is_file($themeFolder .'Resources/views/Theme/' . $pageTree->getTemplateName() . '.html.twig'))
+        $themeFolder = AlToolkit::locateResource($this->kernel, $themeName);
+        if(false === $themeFolder || !is_file($themeFolder .'Resources/views/Theme/' . $templateName . '.html.twig'))
         {
             $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
 
             return $template;
         }
 
-        if($pageTree->getThemeName() != "" && $pageTree->getTemplateName() != "")
+        if($themeName != "" && $templateName != "")
         {
             $this->kernelPath = $this->container->getParameter('kernel.root_dir');
-            $template = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $this->kernelPath, $pageTree->getThemeName(), $pageTree->getTemplateName()))) ? sprintf('::%s/%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName()) : sprintf('%s:Theme:%s.html.twig', $pageTree->getThemeName(), $pageTree->getTemplateName());
+            $template = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $this->kernelPath, $themeName, $templateName))) ? sprintf('::%s/%s.html.twig', $themeName, $templateName) : sprintf('%s:Theme:%s.html.twig', $themeName, $templateName);
         }
 
         return $template;

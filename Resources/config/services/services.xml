@@ -21,13 +21,14 @@
         <parameter key="block_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\AlBlockModel%alcms.orm%</parameter>
         <parameter key="theme_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\AlThemeModel%alcms.orm%</parameter>
         <parameter key="orm_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Model\%alcms.orm%\Base\Al%alcms.orm%Orm</parameter>
-        <parameter key="page_contents_container.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer</parameter>
+        <parameter key="page_contents_container.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
         <parameter key="template_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
         <parameter key="language_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
         <parameter key="page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
         <parameter key="template_changer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger</parameter>
         <parameter key="repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
         <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="template_assets.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets</parameter>
     </parameters>
 
     <services>
@@ -75,6 +76,7 @@
 
         <service id="template_manager" class="%template_manager.class%">
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="template" />
             <argument type="service" id="page_contents_container" />
             <argument type="service" id="block_model" />
         </service>
@@ -140,6 +142,16 @@
             <argument type="service" id="template_slots_factory" />
             <argument type="service" id="slots_converter_factory" />
             <argument type="service" id="orm_model" />
+        </service>
+        
+        <service id="template_assets" class="%template_assets.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="template" class="%template.class%">
+            <argument type="service" id="template_assets" />
+            <argument type="service" id="kernel" />
+            <argument type="service" id="template_slots_factory" />
         </service>
     </services>
 </container>

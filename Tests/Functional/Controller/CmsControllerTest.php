@@ -85,12 +85,12 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businesswebsitetheme/css/layout.css",
             "/bundles/businesswebsitetheme/css/style.css",
             "/bundles/businesswebsitetheme/css/al_fix_style.css",
-            "/bundles/businesscarousel/css/business-carousel.css",
-            "/bundles/businessslider/css/business-slider.css",
-            "/bundles/businessmenu/css/business-menu.css",
-            "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businesswebsitetheme/css/cms_fix.css",
+            "/bundles/businessmenu/css/business-menu.css",
+            "/bundles/businesscarousel/css/business-carousel.css",
             "/bundles/businesscarousel/css/business-carousel-editor.css",
+            "/bundles/businessslider/css/business-slider.css",
+            "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
             "/css/77ee4d3_part_1_images_1.css",
             "/css/77ee4d3_part_1_jquery-ui-1.8.6.custom_2.css",
@@ -126,18 +126,18 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/js/f7628a5_part_4_alphalemon_12.js",
             "/js/f7628a5_part_4_vendor_13.js",
             "/js/tiny_mce/tiny_mce.js",
-            "/bundles/alphalemonthemeengine/js/vendor/jquery/",
-            "/bundles/businesswebsitetheme/js/cufon-yui.js",
-            "/bundles/businesswebsitetheme/js/al-cufon-replace.js",
-            "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
-            "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_700.font.js",
+            "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
+            "/bundles/businessmenu/js/cufon-yui.js",
+            "/bundles/businessmenu/js/al-cufon-replace.js",
+            "/bundles/businessmenu/js/Swis721_Cn_BT_400.font.js",
+            "/bundles/businessmenu/js/Swis721_Cn_BT_700.font.js",
             "/bundles/businesswebsitetheme/js/jquery.easing.1.3.js",
-            "/bundles/businesswebsitetheme/js/jcarousellite.js",
+            "/bundles/businesscarousel/js/jcarousellite.js",
             "/bundles/businesscarousel/js/carousel.js",
+            "/bundles/businesscarousel/js/crud.js",
             "/bundles/businessslider/js/tms-0.3.js",
             "/bundles/businessslider/js/tms_presets.js",
             "/bundles/businessslider/js/slider.js",
-            "/bundles/businesscarousel/js/crud.js",
         );
 
         $this->checkCms($crawler, $expectedStylesheets, $expectedJavascripts);
@@ -178,10 +178,9 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businesswebsitetheme/css/style.css",
             "/bundles/businesswebsitetheme/css/al_fix_style.css",
             "/bundles/businesscarousel/css/business-carousel.css",
-            "/bundles/businessslider/css/business-slider.css",
-            "/bundles/businessmenu/css/business-menu.css",
-            "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businesscarousel/css/business-carousel-editor.css",
+            "/bundles/businessslider/css/business-slider.css",
+            "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
             "/css/77ee4d3_part_1_images_1.css",
             "/css/77ee4d3_part_1_jquery-ui-1.8.6.custom_2.css",
@@ -217,7 +216,7 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/js/f7628a5_part_4_alphalemon_12.js",
             "/js/f7628a5_part_4_vendor_13.js",
             "/js/tiny_mce/tiny_mce.js",
-            "/bundles/alphalemonthemeengine/js/vendor/jquery/",
+            "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js/cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
@@ -225,11 +224,10 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businesswebsitetheme/js/tabs.js",
             "/bundles/businesscarousel/js/jcarousellite.js",
             "/bundles/businesscarousel/js/carousel.js",
+            "/bundles/businesscarousel/js/crud.js",
             "/bundles/businessslider/js/tms-0.3.js",
             "/bundles/businessslider/js/tms_presets.js",
             "/bundles/businessslider/js/slider.js",
-            "/bundles/businessmenu/js/al-cufon-replace.js",
-            "/bundles/businesscarousel/js/crud.js",
         );
 
         $this->checkCms($crawler, $expectedStylesheets, $expectedJavascripts);
@@ -254,7 +252,6 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->checkJavascripts($crawler, $expectedJavascripts);
     }
 
-
     private function checkToolbar($crawler)
     {
         $this->assertEquals(1, $crawler->filter('#al_toolbar')->count());
@@ -274,14 +271,14 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         $assets = $crawler->filter('link')->extract(array('href'));
         $this->assertEquals(count($expectedAssets), count($assets));
-        $this->assertEquals(0, count(array_diff($expectedAssets, $assets)));
+        $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
 
     private function checkJavascripts($crawler, $expectedAssets)
     {
         $assets = array_filter($crawler->filter('script')->extract(array('src')));
         $this->assertEquals(count($expectedAssets), count($assets));
-        $this->assertEquals(0, count(array_diff($expectedAssets, $assets)));
+        $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
 
     private function check($crawler, $element, $value)

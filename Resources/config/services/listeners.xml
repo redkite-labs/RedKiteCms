@@ -61,6 +61,7 @@
 
         <service id="al_change_template_listener" class="%al_change_template_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_edit_page_commit" method="onBeforeEditPageCommit" priority="0" />
+            <argument type="service" id="kernel" />
             <argument type="service" id="template_changer" />
             <argument type="service" id="template_slots_factory" />
         </service>
