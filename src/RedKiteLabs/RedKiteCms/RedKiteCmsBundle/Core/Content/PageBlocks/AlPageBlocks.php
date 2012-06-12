@@ -10,96 +10,101 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer; 
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocks as AlPageBlocksBase;
 
 /**
- * AlPageContentsContainer is the object responsible to manage the contents on a web page.
- * 
- * 
- * Providing the page id and language id, it retrieves the contents and arrange them 
+ * AlPageBlocks is the object responsible to manage the contents on a web page.
+ *
+ *
+ * Providing the page id and language id, it retrieves the contents and arrange them
  * into an array which keys are the name of slot where the contents live.
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlPageContentsContainer implements AlPageContentsContainerInterface
+class AlPageBlocks extends AlPageBlocksBase
 {
     protected $idPage = null;
     protected $idLanguage = null;
     protected $blockModel;
     protected $dispatcher;
-    protected $blocks = array(); 
-    
+    protected $validContentParams = array('HtmlContent' => '',
+                                        'ExternalStylesheet' => '',
+                                        'InternalStylesheet' => '',
+                                        'ExternalJavascript' => '',
+                                        'InternalStylesheet' => '',);
+
     /**
      * Constructor
-     * 
+     *
      * @param EventDispatcherInterface $dispatcher
-     * @param BlockModelInterface $blockModel 
+     * @param BlockModelInterface $blockModel
      */
     public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel)
     {
         $this->dispatcher = $dispatcher;
         $this->blockModel = $blockModel;
     }
-    
+
     /**
      * The id of the page to retrieve
-     * 
+     *
      * @param int $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer
-     * @throws General\InvalidParameterTypeException 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws General\InvalidParameterTypeException
      */
     public function setIdPage($v)
     {
         if (!is_numeric($v)) {
             throw new General\InvalidParameterTypeException("The page id must be a numeric value");
         }
-        
+
         $this->idPage = $v;
-        
+
         return $this;
     }
-    
+
     /**
      * The id of the language to retrieve
-     * 
+     *
      * @param type $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer
-     * @throws General\InvalidParameterTypeException 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws General\InvalidParameterTypeException
      */
     public function setIdLanguage($v)
     {
         if (!is_numeric($v)) {
             throw new General\InvalidParameterTypeException("The language id must be a numeric value");
         }
-        
+
         $this->idLanguage = $v;
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the current page id
-     * 
-     * @return int 
+     *
+     * @return int
      */
     public function getIdPage()
     {
         return $this->idPage;
     }
-    
+
     /**
      * Returns the current language id
-     * 
-     * @return int 
+     *
+     * @return int
      */
     public function getIdLanguage()
     {
@@ -107,40 +112,20 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
     }
 
     /**
-     * Return all the page's blocks
-     * 
-     * @return array 
-     */
-    public function getBlocks()
-    {
-        return $this->blocks;
-    }
-    
-    /**
-     * Return all blocks placed on the given slot name
-     * 
-     * @return array 
-     */
-    public function getSlotBlocks($slotName)
-    {
-        return (array_key_exists($slotName, $this->blocks)) ? $this->blocks[$slotName] : array();
-    }
-    
-    /**
      * Refreshes the blocks
-     * 
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageContentsContainer\AlPageContentsContainer 
+     *
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      */
     public function refresh()
     {
         $this->setUpBlocks();
-        
+
         return $this;
     }
-          
+
     /**
      * Retrieves from the database the contents and arranges them by slots
-     * 
+     *
      * @return array
      */
     protected function setUpBlocks()
@@ -148,16 +133,16 @@ class AlPageContentsContainer implements AlPageContentsContainerInterface
         if (null === $this->idLanguage) {
             throw new General\ParameterIsEmptyException("Contents cannot be retrieved because the id language has not been set");
         }
-        
+
         if (null === $this->idPage) {
             throw new General\ParameterIsEmptyException("Contents cannot be retrieved because the id page has not been set");
         }
-        
+
         $this->blocks = array();
-        
+
         $alBlocks = $this->blockModel->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
         foreach ($alBlocks as $alBlock) {
-            $this->blocks[$alBlock->getSlotName()][] = $alBlock; 
+            $this->blocks[$alBlock->getSlotName()][] = $alBlock;
         }
     }
 }
