@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://alphalemon.com
- * 
+ *
  * @license    MIT License
  */
 
@@ -21,23 +21,19 @@ namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface AlTemplateSlotsInterface 
+interface AlTemplateSlotsInterface
 {
     /**
      * Configures the slots
-     * 
+     *
      * @return array
      */
     public function configure();
-    
+
     /**
      * Return the template's slots
-     * 
+     *
      * @return array
      */
     public function getSlots();
-    
-    public function getThemeName();
-    
-    public function getTemplateName();
 }
