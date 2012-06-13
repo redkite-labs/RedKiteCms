@@ -113,7 +113,7 @@ class AlRepeatedSlotsAligner
         }
 
         // The xml file is made for the first time
-        if($result) $this->saveSlots($themeName);
+        if($result) $this->saveSlots($themeName, $templateName);
 
         return $result;
     }
@@ -197,7 +197,7 @@ class AlRepeatedSlotsAligner
     /**
      * Saves the active slots to the xml file
      */
-    protected function saveSlots($themeName)
+    protected function saveSlots($themeName, $templateName)
     {
         $slotClassesPath = AlToolkit::locateResource($this->kernel, $themeName) . '/Core/Slots';
 
@@ -209,7 +209,7 @@ class AlRepeatedSlotsAligner
             $pathInfo = pathinfo($file);
             $filename = $pathInfo["filename"];
             $templateSlots = $this->templateSlotsFactory->create($themeName, $filename);
-            $templateName = strtolower($templateSlots->getTemplateName());
+            $templateName = strtolower($templateName);
             $result[$templateName] = $this->templateSlotsToArray($templateSlots->getSlots());
         }
 
