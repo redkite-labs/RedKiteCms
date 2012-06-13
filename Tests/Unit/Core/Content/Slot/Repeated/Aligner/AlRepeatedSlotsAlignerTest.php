@@ -120,10 +120,6 @@ class AlRepeatedSlotsAlignerTest extends TestCase
 
         $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $templateSlots->expects($this->once())
-            ->method('getTemplateName')
-            ->will($this->returnValue('Home'));
-
-        $templateSlots->expects($this->once())
             ->method('getSlots')
             ->will($this->returnValue(array(new AlSlot('logo', array('repeated' => 'page')), new AlSlot('logo', array('nav-menu' => 'page')))));
 
@@ -160,34 +156,34 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     {
         $this->orm->expects($this->once())
             ->method('startTransaction');
-        
+
         $this->orm->expects($this->once())
             ->method('rollBack');
-        
+
         $templateSlots = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
         $templateSlots->expects($this->once())
             ->method('convert')
             ->will($this->throwException(new \RuntimeException));
-        
+
         $this->doAlignToFail($templateSlots);
     }
-    
+
     public function testAlignmentFailsWhenConvertFails()
     {
         $this->orm->expects($this->once())
             ->method('startTransaction');
-        
+
         $this->orm->expects($this->once())
             ->method('rollBack');
-        
+
         $templateSlots = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
         $templateSlots->expects($this->once())
             ->method('convert')
             ->will($this->returnValue(false));
-        
+
         $this->doAlignToFail($templateSlots);
     }
-    
+
     private function doAlignToFail($templateSlots)
     {
         $this->addCacheFile();
@@ -195,41 +191,37 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $this->kernel->expects($this->any())
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root/FakeTheme')));
-        
+
         $this->slotsConverterFactory->expects($this->once())
             ->method('createConverter')
             ->will($this->returnValue($templateSlots));
-        
+
         $this->aligner->align("BusinessWebsiteThemeBundle", "Home", $slots = array('logo' => new AlSlot('logo', array('repeated' => 'site'))));
         $this->assertTrue(file_exists($this->cacheFile));
 
         $contents = file_get_contents($this->cacheFile);
         $this->assertTrue(strpos($contents, "<templates><template name=\"home\"><slot name=\"logo\">page</slot><slot name=\"nav-menu\">page</slot></template></templates>") > 0);
     }
-    
+
     public function testAlignmentSucceded()
     {
         $this->addCacheFile();
-        
+
         $this->orm->expects($this->once())
             ->method('startTransaction');
 
         $this->orm->expects($this->once())
             ->method('commit');
-        
+
         $this->orm->expects($this->never())
             ->method('rollBack');
-        
+
         $this->kernel->expects($this->any())
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root/FakeTheme')));
 
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $templateSlots->expects($this->once())
-            ->method('getTemplateName')
-            ->will($this->returnValue('Home'));
-
         $slots = array('logo' => new AlSlot('logo', array('repeated' => 'site')));
+        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $templateSlots->expects($this->once())
             ->method('getSlots')
             ->will($this->returnValue($slots));
@@ -242,11 +234,11 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $templateSlots->expects($this->once())
             ->method('convert')
             ->will($this->returnValue(true));
-        
+
         $this->slotsConverterFactory->expects($this->once())
             ->method('createConverter')
             ->will($this->returnValue($templateSlots));
-        
+
         $this->aligner->align("BusinessWebsiteThemeBundle", "Home", $slots);
         $this->assertTrue(file_exists($this->cacheFile));
 
