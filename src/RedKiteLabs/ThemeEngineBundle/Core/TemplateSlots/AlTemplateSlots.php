@@ -33,8 +33,6 @@ abstract class AlTemplateSlots implements AlTemplateSlotsInterface
     private $kernel;
     private $slots = array();
     private $fixturesFolder = null;
-    private $themeName;
-    private $templateName;
 
     /**
      * Constructor
@@ -52,16 +50,6 @@ abstract class AlTemplateSlots implements AlTemplateSlotsInterface
         $this->kernel = $kernel;
         $this->fixturesFolder = $fixturesFolder;
         $this->slots = $this->configure();
-    }
-
-    public function getThemeName()
-    {
-        return $this->themeName;
-    }
-
-    public function getTemplateName()
-    {
-        return $this->templateName;
     }
 
     /**
@@ -128,9 +116,6 @@ abstract class AlTemplateSlots implements AlTemplateSlotsInterface
         {
             throw new InvalidTemplateNameException(sprintf('A template name must be made only by lower-case letters. Any other character is not valid. Please check your %s theme class.', get_class($this)));
         }
-
-        $this->themeName = $themeName;
-        $this->templateName = $templateName;
 
         $baseSlots = $this->retrieveSlotsFromFixtureFile($themeName, 'base');
         $templateSlots = $this->retrieveSlotsFromFixtureFile($themeName, $templateName);
