@@ -24,18 +24,29 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
- * AlTemplate
+ * The class deputate to manage a template
+ *
+ * This object stores all the information about a template:
+ *
+ * - Slots
+ * - Assets
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AlTemplate
 {
+    protected $kernel = null;
+    protected $templateAssets = null;
     protected $assets = null;
-    protected $templateName;
-    protected $themeName;
     protected $templateSlots = null;
-    protected $templateAssets;
 
+    /**
+     * Constructor
+     *
+     * @param AlTemplateAssets $templateAssets
+     * @param KernelInterface $kernel
+     * @param AlTemplateSlotsFactoryInterface $templateSlotsFactory
+     */
     public function __construct(AlTemplateAssets $templateAssets, KernelInterface $kernel, AlTemplateSlotsFactoryInterface $templateSlotsFactory)
     {
         $this->templateAssets = $templateAssets;
@@ -43,37 +54,57 @@ class AlTemplate
         $this->templateSlotsFactory = $templateSlotsFactory;
     }
 
-
-    public function setTemplateName($v)
-    {
-        $this->templateName = $v;
-        $this->setUp();
-
-        return $this;
-    }
-
+    /**
+     * Sets the theme name for the associated AlTemplateAssets object
+     *
+     * @param string $v
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     */
     public function setThemeName($v)
     {
-        $this->themeName = $v;
+        $this->templateAssets->setThemeName($v);
         $this->setUp();
 
         return $this;
     }
 
-    public function getTemplateName()
+    /**
+     * Sets the template name for the associated AlTemplateAssets object
+     *
+     * @param string $v
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     */
+    public function setTemplateName($v)
     {
-        return $this->templateName;
+        $this->templateAssets->setTemplateName($v);
+        $this->setUp();
+
+        return $this;
     }
 
+    /**
+     * Returns the theme name from the associated AlTemplateAssets object
+     *
+     * @return string
+     */
     public function getThemeName()
     {
-        return $this->themeName;
+        return $this->templateAssets->getThemeName();
+    }
+
+    /**
+     * Returns the theme name from the associated AlTemplateAssets object
+     *
+     * @return string
+     */
+    public function getTemplateName()
+    {
+        return $this->templateAssets->getTemplateName();
     }
 
     /**
      * Sets the current AlTemplateSlots object
      *
-     * @api
      * @param AlTemplateSlotsInterface $templateSlots
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
@@ -87,7 +118,6 @@ class AlTemplate
     /**
      * Returns the current AlTemplateSlots object
      *
-     * @api
      * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
      */
     public function getTemplateSlots()
@@ -102,7 +132,7 @@ class AlTemplate
      */
     public function getSlots()
     {
-        return (null !== $this->templateSlots) ? $this->templateSlots->getSlots() : array();;
+        return (null !== $this->templateSlots) ? $this->templateSlots->getSlots() : array();
     }
 
     /**
@@ -112,27 +142,24 @@ class AlTemplate
      */
     public function getSlot($slotName)
     {
-        if(null === $this->templateSlots)
-        {
-            return null;
-        }
-
-        $slots = $this->getSlots();
-        if(!\array_key_exists($slotName, $slots))
-        {
-            return null;
-        }
-
-        return $slots[$slotName];
+        return (null !== $this->templateSlots) ? $this->templateSlots->getSlot($slotName) : array();
     }
 
+    /**
+     * Catches the methods to manage template assets
+     *
+     * @param string $name the method name
+     * @param mixed $params the values to pass to the called method
+     * @return mixed Depends on method called
+     * @throws \RuntimeException
+     */
     public function __call($name, $params)
     {
         if(preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+t)$/', $name, $matches))
         {
             $this->addAsset(strtolower($matches[3]) . 's', strtolower($matches[2]), $params[0]);
 
-            return;
+            return $this;
         }
 
         if(preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)?(Range)$/', $name, $matches))
@@ -144,7 +171,7 @@ class AlTemplate
 
             $this->addAssetsRange(strtolower($matches[3]), strtolower($matches[2]), $params[0]);
 
-            return;
+            return $this;
         }
 
         if(preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
@@ -156,16 +183,14 @@ class AlTemplate
     }
 
     /**
-     * Sets up the page tree object for the current template
+     * Sets up the template slots object and the template's assets
      */
     protected function setUp()
     {
-        if ($this->themeName != '' && $this->templateName != '') {
-            $this->templateSlots = $this->templateSlotsFactory->create($this->themeName, $this->templateName);
-
-            $this->templateAssets
-                    ->setThemeName($this->themeName)
-                    ->setTemplateName($this->templateName);
+        $themeName = $this->getThemeName();
+        $templateName = $this->getTemplateName();
+        if ($themeName != '' && $templateName != '') {
+            $this->templateSlots = $this->templateSlotsFactory->create($themeName, $templateName);
 
             $this->assets = new \ArrayObject(array());
             $this->assets->stylesheets = new \ArrayObject(array());
@@ -191,10 +216,6 @@ class AlTemplate
 
     private function getAssets($assetType, $type)
     {
-        if (null === $this->assets) {
-            return null;
-        }
-
-        return $this->assets->$assetType->$type;
+        return (null !== $this->assets) ? $this->assets->$assetType->$type : null;
     }
 }

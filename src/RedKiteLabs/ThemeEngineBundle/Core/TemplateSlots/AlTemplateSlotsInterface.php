@@ -35,5 +35,12 @@ interface AlTemplateSlotsInterface
      *
      * @return array
      */
+    public function getSlot($slotName);
+
+    /**
+     * Return the template's slots
+     *
+     * @return null|array
+     */
     public function getSlots();
 }

@@ -61,6 +61,16 @@ abstract class AlTemplateSlots implements AlTemplateSlotsInterface
     }
 
     /**
+     * Returns a slot by its name
+     *
+     * @return array
+     */
+    public function getSlot($slotName)
+    {
+        return (array_key_exists($slotName, $this->slots)) ? $this->slots[$slotName] : null;
+    }
+
+    /**
      * Returns the repeated content status for the required slot
      *
      * @param   string   $slotName The slot name to retrieve

@@ -25,7 +25,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-interface AlAssetsCollectionInterface extends \Iterator
+interface AlAssetsCollectionInterface extends \Iterator, \Countable
 {
 
     /**

@@ -80,6 +80,14 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     {
         return (current($this->assets) !== false);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->assets);
+    }
 
     /**
      * {@inheritdoc}
@@ -113,6 +121,9 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      */
     public function remove($asset)
     {
-        // TODO
+        $assetName = basename($asset);
+        if (array_key_exists($assetName, $this->assets)) {
+           unset($this->assets[$assetName]); 
+        }
     }
 }

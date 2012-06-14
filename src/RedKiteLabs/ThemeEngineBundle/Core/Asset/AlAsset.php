@@ -29,7 +29,7 @@ class AlAsset
 {
     protected $kernel;
     protected $asset = null;
-    protected $fullPath = null;
+    protected $realPath = null;
     protected $absolutePath = null;
 
     /**
@@ -61,9 +61,9 @@ class AlAsset
      *
      * @return type
      */
-    public function getFullPath()
+    public function getRealPath()
     {
-        return $this->fullPath;
+        return $this->realPath;
     }
 
     /**
@@ -81,10 +81,15 @@ class AlAsset
      */
     protected function setUp()
     {
-        $this->fullPath = $this->locateResource();
+        if (empty($this->asset)) {
+            return;
+        }
+        
+        $this->asset = $this->normalizePath($this->asset);
+        $this->realPath = $this->locateResource();
 
         // The asset has not been located, so the full path is the asset itself
-        if(null === $this->fullPath) $this->fullPath = $this->asset;
+        if(null === $this->realPath) $this->realPath = $this->asset;
         $this->absolutePath = $this->retrieveBundleWebFolder();
     }
 
@@ -95,16 +100,13 @@ class AlAsset
      */
     protected function retrieveBundleWebFolder()
     {
-        $asset = $this->normalizePath($this->fullPath);
-
-        preg_match('/([^@\/][\w]+Bundle)\/(Resources\/public)?\/(.*)/', $asset, $matches);
+        preg_match('/([^@\/][\w]+Bundle)\/(Resources\/public)?\/(.*)/', $this->asset, $matches);
         if (!empty($matches) && count($matches) == 4) {
-            return $this->buildBundlesFolderPath($matches[1], $matches[3]);
+            return sprintf('bundles/%s/%s', preg_replace('/bundle$/', '', strtolower($matches[1])), $matches[3]);
         }
-
-        preg_match('/[\/]?bundles\/([\w]+)\//', strtolower($asset), $matches);
-
-        return (!empty($matches)) ? $this->buildBundlesFolderPath($matches[1], $asset) : null;
+        
+        preg_match('/[\/]?(bundles?.*)/', strtolower($this->asset), $matches);
+        return (!empty($matches)) ? $matches[1] : null;
     }
 
     /**
@@ -139,10 +141,5 @@ class AlAsset
     protected function normalizePath($path)
     {
         return preg_replace('/\\\/', '/', $path);
-    }
-
-    private function buildBundlesFolderPath($bundleFolderName, $assetName)
-    {
-        return sprintf('bundles/%s/%s', preg_replace('/bundle$/', '', strtolower($bundleFolderName)), $assetName);
     }
 }
