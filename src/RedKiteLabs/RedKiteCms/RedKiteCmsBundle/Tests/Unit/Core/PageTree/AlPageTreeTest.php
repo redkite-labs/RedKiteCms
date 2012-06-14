@@ -9,6 +9,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
  * AlPageTreeTest
@@ -33,7 +34,8 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+
+        $this->pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -43,7 +45,7 @@ class AlPageTreeTest extends TestCase
 
         $this->templateManager->expects($this->any())
             ->method('getPageBlocks')
-            ->will($this->returnValue($this->pageContents));
+            ->will($this->returnValue($this->pageBlocks));
 
         $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel')
                                     ->disableOriginalConstructor()
@@ -345,7 +347,7 @@ class AlPageTreeTest extends TestCase
 
         $alSeo->expects($this->once())
             ->method('getMetaKeywords');
-        
+
         $alSeo->expects($this->once())
             ->method('getAlPage')
             ->will($this->returnValue($alPage));
@@ -394,28 +396,147 @@ class AlPageTreeTest extends TestCase
 
     public function testPageTreeHasBeenSetted()
     {
+        $this->setupValidPageTree();        
+        $this->assertEquals($this->language, $this->pageTree->getAlLanguage());
+        $this->assertEquals($this->page, $this->pageTree->getAlPage());
+        $this->assertEquals($this->theme, $this->pageTree->getAlTheme());
+        $this->assertTrue($this->pageTree->isValid());
+        $this->assertTrue($this->pageTree->isCmsMode());        
+    }
+    
+    public function testPageTreeSetsUpExternalAssetsFromABlock()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getClassName')
+            ->will($this->returnValue('Script'));
+        
+        $externalStylesheet = 'fake-stylesheet-1.css,fake-stylesheet-2.css';
+        $block->expects($this->once())
+            ->method('getExternalStylesheet')
+            ->will($this->returnValue($externalStylesheet));
+
+        $this->pageBlocks->expects($this->once())
+            ->method('getBlocks')
+            ->will($this->returnValue(array('logo' => array($block))));
+        
+        $themeAssets = array('theme-stylesheet.css');
+        $this->setUpAssetsCollection($themeAssets);
+                
+        $this->setupValidPageTree();
+        $this->assertEquals(array_merge($themeAssets, explode(",", $externalStylesheet)), $this->pageTree->getExternalStylesheets());
+    }
+    
+    public function testPageTreeSetsUpInternalAssetsFromABlock()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getClassName')
+            ->will($this->returnValue('Script'));
+        
+        $internalStylesheet = 'fake javascript code';
+        $block->expects($this->once())
+            ->method('getInternalStylesheet')
+            ->will($this->returnValue($internalStylesheet));
+
+        $this->pageBlocks->expects($this->once())
+            ->method('getBlocks')
+            ->will($this->returnValue(array('logo' => array($block))));
+        
+        $themeAssets = array('some code retrieved from template');
+        $this->setUpAssetsCollection($themeAssets);
+                
+        $this->setupValidPageTree();
+        $this->assertEquals($themeAssets[0] . $internalStylesheet, $this->pageTree->getInternalStylesheets());
+    }
+    
+    public function testPageTreeSetsUpExternalAssetsFromTheParameterDeclaredOnTheBlockConfiguration()
+    {        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getClassName')
+            ->will($this->returnValue('FancyApp'));
+
+        $this->pageBlocks->expects($this->once())
+            ->method('getBlocks')
+            ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->container->expects($this->exactly(2))
+            ->method('hasParameter')
+            ->will($this->onConsecutiveCalls(true, false));
+        
+        $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
+        $this->container->expects($this->any())
+            ->method('getParameter')
+            ->with('fancyapp.external_stylesheets')
+            ->will($this->returnValue($appAssets));
+        
+        $themeAssets = array('theme-stylesheet.css');
+        $this->setUpAssetsCollection($themeAssets);
+                
+        $this->setupValidPageTree();
+        $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
+    }
+    
+    public function testPageTreeSetsUpExternalAssetsUsedByTheCmsFromTheParameterDeclaredOnTheBlockConfiguration()
+    {        
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getClassName')
+            ->will($this->returnValue('FancyApp'));
+
+        $this->pageBlocks->expects($this->once())
+            ->method('getBlocks')
+            ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->container->expects($this->exactly(2))
+            ->method('hasParameter')
+            ->will($this->onConsecutiveCalls(false, true));
+        
+        $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
+        $this->container->expects($this->any())
+            ->method('getParameter')
+            ->with('fancyapp.external_stylesheets.cms')
+            ->will($this->returnValue($appAssets));
+        
+        $themeAssets = array('theme-stylesheet.css');
+        $this->setUpAssetsCollection($themeAssets);
+                
+        $this->setupValidPageTree();
+        $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
+    }
+    
+    private function setUpAssetsCollection(array $storedAssets)
+    {
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
+        $assetsCollection = new AlAssetCollection($kernel, $storedAssets);
+        $this->template->expects($this->any())
+            ->method('__call')
+            ->will($this->returnValue($assetsCollection));
+    }
+    
+    private function setupValidPageTree()
+    {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $request->expects($this->exactly(2))
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
-        
+
         $this->container->expects($this->any())
             ->method('get')
             ->will($this->returnValue($request));
-        
-        $language = $this->configureLanguage();
-        $page = $this->setUpPage(2); 
-        $theme = $this->configureTheme();
-        
+
+        $this->language = $this->configureLanguage();
+        $this->page = $this->setUpPage(2);
+        $this->theme = $this->configureTheme();
+        $alSeo = $this->setUpSeo(2);
         $this->setUpPageBlocks();
-        
-        $alSeo = $this->setUpSeo(2);  
-        
+
         // Two times because the first one is when the page is setted up from seo
         // then the second one when the page is refreshed
-        $alSeo->expects($this->exactly(2)) 
+        $alSeo->expects($this->exactly(2))
             ->method('getMetaTitle');
 
         $alSeo->expects($this->exactly(2))
@@ -423,27 +544,21 @@ class AlPageTreeTest extends TestCase
 
         $alSeo->expects($this->exactly(2))
             ->method('getMetaKeywords');
-        
+
         $alSeo->expects($this->once())
             ->method('getAlPage')
-            ->will($this->returnValue($page));
-        
+            ->will($this->returnValue($this->page));
+
         $this->seoModel->expects($this->exactly(2))
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($alSeo));
-        
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');        
+
+        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->template->expects($this->any())
             ->method('getTemplateSlots')
             ->will($this->returnValue($templateSlots));
         
         $this->pageTree->setup();
-        
-        $this->assertEquals($language, $this->pageTree->getAlLanguage());
-        $this->assertEquals($page, $this->pageTree->getAlPage());
-        $this->assertEquals($theme, $this->pageTree->getAlTheme());
-        $this->assertTrue($this->pageTree->isValid());
-        $this->assertTrue($this->pageTree->isCmsMode());
     }
 
     private function configureLanguage()
@@ -518,18 +633,18 @@ class AlPageTreeTest extends TestCase
 
     private function setUpPageBlocks()
     {
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
             ->method('setIdLanguage')
             ->will($this->returnSelf());
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
             ->method('setIdPage')
             ->will($this->returnSelf());
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
             ->method('refresh')
             ->will($this->returnSelf());
-        
+
         $this->templateManager->expects($this->once())
             ->method('setPageBlocks')
             ->will($this->returnSelf());

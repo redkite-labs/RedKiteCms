@@ -206,7 +206,8 @@ class BlocksController extends Controller
                                   "blockName" => "block_" . $request->get('idBlock'));
                 }
                 else {
-                    $this->get('al_page_tree')->setContents(array($request->get('slotName') => array()), true);
+                    // TODO
+                    //$this->get('al_page_tree')->setContents(array($request->get('slotName') => array()), true);
                     $values[] = array("key" => "redraw-slot",
                           "slotName" => 'al_' . $request->get('slotName'),
                           "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'))));

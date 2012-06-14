@@ -164,17 +164,15 @@ class AlPageTree extends BaseAlPageTree
             if (null === $this->alLanguage || null === $this->alPage) {
                 return null;
             }
-            
-            $this->alTheme = $this->themeModel->activeBackend(); 
+
+            $this->alTheme = $this->themeModel->activeBackend();
             if (null === $this->alTheme) {
                 return null;
             }
-            
+
             $this->template->setThemeName($this->alTheme->getThemeName());
             $this->template->setTemplateName($this->alPage->getTemplateName());
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
-
-            //$this->setContents($this->templateManager->slotsToArray(), true);
 
             return $this;
         }
@@ -221,6 +219,39 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
+     * {@ inheritdoc}
+     */
+    protected function mergeAssets($method, $assetType, $type)
+    {
+        $assetsCollection = $this->template->$method();
+        if(null !== $assetsCollection) {
+            // When a block has examined, it is saved in this array to avoid parsing it again
+            $appsAssets = array();
+            $assetsCollection = clone($assetsCollection);
+            $blocks = $this->pageBlocks->getBlocks();
+            foreach ($blocks as $slotBlocks) {
+                foreach ($slotBlocks as $block) { 
+                    $className = $block->getClassName();
+                    if (!in_array($className, $appsAssets)) {
+                        foreach ($this->parameterSchema as $parameterSchema) {
+                            $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
+                            $assetsCollection->addRange(($this->container->hasParameter($parameter)) ? $this->container->getParameter($parameter) : array());
+                        }
+
+                        $appsAssets[] = $className;
+                    }
+
+                    $method = 'get'. ucfirst($type) . ucfirst($assetType);
+                    $method = substr($method, 0, strlen($method) - 1);
+                    $assetsCollection->addRange(explode(',', $block->$method()));
+                }
+            }
+            
+            return $assetsCollection;
+        }
+    }
+
+    /**
      * Sets up the AlLanguage object from the current request or session (symfony 2.0.x)
      *
      * @return null|AlLanguage
@@ -260,7 +291,7 @@ class AlPageTree extends BaseAlPageTree
         if (null === $seo) {
             $seo = $this->seoModel->fromPageAndLanguage($pageName, $this->alLanguage->getId());
         }
-        
+
         if (null === $seo) {
             $alPage = $this->pageModel->fromPageName($pageName);
             if (null === $alPage) {
@@ -274,7 +305,7 @@ class AlPageTree extends BaseAlPageTree
             $alPage = $seo->getAlPage();
             $this->setUpMetaTags($seo);
         }
-        
+
         $this->isValidPage = true;
 
         return $alPage;

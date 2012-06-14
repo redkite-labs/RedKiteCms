@@ -23,11 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocks as AlPageBlocksBase;
 
 /**
- * AlPageBlocks is the object responsible to manage the contents on a web page.
- *
- *
- * Providing the page id and language id, it retrieves the contents and arrange them
- * into an array which keys are the name of slot where the contents live.
+ * Extends the AlPageBlocks class to load blocks from the database
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -37,11 +33,6 @@ class AlPageBlocks extends AlPageBlocksBase
     protected $idLanguage = null;
     protected $blockModel;
     protected $dispatcher;
-    protected $validContentParams = array('HtmlContent' => '',
-                                        'ExternalStylesheet' => '',
-                                        'InternalStylesheet' => '',
-                                        'ExternalJavascript' => '',
-                                        'InternalStylesheet' => '',);
 
     /**
      * Constructor
@@ -139,7 +130,6 @@ class AlPageBlocks extends AlPageBlocksBase
         }
 
         $this->blocks = array();
-
         $alBlocks = $this->blockModel->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
         foreach ($alBlocks as $alBlock) {
             $this->blocks[$alBlock->getSlotName()][] = $alBlock;

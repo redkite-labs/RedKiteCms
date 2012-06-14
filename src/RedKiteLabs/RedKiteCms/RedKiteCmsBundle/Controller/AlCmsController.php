@@ -75,11 +75,11 @@ class AlCmsController extends Controller
             $availableBlocks = $this->findAvailableBlocks();
 
             $params = array_merge($params, array(
-                                'metatitle' => $pageTree->getMetatitle(),
+                                'metatitle' => $pageTree->getMetaTitle(),
                                 'metadescription' => $pageTree->getMetaDescription(),
                                 'metakeywords' => $pageTree->getMetaKeywords(),
-                                'internal_stylesheets' => $pageTree->getInternalStylesheet(),
-                                'internal_javascripts' => $pageTree->getInternalJavascript(),
+                                'internal_stylesheets' => $pageTree->getInternalStylesheets(),
+                                'internal_javascripts' => $pageTree->getInternalJavascripts(),
                                 'template' => $template,
                                 'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
                                 'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,

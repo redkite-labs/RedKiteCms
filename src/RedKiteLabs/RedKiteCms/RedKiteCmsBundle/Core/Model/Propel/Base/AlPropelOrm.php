@@ -130,7 +130,7 @@ class AlPropelOrm implements OrmInterface
 
             return $this->save($values, $modelObject);
         }
-        catch(\Exception $ex) { echo $ex->getMessage();
+        catch(\Exception $ex) {
 
             throw $ex;
         }
