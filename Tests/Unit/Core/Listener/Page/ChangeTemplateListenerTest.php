@@ -78,9 +78,11 @@ class ChangeTemplateListenerTest extends BaseListenerTest
                            ->disableOriginalConstructor()
                             ->getMock();
 
+        /*
         $this->templateSlots = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots')
                             ->disableOriginalConstructor()
-                            ->getMockForAbstractClass();
+                            ->getMockForAbstractClass();*/
+        
 
         $this->testListener = new ChangeTemplateListener($this->kernel, $this->templateChanger ,$this->templateSlotsFactory);
     }
@@ -230,13 +232,16 @@ class ChangeTemplateListenerTest extends BaseListenerTest
             ->method('getBlockModel')
             ->will($this->returnValue($this->blockModel));
 
-        $this->templateManager->expects($this->once())
-            ->method('getTemplateSlots')
-            ->will($this->returnValue($this->templateSlots));
-
-        $this->templateSlots->expects($this->any())
+        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+        $template->expects($this->any())
             ->method('getThemeName')
             ->will($this->returnValue("FakeTheme"));
+        
+        $this->templateManager->expects($this->any())
+            ->method('getTemplate')
+            ->will($this->returnValue($template));
 
         $this->templateChanger->expects($this->once())
             ->method('setCurrentTemplateManager')

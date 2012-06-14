@@ -67,7 +67,7 @@ class ChangeTemplateListener
             $currentTemplateManager = $pageManager->getTemplateManager();
             $blockModel = $currentTemplateManager->getBlockModel();
             try {
-                $themeName = $currentTemplateManager->getTemplateSlots()->getThemeName();
+                $themeName = $currentTemplateManager->getTemplate()->getThemeName();
                 $blockModel->startTransaction();
 
                 $templateAssets = new AlTemplateAssets();
