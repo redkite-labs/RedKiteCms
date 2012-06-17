@@ -42,6 +42,7 @@ class AlPageTree extends BaseAlPageTree
 {
     protected $alPage = null;
     protected $alLanguage = null;
+    protected $alSeo = null;
     protected $alTheme = null;
     protected $languageModel;
     protected $pageModel;
@@ -65,19 +66,19 @@ class AlPageTree extends BaseAlPageTree
      * @param Entities\SeoModelInterface $seoModel
      */
     public function __construct(ContainerInterface $container,
-                                AlTemplateManager $templateManager,
+                                AlTemplateManager $templateManager = null,
                                 Entities\LanguageModelInterface $languageModel = null,
                                 Entities\PageModelInterface $pageModel = null,
                                 Entities\ThemeModelInterface $themeModel = null,
                                 Entities\SeoModelInterface $seoModel = null)
     {
-        parent::__construct($container, $templateManager->getTemplate(), $templateManager->getPageBlocks());
+        $this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
+        $this->languageModel = (null === $languageModel) ? $container->get('language_model') : $languageModel;
+        $this->pageModel = (null === $pageModel) ? $container->get('page_model') : $pageModel;
+        $this->themeModel = (null === $themeModel) ? $container->get('theme_model') : $themeModel;
+        $this->seoModel = (null === $seoModel) ? $container->get('seo_model') : $seoModel;
 
-        $this->templateManager = $templateManager;
-        $this->languageModel = (null === $languageModel) ? new Propel\AlLanguageModelPropel() : $languageModel;
-        $this->pageModel = (null === $pageModel) ? new Propel\AlPageModelPropel() : $pageModel;
-        $this->themeModel = (null === $themeModel) ? new Propel\AlThemeModelPropel() : $themeModel;
-        $this->seoModel = (null === $seoModel) ? new Propel\AlSeoModelPropel() : $seoModel;
+        parent::__construct($container, $templateManager->getTemplate(), $templateManager->getPageBlocks());
     }
 
     /**
@@ -98,6 +99,16 @@ class AlPageTree extends BaseAlPageTree
     public function getAlLanguage()
     {
         return $this->alLanguage;
+    }
+
+    /**
+     * Returns the current AlTheme object
+     *
+     * @return AlTheme
+     */
+    public function getAlSeo()
+    {
+        return $this->alSeo;
     }
 
     /**
@@ -191,19 +202,22 @@ class AlPageTree extends BaseAlPageTree
      */
     public function refresh($idLanguage, $idPage)
     {
-        $this->pageContentsContainer = $this->templateManager
+        $this->alLanguage = $this->languageModel->fromPK($idLanguage);
+        $this->alPage = $this->pageModel->fromPK($idPage);
+
+        $this->pageBlocks = $this->templateManager
                     ->getPageBlocks()
                     ->setIdLanguage($idLanguage)
                     ->setIdPage($idPage)
                     ->refresh();
 
         $this->templateManager
-                    ->setPageBlocks($this->pageContentsContainer)
+                    ->setPageBlocks($this->pageBlocks)
                     ->setTemplateSlots($this->template->getTemplateSlots())
                     ->refresh();
 
-        $seo = $this->seoModel->fromPageAndLanguage($idLanguage, $idPage);
-        $this->setUpMetaTags($seo);
+        $this->alSeo = $this->seoModel->fromPageAndLanguage($idLanguage, $idPage);
+        $this->setUpMetaTags($this->alSeo);
 
         return $this;
     }
@@ -230,7 +244,7 @@ class AlPageTree extends BaseAlPageTree
             $assetsCollection = clone($assetsCollection);
             $blocks = $this->pageBlocks->getBlocks();
             foreach ($blocks as $slotBlocks) {
-                foreach ($slotBlocks as $block) { 
+                foreach ($slotBlocks as $block) {
                     $className = $block->getClassName();
                     if (!in_array($className, $appsAssets)) {
                         foreach ($this->parameterSchema as $parameterSchema) {
@@ -246,7 +260,7 @@ class AlPageTree extends BaseAlPageTree
                     $assetsCollection->addRange(explode(',', $block->$method()));
                 }
             }
-            
+
             return $assetsCollection;
         }
     }
