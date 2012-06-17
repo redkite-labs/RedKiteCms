@@ -57,7 +57,7 @@ class ThemesController extends BaseController
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
     
@@ -153,7 +153,7 @@ class ThemesController extends BaseController
         if(empty($params['al_page_to_fix'])) {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'Any page has been choosen'), $response);
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => 'Any page has been choosen'), $response);
         }
         
         foreach($params['al_page_to_fix'] as $pageId) {
@@ -164,7 +164,7 @@ class ThemesController extends BaseController
             {
                 $response = new Response();
                 $response->setStatusCode('404');
-                return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'Err'), $response);
+                return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => 'Err'), $response);
             }
         }
         
