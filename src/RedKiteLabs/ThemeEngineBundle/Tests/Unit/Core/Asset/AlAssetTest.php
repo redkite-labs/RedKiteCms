@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
@@ -26,25 +26,25 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AlAssetTest extends TestCase
-{    
+{
     private $kernel;
-    
-    protected function setUp() 
+
+    protected function setUp()
     {
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
     }
-    
+
     public function testANullOrBlankAssetDidNothing()
     {
         $alAsset = new AlAsset($this->kernel, null);
         $this->assertNull($alAsset->getRealPath());
         $this->assertNull($alAsset->getAbsolutePath());
-        
+
         $alAsset = new AlAsset($this->kernel, "");
         $this->assertNull($alAsset->getRealPath());
         $this->assertNull($alAsset->getAbsolutePath());
     }
-    
+
     public function testANullAbsolutePathIsCalculateWhenAssetPointsToANonStandardSymfony2Path()
     {
         $asset = '/path/to/asset/asset.js';
@@ -53,42 +53,52 @@ class AlAssetTest extends TestCase
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertNull($alAsset->getAbsolutePath());
     }
-    
+
     public function testAssetPathAreCalculatedFromARelativePath()
     {
         $asset = '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css';
         $fullAssetPath = '/path/to/web/folder/bundles/businesswebsitetheme/css/reset.css';
         $this->setUpKernel($fullAssetPath);
-                
+
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals($fullAssetPath, $alAsset->getRealPath());
-        $this->assertEquals('bundles/businesswebsitetheme/css/reset.css', $alAsset->getAbsolutePath());
+        $this->assertEquals('/bundles/businesswebsitetheme/css/reset.css', $alAsset->getAbsolutePath());
     }
-    
+
     public function testAssetPathAreCalculatedFromARealPath()
     {
         $asset = '/path/to/web/folder/bundles/businesswebsitetheme/css/style.css';
         $this->setUpKernel($asset);
-                
+
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals($asset, $alAsset->getRealPath());
-        $this->assertEquals('bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
+        $this->assertEquals('/bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
     }
-    
+
     public function testAssetPathsAreAlwaysNormalized()
     {
         $asset = '\\path\\to\\web\\folder\\bundles\\businesswebsitetheme\\css\\style.css';
         $normalizedAsset = '/path/to/web/folder/bundles/businesswebsitetheme/css/style.css';
         $this->setUpKernel($normalizedAsset);
-                
+
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($normalizedAsset, $alAsset->getAsset());
         $this->assertEquals($normalizedAsset, $alAsset->getRealPath());
-        $this->assertEquals('bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
+        $this->assertEquals('/bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
     }
-    
+
+    public function testAssetIsRecognizedAsBundle()
+    {
+        $asset = 'FakeBundle';
+        $this->setUpKernel($asset);
+
+        $alAsset = new AlAsset($this->kernel, $asset);
+        $this->assertEquals($asset, $alAsset->getRealPath());
+        $this->assertEquals('/bundles/fake', $alAsset->getAbsolutePath());
+    }
+
     private function setUpKernel($asset)
     {
         $this->kernel->expects($this->once())

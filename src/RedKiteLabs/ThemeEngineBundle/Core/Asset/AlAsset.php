@@ -63,7 +63,11 @@ class AlAsset
      */
     public function getRealPath()
     {
-        return $this->realPath;
+        if(null === $this->asset || empty($this->asset)) {
+            return null;
+        }
+
+        return $this->normalizePath($this->realPath($this->realPath));
     }
 
     /**
@@ -77,6 +81,24 @@ class AlAsset
     }
 
     /**
+     * Returns the asset's real path to web/bundle's folder
+     *
+     * @return type
+     */
+    public function getWebFolderRealPath($webFolder = 'web')
+    {
+        return $this->normalizePath($this->realPath($this->kernel->getRootDir() . '/../' .  $webFolder . $this->absolutePath));
+    }
+
+    private function realPath($path)
+    {
+        $realPath = realpath($path);
+        if(false === $realPath) $realPath = $path;
+
+        return $realPath;
+    }
+
+    /**
      * Sets up the asset information
      */
     protected function setUp()
@@ -84,7 +106,7 @@ class AlAsset
         if (empty($this->asset)) {
             return;
         }
-        
+
         $this->asset = $this->normalizePath($this->asset);
         $this->realPath = $this->locateResource();
 
@@ -102,11 +124,17 @@ class AlAsset
     {
         preg_match('/([^@\/][\w]+Bundle)\/(Resources\/public)?\/(.*)/', $this->asset, $matches);
         if (!empty($matches) && count($matches) == 4) {
-            return sprintf('bundles/%s/%s', preg_replace('/bundle$/', '', strtolower($matches[1])), $matches[3]);
+            return sprintf('/bundles/%s/%s', preg_replace('/bundle$/', '', strtolower($matches[1])), $matches[3]);
         }
-        
-        preg_match('/[\/]?(bundles?.*)/', strtolower($this->asset), $matches);
-        return (!empty($matches)) ? $matches[1] : null;
+
+        preg_match('/([\/]?bundles.*)/', strtolower($this->asset), $matches);
+        if (!empty($matches)) {
+            return $matches[1];
+        }
+
+        $asset = strtolower($this->asset);
+        $bundleDir = preg_replace('/bundle$/', '', $asset);
+        return ($bundleDir !== $asset) ? '/bundles/' . $bundleDir : null;
     }
 
     /**
@@ -119,16 +147,13 @@ class AlAsset
         $asset = $this->normalizePath($this->asset);
         if(\substr($asset, 0, 1) != '@') $asset = '@' . $asset;
 
-        if('@' === \substr($asset, 0, 1))
+        try
         {
-            try
-            {
-                return $this->kernel->locateResource($asset);
-            }
-            catch(\InvalidArgumentException $e)
-            {
-                return null;
-            }
+            return $this->kernel->locateResource($asset);
+        }
+        catch(\InvalidArgumentException $e)
+        {
+            return null;
         }
     }
 
