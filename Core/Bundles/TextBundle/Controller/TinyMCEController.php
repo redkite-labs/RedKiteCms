@@ -70,7 +70,7 @@ class TinyMCEController extends Controller
             $finder = $finder->name(trim($type));
         }
         
-        return $finder->in($this->getLocatedAssetsFolder() . '/' . $this->container->getParameter('al.deploy_bundle_media_folder'));
+        return $finder->in($this->getLocatedAssetsFolder() . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'));
     }
 
     private function setResponse($content)
@@ -82,9 +82,9 @@ class TinyMCEController extends Controller
 
     private function getLocatedAssetsFolder()
     {
-        $bundleFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+        $bundleFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
         
-        return AlToolkit::normalizePath($bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir'));
+        return AlToolkit::normalizePath($bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir'));
     }
 }
 

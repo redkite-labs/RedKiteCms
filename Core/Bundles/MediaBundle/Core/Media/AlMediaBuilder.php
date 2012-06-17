@@ -76,13 +76,13 @@ class AlMediaBuilder
     {
         if(!$this->container->get('al_page_tree')->isCmsMode())
         {
-            $file = \sprintf('%s/%s/%s', $this->container->getParameter('al.deploy_bundle_assets_base_dir'), $this->container->getParameter('al.deploy_bundle_media_folder'), $this->src);
+            $file = \sprintf('%s/%s/%s', $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'), $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'), $this->src);
             $file = AlToolkit::locateResource($this->container, $file);
         }
         else
         {
-            $bundleFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
-            $file = $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_media_folder') . '/' . $this->src;
+            $bundleFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
+            $file = $bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder') . '/' . $this->src;
             
         }
         $file = AlToolkit::normalizePath($file);
