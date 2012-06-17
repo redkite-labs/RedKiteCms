@@ -29,4 +29,5 @@ interface SeoModelInterface {
     public function fromPageId($pageId);
     public function fromLanguageId($languageId);
     public function fromPageIdWithLanguages($pageId);
+    public function fetchSeoAttributesWithPagesAndLanguages();
 }
