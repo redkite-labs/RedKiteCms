@@ -41,8 +41,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlPageTreeCollection implements Iterator
+class AlPageTreeCollection implements \Iterator, \Countable
 {
+    private $container;
     private $pages = array();
     private $themeModel;
     private $languageModel;
@@ -50,54 +51,95 @@ class AlPageTreeCollection implements Iterator
     private $templateManager;
     private $seoModel;
 
-    public function  __construct(AlTemplateManager $templateManager, 
-                                Propel\AlThemeModelPropel $themeModel, 
-                                Propel\AlLanguageModelPropel $languageModel, 
-                                Propel\AlPageModelPropel $pageModel,
-                                Propel\AlSeoModelPropel $seoModel)
+    public function  __construct(ContainerInterface $container,
+                                AlTemplateManager $templateManager = null,
+                                Propel\AlLanguageModelPropel $languageModel = null,
+                                Propel\AlPageModelPropel $pageModel = null,
+                                Propel\AlThemeModelPropel $themeModel = null,
+                                Propel\AlSeoModelPropel $seoModel = null)
     {
-        $this->templateManager = $templateManager;
-        $this->themeModel = $themeModel;
-        $this->languageModel = $languageModel;
-        $this->pageModel = $pageModel;
-        $this->seoModel = $seoModel;
-        
+        $this->container = $container;
+        $this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
+        $this->languageModel = (null === $languageModel) ? $container->get('language_model') : $languageModel;
+        $this->pageModel = (null === $pageModel) ? $container->get('page_model') : $pageModel;
+        $this->themeModel = (null === $themeModel) ? $container->get('theme_model') : $themeModel;
+        $this->seoModel = (null === $seoModel) ? $container->get('seo_model') : $seoModel;
+
         $this->setUp();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function current()
     {
         return current($this->pages);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function key()
     {
         return key($this->pages);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function next()
     {
         return next($this->pages);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rewind()
     {
         return reset($this->pages);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function valid()
     {
-        return valid(current($this->pages) !== false);
+        return current($this->pages) !== false;
     }
 
     /**
-     * Sets up the PageTree objects from the saved languages and pages
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->pages);
+    }
+
+    /**
+     * Returns the AlPageTree object stored at the requird key
+     *
+     * @param string $key
+     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     */
+    public function at($key)
+    {
+        if(!array_key_exists($key, $this->pages)) {
+            return null;
+        }
+
+        return $this->pages[$key];
+    }
+
+    /**
+     * Fills up the PageTree collection traversing the saved languages and pages
      */
     protected function setUp()
     {
         $languages = $this->languageModel->activeLanguages();
         $pages = $this->pageModel->activePages();
-        //$idMainLanguage = $this->languageModel->mainLanguage();
+        $theme = $this->themeModel->activeBackend();
+        $themeName = $theme->getThemeName();
 
         // Cycles all the website's languages
         foreach($languages as $language)
@@ -105,13 +147,18 @@ class AlPageTreeCollection implements Iterator
             // Cycles all the website's pages
             foreach($pages as $page)
             {
-                $pageTree = new AlPageTree($this->container, $this->templateManager, $this->templateManager, $this->themeModel, $this->languageModel, $this->pageModel, $this->seoModel);
-                $pageTree->refresh($language->getId(), $page->getId());
+                $templateManager = clone($this->templateManager);
+                $templateManager->getTemplate()
+                        ->setThemeName($themeName)
+                        ->setTemplateName($page->getTemplateName());
 
-                /*
-                if ($language->getId() == $idMainLanguage) {
-                    $this->savePage($page, $language, clone($pageTree));
-                }*/
+                $pageTree = new AlPageTree($this->container,
+                        $templateManager,
+                        $this->languageModel,
+                        $this->pageModel,
+                        $this->themeModel,
+                        $this->seoModel);
+                $pageTree->refresh($language->getId(), $page->getId());
 
                 $this->pages[] = $pageTree;
             }

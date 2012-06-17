@@ -33,232 +33,145 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\Finder\Finder;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
 
 /**
- * The base object that implements the methods to deploy the website from development (CMS) to production (the deploy bundle)
+ * The object deputated to deploy the website from development (CMS) to production (the deploy bundle)
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlDeployer
 {
-    protected $pageTrees = array();
     protected $container = null;
-    protected $resourcesFolder = null;
-    protected $basePages = array();
+    protected $kernel = null;
     protected $deployBundle = null;
-    protected $cmsBundleFolder;
-    protected $cmsUploadFolder;
-    protected $deployBundleAssetsFolder;
-    protected $assetsFolder = null;
-    protected $kernel;
-
-    private $baseDeployBundle;
-    private $baseDeployBundleAssetsFolder;
-    private $baseCmsResourcesDir = 'Resources';
-    private $baseTargetResourcesDir = 'Resources';
-    private $baseDataDir = 'views/AlphaLemon';
+    protected $deployBundleAsset = null;
+    protected $alphaLemonCmsBundleAsset = null;
+    protected $configDir = null;
+    protected $assetsDir = null;
 
     /**
-     * Implements the method to save the page
+     * Save the page from an AlPageTree object
+     *
+     * @param AlPageTree $pageTree
+     * @return boolean
      */
     abstract protected function save(AlPageTree $pageTree);
 
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $container
+     * @throws InvalidParameterException
+     */
     public function  __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->kernel = $container->get('kernel');
-        $this->baseDeployBundle = $this->container->getParameter('al.deploy_bundle');
-        $this->baseDeployBundleAssetsFolder = $this->container->getParameter('al.deploy_bundle_assets_base_dir');
+        $this->kernel = $this->container->get('kernel');
+        $this->seoModel = $this->container->get('seo_model');
+        $this->deployBundle = $this->container->getParameter('alphalemon_frontend.deploy_bundle');
+        $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
+        if(null === $this->deployBundleAsset->getWebFolderRealPath())
+        {
+            throw new InvalidParameterException(sprintf('The %s cannot be located. Check it is correctly enabled in your AppKernel class', $this->deployBundle));
+        }
+        $this->alphaLemonCmsBundleAsset = new AlAsset($this->kernel, 'AlphaLemonCmsBundle');
+
+        $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.config_dir');
+        $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir');
+
+        $this->uploadAssetsDir = $this->container->getParameter('alphalemon_cms.upload_assets_dir');
+        $this->cmsWebFolder = $this->container->getParameter('alphalemon_cms.web_folder');
     }
 
     /**
-     * Publish all the website's pages
+     * Deploys all the website's pages
      */
     public function deploy()
     {
-        $this->setup();
-        $this->checkFolders();
-        $this->run();
-    }
-
-    public function deployBundle($v)
-    {
-        $this->baseDeployBundle = $v;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param type $v
-     * @return AlDeployer
-     */
-    public function cmsResourcesDir($v)
-    {
-        $this->baseCmsResourcesDir = $v;
-
-        return $this;
-    }
-
-    public function targetBundleResourcesDir($v)
-    {
-        $this->baseTargetResourcesDir = $v;
-
-        return $this;
-    }
-
-    public function dataDir($v)
-    {
-        $this->baseDataDir = $v;
-
-        return $this;
-    }
-
-    public function translationsDir($v)
-    {
-        $this->baseTranslationsDir = $v;
-
-        return $this;
-    }
-
-    public function deployBundleAssetsFolder($v)
-    {
-        $this->baseDeployBundleAssetsFolder = $v;
-
-        return $this;
+        $this->checkTargetFolders();
+        $this->copyAssets();
+        return ($this->generateRoutes() && $this->savePages()) ? true :false;
     }
 
     /**
      * Checks if the publisher folders exist and creates them when required
      */
-    protected function checkFolders()
+    protected function checkTargetFolders()
+    {
+        $this->checkFolder($this->configDir);
+        $this->checkFolder($this->assetsDir);
+    }
+
+    /**
+     * Checks that the given folder exists and creates it when it doesn't
+     *
+     * @param string $folder
+     * @throws \RuntimeException
+     */
+    protected function checkFolder($folder)
     {
         $fileSystem = new Filesystem();
 
-        if(!is_dir($this->resourcesFolder))
+        if(!is_dir($folder))
         {
-            if(!$fileSystem->mkdir($this->resourcesFolder))
+            if(!$fileSystem->mkdir($folder))
             {
-                throw new \RuntimeException(sprintf('Cannot create the resources directory. Please check your permissions on %s folder.', $this->resourcesFolder));
-            }
-        }
-
-        if(is_dir($this->dataFolder))
-        {
-            $fileSystem->remove($this->dataFolder);
-        }
-
-        if(!$fileSystem->mkdir($this->dataFolder))
-        {
-            throw new \RuntimeException(sprintf('Cannot create the publish directory at %s. Please check your permissions on %s folder.', $this->resourcesFolder, $this->dataFolder));
-        }
-
-        if(!$fileSystem->mkdir($this->translationsFolder))
-        {
-            throw new \RuntimeException(sprintf('Cannot create the publish directory at %s. Please check your permissions on %s folder.', $this->resourcesFolder, $this->translationsFolder));
-        }
-    }
-
-    /**
-     * Initializes the parameters to deploy the website
-     */
-    protected function setup()
-    {
-        $this->cmsWebBundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
-        $this->cmsBundleFolder = $this->container->getParameter('kernel.root_dir') . '/../web/' . $this->cmsWebBundleFolder;
-        $this->deployBundle = $this->baseDeployBundle;
-        if(false === $deployBundle = AlToolkit::locateResource($this->container, $this->deployBundle))
-        {
-            throw new \InvalidArgumentException(sprintf('The %s cannot be located. Check it is correctly enabled in your AppKernel class', $this->deployBundle));
-        }
-
-        $this->resourcesFolder = $deployBundle . $this->baseTargetResourcesDir;
-        $this->dataFolder = $this->resourcesFolder . "/" . $this->baseDataDir;
-        $this->translationsFolder = $this->resourcesFolder . "/" . $this->baseTranslationsDir;
-        $this->assetsFolder = AlToolkit::retrieveBundleWebFolder($this->container, $this->deployBundle);
-
-        $this->cmsUploadFolder = $this->cmsBundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir');
-        $this->deployBundleAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../web/' . $this->assetsFolder;
-    }
-
-    /**
-     * Starts the website deployment
-     */
-    protected function run()
-    {
-        $this->setupPageTrees();
-        //$this->writeDictionaryFiles();
-        $this->copyAssets();
-        $this->generateRoutes($this->resourcesFolder . '/config');
-        AlToolkit::executeCommand($this->container->get('kernel'), 'cache:clear');
-    }
-
-    protected function setImagesPathForProduction($content)
-    {
-        $assetsFolder = $this->assetsFolder;
-        $cmsAssetsFolder = str_replace('/', '\/', $this->cmsWebBundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir'));
-        //echo preg_replace_callback('/(.*?)(' . $cmsAssetsFolder . ')/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder;}, $content)."<br>";
-        //return preg_replace_callback('/(.*?)(' . $cmsAssetsFolder . ')/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder;}, $content);
-        return preg_replace_callback('/(.*\<img.*?src=["|\']\/)(' . $cmsAssetsFolder . ')(.*?["|\'])/s', function($matches) use($assetsFolder){return $matches[1].$assetsFolder.$matches[3];}, $content);
-    }
-
-    /**
-     * Sets up the PageTree objects from the saved languages and pages
-     */
-    protected function setupPageTrees()
-    {
-        $theme = AlThemeQuery::create()->activeBackend()->findOne();
-        $languages = AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
-        $pages = AlPageQuery::create()->setContainer($this->container)->activePages()->find();
-        $idMainLanguage = AlLanguageQuery::create()->mainLanguage()->findOne()->getId();
-
-        // Cycles all the website's languages
-        foreach($languages as $language)
-        {
-            // Cycles all the website's pages
-            foreach($pages as $page)
-            {
-                $pageTree = $this->createPageTree($language, $page);
-
-                if($language->getId() == $idMainLanguage)
-                {
-                    $this->savePage($page, $language, $theme, clone($pageTree));
-                }
-
-                $this->pageTrees[] = $pageTree;
+                throw new \RuntimeException(sprintf('The %s directory cannot be created. Please check your permissions on that folder.', $folder));
             }
         }
     }
 
     /**
-     * Copies the assets from the development environment to the production
+     * Saves the pages instantiating an AlPageTreeCollection object
+     *
+     * @return boolean
+     */
+    protected function savePages()
+    {
+        $pageTreeCollection = new AlPageTreeCollection($this->container);
+        foreach ($pageTreeCollection as $pageTree) {
+            if (!$this->save($pageTree))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Copies the assets from the development environment to the production one
+     *
+     * The source folder is the alphalemoncms's bundles web folder, to be sure to copy
+     * everything when user is working with assets folders hardlinked, while the
+     * target folder is the deploy bundle's Resources/public folder to be sure to
+     * copy the assets under the sorce assets folder.
      */
     protected function copyAssets()
     {
+        $sourceDir = $this->alphaLemonCmsBundleAsset->getWebFolderRealPath($this->cmsWebFolder)  . '/' . $this->uploadAssetsDir;
+
         $fs = new Filesystem();
         $finder = new Finder();
-        $folders = $finder->directories()->depth(0)->in($this->cmsUploadFolder);
+        $folders = $finder->directories()->depth(0)->in($sourceDir);
         foreach($folders as $folder)
         {
-            $targetFolder = $this->deployBundleAssetsFolder . '/' . basename($folder->getFileName());
+            $targetFolder = $this->assetsDir . '/' . basename($folder->getFileName());
             $fs->remove($targetFolder);
             $fs->mirror($folder , $targetFolder, null, array('override' => true));
         }
     }
 
     /**
-     * Generates a yml file with the routes defined by the website's pages, in the deploy bundle's resources dir
+     * Generates a yml file with the routes defined by the website's pages, in the deploy bundle's Resources folder
      *
-     * @param string    $routesFilePath     The routing file path
+     * @return boolean
      */
-    protected function generateRoutes($routesFilePath)
+    protected function generateRoutes()
     {
-        if(!is_dir($routesFilePath))
-        {
-            throw new \InvalidArgumentException(sprintf("The directory %s does not exist. The routes cannot be generated", $routesFilePath));
-        }
-
-        // The schema pattern
+        // Defines the  schema pattern
         $schema = "# Route << %1\$s >> generated for language << %2\$s >> and page << %3\$s >>\n";
         $schema .= "_%4\$s:\n";
         $schema .= "  pattern: /%1\$s\n";
@@ -267,78 +180,22 @@ abstract class AlDeployer
         $homePage = "";
         $mainLanguage = "";
         $routes = array();
-        $alPageAttributes = AlPageAttributeQuery::create('a')
-                                ->joinWith('a.AlPage')
-                                ->joinWith('a.AlLanguage')
-                                ->filterByToDelete(0)
-                                ->orderByPageId()
-                                ->orderByLanguageId()
-                                ->find();
-        foreach($alPageAttributes as $alPageAttribute)
+        $seoAttributes = $this->seoModel->fetchSeoAttributesWithPagesAndLanguages();
+        foreach($seoAttributes as $seoAttribute)
         {
-            $permalink = $alPageAttribute->getPermalink();
+            $permalink = $seoAttribute->getPermalink();
 
-            $pageName = $alPageAttribute->getAlPage()->getPageName();
-            if($alPageAttribute->getAlPage()->getIsHome()) $homePage = $pageName;
+            $pageName = $seoAttribute->getAlPage()->getPageName();
+            if($seoAttribute->getAlPage()->getIsHome()) $homePage = $pageName;
 
-            $language = $alPageAttribute->getAlLanguage()->getLanguage();
-            if($alPageAttribute->getAlLanguage()->getMainLanguage()) $mainLanguage = $language;
+            $language = $seoAttribute->getAlLanguage()->getLanguage();
+            if($seoAttribute->getAlLanguage()->getMainLanguage()) $mainLanguage = $language;
 
             $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName));
         }
-
         // Defines the main route
         $routes[] = \sprintf($schema, '', $mainLanguage, $homePage, 'home');
 
-        \file_put_contents($routesFilePath . '/site_routing.yml', implode("\n\n", $routes));
-    }
-
-    /**
-     * Create the XmlPage object for the given page and language
-     *
-     * @param AlLanguage    $alLanguage     The AlLanguage object
-     * @param AlPage        $alPage         The AlPage object
-     * @param AlTheme       $alTheme        The AlTheme object
-     *
-     * @return AlXmlPage
-     */
-    protected function createPageTree(AlLanguage $alLanguage, AlPage $alPage)
-    {
-        $pageTree = new AlPageTree($this->container);
-        $pageTree->setup($alLanguage, $alPage);
-
-        return $pageTree;
-    }
-
-    /**
-     * Saves the page
-     *
-     * @param AlPage        $alPage         The AlPage object
-     * @param AlLanguage    $alLanguage     The AlLanguage object
-     * @param AlTheme       $alTheme        The AlTheme object
-     * @param AlXmlPage     $pageTree        The pageTree to save (Optional)
-     */
-    protected function savePage(AlPage $alPage, AlLanguage $alLanguage, AlTheme $alTheme, AlPageTree $pageTree = null)
-    {
-        if(null === $pageTree)
-        {
-            $pageTree = $this->createPageTree($alLanguage, $alPage);
-        }
-
-        $pageTree->setThemeName($alTheme->getThemeName());
-        $pageTree->setTemplateName($alPage->getTemplateName());
-
-        $seoAttributes = array();
-        $attributes = AlPageAttributeQuery::create()->setContainer($this->container)->fromPageAndLanguage($alPage->getId(), $alLanguage->getId())->findOne(); //fromPageIdWithLanguages($alPage->getId())->find();
-        if(null !== $attributes)
-        {
-            $pageTree->setMetaTitle($attributes->getMetaTitle());
-            $pageTree->setMetaDescription($attributes->getMetaDescription());
-            $pageTree->setMetaKeywords($attributes->getMetaKeywords());
-        }
-
-        $this->save($pageTree);
-
-        $this->basePages[$alPage->getId()] = $pageTree;
+        return @file_put_contents($this->configDir . '/site_routing.yml', implode("\n\n", $routes));
     }
 }
