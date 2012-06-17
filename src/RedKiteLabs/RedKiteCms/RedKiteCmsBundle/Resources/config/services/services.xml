@@ -29,6 +29,7 @@
         <parameter key="repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
         <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
         <parameter key="template_assets.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets</parameter>
+        <parameter key="alphalemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
     </parameters>
 
     <services>
@@ -84,10 +85,6 @@
         <service id="al_page_tree" class="%alphalemon.page_tree%">
             <argument type="service" id="service_container" />
             <argument type="service" id="template_manager" />
-            <argument type="service" id="language_model" />
-            <argument type="service" id="page_model" />
-            <argument type="service" id="theme_model" />
-            <argument type="service" id="seo_model" />
         </service>
 
         <service id="al_block_manager" class="%al_block_manager_service%">
@@ -143,7 +140,7 @@
             <argument type="service" id="slots_converter_factory" />
             <argument type="service" id="orm_model" />
         </service>
-        
+
         <service id="template_assets" class="%template_assets.class%">
             <argument type="service" id="service_container" />
         </service>
@@ -152,6 +149,10 @@
             <argument type="service" id="template_assets" />
             <argument type="service" id="kernel" />
             <argument type="service" id="template_slots_factory" />
+        </service>
+
+        <service id="alphalemon_cms.local_deployer" class="%alphalemon_cms.local_deployer.class%">
+            <argument type="service" id="service_container" />
         </service>
     </services>
 </container>

@@ -32,7 +32,7 @@ class ElFinderJavascriptsConnector extends AlphaLemonElFinderBaseConnector
     {
         $request = $this->container->get('request');
         $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonCmsBundle');
-        $absolutePath = $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_js_folder') . '/';
+        $absolutePath = $bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder') . '/';
         
         $options = array(
             'roots' => array(

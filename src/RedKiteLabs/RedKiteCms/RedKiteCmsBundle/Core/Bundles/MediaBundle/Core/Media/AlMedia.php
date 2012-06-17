@@ -45,18 +45,18 @@ abstract class AlMedia
         
         if(!$this->container->get('al_page_tree')->isCmsMode())
         {
-            $file = \sprintf('%s/%s/%s', $this->container->getParameter('al.deploy_bundle_assets_base_dir'), $this->container->getParameter('al.deploy_bundle_media_folder'), $this->src);
-            $bundleDir = AlToolkit::retrieveBundleWebFolder($this->container, $this->container->getParameter('al.deploy_bundle'));
-            $this->absoluteSrcPath = sprintf('/%s/%s/%s', $bundleDir, $this->container->getParameter('al.deploy_bundle_media_folder'), $this->src);
+            $file = \sprintf('%s/%s/%s', $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'), $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'), $this->src);
+            $bundleDir = AlToolkit::retrieveBundleWebFolder($this->container, $this->container->getParameter('alphalemon_frontend.deploy_bundle'));
+            $this->absoluteSrcPath = sprintf('/%s/%s/%s', $bundleDir, $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'), $this->src);
         }
         else
         {
-            $file = '@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_media_folder') . '/' . $this->src;
+            $file = '@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder') . '/' . $this->src;
             $bundleDir = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
-            $this->absoluteSrcPath = sprintf('/%s/%s/%s', $bundleDir, $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_media_folder'), $this->src);
+            $this->absoluteSrcPath = sprintf('/%s/%s/%s', $bundleDir, $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'), $this->src);
         }
         
-        $this->realSrcPath = AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . '/' . $this->absoluteSrcPath);
+        $this->realSrcPath = AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . $this->absoluteSrcPath);
 
         $this->options = $options;
     }

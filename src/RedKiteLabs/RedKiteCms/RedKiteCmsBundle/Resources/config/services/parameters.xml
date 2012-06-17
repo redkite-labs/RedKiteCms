@@ -6,7 +6,7 @@
     <parameters>
         <parameter key="alcms.orm">Propel</parameter>
         <parameter key="alcms.skin">alphaLemon</parameter>
-        <parameter key="alcms.web_folder_name">web</parameter>
+        <parameter key="alphalemon_cms.web_folder">web</parameter>
 
         <!-- Hardcoded in twig template until assetic could load assets dinamically -->
         <parameter key="alcms.stylesheets" type="collection">
@@ -41,12 +41,14 @@
 
         <parameter key="alcms.assets.skeletons_folder">@AlphaLemonCmsBundle/Resources/data/assets</parameter>
         <parameter key="alcms.assets.output_folder">Resources/views/Assets</parameter>
+        <parameter key="alphalemon_cms.upload_assets_dir">uploads/assets</parameter>
 
-        <parameter key="alcms.upload_assets_dir">uploads/assets</parameter>
-
-        <parameter key="al.deploy_bundle_assets_base_dir">Resources/public</parameter>
-        <parameter key="al.deploy_bundle_media_folder">media</parameter>
-        <parameter key="al.deploy_bundle_js_folder">js</parameter>
-        <parameter key="al.deploy_bundle_css_folder">css</parameter>
+        <parameter key="alphalemon_cms.deploy_bundle.resources_dir">Resources</parameter>
+        <parameter key="alphalemon_cms.deploy_bundle.assets_base_dir">%alphalemon_cms.deploy_bundle.resources_dir%/public</parameter>
+        <parameter key="alphalemon_cms.deploy_bundle.config_dir">%alphalemon_cms.deploy_bundle.resources_dir%/config</parameter>
+        <parameter key="alphalemon_cms.deploy_bundle.views_dir">%alphalemon_cms.deploy_bundle.resources_dir%/views</parameter>
+        <parameter key="alphalemon_cms.deploy_bundle.media_folder">media</parameter>
+        <parameter key="alphalemon_cms.deploy_bundle.js_folder">js</parameter>
+        <parameter key="alphalemon_cms.deploy_bundle.css_folder">css</parameter>
     </parameters>
 </container>

@@ -29,7 +29,7 @@ abstract class AlBlockManagerImages extends AlBlockManager
                 }
             }
             else {
-                $file = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alcms.web_folder_name') . $content;
+                $file = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . $content;
                 $files = array_flip(explode(',', $this->alBlock->getHtmlContent()));
                 unset($files[$content]);
                 $values["HtmlContent"] = implode(',', array_flip($files));

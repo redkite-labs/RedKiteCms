@@ -90,16 +90,16 @@ class CmsBootstrapListener
     private function setUpRequiredFolders()
     {
         $folders = array();
-        $basePath = AlToolkit::locateResource($this->kernel, $this->container->getParameter('al.deploy_bundle')) . $this->container->getParameter('al.deploy_bundle_assets_base_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_media_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_js_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_css_folder');
+        $basePath = AlToolkit::locateResource($this->kernel, $this->container->getParameter('alphalemon_frontend.deploy_bundle')) . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
 
-        $basePath = AlToolkit::locateResource($this->kernel,  '@AlphaLemonCmsBundle') . 'Resources/public/' . $this->container->getParameter('alcms.upload_assets_dir');
+        $basePath = AlToolkit::locateResource($this->kernel,  '@AlphaLemonCmsBundle') . 'Resources/public/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
         $folders[] = $basePath;
-        $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_media_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_js_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('al.deploy_bundle_css_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
 
         $fs = new Filesystem();
         if(!$fs->mkdir($folders))

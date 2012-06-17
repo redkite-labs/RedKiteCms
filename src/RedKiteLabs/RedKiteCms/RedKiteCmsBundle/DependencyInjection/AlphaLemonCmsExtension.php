@@ -49,7 +49,7 @@ class AlphaLemonCmsExtension extends Extension
         }
 
         if (isset($config['web_folder_name'])) {
-            $container->setParameter('alcms.web_folder_name', $config['web_folder_name']);
+            $container->setParameter('alphalemon_cms.web_folder', $config['web_folder_name']);
         }
 
         if (isset($config['page_blocks'])) {
