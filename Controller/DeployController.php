@@ -10,26 +10,28 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer;
 
 class DeployController extends Controller
 {
-    public function publishAction()
+    public function localAction()
     {
         try
         {
-            $publisher = new AlTwigDeployer($this->container);
-            $publisher->deploy();
-
+            $deployer = $this->container->get('alphalemon_cms.local_deployer');
+            $deployer->deploy();
+            // TODO
+            // Asset install
+            // Assetic dump
+            // Clear cache
             return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'The site has been deployed'));
         }
         catch(Exception $ex)
