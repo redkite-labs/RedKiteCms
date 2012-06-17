@@ -39,7 +39,7 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->templateManager->expects($this->once())
+        $this->templateManager->expects($this->any())
             ->method('getTemplate')
             ->will($this->returnValue($this->template));
 
@@ -396,7 +396,8 @@ class AlPageTreeTest extends TestCase
 
     public function testPageTreeHasBeenSetted()
     {
-        $this->setupValidPageTree();
+        $this->initValidPageTree();
+        $this->pageTree->setup();
         $this->assertEquals($this->language, $this->pageTree->getAlLanguage());
         $this->assertEquals($this->page, $this->pageTree->getAlPage());
         $this->assertEquals($this->theme, $this->pageTree->getAlTheme());
@@ -423,7 +424,8 @@ class AlPageTreeTest extends TestCase
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
 
-        $this->setupValidPageTree();
+        $this->initValidPageTree();
+        $this->pageTree->setup();
         $this->assertEquals(array_merge($themeAssets, explode(",", $externalStylesheet)), $this->pageTree->getExternalStylesheets());
     }
 
@@ -446,7 +448,8 @@ class AlPageTreeTest extends TestCase
         $themeAssets = array('some code retrieved from template');
         $this->setUpAssetsCollection($themeAssets);
 
-        $this->setupValidPageTree();
+        $this->initValidPageTree();
+        $this->pageTree->setup();
         $this->assertEquals($themeAssets[0] . $internalStylesheet, $this->pageTree->getInternalStylesheets());
     }
 
@@ -474,7 +477,8 @@ class AlPageTreeTest extends TestCase
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
 
-        $this->setupValidPageTree();
+        $this->initValidPageTree();
+        $this->pageTree->setup();
         $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
     }
 
@@ -502,13 +506,47 @@ class AlPageTreeTest extends TestCase
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
 
-        $this->setupValidPageTree();
+        $this->initValidPageTree();
+        $this->pageTree->setup();
         $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
     }
 
     public function testPageTreeHasBeenRefreshed()
     {
-        //$this->markTestIncompleted('Not yet implemented');
+        $this->language = $this->setUpLanguage(2);
+        $this->page = $this->setUpPage(2);
+        $alSeo = $this->setUpSeo(2);
+        $this->setUpPageBlocks();
+
+        $alSeo->expects($this->once())
+            ->method('getMetaTitle');
+
+        $alSeo->expects($this->once())
+            ->method('getMetaDescription');
+
+        $alSeo->expects($this->once())
+            ->method('getMetaKeywords');
+
+        $this->seoModel->expects($this->once())
+            ->method('fromPageAndLanguage')
+            ->will($this->returnValue($alSeo));
+
+        $this->languageModel->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->language));
+
+        $this->pageModel->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->page));
+
+        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->template->expects($this->any())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($templateSlots));
+
+        $this->pageTree->refresh(2, 2);
+        $this->assertEquals($this->language, $this->pageTree->getAlLanguage());
+        $this->assertEquals($this->page, $this->pageTree->getAlPage());
     }
 
     private function setUpAssetsCollection(array $storedAssets)
@@ -520,7 +558,7 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue($assetsCollection));
     }
 
-    private function setupValidPageTree()
+    private function initValidPageTree()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
@@ -533,7 +571,7 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->returnValue($request));
 
-        $this->language = $this->configureLanguage();
+        $this->language = $this->configureLanguage(2);
         $this->page = $this->setUpPage(2);
         $this->theme = $this->configureTheme();
         $alSeo = $this->setUpSeo(2);
@@ -558,11 +596,11 @@ class AlPageTreeTest extends TestCase
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($alSeo));
 
-        $this->languageModel->expects($this->once())
+        $this->languageModel->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->language));
 
-        $this->pageModel->expects($this->once())
+        $this->pageModel->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
 
@@ -570,8 +608,6 @@ class AlPageTreeTest extends TestCase
         $this->template->expects($this->any())
             ->method('getTemplateSlots')
             ->will($this->returnValue($templateSlots));
-
-        $this->pageTree->setup();
     }
 
     private function configureLanguage()
