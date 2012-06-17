@@ -17,8 +17,9 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Process\Process;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 class DeployController extends Controller
 {
@@ -28,11 +29,15 @@ class DeployController extends Controller
         {
             $deployer = $this->container->get('alphalemon_cms.local_deployer');
             $deployer->deploy();
-            // TODO
-            // Asset install
-            // Assetic dump
-            // Clear cache
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'The site has been deployed'));
+
+            $appDir = $this->container->get('kernel')->getRootDir();
+            $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
+            $command = sprintf('assets:install %s %s', $this->container->getParameter('alphalemon_cms.web_folder'), $symlink);
+            AlToolkit::executeCommand($appDir, $command);
+            AlToolkit::executeCommand($appDir, 'assetic:dump --env=prod');
+            AlToolkit::executeCommand($appDir, 'cache:clear --env=prod');
+
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
         }
         catch(Exception $ex)
         {
