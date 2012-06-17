@@ -186,4 +186,30 @@ class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
 
         return $query->find();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function fetchSeoAttributesWithPagesAndLanguages()
+    {
+        $query = AlSeoQuery::create('a')
+                    ->joinWith('a.AlPage')
+                    ->joinWith('a.AlLanguage')
+                    ->filterByToDelete(0)
+                    ->orderByPageId()
+                    ->orderByLanguageId();
+        if(null !== $this->dispatcher)
+        {
+            /* TODo
+            $event = new Seo\FromPageIdWithLanguagesQueringEvent($query);
+            $this->dispatcher->dispatch(SeoEvents::FROM_PAGE_ID_WITH_LANGUAGES, $event);
+
+            if($query !== $event->getQuery())
+            {
+                $query = $event->getQuery();
+            }*/
+        }
+
+        return $query->find();
+    }
 }
