@@ -55,7 +55,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $params = array("idBlock" => 9999);
         $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor', $params);
-        $response = $this->client->getResponse();echo $crawler->text();
+        $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
     }
