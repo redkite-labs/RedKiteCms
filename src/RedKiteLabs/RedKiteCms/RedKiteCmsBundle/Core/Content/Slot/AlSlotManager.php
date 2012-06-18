@@ -274,6 +274,13 @@ class AlSlotManager extends AlTemplateBase
                     break;
             }
 
+            // Make sure that a content repeated at site level is never added twice
+            if ($idPage == 1 && $idLanguage == 1) {
+                if(count($this->blockModel->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
+                    return;
+                }
+            }
+
             $alBlockManager = $this->blockManagerFactory->createBlock($this->blockModel, $type);
             if (null === $alBlockManager) {
                 throw new \InvalidArgumentException("The $type type does not exist");
@@ -371,7 +378,7 @@ class AlSlotManager extends AlTemplateBase
         if ($blockManager != null) {
             try {
                 $this->blockModel->startTransaction();
-                
+
                 $result = $blockManager->save($values);
                 if ($result) {
                     $this->blockModel->commit();
