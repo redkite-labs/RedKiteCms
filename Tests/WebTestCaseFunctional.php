@@ -53,7 +53,7 @@ class WebTestCaseFunctional extends WebTestCase {
                                     'MetaKeywords'      => ''));
         self::populateDb();
     }
-/**/
+
     protected function setUp()
     {
         $this->client = static::createClient(array(
@@ -71,17 +71,16 @@ class WebTestCaseFunctional extends WebTestCase {
         }
 
         $dispatcher = new EventDispatcher();
-        $seoModel = new Propel\AlSeoModelPropel($dispatcher);
-        $languageModel = new Propel\AlLanguageModelPropel($dispatcher);
-        $pageModel = new Propel\AlPageModelPropel($dispatcher);
-        $blockModel = new Propel\AlBlockModelPropel($dispatcher);
+        $seoModel = new Propel\AlSeoModelPropel();
+        $languageModel = new Propel\AlLanguageModelPropel();
+        $pageModel = new Propel\AlPageModelPropel();
+        $blockModel = new Propel\AlBlockModelPropel();
 
-        
         $client = static::createClient(array(
             'environment' => 'alcms_test',
             'debug'       => true,
             ));
-        
+
         $dir = realpath(__DIR__ . '/Functional/Resources/fixtures');
         $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);
         $template = new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate(new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets(), $client->getContainer()->get('kernel'), $client->getContainer()->get('template_slots_factory'));

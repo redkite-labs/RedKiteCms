@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo;
@@ -24,23 +24,23 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel;
 
 /**
- * Defines the page attributes form 
+ * Defines the page attributes form
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class SeoForm extends AbstractType
 {
-    private $dispatcher;
+    private $languageModel;
 
-    public function __construct(EventDispatcherInterface $dispatcher)
+    public function __construct(AlLanguageModelPropel $languageModel)
     {
-        $this->dispatcher = $dispatcher;
+        $this->languageModel = $languageModel;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('idPage', 'hidden');
-        $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages(new AlLanguageModelPropel($this->dispatcher))));
+        $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages($this->languageModel)));
         $builder->add('permalink');
         $builder->add('title');
         $builder->add('description', 'textarea'); //, array('row' => 10, 'col' => 5)
@@ -53,7 +53,7 @@ class SeoForm extends AbstractType
             'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\Seo',
         );
     }
-    
+
     public function getName()
     {
         return 'seo';

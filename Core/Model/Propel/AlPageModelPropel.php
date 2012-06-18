@@ -57,20 +57,7 @@ class AlPageModelPropel extends Base\AlPropelModel implements PageModelInterface
      */
     public function fromPK($id)
     {
-        $query = AlPageQuery::create();
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Page\FromPKQueringEvent($query);
-            $this->dispatcher->dispatch(PagesEvents::FROM_PK, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->findPk($id);
+        return AlPageQuery::create()->findPk($id);
     }
 
     /**
@@ -78,21 +65,11 @@ class AlPageModelPropel extends Base\AlPropelModel implements PageModelInterface
      */
     public function activePages()
     {
-        $query = AlPageQuery::create()->filterByToDelete(0)
-                      ->where('id > 1')
-                      ->orderby('PageName');
-
-        if (null !== $this->dispatcher) {
-            $event = new Page\ActivePagesQueringEvent($query);
-            $this->dispatcher->dispatch(PagesEvents::ACTIVE_PAGES, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->find();
+        return AlPageQuery::create()
+                    ->filterByToDelete(0)
+                    ->where('id > 1')
+                    ->orderby('PageName')
+                    ->find();
     }
 
     /**
@@ -105,20 +82,10 @@ class AlPageModelPropel extends Base\AlPropelModel implements PageModelInterface
           throw new \InvalidArgumentException('This method accepts only strings');
         }
 
-        $query = AlPageQuery::create()->filterByToDelete(0)
-                      ->filterByPageName(AlToolkit::slugify($pageName));
-
-        if (null !== $this->dispatcher) {
-            $event = new Page\FromPageNameQueringEvent($query);
-            $this->dispatcher->dispatch(PagesEvents::FROM_PAGE_NAME, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->findOne();
+        return AlPageQuery::create()
+                    ->filterByToDelete(0)
+                    ->filterByPageName(AlToolkit::slugify($pageName))
+                    ->findOne();
     }
 
     /**
@@ -126,19 +93,9 @@ class AlPageModelPropel extends Base\AlPropelModel implements PageModelInterface
      */
     public function homePage()
     {
-        $query =  AlPageQuery::create()->filterByIsHome(1)
-                      ->filterByToDelete(0);
-
-        if (null !== $this->dispatcher) {
-            $event = new Page\HomePageQueringEvent($query);
-            $this->dispatcher->dispatch(PagesEvents::HOME_PAGE, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->findOne();
+        return AlPageQuery::create()
+                    ->filterByIsHome(1)
+                    ->filterByToDelete(0)
+                    ->findOne();
     }
 }

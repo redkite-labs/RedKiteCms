@@ -34,26 +34,21 @@
 
     <services>
         <service id="language_model" class="%language_model.class%">
-            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="page_model" class="%page_model.class%">
-            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="seo_model" class="%seo_model.class%">
-            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="block_model" class="%block_model.class%">
-            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="orm_model" class="%orm_model.class%">
         </service>
 
         <service id="theme_model" class="%theme_model.class%">
-            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="block_manager_factory" class="%block_manager_factory.class%">

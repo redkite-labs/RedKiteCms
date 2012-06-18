@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
@@ -31,17 +31,17 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlThemeModelPropel;
  */
 class PagesForm extends AbstractType
 {
-    private $dispatcher;
+    private $themeModel;
 
-    public function __construct(EventDispatcherInterface $dispatcher)
+    public function __construct(AlThemeModelPropel $themeModel)
     {
-        $this->dispatcher = $dispatcher;
+        $this->themeModel = $themeModel;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates(new AlThemeModelPropel($this->dispatcher))));
+        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->themeModel)));
         $builder->add('isHome', 'checkbox');
         $builder->add('isPublished', 'checkbox');
     }
@@ -52,7 +52,7 @@ class PagesForm extends AbstractType
             'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\Page',
         );
     }
-    
+
     public function getName()
     {
         return 'pages';
