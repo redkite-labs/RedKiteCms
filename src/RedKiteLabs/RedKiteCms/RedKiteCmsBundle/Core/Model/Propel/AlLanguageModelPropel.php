@@ -57,20 +57,7 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
      */
     public function fromPK($id)
     {
-        $query = AlLanguageQuery::create();
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Language\FromPKQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::FROM_PK, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->findPk($id);
+        return AlLanguageQuery::create()->findPk($id);
     }
 
     /**
@@ -78,21 +65,10 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
      */
     public function mainLanguage()
     {
-        $query = AlLanguageQuery::create()->filterByMainLanguage(1)
-                          ->filterByToDelete(0);
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Language\MainLanguageQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::MAIN_LANGUAGE, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->findOne();
+        return AlLanguageQuery::create()
+                    ->filterByMainLanguage(1)
+                    ->filterByToDelete(0)
+                    ->findOne();
     }
 
     /**
@@ -110,21 +86,10 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
             throw new \InvalidArgumentException('AlLanguageModelPropel->fromLanguageName() accepts only strings');
         }
 
-        $query = AlLanguageQuery::create()->filterByToDelete(0)
-                    ->filterByLanguage($languageName);
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Language\FromLanguageNameQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::FROM_LANGUAGE_NAME, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->findOne();
+        return AlLanguageQuery::create()
+                    ->filterByToDelete(0)
+                    ->filterByLanguage($languageName)
+                    ->findOne();
     }
 
     /**
@@ -132,20 +97,10 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
      */
     public function activeLanguages()
     {
-        $query = AlLanguageQuery::create()->filterByToDelete(0)->where('id > 1');
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Language\ActiveLanguagesQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::ACTIVE_LANGUAGES, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->find();
+        return AlLanguageQuery::create()
+                ->filterByToDelete(0)
+                ->where('id > 1')
+                ->find();
     }
 
     /**
@@ -153,19 +108,9 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
      */
     public function firstOne()
     {
-        $query = AlLanguageQuery::create()->filterByToDelete(0)->where('id > 1');
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Language\FirstOneQueringEvent($query);
-            $this->dispatcher->dispatch(LanguagesEvents::FIRST_ONE, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->findOne();
+        return AlLanguageQuery::create()
+                    ->filterByToDelete(0)
+                    ->where('id > 1')
+                    ->findOne();
     }
 }

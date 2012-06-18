@@ -33,9 +33,8 @@ class PagesController extends Controller
 {
     public function indexAction()
     {
-        $dispatcher = $this->container->get('event_dispatcher');
-        $pagesForm = $this->get('form.factory')->create(new PagesForm($dispatcher));
-        $seoForm = $this->get('form.factory')->create(new SeoForm($dispatcher));
+        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->container->get('theme_model')));
+        $seoForm = $this->get('form.factory')->create(new SeoForm($this->container->get('language_model')));
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
                         'pages' => $this->getPages(),
@@ -216,7 +215,7 @@ class PagesController extends Controller
 
     protected function getPages()
     {
-        return ChoiceValues::getPages(new AlPageModelPropel($this->container->get('event_dispatcher')));
+        return ChoiceValues::getPages($this->container->get('page_model'));
     }
 }
 

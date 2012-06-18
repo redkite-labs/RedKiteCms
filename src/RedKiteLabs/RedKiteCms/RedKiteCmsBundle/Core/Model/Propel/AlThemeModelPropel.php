@@ -55,21 +55,9 @@ class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterfa
      */
     public function fromName($themeName)
     {
-        $query = AlThemeQuery::create()->filterByThemeName($themeName);
-
-        /* TODO
-        if(null !== $this->dispatcher)
-        {
-            $event = new PageAttributes\FromPageAndLanguageQueringEvent($query);
-            $this->dispatcher->dispatch(PageAttributesEvents::FROM_PAGE_AND_LANGUAGE, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }*/
-
-        return $query;
+        return AlThemeQuery::create()
+                    ->filterByThemeName($themeName)
+                    ->findOne();
     }
 
     /**
@@ -77,20 +65,8 @@ class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterfa
      */
     public function activeBackend()
     {
-        $query = AlThemeQuery::create()->filterByActive(1);
-
-        /* TODO
-        if(null !== $this->dispatcher)
-        {
-            $event = new PageAttributes\FromPageAndLanguageQueringEvent($query);
-            $this->dispatcher->dispatch(PageAttributesEvents::FROM_PAGE_AND_LANGUAGE, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }*/
-
-        return $query->findOne();
+        return AlThemeQuery::create()
+                    ->filterByActive(1)
+                    ->findOne();
     }
 }
