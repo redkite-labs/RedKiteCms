@@ -58,17 +58,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
     public function fromPK($id)
     {
         $query = AlBlockQuery::create();
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Content\FromPKQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::FROM_PK, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
+        $this->dispatchQueryEvent('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content\FromPKQueringEvent', ContentsEvents::FROM_PK, $query);
 
         return $query->findPk($id);
     }
@@ -87,17 +77,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
                 ->filterByToDelete(0)
                 ->orderBySlotName()
                 ->orderByContentPosition();
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Content\RetrieveContentsQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::RETRIEVE_CONTENTS, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
+        $this->dispatchQueryEvent('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content\RetrieveContentsQueringEvent', ContentsEvents::RETRIEVE_CONTENTS, $query);
 
         return $query->find();
     }
@@ -110,17 +90,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         $query = AlBlockQuery::create()
                 ->filterBySlotName($slotName)
                 ->filterByToDelete(0);
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Content\RetrieveContentsBySlotNameQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::RETRIEVE_CONTENTS_BY_SLOT_NAME, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
+        $this->dispatchQueryEvent('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content\RetrieveContentsBySlotNameQueringEvent', ContentsEvents::RETRIEVE_CONTENTS_BY_SLOT_NAME, $query);
 
         return $query->find();
     }
@@ -133,17 +103,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         $query = AlBlockQuery::create()
                 ->filterByLanguageId($languageId)
                 ->filterByToDelete(0);
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Content\FromLanguageIdQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::FROM_LANGUAGE_ID, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
+        $this->dispatchQueryEvent('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content\FromLanguageIdQueringEvent', ContentsEvents::FROM_LANGUAGE_ID, $query);
 
         return $query->find();
     }
@@ -156,41 +116,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         $query = AlBlockQuery::create()
                 ->filterByPageId($pageId)
                 ->filterByToDelete(0);
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Content\FromPageIdQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
-
-        return $query->find();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function fromPageIdAndSlotName($pageId, $slotName)
-    {
-        $query = AlBlockQuery::create()
-                ->filterByPageId($pageId)
-                ->filterBySlotName($slotName)
-                ->filterByToDelete(0);
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Content\FromPageIdAndSlotNameQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::FROM_PAGE_ID_AND_SLOT_NAME, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
+        $this->dispatchQueryEvent('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content\FromPageIdQueringEvent', ContentsEvents::FROM_PAGE_ID, $query);
 
         return $query->find();
     }
@@ -203,17 +129,7 @@ class AlBlockModelPropel extends Base\AlPropelModel implements BlockModelInterfa
         $query = AlBlockQuery::create()
                 ->filterByHtmlContent('%' . $search . '%')
                 ->filterByToDelete(0);
-
-        if(null !== $this->dispatcher)
-        {
-            $event = new Content\FromHtmlContentQueringEvent($query);
-            $this->dispatcher->dispatch(ContentsEvents::FROM_HTML_CONTENT, $event);
-
-            if($query !== $event->getQuery())
-            {
-                $query = $event->getQuery();
-            }
-        }
+        $this->dispatchQueryEvent('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content\FromHtmlContentQueringEvent', ContentsEvents::FROM_HTML_CONTENT, $query);
 
         return $query->find();
     }

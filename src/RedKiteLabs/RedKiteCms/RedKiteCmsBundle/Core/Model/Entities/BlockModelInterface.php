@@ -10,75 +10,67 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
  * BlockModelInterface
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface BlockModelInterface {
-    
+
     /**
      * Fetches a block record using its primary key
-     * 
+     *
      * @param int       The primary key
      * @return object   The fetched object
      */
     public function fromPK($id);
-    
+
     /**
      * Fetches the block records that belongs to the given language and page.
      * When the slotName param is given it is used as addictional filter.
-     * 
+     *
      * @param int       The id of the language
      * @param int       The id of the page
      * @param string    The slot name
      * @return object   A collection of objects
      */
     public function retrieveContents($idLanguage, $idPage, $slotName = null);
-    
+
     /**
      * Fetches the block records that belongs the given language
-     * 
+     *
      * @param int       The id of the language
      * @return object   A collection of objects
      */
     public function fromLanguageId($languageId);
-    
+
     /**
      * Fetches the block records that belongs the given page
-     * 
+     *
      * @param int       The id of the page
      * @return object   A collection of objects
      */
     public function fromPageId($pageId);
-    
+
     /**
      * Fetches the block records that belongs the given slot name
-     * 
+     *
      * @param string    The slot name
      * @return object   A collection of objects
      */
     public function retrieveContentsBySlotName($slotName);
     
-    /**
-     * Fetches the block records that belongs the given slot name and page
-     * 
-     * @param int       The id of the page
-     * @param string    The slot name
-     * @return object   A collection of objects
-     */
-    public function fromPageIdAndSlotName($pageId, $slotName);
-    
+
     /**
      * Fetches the block records from using the Html Content
-     * 
+     *
      * @param string    The search key
      * @return object   A collection of objects
      */
