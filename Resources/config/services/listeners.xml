@@ -13,7 +13,7 @@
         <parameter key="al_edit_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\EditSeoListener</parameter>
         <parameter key="al_remove_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeleteSeoListener</parameter>
         <parameter key="al_remove_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
-        <parameter key="al_update_permalink_on_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\UpdatePermalinkOnBlocksListener</parameter>
+        <parameter key="al_update_permalink_on_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener</parameter>
         <parameter key="al_change_template_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\ChangeTemplateListener</parameter>
         <parameter key="al_language_add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageSeoListener</parameter>
         <parameter key="al_language_add_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageBlocksListener</parameter>
