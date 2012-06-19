@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Implements the actions to manage the ElFinder tool
+ * Implements the actions for the ElFinder bundle
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -28,24 +28,24 @@ class AlCmsElFinderController extends Controller
 {
     public function showFilesManagerAction()
     {
-        return $this->render('AlphaLemonCmsBundle:Elfinder:file_manager.html.twig'); 
+        return $this->render('AlphaLemonCmsBundle:Elfinder:file_manager.html.twig');
     }
-    
+
     public function connectMediaAction()
     {
         $this->connect('el_finder_media_connector');
     }
-    
+
     public function connectStylesheetsAction()
     {
         $this->connect('el_finder_css_connector');
     }
-    
+
     public function connectJavascriptsAction()
     {
         $this->connect('el_finder_js_connector');
     }
-    
+
     protected function connect($service)
     {
         $connector = $this->container->get($service);
