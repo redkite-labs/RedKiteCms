@@ -18,63 +18,17 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Integrated\Model\Propel;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlSeoModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\ContentsEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content;
-
-
-
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page as Listener;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
-use AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots;
 
 
 /**
- * CmsControllerTest
+ * AlBlockModelPropelTest
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockModelPropelTest extends WebTestCaseFunctional
+class AlBlockModelPropelTest extends Base\BaseModelPropel
 {
-    private $pageModel;
-    private $seoModel;
     private $blockModel;
 
-    public static function setUpBeforeClass()
-    {
-        self::$languages = array(
-            array('Language'      => 'en'),
-            array('Language'      => 'es',)
-        );
-
-        self::$pages = array(
-            array('PageName'      => 'index',
-                  'TemplateName'  => 'home',
-                  'IsHome'        => '1',
-                  'Permalink'     => 'this is a website fake page',
-                  'MetaTitle'         => 'page title',
-                  'MetaDescription'   => 'page description',
-                  'MetaKeywords'      => 'key'),
-            array('PageName'      => 'page1',
-                  'TemplateName'  => 'fullpage',
-                  'Permalink'     => 'page-1',
-                  'MetaTitle'         => 'page 1 title',
-                  'MetaDescription'   => 'page 1 description',
-                  'MetaKeywords'      => '')
-
-            );
-        self::populateDb();
-    }
     protected function setUp()
     {
         parent::setUp();

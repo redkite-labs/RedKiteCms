@@ -57,10 +57,9 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->pageModel = new AlPageModelPropel($dispatcher);
-        $this->seoModel = new AlSeoModelPropel($dispatcher);
-        $this->blockModel = new AlBlockModelPropel($dispatcher);
+        $this->pageModel = new AlPageModelPropel();
+        $this->seoModel = new AlSeoModelPropel();
+        $this->blockModel = new AlBlockModelPropel();
     }
 
     public function testOpeningAPageThatDoesNotExistShowsTheDefaultWelcomePage()

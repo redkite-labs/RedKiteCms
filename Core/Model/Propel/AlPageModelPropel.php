@@ -77,9 +77,14 @@ class AlPageModelPropel extends Base\AlPropelModel implements PageModelInterface
      */
     public function fromPageName($pageName)
     {
+        if (null === $pageName)
+        {
+            return null;
+        }
+        
         if (!is_string($pageName))
         {
-          throw new \InvalidArgumentException('This method accepts only strings');
+          throw new \InvalidArgumentException('The name of the page must be a string. The page cannot be retrieved');
         }
 
         return AlPageQuery::create()

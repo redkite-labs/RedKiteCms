@@ -25,7 +25,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 interface SeoModelInterface {
     public function fromPK($id);
     public function fromPageAndLanguage($languageId, $pageId);
-    public function fromPermalink($permalink, $languageId);
+    public function fromPermalink($permalink);
     public function fromPageId($pageId);
     public function fromLanguageId($languageId);
     public function fromPageIdWithLanguages($pageId);

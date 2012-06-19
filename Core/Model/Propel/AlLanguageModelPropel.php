@@ -83,7 +83,7 @@ class AlLanguageModelPropel extends Base\AlPropelModel implements LanguageModelI
 
         if (!is_string($languageName))
         {
-            throw new \InvalidArgumentException('AlLanguageModelPropel->fromLanguageName() accepts only strings');
+            throw new \InvalidArgumentException('The name of the laguage must be a string. The language cannot be retrieved');
         }
 
         return AlLanguageQuery::create()

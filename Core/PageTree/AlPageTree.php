@@ -301,7 +301,7 @@ class AlPageTree extends BaseAlPageTree
             return null;
         }
 
-        $seo = $this->seoModel->fromPermalink($pageName, $this->alLanguage->getId());
+        $seo = $this->seoModel->fromPermalink($pageName);
         if (null === $seo) {
             $seo = $this->seoModel->fromPageAndLanguage($pageName, $this->alLanguage->getId());
         }

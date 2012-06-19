@@ -37,10 +37,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->languageModel = new AlLanguageModelPropel($dispatcher);
-        $this->seoModel = new AlSeoModelPropel($dispatcher);
-        $this->blockModel = new AlBlockModelPropel($dispatcher);
+        $this->languageModel = new AlLanguageModelPropel();
+        $this->seoModel = new AlSeoModelPropel();
+        $this->blockModel = new AlBlockModelPropel();
     }
 
     public function testFormElements()
