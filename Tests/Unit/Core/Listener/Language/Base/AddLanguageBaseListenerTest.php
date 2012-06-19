@@ -223,44 +223,6 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->testListener->onBeforeAddLanguageCommit($this->event);
     }
 
-    public function testDbRecorsHaveBeenCopiedFromRequestLanguage($testListener)
-    {
-        $this->event->expects($this->once())
-            ->method('getContentManager')
-            ->will($this->returnValue($this->languageManager));
-
-        $this->event->expects($this->never())
-            ->method('abort');
-
-        $this->languageModel->expects($this->once())
-            ->method('startTransaction');
-
-        $this->languageModel->expects($this->once())
-            ->method('commit');
-
-        $this->languageModel->expects($this->never())
-            ->method('rollBack');
-
-        $mainLanguage = $this->setUpLanguage(3);
-        $this->languageModel->expects($this->once())
-            ->method('mainLanguage')
-            ->will($this->returnValue($mainLanguage));
-
-        $this->languageModel->expects($this->once())
-            ->method('fromLanguageName')
-            ->will($this->returnValue($mainLanguage));
-
-        $this->objectModel->expects($this->once())
-            ->method('fromLanguageId')
-            ->will($this->returnValue(array($this->setUpObject())));
-
-        $this->manager->expects($this->any())
-            ->method('save')
-            ->will($this->returnValue(true));
-
-        $testListener->onBeforeAddLanguageCommit($this->event);
-    }
-
     public function testDbRecorsHaveBeenCopiedFromMainLanguage()
     {
         $this->event->expects($this->once())
@@ -331,5 +293,41 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
             ->will($this->returnValue(true));
 
         $this->testListener->onBeforeAddLanguageCommit($this->event);
+    }
+    
+    protected function setUpTestToCopyFromRequestLanguage()
+    {
+        $this->event->expects($this->once())
+            ->method('getContentManager')
+            ->will($this->returnValue($this->languageManager));
+
+        $this->event->expects($this->never())
+            ->method('abort');
+
+        $this->languageModel->expects($this->once())
+            ->method('startTransaction');
+
+        $this->languageModel->expects($this->once())
+            ->method('commit');
+
+        $this->languageModel->expects($this->never())
+            ->method('rollBack');
+
+        $mainLanguage = $this->setUpLanguage(3);
+        $this->languageModel->expects($this->once())
+            ->method('mainLanguage')
+            ->will($this->returnValue($mainLanguage));
+
+        $this->languageModel->expects($this->once())
+            ->method('fromLanguageName')
+            ->will($this->returnValue($mainLanguage));
+
+        $this->objectModel->expects($this->once())
+            ->method('fromLanguageId')
+            ->will($this->returnValue(array($this->setUpObject())));
+
+        $this->manager->expects($this->any())
+            ->method('save')
+            ->will($this->returnValue(true));
     }
 }

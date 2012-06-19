@@ -22,6 +22,10 @@ abstract class BaseListenerTest extends TestCase
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));
+        
+        $language->expects($this->any())
+            ->method('getLanguage')
+            ->will($this->returnValue('en'));
 
         return $language;
     }
