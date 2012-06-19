@@ -35,7 +35,7 @@ class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterfa
      */
     public function getModelObjectClassName()
     {
-        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlTheme';
+        return '\AlphaLemon\ThemeEngineBundle\Model\AlTheme';
     }
 
     /**
@@ -55,6 +55,16 @@ class AlThemeModelPropel extends Base\AlPropelModel implements ThemeModelInterfa
      */
     public function fromName($themeName)
     {
+        if (null === $themeName)
+        {
+            return null;
+        }
+
+        if (!is_string($themeName))
+        {
+            throw new \InvalidArgumentException('The name of the theme must be a string. The theme attribute cannot be retrieved');
+        }
+        
         return AlThemeQuery::create()
                     ->filterByThemeName($themeName)
                     ->findOne();

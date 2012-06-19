@@ -75,11 +75,20 @@ class AlSeoModelPropel extends Base\AlPropelModel implements SeoModelInterface
     /**
      * {@inheritdoc}
      */
-    public function fromPermalink($permalink, $languageId)
+    public function fromPermalink($permalink)
     {
+        if (null === $permalink)
+        {
+            return null;
+        }
+
+        if (!is_string($permalink))
+        {
+            throw new \InvalidArgumentException('The permalink must be a string. The seo attribute cannot be retrieved');
+        }
+        
         return AlSeoQuery::create()
                     ->filterByPermalink($permalink)
-                    ->filterByLanguageId($languageId)
                     ->filterByToDelete(0)
                     ->findOne();
     }
