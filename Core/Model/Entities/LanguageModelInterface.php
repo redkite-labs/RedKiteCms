@@ -18,43 +18,45 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
- * ModelInterface
+ * Defines the methods used to fetch language records
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface LanguageModelInterface {
-    
+
     /**
      * Fetches a language record using its primary key
-     * 
+     *
      * @param int       The primary key
      * @return object   The fetched object
      */
     public function fromPK($id);
-    
+
     /**
      * Fetches the main language record
-     * 
+     *
      * @return object   The fetched object
      */
     public function mainLanguage();
-    
+
     /**
      * Fetches a language record from its name
-     * 
+     *
      * @param string    The language name
      * @return object   The fetched object
      */
     public function fromLanguageName($languageName);
-    
+
     /**
-     *  
+     *  Fetches all the active languages
+     *
+     *  @return mixed A collection of objects
      */
     public function activeLanguages();
-    
+
     /**
      * Fetches the first language record
-     * 
+     *
      * @return object   The fetched object
      */
     public function firstOne();

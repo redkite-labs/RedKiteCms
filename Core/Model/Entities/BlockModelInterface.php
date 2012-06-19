@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
- * BlockModelInterface
+ * Defines the methods used to fetch block records
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -66,7 +66,7 @@ interface BlockModelInterface {
      * @return object   A collection of objects
      */
     public function retrieveContentsBySlotName($slotName);
-    
+
 
     /**
      * Fetches the block records from using the Html Content

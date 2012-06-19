@@ -10,24 +10,74 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
- * ModelInterface
- * 
+ * Defines the methods used to fetch seo page attributes records
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface SeoModelInterface {
+
+    /**
+     * Fetches a seo record using its primary key
+     *
+     * @param int       The primary key
+     * @return object   The fetched object
+     */
     public function fromPK($id);
+
+    /**
+     * Fetches the seo record found by its page and language ids
+     *
+     * @param int       The id of the language
+     * @param int       The id of the page
+     * @return object   The fetched object
+     */
     public function fromPageAndLanguage($languageId, $pageId);
+
+    /**
+     * Fetches the seo record found by its permalink
+     *
+     * @param string    The permalink
+     * @return object   The fetched object
+     */
     public function fromPermalink($permalink);
+
+    /**
+     * Fetches the seo records found by its page
+     *
+     * @param int       The id of the page
+     * @return mixed A collection of objects
+     */
     public function fromPageId($pageId);
+
+    /**
+     * Fetches the seo records found by its page
+     *
+     * @param int       The id of the language
+     * @return mixed A collection of objects
+     */
     public function fromLanguageId($languageId);
+
+    /**
+     * Fetches the seo records found by its page with the languages objects
+     *
+     * @param int       The id of the page
+     * @return mixed A collection of objects
+     */
     public function fromPageIdWithLanguages($pageId);
+
+    /**
+     * Fetches the seo records found by its page and languages with the
+     * pages and languages objects
+     *
+     * @return mixed A collection of objects
+     */
     public function fetchSeoAttributesWithPagesAndLanguages();
 }
