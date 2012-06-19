@@ -18,13 +18,39 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
 
 /**
- * PageModelInterface
+ * Defines the methods used to fetch page records
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface PageModelInterface {
+
+    /**
+     * Fetches a page record using its primary key
+     *
+     * @param int       The primary key
+     * @return object   The fetched object
+     */
     public function fromPK($id);
+
+    /**
+     *  Fetches all the active pages
+     *
+     *  @return mixed A collection of objects
+     */
     public function activePages();
+
+    /**
+     * Fetches a page record from its name
+     *
+     * @param string    The page name
+     * @return object   The fetched object
+     */
     public function fromPageName($pageName);
+
+    /**
+     * Fetches the site home page
+     *
+     * @return object   The fetched object
+     */
     public function homePage();
 }
