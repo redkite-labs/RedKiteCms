@@ -58,9 +58,9 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('get')
             ->will($this->returnValue($request));
 
+        $this->setUpTestToCopyFromRequestLanguage();        
         $testListener = new AddLanguageSeoListener($this->manager, $container);
-
-        parent::testDbRecorsHaveBeenCopiedFromRequestLanguage($testListener);
+        $testListener->onBeforeAddLanguageCommit($this->event);
     }
 
     protected function setUpObject()

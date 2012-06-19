@@ -31,6 +31,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplate
  */
 class AlTwigDeployer extends AlDeployer
 {
+    private $router;
+    
     /**
      * Constructor
      *
@@ -39,7 +41,8 @@ class AlTwigDeployer extends AlDeployer
     public function  __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-
+        
+        $this->router = $container->get('routing');
         $this->viewsDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.views_dir');
     }
 
@@ -60,7 +63,7 @@ class AlTwigDeployer extends AlDeployer
     {
         $imagesPath = array('backendPath' => $this->alphaLemonCmsBundleAsset->getAbsolutePath() . '/' . $this->uploadAssetsDir,
             'prodPath' => $this->deployBundleAsset->getAbsolutePath());
-        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->router, $imagesPath);
 
         return $twigTemplateWriter->writeTemplate($this->viewsDir);
     }
