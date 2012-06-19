@@ -31,6 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 {
     private $blockManager;
+    private $router;
 
     /**
      * Constructor
@@ -41,6 +42,9 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
     {
         parent::__construct($container);
 
+        if(null !== $container) {
+            $this->router = $container->get('routing');
+        }
         $this->blockManager = $blockManager;
     }
 
@@ -59,7 +63,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
     }
 
     /**
-     * { @inheritdoc }
+     * {@inheritdoc}
      *
      * @param array $values
      * @return boolean
@@ -68,7 +72,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
     {
         unset($values['Id']);
         unset($values['CreatedAt']);
-        //TODO $values['HtmlContent'] = $this->fixInternalLinks($values['HtmlContent']);
+        $values['HtmlContent'] = $this->configurePermalinkForNewLanguage($values['HtmlContent']);
         $values['LanguageId'] = $this->languageManager->get()->getId();
         $result = $this->blockManager
                     ->set(null)
@@ -78,23 +82,25 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
     }
 
     /**
-     * TODO
-     * Fixes all the internal links according with the new language
+     * Configures the permalink for the new language.
+     * 
+     * The content is parsed to find links. When at least a link is found it is retrieved and matched to find
+     * if it is an internal link. When it is an internal link, it is prefixed with the new language as follows:
+     * [new_language]-[permalink], otherwise it is left untouched
      *
-     * @param type $content
-     * @return type
+     * @param string $content
+     * @return string
      */
-    protected function fixInternalLinks($content)
+    protected function configurePermalinkForNewLanguage($content)
     {
-        if(null === $this->languageManager) {
+        $router = $this->router;
+        
+        if(null === $this->languageManager || null === $router) {
             return $content;
         }
-
-        //preg_match('/_(en)_[\w]+/s', $content, $matches);
-        //print_r($matches);exit;
-
+        
         $languageName =  $this->languageManager->get()->getLanguage();
-        $content = preg_replace_callback('/(\<a[\s+\w+]href=[\"\'])(.*?)([\"\'])/s', function ($matches) use($router, $languageName) {
+        $content = preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use($router, $languageName) {
 
             $url = $matches[2];
             try
@@ -111,7 +117,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 
             return $matches[1] . $url . $matches[3];
         }, $content);
-
+        
         return $content;
     }
 }
