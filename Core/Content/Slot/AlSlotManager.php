@@ -49,12 +49,12 @@ class AlSlotManager extends AlTemplateBase
      * @param EventDispatcherInterface $dispatcher
      * @param AlSlot $slot
      * @param BlockModelInterface $blockModel
-     * @param AlParametersValidatorInterface $validator
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockModelInterface $blockModel, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $validator, $blockManagerFactory);
+        parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
         $this->slot = $slot;
         $this->blockModel = $blockModel;
@@ -281,7 +281,7 @@ class AlSlotManager extends AlTemplateBase
                 }
             }
 
-            $alBlockManager = $this->blockManagerFactory->createBlock($this->blockModel, $type);
+            $alBlockManager = $this->blockManagerFactory->createBlockManager($type);
             if (null === $alBlockManager) {
                 throw new \InvalidArgumentException("The $type type does not exist");
             }
@@ -577,7 +577,7 @@ class AlSlotManager extends AlTemplateBase
     {
         foreach($alBlocks as $alBlock)
         {
-            $alBlockManager = $this->blockManagerFactory->createBlock($this->blockModel, $alBlock);
+            $alBlockManager = $this->blockManagerFactory->createBlockManager($alBlock);
             $this->blockManagers[] = $alBlockManager;
         }
     }

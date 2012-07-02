@@ -54,12 +54,12 @@ class AlTemplateManager extends AlTemplateBase
      * @param AlTemplate $template
      * @param AlPageBlocksInterface $pageBlocks
      * @param BlockModelInterface $blockModel
-     * @param AlParametersValidatorInterface $validator
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template, AlPageBlocksInterface $pageBlocks, BlockModelInterface $blockModel = null, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template, AlPageBlocksInterface $pageBlocks, BlockModelInterface $blockModel = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $validator, $blockManagerFactory);
+        parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
         $this->template = $template;
         $this->pageBlocks = $pageBlocks;
@@ -426,7 +426,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         $slotName = $slot->getSlotName();
         $alBlocks = $this->pageBlocks->getSlotBlocks($slotName);
-        $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockModel, $this->validator, $this->blockManagerFactory);
+        $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockModel, $this->blockManagerFactory, $this->validator);
         $slotManager->setUpBlockManagers($alBlocks);
 
         return $slotManager;

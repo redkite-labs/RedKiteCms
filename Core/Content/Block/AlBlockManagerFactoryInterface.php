@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
@@ -22,20 +22,18 @@ use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
 
 /**
- * AlBlockManagerFactory creates a BlockManager object 
- * 
- * @api
+ * AlBlockManagerFactory creates a BlockManager object
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface AlBlockManagerFactoryInterface
 {
     /**
      * Creates an instance of an AlBlockManager object
-     * 
-     * @param BlockModelInterface $alBlockModel
+     *
      * @param mixed string | \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
-     * 
-     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\class 
+     *
+     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\class
      */
-    public function createBlock(BlockModelInterface $alBlockModel, $block);
+    public function createBlockManager($block);
 }

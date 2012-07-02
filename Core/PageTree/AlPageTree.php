@@ -210,7 +210,7 @@ class AlPageTree extends BaseAlPageTree
                     ->setIdLanguage($idLanguage)
                     ->setIdPage($idPage)
                     ->refresh();
-
+        
         $this->templateManager
                     ->setPageBlocks($this->pageBlocks)
                     ->setTemplateSlots($this->template->getTemplateSlots())

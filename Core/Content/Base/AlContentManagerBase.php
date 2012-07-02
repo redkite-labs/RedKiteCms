@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
@@ -26,16 +26,16 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * The base class that defines a content manager object
- * 
- * Several entities are considered "content" by AlphaLemon CMS: 
- * 
+ *
+ * Several entities are considered "content" by AlphaLemon CMS:
+ *
  *   - Languages
  *   - Pages
  *   - Seo attributes
  *   - Templates
  *   - Slots
  *   - Blocks
- * 
+ *
  * All of them extends this class
  *
  * @api
@@ -48,73 +48,73 @@ abstract class AlContentManagerBase extends AlTranslator
 
     /**
      * Constructor
-     * 
+     *
      * @param EventDispatcherInterface $dispatcher
-     * @param AlParametersValidatorInterface $validator 
+     * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlParametersValidatorInterface $validator = null)
     {
         $this->dispatcher = $dispatcher;
         $this->validator = (null === $validator) ? new AlParametersValidator() : $validator;
     }
-    
+
     /**
      * Sets the event dispatcher object
-     * 
+     *
      * @param EventDispatcherInterface $dispatcher
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase (for fluent API)
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the parameters validator object
-     * 
+     *
      * @api
      * @param AlParametersValidatorInterface $validator
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
      */
     public function setValidator(AlParametersValidatorInterface $validator)
     {
-        $this->validator = $validator;    
-    
+        $this->validator = $validator;
+
         return $this;
     }
-    
+
     /**
      * Sets the tranlator object
-     * 
+     *
      * @param TranslatorInterface $translator
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
      */
     public function setTranslator(TranslatorInterface $translator)
     {
         parent::setTranslator($translator);
-        
+
         $this->validator->setTranslator($translator);
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the Event dispatcher object
-     * 
-     * @return EventDispatcherInterface 
+     *
+     * @return EventDispatcherInterface
      */
     public function getDispatcher()
     {
         return $this->dispatcher;
     }
-    
+
     /**
      * Returns the ParameterValidator object
-     * 
+     *
      * @api
-     * @return TranslatorInterface 
+     * @return TranslatorInterface
      */
     public function getValidator()
     {

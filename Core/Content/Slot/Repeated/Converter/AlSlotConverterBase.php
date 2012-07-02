@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
@@ -24,7 +24,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
@@ -33,8 +32,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
 /**
  * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
  * which is changing its repeated status
- * 
- * 
+ *
+ *
  * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -49,12 +48,12 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
 
     /**
      * Constructor
-     * 
+     *
      * @param AlSlot $slot
      * @param AlPageBlocksInterface $pageContentsContainer
      * @param LanguageModelInterface $languageModel
      * @param PageModelInterface $pageModel
-     * @param BlockModelInterface $blockModel 
+     * @param BlockModelInterface $blockModel
      */
     public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
     {
@@ -66,12 +65,12 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         $slotBlocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
         $this->blocksToArray($slotBlocks);
     }
-    
+
     /**
      * Removes the blocks placed on the current slot from the database
-     * 
+     *
      * @return null|boolean
-     * @throws Exception 
+     * @throws Exception
      */
     protected function deleteBlocks()
     {
@@ -79,13 +78,13 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         if(count($blocks) > 0) {
             try {
                 $result = null;
-                
+
                 $this->blockModel->startTransaction();
                 foreach($blocks as $block) {
                     $result = $this->blockModel
                                 ->setModelObject($block)
                                 ->delete();
-                    
+
                     if(!$result) break;
                 }
 
@@ -95,7 +94,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
                 else {
                     $this->blockModel->rollBack();
                 }
-                
+
                 return $result;
             }
             catch(\Exception $e)
@@ -108,42 +107,42 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
             }
         }
     }
-    
+
     /**
      * Updates the block, according the page and language with the new repeated status
-     * 
+     *
      * @param array $block
      * @param int $idLanguage
      * @param int $idPage
-     * 
-     * @return boolean 
+     *
+     * @return boolean
      */
     protected function updateBlock(array $block, $idLanguage, $idPage)
     {
         $block["LanguageId"] = $idLanguage;
-        $block["PageId"] = $idPage; 
-        
+        $block["PageId"] = $idPage;
+
         $className = $this->blockModel->getModelObjectClassName();
         $modelObject = new $className();
-        
+
         $result = $this->blockModel
                     ->setModelObject($modelObject)
                     ->save($block);
 
         return $result;
     }
-    
+
     /**
      * Converts to array the blocks placed on the current slot
-     * 
-     * @param array $slotBlocks 
+     *
+     * @param array $slotBlocks
      */
     private function blocksToArray(array $slotBlocks)
     {
         foreach($slotBlocks as $block) {
             $aBlock = $block->toArray();
             unset($aBlock["Id"]);
-            
+
             $this->arrayBlocks[] = $aBlock;
         }
     }

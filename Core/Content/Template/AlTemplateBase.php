@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
@@ -34,37 +34,37 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 abstract class AlTemplateBase extends AlContentManagerBase
 {
     protected $blockManagerFactory;
-    
+
     /**
      * Contructor
-     * 
+     *
      * @param EventDispatcherInterface $dispatcher
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory 
      */
-    public function __construct(EventDispatcherInterface $dispatcher = null, AlParametersValidatorInterface $validator = null, AlBlockManagerFactoryInterface $blockManagerFactory = null) 
+    public function __construct(EventDispatcherInterface $dispatcher = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
-        
-        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory($dispatcher) : $blockManagerFactory;
+
+        $this->blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
     }
-    
+
     /**
      * Sets the blockManager factory object
-     * 
+     *
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase (for fluent API)
      */
     public function setBlockManagerFactory(AlBlockManagerFactoryInterface $blockManagerFactory)
     {
         $this->blockManagerFactory = $blockManagerFactory;
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the blockManager factory object
-     * 
+     *
      * @return AlBlockManagerFactoryInterface
      */
     public function getBlockManagerFactory()

@@ -72,7 +72,6 @@ class AlCmsController extends Controller
         {
             $pageTree = $this->dispatchEvents($pageTree);
             $template = $this->findTemplate($pageTree);
-            $availableBlocks = $this->findAvailableBlocks();
 
             $params = array_merge($params, array(
                                 'metatitle' => $pageTree->getMetaTitle(),
@@ -83,7 +82,7 @@ class AlCmsController extends Controller
                                 'template' => $template,
                                 'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
                                 'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
-                                'available_blocks' => $availableBlocks,
+                                'available_blocks' => $this->container->get('alphalemon_cms.block_manager_factory')->getBlocks(),
                                 'base_template' => $this->container->getParameter('althemes.base_template'),
                                 'templateStylesheets' => $this->locateAssets($pageTree->getExternalStylesheets()),
                                 'templateJavascripts' => $this->locateAssets($pageTree->getExternalJavascripts()),
@@ -145,22 +144,6 @@ class AlCmsController extends Controller
 
         return $template;
     }
-
-    private function findAvailableBlocks()
-    {
-        $availableBlocks = array();
-        foreach ($this->kernel->getBundles() as $bundle)
-        {
-            if(method_exists($bundle, 'getAlphaLemonBundleDescription'))
-            {
-                $bundleName = preg_replace('/Bundle$/', '', $bundle->getName());
-                $availableBlocks[$bundleName] = $bundle->getAlphaLemonBundleDescription();
-            }
-        }
-
-        return $availableBlocks;
-    }
-
 
     private function locateAssets(array $assets)
     {

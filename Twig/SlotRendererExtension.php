@@ -84,10 +84,11 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         try
         {
             $result = "";
+            if(null === $block || empty($block)) return $result;
+
             $slotName = $block["Block"]["SlotName"];
             if(\array_key_exists('Id', $block))
             {
-                //if($block['InternalJavascript'] != "" && array_key_exists('added', $block)) $content .= sprintf('<script>%s</script>', $block['InternalJavascript']);
                 $result = $block['HtmlContentCMSMode'];
             }
             else

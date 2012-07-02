@@ -4,8 +4,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-
-        <parameter key="block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+        <parameter key="block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory_OLD</parameter>
         <parameter key="slots_converter_facttemplate_changer.classory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
@@ -30,9 +29,16 @@
         <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
         <parameter key="template_assets.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets</parameter>
         <parameter key="alphalemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
+
+        <parameter key="alphalemon_cms.block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+
     </parameters>
 
     <services>
+
+        <service id="alphalemon_cms.block_manager_factory" class="%alphalemon_cms.block_manager_factory.class%">
+        </service>
+
         <service id="language_model" class="%language_model.class%">
         </service>
 
@@ -75,6 +81,7 @@
             <argument type="service" id="template" />
             <argument type="service" id="page_contents_container" />
             <argument type="service" id="block_model" />
+            <argument type="service" id="alphalemon_cms.block_manager_factory" />
         </service>
 
         <service id="al_page_tree" class="%alphalemon.page_tree%">
@@ -113,7 +120,7 @@
         </service>
 
         <service id="template_changer" class="%template_changer.class%">
-            <argument type="service" id="block_manager_factory" />
+            <argument type="service" id="alphalemon_cms.block_manager_factory" />
             <argument type="service" id="slots_converter_factory" />
         </service>
 

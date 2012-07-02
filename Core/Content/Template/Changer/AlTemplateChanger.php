@@ -106,7 +106,7 @@ class AlTemplateChanger
                         foreach($slots as $repeated => $slotNames) {
                             foreach($slotNames as $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->blockManagerFactory, $this->parametersValidator);
                                 $slotManager->setForceSlotAttributes(true);
 
                                 $pageContentsContainer = $this->currentTemplateManager->getPageBlocks();
@@ -143,7 +143,7 @@ class AlTemplateChanger
                         foreach($slots as $slotNames) {
                             foreach($slotNames as $repeated =>  $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->parametersValidator, $this->blockManagerFactory);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->blockManagerFactory, $this->parametersValidator);
                                 $blocks = $this->currentTemplateManager->getPageBlocks()->getSlotBlocks($slotName);
                                 $slotManager->setUpBlockManagers($blocks);
                                 $result = $slotManager->deleteBlocks();
@@ -189,7 +189,7 @@ class AlTemplateChanger
     private function analyse()
     {
         $previousSlots = $this->currentTemplateManager->getTemplateSlots()->toArray();
-        $newSlots = $this->newTemplateManager->getTemplateSlots()->toArray(); 
+        $newSlots = $this->newTemplateManager->getTemplateSlots()->toArray();
 
         $previousSlots = $this->fixArrayKeys($previousSlots);
         $newSlots = $this->fixArrayKeys($newSlots);
