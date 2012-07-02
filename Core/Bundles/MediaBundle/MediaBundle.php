@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle;
@@ -26,8 +26,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class MediaBundle extends Bundle
 {
-    public function getAlphaLemonBundleDescription()
-    {
-        return 'Media Content';
-    }
 }
