@@ -4,8 +4,17 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="app_menu.block.class">AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MenuBundle\Core\Block\AlBlockManagerMenu</parameter>
+
         <parameter key="menu_editor_settings" type="collection">
             <parameter key="rich_editor">true</parameter>
         </parameter>
     </parameters>
+
+    <services>
+        <service id="app_menu.block" class="%app_menu.block.class%">
+            <argument type="service" id="event_dispatcher" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Menu block" group="alphalemon_internals" />
+        </service>
+    </services>
 </container>

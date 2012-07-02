@@ -24,7 +24,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\PageAttributes\PageAttributesForm;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
@@ -55,7 +54,7 @@ class BlocksController extends Controller
                 $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
                 $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
 
-                $alBlockManager = $this->container->get('block_manager_factory')->createBlock($blockModel, $block);
+                $alBlockManager = $this->container->get('alphalemon_cms.block_manager_factory')->createBlockManager($block);
                 $dispatcher = $this->container->get('event_dispatcher');
                 if(null !== $dispatcher)
                 {

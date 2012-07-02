@@ -86,8 +86,8 @@ class WebTestCaseFunctional extends WebTestCase {
         $template = new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate(new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets(), $client->getContainer()->get('kernel'), $client->getContainer()->get('template_slots_factory'));
         $template->setTemplateSlots($templateSlots);
         $pageContentsContainer = new AlPageBlocks($dispatcher, $blockModel);
-        $templateManager = new AlTemplateManager($dispatcher, $template, $pageContentsContainer, $blockModel);
-        $templateManager //->setTemplateSlots($templateSlots)
+        $templateManager = new AlTemplateManager($dispatcher, $template, $pageContentsContainer, $blockModel, $client->getContainer()->get('alphalemon_cms.block_manager_factory'));
+        $templateManager
                 ->refresh();
         $seoManager = new AlSeoManager($dispatcher, $seoModel);
 

@@ -63,6 +63,13 @@ class CmsBootstrapListener
             return;
         }
 
+/*
+echo "Q";
+        $factory = $this->container->get('alphalemon_cms.block_manager_factory');
+        $bm = $this->container->get('block_model');
+        $block = $factory->createBlock($bm, 'Text');//print_r($block->get());exit;
+*/
+        //print_R($this->container->get('alphalemon_cms.block_manager_factory')->createBlock($this->container->get('block_model'), 'Text'));
         $this->checkConfigurationParameters();
         $this->setUpRequiredFolders();
         $this->setUpPageTree();

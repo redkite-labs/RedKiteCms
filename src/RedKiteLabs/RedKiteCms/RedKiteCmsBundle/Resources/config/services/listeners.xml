@@ -80,7 +80,7 @@
         <service id="al_update_permalink_on_blocks_listener" class="%al_update_permalink_on_blocks_listener.class%">
             <tag name="alcms.event_listener" event="seo.before_edit_seo_commit" method="onBeforeEditSeoCommit" priority="0" />
             <argument type="service" id="block_model" />
-            <argument type="service" id="block_manager_factory" />
+            <argument type="service" id="alphalemon_cms.block_manager_factory" />
         </service>
 
         <service id="al_language_add_seo_listener" class="%al_language_add_seo_listener.class%">

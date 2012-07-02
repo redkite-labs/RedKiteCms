@@ -29,6 +29,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel;
 
 /**
  * AlBlockManager is the object responsible to manage an AlBlock object.
@@ -43,7 +44,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  * @api
  * @author alphalemon <webmaster@alphalemon.com>
  */
-abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface
+abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
     protected $alBlock = null;
     protected $blockModel = null;
@@ -55,11 +56,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @param BlockModelInterface $blockModel
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
-        $this->blockModel = $blockModel;
+        $this->blockModel = (null === $blockModel) ? new AlBlockModelPropel() : $blockModel;
     }
 
     /**
@@ -97,7 +98,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         }
 
         $this->alBlock = $object;
-        
+
         return $this;
     }
 
@@ -472,7 +473,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             // Edits the source content
             $this->blockModel->startTransaction();
             $this->blockModel->setModelObject($this->alBlock);
-            $result = $this->blockModel->save($values); 
+            $result = $this->blockModel->save($values);
             if ($result) {
                 $this->blockModel->commit();
 
