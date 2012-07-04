@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInter
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- *  Adds some filters to the AlSeoQuery object
+ *  Implements the SeoRepositoryInterface to work with Propel
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
@@ -86,7 +86,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
         {
             throw new \InvalidArgumentException('The permalink must be a string. The seo attribute cannot be retrieved');
         }
-        
+
         return AlSeoQuery::create()
                     ->filterByPermalink($permalink)
                     ->filterByToDelete(0)

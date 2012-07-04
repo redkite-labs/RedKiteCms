@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
 
 
 /**
- *  Adds some filters to the AlThemeQuery object
+ *  Implements the ThemeRepositoryInterface to work with Propel
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
