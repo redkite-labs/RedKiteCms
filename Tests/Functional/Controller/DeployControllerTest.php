@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -30,9 +30,9 @@ use org\bovigo\vfs\vfsStream;
  */
 class DeployControllerTest extends WebTestCaseFunctional
 {
-    private $pageModel;
-    private $seoModel;
-    private $blockModel;
+    private $pageRepository;
+    private $seoRepository;
+    private $blockRepository;
 
     /**/
     public static function setUpBeforeClass()

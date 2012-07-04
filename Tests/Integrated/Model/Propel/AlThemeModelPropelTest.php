@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infthemeModelation, please view the LICENSE
+ * For the full copyright and license infthemeRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -27,26 +27,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
  */
 class AlThemeRepositoryPropelTest extends Base\BaseModelPropel
 {
-    private $themeModel;
+    private $themeRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->themeModel = $container->get('theme_model');
+        $this->themeRepository = $container->get('theme_model');
     }
     
     public function testRetrieveActiveTheme()
     {
-        $theme = $this->themeModel->activeBackend();        
+        $theme = $this->themeRepository->activeBackend();        
         $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Model\AlTheme', $theme);
         $this->assertEquals(1, count($theme));
     }
 
     public function testThemeIsNullWhenANullValueIsGiven()
     {
-        $theme = $this->themeModel->fromName(null);
+        $theme = $this->themeRepository->fromName(null);
         $this->assertNull($theme);
     }
     
@@ -55,12 +55,12 @@ class AlThemeRepositoryPropelTest extends Base\BaseModelPropel
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
-        $this->themeModel->fromName(array('BusinessWebsiteThemeBundle'));
+        $this->themeRepository->fromName(array('BusinessWebsiteThemeBundle'));
     }
     
     public function testRetrieveThemeObjectFromItsName()
     {
-        $theme = $this->themeModel->fromName('BusinessWebsiteThemeBundle');
+        $theme = $this->themeRepository->fromName('BusinessWebsiteThemeBundle');
         $this->assertEquals(1, count($theme));
         $this->assertEquals('BusinessWebsiteThemeBundle', $theme->getThemeName());
     }

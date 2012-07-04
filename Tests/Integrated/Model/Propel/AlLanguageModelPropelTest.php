@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license inflanguageModelation, please view the LICENSE
+ * For the full copyright and license inflanguageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -27,32 +27,32 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
  */
 class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
 {
-    private $languageModel;
+    private $languageRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->languageModel = $container->get('language_model');
+        $this->languageRepository = $container->get('language_model');
     }
 
     public function testALanguageIsRetrievedFromItsPrimaryKey()
     {
-        $language = $this->languageModel->fromPk(2);
+        $language = $this->languageRepository->fromPk(2);
         $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage', $language);
         $this->assertEquals(2, $language->getId());
     }
 
     public function testFetchActiveLangues()
     {
-        $languages = $this->languageModel->activeLanguages();
+        $languages = $this->languageRepository->activeLanguages();
         $this->assertEquals(2, count($languages));
     }
     
     public function testLanguageIsNullWhenANullValueIsGiven()
     {
-        $language = $this->languageModel->fromLanguageName(null);
+        $language = $this->languageRepository->fromLanguageName(null);
         $this->assertNull($language);
     }
     
@@ -61,25 +61,25 @@ class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
-        $this->languageModel->fromLanguageName(array('en'));
+        $this->languageRepository->fromLanguageName(array('en'));
     }
     
     public function testTheLanguageIsRetrieved()
     {
         $languageName = 'es';
-        $language = $this->languageModel->fromLanguageName($languageName);
+        $language = $this->languageRepository->fromLanguageName($languageName);
         $this->assertEquals($languageName, $language->getLanguage());
     }
     
     public function testTheMainLanguageIsRetrieved()
     {
-        $language = $this->languageModel->mainLanguage();
+        $language = $this->languageRepository->mainLanguage();
         $this->assertEquals('en', $language->getLanguage());
     }
     
     public function testTheFirstLanguageIsRetrieved()
     {
-        $language = $this->languageModel->firstOne();
+        $language = $this->languageRepository->firstOne();
         $this->assertEquals('en', $language->getLanguage());
     }
 }

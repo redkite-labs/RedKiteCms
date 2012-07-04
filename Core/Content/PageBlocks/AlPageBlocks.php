@@ -31,19 +31,19 @@ class AlPageBlocks extends AlPageBlocksBase
 {
     protected $idPage = null;
     protected $idLanguage = null;
-    protected $blockModel;
+    protected $blockRepository;
     protected $dispatcher;
 
     /**
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param BlockRepositoryInterface $blockModel
+     * @param BlockRepositoryInterface $blockRepository
      */
-    public function __construct(EventDispatcherInterface $dispatcher, BlockRepositoryInterface $blockModel)
+    public function __construct(EventDispatcherInterface $dispatcher, BlockRepositoryInterface $blockRepository)
     {
         $this->dispatcher = $dispatcher;
-        $this->blockModel = $blockModel;
+        $this->blockRepository = $blockRepository;
     }
 
     /**
@@ -130,7 +130,7 @@ class AlPageBlocks extends AlPageBlocksBase
         }
 
         $this->blocks = array();
-        $alBlocks = $this->blockModel->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
+        $alBlocks = $this->blockRepository->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
         foreach ($alBlocks as $alBlock) {
             $this->blocks[$alBlock->getSlotName()][] = $alBlock;
         }

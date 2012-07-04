@@ -43,15 +43,15 @@ class AlLanguageManagerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageModel->expects($this->any())
+        $this->languageRepository->expects($this->any())
             ->method('getModelObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage'));
 
-        $this->languageManager = new AlLanguageManager($this->dispatcher, $this->languageModel, $this->validator);
+        $this->languageManager = new AlLanguageManager($this->dispatcher, $this->languageRepository, $this->validator);
     }
 
     /**
@@ -122,7 +122,7 @@ class AlLanguageManagerTest extends TestCase
             ->method('languageExists')
             ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
                 ->method('save');
 
         $params = array('Language'  => 'en');
@@ -137,17 +137,17 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
@@ -160,17 +160,17 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(false));
 
@@ -183,20 +183,20 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollback');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(true));
 
@@ -209,13 +209,13 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
@@ -223,11 +223,11 @@ class AlLanguageManagerTest extends TestCase
                 ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(false));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
@@ -243,13 +243,13 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
             ->method('rollback');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
@@ -257,11 +257,11 @@ class AlLanguageManagerTest extends TestCase
                 ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
@@ -275,13 +275,13 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
@@ -289,11 +289,11 @@ class AlLanguageManagerTest extends TestCase
                 ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
                 ->method('save')
                 ->will($this->onConsecutiveCalls(true, false));
 
@@ -306,16 +306,16 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollback');
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
@@ -323,11 +323,11 @@ class AlLanguageManagerTest extends TestCase
                 ->method('hasLanguages')
                 ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
                 ->method('save')
                 ->will($this->returnValue(true));
 
@@ -347,7 +347,7 @@ class AlLanguageManagerTest extends TestCase
             ->method('checkEmptyParams')
             ->will($this->throwException(new General\EmptyParametersException()));
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('save');
 
         $params = array();
@@ -368,7 +368,7 @@ class AlLanguageManagerTest extends TestCase
             ->method('checkOnceValidParamExists')
             ->will($this->throwException(new General\ParameterExpectedException()));
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('save');
 
         $params = array('Fake' => 'test');
@@ -386,17 +386,17 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
@@ -412,17 +412,17 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(false));
 
@@ -441,16 +441,16 @@ class AlLanguageManagerTest extends TestCase
             ->method('getLanguage')
             ->will($this->returnValue('en'));
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('save');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('commit');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
         $params = array('Language' => 'en');
@@ -469,21 +469,21 @@ class AlLanguageManagerTest extends TestCase
             ->method('getLanguage')
             ->will($this->returnValue('en'));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollback');
 
         $params = array('Language' => 'fr');
@@ -502,22 +502,22 @@ class AlLanguageManagerTest extends TestCase
             ->method('getMainLanguage')
             ->will($this->returnValue(1));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
         $params = array('MainLanguage' => 1);
@@ -539,22 +539,22 @@ class AlLanguageManagerTest extends TestCase
             ->method('getMainLanguage')
             ->will($this->returnValue(1));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
             ->method('rollback');
 
         $params = array('MainLanguage' => 1);
@@ -573,22 +573,22 @@ class AlLanguageManagerTest extends TestCase
             ->method('getMainLanguage')
             ->will($this->returnValue(1));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
             ->method('save')
             ->will($this->onConsecutiveCalls(true, false));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollback');
 
         $params = array('MainLanguage' => 1);
@@ -607,25 +607,25 @@ class AlLanguageManagerTest extends TestCase
             ->method('getMainLanguage')
             ->will($this->returnValue(1));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->exactly(2))
+        $this->languageRepository->expects($this->exactly(2))
             ->method('save')
             ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollback');
 
         $params = array('MainLanguage' => 1);
@@ -653,7 +653,7 @@ class AlLanguageManagerTest extends TestCase
     {
         $language =$this->setUpLanguageObject();
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
                 ->method('delete');
 
         $language->expects($this->once())
@@ -674,18 +674,18 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->throwException(new \RuntimeException()));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollBack');
 
         $this->languageManager->set($language);
@@ -699,18 +699,18 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->returnValue(false));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollBack');
 
         $this->languageManager->set($language);
@@ -725,21 +725,21 @@ class AlLanguageManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->returnValue(true));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollback');
 
         $this->languageManager->set($language);

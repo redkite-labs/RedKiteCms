@@ -93,20 +93,20 @@ class AlTemplateChanger
             throw new General\ParameterIsEmptyException("The current template manager has not been set. The tempèlate cannot be changed until this value is given");
         }
 
-        $blockModel = $this->currentTemplateManager->getBlockModel();
+        $blockRepository = $this->currentTemplateManager->getBlockModel();
         try
         {
             $operations = $this->analyse();//print_r($operations);
 
             $rollBack = false;
-            $blockModel->startTransaction();
+            $blockRepository->startTransaction();
             foreach($operations as $operation => $slots) {
                 switch($operation) {
                     case 'add':
                         foreach($slots as $repeated => $slotNames) {
                             foreach($slotNames as $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->blockManagerFactory, $this->parametersValidator);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockRepository, $this->blockManagerFactory, $this->parametersValidator);
                                 $slotManager->setForceSlotAttributes(true);
 
                                 $pageContentsContainer = $this->currentTemplateManager->getPageBlocks();
@@ -143,7 +143,7 @@ class AlTemplateChanger
                         foreach($slots as $slotNames) {
                             foreach($slotNames as $repeated =>  $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));
-                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockModel, $this->blockManagerFactory, $this->parametersValidator);
+                                $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockRepository, $this->blockManagerFactory, $this->parametersValidator);
                                 $blocks = $this->currentTemplateManager->getPageBlocks()->getSlotBlocks($slotName);
                                 $slotManager->setUpBlockManagers($blocks);
                                 $result = $slotManager->deleteBlocks();
@@ -161,19 +161,19 @@ class AlTemplateChanger
             }
 
             if (!$rollBack) {
-                $blockModel->commit();
+                $blockRepository->commit();
 
                 return true;
             }
             else {
-                $blockModel->rollBack();
+                $blockRepository->rollBack();
 
                 return false;
             }
         }
         catch(\Exception $e) {
-            if (isset($blockModel) && $blockModel !== null) {
-                $blockModel->rollBack();
+            if (isset($blockRepository) && $blockRepository !== null) {
+                $blockRepository->rollBack();
             }
 
             throw $e;

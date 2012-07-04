@@ -45,25 +45,25 @@ class AlPageTreeCollection implements \Iterator, \Countable
 {
     private $container;
     private $pages = array();
-    private $themeModel;
-    private $languageModel;
-    private $pageModel;
+    private $themeRepository;
+    private $languageRepository;
+    private $pageRepository;
     private $templateManager;
-    private $seoModel;
+    private $seoRepository;
 
     public function  __construct(ContainerInterface $container,
                                 AlTemplateManager $templateManager = null,
-                                Propel\AlLanguageRepositoryPropel $languageModel = null,
-                                Propel\AlPageRepositoryPropel $pageModel = null,
-                                Propel\AlThemeRepositoryPropel $themeModel = null,
-                                Propel\AlSeoRepositoryPropel $seoModel = null)
+                                Propel\AlLanguageRepositoryPropel $languageRepository = null,
+                                Propel\AlPageRepositoryPropel $pageRepository = null,
+                                Propel\AlThemeRepositoryPropel $themeRepository = null,
+                                Propel\AlSeoRepositoryPropel $seoRepository = null)
     {
         $this->container = $container;
         $this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
-        $this->languageModel = (null === $languageModel) ? $container->get('language_model') : $languageModel;
-        $this->pageModel = (null === $pageModel) ? $container->get('page_model') : $pageModel;
-        $this->themeModel = (null === $themeModel) ? $container->get('theme_model') : $themeModel;
-        $this->seoModel = (null === $seoModel) ? $container->get('seo_model') : $seoModel;
+        $this->languageRepository = (null === $languageRepository) ? $container->get('language_model') : $languageRepository;
+        $this->pageRepository = (null === $pageRepository) ? $container->get('page_model') : $pageRepository;
+        $this->themeRepository = (null === $themeRepository) ? $container->get('theme_model') : $themeRepository;
+        $this->seoRepository = (null === $seoRepository) ? $container->get('seo_model') : $seoRepository;
 
         $this->setUp();
     }
@@ -136,9 +136,9 @@ class AlPageTreeCollection implements \Iterator, \Countable
      */
     protected function setUp()
     {
-        $languages = $this->languageModel->activeLanguages();
-        $pages = $this->pageModel->activePages();
-        $theme = $this->themeModel->activeBackend();
+        $languages = $this->languageRepository->activeLanguages();
+        $pages = $this->pageRepository->activePages();
+        $theme = $this->themeRepository->activeBackend();
         $themeName = $theme->getThemeName();
 
         // Cycles all the website's languages
@@ -154,10 +154,10 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
                 $pageTree = new AlPageTree($this->container,
                         $templateManager,
-                        $this->languageModel,
-                        $this->pageModel,
-                        $this->themeModel,
-                        $this->seoModel);
+                        $this->languageRepository,
+                        $this->pageRepository,
+                        $this->themeRepository,
+                        $this->seoRepository);
                 $pageTree->refresh($language->getId(), $page->getId());
 
                 $this->pages[] = $pageTree;

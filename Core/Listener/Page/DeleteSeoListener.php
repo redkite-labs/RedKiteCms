@@ -29,18 +29,18 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
 class DeleteSeoListener
 {
     private $seoManager;
-    private $languageModel;
+    private $languageRepository;
     
     /**
      * Constructor
      * 
      * @param AlSeoManager $seoManager
-     * @param LanguageRepositoryInterface $languageModel 
+     * @param LanguageRepositoryInterface $languageRepository 
      */
-    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageModel)
+    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageRepository)
     {
         $this->seoManager = $seoManager;
-        $this->languageModel = $languageModel;
+        $this->languageRepository = $languageRepository;
     }
 
     /**
@@ -56,13 +56,13 @@ class DeleteSeoListener
         }
         
         $pageManager = $event->getContentManager(); 
-        $pageModel = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageModel();
         
         try {
-            $languages = $this->languageModel->activeLanguages();
+            $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {
                 $result = null;
-                $pageModel->startTransaction();            
+                $pageRepository->startTransaction();            
                 $idPage = $pageManager->get()->getId();            
                 foreach ($languages as $alLanguage) {
                     $result = $this->seoManager->deleteSeoAttributesFromLanguage($alLanguage->getId(), $idPage);
@@ -72,10 +72,10 @@ class DeleteSeoListener
                 }
 
                 if ($result) {
-                    $pageModel->commit();
+                    $pageRepository->commit();
                 }
                 else {
-                    $pageModel->rollBack();
+                    $pageRepository->rollBack();
 
                     $event->abort();
                 }
@@ -83,8 +83,8 @@ class DeleteSeoListener
         }
         catch(\Exception $e) {
             $event->abort();
-            if (isset($pageModel) && $pageModel !== null) {
-                $pageModel->rollBack();
+            if (isset($pageRepository) && $pageRepository !== null) {
+                $pageRepository->rollBack();
             }
             
             throw $e;

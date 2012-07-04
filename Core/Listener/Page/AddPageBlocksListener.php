@@ -29,16 +29,16 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
  */
 class AddPageBlocksListener
 {
-    private $languageModel;
+    private $languageRepository;
 
     /**
      * Constructor
      *
-     * @param LanguageRepositoryInterface $languageModel
+     * @param LanguageRepositoryInterface $languageRepository
      */
-    public function __construct(LanguageRepositoryInterface $languageModel)
+    public function __construct(LanguageRepositoryInterface $languageRepository)
     {
-        $this->languageModel = $languageModel;
+        $this->languageRepository = $languageRepository;
     }
 
     /**
@@ -55,12 +55,12 @@ class AddPageBlocksListener
         
         $pageManager = $event->getContentManager();
         $templateManager = $pageManager->getTemplateManager(); 
-        $pageModel = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageModel();
         try {
-            $languages = $this->languageModel->activeLanguages();
+            $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {
                 $result = true;
-                $pageModel->startTransaction();
+                $pageRepository->startTransaction();
                 // The min number of pages is setted to 1 because we are adding a page which has been saved but not
                 // committed so it counts as one
                 $ignoreRepeatedSlots = $pageManager->getValidator()->hasPages(1);
@@ -72,10 +72,10 @@ class AddPageBlocksListener
                 }
 
                 if ($result) {
-                    $pageModel->commit();
+                    $pageRepository->commit();
                 }
                 else {
-                    $pageModel->rollBack();
+                    $pageRepository->rollBack();
 
                     $event->abort();
                 }
@@ -83,8 +83,8 @@ class AddPageBlocksListener
         }
         catch(\Exception $e) {
             $event->abort();
-            if (isset($pageModel) && $pageModel !== null) {
-                $pageModel->rollBack();
+            if (isset($pageRepository) && $pageRepository !== null) {
+                $pageRepository->rollBack();
             }
 
             throw $e;

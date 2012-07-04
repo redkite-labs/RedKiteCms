@@ -33,7 +33,7 @@ class AlTemplateChangerTest extends TestCase
     private $newTemplateManager;
     private $currentTemplateSlots;
     private $newTemplateSlots;
-    private $blockModel;
+    private $blockRepository;
     private $pageContentsContainer;
     private $factory;
 
@@ -53,7 +53,7 @@ class AlTemplateChangerTest extends TestCase
                                         ->disableOriginalConstructor()
                                         ->getMock();
 
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -122,10 +122,10 @@ class AlTemplateChangerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('rollBack');
 
         $result = $this->templateChanger
@@ -153,13 +153,13 @@ class AlTemplateChangerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $result = $this->templateChanger
@@ -185,10 +185,10 @@ class AlTemplateChangerTest extends TestCase
             ->method('createConverter')
             ->will($this->returnValue($converter));
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('rollBack');
 
         $result = $this->templateChanger
@@ -214,13 +214,13 @@ class AlTemplateChangerTest extends TestCase
             ->method('createConverter')
             ->will($this->returnValue($converter));
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $result = $this->templateChanger
@@ -248,10 +248,10 @@ class AlTemplateChangerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('rollBack');
 
         $this->pageContentsContainer->expects($this->once())
@@ -283,13 +283,13 @@ class AlTemplateChangerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $this->pageContentsContainer->expects($this->once())
@@ -315,17 +315,17 @@ class AlTemplateChangerTest extends TestCase
 
         $this->init($currentSlots, $newSlots);
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('rollBack');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('save')
             ->will($this->onConsecutiveCalls(true));
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('delete')
             ->will($this->onConsecutiveCalls(false));
 
@@ -379,17 +379,17 @@ class AlTemplateChangerTest extends TestCase
 
         $this->init($currentSlots, $newSlots);
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('rollBack');
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('save')
             ->will($this->onConsecutiveCalls(true));
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('delete')
             ->will($this->onConsecutiveCalls(false));
 
@@ -467,7 +467,7 @@ class AlTemplateChangerTest extends TestCase
 
         $this->currentTemplateManager->expects($this->once())
             ->method('getBlockModel')
-            ->will($this->returnValue($this->blockModel));
+            ->will($this->returnValue($this->blockRepository));
 
         $this->currentTemplateManager->expects($this->any())
             ->method('getPageBlocks')
@@ -477,7 +477,7 @@ class AlTemplateChangerTest extends TestCase
             ->method('toArray')
             ->will($this->returnValue($currentSlots));
 
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('setModelObject')
             ->will($this->returnSelf());
 

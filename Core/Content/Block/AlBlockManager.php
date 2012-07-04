@@ -47,20 +47,20 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
     protected $alBlock = null;
-    protected $blockModel = null;
+    protected $blockRepository = null;
 
     /**
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param BlockRepositoryInterface $blockModel
+     * @param BlockRepositoryInterface $blockRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, BlockRepositoryInterface $blockModel = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, BlockRepositoryInterface $blockRepository = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
-        $this->blockModel = (null === $blockModel) ? new AlBlockRepositoryPropel() : $blockModel;
+        $this->blockRepository = (null === $blockRepository) ? new AlBlockRepositoryPropel() : $blockRepository;
     }
 
     /**
@@ -111,7 +111,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function setBlockModel(BlockRepositoryInterface $v)
     {
-        $this->blockModel = $v;
+        $this->blockRepository = $v;
 
         return $this;
     }
@@ -124,7 +124,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getBlockModel()
     {
-        return $this->blockModel;
+        return $this->blockRepository;
     }
 
     /**
@@ -307,13 +307,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 }
             }
 
-            $this->blockModel->startTransaction();
+            $this->blockRepository->startTransaction();
 
-            $result = $this->blockModel
+            $result = $this->blockRepository
                         ->setModelObject($this->alBlock)
                         ->delete();
             if ($result) {
-                $this->blockModel->commit();
+                $this->blockRepository->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockDeletedEvent($this);
@@ -323,15 +323,15 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 return true;
             }
             else {
-                $this->blockModel->rollBack();
+                $this->blockRepository->rollBack();
 
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if (isset($this->blockModel) && $this->blockModel !== null) {
-                $this->blockModel->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;
@@ -407,20 +407,20 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         }
 
         try {
-            $this->blockModel->startTransaction();
+            $this->blockRepository->startTransaction();
 
             // Saves the content
             if (null === $this->alBlock) {
                 //$this->alBlock = new AlBlock();
-                $className = $this->blockModel->getModelObjectClassName();
+                $className = $this->blockRepository->getModelObjectClassName();
                 $this->alBlock = new $className();
             }
 
-            $result = $this->blockModel
+            $result = $this->blockRepository
                     ->setModelObject($this->alBlock)
                     ->save($values);
             if ($result) {
-                $this->blockModel->commit();
+                $this->blockRepository->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockAddedEvent($this);
@@ -428,14 +428,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 }
             }
             else {
-                $this->blockModel->rollBack();
+                $this->blockRepository->rollBack();
             }
 
             return $result;
         }
         catch(\Exception $e) {
-            if (isset($this->blockModel) && $this->blockModel !== null) {
-                $this->blockModel->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;
@@ -471,11 +471,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $this->validator->checkEmptyParams($values);
 
             // Edits the source content
-            $this->blockModel->startTransaction();
-            $this->blockModel->setModelObject($this->alBlock);
-            $result = $this->blockModel->save($values);
+            $this->blockRepository->startTransaction();
+            $this->blockRepository->setModelObject($this->alBlock);
+            $result = $this->blockRepository->save($values);
             if ($result) {
-                $this->blockModel->commit();
+                $this->blockRepository->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockEditedEvent($this);
@@ -483,14 +483,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 }
             }
             else {
-                $this->blockModel->rollBack();
+                $this->blockRepository->rollBack();
             }
             return $result;
         }
         catch(\Exception $e)
         {
-            if (isset($this->blockModel) && $this->blockModel !== null) {
-                $this->blockModel->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;

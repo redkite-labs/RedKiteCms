@@ -30,7 +30,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
 {
     private $event;
     private $testListener;
-    private $blockModel;
+    private $blockRepository;
     private $blockManagerFactory;
 
 
@@ -40,7 +40,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
 
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -54,7 +54,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
 
         $this->blockManagerFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
 
-        $this->testListener = new UpdatePermalinkOnBlocksListener($this->blockModel ,$this->blockManagerFactory);
+        $this->testListener = new UpdatePermalinkOnBlocksListener($this->blockRepository ,$this->blockManagerFactory);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
@@ -93,13 +93,13 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array('Permalink' => 'a new permalink')));
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollBack');
 
         $this->testListener->onBeforeEditSeoCommit($this->event);
@@ -114,17 +114,17 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array('oldPermalink' => 'the-old-permalink', 'Permalink' => 'a new permalink')));
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('fromHtmlContent')
             ->will($this->returnValue(array()));
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollBack');
 
         $this->testListener->onBeforeEditSeoCommit($this->event);
@@ -135,7 +135,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('fromHtmlContent')
             ->will($this->returnValue(array($this->setUpBlock())));
 
@@ -151,13 +151,13 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array('oldPermalink' => 'the-old-permalink', 'Permalink' => 'a new permalink')));
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
 
         $this->testListener->onBeforeEditSeoCommit($this->event);
@@ -168,7 +168,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('fromHtmlContent')
             ->will($this->returnValue(array($this->setUpBlock(), $this->setUpBlock(), $this->setUpBlock())));
 
@@ -184,13 +184,13 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array('oldPermalink' => 'the-old-permalink', 'Permalink' => 'a new permalink')));
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
 
         $this->testListener->onBeforeEditSeoCommit($this->event);
@@ -204,7 +204,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('fromHtmlContent')
             ->will($this->returnValue(array($this->setUpBlock())));
 
@@ -220,13 +220,13 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array('oldPermalink' => 'the-old-permalink', 'Permalink' => 'a new permalink')));
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
 
         $this->testListener->onBeforeEditSeoCommit($this->event);
@@ -237,17 +237,17 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('fromHtmlContent')
             ->will($this->returnValue(array($this->setUpBlock())));
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollBack');
 
         $this->blockManager->expects($this->once())
@@ -270,7 +270,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('fromHtmlContent')
             ->will($this->returnValue(array($this->setUpBlock(), $this->setUpBlock(), $this->setUpBlock())));
 
@@ -286,13 +286,13 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array('oldPermalink' => 'the-old-permalink', 'Permalink' => 'a new permalink')));
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollBack');
 
         $this->testListener->onBeforeEditSeoCommit($this->event);

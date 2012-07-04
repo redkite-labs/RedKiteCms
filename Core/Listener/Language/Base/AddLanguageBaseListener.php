@@ -70,9 +70,9 @@ abstract class AddLanguageBaseListener
         }
 
         $this->languageManager = $event->getContentManager();
-        $languageModel = $this->languageManager->getLanguageModel();
+        $languageRepository = $this->languageManager->getLanguageModel();
 
-        $this->mainLanguage = $languageModel->mainLanguage();
+        $this->mainLanguage = $languageRepository->mainLanguage();
         if(null === $this->mainLanguage) {
             $event->abort();
 
@@ -87,7 +87,7 @@ abstract class AddLanguageBaseListener
         if (count($this->sourceObjects) > 0) {
             try {
                 $result = true;
-                $languageModel->startTransaction();
+                $languageRepository->startTransaction();
                 foreach($this->sourceObjects as $sourceObject)
                 {
                     $values = $sourceObject->toArray();
@@ -98,18 +98,18 @@ abstract class AddLanguageBaseListener
                 }
 
                 if ($result) {
-                    $languageModel->commit();
+                    $languageRepository->commit();
                 }
                 else {
-                    $languageModel->rollBack();
+                    $languageRepository->rollBack();
 
                     $event->abort();
                 }
             }
             catch(\Exception $e) {
                 $event->abort();
-                if (isset($languageModel) && $languageModel !== null) {
-                    $languageModel->rollBack();
+                if (isset($languageRepository) && $languageRepository !== null) {
+                    $languageRepository->rollBack();
                 }
 
                 throw $e;
@@ -124,13 +124,13 @@ abstract class AddLanguageBaseListener
      */
     protected function getBaseLanguage()
     {
-        $languageModel = $this->languageManager->getLanguageModel();
+        $languageRepository = $this->languageManager->getLanguageModel();
 
         // Tries to fetch the current language from the request
         if(null !== $this->request) {
             $languages = $this->request->getLanguages();
 
-            $alLanguage = $languageModel->fromLanguageName($languages[1]);
+            $alLanguage = $languageRepository->fromLanguageName($languages[1]);
             if(null !== $alLanguage) {
 
                 return $alLanguage;
@@ -143,7 +143,7 @@ abstract class AddLanguageBaseListener
             return $this->mainLanguage;
         }
 
-        return $languageModel->firstOne();
+        return $languageRepository->firstOne();
     }
 }
 

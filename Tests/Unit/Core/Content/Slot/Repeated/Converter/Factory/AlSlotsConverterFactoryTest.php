@@ -41,15 +41,15 @@ class AlSlotsConverterFactoryTest extends TestCase
                            ->disableOriginalConstructor()
                             ->getMock();
         
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
     }
@@ -60,7 +60,7 @@ class AlSlotsConverterFactoryTest extends TestCase
     public function testCreateConverterThrowsAnExceptionGivingTheSameRepeatedStatus()
     {
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         
         $slotsConverterFactory->createConverter($slot, 'page');
     }
@@ -71,7 +71,7 @@ class AlSlotsConverterFactoryTest extends TestCase
     public function testCreateConverterThrowsAnExceptionWhenTheConvertedClassCannotBeInstantiated()
     {
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         
         $slotsConverterFactory->createConverter($slot, 'fake');
     }
@@ -83,7 +83,7 @@ class AlSlotsConverterFactoryTest extends TestCase
             ->will($this->returnValue(array()));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         
         $slotsConverterFactory->createConverter($slot, 'site');
     }

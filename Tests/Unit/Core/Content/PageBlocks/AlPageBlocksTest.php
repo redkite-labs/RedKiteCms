@@ -29,7 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 class AlPageBlocksTest extends TestCase
 {   
     private $dispatcher;
-    private $blockModel;
+    private $blockRepository;
     private $pageContentsContainer;
       
     protected function setUp() 
@@ -37,11 +37,11 @@ class AlPageBlocksTest extends TestCase
         parent::setUp();
         
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');        
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageContentsContainer = new AlPageBlocks($this->dispatcher, $this->blockModel);
+        $this->pageContentsContainer = new AlPageBlocks($this->dispatcher, $this->blockRepository);
     }
     
     /**
@@ -74,7 +74,7 @@ class AlPageBlocksTest extends TestCase
     
     public function testAnEmptyArrayIsRetrievedWhenAnyBlockExists()
     {
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('retrieveContents')
             ->will($this->returnValue(array()));
         
@@ -95,7 +95,7 @@ class AlPageBlocksTest extends TestCase
             $this->setUpBlock('menu'),
         );
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('retrieveContents')
             ->will($this->returnValue($blocks));
         

@@ -44,7 +44,7 @@ class AlTemplateManager extends AlTemplateBase
 {
     protected $slotManagers = array();
     protected $template;
-    protected $blockModel;
+    protected $blockRepository;
     protected $pageBlocks;
 
     /**
@@ -53,17 +53,17 @@ class AlTemplateManager extends AlTemplateBase
      * @param EventDispatcherInterface $dispatcher
      * @param AlTemplate $template
      * @param AlPageBlocksInterface $pageBlocks
-     * @param BlockRepositoryInterface $blockModel
+     * @param BlockRepositoryInterface $blockRepository
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template, AlPageBlocksInterface $pageBlocks, BlockRepositoryInterface $blockModel = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template, AlPageBlocksInterface $pageBlocks, BlockRepositoryInterface $blockRepository = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
         $this->template = $template;
         $this->pageBlocks = $pageBlocks;
-        $this->blockModel =  (null === $blockModel) ? new AlBlockRepositoryPropel() : $blockModel;
+        $this->blockRepository =  (null === $blockRepository) ? new AlBlockRepositoryPropel() : $blockRepository;
     }
 
     /**
@@ -162,7 +162,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function getBlockModel()
     {
-        return $this->blockModel;
+        return $this->blockRepository;
     }
 
     /**
@@ -262,7 +262,7 @@ class AlTemplateManager extends AlTemplateBase
                 $this->refreshPageContentsContainer($idLanguage, $idPage);
 
                 $result = false;
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
                 foreach ($this->slotManagers as $slot) {
                     if ($ignoreRepeated && $slot->getRepeated() != 'page') {
                         continue;
@@ -276,18 +276,18 @@ class AlTemplateManager extends AlTemplateBase
                 }
 
                 if ($result) {
-                    $this->blockModel->commit();
+                    $this->blockRepository->commit();
                 }
                 else {
-                    $this->blockModel->rollBack();
+                    $this->blockRepository->rollBack();
                 }
 
                 return $result;
             }
             catch(\Exception $e)
             {
-                if (isset($this->blockModel) && $this->blockModel !== null) {
-                    $this->blockModel->rollBack();
+                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;
@@ -308,7 +308,7 @@ class AlTemplateManager extends AlTemplateBase
         if (count($this->slotManagers) > 0) {
             try {
                 $result = null;
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
                 foreach ($this->slotManagers as $slotManager) {
                     if ($ignoreRepeated && $slotManager->getSlot()->getRepeated() != 'page') {
                         continue;
@@ -323,18 +323,18 @@ class AlTemplateManager extends AlTemplateBase
                 if(null === $result) return;
 
                 if ($result) {
-                    $this->blockModel->commit();
+                    $this->blockRepository->commit();
                 }
                 else {
-                    $this->blockModel->rollBack();
+                    $this->blockRepository->rollBack();
                 }
 
                 return $result;
             }
             catch(\Exception $e)
             {
-                if (isset($this->blockModel) && $this->blockModel !== null) {
-                    $this->blockModel->rollBack();
+                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;
@@ -357,7 +357,7 @@ class AlTemplateManager extends AlTemplateBase
     public function clearPageBlocks($languageId, $pageId, $ignoreRepeated = true)
     {
         try {
-            $this->blockModel->startTransaction();
+            $this->blockRepository->startTransaction();
 
             $pageBlocks = clone($this->pageBlocks);
             $this->refreshPageContentsContainer($languageId, $pageId);
@@ -367,18 +367,18 @@ class AlTemplateManager extends AlTemplateBase
             $this->setUpSlotManagers();
 
             if ($result) {
-                $this->blockModel->commit();
+                $this->blockRepository->commit();
             }
             else {
-                $this->blockModel->rollBack();
+                $this->blockRepository->rollBack();
             }
 
             return $result;
         }
         catch(\Exception $e)
         {
-            if (isset($this->blockModel) && $this->blockModel !== null) {
-                $this->blockModel->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;
@@ -426,7 +426,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         $slotName = $slot->getSlotName();
         $alBlocks = $this->pageBlocks->getSlotBlocks($slotName);
-        $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockModel, $this->blockManagerFactory, $this->validator);
+        $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockRepository, $this->blockManagerFactory, $this->validator);
         $slotManager->setUpBlockManagers($alBlocks);
 
         return $slotManager;

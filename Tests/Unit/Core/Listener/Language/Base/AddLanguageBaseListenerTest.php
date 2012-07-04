@@ -29,7 +29,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
     protected $event;
     protected $testListener;
     protected $languageManager;
-    protected $languageModel;
+    protected $languageRepository;
     protected $manager;
     protected $objectModel;
 
@@ -47,13 +47,13 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->languageManager->expects($this->any())
             ->method('getLanguageModel')
-            ->will($this->returnValue($this->languageModel));
+            ->will($this->returnValue($this->languageRepository));
 
         $this->languageManager->expects($this->any())
             ->method('get')
@@ -82,16 +82,16 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollBack');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue(null));
 
@@ -107,16 +107,16 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollBack');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue($this->setUpLanguage(3)));
 
@@ -136,13 +136,13 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollBack');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue($this->setUpLanguage(3)));
 
@@ -169,13 +169,13 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('rollBack');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue($this->setUpLanguage(3)));
 
@@ -199,16 +199,16 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollBack');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue($this->setUpLanguage(3)));
 
@@ -232,17 +232,17 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollBack');
 
         $mainLanguage = $this->setUpLanguage(3);
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue($mainLanguage));
 
@@ -266,21 +266,21 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollBack');
 
         $mainLanguage = $this->setUpLanguage(2);
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue($mainLanguage));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('firstOne')
             ->will($this->returnValue($this->setUpLanguage(3)));
 
@@ -304,21 +304,21 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('commit');
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('rollBack');
 
         $mainLanguage = $this->setUpLanguage(3);
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('mainLanguage')
             ->will($this->returnValue($mainLanguage));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue($mainLanguage));
 

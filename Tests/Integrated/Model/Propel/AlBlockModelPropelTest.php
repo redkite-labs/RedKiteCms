@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -27,93 +27,93 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
  */
 class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
 {
-    private $blockModel;
+    private $blockRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->blockModel = $container->get('block_model');
+        $this->blockRepository = $container->get('block_model');
     }
 
     public function testABlockIsRetrievedFromItsPrimaryKey()
     {
-        $block = $this->blockModel->fromPk(2);
+        $block = $this->blockRepository->fromPk(2);
         $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock', $block);
         $this->assertEquals(2, $block->getId());
     }
 
     public function testRetrieveContentsWithoutRepeatedOnes()
     {
-        $blocks = $this->blockModel->retrieveContents(2, 2);
+        $blocks = $this->blockRepository->retrieveContents(2, 2);
         $this->assertEquals(11, count($blocks));
     }
 
     public function testRetrieveAllPageContents()
     {
-        $blocks = $this->blockModel->retrieveContents(array(1, 2), array(1, 2));
+        $blocks = $this->blockRepository->retrieveContents(array(1, 2), array(1, 2));
         $this->assertEquals(22, count($blocks));
     }
 
     public function testRetrieveSlotContents()
     {
-        $blocks = $this->blockModel->retrieveContents(array(1, 2), array(1, 2), 'logo');
+        $blocks = $this->blockRepository->retrieveContents(array(1, 2), array(1, 2), 'logo');
         $this->assertEquals(1, count($blocks));
         $this->assertEquals('logo', $blocks[0]->getSlotName());
     }
 
     public function testRetrieveContentsRepeatedAtSiteLevelBySlotName()
     {
-        $blocks = $this->blockModel->retrieveContentsBySlotName('logo');
+        $blocks = $this->blockRepository->retrieveContentsBySlotName('logo');
         $this->assertEquals(1, count($blocks));
     }
 
     public function testRetrieveContentsRepeatedAtLanguageLevelBySlotName()
     {
-        $blocks = $this->blockModel->retrieveContentsBySlotName('nav_menu');
+        $blocks = $this->blockRepository->retrieveContentsBySlotName('nav_menu');
         $this->assertEquals(2, count($blocks));
     }
 
     public function testRetrieveContentsRepeatedAtPageLevelBySlotName()
     {
-        $blocks = $this->blockModel->retrieveContentsBySlotName('right_sidebar_content');
+        $blocks = $this->blockRepository->retrieveContentsBySlotName('right_sidebar_content');
         $this->assertEquals(4, count($blocks));
     }
 
     public function testRetrieveContentsByLanguageId()
     {
-        $blocks = $this->blockModel->fromLanguageId(2);
+        $blocks = $this->blockRepository->fromLanguageId(2);
         $this->assertEquals(31, count($blocks));
     }
 
     public function testRetrieveAllContentsByLanguageId()
     {
-        $blocks = $this->blockModel->fromLanguageId(array(1, 2));
+        $blocks = $this->blockRepository->fromLanguageId(array(1, 2));
         $this->assertEquals(33, count($blocks));
     }
 
     public function testRetrieveContentsByPageId()
     {
-        $blocks = $this->blockModel->fromPageId(2);
+        $blocks = $this->blockRepository->fromPageId(2);
         $this->assertEquals(22, count($blocks));
     }
 
     public function testRetrieveAllContentsByPageId()
     {
-        $blocks = $this->blockModel->fromPageId(array(1, 2));
+        $blocks = $this->blockRepository->fromPageId(array(1, 2));
         $this->assertEquals(42, count($blocks));
     }
 
     public function testRetrieveContentsByHtmlContent()
     {
-        $blocks = $this->blockModel->fromHtmlContent('Business');
+        $blocks = $this->blockRepository->fromHtmlContent('Business');
         $this->assertEquals(22, count($blocks));
     }
 
     public function testRetrieveContentsByStrictContent()
     {
-        $blocks = $this->blockModel->fromHtmlContent('Progress Business Company');
+        $blocks = $this->blockRepository->fromHtmlContent('Progress Business Company');
         $this->assertEquals(2, count($blocks));
     }
 }

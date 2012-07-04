@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infseoModelation, please view the LICENSE
+ * For the full copyright and license infseoRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -27,26 +27,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
  */
 class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
 {
-    private $seoModel;
+    private $seoRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->seoModel = $container->get('seo_model');
+        $this->seoRepository = $container->get('seo_model');
     }
 
     public function testASeoObjectIsRetrievedFromItsPrimaryKey()
     {
-        $seoAttribute = $this->seoModel->fromPk(2);
+        $seoAttribute = $this->seoRepository->fromPk(2);
         $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo', $seoAttribute);
         $this->assertEquals(2, $seoAttribute->getId());
     }
 
     public function testSeoIsNullWhenANullValueIsGiven()
     {
-        $seoAttributes = $this->seoModel->fromPermalink(null);
+        $seoAttributes = $this->seoRepository->fromPermalink(null);
         $this->assertNull($seoAttributes);
     }
     
@@ -55,38 +55,38 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
-        $this->seoModel->fromPermalink(array('this-is-a-website-fake-page'));
+        $this->seoRepository->fromPermalink(array('this-is-a-website-fake-page'));
     }
     
     public function testRetrieveSeoObjectFromPermalink()
     {
-        $seoAttributes = $this->seoModel->fromPermalink('this-is-a-website-fake-page');
+        $seoAttributes = $this->seoRepository->fromPermalink('this-is-a-website-fake-page');
         $this->assertEquals(1, count($seoAttributes));
         $this->assertEquals('this-is-a-website-fake-page', $seoAttributes->getPermalink());
     }
     
     public function testRetrieveSeoObjectsFromPageId()
     {
-        $seoAttributes = $this->seoModel->fromPageId(2);
+        $seoAttributes = $this->seoRepository->fromPageId(2);
         $this->assertEquals(2, count($seoAttributes));
     }
     
     public function testRetrieveSeoObjectsFromLanguageId()
     {
-        $seoAttributes = $this->seoModel->fromLanguageId(2);
+        $seoAttributes = $this->seoRepository->fromLanguageId(2);
         $this->assertEquals(2, count($seoAttributes));
     }
     
     public function testRetrieveSeoObjectsFromPageIdWithLanguages()
     {
-        $seoAttributes = $this->seoModel->fromPageIdWithLanguages(2);
+        $seoAttributes = $this->seoRepository->fromPageIdWithLanguages(2);
         $this->assertEquals(2, count($seoAttributes));
         $this->assertEquals(1, count($seoAttributes[0]->getAlLanguage()));
     }
     
     public function testRetrieveSeoObjectsWithPagesAndLanguages()
     {
-        $seoAttributes = $this->seoModel->fetchSeoAttributesWithPagesAndLanguages(2);
+        $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages(2);
         $this->assertEquals(4, count($seoAttributes));
         
         $seo = $seoAttributes[0];

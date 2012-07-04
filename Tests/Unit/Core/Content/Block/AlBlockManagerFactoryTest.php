@@ -85,13 +85,13 @@ class AlBlockManagerFactoryTest extends TestCase
 
         $this->blockManager->expects($this->once())
                         ->method('getBlockModel')
-                        ->will($this->returnValue($this->blockModel));
+                        ->will($this->returnValue($this->blockRepository));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                         ->method('setModelObject')
                         ->with($block);
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                         ->method('delete');
 
         $blockManager = $this->factory->createBlockManager($block);
@@ -137,7 +137,7 @@ class AlBlockManagerFactoryTest extends TestCase
 
     private function setupBaseBlockManager()
     {
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -161,7 +161,7 @@ class AlBlockManagerFactoryTest extends TestCase
                 ->method('getToDelete')
                 ->will($this->returnValue(1));
 
-        $contenManager = $this->factory->createBlock($this->blockModel, $block);
+        $contenManager = $this->factory->createBlock($this->blockRepository, $block);
         $this->assertNull($contenManager);
         $this->assertEquals(1, $block->getToDelete());
     }
@@ -176,7 +176,7 @@ class AlBlockManagerFactoryTest extends TestCase
         $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
 
         $factory = new AlBlockManagerFactory($this->dispatcher, $translator);
-        $contenManager = $factory->createBlock($this->blockModel, $block);
+        $contenManager = $factory->createBlock($this->blockRepository, $block);
         $this->assertInstanceOf('Symfony\Component\Translation\TranslatorInterface', $contenManager->getTranslator());
     }*/
 }

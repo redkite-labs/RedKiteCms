@@ -30,17 +30,17 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPr
  */
 class SeoForm extends AbstractType
 {
-    private $languageModel;
+    private $languageRepository;
 
-    public function __construct(AlLanguageRepositoryPropel $languageModel)
+    public function __construct(AlLanguageRepositoryPropel $languageRepository)
     {
-        $this->languageModel = $languageModel;
+        $this->languageRepository = $languageRepository;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('idPage', 'hidden');
-        $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages($this->languageModel)));
+        $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages($this->languageRepository)));
         $builder->add('permalink');
         $builder->add('title');
         $builder->add('description', 'textarea'); //, array('row' => 10, 'col' => 5)

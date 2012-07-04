@@ -29,7 +29,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\pageModel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\pageRepository;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
@@ -47,7 +47,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 {
     protected $templateManager = null;
     protected $siteLanguages = array();
-    protected $pageModel;
+    protected $pageRepository;
     protected $alPage;
 
     /**
@@ -55,15 +55,15 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * @param EventDispatcherInterface $dispatcher
      * @param AlTemplateManager $templateManager
-     * @param PageRepositoryInterface $pageModel
+     * @param PageRepositoryInterface $pageRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, PageRepositoryInterface $pageModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, PageRepositoryInterface $pageRepository, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
         $this->templateManager = $templateManager;
-        $this->pageModel = $pageModel;
+        $this->pageRepository = $pageRepository;
     }
 
     /**
@@ -122,7 +122,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      */
     public function setPageModel(PageRepositoryInterface $v)
     {
-        $this->pageModel = $v;
+        $this->pageRepository = $v;
 
         return $this;
     }
@@ -135,7 +135,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      */
     public function getPageModel()
     {
-        return $this->pageModel;
+        return $this->pageRepository;
     }
 
     /**
@@ -170,9 +170,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                         }
                     }
 
-                    $this->pageModel->startTransaction();
-                    $this->pageModel->setModelObject($this->alPage);
-                    $result = $this->pageModel->delete();
+                    $this->pageRepository->startTransaction();
+                    $this->pageRepository->setModelObject($this->alPage);
+                    $result = $this->pageRepository->delete();
                     if ($result) {
                         if (null !== $this->dispatcher) {
                             $event = new  Content\Page\BeforeDeletePageCommitEvent($this);
@@ -185,7 +185,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     }
 
                     if ($result) {
-                        $this->pageModel->commit();
+                        $this->pageRepository->commit();
 
                         if (null !== $this->dispatcher) {
                             $event = new  Content\Page\AfterPageDeletedEvent($this);
@@ -193,14 +193,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                         }
                     }
                     else {
-                        $this->pageModel->rollBack();
+                        $this->pageRepository->rollBack();
                     }
 
                     return $result;
                 }
                 catch(\Exception $e) {
-                    if (isset($this->pageModel) && $this->pageModel !== null) {
-                        $this->pageModel->rollBack();
+                    if (isset($this->pageRepository) && $this->pageRepository !== null) {
+                        $this->pageRepository->rollBack();
                     }
 
                     throw $e;
@@ -258,9 +258,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             $result = true;
-            $this->pageModel->startTransaction();
+            $this->pageRepository->startTransaction();
             if (null === $this->alPage) {
-                $className = $this->pageModel->getModelObjectClassName();
+                $className = $this->pageRepository->getModelObjectClassName();
                 $this->alPage = new $className();
             }
 
@@ -272,7 +272,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $values['PageName'] = AlToolkit::slugify($values['PageName']);
 
                 // Saves the page
-                $result = $this->pageModel
+                $result = $this->pageRepository
                             ->setModelObject($this->alPage)
                             ->save($values);
                 if ($result) {
@@ -288,7 +288,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             if ($result) {
-                $this->pageModel->commit();
+                $this->pageRepository->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Page\AfterPageAddedEvent($this);
@@ -296,14 +296,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 }
             }
             else {
-                $this->pageModel->rollBack();
+                $this->pageRepository->rollBack();
             }
 
             return $result;
         }
         catch(\Exception $e) {
-            if (isset($this->pageModel) && $this->pageModel !== null) {
-                $this->pageModel->rollBack();
+            if (isset($this->pageRepository) && $this->pageRepository !== null) {
+                $this->pageRepository->rollBack();
             }
 
             throw $e;
@@ -334,7 +334,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             $this->validator->checkEmptyParams($values);
-            $this->pageModel->startTransaction();
+            $this->pageRepository->startTransaction();
 
             if (isset($values['PageName']) && $values['PageName'] != "" && $this->alPage->getPageName() != $values['PageName']) {
                 $values['PageName'] = AlToolkit::slugify($values['PageName']);
@@ -362,7 +362,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
             if ($result) {
                 if (!empty($values)) {
-                    $result = $this->pageModel
+                    $result = $this->pageRepository
                                 ->setModelObject($this->alPage)
                                 ->save($values);
                 }
@@ -378,7 +378,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             if ($result) {
-                $this->pageModel->commit();
+                $this->pageRepository->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Page\AfterPageEditedEvent($this);
@@ -388,14 +388,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 return true;
             }
             else {
-                $this->pageModel->rollBack();
+                $this->pageRepository->rollBack();
 
                 return false;
             }
         }
         catch(\Exception $e) {
-            if (isset($this->pageModel) && $this->pageModel !== null) {
-                $this->pageModel->rollBack();
+            if (isset($this->pageRepository) && $this->pageRepository !== null) {
+                $this->pageRepository->rollBack();
             }
 
             throw $e;
@@ -411,9 +411,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     protected function resetHome()
     {
         try {
-            $page = $this->pageModel->homePage();
+            $page = $this->pageRepository->homePage();
             if (null !== $page) {
-                $result = $this->pageModel
+                $result = $this->pageRepository
                             ->setModelObject($page)
                             ->save(array('IsHome' => 0));
 

@@ -48,16 +48,16 @@ class AlSlotManager extends AlTemplateBase
      *
      * @param EventDispatcherInterface $dispatcher
      * @param AlSlot $slot
-     * @param BlockRepositoryInterface $blockModel
+     * @param BlockRepositoryInterface $blockRepository
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockRepositoryInterface $blockModel, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
         $this->slot = $slot;
-        $this->blockModel = $blockModel;
+        $this->blockRepository = $blockRepository;
     }
 
     /**
@@ -94,7 +94,7 @@ class AlSlotManager extends AlTemplateBase
      */
     public function setBlockModel(BlockRepositoryInterface $v)
     {
-        $this->blockModel = $v;
+        $this->blockRepository = $v;
 
         return $this;
     }
@@ -107,7 +107,7 @@ class AlSlotManager extends AlTemplateBase
      */
     public function getBlockModel()
     {
-        return $this->blockModel;
+        return $this->blockRepository;
     }
 
     /**
@@ -276,7 +276,7 @@ class AlSlotManager extends AlTemplateBase
 
             // Make sure that a content repeated at site level is never added twice
             if ($idPage == 1 && $idLanguage == 1) {
-                if(count($this->blockModel->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
+                if(count($this->blockRepository->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
                     return;
                 }
             }
@@ -287,7 +287,7 @@ class AlSlotManager extends AlTemplateBase
             }
 
             $result = true;
-            $this->blockModel->startTransaction();
+            $this->blockRepository->startTransaction();
 
             // Find the block position
             $leftArray = array();
@@ -336,7 +336,7 @@ class AlSlotManager extends AlTemplateBase
             }
 
             if ($result) {
-                $this->blockModel->commit();
+                $this->blockRepository->commit();
 
                 if (!empty($leftArray) || !empty($rightArray)) {
                     $index = $position - 1;
@@ -349,14 +349,14 @@ class AlSlotManager extends AlTemplateBase
                 $this->lastAdded = $alBlockManager;
             }
             else {
-                $this->blockModel->rollBack();
+                $this->blockRepository->rollBack();
             }
 
             return $result;
         }
         catch (\Exception $e) {
-            if (isset($this->blockModel) && $this->blockModel !== null) {
-                $this->blockModel->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;
@@ -377,21 +377,21 @@ class AlSlotManager extends AlTemplateBase
         $blockManager = $this->getBlockManager($idBlock);
         if ($blockManager != null) {
             try {
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
 
                 $result = $blockManager->save($values);
                 if ($result) {
-                    $this->blockModel->commit();
+                    $this->blockRepository->commit();
                 }
                 else {
-                    $this->blockModel->rollBack();
+                    $this->blockRepository->rollBack();
                 }
 
                 return $result;
             }
             catch (\Exception $e) {
-                if (isset($this->blockModel) && $this->blockModel !== null) {
-                    $this->blockModel->rollBack();
+                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;
@@ -418,7 +418,7 @@ class AlSlotManager extends AlTemplateBase
 
             try
             {
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
 
                 // Adjust the blocks position
                 $result = $this->adjustPosition('del', $rightArray);
@@ -427,20 +427,20 @@ class AlSlotManager extends AlTemplateBase
                 }
 
                 if ($result) {
-                    $this->blockModel->commit();
+                    $this->blockRepository->commit();
 
                     $this->blockManagers = array_merge($leftArray, $rightArray);
                 }
                 else {
-                    $this->blockModel->rollBack();
+                    $this->blockRepository->rollBack();
                 }
 
                 return $result;
             }
             catch(\Exception $e)
             {
-                if (isset($this->blockModel) && $this->blockModel !== null) {
-                    $this->blockModel->rollBack();
+                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;
@@ -462,7 +462,7 @@ class AlSlotManager extends AlTemplateBase
         {
             if(count($this->blockManagers) > 0) {
                 $result = null;
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
 
                 foreach($this->blockManagers as $blockManager) {
                     $result = $blockManager->delete();
@@ -472,13 +472,13 @@ class AlSlotManager extends AlTemplateBase
                 }
 
                 if ($result) {
-                    $this->blockModel->commit();
+                    $this->blockRepository->commit();
                     $this->blockManagers = array();
 
                     return true;
                 }
                 else {
-                    $this->blockModel->rollBack();
+                    $this->blockRepository->rollBack();
 
                     return false;
                 }
@@ -486,8 +486,8 @@ class AlSlotManager extends AlTemplateBase
         }
         catch(\Exception $e)
         {
-            if (isset($this->blockModel) && $this->blockModel !== null) {
-                $this->blockModel->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;
@@ -629,11 +629,11 @@ class AlSlotManager extends AlTemplateBase
 
             if (count($managers) > 0) {
                 $result = null;
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
                 foreach ($managers as $blockManager) {
                     $block = $blockManager->get();
                     $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
-                    $result = $this->blockModel
+                    $result = $this->blockRepository
                                     ->setModelObject($block)
                                     ->save(array("ContentPosition" => $position));
 
@@ -641,10 +641,10 @@ class AlSlotManager extends AlTemplateBase
                 }
 
                 if ($result) {
-                    $this->blockModel->commit();
+                    $this->blockRepository->commit();
                 }
                 else {
-                    $this->blockModel->rollBack();
+                    $this->blockRepository->rollBack();
                 }
 
                 return $result;
@@ -652,8 +652,8 @@ class AlSlotManager extends AlTemplateBase
         }
         catch(\Exception $e)
         {
-            if (isset($this->blockModel) && $this->blockModel !== null) {
-                $this->blockModel->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;

@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -29,17 +29,17 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
  */
 class LanguagesControllerTest extends WebTestCaseFunctional
 {
-    private $languageModel;
-    private $seoModel;
-    private $blockModel;
+    private $languageRepository;
+    private $seoRepository;
+    private $blockRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->languageModel = new AlLanguageRepositoryPropel();
-        $this->seoModel = new AlSeoRepositoryPropel();
-        $this->blockModel = new AlBlockRepositoryPropel();
+        $this->languageRepository = new AlLanguageRepositoryPropel();
+        $this->seoRepository = new AlSeoRepositoryPropel();
+        $this->blockRepository = new AlBlockRepositoryPropel();
     }
 
     public function testFormElements()
@@ -94,18 +94,18 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<option[^\>]+rel=\"en\"[^\>]+\>en\<\/option\>/s", $json[2]["value"]);
         $this->assertRegExp("/\<option[^\>]+rel=\"fr\"[^\>]+\>fr\<\/option\>/s", $json[2]["value"]);
 
-        $language = $this->languageModel->fromPk(3);
+        $language = $this->languageRepository->fromPk(3);
         $this->assertNotNull($language);
         $this->assertEquals('fr', $language->getLanguage());
         $this->assertEquals(0, $language->getMainLanguage());
 
-        $seo = $this->seoModel->fromPageAndLanguage(3, 2);
+        $seo = $this->seoRepository->fromPageAndLanguage(3, 2);
         $this->assertNotNull($seo);
         $this->assertEquals('this-is-a-website-fake-page', $seo->getPermalink());
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(count($pagesSlots), count($this->blockModel->retrieveContents(3, 2, $pagesSlots)));
+        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(3, 2, $pagesSlots)));
     }
 
     public function testLanguageJustAdded()
@@ -140,14 +140,14 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $this->assertEquals(3, count($this->languageModel->activeLanguages()));
-        $this->assertEquals(4, $this->languageModel->mainLanguage()->getId());
+        $this->assertEquals(3, count($this->languageRepository->activeLanguages()));
+        $this->assertEquals(4, $this->languageRepository->mainLanguage()->getId());
 
         // Previous home page has been degraded
-        $language = $this->languageModel->fromPk(2);
+        $language = $this->languageRepository->fromPk(2);
         $this->assertEquals(0, $language->getMainLanguage());
 
-        $seo = $this->seoModel->fromPageAndLanguage(4, 2);
+        $seo = $this->seoRepository->fromPageAndLanguage(4, 2);
         $this->assertNotNull($seo);
     }
 
@@ -162,7 +162,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $language = $this->languageModel->fromPk(3);
+        $language = $this->languageRepository->fromPk(3);
         $this->assertEquals('it', $language->getLanguage());
     }
 
@@ -192,7 +192,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
     public function testDeleteTheMainLanaguageIsForbidden()
     {
-        $language = $this->languageModel->mainLanguage();
+        $language = $this->languageRepository->mainLanguage();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'idLanguage' => $language->getId());
@@ -212,7 +212,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(2, count($this->languageModel->activeLanguages()));
+        $this->assertEquals(2, count($this->languageRepository->activeLanguages()));
 
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
@@ -234,15 +234,15 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<option[^\>]+rel=\"it\"[^\>]+\>it\<\/option\>/s", $json[2]["value"]);
         $this->assertRegExp("/\<option[^\>]+rel=\"es\"[^\>]+\>es\<\/option\>/s", $json[2]["value"]);
 
-        $page = $this->languageModel->fromPk(2);
+        $page = $this->languageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());
 
-        $seo = $this->seoModel->fromPageAndLanguage(2, 2);
+        $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNull($seo);
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(0, count($this->blockModel->retrieveContents(2, 2, $pagesSlots)));
+        $this->assertEquals(0, count($this->blockRepository->retrieveContents(2, 2, $pagesSlots)));
     }
 
     private function retrievePageSlots()

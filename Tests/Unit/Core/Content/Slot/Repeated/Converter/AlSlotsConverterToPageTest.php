@@ -44,23 +44,23 @@ class AlSlotsConverterToPageTest extends TestCase
         
         
         
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('getModelObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('setModelObject')
             ->will($this->returnSelf());
     }
@@ -72,7 +72,7 @@ class AlSlotsConverterToPageTest extends TestCase
             ->will($this->returnValue(array()));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertNull($converter->convert());
     }
     
@@ -82,25 +82,25 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollback');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save');
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2))));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertNull($converter->convert());
     }
     
@@ -110,26 +110,26 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollback');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2))));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertFalse($converter->convert());
     }
     
@@ -139,25 +139,25 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollback');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('save');
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(false));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertFalse($converter->convert());
     }
     
@@ -170,25 +170,25 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('rollback');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('save');
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->throwException(new \RuntimeException));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertFalse($converter->convert());
     }
     
@@ -202,37 +202,37 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block)));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2))));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('commit');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollback');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \RuntimeException));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertTrue($converter->convert());
     }
     
@@ -243,37 +243,37 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block)));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2))));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertTrue($converter->convert());
     }
     
@@ -286,37 +286,37 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block, $block1, $block2)));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2))));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->exactly(3))
+        $this->blockRepository->expects($this->exactly(3))
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertTrue($converter->convert());
     }
     
@@ -329,37 +329,37 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block, $block1, $block2)));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2), $this->setUpPage(3))));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->exactly(6))
+        $this->blockRepository->expects($this->exactly(6))
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertTrue($converter->convert());
     }
     
@@ -370,37 +370,37 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block)));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2), $this->setUpLanguage(3))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2))));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertTrue($converter->convert());
     }
     
@@ -413,37 +413,37 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block, $block1, $block2)));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2),$this->setUpLanguage(3))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2))));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->exactly(6))
+        $this->blockRepository->expects($this->exactly(6))
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertTrue($converter->convert());
     }
     
@@ -456,37 +456,37 @@ class AlSlotsConverterToPageTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array($block, $block1, $block2)));
         
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2), $this->setUpLanguage(3))));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->setUpPage(2), $this->setUpPage(3))));
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->exactly(12))
+        $this->blockRepository->expects($this->exactly(12))
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('retrieveContentsBySlotName')
             ->will($this->returnValue(array($this->setUpBlock())));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->returnValue(true));
         
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageModel, $this->pageModel, $this->blockModel);
+        $converter = new AlSlotConverterToPage($slot, $this->pageContents, $this->languageRepository, $this->pageRepository, $this->blockRepository);
         $this->assertTrue($converter->convert());
     }
     

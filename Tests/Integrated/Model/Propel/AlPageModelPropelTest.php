@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -27,32 +27,32 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
  */
 class AlPageRepositoryPropelTest extends Base\BaseModelPropel
 {
-    private $pageModel;
+    private $pageRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->pageModel = $container->get('page_model');
+        $this->pageRepository = $container->get('page_model');
     }
 
     public function testAPageIsRetrievedFromItsPrimaryKey()
     {
-        $page = $this->pageModel->fromPk(2);
+        $page = $this->pageRepository->fromPk(2);
         $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage', $page);
         $this->assertEquals(2, $page->getId());
     }
 
     public function testFetchTheActivePages()
     {
-        $pages = $this->pageModel->activePages();
+        $pages = $this->pageRepository->activePages();
         $this->assertEquals(2, count($pages));
     }
     
     public function testPageIsNullWhenANullValueIsGiven()
     {
-        $page = $this->pageModel->fromPageName(null);
+        $page = $this->pageRepository->fromPageName(null);
         $this->assertNull($page);
     }
     
@@ -61,19 +61,19 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
-        $this->pageModel->fromPageName(array('page1'));
+        $this->pageRepository->fromPageName(array('page1'));
     }
     
     public function testThePageIsRetrieved()
     {
         $pageName = 'page1';
-        $page = $this->pageModel->fromPageName($pageName);
+        $page = $this->pageRepository->fromPageName($pageName);
         $this->assertEquals($pageName, $page->getPageName());
     }
     
     public function testTheHomePageIsRetrieved()
     {
-        $page = $this->pageModel->homePage();
+        $page = $this->pageRepository->homePage();
         $this->assertEquals('index', $page->getPageName());
     }
 }

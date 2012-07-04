@@ -81,9 +81,9 @@ class PagesController extends Controller
             }
 
             $pageManager = $this->container->get('al_page_manager');
-            $pageModel = $pageManager->getPageModel();
+            $pageRepository = $pageManager->getPageModel();
             if ($request->get('pageId') != 'none') {
-                $alPage = $pageModel->fromPk($request->get('pageId'));
+                $alPage = $pageRepository->fromPk($request->get('pageId'));
 
                 // Refreshes the page manager using the given page to update
                 $pageContentsContainer = $pageManager->getTemplateManager()->getPageBlocks();

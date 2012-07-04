@@ -32,8 +32,8 @@ class EditSeoListenerTest extends BaseListenerTest
     private $testListener;
     private $pageManager;
     private $seoManager;
-    private $pageModel;
-    private $seoModel;
+    private $pageRepository;
+    private $seoRepository;
     private $templateManager;
     private $pageContents;
     
@@ -46,11 +46,11 @@ class EditSeoListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->seoModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
@@ -100,7 +100,7 @@ class EditSeoListenerTest extends BaseListenerTest
         
     public function testAnythingIsMadeWhenTheSeoObjectIsNotFound()
     {
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('startTransaction');
         
         $this->event->expects($this->once())
@@ -119,7 +119,7 @@ class EditSeoListenerTest extends BaseListenerTest
         $this->seoManager->expects($this->never())
             ->method('save');
         
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue(null));
         
@@ -128,10 +128,10 @@ class EditSeoListenerTest extends BaseListenerTest
     
     public function testSaveFailsWhenAttributesAreNotSaved()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $this->event->expects($this->once())
@@ -152,7 +152,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue(false));
         
         $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');  
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
         
@@ -164,10 +164,10 @@ class EditSeoListenerTest extends BaseListenerTest
      */
     public function testSaveFailsBecauseAndUnespectedExceptionIsThrown()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $this->event->expects($this->once())
@@ -188,7 +188,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->will($this->throwException(new \RuntimeException()));
         
         $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');  
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
         
@@ -197,13 +197,13 @@ class EditSeoListenerTest extends BaseListenerTest
     
     public function testSave()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
         
         $this->event->expects($this->once())
@@ -224,7 +224,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue(true));
         
         $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');  
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
         
@@ -243,7 +243,7 @@ class EditSeoListenerTest extends BaseListenerTest
         
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
         
         $this->pageManager->expects($this->once())
             ->method('getTemplateManager')
@@ -260,6 +260,6 @@ class EditSeoListenerTest extends BaseListenerTest
         
         $this->seoManager->expects($this->once())
             ->method('getSeoModel')
-            ->will($this->returnValue($this->seoModel));
+            ->will($this->returnValue($this->seoRepository));
     }
 }

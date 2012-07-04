@@ -37,7 +37,7 @@ class AlSlotConverterToSite extends AlSlotConverterBase
         {
             try
             {
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
                 $result = $this->deleteBlocks();
                 if (false !== $result) {
                     foreach($this->arrayBlocks as $block)
@@ -47,11 +47,11 @@ class AlSlotConverterToSite extends AlSlotConverterBase
 
                     if ($result)
                     {
-                        $this->blockModel->commit();
+                        $this->blockRepository->commit();
                     }
                     else
                     {
-                        $this->blockModel->rollBack();
+                        $this->blockRepository->rollBack();
                     }
                 }
                 
@@ -59,8 +59,8 @@ class AlSlotConverterToSite extends AlSlotConverterBase
             }
             catch(\Exception $e)
             {
-                if(isset($this->blockModel) && $this->blockModel !== null) {
-                    $this->blockModel->rollBack();
+                if(isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;
