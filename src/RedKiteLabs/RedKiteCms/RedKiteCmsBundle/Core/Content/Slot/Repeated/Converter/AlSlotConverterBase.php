@@ -17,17 +17,17 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
  * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
@@ -51,11 +51,11 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      *
      * @param AlSlot $slot
      * @param AlPageBlocksInterface $pageContentsContainer
-     * @param LanguageModelInterface $languageModel
-     * @param PageModelInterface $pageModel
-     * @param BlockModelInterface $blockModel
+     * @param LanguageRepositoryInterface $languageModel
+     * @param PageRepositoryInterface $pageModel
+     * @param BlockRepositoryInterface $blockModel
      */
-    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
+    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageModel, PageRepositoryInterface $pageModel, BlockRepositoryInterface $blockModel)
     {
         $this->slot = $slot;
         $this->pageContentsContainer = $pageContentsContainer;

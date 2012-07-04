@@ -19,9 +19,9 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Fa
 
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Slot\SameRepeatedStatusException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
@@ -41,11 +41,11 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
      * Constructor
      * 
      * @param AlPageBlocksInterface $pageContentsContainer
-     * @param LanguageModelInterface $languageModel
-     * @param PageModelInterface $pageModel
-     * @param BlockModelInterface $blockModel 
+     * @param LanguageRepositoryInterface $languageModel
+     * @param PageRepositoryInterface $pageModel
+     * @param BlockRepositoryInterface $blockModel 
      */
-    public function __construct(AlPageBlocksInterface $pageContentsContainer, LanguageModelInterface $languageModel, PageModelInterface $pageModel, BlockModelInterface $blockModel)
+    public function __construct(AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageModel, PageRepositoryInterface $pageModel, BlockRepositoryInterface $blockModel)
     {
         $this->pageContentsContainer = $pageContentsContainer;
         $this->languageModel = $languageModel;

@@ -18,9 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlSeoModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * CmsControllerTest
@@ -57,9 +57,9 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $this->pageModel = new AlPageModelPropel();
-        $this->seoModel = new AlSeoModelPropel();
-        $this->blockModel = new AlBlockModelPropel();
+        $this->pageModel = new AlPageRepositoryPropel();
+        $this->seoModel = new AlSeoRepositoryPropel();
+        $this->blockModel = new AlBlockRepositoryPropel();
     }
 
     public function testOpeningAPageThatDoesNotExistShowsTheDefaultWelcomePage()

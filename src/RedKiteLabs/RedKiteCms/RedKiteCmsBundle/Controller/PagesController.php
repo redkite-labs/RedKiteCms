@@ -25,9 +25,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\SeoForm;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
 
 class PagesController extends Controller
 {

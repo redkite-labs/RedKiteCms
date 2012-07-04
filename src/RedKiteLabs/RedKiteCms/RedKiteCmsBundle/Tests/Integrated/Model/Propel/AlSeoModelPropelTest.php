@@ -21,11 +21,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
 
 
 /**
- * AlSeoModelPropelTest
+ * AlSeoRepositoryPropelTest
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlSeoModelPropelTest extends Base\BaseModelPropel
+class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
 {
     private $seoModel;
 

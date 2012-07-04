@@ -18,14 +18,14 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues;
 
 use Symfony\Component\Finder\Finder;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlThemeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlThemeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\ThemeModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\ThemeRepositoryInterface;
 
 /**
  * Retrieves form the database the values used in the forms
@@ -34,7 +34,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\ThemeModelInterface;
  */
 class ChoiceValues
 {
-    public static function getPages(PageModelInterface $pageModel, $withNoneOption = true)
+    public static function getPages(PageRepositoryInterface $pageModel, $withNoneOption = true)
     {
         $result = array();
         if($withNoneOption) $pages["none"] = " ";
@@ -47,7 +47,7 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getLanguages(LanguageModelInterface $languageModel, $withNoneOption = true)
+    public static function getLanguages(LanguageRepositoryInterface $languageModel, $withNoneOption = true)
     {
         $result = array();
         if($withNoneOption) $languages["none"] = " ";
@@ -60,7 +60,7 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getTemplates(ThemeModelInterface $themeModel)
+    public static function getTemplates(ThemeRepositoryInterface $themeModel)
     {
         // Default templates
         $templates = array("none" => " ");

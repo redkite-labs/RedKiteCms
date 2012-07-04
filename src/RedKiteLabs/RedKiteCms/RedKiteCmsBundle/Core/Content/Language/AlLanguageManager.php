@@ -18,10 +18,10 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language;
 
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\LanguageEvents;
@@ -33,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesM
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
@@ -52,10 +52,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param LanguageModelInterface $languageModel
+     * @param LanguageRepositoryInterface $languageModel
      * @param AlParametersValidatorLanguageManager $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, LanguageModelInterface $languageModel, AlParametersValidatorLanguageManager $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, LanguageRepositoryInterface $languageModel, AlParametersValidatorLanguageManager $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
@@ -88,10 +88,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Sets the language model object
      *
      * @api
-     * @param LanguageModelInterface $v
+     * @param LanguageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager
      */
-    public function setLanguageModel(LanguageModelInterface $v)
+    public function setLanguageModel(LanguageRepositoryInterface $v)
     {
         $this->languageModel = $v;
 
@@ -101,7 +101,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Returns the block model object associated with this object
      *
-     * @return LanguageModelInterface
+     * @return LanguageRepositoryInterface
      */
     public function getLanguageModel()
     {

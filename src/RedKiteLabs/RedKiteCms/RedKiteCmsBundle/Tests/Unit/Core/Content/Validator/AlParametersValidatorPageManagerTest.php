@@ -33,8 +33,8 @@ class AlParametersValidatorPagesManager extends TestCase
     
     protected function setUp() 
     {
-        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface');
-        $this->pageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface');        
+        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
+        $this->pageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface');        
         $this->validator = new AlParametersValidatorPageManager($this->languageModel, $this->pageModel);
     }
     

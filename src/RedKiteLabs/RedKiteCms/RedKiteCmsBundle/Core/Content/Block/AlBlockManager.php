@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
@@ -27,9 +27,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * AlBlockManager is the object responsible to manage an AlBlock object.
@@ -53,14 +53,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param BlockModelInterface $blockModel
+     * @param BlockRepositoryInterface $blockModel
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, BlockRepositoryInterface $blockModel = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
-        $this->blockModel = (null === $blockModel) ? new AlBlockModelPropel() : $blockModel;
+        $this->blockModel = (null === $blockModel) ? new AlBlockRepositoryPropel() : $blockModel;
     }
 
     /**
@@ -106,10 +106,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Sets the block model object
      *
      * @api
-     * @param BlockModelInterface $v
+     * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
      */
-    public function setBlockModel(BlockModelInterface $v)
+    public function setBlockModel(BlockRepositoryInterface $v)
     {
         $this->blockModel = $v;
 
@@ -120,7 +120,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Returns the block model object associated with this object
      *
      * @api
-     * @return BlockModelInterface
+     * @return BlockRepositoryInterface
      */
     public function getBlockModel()
     {

@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPage;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPage;
 
 use Symfony\Bundle\AsseticBundle\Tests\TestKernel;
 
@@ -137,7 +137,7 @@ class AlBlockManagerFactoryTest extends TestCase
 
     private function setupBaseBlockManager()
     {
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel')
+        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

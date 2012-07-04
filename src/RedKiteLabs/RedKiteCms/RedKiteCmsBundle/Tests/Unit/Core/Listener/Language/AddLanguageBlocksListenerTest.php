@@ -29,7 +29,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel')
+        $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

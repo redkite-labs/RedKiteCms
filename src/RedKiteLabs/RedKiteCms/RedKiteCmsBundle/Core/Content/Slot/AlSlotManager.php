@@ -20,10 +20,10 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
@@ -48,11 +48,11 @@ class AlSlotManager extends AlTemplateBase
      *
      * @param EventDispatcherInterface $dispatcher
      * @param AlSlot $slot
-     * @param BlockModelInterface $blockModel
+     * @param BlockRepositoryInterface $blockModel
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockModelInterface $blockModel, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockRepositoryInterface $blockModel, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
@@ -89,10 +89,10 @@ class AlSlotManager extends AlTemplateBase
      * Sets the block model object
      *
      * @api
-     * @param BlockModelInterface $v
+     * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
-    public function setBlockModel(BlockModelInterface $v)
+    public function setBlockModel(BlockRepositoryInterface $v)
     {
         $this->blockModel = $v;
 

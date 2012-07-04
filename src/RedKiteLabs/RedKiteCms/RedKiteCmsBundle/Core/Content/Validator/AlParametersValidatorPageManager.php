@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
  * AlParametersValidatorPageManager adds specific validations for pages
@@ -36,9 +36,9 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Constructor
      *
-     * @param PageModelInterface $pageModel
+     * @param PageRepositoryInterface $pageModel
      */
-    public function __construct(LanguageModelInterface $languageModel, PageModelInterface $pageModel)
+    public function __construct(LanguageRepositoryInterface $languageModel, PageRepositoryInterface $pageModel)
     {
         parent::__construct($languageModel);
 
@@ -48,10 +48,10 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Sets the page model object
      *
-     * @param PageModelInterface $v
+     * @param PageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
      */
-    public function setPageModel(PageModelInterface $v)
+    public function setPageModel(PageRepositoryInterface $v)
     {
         $this->pageModel = $v;
 
@@ -61,7 +61,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Returns the page model object
      *
-     * @return PageModelInterface
+     * @return PageRepositoryInterface
      */
     public function getPageModel()
     {

@@ -21,11 +21,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
 
 
 /**
- * AlThemeModelPropelTest
+ * AlThemeRepositoryPropelTest
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlThemeModelPropelTest extends Base\BaseModelPropel
+class AlThemeRepositoryPropelTest extends Base\BaseModelPropel
 {
     private $themeModel;
 

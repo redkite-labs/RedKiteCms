@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Theme;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlTheme;
-use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlTheme;
+use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
 use Symfony\Bundle\FrameworkBundle\Util\Filesystem;
 use Symfony\Component\DependencyInjection\Exception;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;

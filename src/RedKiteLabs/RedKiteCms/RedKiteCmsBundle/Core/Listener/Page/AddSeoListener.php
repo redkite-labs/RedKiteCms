@@ -19,8 +19,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\SeoModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when a new page is added
@@ -36,9 +36,9 @@ class AddSeoListener
      * Constructor
      *
      * @param AlSeoManager $seoManager
-     * @param LanguageModelInterface $languageModel
+     * @param LanguageRepositoryInterface $languageModel
      */
-    public function __construct(AlSeoManager $seoManager, LanguageModelInterface $languageModel)
+    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageModel)
     {
         $this->seoManager = $seoManager;
         $this->languageModel = $languageModel;

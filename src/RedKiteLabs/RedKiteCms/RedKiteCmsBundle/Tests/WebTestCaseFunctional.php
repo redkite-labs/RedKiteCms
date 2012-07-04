@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page as Listener;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
@@ -71,10 +71,10 @@ class WebTestCaseFunctional extends WebTestCase {
         }
 
         $dispatcher = new EventDispatcher();
-        $seoModel = new Propel\AlSeoModelPropel();
-        $languageModel = new Propel\AlLanguageModelPropel();
-        $pageModel = new Propel\AlPageModelPropel();
-        $blockModel = new Propel\AlBlockModelPropel();
+        $seoModel = new Propel\AlSeoRepositoryPropel();
+        $languageModel = new Propel\AlLanguageRepositoryPropel();
+        $pageModel = new Propel\AlPageRepositoryPropel();
+        $blockModel = new Propel\AlBlockRepositoryPropel();
 
         $client = static::createClient(array(
             'environment' => 'alcms_test',

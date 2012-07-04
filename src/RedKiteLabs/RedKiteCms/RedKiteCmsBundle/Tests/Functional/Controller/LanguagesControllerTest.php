@@ -18,9 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlSeoModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * LanguagesControllerTest
@@ -37,9 +37,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $this->languageModel = new AlLanguageModelPropel();
-        $this->seoModel = new AlSeoModelPropel();
-        $this->blockModel = new AlBlockModelPropel();
+        $this->languageModel = new AlLanguageRepositoryPropel();
+        $this->seoModel = new AlSeoRepositoryPropel();
+        $this->blockModel = new AlBlockRepositoryPropel();
     }
 
     public function testFormElements()

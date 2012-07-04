@@ -27,9 +27,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\PageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\pageModel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\pageModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
@@ -55,10 +55,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * @param EventDispatcherInterface $dispatcher
      * @param AlTemplateManager $templateManager
-     * @param PageModelInterface $pageModel
+     * @param PageRepositoryInterface $pageModel
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, PageModelInterface $pageModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, PageRepositoryInterface $pageModel, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
@@ -117,10 +117,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Sets the page model object
      *
      * @api
-     * @param PageModelInterface $v
+     * @param PageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
      */
-    public function setPageModel(PageModelInterface $v)
+    public function setPageModel(PageRepositoryInterface $v)
     {
         $this->pageModel = $v;
 
@@ -131,7 +131,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Returns the page model object associated with this object
      *
      * @api
-     * @return PageModelInterface
+     * @return PageRepositoryInterface
      */
     public function getPageModel()
     {
