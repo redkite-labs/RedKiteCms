@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInt
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- *  Adds some filters to the AlBlockQuery object
+ *  Implements the BlockRepositoryInterface to work with Propel
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */

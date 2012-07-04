@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInte
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- *  Adds some filters to the AlPageQuery object
+ *  Implements the PageRepositoryInterface to work with Propel
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
@@ -81,7 +81,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
         {
             return null;
         }
-        
+
         if (!is_string($pageName))
         {
           throw new \InvalidArgumentException('The name of the page must be a string. The page cannot be retrieved');

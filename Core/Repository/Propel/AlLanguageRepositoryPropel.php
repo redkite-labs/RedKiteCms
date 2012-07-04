@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- *  Adds some filters to the AlLanguageQuery object
+ *  Implements the LanguageRepositoryInterface to work with Propel
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
