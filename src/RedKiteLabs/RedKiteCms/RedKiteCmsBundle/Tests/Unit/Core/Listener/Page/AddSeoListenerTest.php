@@ -31,8 +31,8 @@ class AddSeoListenerTest extends BaseListenerTest
     protected $testListener;
     protected $pageManager;
     protected $seoManager;
-    protected $pageModel;
-    protected $languageModel;
+    protected $pageRepository;
+    protected $languageRepository;
 
     protected function setUp()
     {
@@ -50,15 +50,15 @@ class AddSeoListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->testListener = new AddSeoListener($this->seoManager, $this->languageModel);
+        $this->testListener = new AddSeoListener($this->seoManager, $this->languageRepository);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
@@ -83,7 +83,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue('fake'));
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('startTransaction');
 
         $this->testListener->onBeforeAddPageCommit($this->event);
@@ -91,13 +91,13 @@ class AddSeoListenerTest extends BaseListenerTest
 
     public function testNothingIsAddedWhenAnyLanguageExists()
     {
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('commit');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollBack');
 
         $this->event->expects($this->once())
@@ -111,13 +111,13 @@ class AddSeoListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array()));
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeAddPageCommit($this->event);
     }
@@ -127,10 +127,10 @@ class AddSeoListenerTest extends BaseListenerTest
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
 
         $this->event->expects($this->once())
@@ -144,7 +144,7 @@ class AddSeoListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
@@ -154,7 +154,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->once())
             ->method('save')
@@ -171,10 +171,10 @@ class AddSeoListenerTest extends BaseListenerTest
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollback');
 
         $this->event->expects($this->once())
@@ -188,7 +188,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array()));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
@@ -198,7 +198,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->once())
             ->method('save')
@@ -212,13 +212,13 @@ class AddSeoListenerTest extends BaseListenerTest
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
 
         $this->event->expects($this->once())
@@ -229,7 +229,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array()));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
@@ -239,7 +239,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->once())
             ->method('save')
@@ -254,10 +254,10 @@ class AddSeoListenerTest extends BaseListenerTest
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
 
         $this->event->expects($this->once())
@@ -271,7 +271,7 @@ class AddSeoListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
 
@@ -281,7 +281,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->exactly(2))
             ->method('save')
@@ -296,13 +296,13 @@ class AddSeoListenerTest extends BaseListenerTest
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
 
         $this->event->expects($this->once())
@@ -313,7 +313,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array()));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
 
@@ -323,7 +323,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->exactly(2))
             ->method('save')

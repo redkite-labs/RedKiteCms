@@ -60,7 +60,7 @@ class AlTemplateManagerTest extends TestCase
         $this->blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText')
                                 ->disableOriginalConstructor()
                                 ->getMock();
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -80,7 +80,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array()));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -104,7 +104,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getBlocks')
                 ->will($this->returnValue(array()));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -135,7 +135,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -165,7 +165,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test1' => array($block))));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -204,7 +204,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('save')
             ->will($this->onConsecutiveCalls(true, false));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -217,10 +217,10 @@ class AlTemplateManagerTest extends TestCase
      */
     public function testPopulateThrownAnUnespectedException()
     {
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('rollBack');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -245,7 +245,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         $templateManager->populate(2, 2);
@@ -253,13 +253,13 @@ class AlTemplateManagerTest extends TestCase
 
     public function testPopulate()
     {
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -284,7 +284,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('save')
             ->will($this->returnValue(true));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -298,7 +298,7 @@ class AlTemplateManagerTest extends TestCase
                 ->method('getSlots')
                 ->will($this->returnValue(array()));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -311,10 +311,10 @@ class AlTemplateManagerTest extends TestCase
      */
     public function testClearBlocksThrownAnUnespectedException()
     {
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -339,7 +339,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->throwException(new \RuntimeException()));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -349,10 +349,10 @@ class AlTemplateManagerTest extends TestCase
 
     public function testClearBlocksFailsWhenDeleteFailsAtLast()
     {
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -377,7 +377,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(false));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -387,13 +387,13 @@ class AlTemplateManagerTest extends TestCase
 
     public function testClearBlocks()
     {
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly(2))
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -418,7 +418,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -428,13 +428,13 @@ class AlTemplateManagerTest extends TestCase
 
     public function testClearBlocksForAllSlots()
     {
-        $this->blockModel->expects($this->exactly(5))
+        $this->blockRepository->expects($this->exactly(5))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(5))
+        $this->blockRepository->expects($this->exactly(5))
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'language')),
@@ -462,7 +462,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -472,13 +472,13 @@ class AlTemplateManagerTest extends TestCase
 
     public function testClearBlocksIgnoringRepeatedSlots()
     {
-        $this->blockModel->expects($this->exactly(3))
+        $this->blockRepository->expects($this->exactly(3))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(3))
+        $this->blockRepository->expects($this->exactly(3))
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'language')),
@@ -506,7 +506,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -516,10 +516,10 @@ class AlTemplateManagerTest extends TestCase
 
     public function testClearPageBlocksFailsWhenBlocksRemovingFails()
     {
-         $this->blockModel->expects($this->exactly(3))
+         $this->blockRepository->expects($this->exactly(3))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(3))
+        $this->blockRepository->expects($this->exactly(3))
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -554,7 +554,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(false));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -567,10 +567,10 @@ class AlTemplateManagerTest extends TestCase
      */
     public function testClearPageBlocksFailsWhenAnUnexpectedExceptionIsThrown()
     {
-         $this->blockModel->expects($this->exactly(3))
+         $this->blockRepository->expects($this->exactly(3))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(3))
+        $this->blockRepository->expects($this->exactly(3))
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -605,7 +605,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->throwException(new \RuntimeException()));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -615,13 +615,13 @@ class AlTemplateManagerTest extends TestCase
 
     public function testClearPageBlocks()
     {
-         $this->blockModel->expects($this->exactly(3))
+         $this->blockRepository->expects($this->exactly(3))
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->exactly(3))
+        $this->blockRepository->expects($this->exactly(3))
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
 
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -656,7 +656,7 @@ class AlTemplateManagerTest extends TestCase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockModel, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->template, $this->pageContents, $this->blockRepository, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 

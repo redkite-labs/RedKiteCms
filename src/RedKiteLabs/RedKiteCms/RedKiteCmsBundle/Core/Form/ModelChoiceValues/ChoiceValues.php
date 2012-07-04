@@ -34,11 +34,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\ThemeRepositoryInt
  */
 class ChoiceValues
 {
-    public static function getPages(PageRepositoryInterface $pageModel, $withNoneOption = true)
+    public static function getPages(PageRepositoryInterface $pageRepository, $withNoneOption = true)
     {
         $result = array();
         if($withNoneOption) $pages["none"] = " ";
-        $pages = $pageModel->activePages();
+        $pages = $pageRepository->activePages();
         foreach($pages as $page)
         {
             $result[$page->getId()] = $page->getPageName();
@@ -47,11 +47,11 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getLanguages(LanguageRepositoryInterface $languageModel, $withNoneOption = true)
+    public static function getLanguages(LanguageRepositoryInterface $languageRepository, $withNoneOption = true)
     {
         $result = array();
         if($withNoneOption) $languages["none"] = " ";
-        $languages = $languageModel->activeLanguages();
+        $languages = $languageRepository->activeLanguages();
         foreach($languages as $language)
         {
             $result[$language->getId()] = $language->getLanguage();
@@ -60,13 +60,13 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getTemplates(ThemeRepositoryInterface $themeModel)
+    public static function getTemplates(ThemeRepositoryInterface $themeRepository)
     {
         // Default templates
         $templates = array("none" => " ");
         
         // Find the current active theme
-        $theme = $themeModel->activeBackend(); 
+        $theme = $themeRepository->activeBackend(); 
         if(null === $theme) return $templates;
         
         $composer = new BundlesAutoloaderComposer('AlphaLemon\\Theme' );

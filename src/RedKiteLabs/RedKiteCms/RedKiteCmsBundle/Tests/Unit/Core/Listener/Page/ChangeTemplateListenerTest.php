@@ -31,7 +31,7 @@ class ChangeTemplateListenerTest extends BaseListenerTest
     private $event;
     private $testListener;
     private $pageManager;
-    private $blockModel;
+    private $blockRepository;
     private $templateManager;
     private $pageContents;
     private $templateSlotsFactory;
@@ -46,11 +46,11 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -122,13 +122,13 @@ class ChangeTemplateListenerTest extends BaseListenerTest
             ->method('getValues')
             ->will($this->returnValue(array('TemplateName' => 'new')));
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollBack');
 
         $this->testListener->onBeforeEditPageCommit($this->event);
@@ -144,13 +144,13 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
 
         $this->templateChanger->expects($this->once())
@@ -167,13 +167,13 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('commit');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
 
         $this->templateChanger->expects($this->once())
@@ -190,13 +190,13 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('commit');
 
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollBack');
 
         $this->templateChanger->expects($this->once())
@@ -230,7 +230,7 @@ class ChangeTemplateListenerTest extends BaseListenerTest
 
         $this->templateManager->expects($this->once())
             ->method('getBlockModel')
-            ->will($this->returnValue($this->blockModel));
+            ->will($this->returnValue($this->blockRepository));
 
         $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
                             ->disableOriginalConstructor()

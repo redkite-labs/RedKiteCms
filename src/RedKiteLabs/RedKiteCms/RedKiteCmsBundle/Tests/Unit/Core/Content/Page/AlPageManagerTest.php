@@ -47,15 +47,15 @@ class AlPageManagerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->pageModel->expects($this->any())
+        $this->pageRepository->expects($this->any())
             ->method('getModelObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage'));
         
-        $this->pageManager = new AlPageManager($this->dispatcher, $this->templateManager, $this->pageModel, $this->validator);
+        $this->pageManager = new AlPageManager($this->dispatcher, $this->templateManager, $this->pageRepository, $this->validator);
     }
     
     /**
@@ -200,13 +200,13 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollback');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
@@ -214,7 +214,7 @@ class AlPageManagerTest extends TestCase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
         
@@ -244,22 +244,22 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue(true));
         
         $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
         
-        $this->pageModel->expects($this->once(1))
+        $this->pageRepository->expects($this->once(1))
             ->method('setModelObject')
             ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $params = array('PageName'      => 'fake page', 
@@ -278,13 +278,13 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
@@ -292,7 +292,7 @@ class AlPageManagerTest extends TestCase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
@@ -321,22 +321,22 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue(true));
         
         $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
         
-        $this->pageModel->expects($this->once(1))
+        $this->pageRepository->expects($this->once(1))
             ->method('setModelObject')
             ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $params = array('PageName'      => 'fake page', 
@@ -364,25 +364,25 @@ class AlPageManagerTest extends TestCase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->exactly(2))
+        $this->pageRepository->expects($this->exactly(2))
             ->method('save')
             ->will($this->returnValue(true));
         
         $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
         
-        $this->pageModel->expects($this->exactly(2))
+        $this->pageRepository->expects($this->exactly(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
@@ -407,20 +407,20 @@ class AlPageManagerTest extends TestCase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
@@ -447,7 +447,7 @@ class AlPageManagerTest extends TestCase
             ->method('checkEmptyParams')
             ->will($this->throwException(new General\EmptyParametersException()));
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('save');
         
         $params = array();
@@ -468,18 +468,18 @@ class AlPageManagerTest extends TestCase
             ->method('getPageName')
             ->will($this->returnValue('fake-page'));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $params = array('PageName' => 'fake page');
@@ -496,17 +496,17 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollback');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
         
@@ -534,21 +534,21 @@ class AlPageManagerTest extends TestCase
             ->method('getPageName')
             ->will($this->returnValue('fake-page'));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
         
         $params = array('PageName' => 'fake page');
@@ -568,23 +568,23 @@ class AlPageManagerTest extends TestCase
             ->with(1)
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
         $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
@@ -611,22 +611,22 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue(true));
         
         $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
         
-        $this->pageModel->expects($this->once(1))
+        $this->pageRepository->expects($this->once(1))
             ->method('setModelObject')
             ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
@@ -648,26 +648,26 @@ class AlPageManagerTest extends TestCase
             ->method('hasPages')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->exactly(2))
+        $this->pageRepository->expects($this->exactly(2))
             ->method('save')
             ->will($this->returnValue(true));
         
         $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
         
-        $this->pageModel->expects($this->exactly(2))
+        $this->pageRepository->expects($this->exactly(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
         
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
@@ -686,21 +686,21 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
                 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once(2))
+        $this->pageRepository->expects($this->once(2))
                 ->method('setModelObject')
                 ->will($this->returnSelf());
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
         
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
@@ -751,14 +751,14 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->returnValue(false));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
         
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
@@ -779,13 +779,13 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollback');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->throwException(new \RuntimeException()));
         
@@ -803,17 +803,17 @@ class AlPageManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->returnValue(true));
         
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
         
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
         
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');

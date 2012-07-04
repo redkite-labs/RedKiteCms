@@ -28,12 +28,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInter
  */
 class UpdatePermalinkOnBlocksListener
 {
-    private $blockModel;
+    private $blockRepository;
     private $blocksFactory;
 
-    public function __construct(AlBlockRepositoryPropel $blockModel, AlBlockManagerFactoryInterface $blocksFactory)
+    public function __construct(AlBlockRepositoryPropel $blockRepository, AlBlockManagerFactoryInterface $blocksFactory)
     {
-        $this->blockModel = $blockModel;
+        $this->blockRepository = $blockRepository;
         $this->blocksFactory = $blocksFactory;
     }
 
@@ -57,10 +57,10 @@ class UpdatePermalinkOnBlocksListener
 
         if (array_key_exists("oldPermalink", $values)) {
             $result = true;
-            $alBlocks = $this->blockModel->fromHtmlContent($values["oldPermalink"]);
+            $alBlocks = $this->blockRepository->fromHtmlContent($values["oldPermalink"]);
             if (count($alBlocks) > 0) {
                 try {
-                    $this->blockModel->startTransaction();
+                    $this->blockRepository->startTransaction();
                     foreach($alBlocks as $alBlock) {
                         $htmlContent = preg_replace('/' . $values["oldPermalink"] . '/s', $values["Permalink"], $alBlock->getHtmlContent());
                         $blockManager = $this->blocksFactory->createBlockManager($alBlock);
@@ -72,10 +72,10 @@ class UpdatePermalinkOnBlocksListener
                     }
 
                     if ($result) {
-                        $this->blockModel->commit();
+                        $this->blockRepository->commit();
                     }
                     else {
-                        $this->blockModel->rollBack();
+                        $this->blockRepository->rollBack();
 
                         $event->abort();
                     }
@@ -83,8 +83,8 @@ class UpdatePermalinkOnBlocksListener
                 catch(\Exception $e) {
                     $event->abort();
 
-                    if (isset($this->blockModel) && $this->blockModel !== null) {
-                        $this->blockModel->rollBack();
+                    if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                        $this->blockRepository->rollBack();
                     }
 
                     throw $e;

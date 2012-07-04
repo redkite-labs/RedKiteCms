@@ -28,19 +28,19 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorP
 class AlParametersValidatorPagesManager extends TestCase 
 {    
     private $validator;
-    private $languageModel;
-    private $pageModel;
+    private $languageRepository;
+    private $pageRepository;
     
     protected function setUp() 
     {
-        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
-        $this->pageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface');        
-        $this->validator = new AlParametersValidatorPageManager($this->languageModel, $this->pageModel);
+        $this->languageRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
+        $this->pageRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface');        
+        $this->validator = new AlParametersValidatorPageManager($this->languageRepository, $this->pageRepository);
     }
     
     public function testHasPagesReturnsFalseWhenAnyLanguageExist()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(null));
         
@@ -49,7 +49,7 @@ class AlParametersValidatorPagesManager extends TestCase
     
     public function testHasPagesReturnsTrueWhenAtLeastALanguageExist()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array('fake')));
         
@@ -58,7 +58,7 @@ class AlParametersValidatorPagesManager extends TestCase
     
     public function testHasPagesReturnsFalseWhenNumberOfPagesIsNotHigherThanTheMinimunRequired()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array('fake')));
         
@@ -67,7 +67,7 @@ class AlParametersValidatorPagesManager extends TestCase
     
     public function testHasPagesReturnsTrueWhenNumberOfPagesIsHigherThanTheMinimunRequired()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array('fake', 'fake1')));
         
@@ -76,7 +76,7 @@ class AlParametersValidatorPagesManager extends TestCase
     
     public function testLanguageExistsReturnsFalseWhenTheRequiredLanguageDoesNotExist()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPageName')
             ->will($this->returnValue(null));
         
@@ -85,7 +85,7 @@ class AlParametersValidatorPagesManager extends TestCase
     
     public function testLanguageExistsReturnsTrueWhenTheRequiredLanguageExists()
     {
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPageName')
             ->will($this->returnValue(array('fake')));
         

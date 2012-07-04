@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -29,9 +29,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
  */
 class CmsControllerTest extends WebTestCaseFunctional
 {
-    private $pageModel;
-    private $seoModel;
-    private $blockModel;
+    private $pageRepository;
+    private $seoRepository;
+    private $blockRepository;
 
     public static function setUpBeforeClass()
     {
@@ -57,9 +57,9 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $this->pageModel = new AlPageRepositoryPropel();
-        $this->seoModel = new AlSeoRepositoryPropel();
-        $this->blockModel = new AlBlockRepositoryPropel();
+        $this->pageRepository = new AlPageRepositoryPropel();
+        $this->seoRepository = new AlSeoRepositoryPropel();
+        $this->blockRepository = new AlBlockRepositoryPropel();
     }
 
     public function testOpeningAPageThatDoesNotExistShowsTheDefaultWelcomePage()
@@ -158,7 +158,7 @@ class CmsControllerTest extends WebTestCaseFunctional
             <li><a href="page1">page1</a></li>
         </ul>';
 
-        $block = $this->blockModel->fromPK(2);
+        $block = $this->blockRepository->fromPK(2);
         $block->setClassName('Text');
         $block->setHtmlContent($menu);
         $block->save();

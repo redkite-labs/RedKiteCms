@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -31,18 +31,18 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInte
  */
 class AlParametersValidatorPageManager extends AlParametersValidatorLanguageManager
 {
-    protected $pageModel;
+    protected $pageRepository;
 
     /**
      * Constructor
      *
-     * @param PageRepositoryInterface $pageModel
+     * @param PageRepositoryInterface $pageRepository
      */
-    public function __construct(LanguageRepositoryInterface $languageModel, PageRepositoryInterface $pageModel)
+    public function __construct(LanguageRepositoryInterface $languageRepository, PageRepositoryInterface $pageRepository)
     {
-        parent::__construct($languageModel);
+        parent::__construct($languageRepository);
 
-        $this->pageModel = $pageModel;
+        $this->pageRepository = $pageRepository;
     }
 
     /**
@@ -53,7 +53,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      */
     public function setPageModel(PageRepositoryInterface $v)
     {
-        $this->pageModel = $v;
+        $this->pageRepository = $v;
 
         return $this;
     }
@@ -65,7 +65,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      */
     public function getPageModel()
     {
-        return $this->pageModel;
+        return $this->pageRepository;
     }
 
     /**
@@ -77,7 +77,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      */
     public function hasPages($min = 0)
     {
-        return (count($this->pageModel->activePages()) > $min) ? true : false;
+        return (count($this->pageRepository->activePages()) > $min) ? true : false;
     }
 
     /**
@@ -88,6 +88,6 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      */
     public function pageExists($pageName)
     {
-        return (count($this->pageModel->fromPageName($pageName)) > 0) ? true : false;
+        return (count($this->pageRepository->fromPageName($pageName)) > 0) ? true : false;
     }
 }

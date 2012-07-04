@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -29,17 +29,17 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
  */
 class PagesControllerTest extends WebTestCaseFunctional
 {
-    private $pageModel;
-    private $seoModel;
-    private $blockModel;
+    private $pageRepository;
+    private $seoRepository;
+    private $blockRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->pageModel = new AlPageRepositoryPropel();
-        $this->seoModel = new AlSeoRepositoryPropel();
-        $this->blockModel = new AlBlockRepositoryPropel();
+        $this->pageRepository = new AlPageRepositoryPropel();
+        $this->seoRepository = new AlSeoRepositoryPropel();
+        $this->blockRepository = new AlBlockRepositoryPropel();
     }
 
     public function testFormElements()
@@ -141,13 +141,13 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<option[^\>]+rel=\"index\"[^\>]+\>index\<\/option\>/s", $json[2]["value"]);
         $this->assertRegExp("/\<option[^\>]+rel=\"page1\"[^\>]+\>page1\<\/option\>/s", $json[2]["value"]);
 
-        $page = $this->pageModel->fromPk(3);
+        $page = $this->pageRepository->fromPk(3);
         $this->assertNotNull($page);
         $this->assertEquals('page1', $page->getPageName());
         $this->assertEquals('home', $page->getTemplateName());
         $this->assertEquals(0, $page->getIsHome());
 
-        $seo = $this->seoModel->fromPageAndLanguage(2, 3);
+        $seo = $this->seoRepository->fromPageAndLanguage(2, 3);
         $this->assertNotNull($seo);
         $this->assertEquals('page-1', $seo->getPermalink());
         $this->assertEquals('A title', $seo->getMetaTitle());
@@ -156,7 +156,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(count($pagesSlots), count($this->blockModel->retrieveContents(2, 3, $pagesSlots)));
+        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 3, $pagesSlots)));
     }
 
     public function testPageJustAdded()
@@ -225,25 +225,25 @@ class PagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $this->assertEquals(3, count($this->pageModel->activePages()));
-        $this->assertEquals(4, $this->pageModel->homePage()->getId());
+        $this->assertEquals(3, count($this->pageRepository->activePages()));
+        $this->assertEquals(4, $this->pageRepository->homePage()->getId());
 
         // Previous home page has been degraded
-        $page = $this->pageModel->fromPk(2);
+        $page = $this->pageRepository->fromPk(2);
         $this->assertEquals(0, $page->getIsHome());
 
-        $seo = $this->seoModel->fromPageAndLanguage(2, 4);
+        $seo = $this->seoRepository->fromPageAndLanguage(2, 4);
         $this->assertNotNull($seo);
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(count($pagesSlots), count($this->blockModel->retrieveContents(2, 4, $pagesSlots)));
+        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 4, $pagesSlots)));
     }
 
     public function testEditPage()
     {
         // Saves a link that contains the permalink we are going to change
-        $block = $this->blockModel->fromPK(14);
+        $block = $this->blockRepository->fromPK(14);
         $block->setHtmlContent('<a href="page-2">Go to page 2</a>');
         $block->save();
 
@@ -257,10 +257,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $page = $this->pageModel->fromPk(4);
+        $page = $this->pageRepository->fromPk(4);
         $this->assertEquals('page2-edited', $page->getPageName());
 
-        $page = $this->seoModel->fromPk(3);
+        $page = $this->seoRepository->fromPk(3);
         $this->assertEquals('page-2-edited', $page->getPermalink());
     }
 
@@ -276,10 +276,10 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testChangeThePageTemplate()
     {
-        $blocks = $this->blockModel->retrieveContents(2, 4);
+        $blocks = $this->blockRepository->retrieveContents(2, 4);
         $this->assertEquals(11, count($blocks));
 
-        $blocks = $this->blockModel->retrieveContents(2, 4, 'page_content');
+        $blocks = $this->blockRepository->retrieveContents(2, 4, 'page_content');
         $this->assertEquals(0, count($blocks));
 
         $params = array('page' => 'index',
@@ -291,13 +291,13 @@ class PagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $page = $this->pageModel->fromPK(4);
+        $page = $this->pageRepository->fromPK(4);
         $this->assertEquals('fullpage', $page->getTemplateName());
 
-        $blocks = $this->blockModel->retrieveContents(2, 4);
+        $blocks = $this->blockRepository->retrieveContents(2, 4);
         $this->assertEquals(1, count($blocks));
 
-        $blocks = $this->blockModel->retrieveContents(2, 4, 'page_content');
+        $blocks = $this->blockRepository->retrieveContents(2, 4, 'page_content');
         $this->assertEquals(1, count($blocks));
     }
 
@@ -329,7 +329,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testDeleteTheHomePageIsForbidden()
     {
-        $page = $this->pageModel->homePage();
+        $page = $this->pageRepository->homePage();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => $page->getId(),
@@ -351,14 +351,14 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(3, count($this->pageModel->activePages()));
+        $this->assertEquals(3, count($this->pageRepository->activePages()));
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
-        $seo = $this->seoModel->fromPageAndLanguage(2, 3);
+        $seo = $this->seoRepository->fromPageAndLanguage(2, 3);
         $this->assertNull($seo);
 
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(0, count($this->blockModel->retrieveContents(3, 2, $pagesSlots)));
+        $this->assertEquals(0, count($this->blockRepository->retrieveContents(3, 2, $pagesSlots)));
     }
 
     public function testPageJustDeletedSeoAttributes()
@@ -394,7 +394,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(2, count($this->pageModel->activePages()));
+        $this->assertEquals(2, count($this->pageRepository->activePages()));
 
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
@@ -416,15 +416,15 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<option[^\>]+rel=\"page1\"[^\>]+\>page1\<\/option\>/s", $json[2]["value"]);
         $this->assertRegExp("/\<option[^\>]+rel=\"page2-edited\"[^\>]+\>page2-edited\<\/option\>/s", $json[2]["value"]);
 
-        $page = $this->pageModel->fromPk(2);
+        $page = $this->pageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());
 
-        $seo = $this->seoModel->fromPageAndLanguage(2, 2);
+        $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNull($seo);
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(0, count($this->blockModel->retrieveContents(2, 2, $pagesSlots)));
+        $this->assertEquals(0, count($this->blockRepository->retrieveContents(2, 2, $pagesSlots)));
     }
 
     private function retrievePageSlots()

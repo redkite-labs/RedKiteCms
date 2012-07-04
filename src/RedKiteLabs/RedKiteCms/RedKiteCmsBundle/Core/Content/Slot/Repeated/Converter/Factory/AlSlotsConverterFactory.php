@@ -33,24 +33,24 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundE
 class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
 { 
     protected $pageContentsContainer;
-    protected $languageModel;
-    protected $pageModel;
-    protected $blockModel;
+    protected $languageRepository;
+    protected $pageRepository;
+    protected $blockRepository;
     
     /**
      * Constructor
      * 
      * @param AlPageBlocksInterface $pageContentsContainer
-     * @param LanguageRepositoryInterface $languageModel
-     * @param PageRepositoryInterface $pageModel
-     * @param BlockRepositoryInterface $blockModel 
+     * @param LanguageRepositoryInterface $languageRepository
+     * @param PageRepositoryInterface $pageRepository
+     * @param BlockRepositoryInterface $blockRepository 
      */
-    public function __construct(AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageModel, PageRepositoryInterface $pageModel, BlockRepositoryInterface $blockModel)
+    public function __construct(AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageRepository, PageRepositoryInterface $pageRepository, BlockRepositoryInterface $blockRepository)
     {
         $this->pageContentsContainer = $pageContentsContainer;
-        $this->languageModel = $languageModel;
-        $this->pageModel = $pageModel;
-        $this->blockModel = $blockModel;
+        $this->languageRepository = $languageRepository;
+        $this->pageRepository = $pageRepository;
+        $this->blockRepository = $blockRepository;
     }
     
     /**
@@ -76,6 +76,6 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
         
         $slot->setRepeated($newRepeatedStatus); 
         
-        return new $className($slot, $this->pageContentsContainer, $this->languageModel, $this->pageModel, $this->blockModel);
+        return new $className($slot, $this->pageContentsContainer, $this->languageRepository, $this->pageRepository, $this->blockRepository);
     }
 }

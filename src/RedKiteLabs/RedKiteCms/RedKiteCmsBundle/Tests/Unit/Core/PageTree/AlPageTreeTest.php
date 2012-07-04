@@ -47,23 +47,23 @@ class AlPageTreeTest extends TestCase
             ->method('getPageBlocks')
             ->will($this->returnValue($this->pageBlocks));
 
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->themeModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel')
+        $this->themeRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageTree = new AlPageTree($this->container, $this->templateManager, $this->languageModel, $this->pageModel, $this->themeModel, $this->seoModel);
+        $this->pageTree = new AlPageTree($this->container, $this->templateManager, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository);
     }
 
     public function testLanguageIsFetchedFromLanguageParam()
@@ -80,11 +80,11 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue($request));
 
         $alLanguage = $this->setUpLanguage(2);
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue($alLanguage));
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('fromPK');
 
         $this->assertNull($this->pageTree->setup());
@@ -107,10 +107,10 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue($request));
 
         $alLanguage = $this->setUpLanguage(2);
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('fromLanguageName');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('fromPK')
             ->will($this->returnValue($alLanguage));
 
@@ -146,11 +146,11 @@ class AlPageTreeTest extends TestCase
             ->will($this->onConsecutiveCalls($request, $session, $request));
 
         $alLanguage = $this->setUpLanguage(2);
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue($alLanguage));
 
-        $this->languageModel->expects($this->never())
+        $this->languageRepository->expects($this->never())
             ->method('fromPK');
 
         $this->assertNull($this->pageTree->setup());
@@ -172,15 +172,15 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->returnValue($request));
 
-        $this->seoModel->expects($this->never())
+        $this->seoRepository->expects($this->never())
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('fromPageName')
             ->will($this->returnValue(null));
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('fromPK')
             ->will($this->returnValue(null));
 
@@ -204,15 +204,15 @@ class AlPageTreeTest extends TestCase
 
         $this->configureLanguage();
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPageName')
             ->will($this->returnValue(null));
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPK')
             ->will($this->returnValue(null));
 
@@ -236,16 +236,16 @@ class AlPageTreeTest extends TestCase
 
         $this->configureLanguage();
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPageName')
             ->will($this->returnValue(null));
 
         $alPage = $this->setUpPage(2);
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPK')
             ->will($this->returnValue($alPage));
 
@@ -269,16 +269,16 @@ class AlPageTreeTest extends TestCase
 
         $this->configureLanguage();
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
         $alPage = $this->setUpPage(2);
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPageName')
             ->will($this->returnValue($alPage));
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
         $this->pageTree->setup();
@@ -307,14 +307,14 @@ class AlPageTreeTest extends TestCase
             ->method('getAlPage')
             ->will($this->returnValue($alPage));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
             ->will($this->returnValue($alSeo));
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('fromPageName');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
         $this->pageTree->setup();
@@ -352,18 +352,18 @@ class AlPageTreeTest extends TestCase
             ->method('getAlPage')
             ->will($this->returnValue($alPage));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($alSeo));
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('fromPageName');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
         $this->pageTree->setup();
@@ -387,7 +387,7 @@ class AlPageTreeTest extends TestCase
         $this->configureLanguage();
         $this->configurePage();
 
-        $this->themeModel->expects($this->once())
+        $this->themeRepository->expects($this->once())
             ->method('activeBackend')
             ->will($this->returnValue(null));
 
@@ -527,15 +527,15 @@ class AlPageTreeTest extends TestCase
         $alSeo->expects($this->once())
             ->method('getMetaKeywords');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($alSeo));
 
-        $this->languageModel->expects($this->any())
+        $this->languageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->language));
 
-        $this->pageModel->expects($this->any())
+        $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
 
@@ -592,15 +592,15 @@ class AlPageTreeTest extends TestCase
             ->method('getAlPage')
             ->will($this->returnValue($this->page));
 
-        $this->seoModel->expects($this->exactly(2))
+        $this->seoRepository->expects($this->exactly(2))
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($alSeo));
 
-        $this->languageModel->expects($this->any())
+        $this->languageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->language));
 
-        $this->pageModel->expects($this->any())
+        $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
 
@@ -613,7 +613,7 @@ class AlPageTreeTest extends TestCase
     private function configureLanguage()
     {
         $alLanguage = $this->setUpLanguage(2);
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue($alLanguage));
 
@@ -623,7 +623,7 @@ class AlPageTreeTest extends TestCase
     private function configurePage()
     {
         $alPage = $this->setUpPage(2);
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('fromPageName')
             ->will($this->returnValue($alPage));
 
@@ -633,7 +633,7 @@ class AlPageTreeTest extends TestCase
     private function configureTheme()
     {
         $theme = $this->setUpTheme();
-        $this->themeModel->expects($this->once())
+        $this->themeRepository->expects($this->once())
             ->method('activeBackend')
             ->will($this->returnValue($theme));
 

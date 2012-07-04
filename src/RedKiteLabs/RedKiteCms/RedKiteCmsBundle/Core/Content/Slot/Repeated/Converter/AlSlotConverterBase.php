@@ -40,9 +40,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInte
 abstract class AlSlotConverterBase implements AlSlotConverterInterface
 {
     protected $pageContentsContainer;
-    protected $languageModel;
-    protected $pageModel;
-    protected $blockModel;
+    protected $languageRepository;
+    protected $pageRepository;
+    protected $blockRepository;
     protected $slot;
     protected $arrayBlocks = array();
 
@@ -51,17 +51,17 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      *
      * @param AlSlot $slot
      * @param AlPageBlocksInterface $pageContentsContainer
-     * @param LanguageRepositoryInterface $languageModel
-     * @param PageRepositoryInterface $pageModel
-     * @param BlockRepositoryInterface $blockModel
+     * @param LanguageRepositoryInterface $languageRepository
+     * @param PageRepositoryInterface $pageRepository
+     * @param BlockRepositoryInterface $blockRepository
      */
-    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageModel, PageRepositoryInterface $pageModel, BlockRepositoryInterface $blockModel)
+    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageRepository, PageRepositoryInterface $pageRepository, BlockRepositoryInterface $blockRepository)
     {
         $this->slot = $slot;
         $this->pageContentsContainer = $pageContentsContainer;
-        $this->languageModel = $languageModel;
-        $this->pageModel = $pageModel;
-        $this->blockModel = $blockModel;
+        $this->languageRepository = $languageRepository;
+        $this->pageRepository = $pageRepository;
+        $this->blockRepository = $blockRepository;
         $slotBlocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
         $this->blocksToArray($slotBlocks);
     }
@@ -74,14 +74,14 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      */
     protected function deleteBlocks()
     {
-        $blocks = $this->blockModel->retrieveContentsBySlotName($this->slot->getSlotName());
+        $blocks = $this->blockRepository->retrieveContentsBySlotName($this->slot->getSlotName());
         if(count($blocks) > 0) {
             try {
                 $result = null;
 
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
                 foreach($blocks as $block) {
-                    $result = $this->blockModel
+                    $result = $this->blockRepository
                                 ->setModelObject($block)
                                 ->delete();
 
@@ -89,18 +89,18 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
                 }
 
                 if ($result) {
-                    $this->blockModel->commit();
+                    $this->blockRepository->commit();
                 }
                 else {
-                    $this->blockModel->rollBack();
+                    $this->blockRepository->rollBack();
                 }
 
                 return $result;
             }
             catch(\Exception $e)
             {
-                if (isset($this->blockModel) && $this->blockModel !== null) {
-                    $this->blockModel->rollBack();
+                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;
@@ -122,10 +122,10 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         $block["LanguageId"] = $idLanguage;
         $block["PageId"] = $idPage;
 
-        $className = $this->blockModel->getModelObjectClassName();
+        $className = $this->blockRepository->getModelObjectClassName();
         $modelObject = new $className();
 
-        $result = $this->blockModel
+        $result = $this->blockRepository
                     ->setModelObject($modelObject)
                     ->save($block);
 

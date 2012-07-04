@@ -44,11 +44,11 @@ class AlBlockManagerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->blockModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->blockManager = new AlBlockManagerUnitTest($this->dispatcher, $this->blockModel, $this->validator);
+        $this->blockManager = new AlBlockManagerUnitTest($this->dispatcher, $this->blockRepository, $this->validator);
     }
     
     /**
@@ -134,7 +134,7 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueDoesNotReturnAnArray()
     {
-        $blockManager = new AlBlockManagerFake($this->dispatcher, $this->blockModel, $this->validator);
+        $blockManager = new AlBlockManagerFake($this->dispatcher, $this->blockRepository, $this->validator);
         
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -152,7 +152,7 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueHasAnyOfTheRequiredOptions()
     {
-        $blockManager = new AlBlockManagerFake1($this->dispatcher, $this->blockModel, $this->validator);        
+        $blockManager = new AlBlockManagerFake1($this->dispatcher, $this->blockRepository, $this->validator);        
         
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -184,17 +184,17 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block)
                 ->will($this->returnSelf());
@@ -215,17 +215,17 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block)
                 ->will($this->returnSelf());
@@ -247,20 +247,20 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block)
                 ->will($this->returnSelf());
@@ -287,7 +287,7 @@ class AlBlockManagerTest extends TestCase
             ->method('checkEmptyParams')
             ->will($this->throwException(new General\EmptyParametersException()));
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
                 ->method('setModelObject');
         
         $params = array();
@@ -305,17 +305,17 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->once())   
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(false));
         
-         $this->blockModel->expects($this->once())
+         $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block);
         
@@ -342,17 +342,17 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block)
                 ->will($this->returnSelf());
@@ -391,20 +391,20 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('commit');
         
-        $this->blockModel->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollback');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(true));
         
-         $this->blockModel->expects($this->once())
+         $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block);
         
@@ -446,18 +446,18 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block)
                 ->will($this->returnSelf());
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
                 ->method('delete')
                 ->will($this->returnValue(false));
         
@@ -481,17 +481,17 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('delete')
             ->will($this->throwException(new \RuntimeException()));
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block)
                 ->will($this->returnSelf());
@@ -514,12 +514,12 @@ class AlBlockManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
-        $this->blockModel->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setModelObject')
                 ->with($block)
                 ->will($this->returnSelf());
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
                 ->method('delete')
                 ->will($this->returnValue(true));
         
@@ -568,12 +568,12 @@ class AlBlockManagerTest extends TestCase
     
     private function setModelObjectMethods($block)
     {
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('setModelObject')
             ->with($block)
             ->will($this->returnSelf());
         
-        $this->blockModel->expects($this->any())
+        $this->blockRepository->expects($this->any())
             ->method('getModelObject')
             ->will($this->returnValue($block));
     }

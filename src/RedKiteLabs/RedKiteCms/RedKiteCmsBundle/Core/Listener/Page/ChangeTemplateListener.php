@@ -65,25 +65,25 @@ class ChangeTemplateListener
         if (array_key_exists("oldTemplateName", $values)) {
             $result = true;
             $currentTemplateManager = $pageManager->getTemplateManager();
-            $blockModel = $currentTemplateManager->getBlockModel();
+            $blockRepository = $currentTemplateManager->getBlockModel();
             try {
                 $themeName = $currentTemplateManager->getTemplate()->getThemeName();
-                $blockModel->startTransaction();
+                $blockRepository->startTransaction();
 
                 $templateAssets = new AlTemplateAssets();
                 $template = new AlTemplate($templateAssets, $this->kernel, $this->templateSlotsFactory);
                 $template->setThemeName($themeName)
                         ->setTemplateName($values["TemplateName"]);
-                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $template, $currentTemplateManager->getPageBlocks(), $blockModel);
+                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $template, $currentTemplateManager->getPageBlocks(), $blockRepository);
                 $result = $this->templateChanger->setCurrentTemplateManager($currentTemplateManager)
                             ->setNewTemplateManager($newTemplateManager)
                             ->change();
 
                 if ($result) {
-                    $blockModel->commit();
+                    $blockRepository->commit();
                 }
                 else {
-                    $blockModel->rollBack();
+                    $blockRepository->rollBack();
 
                     $event->abort();
                 }
@@ -91,8 +91,8 @@ class ChangeTemplateListener
             catch(\Exception $e) {
                 $event->abort();
 
-                if (isset($blockModel) && $blockModel !== null) {
-                    $blockModel->rollBack();
+                if (isset($blockRepository) && $blockRepository !== null) {
+                    $blockRepository->rollBack();
                 }
 
                 throw $e;

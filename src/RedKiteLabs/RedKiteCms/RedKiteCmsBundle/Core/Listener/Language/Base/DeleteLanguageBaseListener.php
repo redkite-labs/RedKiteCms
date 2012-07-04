@@ -56,7 +56,7 @@ abstract class DeleteLanguageBaseListener
         }
 
         $this->languageManager = $event->getContentManager();
-        $languageModel = $this->languageManager->getLanguageModel();
+        $languageRepository = $this->languageManager->getLanguageModel();
 
         $this->sourceObjects = $this->setUpSourceObjects();
         if(null === $this->sourceObjects) {
@@ -66,7 +66,7 @@ abstract class DeleteLanguageBaseListener
         if (count($this->sourceObjects) > 0) {
             try {
                 $result = true;
-                $languageModel->startTransaction();
+                $languageRepository->startTransaction();
                 foreach($this->sourceObjects as $sourceObject)
                 {
                     $result = $this->delete($sourceObject);
@@ -76,18 +76,18 @@ abstract class DeleteLanguageBaseListener
                 }
 
                 if ($result) {
-                    $languageModel->commit();
+                    $languageRepository->commit();
                 }
                 else {
-                    $languageModel->rollBack();
+                    $languageRepository->rollBack();
 
                     $event->abort();
                 }
             }
             catch(\Exception $e) {
                 $event->abort();
-                if (isset($languageModel) && $languageModel !== null) {
-                    $languageModel->rollBack();
+                if (isset($languageRepository) && $languageRepository !== null) {
+                    $languageRepository->rollBack();
                 }
 
                 throw $e;

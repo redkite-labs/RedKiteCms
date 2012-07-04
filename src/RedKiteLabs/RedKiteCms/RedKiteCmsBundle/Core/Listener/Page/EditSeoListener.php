@@ -48,7 +48,7 @@ class EditSeoListener
         }
         
         $pageManager = $event->getContentManager();  
-        $pageModel = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageModel();
         $values = $event->getValues();
         
         if (!is_array($values)) {
@@ -62,16 +62,16 @@ class EditSeoListener
                     ->getIdLanguage();
             $seo = $this->seoManager->getSeoModel()->fromPageAndLanguage($idLanguage, $idPage);
             if( null !== $seo) {
-                $pageModel->startTransaction();
+                $pageRepository->startTransaction();
                 $this->seoManager->set($seo);
                 $values = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $idLanguage));
                 $result = $this->seoManager->save($values); 
 
                 if ($result) {
-                    $pageModel->commit();
+                    $pageRepository->commit();
                 }
                 else {
-                    $pageModel->rollBack();
+                    $pageRepository->rollBack();
                     
                     $event->abort();
                 }
@@ -80,8 +80,8 @@ class EditSeoListener
         catch(\Exception $e) {          
             $event->abort();
             
-            if (isset($pageModel) && $pageModel !== null) {
-                $pageModel->rollBack();
+            if (isset($pageRepository) && $pageRepository !== null) {
+                $pageRepository->rollBack();
             }
             
             throw $e;

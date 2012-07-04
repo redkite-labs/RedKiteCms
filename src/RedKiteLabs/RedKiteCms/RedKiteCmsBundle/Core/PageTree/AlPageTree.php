@@ -44,10 +44,10 @@ class AlPageTree extends BaseAlPageTree
     protected $alLanguage = null;
     protected $alSeo = null;
     protected $alTheme = null;
-    protected $languageModel;
-    protected $pageModel;
-    protected $themeModel;
-    protected $seoModel;
+    protected $languageRepository;
+    protected $pageRepository;
+    protected $themeRepository;
+    protected $seoRepository;
     protected $templateManager;
     protected $locatedAssets = array('css' => array(), 'js' => array());
     protected $isValidLanguage = false;
@@ -60,23 +60,23 @@ class AlPageTree extends BaseAlPageTree
      *
      * @param ContainerInterface $container
      * @param AlTemplateManager $templateManager
-     * @param Repository\LanguageRepositoryInterface $languageModel
-     * @param Repository\PageRepositoryInterface $pageModel
-     * @param Repository\ThemeRepositoryInterface $themeModel
-     * @param Repository\SeoRepositoryInterface $seoModel
+     * @param Repository\LanguageRepositoryInterface $languageRepository
+     * @param Repository\PageRepositoryInterface $pageRepository
+     * @param Repository\ThemeRepositoryInterface $themeRepository
+     * @param Repository\SeoRepositoryInterface $seoRepository
      */
     public function __construct(ContainerInterface $container,
                                 AlTemplateManager $templateManager = null,
-                                Repository\LanguageRepositoryInterface $languageModel = null,
-                                Repository\PageRepositoryInterface $pageModel = null,
-                                Repository\ThemeRepositoryInterface $themeModel = null,
-                                Repository\SeoRepositoryInterface $seoModel = null)
+                                Repository\LanguageRepositoryInterface $languageRepository = null,
+                                Repository\PageRepositoryInterface $pageRepository = null,
+                                Repository\ThemeRepositoryInterface $themeRepository = null,
+                                Repository\SeoRepositoryInterface $seoRepository = null)
     {
         $this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
-        $this->languageModel = (null === $languageModel) ? $container->get('language_model') : $languageModel;
-        $this->pageModel = (null === $pageModel) ? $container->get('page_model') : $pageModel;
-        $this->themeModel = (null === $themeModel) ? $container->get('theme_model') : $themeModel;
-        $this->seoModel = (null === $seoModel) ? $container->get('seo_model') : $seoModel;
+        $this->languageRepository = (null === $languageRepository) ? $container->get('language_model') : $languageRepository;
+        $this->pageRepository = (null === $pageRepository) ? $container->get('page_model') : $pageRepository;
+        $this->themeRepository = (null === $themeRepository) ? $container->get('theme_model') : $themeRepository;
+        $this->seoRepository = (null === $seoRepository) ? $container->get('seo_model') : $seoRepository;
 
         parent::__construct($container, $templateManager->getTemplate(), $templateManager->getPageBlocks());
     }
@@ -176,7 +176,7 @@ class AlPageTree extends BaseAlPageTree
                 return null;
             }
 
-            $this->alTheme = $this->themeModel->activeBackend();
+            $this->alTheme = $this->themeRepository->activeBackend();
             if (null === $this->alTheme) {
                 return null;
             }
@@ -202,8 +202,8 @@ class AlPageTree extends BaseAlPageTree
      */
     public function refresh($idLanguage, $idPage)
     {
-        $this->alLanguage = $this->languageModel->fromPK($idLanguage);
-        $this->alPage = $this->pageModel->fromPK($idPage);
+        $this->alLanguage = $this->languageRepository->fromPK($idLanguage);
+        $this->alPage = $this->pageRepository->fromPK($idPage);
 
         $this->pageBlocks = $this->templateManager
                     ->getPageBlocks()
@@ -216,7 +216,7 @@ class AlPageTree extends BaseAlPageTree
                     ->setTemplateSlots($this->template->getTemplateSlots())
                     ->refresh();
 
-        $this->alSeo = $this->seoModel->fromPageAndLanguage($idLanguage, $idPage);
+        $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
         $this->setUpMetaTags($this->alSeo);
 
         return $this;
@@ -279,7 +279,7 @@ class AlPageTree extends BaseAlPageTree
             $language = method_exists ($session, "getLocale") ? $session->getLocale() : $request->getLocale();
         }
 
-        $alLanguage = ((int)$language > 0) ? $this->languageModel->fromPK($language) : $this->languageModel->fromLanguageName($language);
+        $alLanguage = ((int)$language > 0) ? $this->languageRepository->fromPK($language) : $this->languageRepository->fromLanguageName($language);
         $this->isValidLanguage = true;
 
         return $alLanguage;
@@ -301,15 +301,15 @@ class AlPageTree extends BaseAlPageTree
             return null;
         }
 
-        $seo = $this->seoModel->fromPermalink($pageName);
+        $seo = $this->seoRepository->fromPermalink($pageName);
         if (null === $seo) {
-            $seo = $this->seoModel->fromPageAndLanguage($pageName, $this->alLanguage->getId());
+            $seo = $this->seoRepository->fromPageAndLanguage($pageName, $this->alLanguage->getId());
         }
 
         if (null === $seo) {
-            $alPage = $this->pageModel->fromPageName($pageName);
+            $alPage = $this->pageRepository->fromPageName($pageName);
             if (null === $alPage) {
-                $alPage = $this->pageModel->fromPK($pageName);
+                $alPage = $this->pageRepository->fromPK($pageName);
                 if (!$alPage) {
                     return null;
                 }

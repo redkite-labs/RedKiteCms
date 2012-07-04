@@ -29,16 +29,16 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
  */
 class DeletePageBlocksListener
 {
-    private $languageModel;
+    private $languageRepository;
     
     /**
      * Constructor
      * 
-     * @param LanguageRepositoryInterface $languageModel 
+     * @param LanguageRepositoryInterface $languageRepository 
      */
-    public function __construct(LanguageRepositoryInterface $languageModel)
+    public function __construct(LanguageRepositoryInterface $languageRepository)
     {
-        $this->languageModel = $languageModel;
+        $this->languageRepository = $languageRepository;
     }
     
     /**
@@ -54,32 +54,32 @@ class DeletePageBlocksListener
         }
         
         $pageManager = $event->getContentManager(); 
-        $pageModel = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageModel();
         
         try {
-            $languages = $this->languageModel->activeLanguages();
+            $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {                
                 $result = true;
                 $idPage = $pageManager->get()->getId();
-                $pageModel->startTransaction();
+                $pageRepository->startTransaction();
                 foreach ($languages as $alLanguage) {
                     $result = $pageManager->getTemplateManager()->clearPageBlocks($alLanguage->getId(), $idPage);
                     if (!$result) break;    
                 }
 
                 if ($result) {
-                    $pageModel->commit();
+                    $pageRepository->commit();
                 }
                 else {
-                    $pageModel->rollBack();
+                    $pageRepository->rollBack();
                     $event->abort();
                 }
             }
         }
         catch(\Exception $e) {
             $event->abort();
-            if (isset($pageModel) && $pageModel !== null) {
-                $pageModel->rollBack();
+            if (isset($pageRepository) && $pageRepository !== null) {
+                $pageRepository->rollBack();
             }
             
             throw $e;

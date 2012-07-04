@@ -28,18 +28,18 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorL
 class AlParametersValidatorLanguagesManager extends TestCase 
 {    
     private $validator;
-    private $languageModel;
+    private $languageRepository;
     
     protected function setUp() 
     {
-        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
+        $this->languageRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
         
-        $this->validator = new AlParametersValidatorLanguageManager($this->languageModel);
+        $this->validator = new AlParametersValidatorLanguageManager($this->languageRepository);
     }
     
     public function testHasLanguagesReturnsFalseWhenAnyLanguageExist()
     {
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(null));
         
@@ -48,7 +48,7 @@ class AlParametersValidatorLanguagesManager extends TestCase
     
     public function testHasLanguagesReturnsTrueWhenAtLeastALanguageExist()
     {
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array('fake')));
         
@@ -57,7 +57,7 @@ class AlParametersValidatorLanguagesManager extends TestCase
     
     public function testLanguageExistsReturnsFalseWhenTheRequiredLanguageDoesNotExist()
     {
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue(null));
         
@@ -66,7 +66,7 @@ class AlParametersValidatorLanguagesManager extends TestCase
     
     public function testLanguageExistsReturnsTrueWhenTheRequiredLanguageExists()
     {
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue(array('fake')));
         

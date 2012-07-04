@@ -33,10 +33,10 @@ class AlSlotConverterToLanguage extends AlSlotConverterBase
         {
             try
             {
-                $this->blockModel->startTransaction();
+                $this->blockRepository->startTransaction();
                 $result = $this->deleteBlocks(); 
                 if(false !== $result) {
-                    $languages = $this->languageModel->activeLanguages();
+                    $languages = $this->languageRepository->activeLanguages();
                     foreach($this->arrayBlocks as $block)
                     {
                         foreach($languages as $language)
@@ -47,11 +47,11 @@ class AlSlotConverterToLanguage extends AlSlotConverterBase
 
                     if ($result)
                     {
-                        $this->blockModel->commit();
+                        $this->blockRepository->commit();
                     }
                     else
                     {
-                        $this->blockModel->rollBack();
+                        $this->blockRepository->rollBack();
                     }
                 }
                 
@@ -59,8 +59,8 @@ class AlSlotConverterToLanguage extends AlSlotConverterBase
             }
             catch(\Exception $e)
             {
-                if(isset($this->blockModel) && $this->blockModel !== null) {
-                    $this->blockModel->rollBack();
+                if(isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;

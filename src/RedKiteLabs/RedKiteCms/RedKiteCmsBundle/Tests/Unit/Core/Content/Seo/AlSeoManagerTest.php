@@ -43,15 +43,15 @@ class AlSeoManagerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoModel->expects($this->any())
+        $this->seoRepository->expects($this->any())
             ->method('getModelObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo'));
 
-        $this->seoManager = new AlSeoManager($this->dispatcher, $this->seoModel, $this->validator);
+        $this->seoManager = new AlSeoManager($this->dispatcher, $this->seoRepository, $this->validator);
     }
 
     /**
@@ -160,17 +160,17 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('rollback');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
@@ -188,17 +188,17 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('rollback');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(false));
 
@@ -216,20 +216,20 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('commit');
 
-        $this->seoModel->expects($this->never())
+        $this->seoRepository->expects($this->never())
             ->method('rollback');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(true));
 
@@ -255,7 +255,7 @@ class AlSeoManagerTest extends TestCase
             ->method('checkEmptyParams')
             ->will($this->throwException(new General\EmptyParametersException()));
 
-        $this->seoModel->expects($this->never())
+        $this->seoRepository->expects($this->never())
             ->method('save');
 
         $params = array();
@@ -276,7 +276,7 @@ class AlSeoManagerTest extends TestCase
             ->method('checkOnceValidParamExists')
             ->will($this->throwException(new General\ParameterExpectedException()));
 
-        $this->seoModel->expects($this->never())
+        $this->seoRepository->expects($this->never())
             ->method('save');
 
         $params = array('Keywords' => 'test');
@@ -294,17 +294,17 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('rollback');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
@@ -325,17 +325,17 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('rollback');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('save')
                 ->will($this->returnValue(false));
 
@@ -360,21 +360,21 @@ class AlSeoManagerTest extends TestCase
             ->method('getPermalink')
             ->will($this->onConsecutiveCalls('this-is-a-website-fake-page', 'fake-page-has-been-renamed'));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('commit');
 
-        $this->seoModel->expects($this->never())
+        $this->seoRepository->expects($this->never())
             ->method('rollback');
 
         $params = array('Permalink' => 'fake page has been renamed');
@@ -403,21 +403,21 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('save')
             ->will($this->returnValue(true));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('commit');
 
-        $this->seoModel->expects($this->never())
+        $this->seoRepository->expects($this->never())
             ->method('rollback');
 
         $params = array('MetaTitle' => 'new title',
@@ -453,18 +453,18 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->throwException(new \RuntimeException()));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('rollBack');
 
         $this->seoManager->set($seo);
@@ -478,18 +478,18 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->returnValue(false));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('rollBack');
 
         $this->seoManager->set($seo);
@@ -504,21 +504,21 @@ class AlSeoManagerTest extends TestCase
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('setModelObject')
                 ->will($this->returnSelf());
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
                 ->method('delete')
                 ->will($this->returnValue(true));
 
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('commit');
 
-        $this->seoModel->expects($this->never())
+        $this->seoRepository->expects($this->never())
             ->method('rollback');
 
         $this->seoManager->set($seo);

@@ -46,20 +46,20 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
 class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     protected $alLanguage = null;
-    protected $languageModel = null;
+    protected $languageRepository = null;
 
     /**
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param LanguageRepositoryInterface $languageModel
+     * @param LanguageRepositoryInterface $languageRepository
      * @param AlParametersValidatorLanguageManager $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, LanguageRepositoryInterface $languageModel, AlParametersValidatorLanguageManager $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, LanguageRepositoryInterface $languageRepository, AlParametersValidatorLanguageManager $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
-        $this->languageModel = $languageModel;
+        $this->languageRepository = $languageRepository;
     }
 
     /**
@@ -93,7 +93,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     public function setLanguageModel(LanguageRepositoryInterface $v)
     {
-        $this->languageModel = $v;
+        $this->languageRepository = $v;
 
         return $this;
     }
@@ -105,7 +105,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     public function getLanguageModel()
     {
-        return $this->languageModel;
+        return $this->languageRepository;
     }
 
     /**
@@ -148,8 +148,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 }
             }
 
-            $this->languageModel->startTransaction();
-            $result = $this->languageModel
+            $this->languageRepository->startTransaction();
+            $result = $this->languageRepository
                             ->setModelObject($this->alLanguage)
                             ->delete();
 
@@ -166,7 +166,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
             if ($result)
             {
-                $this->languageModel->commit();
+                $this->languageRepository->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Language\AfterLanguageDeletedEvent($this);
@@ -175,14 +175,14 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->languageModel->rollBack();
+                $this->languageRepository->rollBack();
             }
 
             return $result;
         }
         catch(\Exception $e) {
-            if (isset($this->languageModel) && $this->languageModel !== null) {
-                $this->languageModel->rollBack();
+            if (isset($this->languageRepository) && $this->languageRepository !== null) {
+                $this->languageRepository->rollBack();
             }
 
             throw $e;
@@ -228,7 +228,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
 
             $result = true;
-            $this->languageModel->startTransaction();
+            $this->languageRepository->startTransaction();
 
             $hasLanguages = $this->validator->hasLanguages();
             $values['MainLanguage'] = ($hasLanguages) ? (isset($values['MainLanguage'])) ? $values['MainLanguage'] : 0 : 1;
@@ -238,11 +238,11 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             {
                 // Saves the language
                 if (null === $this->alLanguage) {
-                    $className = $this->languageModel->getModelObjectClassName();
+                    $className = $this->languageRepository->getModelObjectClassName();
                     $this->alLanguage = new $className();
                 }
 
-                $result = $this->languageModel
+                $result = $this->languageRepository
                             ->setModelObject($this->alLanguage)
                             ->save($values);
                 if ($result) {
@@ -259,7 +259,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
             if ($result)
             {
-                $this->languageModel->commit();
+                $this->languageRepository->commit();
 
                 if (null !== $this->dispatcher) {
                     $event = new  Content\Language\AfterLanguageAddedEvent($this);
@@ -268,15 +268,15 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->languageModel->rollBack();
+                $this->languageRepository->rollBack();
             }
 
             return $result;
         }
         catch(\Exception $e)
         {
-            if (isset($this->languageModel) && $this->languageModel !== null) {
-                $this->languageModel->rollBack();
+            if (isset($this->languageRepository) && $this->languageRepository !== null) {
+                $this->languageRepository->rollBack();
             }
 
             throw $e;
@@ -315,7 +315,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $this->validator->checkOnceValidParamExists(array('Language' => '', 'MainLanguage' => ''), $values);
 
             $result = true;
-            $this->languageModel->startTransaction();
+            $this->languageRepository->startTransaction();
 
             if (isset($values["MainLanguage"]) && $values["MainLanguage"] == 1)
             {
@@ -337,7 +337,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 }
 
                 if (!empty($values)) {
-                    $result = $this->languageModel
+                    $result = $this->languageRepository
                                 ->setModelObject($this->alLanguage)
                                 ->save($values);
                 }
@@ -357,7 +357,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
             if ($result)
             {
-                $this->languageModel->commit();
+                $this->languageRepository->commit();
 
                 if (null !== $this->dispatcher)
                 {
@@ -367,16 +367,16 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->languageModel->rollBack();
+                $this->languageRepository->rollBack();
             }
 
             return $result;
         }
         catch(\Exception $e)
         {
-            if (isset($this->languageModel) && $this->languageModel !== null)
+            if (isset($this->languageRepository) && $this->languageRepository !== null)
             {
-                $this->languageModel->rollBack();
+                $this->languageRepository->rollBack();
             }
 
             throw $e;
@@ -453,10 +453,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         try
         {
-            $language = $this->languageModel->mainLanguage();
+            $language = $this->languageRepository->mainLanguage();
             if (null !== $language)
             {
-                $result = $this->languageModel
+                $result = $this->languageRepository
                             ->setModelObject($language)
                             ->save(array('MainLanguage' => 0));
 
@@ -467,8 +467,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
         catch(\Exception $e)
         {
-            if (isset($this->languageModel) && $this->languageModel !== null) {
-                $this->languageModel->rollBack();
+            if (isset($this->languageRepository) && $this->languageRepository !== null) {
+                $this->languageRepository->rollBack();
             }
 
             throw $e;

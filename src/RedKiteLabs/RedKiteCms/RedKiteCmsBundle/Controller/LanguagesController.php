@@ -152,8 +152,8 @@ class LanguagesController extends Controller
     private function fetchLanguage($id, $languageManager = null)
     {
         $languageManager = (null === $languageManager) ? $this->container->get('al_language_manager') : $languageManager;
-        $languageModel = $languageManager->getLanguageModel();
+        $languageRepository = $languageManager->getLanguageModel();
 
-        return ($id != 'none') ? $languageModel->fromPk($id) : null;
+        return ($id != 'none') ? $languageRepository->fromPk($id) : null;
     }
 }

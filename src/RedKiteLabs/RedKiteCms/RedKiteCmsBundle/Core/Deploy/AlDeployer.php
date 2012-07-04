@@ -69,7 +69,7 @@ abstract class AlDeployer
     {
         $this->container = $container;
         $this->kernel = $this->container->get('kernel');
-        $this->seoModel = $this->container->get('seo_model');
+        $this->seoRepository = $this->container->get('seo_model');
         $this->deployBundle = $this->container->getParameter('alphalemon_frontend.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
         if(null === $this->deployBundleAsset->getWebFolderRealPath())
@@ -180,7 +180,7 @@ abstract class AlDeployer
         $homePage = "";
         $mainLanguage = "";
         $routes = array();
-        $seoAttributes = $this->seoModel->fetchSeoAttributesWithPagesAndLanguages();
+        $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages();
         foreach($seoAttributes as $seoAttribute)
         {
             $permalink = $seoAttribute->getPermalink();

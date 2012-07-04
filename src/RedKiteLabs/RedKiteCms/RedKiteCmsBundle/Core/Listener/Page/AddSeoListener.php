@@ -30,18 +30,18 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
 class AddSeoListener
 {
     private $seoManager;
-    private $languageModel;
+    private $languageRepository;
 
     /**
      * Constructor
      *
      * @param AlSeoManager $seoManager
-     * @param LanguageRepositoryInterface $languageModel
+     * @param LanguageRepositoryInterface $languageRepository
      */
-    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageModel)
+    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageRepository)
     {
         $this->seoManager = $seoManager;
-        $this->languageModel = $languageModel;
+        $this->languageRepository = $languageRepository;
     }
 
     /**
@@ -57,7 +57,7 @@ class AddSeoListener
         }
 
         $pageManager = $event->getContentManager();
-        $pageModel = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageModel();
         $values = $event->getValues();
 
         if (!is_array($values)) {
@@ -65,11 +65,11 @@ class AddSeoListener
         }
 
         try {
-            $languages = $this->languageModel->activeLanguages();
+            $languages = $this->languageRepository->activeLanguages();
             if (count($languages)) {
                 $result = true;
                 $idPage = $pageManager->get()->getId();
-                $pageModel->startTransaction();
+                $pageRepository->startTransaction();
                 foreach ($languages as $alLanguage) {
                     $seoManagerValues = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $alLanguage->getId()));
                     if (!$alLanguage->getMainLanguage() && array_key_exists('Permalink', $seoManagerValues)) $seoManagerValues['Permalink'] = $alLanguage->getLanguage() . '-' . $seoManagerValues['Permalink'];
@@ -82,10 +82,10 @@ class AddSeoListener
                 if(null === $result) return;
 
                 if ($result) {
-                    $pageModel->commit();
+                    $pageRepository->commit();
                 }
                 else {
-                    $pageModel->rollBack();
+                    $pageRepository->rollBack();
 
                     $event->abort();
                 }
@@ -94,8 +94,8 @@ class AddSeoListener
         catch(\Exception $e) {
             $event->abort();
 
-            if (isset($pageModel) && $pageModel !== null) {
-                $pageModel->rollBack();
+            if (isset($pageRepository) && $pageRepository !== null) {
+                $pageRepository->rollBack();
             }
 
             throw $e;

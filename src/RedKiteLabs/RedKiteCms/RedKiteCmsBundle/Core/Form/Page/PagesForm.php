@@ -31,17 +31,17 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPrope
  */
 class PagesForm extends AbstractType
 {
-    private $themeModel;
+    private $themeRepository;
 
-    public function __construct(AlThemeRepositoryPropel $themeModel)
+    public function __construct(AlThemeRepositoryPropel $themeRepository)
     {
-        $this->themeModel = $themeModel;
+        $this->themeRepository = $themeRepository;
     }
 
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->themeModel)));
+        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->themeRepository)));
         $builder->add('isHome', 'checkbox');
         $builder->add('isPublished', 'checkbox');
     }

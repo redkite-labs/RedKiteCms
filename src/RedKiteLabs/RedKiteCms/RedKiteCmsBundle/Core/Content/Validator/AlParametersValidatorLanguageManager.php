@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -26,16 +26,16 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
  */
 class AlParametersValidatorLanguageManager extends AlParametersValidator
 {
-    protected $languageModel;
+    protected $languageRepository;
 
     /**
      * Constructor
      *
-     * @param LanguageRepositoryInterface $languageModel
+     * @param LanguageRepositoryInterface $languageRepository
      */
-    public function __construct(LanguageRepositoryInterface $languageModel)
+    public function __construct(LanguageRepositoryInterface $languageRepository)
     {
-        $this->languageModel = $languageModel;
+        $this->languageRepository = $languageRepository;
     }
 
     /**
@@ -46,7 +46,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      */
     public function setLanguageModel(LanguageRepositoryInterface $v)
     {
-        $this->languageModel = $v;
+        $this->languageRepository = $v;
 
         return $this;
     }
@@ -58,7 +58,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      */
     public function getLanguageModel()
     {
-        return $this->languageModel;
+        return $this->languageRepository;
     }
 
     /**
@@ -68,7 +68,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      */
     public function hasLanguages()
     {
-        return (count($this->languageModel->activeLanguages()) > 0) ? true : false;
+        return (count($this->languageRepository->activeLanguages()) > 0) ? true : false;
     }
 
     /**
@@ -79,7 +79,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      */
     public function languageExists($laguageName)
     {
-        $language = $this->languageModel->fromLanguageName($laguageName);
+        $language = $this->languageRepository->fromLanguageName($laguageName);
 
         return (null !== $language && count($language) > 0) ? true : false;
     }

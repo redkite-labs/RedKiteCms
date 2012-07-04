@@ -33,8 +33,8 @@ class AddPageBlocksListenerTest extends BaseListenerTest
     private $pageManager;
     private $templateManager;
     private $validator;
-    private $pageModel;
-    private $languageModel;
+    private $pageRepository;
+    private $languageRepository;
 
     protected function setUp()
     {
@@ -52,11 +52,11 @@ class AddPageBlocksListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -64,7 +64,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->testListener = new AddPageBlocksListener($this->languageModel);
+        $this->testListener = new AddPageBlocksListener($this->languageRepository);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
@@ -78,13 +78,13 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
     public function testNothingIsAddedWhenAnyLanguageExists()
     {
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('commit');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollBack');
 
         $this->event->expects($this->once())
@@ -94,13 +94,13 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->never())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array()));
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeAddPageCommit($this->event);
     }
@@ -110,10 +110,10 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
 
         $this->event->expects($this->once())
@@ -123,7 +123,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
@@ -137,7 +137,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
             ->method('getValidator')
@@ -165,17 +165,17 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollback');
 
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
@@ -185,7 +185,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
             ->method('getValidator')
@@ -207,20 +207,20 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
 
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
@@ -230,7 +230,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
             ->method('getValidator')
@@ -253,10 +253,10 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('rollBack');
 
         $this->event->expects($this->once())
@@ -266,7 +266,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $this->event->expects($this->once())
             ->method('abort');
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
 
@@ -276,7 +276,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
             ->method('getValidator')
@@ -299,20 +299,20 @@ class AddPageBlocksListenerTest extends BaseListenerTest
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageModel->expects($this->once())
+        $this->pageRepository->expects($this->once())
             ->method('commit');
 
-        $this->pageModel->expects($this->never())
+        $this->pageRepository->expects($this->never())
             ->method('rollback');
 
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->pageManager));
 
-        $this->languageModel->expects($this->once())
+        $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
 
@@ -322,7 +322,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
         $this->pageManager->expects($this->once())
             ->method('getPageModel')
-            ->will($this->returnValue($this->pageModel));
+            ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
             ->method('getValidator')

@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -29,19 +29,19 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
  */
 class BlocksControllerTest extends WebTestCaseFunctional
 {
-    private $pageModel;
-    private $seoModel;
-    private $blockModel;
+    private $pageRepository;
+    private $seoRepository;
+    private $blockRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->pageModel = new AlPageRepositoryPropel();
-        $this->seoModel = new AlSeoRepositoryPropel();
-        $this->blockModel = new AlBlockRepositoryPropel();
+        $this->pageRepository = new AlPageRepositoryPropel();
+        $this->seoRepository = new AlSeoRepositoryPropel();
+        $this->blockRepository = new AlBlockRepositoryPropel();
 
-        $this->blockModel->fromPK(2);
+        $this->blockRepository->fromPK(2);
     }
 
     public function testEditorReturnsAnErrorMessageWhenTheBlockIdIsNotGiven()
@@ -124,7 +124,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         //$this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
         $this->assertRegExp("/\<div\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
 
-        $blocks = $this->blockModel->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(2, $blocks[count($blocks) - 1]->getContentPosition());
     }
 
@@ -159,7 +159,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<div\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
         //$this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
 
-        $blocks = $this->blockModel->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(1, $blocks[count($blocks) - 1]->getContentPosition());
     }
 
@@ -254,7 +254,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         //$this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\>New content\<\/div\>/s", $json[1]["value"]);
         $this->assertRegExp("/\<div\>New content\<\/div\>/s", $json[1]["value"]);
 
-        $blocks = $this->blockModel->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(1, $blocks[count($blocks) - 1]->getContentPosition());
     }
 
@@ -315,7 +315,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\><div class=\"al_editable[^\>]+\>This slot has any content inside. Use the contextual menu to add a new one\<\/div\>\<\/div\>/s", $json[1]["value"]);
 
-        $blocks = $this->blockModel->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(0, count($blocks));
     }
 
@@ -399,7 +399,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("section", $json));
         $this->assertEquals("Javascript", $json["section"]);
 
-        $block = $this->blockModel->fromPK($blockId);
+        $block = $this->blockRepository->fromPK($blockId);
         $this->assertEquals('myfile', $block->getExternalJavascript());
     }
 
@@ -420,7 +420,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("section", $json));
         $this->assertEquals("Javascript", $json["section"]);
 
-        $block = $this->blockModel->fromPK($blockId);
+        $block = $this->blockRepository->fromPK($blockId);
         $this->assertEquals('myfile,another-file', $block->getExternalJavascript());
     }
 
@@ -496,7 +496,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("section", $json));
         $this->assertEquals("Javascript", $json["section"]);
 
-        $block = $this->blockModel->fromPK($blockId);
+        $block = $this->blockRepository->fromPK($blockId);
         $this->assertEquals('another-file,fake-file', $block->getExternalJavascript());
     }
 
@@ -518,13 +518,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("section", $json));
         $this->assertEquals("Javascript", $json["section"]);
 
-        $block = $this->blockModel->fromPK($blockId);
+        $block = $this->blockRepository->fromPK($blockId);
         $this->assertEquals('another-file', $block->getExternalJavascript());
     }
 
     private function getSlotBlocks($slotName)
     {
-        return $this->blockModel->retrieveContents(2, 2, $slotName);
+        return $this->blockRepository->retrieveContents(2, 2, $slotName);
     }
 
     private function getLastBlock($slotName)

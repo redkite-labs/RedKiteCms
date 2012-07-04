@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license infpageModelation, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -71,10 +71,10 @@ class WebTestCaseFunctional extends WebTestCase {
         }
 
         $dispatcher = new EventDispatcher();
-        $seoModel = new Propel\AlSeoRepositoryPropel();
-        $languageModel = new Propel\AlLanguageRepositoryPropel();
-        $pageModel = new Propel\AlPageRepositoryPropel();
-        $blockModel = new Propel\AlBlockRepositoryPropel();
+        $seoRepository = new Propel\AlSeoRepositoryPropel();
+        $languageRepository = new Propel\AlLanguageRepositoryPropel();
+        $pageRepository = new Propel\AlPageRepositoryPropel();
+        $blockRepository = new Propel\AlBlockRepositoryPropel();
 
         $client = static::createClient(array(
             'environment' => 'alcms_test',
@@ -85,14 +85,14 @@ class WebTestCaseFunctional extends WebTestCase {
         $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);
         $template = new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate(new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets(), $client->getContainer()->get('kernel'), $client->getContainer()->get('template_slots_factory'));
         $template->setTemplateSlots($templateSlots);
-        $pageContentsContainer = new AlPageBlocks($dispatcher, $blockModel);
-        $templateManager = new AlTemplateManager($dispatcher, $template, $pageContentsContainer, $blockModel, $client->getContainer()->get('alphalemon_cms.block_manager_factory'));
+        $pageContentsContainer = new AlPageBlocks($dispatcher, $blockRepository);
+        $templateManager = new AlTemplateManager($dispatcher, $template, $pageContentsContainer, $blockRepository, $client->getContainer()->get('alphalemon_cms.block_manager_factory'));
         $templateManager
                 ->refresh();
-        $seoManager = new AlSeoManager($dispatcher, $seoModel);
+        $seoManager = new AlSeoManager($dispatcher, $seoRepository);
 
-        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $languageModel), 'onBeforeAddPageCommit'));
-        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageBlocksListener($languageModel), 'onBeforeAddPageCommit'));
+        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $languageRepository), 'onBeforeAddPageCommit'));
+        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageBlocksListener($languageRepository), 'onBeforeAddPageCommit'));
 
         $connection = \Propel::getConnection();
         $queries = array('TRUNCATE al_block;',
@@ -116,12 +116,12 @@ class WebTestCaseFunctional extends WebTestCase {
         $theme->setActive(1);
         $theme->save();
 
-        $alLanguageManager = new AlLanguageManager($dispatcher, $languageModel, new Validator\AlParametersValidatorLanguageManager($languageModel));
+        $alLanguageManager = new AlLanguageManager($dispatcher, $languageRepository, new Validator\AlParametersValidatorLanguageManager($languageRepository));
         foreach(self::$languages as $language) {
             $alLanguageManager->set(null)->save($language);
         }
 
-        $alPageManager = new AlPageManager($dispatcher, $templateManager, $pageModel, new Validator\AlParametersValidatorPageManager($languageModel, $pageModel));
+        $alPageManager = new AlPageManager($dispatcher, $templateManager, $pageRepository, new Validator\AlParametersValidatorPageManager($languageRepository, $pageRepository));
         foreach(self::$pages as $page) {
             $alPageManager->set(null)->save($page);
         }

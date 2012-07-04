@@ -98,7 +98,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $seo2 = $this->setUpSeo('my-awesome-page', $this->page2, $this->language1);
         $seo3 = $this->setUpSeo('es-homepage', $this->page1, $this->language2);
         $seo4 = $this->setUpSeo('es-my-awesome-page', $this->page2, $this->language2);
-        $this->seoModel->expects($this->once())
+        $this->seoRepository->expects($this->once())
             ->method('fetchSeoAttributesWithPagesAndLanguages')
             ->will($this->returnValue(array($seo1, $seo2, $seo3, $seo4)));
 
@@ -113,7 +113,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->seoModel, $router, $this->templateManager, $this->languageModel, $this->pageModel, $this->themeModel, $this->seoModel));
+            ->will($this->onConsecutiveCalls($this->kernel, $this->seoRepository, $router, $this->templateManager, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository));
 
         $this->deployer = new AlTwigDeployer($this->container);
         $this->assertTrue($this->deployer->deploy());

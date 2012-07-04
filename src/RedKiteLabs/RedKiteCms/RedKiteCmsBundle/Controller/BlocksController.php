@@ -46,8 +46,8 @@ class BlocksController extends Controller
         try
         {
             $request = $this->getRequest();
-            $blockModel = $this->container->get('block_model');
-            $block = $blockModel->fromPK($request->get('idBlock'));
+            $blockRepository = $this->container->get('block_model');
+            $block = $blockRepository->fromPK($request->get('idBlock'));
             if ($block != null)
             {
                 $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getClassName()));
