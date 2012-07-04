@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Alaligner;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
@@ -66,7 +66,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
 
         $this->templateSlotsFactory = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface');
         $this->slotsConverterFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
-        $this->orm = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\Base\AlPropelOrm');
+        $this->orm = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm');
         $this->aligner = new AlRepeatedSlotsAligner($this->kernel, $this->templateSlotsFactory, $this->slotsConverterFactory, $this->orm);
         $this->aligner
              ->setSkeletonFile(vfsStream::url('root/xml/repeated-slots-skeleton.xml'))

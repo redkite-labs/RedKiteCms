@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * Listen to the onBeforeDeletePageCommit event to delete the page's seo attributes, when a page is removed
@@ -35,9 +35,9 @@ class DeleteSeoListener
      * Constructor
      * 
      * @param AlSeoManager $seoManager
-     * @param LanguageModelInterface $languageModel 
+     * @param LanguageRepositoryInterface $languageModel 
      */
-    public function __construct(AlSeoManager $seoManager, LanguageModelInterface $languageModel)
+    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageModel)
     {
         $this->seoManager = $seoManager;
         $this->languageModel = $languageModel;

@@ -21,11 +21,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
 
 
 /**
- * AlLanguageModelPropelTest
+ * AlLanguageRepositoryPropelTest
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlLanguageModelPropelTest extends Base\BaseModelPropel
+class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
 {
     private $languageModel;
 

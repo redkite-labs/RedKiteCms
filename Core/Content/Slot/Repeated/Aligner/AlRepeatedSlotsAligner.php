@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidFileNameException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\Base\AlPropelOrm;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
 
 /**

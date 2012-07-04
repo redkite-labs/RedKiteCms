@@ -20,18 +20,18 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\EntitiesInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
+use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
 /**
  * Extends the bas AlPageTree object to fetch page information from the database
@@ -60,17 +60,17 @@ class AlPageTree extends BaseAlPageTree
      *
      * @param ContainerInterface $container
      * @param AlTemplateManager $templateManager
-     * @param Entities\LanguageModelInterface $languageModel
-     * @param Entities\PageModelInterface $pageModel
-     * @param Entities\ThemeModelInterface $themeModel
-     * @param Entities\SeoModelInterface $seoModel
+     * @param Repository\LanguageRepositoryInterface $languageModel
+     * @param Repository\PageRepositoryInterface $pageModel
+     * @param Repository\ThemeRepositoryInterface $themeModel
+     * @param Repository\SeoRepositoryInterface $seoModel
      */
     public function __construct(ContainerInterface $container,
                                 AlTemplateManager $templateManager = null,
-                                Entities\LanguageModelInterface $languageModel = null,
-                                Entities\PageModelInterface $pageModel = null,
-                                Entities\ThemeModelInterface $themeModel = null,
-                                Entities\SeoModelInterface $seoModel = null)
+                                Repository\LanguageRepositoryInterface $languageModel = null,
+                                Repository\PageRepositoryInterface $pageModel = null,
+                                Repository\ThemeRepositoryInterface $themeModel = null,
+                                Repository\SeoRepositoryInterface $seoModel = null)
     {
         $this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
         $this->languageModel = (null === $languageModel) ? $container->get('language_model') : $languageModel;

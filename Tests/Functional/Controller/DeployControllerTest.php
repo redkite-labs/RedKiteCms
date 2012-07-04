@@ -18,9 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlSeoModelPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 use org\bovigo\vfs\vfsStream;
 
 /**

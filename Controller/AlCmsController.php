@@ -20,11 +20,11 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
-use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 

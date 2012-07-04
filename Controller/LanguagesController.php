@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Language\AlLanguageManager;
 
 class LanguagesController extends Controller

@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 
 /**
  * AlBlockManagerFactory creates a BlockManager object

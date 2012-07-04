@@ -47,7 +47,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel')
+        $this->languageModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

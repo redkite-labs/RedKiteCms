@@ -21,13 +21,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlBlockModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * AlTemplateManager is the object responsible to manage the template's slots.
@@ -53,17 +53,17 @@ class AlTemplateManager extends AlTemplateBase
      * @param EventDispatcherInterface $dispatcher
      * @param AlTemplate $template
      * @param AlPageBlocksInterface $pageBlocks
-     * @param BlockModelInterface $blockModel
+     * @param BlockRepositoryInterface $blockModel
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template, AlPageBlocksInterface $pageBlocks, BlockModelInterface $blockModel = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template, AlPageBlocksInterface $pageBlocks, BlockRepositoryInterface $blockModel = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
         $this->template = $template;
         $this->pageBlocks = $pageBlocks;
-        $this->blockModel =  (null === $blockModel) ? new AlBlockModelPropel() : $blockModel;
+        $this->blockModel =  (null === $blockModel) ? new AlBlockRepositoryPropel() : $blockModel;
     }
 
     /**
@@ -145,10 +145,10 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the block model interface
      *
      * @api
-     * @param BlockModelInterface $v
+     * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
-    public function setBlockModel(BlockModelInterface $v)
+    public function setBlockModel(BlockRepositoryInterface $v)
     {
         $this->pageBlocks = $v;
 
@@ -158,7 +158,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the block model object associated to the template manager
      *
-     * @return BlockModelInterface
+     * @return BlockRepositoryInterface
      */
     public function getBlockModel()
     {

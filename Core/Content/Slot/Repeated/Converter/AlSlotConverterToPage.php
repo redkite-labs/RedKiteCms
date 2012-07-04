@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
 class AlSlotConverterToPage extends AlSlotConverterBase
 { 

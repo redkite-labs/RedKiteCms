@@ -19,8 +19,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\SeoModelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page is removed
@@ -34,9 +34,9 @@ class DeletePageBlocksListener
     /**
      * Constructor
      * 
-     * @param LanguageModelInterface $languageModel 
+     * @param LanguageRepositoryInterface $languageModel 
      */
-    public function __construct(LanguageModelInterface $languageModel)
+    public function __construct(LanguageRepositoryInterface $languageModel)
     {
         $this->languageModel = $languageModel;
     }

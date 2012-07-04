@@ -47,9 +47,9 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $this->language1 = $this->setUpLanguage('en', true);
         $this->language2 = $this->setUpLanguage('es');
 
-        $this->seoModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\SeoModelInterface');
+        $this->seoModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface');
 
-        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel');
+        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel');
         $this->languageModel->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->language1, $this->language2)));
@@ -58,7 +58,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->method('fromPK')
             ->will($this->onConsecutiveCalls($this->language1, $this->language1, $this->language2, $this->language2));
 
-        $this->pageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlPageModelPropel');
+        $this->pageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel');
         $this->pageModel->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->page1, $this->page2)));
@@ -67,7 +67,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->method('fromPK')
             ->will($this->onConsecutiveCalls($this->page1, $this->page2, $this->page1, $this->page2));
 
-        $this->themeModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlThemeModelPropel');
+        $this->themeModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel');
         $this->themeModel->expects($this->once())
             ->method('activeBackend')
             ->will($this->returnValue($this->setUpTheme()));

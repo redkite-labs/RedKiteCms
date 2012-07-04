@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\PageAttributes\PageAttributesForm;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;

@@ -40,7 +40,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManager
     public function getHtmlContent()
     {
         $content = '';
-        $languages = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
+        $languages = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
         foreach($languages as $language)
         {
             /*
@@ -106,7 +106,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManager
     public function getHtmlContentCMSMode()
     {
         $content = '';
-        $languages = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
+        $languages = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
         foreach($languages as $language)
         {
             $frontController = $this->container->get('kernel')->getEnvironment() . '.php';            

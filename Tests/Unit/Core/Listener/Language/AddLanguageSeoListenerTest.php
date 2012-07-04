@@ -29,7 +29,7 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlSeoModelPropel')
+        $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

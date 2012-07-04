@@ -21,7 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlLanguageModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
 
 /**
  * Defines the page attributes form
@@ -32,7 +32,7 @@ class SeoForm extends AbstractType
 {
     private $languageModel;
 
-    public function __construct(AlLanguageModelPropel $languageModel)
+    public function __construct(AlLanguageRepositoryPropel $languageModel)
     {
         $this->languageModel = $languageModel;
     }

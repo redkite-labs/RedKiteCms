@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocks as AlPageBlocksBase;
 
@@ -38,9 +38,9 @@ class AlPageBlocks extends AlPageBlocksBase
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param BlockModelInterface $blockModel
+     * @param BlockRepositoryInterface $blockModel
      */
-    public function __construct(EventDispatcherInterface $dispatcher, BlockModelInterface $blockModel)
+    public function __construct(EventDispatcherInterface $dispatcher, BlockRepositoryInterface $blockModel)
     {
         $this->dispatcher = $dispatcher;
         $this->blockModel = $blockModel;

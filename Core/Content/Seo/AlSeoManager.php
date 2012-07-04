@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\SeoModelInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\SeoEvents;
@@ -46,10 +46,10 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param SeoModelInterface $alSeoModel
+     * @param SeoRepositoryInterface $alSeoModel
      * @param AlParametersValidatorInterface $validator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, SeoModelInterface $alSeoModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, SeoRepositoryInterface $alSeoModel, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
         
@@ -59,10 +59,10 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Sets the seo model object
      * 
-     * @param SeoModelInterface $v
+     * @param SeoRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager 
      */
-    public function setSeoModel(SeoModelInterface $v)
+    public function setSeoModel(SeoRepositoryInterface $v)
     {
         $this->seoModel = $v;
         
@@ -73,7 +73,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * Returns the seo model object associated with this object
      * 
      * @api
-     * @return SeoModelInterface 
+     * @return SeoRepositoryInterface 
      */
     public function getSeoModel()
     {

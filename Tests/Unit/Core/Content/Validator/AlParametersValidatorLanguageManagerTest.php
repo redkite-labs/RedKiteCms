@@ -32,7 +32,7 @@ class AlParametersValidatorLanguagesManager extends TestCase
     
     protected function setUp() 
     {
-        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\LanguageModelInterface');
+        $this->languageModel = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
         
         $this->validator = new AlParametersValidatorLanguageManager($this->languageModel);
     }

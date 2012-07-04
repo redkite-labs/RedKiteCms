@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Tools;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 
 class AlphaLemonDataPopulator
 {

@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel\AlThemeModelPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel;
 
 /**
  * Defines the pages form
@@ -33,7 +33,7 @@ class PagesForm extends AbstractType
 {
     private $themeModel;
 
-    public function __construct(AlThemeModelPropel $themeModel)
+    public function __construct(AlThemeRepositoryPropel $themeModel)
     {
         $this->themeModel = $themeModel;
     }

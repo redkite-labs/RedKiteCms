@@ -21,11 +21,11 @@ use Symfony\Component\Filesystem\Filesystem;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\ThemeEngineBundle\Model\AlTheme;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
+use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
@@ -33,7 +33,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\Finder\Finder;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Propel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
@@ -53,10 +53,10 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     public function  __construct(ContainerInterface $container,
                                 AlTemplateManager $templateManager = null,
-                                Propel\AlLanguageModelPropel $languageModel = null,
-                                Propel\AlPageModelPropel $pageModel = null,
-                                Propel\AlThemeModelPropel $themeModel = null,
-                                Propel\AlSeoModelPropel $seoModel = null)
+                                Propel\AlLanguageRepositoryPropel $languageModel = null,
+                                Propel\AlPageRepositoryPropel $pageModel = null,
+                                Propel\AlThemeRepositoryPropel $themeModel = null,
+                                Propel\AlSeoRepositoryPropel $seoModel = null)
     {
         $this->container = $container;
         $this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
