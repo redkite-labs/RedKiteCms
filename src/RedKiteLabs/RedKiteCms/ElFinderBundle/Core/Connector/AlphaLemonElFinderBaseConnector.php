@@ -34,7 +34,7 @@ include_once dirname(__FILE__).'/../../Resources/public/vendor/ElFinder/php/elFi
  */
 abstract class AlphaLemonElFinderBaseConnector
 {
-    private $options = array();
+    protected $options = array();
     protected $container = array();
 
     /**
