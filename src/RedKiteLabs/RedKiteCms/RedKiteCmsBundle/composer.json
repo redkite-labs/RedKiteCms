@@ -21,7 +21,7 @@
     "php": ">=5.3.2",
     "symfony/framework-standard-edition": "dev-master",
     "imagine/Imagine": ">=0.2",
-    "alphalemon/theme-engine-bundle": "revisioning-theme-objects",
+    "alphalemon/theme-engine-bundle": "dev-revisioning-theme-objects",
     "alphalemon/frontend-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
     "alphalemon/business-website-theme-bundle": "dev-master",
