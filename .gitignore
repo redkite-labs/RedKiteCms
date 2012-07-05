@@ -8,3 +8,6 @@
 /*~
 /Core/nbproject/private/
 /nbproject/private/
+/vendor
+/composer.phar
+/composer.lock

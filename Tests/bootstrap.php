@@ -11,19 +11,22 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 /**
  * Based on https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Tests/bootstrap.php which gets all the credits
  */
 
-if (file_exists($file = __DIR__.'/autoload.php')) {
-    require_once $file;
-} elseif (file_exists($file = __DIR__.'/autoload.php.dist')) {
-    require_once $file;
+if (!@include __DIR__ . '/../vendor/.composer/autoload.php') {
+    die(<<<'EOT'
+You must set up the project dependencies, run the following commands:
+wget http://getcomposer.org/composer.phar
+php composer.phar install
+EOT
+    );
 }
 
 if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) {
@@ -32,12 +35,12 @@ if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) 
     $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
     $builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/schema.xml'));
     $builder->buildClasses();
-    
+
     $builder = new \PropelQuickBuilder();
     $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
     $builder->setSchema(file_get_contents(__DIR__.'/../vendor/AlphaLemon/ThemeEngineBundle/Resources/config/schema.xml'));
     $builder->buildClasses();
-    
+
     $queries = explode(";", file_get_contents(__DIR__ . '/Resources/sql/database.sql'));
     mysql_connect('localhost', 'root', '');
     mysql_select_db('alphalemon_test');
