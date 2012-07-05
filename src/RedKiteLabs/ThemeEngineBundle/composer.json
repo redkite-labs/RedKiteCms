@@ -14,7 +14,7 @@
   "require": {
     "php":                            ">=5.3.2",
     "symfony/framework-standard-edition": "dev-master",
-    "alphalemon/al-pagetree-bundle": "dev-master",
+    "alphalemon/al-pagetree-bundle": "dev-revisioning-pagetree-objects",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
     "propel/propel-bundle": "2.0.x-dev",
     "propel/propel1": "1.6.*",
