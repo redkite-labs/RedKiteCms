@@ -37,10 +37,11 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     private $kernel;
     private $root;
     private $cacheFile;
-    private $templateSlotsFactory;
+    private $themes;
     private $slotsConverterFactory;
     private $orm;
     private $aligner;
+    private $theme = null;
 
     protected function setUp()
     {
@@ -64,10 +65,11 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             ->method('getRootDir')
             ->will($this->returnValue(vfsStream::url('root')));
 
-        $this->templateSlotsFactory = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface');
+        $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+
         $this->slotsConverterFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
         $this->orm = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm');
-        $this->aligner = new AlRepeatedSlotsAligner($this->kernel, $this->templateSlotsFactory, $this->slotsConverterFactory, $this->orm);
+        $this->aligner = new AlRepeatedSlotsAligner($this->kernel, $this->themes, $this->slotsConverterFactory, $this->orm);
         $this->aligner
              ->setSkeletonFile(vfsStream::url('root/xml/repeated-slots-skeleton.xml'))
              ->setCacheFile($this->cacheFile);
@@ -118,14 +120,11 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root/FakeTheme')));
 
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $templateSlots->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array(new AlSlot('logo', array('repeated' => 'page')), new AlSlot('logo', array('nav-menu' => 'page')))));
-
+        $this->setUpTheme();
+/*
         $this->templateSlotsFactory->expects($this->once())
             ->method('create')
-            ->will($this->returnValue($templateSlots));
+            ->will($this->returnValue($templateSlots));*/
 
         $this->assertFalse(file_exists($this->cacheFile));
         $this->aligner->align("BusinessWebsiteThemeBundle", "Home", array());
@@ -142,9 +141,6 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $this->kernel->expects($this->any())
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root/FakeTheme')));
-
-        $this->templateSlotsFactory->expects($this->never())
-            ->method('create');
 
         $this->assertNull($this->aligner->align("BusinessWebsiteThemeBundle", "Home", array()));
     }
@@ -225,19 +221,16 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $templateSlots->expects($this->once())
             ->method('getSlots')
             ->will($this->returnValue($slots));
+        $this->setUpTheme($templateSlots);
 
-        $this->templateSlotsFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($templateSlots));
-
-        $templateSlots = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
-        $templateSlots->expects($this->once())
+        $slotsConverter = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
+        $slotsConverter->expects($this->once())
             ->method('convert')
             ->will($this->returnValue(true));
 
         $this->slotsConverterFactory->expects($this->once())
             ->method('createConverter')
-            ->will($this->returnValue($templateSlots));
+            ->will($this->returnValue($slotsConverter));
 
         $this->aligner->align("BusinessWebsiteThemeBundle", "Home", $slots);
         $this->assertTrue(file_exists($this->cacheFile));
@@ -255,5 +248,32 @@ class AlRepeatedSlotsAlignerTest extends TestCase
 
         vfsStream::newFile('cache.xml')->at($this->root);
         file_put_contents(vfsStream::url('root/cache.xml'), $contents);
+    }
+
+    private function setUpTheme($templateSlots = null)
+    {
+        if(null === $templateSlots) {
+            $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+            $templateSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue(array(new AlSlot('logo', array('repeated' => 'page')), new AlSlot('logo', array('nav-menu' => 'page')))));
+        }
+
+        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+
+        $template->expects($this->once())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($templateSlots));
+
+        $this->theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $this->theme->expects($this->once())
+            ->method('getTemplate')
+            ->will($this->returnValue($template));
+
+        $this->themes->expects($this->any())
+            ->method('getTheme')
+            ->will($this->returnValue($this->theme));
     }
 }

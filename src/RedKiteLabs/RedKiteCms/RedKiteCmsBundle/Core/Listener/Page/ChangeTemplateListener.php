@@ -24,6 +24,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger;
 use Symfony\Component\HttpKernel\KernelInterface;
+use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page attributes when a new page is added
@@ -33,18 +35,18 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class ChangeTemplateListener
 {
     private $templateChanger;
-    private $templateSlotsFactory;
+    private $themesCollectionWrapper;
     private $kernel;
 
-    public function __construct(KernelInterface $kernel, AlTemplateChanger $templateChanger, AlTemplateSlotsFactory $templateSlotsFactory)
+    public function __construct(KernelInterface $kernel, AlTemplateChanger $templateChanger, AlThemesCollectionWrapper $themesCollectionWrapper)
     {
         $this->kernel = $kernel;
         $this->templateChanger = $templateChanger;
-        $this->templateSlotsFactory = $templateSlotsFactory;
+        $this->themesCollectionWrapper = $themesCollectionWrapper;
     }
 
     /**
-     * Adds the page attributes when a new page is added, for each language of the site
+     * Changes the page's template 
      *
      * @param BeforeAddPageCommitEvent $event
      * @throws \Exception
@@ -69,12 +71,10 @@ class ChangeTemplateListener
             try {
                 $themeName = $currentTemplateManager->getTemplate()->getThemeName();
                 $blockRepository->startTransaction();
-
-                $templateAssets = new AlTemplateAssets();
-                $template = new AlTemplate($templateAssets, $this->kernel, $this->templateSlotsFactory);
-                $template->setThemeName($themeName)
-                        ->setTemplateName($values["TemplateName"]);
+                
+                $template = $this->themesCollectionWrapper->getTemplate($themeName, $values["TemplateName"]);                
                 $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $template, $currentTemplateManager->getPageBlocks(), $blockRepository);
+                
                 $result = $this->templateChanger->setCurrentTemplateManager($currentTemplateManager)
                             ->setNewTemplateManager($newTemplateManager)
                             ->change();

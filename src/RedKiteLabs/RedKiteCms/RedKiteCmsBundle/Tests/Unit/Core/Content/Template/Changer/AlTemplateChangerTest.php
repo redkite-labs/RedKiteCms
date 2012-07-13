@@ -49,7 +49,7 @@ class AlTemplateChangerTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->currentTemplateSlots = $this->getMockBuilder('AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots')
+        $this->currentTemplateSlots = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface')
                                         ->disableOriginalConstructor()
                                         ->getMock();
 
@@ -62,7 +62,7 @@ class AlTemplateChangerTest extends TestCase
             ->method('getDispatcher')
             ->will($this->returnValue($this->dispatcher));
 
-        $this->newTemplateSlots = $this->getMockBuilder('AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots')
+        $this->newTemplateSlots = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface')
                                         ->disableOriginalConstructor()
                                         ->getMock();
 

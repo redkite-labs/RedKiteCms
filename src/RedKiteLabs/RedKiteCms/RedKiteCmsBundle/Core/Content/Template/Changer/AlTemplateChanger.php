@@ -55,7 +55,7 @@ class AlTemplateChanger
     /**
      * Sets the current template used by the page
      *
-     * @api
+     *
      * @param AlTemplateManager $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger
      */
@@ -69,7 +69,7 @@ class AlTemplateChanger
     /**
      * Sets the new template the page will use
      *
-     * @api
+     *
      * @param AlTemplateManager $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger
      */

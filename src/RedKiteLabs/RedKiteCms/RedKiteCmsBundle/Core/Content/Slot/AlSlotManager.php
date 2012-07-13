@@ -33,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  * A slot is a zone on the page where one or more blocks lives. This object is responsible to manage the blocks that it contains,
  * adding, editing and removing them.
  *
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSlotManager extends AlTemplateBase
@@ -63,7 +63,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets the slot object
      *
-     * @api
+     *
      * @param AlSlot $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
@@ -77,7 +77,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the slot object
      *
-     * @api
+     *
      * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
      */
     public function getSlot()
@@ -88,7 +88,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets the block model object
      *
-     * @api
+     *
      * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
@@ -102,7 +102,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the block manager object
      *
-     * @api
+     *
      * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
      */
     public function getBlockModel()
@@ -113,7 +113,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets the slot manager's behavior when a new block is added
      *
-     * @api
+     *
      * When true forces the add operation to use the default AlSlot attributes for
      * the new block type
      *
@@ -133,7 +133,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the slot manager's behavior when a new block is added
      *
-     * @api
+     *
      * @return boolean
      */
     public function getForceSlotAttributes()
@@ -144,7 +144,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the slot's blocks repeated status
      *
-     * @api
+     *
      * @return string
      */
     public function getRepeated()
@@ -155,7 +155,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the name of the slot
      *
-     * @api
+     *
      * @return string
      */
     public function getSlotName()
@@ -166,7 +166,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the block managers
      *
-     * @api
+     *
      * @return array
      */
     public function getBlockManagers()
@@ -177,7 +177,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the first block manager placed on the slot
      *
-     * @api
+     *
      * @return null|AlBlockManager
      */
     public function first()
@@ -188,7 +188,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the last block manager placed on the slot
      *
-     * @api
+     *
      * @return null|AlBlockManager
      */
     public function last()
@@ -199,7 +199,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the block manager at the given index.
      *
-     * @api
+     *
      * @return null|AlBlockManager
      */
     public function indexAt($index)
@@ -210,7 +210,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the number of block managers managed by the slot manager
      *
-     * @api
+     *
      * @return int
      */
     public function length()
@@ -221,7 +221,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the last block manager added to the slot manager
      *
-     * @api
+     *
      * @return AlBlockManager object or null
      */
     public function lastAdded()
@@ -235,7 +235,7 @@ class AlSlotManager extends AlTemplateBase
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
      *
-     * @api
+     *
      * @param int $idLanguage
      * @param type $idPage
      * @param type $type                The block type. By default a Text block is added
@@ -366,7 +366,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Edits the block
      *
-     * @api
+     *
      * @param   int       $idBlock  The id of the block to edit
      * @param   array     $values   The new values
      *
@@ -402,7 +402,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Deletes the block from the slot
      *
-     * @api
+     *
      * @param   int       $idBlock The id of the block to remove
      * @return  boolean
      */
@@ -453,7 +453,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Deletes all the blocks managed by the slot
      *
-     * @api
+     *
      * @return  boolean
      */
     public function deleteBlocks()
@@ -497,7 +497,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Retrieves the block manager by the block's id
      *
-     * @api
+     *
      * @param   int  $idBlock The id of the block to retrieve
      * @return  AlBlockManager|null
      */
@@ -511,7 +511,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Retrieves the block manager index by the block's id
      *
-     * @api
+     *
      * @param   int  $idBlock The id of the block to retrieve
      * @return  int
      */
@@ -549,7 +549,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the managed blocks as an array
      *
-     * @api
+     *
      * @return array
      */
     public function toArray()
@@ -570,7 +570,7 @@ class AlSlotManager extends AlTemplateBase
      *
      * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
      *
-     * @api
+     *
      * @param array $alBlocks
      */
     public function setUpBlockManagers(array $alBlocks)
@@ -585,7 +585,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Retrieves the block manager and the index by the block's id
      *
-     * @api
+     *
      * @param   int     $idBlock The id of the block to retrieve
      * @return  null|array
      */
@@ -610,7 +610,7 @@ class AlSlotManager extends AlTemplateBase
      * When in *del* mode, decrements by 1 the position of the blocks placed below the
      * removing block
      *
-     * @api
+     *
      * @param   string      $op         The operation to do. It accepts add or del as valid values
      * @param   array       $managers   An array of block managers
      * @return  boolean

@@ -48,18 +48,20 @@ class AlPageTreeCollection implements \Iterator, \Countable
     private $themeRepository;
     private $languageRepository;
     private $pageRepository;
-    private $templateManager;
+    private $themesCollectionWrapper;
     private $seoRepository;
 
-    public function  __construct(ContainerInterface $container,
-                                AlTemplateManager $templateManager = null,
+    public function  __construct(ContainerInterface $container,                                
+                                AlThemesCollectionWrapper $themesCollectionWrapper = null,
+                                //AlTemplateManager $templateManager = null,
                                 Propel\AlLanguageRepositoryPropel $languageRepository = null,
                                 Propel\AlPageRepositoryPropel $pageRepository = null,
                                 Propel\AlThemeRepositoryPropel $themeRepository = null,
                                 Propel\AlSeoRepositoryPropel $seoRepository = null)
     {
         $this->container = $container;
-        $this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
+        //$this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
+        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('alphalemon_cms.themes_collection_wrapper') : $themesCollectionWrapper;
         $this->languageRepository = (null === $languageRepository) ? $container->get('language_model') : $languageRepository;
         $this->pageRepository = (null === $pageRepository) ? $container->get('page_model') : $pageRepository;
         $this->themeRepository = (null === $themeRepository) ? $container->get('theme_model') : $themeRepository;
@@ -143,17 +145,25 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
         // Cycles all the website's languages
         foreach($languages as $language)
-        {
+        { 
             // Cycles all the website's pages
             foreach($pages as $page)
             {
+                /*
                 $templateManager = clone($this->templateManager);
                 $templateManager->getTemplate()
                         ->setThemeName($themeName)
-                        ->setTemplateName($page->getTemplateName());
+                        ->setTemplateName($page->getTemplateName());*/
+
+                /*
+                $theme = $this->themes->getTheme($themeName);
+                $template = $theme->getTemplate($page->getTemplateName());
+                $templateManager = new AlTemplateManager($this->container->get('event_dispatcher'), $template);*/
+                
+                //$templateManager = $this->themesCollectionWrapper->assignTemplate($themeName, $page->getTemplateName());
 
                 $pageTree = new AlPageTree($this->container,
-                        $templateManager,
+                        $this->themesCollectionWrapper,
                         $this->languageRepository,
                         $this->pageRepository,
                         $this->themeRepository,

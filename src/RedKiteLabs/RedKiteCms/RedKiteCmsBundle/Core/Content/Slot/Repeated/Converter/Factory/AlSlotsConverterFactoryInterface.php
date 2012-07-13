@@ -23,7 +23,7 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
  * Used by the Slots converter factory to create the appropriate converter to change the
  * repeated status of a slot to another one
  *
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface AlSlotsConverterFactoryInterface

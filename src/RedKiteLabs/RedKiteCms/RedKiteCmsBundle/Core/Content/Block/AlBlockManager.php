@@ -41,7 +41,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
  *
  * Every new block content must inherit from this class.
  *
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
@@ -75,7 +75,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *   - *ExternalStylesheet*     A comma separated external stylesheets files
      *   - *InternalStylesheet*     A stylesheet code
      *
-     * @api
+     *
      * @return array
      */
     abstract function getDefaultValue();
@@ -105,7 +105,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Sets the block model object
      *
-     * @api
+     *
      * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
      */
@@ -119,7 +119,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the block model object associated with this object
      *
-     * @api
+     *
      * @return BlockRepositoryInterface
      */
     public function getBlockModel()
@@ -134,7 +134,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * By default the content is rendered when the edit mode is active. To hide the content, simply override
      * this method and return true
      *
-     * @api
+     *
      * @return Boolean
      */
     public function getHideInEditMode()
@@ -147,7 +147,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * Return true tu display a warnig on editor that suggest the used to reload the page when the block is added or edited
      *
-     * @api
+     *
      * @return Boolean
      */
     public function getReloadSuggested()
@@ -160,7 +160,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * The content that is displayed on the page not always is the same saved in the database.
      *
-     * @api
+     *
      * @return string
      */
     public function getHtmlContent()
@@ -174,7 +174,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * When the CMS mode is active, AlphaLemon CMS renders the same content displayed on the page.
      * Override this method to change the content to display
      *
-     * @api
+     *
      * @return string
      */
     public function getHtmlContentCMSMode()
@@ -188,7 +188,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * The editor that manages the content gets the content saved into the database.
      * Override this method to change the content to display
      *
-     * @api
+     *
      * @return string
      */
     public function getHtmlContentForEditor()
@@ -199,7 +199,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the current saved ExternalJavascript value
      *
-     * @api
+     *
      * @return array
      */
     public function getExternalJavascript()
@@ -214,7 +214,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the current saved ExternalStylesheet value
      *
-     * @api
+     *
      * @return array
      */
     public function getExternalStylesheet()
@@ -232,7 +232,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * When the values is setted, it is encapsulated in a try/catch
      * block to avoid breaking the execution of AlphaLemon javascripts
      *
-     * @api
+     *
      * @return string
      */
     public function getInternalJavascript()
@@ -254,7 +254,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the current saved InternalStylesheet
      *
-     * @api
+     *
      * @return string
      */
     public function getInternalStylesheet()
@@ -341,7 +341,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Converts the AlBlockManager object into an array
      *
-     * @api
+     *
      * @return array
      */
     public function toArray()
@@ -367,7 +367,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Adds a new block to the AlBlock table
      *
-     * @api
+     *
      * @param array  $values      An array where keys are the AlBlockField definition and values are the values to add
      * @throws \InvalidArgumentException  When the expected parameters are invalid
      * @throws \RuntimeException  When the action is aborted by a calling event
@@ -445,7 +445,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Edits the current block object
      *
-     * @api
+     *
      * @param array  $values  An array where keys are the AlBlockField definition and values are the values to edit
      * @throws \InvalidArgumentException  When the expected parameters are invalid
      * @throws \RuntimeException  When the action is aborted by a calling event

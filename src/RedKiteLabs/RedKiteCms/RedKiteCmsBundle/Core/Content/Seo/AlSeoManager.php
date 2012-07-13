@@ -72,7 +72,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Returns the seo model object associated with this object
      * 
-     * @api
+     *
      * @return SeoRepositoryInterface 
      */
     public function getSeoModel()

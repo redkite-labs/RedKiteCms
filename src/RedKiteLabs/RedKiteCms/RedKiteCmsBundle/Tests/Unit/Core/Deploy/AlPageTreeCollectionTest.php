@@ -37,10 +37,10 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
     public function testPageTreeCollectionHasBeenPopulated()
     {
         $this->initSomeLangugesAndPages();
-        
+
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->templateManager, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository));
+            ->will($this->onConsecutiveCalls($this->themesCollectionWrapper, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository));
 
         $pageTreeCollection = new AlPageTreeCollection($this->container);
         $this->assertEquals(4, count($pageTreeCollection));
@@ -61,5 +61,4 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguage());
         $this->assertEquals('page-1', $pageTree->getAlPage()->getPageName());
     }
-
 }

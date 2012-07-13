@@ -37,7 +37,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\
 class AlRepeatedSlotsAligner
 {
     protected $kernel;
-    protected $templateSlotsFactory;
+    protected $themesCollection;
     protected $slotsConverterFactory;
     protected $cacheFile;
     protected $skeletonFile;
@@ -48,10 +48,10 @@ class AlRepeatedSlotsAligner
      * @param ContainerInterface    $container
      * @param string                $activeThemeName  The active theme
      */
-    public function __construct(KernelInterface $kernel, AlTemplateSlotsFactoryInterface $templateSlotsFactory, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlPropelOrm $orm = null)
+    public function __construct(KernelInterface $kernel, \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlPropelOrm $orm = null)
     {
         $this->kernel = $kernel;
-        $this->templateSlotsFactory = $templateSlotsFactory;
+        $this->themesCollection = $themesCollection;
         $this->slotsConverterFactory = $slotsConverterFactory;
         $this->orm = (null === $orm) ? new AlPropelOrm() : $orm;
 
@@ -96,6 +96,7 @@ class AlRepeatedSlotsAligner
     public function align($themeName, $templateName, array $templateSlots)
     {
         $result = true;
+        $templateName = strtolower($templateName);
         $savedSlots = $this->loadSavedSlots($templateName);
         if(null !== $savedSlots)
         {
@@ -199,19 +200,10 @@ class AlRepeatedSlotsAligner
      */
     protected function saveSlots($themeName, $templateName)
     {
-        $slotClassesPath = AlToolkit::locateResource($this->kernel, $themeName) . '/Core/Slots';
-
         $result = array();
-        $finder = new Finder();
-        $files = $finder->depth(0)->files()->in($slotClassesPath);
-        foreach($files as $file)
-        {
-            $pathInfo = pathinfo($file);
-            $filename = $pathInfo["filename"];
-            $templateSlots = $this->templateSlotsFactory->create($themeName, $filename);
-            $templateName = strtolower($templateName);
-            $result[$templateName] = $this->templateSlotsToArray($templateSlots->getSlots());
-        }
+        $theme = $this->themesCollection->getTheme($themeName);
+        $templateSlots = $theme->getTemplate($templateName)->getTemplateSlots();
+        $result[$templateName] = $this->templateSlotsToArray($templateSlots->getSlots());
 
         $this->write($result);
     }

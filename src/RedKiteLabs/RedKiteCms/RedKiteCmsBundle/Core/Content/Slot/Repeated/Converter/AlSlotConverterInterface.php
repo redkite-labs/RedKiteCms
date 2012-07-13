@@ -21,7 +21,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
  * Used by the Slots converter to convert a slot from its current repeated status 
  * to the new one
  * 
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface AlSlotConverterInterface 

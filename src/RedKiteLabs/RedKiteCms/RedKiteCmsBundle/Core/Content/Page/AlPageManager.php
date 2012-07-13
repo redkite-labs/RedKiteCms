@@ -40,7 +40,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
  * AlPageManager manages an AlPage object, implementig the base methods to add, edit and delete
  * that kind of object.
  *
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPageManager extends AlContentManagerBase implements AlContentManagerInterface
@@ -91,7 +91,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Sets the template manager object
      *
-     * @api
+     *
      * @param AlTemplateManager $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
      */
@@ -105,7 +105,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Returns the template manager object associated with this object
      *
-     * @api
+     *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function getTemplateManager()
@@ -116,7 +116,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Sets the page model object
      *
-     * @api
+     *
      * @param PageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
      */
@@ -130,7 +130,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Returns the page model object associated with this object
      *
-     * @api
+     *
      * @return PageRepositoryInterface
      */
     public function getPageModel()
@@ -218,7 +218,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Adds a new AlPage object from the given params
      *
-     * @api
+     *
      * @param array $values
      * @return bool
      */
@@ -313,7 +313,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Edits the managed page object
      *
-     * @api
+     *
      * @param array $values
      * @return Boolean
      */
@@ -405,7 +405,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Degrades the home page to normal page
      *
-     * @api
+     *
      * @return Boolean
      */
     protected function resetHome()

@@ -27,11 +27,12 @@
         <parameter key="template_changer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger</parameter>
         <parameter key="repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
         <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
-        <parameter key="template_assets.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets</parameter>
         <parameter key="alphalemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
-
         <parameter key="alphalemon_cms.block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+        <parameter key="alphalemon_cms.themes_collection_wrapper.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
 
+        <!-- Overrides the base ThemeEngine base class -->
+        <parameter key="alphalemon_theme_engine.template_assets.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets</parameter>
     </parameters>
 
     <services>
@@ -78,20 +79,25 @@
 
         <service id="template_manager" class="%template_manager.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="template" />
+            <argument>null</argument>
             <argument type="service" id="page_contents_container" />
             <argument type="service" id="block_model" />
             <argument type="service" id="alphalemon_cms.block_manager_factory" />
         </service>
 
-        <service id="al_page_tree" class="%alphalemon.page_tree%">
-            <argument type="service" id="service_container" />
+        <service id="alphalemon_cms.themes_collection_wrapper" class="%alphalemon_cms.themes_collection_wrapper.class%">
+            <argument type="service" id="alphalemon_theme_engine.themes" />
             <argument type="service" id="template_manager" />
         </service>
 
         <service id="al_block_manager" class="%al_block_manager_service%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="block_model" />
+        </service>
+
+        <service id="al_page_tree" class="%alphalemon.page_tree%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="alphalemon_cms.themes_collection_wrapper" />
         </service>
 
         <service id="al_page_manager" class="%al_cms_pages_manager%">
@@ -138,11 +144,12 @@
 
         <service id="repeated_slots_aligner" class="%repeated_slots_aligner.class%">
             <argument type="service" id="kernel" />
-            <argument type="service" id="template_slots_factory" />
+            <argument type="service" id="alphalemon_theme_engine.themes" />
             <argument type="service" id="slots_converter_factory" />
             <argument type="service" id="orm_model" />
         </service>
 
+        <!--
         <service id="template_assets" class="%template_assets.class%">
             <argument type="service" id="service_container" />
         </service>
@@ -151,7 +158,7 @@
             <argument type="service" id="template_assets" />
             <argument type="service" id="kernel" />
             <argument type="service" id="template_slots_factory" />
-        </service>
+        </service>-->
 
         <service id="alphalemon_cms.local_deployer" class="%alphalemon_cms.local_deployer.class%">
             <argument type="service" id="service_container" />

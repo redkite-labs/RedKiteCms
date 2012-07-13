@@ -70,21 +70,15 @@ class ChangeTemplateListenerTest extends BaseListenerTest
                            ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->templateSlotsFactory = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactory')
-                           ->disableOriginalConstructor()
-                            ->getMock();
-
         $this->templateChanger = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger')
                            ->disableOriginalConstructor()
                             ->getMock();
-
-        /*
-        $this->templateSlots = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots')
-                            ->disableOriginalConstructor()
-                            ->getMockForAbstractClass();*/
         
+        $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
 
-        $this->testListener = new ChangeTemplateListener($this->kernel, $this->templateChanger ,$this->templateSlotsFactory);
+        $this->testListener = new ChangeTemplateListener($this->kernel, $this->templateChanger, $this->themesCollectionWrapper);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
