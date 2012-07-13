@@ -63,13 +63,6 @@ class CmsBootstrapListener
             return;
         }
 
-/*
-echo "Q";
-        $factory = $this->container->get('alphalemon_cms.block_manager_factory');
-        $bm = $this->container->get('block_model');
-        $block = $factory->createBlock($bm, 'Text');//print_r($block->get());exit;
-*/
-        //print_R($this->container->get('alphalemon_cms.block_manager_factory')->createBlock($this->container->get('block_model'), 'Text'));
         $this->checkConfigurationParameters();
         $this->setUpRequiredFolders();
         $this->setUpPageTree();
@@ -117,12 +110,16 @@ echo "Q";
 
     private function setUpPageTree()
     {
-        $this->pageTree->setup();
+        $this->pageTree->setUp();
     }
 
     private function checkTemplatesSlots()
     {
         $template = $this->pageTree->getTemplate();
+        if(null === $template) {
+            return;
+        }
+
         $slotsAligner = $this->container->get('repeated_slots_aligner');
         $slotsAligner->align($template->getThemeName(), $template->getTemplateName(), $template->getSlots());
     }

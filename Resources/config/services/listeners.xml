@@ -63,7 +63,7 @@
             <tag name="alcms.event_listener" event="pages.before_edit_page_commit" method="onBeforeEditPageCommit" priority="0" />
             <argument type="service" id="kernel" />
             <argument type="service" id="template_changer" />
-            <argument type="service" id="template_slots_factory" />
+            <argument type="service" id="alphalemon_cms.themes_collection_wrapper" />
         </service>
 
         <service id="al_remove_seo_listener" class="%al_remove_seo_listener.class%">

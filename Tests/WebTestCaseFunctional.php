@@ -28,6 +28,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 use AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots;
+use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
+use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets;
 
 /**
  * WebTestCase
@@ -81,14 +83,19 @@ class WebTestCaseFunctional extends WebTestCase {
             'debug'       => true,
             ));
 
+        /*
         $dir = realpath(__DIR__ . '/Functional/Resources/fixtures');
         $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);
-        $template = new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate(new \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets(), $client->getContainer()->get('kernel'), $client->getContainer()->get('template_slots_factory'));
-        $template->setTemplateSlots($templateSlots);
+        $template = new AlTemplate($client->getContainer()->get('kernel'), new AlTemplateAssets(), $client->getContainer()->get('template_slots_factory'));
+        $template->setTemplateSlots($templateSlots);*/
+        
+        $themes = $client->getContainer()->get('alphalemon_theme_engine.themes');
+        $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
+        $template = $theme->getTemplate('home');
+        
         $pageContentsContainer = new AlPageBlocks($dispatcher, $blockRepository);
         $templateManager = new AlTemplateManager($dispatcher, $template, $pageContentsContainer, $blockRepository, $client->getContainer()->get('alphalemon_cms.block_manager_factory'));
-        $templateManager
-                ->refresh();
+        $templateManager->refresh();
         $seoManager = new AlSeoManager($dispatcher, $seoRepository);
 
         $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $languageRepository), 'onBeforeAddPageCommit'));

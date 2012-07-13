@@ -25,18 +25,8 @@ use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets as BaseTemplateA
  */
 class AlTemplateAssets extends BaseTemplateAssets
 {
-    /**
-     * Overrides the base setUp method to add assets that must be used when the cms is opened
-     */
-    protected function setUp()
+    protected function getAssetsGroups()
     {
-        if ($this->themeName != '' && $this->templateName != '') {
-            parent::setUp();
-
-            $this->externalStylesheets = array_merge($this->externalStylesheets, $this->fetchAssets(sprintf('themes.%s_%s.external_stylesheets.cms', $this->assetsThemeName, $this->assetsTemplateName)));
-            $this->internalStylesheets = array_merge($this->internalStylesheets, $this->fetchAssets(sprintf('themes.%s_%s.internal_stylesheets.cms', $this->assetsThemeName, $this->assetsTemplateName)));
-            $this->externalJavascripts = array_merge($this->externalJavascripts, $this->fetchAssets(sprintf('themes.%s_%s.external_javascripts.cms', $this->assetsThemeName, $this->assetsTemplateName)));
-            $this->internalJavascripts = array_merge($this->internalJavascripts, $this->fetchAssets(sprintf('themes.%s_%s.internal_javascripts.cms', $this->assetsThemeName, $this->assetsTemplateName)));
-        }
+        return array('cms');
     }
 }

@@ -28,6 +28,7 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 
 /**
  * AlTemplateManager is the object responsible to manage the template's slots.
@@ -36,7 +37,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
  * The AlTemplateManager object collects the slots from the templated defined by an object derived
  * from an AlTemplateSlotsInterface.
  *
- * @api
+ *
  * @see AlSlotManager
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -57,13 +58,13 @@ class AlTemplateManager extends AlTemplateBase
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template, AlPageBlocksInterface $pageBlocks, BlockRepositoryInterface $blockRepository = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null, BlockRepositoryInterface $blockRepository = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
         $this->template = $template;
-        $this->pageBlocks = $pageBlocks;
         $this->blockRepository =  (null === $blockRepository) ? new AlBlockRepositoryPropel() : $blockRepository;
+        $this->pageBlocks = (null === $pageBlocks) ? new AlPageBlocks($dispatcher, $this->blockRepository) : $pageBlocks;
     }
 
     /**
@@ -71,7 +72,7 @@ class AlTemplateManager extends AlTemplateBase
      *
      * @param AlTemplate $templateSlots
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
-     * @api
+     *
      */
     public function setTemplate(AlTemplate $templateSlots)
     {
@@ -84,7 +85,7 @@ class AlTemplateManager extends AlTemplateBase
      * Returns the current AlTemplateobject
      *
      * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
-     * @api
+     *
      */
     public function getTemplate()
     {
@@ -94,7 +95,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the current AlTemplateSlots object
      *
-     * @api
+     *
      * @param AlTemplateSlotsInterface $templateSlots
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
@@ -108,7 +109,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current AlTemplateSlots object
      *
-     * @api
+     *
      * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
      */
     public function getTemplateSlots()
@@ -119,7 +120,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the page contents container object
      *
-     * @api
+     *
      * @param AlPageBlocksInterface $pageBlocks
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
@@ -133,7 +134,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current page contents container object
      *
-     * @api
+     *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      */
     public function getPageBlocks()
@@ -144,7 +145,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the block model interface
      *
-     * @api
+     *
      * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
@@ -168,7 +169,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the managed slot managers
      *
-     * @api
+     *
      * @return array
      */
     public function getSlotManagers()
@@ -179,7 +180,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the slot manager that matches the given parameter
      *
-     * @api
+     *
      * @param string $slotName
      * @return null|AlSlotManager
      */
@@ -196,7 +197,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the slot manager as an array
      *
-     * @api
+     *
      * @param string $slotName
      * @return array
      * @throws \InvalidArgumentException
@@ -219,7 +220,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns all the slotManagers as array
      *
-     * @api
+     *
      * @return array
      */
     public function slotsToArray()
@@ -248,7 +249,7 @@ class AlTemplateManager extends AlTemplateBase
      * This method is used to add a new page based on the template managed by this object. The slots
      * are filled up using the dafault values provided by each single slot.
      *
-     * @api
+     *
      * @param int $idLanguage           The id that identified the language to add
      * @param int $idPage               The id that identified the page to add
      * @param Boolean $ignoreRepeated   True skips the slots that are repeated on page
@@ -259,7 +260,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         if (count($this->slotManagers) > 0) {
             try {
-                $this->refreshPageContentsContainer($idLanguage, $idPage);
+                $this->refreshPageBlocks($idLanguage, $idPage);
 
                 $result = false;
                 $this->blockRepository->startTransaction();
@@ -298,7 +299,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Removes the blocks from the whole slot managers managed by the template manager
      *
-     * @api
+     *
      * @param Boolean $ignoreRepeated
      * @return type
      * @throws Exception
@@ -347,7 +348,7 @@ class AlTemplateManager extends AlTemplateBase
      * Clear the blocks from the whole slot managers managed by the template manager,
      * for a page identified by the required parameters
      *
-     * @api
+     *
      * @param type $languageId
      * @param type $pageId
      * @param type $ignoreRepeated
@@ -360,7 +361,7 @@ class AlTemplateManager extends AlTemplateBase
             $this->blockRepository->startTransaction();
 
             $pageBlocks = clone($this->pageBlocks);
-            $this->refreshPageContentsContainer($languageId, $pageId);
+            $this->refreshPageBlocks($languageId, $pageId);
 
             $result = $this->clearBlocks($ignoreRepeated);
             $this->pageBlocks = $pageBlocks;
@@ -388,12 +389,12 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Creates the slot managers from the current template slot class
      *
-     * @api
+     *
      */
     protected function setUpSlotManagers()
     {
         $templateSlots = $this->template->getTemplateSlots();
-
+        
         if (null === $templateSlots) {
             throw new General\ParameterIsEmptyException("Any template has been set");
         }
@@ -418,7 +419,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Create the slot manager for the given slot
      *
-     * @api
+     *
      * @param AlSlot $slot
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
@@ -438,7 +439,7 @@ class AlTemplateManager extends AlTemplateBase
      * @param int $idLanguage
      * @param int $idPage
      */
-    private function refreshPageContentsContainer($idLanguage, $idPage)
+    private function refreshPageBlocks($idLanguage, $idPage)
     {
         if($idLanguage != $this->pageBlocks->getIdLanguage() || $idPage != $this->pageBlocks->getIdPage()) {
             $this->pageBlocks

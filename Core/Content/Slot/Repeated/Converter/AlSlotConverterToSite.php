@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 /**
  * Converts a slot to site repeated status
  * 
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com> 
  */
 class AlSlotConverterToSite extends AlSlotConverterBase

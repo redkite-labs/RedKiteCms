@@ -48,6 +48,21 @@ class AlCmsController extends Controller
 
     public function showAction()
     {
+        /*
+        $t = $this->container->get('alphalemon_theme_engine.template.home');
+        echo "Y".count($t->getExternalStylesheets())."R";
+
+
+        $t = $this->container->get('app_business_website.theme');
+        echo count($t->getTemplate('home')->getExternalStylesheets());
+
+        var_dump($this->container->get('business_website_theme.template.home.slots'));*/
+
+        /*
+        $ts = $this->container->get('business_website_theme.template.home.slots');
+        print_r($ts->getSlot('logo')->toArray());
+        exit;*/
+
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('al_page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
@@ -124,25 +139,28 @@ class AlCmsController extends Controller
 
     private function findTemplate(AlPageTree $pageTree)
     {
-        $template = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
-        $themeName = $pageTree->getTemplate()->getThemeName();
-        $templateName = $pageTree->getTemplate()->getTemplateName();
-
-        $themeFolder = AlToolkit::locateResource($this->kernel, $themeName);
-        if(false === $themeFolder || !is_file($themeFolder .'Resources/views/Theme/' . $templateName . '.html.twig'))
+        $templateTwig = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
+        if(null !== $template = $pageTree->getTemplate())
         {
-            $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
+            $themeName = $template->getThemeName();
+            $templateName = $template->getTemplateName();
 
-            return $template;
+            $themeFolder = AlToolkit::locateResource($this->kernel, $themeName);
+            if(false === $themeFolder || !is_file($themeFolder .'Resources/views/Theme/' . $templateName . '.html.twig'))
+            {
+                $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
+
+                return $templateTwig;
+            }
+
+            if($themeName != "" && $templateName != "")
+            {
+                $this->kernelPath = $this->container->getParameter('kernel.root_dir');
+                $templateTwig = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $this->kernelPath, $themeName, $templateName))) ? sprintf('::%s/%s.html.twig', $themeName, $templateName) : sprintf('%s:Theme:%s.html.twig', $themeName, $templateName);
+            }
         }
 
-        if($themeName != "" && $templateName != "")
-        {
-            $this->kernelPath = $this->container->getParameter('kernel.root_dir');
-            $template = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $this->kernelPath, $themeName, $templateName))) ? sprintf('::%s/%s.html.twig', $themeName, $templateName) : sprintf('%s:Theme:%s.html.twig', $themeName, $templateName);
-        }
-
-        return $template;
+        return $templateTwig;
     }
 
     private function locateAssets(array $assets)

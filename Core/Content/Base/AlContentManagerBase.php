@@ -38,7 +38,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  *
  * All of them extends this class
  *
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlContentManagerBase extends AlTranslator
@@ -74,7 +74,7 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Sets the parameters validator object
      *
-     * @api
+     *
      * @param AlParametersValidatorInterface $validator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
      */
@@ -113,7 +113,7 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Returns the ParameterValidator object
      *
-     * @api
+     *
      * @return TranslatorInterface
      */
     public function getValidator()

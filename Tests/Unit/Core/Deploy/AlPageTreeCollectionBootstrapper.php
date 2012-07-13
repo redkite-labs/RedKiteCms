@@ -37,7 +37,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected $seoRepository;
     protected $template;
     protected $pageBlocks;
-    protected $templateManager;
+    protected $themes;
 
     protected function initSomeLangugesAndPages()
     {
@@ -68,7 +68,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->will($this->onConsecutiveCalls($this->page1, $this->page2, $this->page1, $this->page2));
 
         $this->themeRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel');
-        $this->themeRepository->expects($this->once())
+        $this->themeRepository->expects($this->any())
             ->method('activeBackend')
             ->will($this->returnValue($this->setUpTheme()));
 
@@ -77,13 +77,14 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
+        /*
         $this->template->expects($this->exactly(4))
             ->method('setThemeName')
             ->will($this->returnSelf());
 
         $this->template->expects($this->exactly(4))
             ->method('setTemplateName')
-            ->will($this->returnSelf());
+            ->will($this->returnSelf());*/
 
         $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->template->expects($this->any())
@@ -131,11 +132,23 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $this->templateManager->expects($this->any())
             ->method('setTemplateSlots')
             ->will($this->returnSelf());
+        
+        $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->themesCollectionWrapper->expects($this->any())
+            ->method('assignTemplate')
+            ->will($this->returnValue($this->templateManager));
     }
 
     protected function setUpPage($pageName, $isHome = false)
     {
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(2));
+
         $page->expects($this->any())
             ->method('getPageName')
             ->will($this->returnValue($pageName));
@@ -154,6 +167,10 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected function setUpLanguage($languageName, $isMain = false)
     {
         $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(2));
+
         $language->expects($this->any())
             ->method('getLanguage')
             ->will($this->returnValue($languageName));
@@ -186,7 +203,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected function setUpTheme()
     {
         $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Model\AlTheme');
-        $theme->expects($this->once())
+        $theme->expects($this->any()) // $this->once()
             ->method('getThemeName')
             ->will($this->returnValue('FakeTheme'));
 

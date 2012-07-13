@@ -1,8 +1,18 @@
 <?php
-
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This file is part of the AlphaLemon CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.alphalemon.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
@@ -63,7 +73,15 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageTree = new AlPageTree($this->container, $this->templateManager, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository);
+        $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $this->themesCollectionWrapper->expects($this->any())
+            ->method('assignTemplate')
+            ->will($this->returnValue($this->templateManager));
+
+        $this->pageTree = new AlPageTree($this->container, $this->themesCollectionWrapper, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository);
     }
 
     public function testLanguageIsFetchedFromLanguageParam()
@@ -513,6 +531,7 @@ class AlPageTreeTest extends TestCase
 
     public function testPageTreeHasBeenRefreshed()
     {
+        $this->configureTheme();
         $this->language = $this->setUpLanguage(2);
         $this->page = $this->setUpPage(2);
         $alSeo = $this->setUpSeo(2);
@@ -538,11 +557,11 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
-
+/*
         $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->template->expects($this->any())
             ->method('getTemplateSlots')
-            ->will($this->returnValue($templateSlots));
+            ->will($this->returnValue($templateSlots));*/
 
         $this->pageTree->refresh(2, 2);
         $this->assertEquals($this->language, $this->pageTree->getAlLanguage());
@@ -603,11 +622,11 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
-
+/*
         $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->template->expects($this->any())
             ->method('getTemplateSlots')
-            ->will($this->returnValue($templateSlots));
+            ->will($this->returnValue($templateSlots));*/
     }
 
     private function configureLanguage()
@@ -663,7 +682,7 @@ class AlPageTreeTest extends TestCase
     protected function setUpTheme()
     {
         $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Model\AlTheme');
-        $theme->expects($this->once())
+        $theme->expects($this->any())
             ->method('getThemeName')
             ->will($this->returnValue('FakeTheme'));
 
@@ -698,8 +717,9 @@ class AlPageTreeTest extends TestCase
             ->method('setPageBlocks')
             ->will($this->returnSelf());
 
+        /*
         $this->templateManager->expects($this->once())
             ->method('setTemplateSlots')
-            ->will($this->returnSelf());
+            ->will($this->returnSelf());*/
     }
 }

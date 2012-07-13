@@ -34,7 +34,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInte
  * which is changing its repeated status
  *
  *
- * @api
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlSlotConverterBase implements AlSlotConverterInterface

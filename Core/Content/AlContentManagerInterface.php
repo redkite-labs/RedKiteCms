@@ -28,7 +28,7 @@ interface  AlContentManagerInterface {
     /**
      * Returns the managed object 
      * 
-     * @api
+     *
      * @return object
      */
     public function get();
@@ -36,7 +36,7 @@ interface  AlContentManagerInterface {
     /**
      * Sets the object to be managed
      * 
-     * @api
+     *
      * @param   A BaseObject instance
      */
     public function set($propelObject = null);
@@ -44,7 +44,7 @@ interface  AlContentManagerInterface {
     /**
      * Implements the base method to add or edit the managed object
      * 
-     * @api
+     *
      * @param   A BaseObject instance
      * @return  Boolean
      */
@@ -53,7 +53,7 @@ interface  AlContentManagerInterface {
     /**
      * Implements the base method to delete the managed object
      * 
-     * @api
+     *
      * @return  Boolean
      */
     public function delete();

@@ -87,7 +87,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Sets the language model object
      *
-     * @api
+     *
      * @param LanguageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager
      */

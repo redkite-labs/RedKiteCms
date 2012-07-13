@@ -113,7 +113,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->seoRepository, $router, $this->templateManager, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository));
+            ->will($this->onConsecutiveCalls($this->kernel, $this->seoRepository, $router, $this->themesCollectionWrapper, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository));
 
         $this->deployer = new AlTwigDeployer($this->container);
         $this->assertTrue($this->deployer->deploy());
