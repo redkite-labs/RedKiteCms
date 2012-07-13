@@ -90,14 +90,6 @@ class AlAsset
         return $this->normalizePath($this->realPath($this->kernel->getRootDir() . '/../' .  $webFolder . $this->absolutePath));
     }
 
-    private function realPath($path)
-    {
-        $realPath = realpath($path);
-        if(false === $realPath) $realPath = $path;
-
-        return $realPath;
-    }
-
     /**
      * Sets up the asset information
      */
@@ -166,5 +158,13 @@ class AlAsset
     protected function normalizePath($path)
     {
         return preg_replace('/\\\/', '/', $path);
+    }
+
+    private function realPath($path)
+    {
+        $realPath = realpath($path);
+        if(false === $realPath) $realPath = $path;
+
+        return $realPath;
     }
 }

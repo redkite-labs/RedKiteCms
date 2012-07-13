@@ -45,21 +45,10 @@ class AlTemplateAssets
     protected $templateName;
     protected $assetsTemplateName;
     protected $assetsThemeName;
-    protected $externalStylesheets;
-    protected $internalStylesheets;
-    protected $externalJavascripts;
-    protected $internalJavascripts;
-    protected $isBootstrapped = false;
-
-    /**
-     * Constructor
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
+    protected $externalStylesheets = array();
+    protected $internalStylesheets = array();
+    protected $externalJavascripts = array();
+    protected $internalJavascripts = array();
 
     /**
      * Sets the template name
@@ -70,9 +59,8 @@ class AlTemplateAssets
     public function setTemplateName($v)
     {
         $this->validateString($v);
-        $this->templateName = $v;
+        $this->templateName = strtolower($v);
         $this->assetsTemplateName = strtolower($this->templateName);
-        $this->setUp();
 
         return $this;
     }
@@ -88,7 +76,6 @@ class AlTemplateAssets
         $this->validateString($v);
         $this->themeName = $v;
         $this->assetsThemeName = strtolower(str_replace('Bundle', '', $this->themeName));
-        $this->setUp();
 
         return $this;
     }
@@ -113,11 +100,6 @@ class AlTemplateAssets
         return $this->themeName;
     }
 
-    public function isBootstrapped()
-    {
-        return $this->isBootstrapped;
-    }
-    
     /**
      * Catches the methods to manage template assets
      *
@@ -140,18 +122,30 @@ class AlTemplateAssets
             $values = array($values);
         }
 
-        if(preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)?(Range)$/', $name, $matches))
+        if(preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)?/', $name, $matches))
         {
             $property = strtolower($matches[2]) . $matches[3];
-            $this->$property = $params[0];
 
-            return $this;
-        }
-
-        if(preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)?(Range)$/', $name, $matches))
-        {
-            $property = strtolower($matches[2]) . $matches[3];
-            $this->$property = array_merge($this->$property, $params[0]);
+            $assets = $params[0];
+            $groupedAssets = array();
+            
+            // merges valid groups
+            $assetGroups = $this->getAssetsGroups();
+            foreach ($assetGroups as $assetGroup) {
+                if (array_key_exists($assetGroup, $assets)) {
+                    $groupedAssets = array_merge($groupedAssets, $assets[$assetGroup]);
+                    unset($assets[$assetGroup]);
+                }
+            }
+            
+            // removes invalid groups
+            foreach ($assets as $key => $asset) { 
+                if(is_array($asset)) {
+                    unset($assets[$key]);
+                }
+            }
+            
+            $this->$property = array_merge($assets, $groupedAssets);
 
             return $this;
         }
@@ -160,32 +154,29 @@ class AlTemplateAssets
     }
 
     /**
-     * Sets up the assets for the current template
-     */
-    protected function setUp()
-    {
-        if ($this->assetsThemeName != '' && $this->assetsTemplateName != '') {
-            $this->externalStylesheets = $this->fetchAssets(sprintf('themes.%s_%s.external_stylesheets', $this->assetsThemeName, $this->assetsTemplateName));
-            $this->internalStylesheets = $this->fetchAssets(sprintf('themes.%s_%s.internal_stylesheets', $this->assetsThemeName, $this->assetsTemplateName));
-            $this->externalJavascripts = $this->fetchAssets(sprintf('themes.%s_%s.external_javascripts', $this->assetsThemeName, $this->assetsTemplateName));
-            $this->internalJavascripts = $this->fetchAssets(sprintf('themes.%s_%s.internal_javascripts', $this->assetsThemeName, $this->assetsTemplateName));
-
-            $this->isBootstrapped = true;
-        }
-    }
-
-    /**
-     * Retrieves the requested param from the container. When the parameter does not exist, an empty array is returned
+     * Defines the valid assets groups for the current environment.
      *
-     * @param type $param
+     * By default any valid group is permitted, so just plain arrays are processed.
+     * To add one or more groups, just override this method and return an array
+     * with valid groups. For example the AlphaLemon CMS overrides this method
+     * and returns the following array:
+     *
+     *      array("cms")
+     *
+     * In this way, when the setXXX method is called, it can accept an addictional array
+     * which has the cms key:
+     *
+     *      array( "asset1",
+     *             "asset2",
+     *             array("cms" => array("asset1", "asset2",),
+     *            )
+     *
+     * Grouped assets are always placed to the last position
+     *
      * @return array
      */
-    protected function fetchAssets($param)
+    protected function getAssetsGroups()
     {
-        if(null !== $this->container && $this->container->hasParameter($param)) {
-            return $this->container->getParameter($param);
-        }
-
         return array();
     }
 

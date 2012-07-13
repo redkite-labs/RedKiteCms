@@ -39,19 +39,21 @@ class AlTemplate
     protected $templateAssets = null;
     protected $assets = null;
     protected $templateSlots = null;
-
+    
     /**
      * Constructor
      *
-     * @param AlTemplateAssets $templateAssets
      * @param KernelInterface $kernel
-     * @param AlTemplateSlotsFactoryInterface $templateSlotsFactory
+     * @param AlTemplateAssets $templateAssets
+     * @param AlTemplateSlotsInterface $templateSlots
      */
-    public function __construct(AlTemplateAssets $templateAssets, KernelInterface $kernel, AlTemplateSlotsFactoryInterface $templateSlotsFactory)
+    public function __construct(KernelInterface $kernel, AlTemplateAssets $templateAssets, AlTemplateSlotsInterface $templateSlots)
     {
-        $this->templateAssets = $templateAssets;
         $this->kernel = $kernel;
-        $this->templateSlotsFactory = $templateSlotsFactory;
+        $this->templateAssets = $templateAssets;
+        $this->templateSlots = $templateSlots;
+        
+        $this->setUp();
     }
 
     /**
@@ -190,8 +192,6 @@ class AlTemplate
         $themeName = $this->getThemeName();
         $templateName = $this->getTemplateName();
         if ($themeName != '' && $templateName != '') {
-            $this->templateSlots = $this->templateSlotsFactory->create($themeName, $templateName);
-
             $this->assets = new \ArrayObject(array());
             $this->assets->stylesheets = new \ArrayObject(array());
             $this->assets->javascripts = new \ArrayObject(array());

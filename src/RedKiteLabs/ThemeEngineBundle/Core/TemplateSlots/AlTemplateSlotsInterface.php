@@ -24,11 +24,11 @@ namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 interface AlTemplateSlotsInterface
 {
     /**
-     * Configures the slots
+     * Adds a slot object
      *
-     * @return array
+     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
      */
-    public function configure();
+    public function addSlot(AlSlot $slot);
 
     /**
      * Return the template's slots
@@ -43,4 +43,12 @@ interface AlTemplateSlotsInterface
      * @return null|array
      */
     public function getSlots();
+
+    /**
+     * Returns all the slots by repeated status
+     *
+     * @param boolean
+     * @return array
+     */
+    public function toArray($fullSlot = false);
 }

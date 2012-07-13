@@ -94,7 +94,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      */
     public function add($asset)
     {
-        if(null !== $asset && $asset != "")
+        if(null !== $asset && $asset != "" && is_string($asset))
         {
             $assetName = basename($asset);
 

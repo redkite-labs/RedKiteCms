@@ -24,32 +24,20 @@ use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidTemplateNameException;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * This is the base class where the template's slots must be defined
+ * AlTemplateSlots is the object deputated to collect and manage the template's slots
  *
  * @author AlphaLemon
  */
-abstract class AlTemplateSlots implements AlTemplateSlotsInterface
+class AlTemplateSlots implements AlTemplateSlotsInterface
 {
-    private $kernel;
     private $slots = array();
-    private $fixturesFolder = null;
 
     /**
-     * Constructor
+     * { @inheritdoc }
      */
-    public function __construct(KernelInterface $kernel = null, $fixturesFolder = null)
+    public function addSlot(AlSlot $slot)
     {
-        if (null === $fixturesFolder && null === $kernel) {
-           throw new \RuntimeException("The template's folder cannot be located. Please give a valid folder or a valid kernel instance to locate the fixtures folder");
-        }
-
-        if (null === $kernel && !realpath($fixturesFolder)) {
-           throw new \InvalidException("The fixtures folder does not exist. Please add a valid folder where the template's slots are located");
-        }
-
-        $this->kernel = $kernel;
-        $this->fixturesFolder = $fixturesFolder;
-        $this->slots = $this->configure();
+        $this->slots[$slot->getSlotName()] = $slot;
     }
 
     /**
@@ -61,13 +49,25 @@ abstract class AlTemplateSlots implements AlTemplateSlotsInterface
     }
 
     /**
-     * Returns a slot by its name
-     *
-     * @return array
+     * { @inheritdoc }
      */
     public function getSlot($slotName)
     {
-        return (array_key_exists($slotName, $this->slots)) ? $this->slots[$slotName] : null;
+        return $this->checkSlotExists($slotName) ? $this->slots[$slotName] : null;
+    }
+
+    /**
+     * { @inheritdoc }
+     */
+    public function toArray($fullSlot = false)
+    {
+        $slots = array();
+        foreach($this->slots as $slot)
+        {
+            $slots[$slot->getRepeated()][] = ($fullSlot) ? $slot->toArray() : $slot->getSlotName();
+        }
+
+        return $slots;
     }
 
     /**
@@ -84,107 +84,16 @@ abstract class AlTemplateSlots implements AlTemplateSlotsInterface
     }
 
     /**
-     * Returns the default text when a new content is added to the slot
+     * Returns the default html content when a new content is added to the slot
      *
      * @param   string   $slotName The slot name to retrieve
      * @return  string   The default text
      */
-    public function getTextFromSlot($slotName)
+    public function getHtmlContentFromSlot($slotName)
     {
         if(!$this->checkSlotExists($slotName)) return null;
 
         return $this->slots[$slotName]->getHtmlContent();
-    }
-
-    /**
-     * Returns all the slots by repeated status
-     * @return type
-     */
-    public function toArray()
-    {
-        //throw new \Exception('Please rename me [AlTemplateSlots toArray()]');
-        $slots = array();
-        foreach($this->slots as $slot)
-        {
-            $slots[$slot->getRepeated()][] = $slot->getSlotName();
-        }
-
-        return $slots;
-    }
-
-    /**
-     * Creates the template's slots
-     *
-     * @param string $themeName     The theme name
-     * @param string $templateName  The template name
-     * @return array
-     */
-    protected function setupSlots($themeName, $templateName)
-    {
-        preg_match('/[^a-z]/', $templateName, $matches);
-        if(!empty($matches))
-        {
-            throw new InvalidTemplateNameException(sprintf('A template name must be made only by lower-case letters. Any other character is not valid. Please check your %s theme class.', get_class($this)));
-        }
-
-        $baseSlots = $this->retrieveSlotsFromFixtureFile($themeName, 'base');
-        $templateSlots = $this->retrieveSlotsFromFixtureFile($themeName, $templateName);
-        $fixturedSlots = array_merge($baseSlots, $templateSlots);
-
-        $slots = array();
-        foreach($fixturedSlots as $slotName => $values)
-        {
-            if('~' === $values) $values = null;
-            $slots[$slotName] = new AlSlot($slotName, $values);
-        }
-
-        return $slots;
-    }
-
-    /**
-     * Loads the fixtures for the given template
-     *
-     * @param string $themeName     The theme name
-     * @param string $templateName  The template name
-     * @return array, null
-     */
-    private function loadFixtures($themeName, $templateName)
-    {
-        $fixturesFolder = (null === $this->fixturesFolder) ? AlToolkit::locateResource($this->kernel, $themeName) . 'Resources/fixtures' : $this->fixturesFolder;
-        $fileName = $templateName . '.yml';
-        if(is_dir($fixturesFolder) && is_file($fixturesFolder . '/' . $fileName))
-        {
-            $locator = new FileLocator($fixturesFolder);
-            $defaultContents = Yaml::parse($locator->locate($fileName));
-
-            return $defaultContents;
-        }
-
-        return null;
-    }
-
-    /**
-     * Parses the fixture file and returns the slots as array
-     *
-     * @param string $themeName     The theme name
-     * @param string $templateName  The template name
-     * @return array
-     */
-    private function retrieveSlotsFromFixtureFile($themeName, $templateName)
-    {
-        $slots = array();
-        $repeatedSlots = $this->loadFixtures($themeName, $templateName);
-        if(null !== $repeatedSlots) {
-            if(!array_key_exists('slots', $repeatedSlots)) {
-                throw new InvalidFixtureConfigurationException(sprintf('The fixture file that defines the template slots must start with slots. Check your %s.yml file', $fileName));
-            }
-            else
-            {
-                $slots = $repeatedSlots['slots'];
-            }
-        }
-
-        return $slots;
     }
 
     /**

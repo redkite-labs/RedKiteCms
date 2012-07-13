@@ -29,15 +29,15 @@ class AlTemplateTest extends TestCase
 {
     private $templateAssets;
     private $kernel;
-    private $templateSlotsFactory;
+    private $templateSlots;
 
     protected function setUp()
     {
         $this->templateAssets = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets');
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->templateSlotsFactory = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface');
+        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
 
-        $this->template = new AlTemplate($this->templateAssets, $this->kernel, $this->templateSlotsFactory);
+        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);
     }
 
     public function testAssetsAreNotRetrievedJustValorizingTheThemeName()
@@ -76,11 +76,29 @@ class AlTemplateTest extends TestCase
             ->method('__call')
             ->will($this->returnValue(array()));
 
-        $this->initTemplateSlots();
-
         $this->template
                 ->setThemeName($themeName)
                 ->setTemplateName($templateName);
+
+        $this->verifyAssets(0);
+    }
+    
+    public function testTemplateHasBeenPopulatedWithEmptyAssetsFromTheTemplateAssetsObject()
+    {
+        $templateName = "Home";
+        $this->templateAssets->expects($this->exactly(1))
+            ->method('getThemeName')
+            ->will($this->returnValue("BusinessWebsiteThemeBundle"));
+        
+        $this->templateAssets->expects($this->exactly(1))
+            ->method('getTemplateName')
+            ->will($this->returnValue($templateName));
+
+        $this->templateAssets->expects($this->exactly(4))
+            ->method('__call')
+            ->will($this->returnValue(array()));
+
+        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);
 
         $this->verifyAssets(0);
     }
@@ -90,7 +108,6 @@ class AlTemplateTest extends TestCase
         $themeName = "BusinessWebsiteThemeBundle";
         $templateName = "Home";
         $this->initTemplateWithSomeAssets($themeName, $templateName);
-        $this->initTemplateSlots();
 
         $this->template
                 ->setThemeName($themeName)
@@ -121,12 +138,12 @@ class AlTemplateTest extends TestCase
 
         $slot = array('repeated' => 'site');
         $slots = array('logo' => $slot);
-        $templateSlots = $this->initTemplateSlots();
-        $templateSlots->expects($this->once())
+        
+        $this->templateSlots->expects($this->once())
             ->method('getSlots')
             ->will($this->returnValue($slots));
 
-        $templateSlots->expects($this->once())
+        $this->templateSlots->expects($this->once())
             ->method('getSlot')
             ->will($this->returnValue($slot));
 
@@ -157,16 +174,6 @@ class AlTemplateTest extends TestCase
                     array('Fake style'),
                     array('@BusinessWebsiteThemeBundle/Resources/public/js/reset.js'),
                     array('Fake code')));
-    }
-
-    private function initTemplateSlots()
-    {
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->templateSlotsFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($templateSlots));
-
-        return $templateSlots;
     }
 
     private function verifyAssets($expectedElements)

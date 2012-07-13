@@ -101,7 +101,7 @@ class TemplateController extends Controller
         {
             foreach($slotNames as $slotName)
             {
-                $slots[$slotName][] = $templateSlots->getTextFromSlot($slotName);
+                $slots[$slotName][] = $templateSlots->getHtmlContentFromSlot($slotName);
             }
         }
         

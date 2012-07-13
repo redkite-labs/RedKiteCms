@@ -26,13 +26,10 @@ use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets;
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AlTemplateAssetTest extends TestCase
-{    
-    private $container;
-    
+{   
     protected function setUp() 
     {
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->templateAssets = new AlTemplateAssets($this->container);
+        $this->templateAssets = new AlTemplateAssets();
     }
     
     /**
@@ -70,15 +67,13 @@ class AlTemplateAssetTest extends TestCase
     public function testAssetsAreNotRetrievedJustValorizingTheThemeName()
     {
         $this->templateAssets->setThemeName('BusinessWebsiteThemeBundle');
-        $this->assertNull($this->templateAssets->getExternalStylesheets());
-        $this->assertFalse($this->templateAssets->isBootstrapped());
+        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 0);
     }
     
     public function testAssetsAreNotRetrievedJustValorizingTheTemplateName()
     {
         $this->templateAssets->setTemplateName('Home');
-        $this->assertNull($this->templateAssets->getExternalStylesheets());
-        $this->assertFalse($this->templateAssets->isBootstrapped());
+        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 0);
     }
     
     public function testAssetsHaveBeenSetted()
@@ -87,80 +82,27 @@ class AlTemplateAssetTest extends TestCase
                 ->setThemeName('BusinessWebsiteThemeBundle')
                 ->setTemplateName('Home');
         $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 0);
-        $this->assertTrue($this->templateAssets->isBootstrapped());
     }
     
-    public function testJustExternalStylesheetsHaveBeenSetted()
+    public function testSetExternalStylesheets()
     {
         $assets = array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
         
-        $this->container->expects($this->any())
-            ->method('hasParameter')
-            ->will($this->onConsecutiveCalls(true, false, false, false));
-        
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->returnValue($assets));
-        
         $this->templateAssets
-                ->setThemeName('BusinessWebsiteThemeBundle')
-                ->setTemplateName('Home');
+                ->setExternalStylesheets($assets);
         $this->assertEquals($assets, $this->templateAssets->getExternalStylesheets());        
-        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 1);        
-        $this->assertTrue(count($this->templateAssets->getInternalStylesheets()) == 0);        
-        $this->assertTrue(count($this->templateAssets->getExternalJavascripts()) == 0);
-        $this->assertTrue(count($this->templateAssets->getInternalJavascripts()) == 0);
+        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 1);  
     }
     
-    
-    public function testValorizedAllAssets()
+    public function testOnlyPlainAssetsArraysAreAllowed()
     {
-        $externalStylesheets = array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
-        $internalStylesheets = array('Fake style');
-        $externalJavascripts = array('@BusinessWebsiteThemeBundle/Resources/public/js/reset.js');
-        $internalJavascripts = array('Fake code');
+        $baseAssets = array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
         
-        $this->container->expects($this->any())
-            ->method('hasParameter')
-            ->will($this->returnValue(true));
+        $assets = $baseAssets;
+        $assets[] = array('cms' => '@BusinessWebsiteThemeBundle/Resources/public/css/fake.css');
         
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls($externalStylesheets,
-                    $internalStylesheets,
-                    $externalJavascripts,
-                    $internalJavascripts));
-        
-        $this->templateAssets
-                ->setThemeName('BusinessWebsiteThemeBundle')
-                ->setTemplateName('Home');
-        $this->assertEquals($externalStylesheets, $this->templateAssets->getExternalStylesheets());  
-        $this->assertEquals($internalStylesheets, $this->templateAssets->getInternalStylesheets());  
-        $this->assertEquals($externalJavascripts, $this->templateAssets->getExternalJavascripts());  
-        $this->assertEquals($internalJavascripts, $this->templateAssets->getInternalJavascripts());  
-        
-        return $this->templateAssets;
-    }
-    
-    /**
-     *@depends testValorizedAllAssets
-     */
-    public function testAssetsAreSettedWithADirectCall($templateAssets)
-    {
-        $values = array('other stylesheets');        
-        $templateAssets->setExternalStylesheetsRange($values);
-        $this->assertEquals($values, $templateAssets->getExternalStylesheets());  
-    }
-    
-    
-    /**
-     *@depends testValorizedAllAssets
-     */
-    public function testSomeAssetsAreAddedToAnExistingCollection($templateAssets)
-    {
-        $savedAssets = $templateAssets->getExternalStylesheets();
-        $values = array('other stylesheets');        
-        $templateAssets->addExternalStylesheetsRange($values);
-        $this->assertEquals(array_merge($savedAssets, $values), $templateAssets->getExternalStylesheets());  
+        $this->templateAssets->setExternalStylesheets($assets);
+        $this->assertEquals($baseAssets, $this->templateAssets->getExternalStylesheets()); 
+        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 1);  
     }
 }
