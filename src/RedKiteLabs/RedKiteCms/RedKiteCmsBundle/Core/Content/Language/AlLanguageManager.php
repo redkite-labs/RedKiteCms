@@ -33,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesM
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
@@ -46,20 +46,22 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
 class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     protected $alLanguage = null;
+    protected $factoryRepository = null;
     protected $languageRepository = null;
 
     /**
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param LanguageRepositoryInterface $languageRepository
+     * @param AlFactoryRepositoryInterface $factoryRepository
      * @param AlParametersValidatorLanguageManager $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, LanguageRepositoryInterface $languageRepository, AlParametersValidatorLanguageManager $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorLanguageManager $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
-        $this->languageRepository = $languageRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
     }
 
     /**
