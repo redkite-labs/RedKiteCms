@@ -10,16 +10,16 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * Listen to the onBeforeDeletePageCommit event to delete the page's seo attributes, when a page is removed
@@ -28,42 +28,44 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
  */
 class DeleteSeoListener
 {
-    private $seoManager;
-    private $languageRepository;
-    
+    protected $factoryRepository = null;
+    private $seoManager = null;
+    private $languageRepository = null;
+
     /**
      * Constructor
-     * 
+     *
      * @param AlSeoManager $seoManager
-     * @param LanguageRepositoryInterface $languageRepository 
+     * @param AlFactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageRepository)
+    public function __construct(AlSeoManager $seoManager, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->seoManager = $seoManager;
-        $this->languageRepository = $languageRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
     }
 
     /**
      * Deletes the page's seo attributes, for all the languages of the site
-     * 
+     *
      * @param BeforeDeletePageCommitEvent $event
-     * @throws Exception 
+     * @throws Exception
      */
     public function onBeforeDeletePageCommit(BeforeDeletePageCommitEvent $event)
     {
         if ($event->isAborted()) {
             return;
         }
-        
-        $pageManager = $event->getContentManager(); 
+
+        $pageManager = $event->getContentManager();
         $pageRepository = $pageManager->getPageModel();
-        
+
         try {
             $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {
                 $result = null;
-                $pageRepository->startTransaction();            
-                $idPage = $pageManager->get()->getId();            
+                $pageRepository->startTransaction();
+                $idPage = $pageManager->get()->getId();
                 foreach ($languages as $alLanguage) {
                     $result = $this->seoManager->deleteSeoAttributesFromLanguage($alLanguage->getId(), $idPage);
                     if (!$result) {
@@ -86,7 +88,7 @@ class DeleteSeoListener
             if (isset($pageRepository) && $pageRepository !== null) {
                 $pageRepository->rollBack();
             }
-            
+
             throw $e;
         }
     }
