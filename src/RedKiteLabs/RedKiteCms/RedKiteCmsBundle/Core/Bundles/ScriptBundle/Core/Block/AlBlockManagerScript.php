@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle\Core\Block;
@@ -26,35 +26,40 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
  */
 class AlBlockManagerScript extends AlBlockManager
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultValue()
     {
         return array('HtmlContent' => '',
                      'InternalJavascript' => '',
                      'ExternalJavascript' => '');
     }
-    
+
     /**
-     * @see AlBlockManager::getHtmlContentCMSMode()
-     *
+     * {@inheritdoc}
      */
     public function getHtmlContentCMSMode()
     {
         $content = $this->alBlock->getHtmlContent();
-        if(strpos($content, '<script') !== false) return "A script content is not rendered in editor mode";
-        
+        if (strpos($content, '<script') !== false) return "A script content is not rendered in editor mode";
+
         return $content;
     }
 
     /**
-     * @see AlBlockManager::getHideInEditMode()
-     *
+     * {@inheritdoc}
      */
     public function getHideInEditMode()
     {
         return true;
     }
-    
-    public function getReloadSuggested() {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getReloadSuggested()
+    {
         return true;
     }
 }

@@ -7,7 +7,7 @@
     <route id="_create_images_list" pattern="/al_createImagesList">
         <default key="_controller">TextBundle:TinyMCE:createImagesList</default>
     </route>
-    <route id="_create_links_list" pattern="/al_createLinksList/{language}">
+    <route id="_create_links_list" pattern="/al_createPermalinksList/{language}">
         <default key="_controller">TextBundle:TinyMCE:createLinksList</default>
     </route>
 </routes>

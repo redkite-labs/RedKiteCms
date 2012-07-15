@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Controller;
@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;;
 
 
 /**
@@ -32,15 +33,23 @@ class TinyMCEController extends Controller
 {
     public function createImagesListAction()
     {
-        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
-        $assetsFolder = $this->getLocatedAssetsFolder();
+        $cmsBundleAsset = new AlAsset($this->container->get('kernel'), 'AlphaLemonCmsBundle');
+        $cmsAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . $cmsBundleAsset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
 
         $mceImages = array();
-        $imagesFiles = $this->retrieveMediaFiles(array('*.jpg', '*.jpeg', '*.png', '*.gif', '*.tif'));
+        $mediaFileTypes = array('*.jpg', '*.jpeg', '*.png', '*.gif', '*.tif');
+        $finder = new Finder();
+        $finder = $finder->directories()->files()->exclude('.tmb')->exclude('.thumbnails')->sortByName();
+        foreach($mediaFileTypes as $mediaFileType)
+        {
+            $finder = $finder->name(trim($mediaFileType));
+        }
+        $imagesFiles = $finder->in($cmsAssetsFolder . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'));
+
         foreach($imagesFiles as $imagesFile)
         {
-            $absoluteFolderPath = '/uploads/assets' . \str_replace($assetsFolder, '', dirname($imagesFile));
-            $mceImages[] = sprintf("[\"%1\$s\", \"%2\$s/%1\$s\"]", basename($imagesFile), "/" . $bundleFolder . $absoluteFolderPath);
+            $absoluteFolderPath = '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . \str_replace($cmsAssetsFolder, '', dirname($imagesFile));
+            $mceImages[] = sprintf("[\"%1\$s\", \"%2\$s/%1\$s\"]", basename($imagesFile), $cmsBundleAsset->getAbsolutePath() . $absoluteFolderPath);
         }
         $list = 'var tinyMCEImageList = new Array(' . implode(",", $mceImages) . ');';
 
@@ -48,43 +57,27 @@ class TinyMCEController extends Controller
     }
 
     public function createLinksListAction()
-    {     
-        $alPagesAttribute = AlPageAttributeQuery::create()->setContainer($this->container)->fromLanguageId($this->getRequest()->get('language'))->find();
-        
+    {
+        $seoRepository = $this->container->get('seo_model');
+        $seoAttributes = $seoRepository->fromLanguageName($this->getRequest()->get('language'));
+
         $mcsLinks = array();
-        foreach($alPagesAttribute as $alPageAttribute)
+        foreach($seoAttributes as $seoAttribute)
         {
-            $mcsLinks[] = sprintf("[\"%1\$s\", \"%1\$s\"]", $alPageAttribute->getPermalink(), $alPageAttribute->getPermalink()); //%2\$s/ , 'en'
+            $permalink = $seoAttribute->getPermalink();
+            $mcsLinks[] = sprintf("[\"%1\$s\", \"%1\$s\"]",$permalink, $permalink); //%2\$s/ , 'en'
         }
         $list = 'var tinyMCELinkList = new Array(' . implode(",", $mcsLinks) . ');';
-        
-        return $this->setResponse($list);
-    }
 
-    protected function retrieveMediaFiles(array $types)
-    {
-        $finder = new Finder();
-        $finder = $finder->directories()->files()->exclude('.tmb')->sortByName();
-        foreach($types as $type)
-        {
-            $finder = $finder->name(trim($type));
-        }
-        
-        return $finder->in($this->getLocatedAssetsFolder() . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'));
+        return $this->setResponse($list);
     }
 
     private function setResponse($content)
     {
         $response = new Response();
         $response->setContent($content);
-        return $response;
-    }
 
-    private function getLocatedAssetsFolder()
-    {
-        $bundleFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
-        
-        return AlToolkit::normalizePath($bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir'));
+        return $response;
     }
 }
 
