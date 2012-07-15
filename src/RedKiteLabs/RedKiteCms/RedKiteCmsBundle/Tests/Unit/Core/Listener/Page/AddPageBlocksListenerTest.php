@@ -60,11 +60,21 @@ class AddPageBlocksListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->once())
+            ->method('createRepository')
+            ->will($this->returnValue($this->languageRepository));
+
+
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->testListener = new AddPageBlocksListener($this->languageRepository);
+        $this->testListener = new AddPageBlocksListener($this->factoryRepository);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()

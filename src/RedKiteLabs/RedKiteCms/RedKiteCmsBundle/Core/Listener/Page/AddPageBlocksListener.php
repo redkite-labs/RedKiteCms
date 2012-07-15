@@ -19,8 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's contents, when a new page is added
@@ -33,12 +32,12 @@ class AddPageBlocksListener
 
     /**
      * Constructor
-     *
-     * @param LanguageRepositoryInterface $languageRepository
+     * 
+     * @param AlFactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(LanguageRepositoryInterface $languageRepository)
+    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
-        $this->languageRepository = $languageRepository;
+        $this->languageRepository = $factoryRepository->createRepository('Language');
     }
 
     /**
@@ -52,9 +51,9 @@ class AddPageBlocksListener
         if ($event->isAborted()) {
             return;
         }
-        
+
         $pageManager = $event->getContentManager();
-        $templateManager = $pageManager->getTemplateManager(); 
+        $templateManager = $pageManager->getTemplateManager();
         $pageRepository = $pageManager->getPageModel();
         try {
             $languages = $this->languageRepository->activeLanguages();
