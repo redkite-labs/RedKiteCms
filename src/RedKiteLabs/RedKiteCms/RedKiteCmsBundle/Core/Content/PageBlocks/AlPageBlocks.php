@@ -37,9 +37,9 @@ class AlPageBlocks extends AlPageBlocksBase
 
     /**
      * Constructor
-     *
+     * 
      * @param EventDispatcherInterface $dispatcher
-     * @param BlockRepositoryInterface $blockRepository
+     * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository)
     {
