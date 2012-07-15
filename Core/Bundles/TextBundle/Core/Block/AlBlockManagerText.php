@@ -10,15 +10,14 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
  * AlBlockManagerText
@@ -27,10 +26,8 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
  */
 class AlBlockManagerText extends AlBlockManager
 {
- 
     /**
-     * @see AlBlockManager::getDefaultValue()
-     *
+     * {@inheritdoc}
      */
     public function getDefaultValue()
     {

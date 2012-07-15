@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\DependencyInjection;
@@ -29,14 +29,14 @@ use Symfony\Component\Config\FileLocator;
  */
 class TextExtension extends Extension
 {
-  public function load(array $configs, ContainerBuilder $container)
-  {
-      $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-      $loader->load('services.xml');
-  }
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
+    }
 
-  public function getAlias()
-  {
-      return 'text';
-  }
+    public function getAlias()
+    {
+        return 'text';
+    }
 }
