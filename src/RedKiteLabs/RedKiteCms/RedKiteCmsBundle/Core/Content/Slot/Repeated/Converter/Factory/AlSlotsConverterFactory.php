@@ -10,18 +10,16 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Slot\SameRepeatedStatusException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
@@ -31,36 +29,30 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundE
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
-{ 
-    protected $pageContentsContainer;
-    protected $languageRepository;
-    protected $pageRepository;
-    protected $blockRepository;
-    
+{
+    protected $pageContentsContainer = null;
+    protected $factoryRepository = null;
+
     /**
      * Constructor
-     * 
+     *
      * @param AlPageBlocksInterface $pageContentsContainer
-     * @param LanguageRepositoryInterface $languageRepository
-     * @param PageRepositoryInterface $pageRepository
-     * @param BlockRepositoryInterface $blockRepository 
+     * @param AlFactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageRepository, PageRepositoryInterface $pageRepository, BlockRepositoryInterface $blockRepository)
+    public function __construct(AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->pageContentsContainer = $pageContentsContainer;
-        $this->languageRepository = $languageRepository;
-        $this->pageRepository = $pageRepository;
-        $this->blockRepository = $blockRepository;
+        $this->factoryRepository = $factoryRepository;
     }
-    
+
     /**
      * Create the slot converter
-     * 
+     *
      * @param AlSlot $slot
      * @param type $newRepeatedStatus
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
      * @throws SameRepeatedStatusException
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus)
     {
@@ -68,14 +60,14 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
         {
             throw new SameRepeatedStatusException("The new repeated status you required is the same of the current slot. Aborted ");
         }
-        
+
         $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
         if(!class_exists($className)) {
             throw new ClassNotFoundException(sprintf("The class %s that shoud define a new Slot Converter does not exist", $className));
         }
-        
-        $slot->setRepeated($newRepeatedStatus); 
-        
-        return new $className($slot, $this->pageContentsContainer, $this->languageRepository, $this->pageRepository, $this->blockRepository);
+
+        $slot->setRepeated($newRepeatedStatus);
+
+        return new $className($slot, $this->pageContentsContainer, $this->factoryRepository);
     }
 }
