@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
@@ -47,20 +47,22 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPrope
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
     protected $alBlock = null;
+    protected $factoryRepository = null;
     protected $blockRepository = null;
 
     /**
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param BlockRepositoryInterface $blockRepository
+     * @param AlFactoryRepositoryInterface $factoryRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, BlockRepositoryInterface $blockRepository = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
-        $this->blockRepository = (null === $blockRepository) ? new AlBlockRepositoryPropel() : $blockRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
 
     /**
