@@ -9,7 +9,7 @@
         <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\FinalizeContentsListener</parameter>
         <parameter key="al_access_deniend_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
         <parameter key="al_add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddSeoListener</parameter>
-        <parameter key="al_add_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
+        <parameter key="al_add_page_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
         <parameter key="al_edit_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\EditSeoListener</parameter>
         <parameter key="al_remove_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeleteSeoListener</parameter>
         <parameter key="al_remove_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
@@ -46,7 +46,7 @@
         <service id="al_add_seo_listener" class="%al_add_seo_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
             <argument type="service" id="al_seo_manager" />
-            <argument type="service" id="language_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="al_edit_seo_listener" class="%al_edit_seo_listener.class%">
@@ -54,9 +54,9 @@
             <argument type="service" id="al_seo_manager" />
         </service>
 
-        <service id="al_add_page_contents_listener" class="%al_add_page_contents_listener.class%">
+        <service id="al_add_page_blocks_listener" class="%al_add_page_blocks_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
-            <argument type="service" id="language_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="al_change_template_listener" class="%al_change_template_listener.class%">
@@ -64,22 +64,23 @@
             <argument type="service" id="kernel" />
             <argument type="service" id="template_changer" />
             <argument type="service" id="alphalemon_cms.themes_collection_wrapper" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="al_remove_seo_listener" class="%al_remove_seo_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
             <argument type="service" id="al_seo_manager" />
-            <argument type="service" id="language_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="al_remove_page_contents_listener" class="%al_remove_page_contents_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
-            <argument type="service" id="language_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="al_update_permalink_on_blocks_listener" class="%al_update_permalink_on_blocks_listener.class%">
             <tag name="alcms.event_listener" event="seo.before_edit_seo_commit" method="onBeforeEditSeoCommit" priority="0" />
-            <argument type="service" id="block_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
             <argument type="service" id="alphalemon_cms.block_manager_factory" />
         </service>
 

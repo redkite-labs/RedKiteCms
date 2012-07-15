@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license infblockRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -39,7 +39,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     private $cacheFile;
     private $themes;
     private $slotsConverterFactory;
-    private $orm;
+    private $blockRepository;
     private $aligner;
     private $theme = null;
 
@@ -68,8 +68,14 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
 
         $this->slotsConverterFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
-        $this->orm = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm');
-        $this->aligner = new AlRepeatedSlotsAligner($this->kernel, $this->themes, $this->slotsConverterFactory, $this->orm);
+        $this->blockRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm');
+
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->blockRepository));
+
+        $this->aligner = new AlRepeatedSlotsAligner($this->kernel, $this->themes, $this->slotsConverterFactory, $this->factoryRepository);
         $this->aligner
              ->setSkeletonFile(vfsStream::url('root/xml/repeated-slots-skeleton.xml'))
              ->setCacheFile($this->cacheFile);
@@ -150,10 +156,10 @@ class AlRepeatedSlotsAlignerTest extends TestCase
      */
     public function testAlignmentFailsWhenConvertThrowsAnUnexpectedException()
     {
-        $this->orm->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->orm->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
 
         $templateSlots = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
@@ -166,10 +172,10 @@ class AlRepeatedSlotsAlignerTest extends TestCase
 
     public function testAlignmentFailsWhenConvertFails()
     {
-        $this->orm->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->orm->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('rollBack');
 
         $templateSlots = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
@@ -203,13 +209,13 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     {
         $this->addCacheFile();
 
-        $this->orm->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->orm->expects($this->once())
+        $this->blockRepository->expects($this->once())
             ->method('commit');
 
-        $this->orm->expects($this->never())
+        $this->blockRepository->expects($this->never())
             ->method('rollBack');
 
         $this->kernel->expects($this->any())

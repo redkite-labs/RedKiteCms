@@ -21,6 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributePeer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * AlBlockManagerMenu
@@ -30,13 +31,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 class AlBlockManagerNavigationMenu extends AlBlockManager
 {
 
-    public function __construct(\Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
-        $blockRepository = $factoryRepository->createRepository('Block');
-        parent::__construct($dispatcher, $blockRepository, $validator);
+        parent::__construct($dispatcher, $factoryRepository, $validator);
 
-        $this->languageRepository = $factoryRepository->createRepository('Language');
-        $this->blockRepository = (null === $blockRepository) ? new AlBlockRepositoryPropel() : $blockRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
     }
 
     /**

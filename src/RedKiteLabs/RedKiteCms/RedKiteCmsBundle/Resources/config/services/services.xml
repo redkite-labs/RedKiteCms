@@ -14,12 +14,6 @@
         <parameter key="al_cms_seo_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager</parameter>
         <parameter key="al_cms_languages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
         <parameter key="alphalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
-        <parameter key="language_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\%alcms.orm%\AlLanguageRepository%alcms.orm%</parameter>
-        <parameter key="page_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\%alcms.orm%\AlPageRepository%alcms.orm%</parameter>
-        <parameter key="seo_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\%alcms.orm%\AlSeoRepository%alcms.orm%</parameter>
-        <parameter key="block_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\%alcms.orm%\AlBlockRepository%alcms.orm%</parameter>
-        <parameter key="theme_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\%alcms.orm%\AlThemeRepository%alcms.orm%</parameter>
-        <parameter key="orm_model.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\%alcms.orm%\Base\Al%alcms.orm%Orm</parameter>
         <parameter key="page_contents_container.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
         <parameter key="template_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
         <parameter key="language_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
@@ -30,32 +24,18 @@
         <parameter key="alphalemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
         <parameter key="alphalemon_cms.block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
         <parameter key="alphalemon_cms.themes_collection_wrapper.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
+        <parameter key="alphalemon_cms.factory_repository.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
 
         <!-- Overrides the base ThemeEngine base class -->
         <parameter key="alphalemon_theme_engine.template_assets.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets</parameter>
     </parameters>
 
     <services>
-
         <service id="alphalemon_cms.block_manager_factory" class="%alphalemon_cms.block_manager_factory.class%">
         </service>
 
-        <service id="language_model" class="%language_model.class%">
-        </service>
-
-        <service id="page_model" class="%page_model.class%">
-        </service>
-
-        <service id="seo_model" class="%seo_model.class%">
-        </service>
-
-        <service id="block_model" class="%block_model.class%">
-        </service>
-
-        <service id="orm_model" class="%orm_model.class%">
-        </service>
-
-        <service id="theme_model" class="%theme_model.class%">
+        <service id="alphalemon_cms.factory_repository" class="%alphalemon_cms.factory_repository.class%">
+            <argument type="string">%alphalemon_cms.orm%</argument>
         </service>
 
         <service id="block_manager_factory" class="%block_manager_factory.class%">
@@ -64,24 +44,23 @@
         </service>
 
         <service id="language_manager_parameters_validator" class="%language_manager_parameters_validator.class%">
-            <argument type="service" id="language_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="page_manager_parameters_validator" class="%page_manager_parameters_validator.class%">
-            <argument type="service" id="language_model" />
-            <argument type="service" id="page_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="page_contents_container" class="%page_contents_container.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="block_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="template_manager" class="%template_manager.class%">
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
             <argument>null</argument>
             <argument type="service" id="page_contents_container" />
-            <argument type="service" id="block_model" />
             <argument type="service" id="alphalemon_cms.block_manager_factory" />
         </service>
 
@@ -92,37 +71,36 @@
 
         <service id="al_block_manager" class="%al_block_manager_service%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="block_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="al_page_tree" class="%alphalemon.page_tree%">
             <argument type="service" id="service_container" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
             <argument type="service" id="alphalemon_cms.themes_collection_wrapper" />
         </service>
 
         <service id="al_page_manager" class="%al_cms_pages_manager%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="template_manager" />
-            <argument type="service" id="page_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
             <argument type="service" id="page_manager_parameters_validator" />
         </service>
 
         <service id="al_seo_manager" class="%al_cms_seo_manager%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="seo_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="al_language_manager" class="%al_cms_languages_manager%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="language_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
             <argument type="service" id="language_manager_parameters_validator" />
         </service>
 
         <service id="slots_converter_factory" class="%slots_converter_factory.class%">
             <argument type="service" id="page_contents_container" />
-            <argument type="service" id="language_model" />
-            <argument type="service" id="page_model" />
-            <argument type="service" id="block_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <service id="template_changer" class="%template_changer.class%">
@@ -146,7 +124,7 @@
             <argument type="service" id="kernel" />
             <argument type="service" id="alphalemon_theme_engine.themes" />
             <argument type="service" id="slots_converter_factory" />
-            <argument type="service" id="orm_model" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
         <!--

@@ -34,7 +34,8 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->blockRepository = $container->get('block_model');
+        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
+        $this->blockRepository = $factoryRepository->createRepository('Block');
     }
 
     public function testABlockIsRetrievedFromItsPrimaryKey()
