@@ -27,9 +27,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\pageRepository;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
@@ -47,6 +46,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 {
     protected $templateManager = null;
     protected $siteLanguages = array();
+    protected $factoryRepository = null;
     protected $pageRepository;
     protected $alPage;
 
@@ -58,12 +58,13 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * @param PageRepositoryInterface $pageRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, PageRepositoryInterface $pageRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
 
         $this->templateManager = $templateManager;
-        $this->pageRepository = $pageRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
     }
 
     /**
