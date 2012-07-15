@@ -26,11 +26,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
  */
 class AlParametersValidatorLanguageManager extends AlParametersValidator
 {
+    protected $factoryRepository = null;
     protected $languageRepository;
 
     /**
      * Constructor
-     * 
+     *
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)

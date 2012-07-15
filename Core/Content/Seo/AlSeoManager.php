@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo;
@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\SeoEvents;
@@ -33,53 +33,55 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
- * AlBlockManager is the object responsible to manage an AlSeo object. 
+ * AlBlockManager is the object responsible to manage an AlSeo object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSeoManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     protected $alSeo = null;
+    protected $factoryRepository = null;
     protected $seoRepository = null;
 
     /**
      * Constructor
-     * 
+     *
      * @param EventDispatcherInterface $dispatcher
      * @param SeoRepositoryInterface $alSeoModel
-     * @param AlParametersValidatorInterface $validator 
+     * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, SeoRepositoryInterface $alSeoModel, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
-        
-        $this->seoRepository = $alSeoModel;
+
+        $this->factoryRepository = $factoryRepository;
+        $this->seoRepository = $this->factoryRepository->createRepository('Seo');
     }
-    
+
     /**
      * Sets the seo model object
-     * 
+     *
      * @param SeoRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager
      */
     public function setSeoModel(SeoRepositoryInterface $v)
     {
         $this->seoRepository = $v;
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the seo model object associated with this object
-     * 
      *
-     * @return SeoRepositoryInterface 
+     *
+     * @return SeoRepositoryInterface
      */
     public function getSeoModel()
     {
         return $this->seoRepository;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -96,9 +98,9 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         if (null !== $object && !$object instanceof AlSeo) {
             throw new InvalidParameterTypeException('AlSeoManager is only able to manage AlSeo objects');
         }
-        
+
         $this->alSeo = $object;
-        
+
         return $this;
     }
 
@@ -108,15 +110,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     public function save(array $values)
     {
         if (null === $this->alSeo || $this->alSeo->getId() == null) {
-            
+
             return $this->add($values);
         }
         else {
-            
+
             return $this->edit($values);
         }
     }
-  
+
     /**
      * {@inheritdoc}
      */
@@ -136,11 +138,11 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                         throw new \RuntimeException($this->translate("The page attributes deleting action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
                     }
                 }
-                    
-                $this->seoRepository->startTransaction(); 
+
+                $this->seoRepository->startTransaction();
                 $result = $this->seoRepository
                             ->setModelObject($this->alSeo)
-                            ->delete();        
+                            ->delete();
                 if ($result && null !== $this->dispatcher)
                 {
                     $event = new  Content\Seo\BeforeDeleteSeoCommitEvent($this);
@@ -150,11 +152,11 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                         $result = false;
                     }
                 }
-                
+
                 if ($result)
                 {
                     $this->seoRepository->commit();
-                    
+
                     if (null !== $this->dispatcher)
                     {
                         $event = new  Content\Seo\AfterSeoDeletedEvent($this);
@@ -165,7 +167,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 {
                     $this->seoRepository->rollBack();
                 }
-                
+
                 return $result;
             }
             catch(\Exception $e)
@@ -173,7 +175,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 if (isset($this->seoRepository) && $this->seoRepository !== null) {
                     $this->seoRepository->rollBack();
                 }
-                
+
                 throw $e;
             }
         }
@@ -182,12 +184,12 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             throw new General\ParameterIsEmptyException($this->translate('The seo model object is null'));
         }
     }
-    
+
     /**
      * Deletes the seo attribute identified by the given language and page
      * @param int $languageId
      * @param int $pageId
-     * @return Boolean 
+     * @return Boolean
      */
     public function deleteSeoAttributesFromLanguage($languageId, $pageId)
     {
@@ -195,15 +197,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         $this->set($alSeo);
         $result = $this->delete();
         $this->set(null);
-        
+
         return $result;
     }
-    
+
     /**
      * Adds a new AlSeo object from the given params
-     * 
+     *
      * @param array $values
-     * @return Boolean 
+     * @return Boolean
      */
     protected function add(array $values)
     {
@@ -220,10 +222,10 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     $values = $event->getValues();
                 }
             }
-            
+
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('PageId' => '', 'LanguageId' => '', 'Permalink' => ''), $values);
-            
+
             if (empty($values['PageId'])) {
                 throw new General\ParameterIsEmptyException($this->translate("The PageId parameter is mandatory to save a seo object"));
             }
@@ -231,22 +233,22 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (empty($values['LanguageId'])) {
                 throw new General\ParameterIsEmptyException($this->translate("The LanguageId parameter is mandatory to save a seo object"));
             }
-            
+
             if (empty($values['Permalink'])) {
                 throw new General\ParameterIsEmptyException($this->translate("The Permalink parameter is mandatory to save a seo object"));
             }
-            
+
             $values["Permalink"] = AlToolkit::slugify($values["Permalink"]);
-        
+
             $this->seoRepository->startTransaction();
             if (null === $this->alSeo) {
                 $className = $this->seoRepository->getModelObjectClassName();
                 $this->alSeo = new $className();
             }
-            
+
             $result = $this->seoRepository
                     ->setModelObject($this->alSeo)
-                    ->save($values);    
+                    ->save($values);
             if ($result)
             {
                 if (null !== $this->dispatcher)
@@ -259,11 +261,11 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     }
                 }
             }
-            
+
             if ($result)
             {
                 $this->seoRepository->commit();
-              
+
                 if (null !== $this->dispatcher)
                 {
                     $event = new  Content\Seo\AfterSeoAddedEvent($this);
@@ -274,7 +276,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             {
                 $this->seoRepository->rollBack();
             }
-            
+
             return $result;
         }
         catch(\Exception $e)
@@ -282,16 +284,16 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();
             }
-            
+
             throw $e;
         }
     }
-    
+
     /**
      * Edits the managed page attributes object
-     * 
+     *
      * @param array $values
-     * @return Boolean 
+     * @return Boolean
      */
     protected function edit(array $values = array())
     {
@@ -309,10 +311,10 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     $values = $event->getValues();
                 }
             }
-            
+
             $this->validator->checkEmptyParams($values);
             $this->validator->checkOnceValidParamExists(array('Permalink' => '', 'MetaTitle' => '', 'MetaDescription' => '', 'MetaKeywords' => ''), $values);
-            
+
             if (isset($values['Permalink'])) {
                 $currentPermalink = $this->alSeo->getPermalink();
                 if ($values['Permalink'] != $currentPermalink) {
@@ -323,23 +325,23 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     unset($values['Permalink']);
                 }
             }
-            
+
             if (isset($values['MetaTitle']) && $values['MetaTitle'] == $this->alSeo->getMetaTitle()) {
                 unset($values['MetaTitle']);
             }
-            
+
             if (isset($values['MetaDescription']) && $values['MetaDescription'] == $this->alSeo->getMetaDescription()) {
                 unset($values['MetaDescription']);
             }
-            
+
             if (isset($values['MetaKeywords']) && $values['MetaKeywords'] == $this->alSeo->getMetaKeywords()) {
                 unset($values['MetaKeywords']);
             }
-            
+
             $this->seoRepository->startTransaction();
             $this->seoRepository->setModelObject($this->alSeo);
             $res = (!empty($values)) ? $this->seoRepository->save($values) : true;
-            
+
             if ($res && null !== $this->dispatcher) {
                 $event = new Content\Seo\BeforeEditSeoCommitEvent($this, $values);
                 $this->dispatcher->dispatch(SeoEvents::BEFORE_EDIT_SEO_COMMIT, $event);
@@ -364,7 +366,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();
             }
-            
+
             throw $e;
         }
     }
