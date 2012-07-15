@@ -38,6 +38,15 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
     {
         $this->initSomeLangugesAndPages();
 
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository));
+
         $this->container->expects($this->any())
             ->method('get')
             ->will($this->returnValue($this->themesCollectionWrapper));

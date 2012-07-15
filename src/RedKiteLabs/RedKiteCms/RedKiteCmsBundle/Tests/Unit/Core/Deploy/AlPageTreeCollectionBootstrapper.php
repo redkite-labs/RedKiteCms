@@ -38,6 +38,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected $template;
     protected $pageBlocks;
     protected $themes;
+    protected $factoryRepository;
 
     protected function initSomeLangugesAndPages()
     {
@@ -76,15 +77,6 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-
-        /*
-        $this->template->expects($this->exactly(4))
-            ->method('setThemeName')
-            ->will($this->returnSelf());
-
-        $this->template->expects($this->exactly(4))
-            ->method('setTemplateName')
-            ->will($this->returnSelf());*/
 
         $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->template->expects($this->any())
@@ -132,11 +124,11 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $this->templateManager->expects($this->any())
             ->method('setTemplateSlots')
             ->will($this->returnSelf());
-        
+
         $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $this->themesCollectionWrapper->expects($this->any())
             ->method('assignTemplate')
             ->will($this->returnValue($this->templateManager));
