@@ -51,7 +51,12 @@ class AlSeoManagerTest extends TestCase
             ->method('getModelObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo'));
 
-        $this->seoManager = new AlSeoManager($this->dispatcher, $this->seoRepository, $this->validator);
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->seoRepository));
+
+        $this->seoManager = new AlSeoManager($this->dispatcher, $this->factoryRepository, $this->validator);
     }
 
     /**
