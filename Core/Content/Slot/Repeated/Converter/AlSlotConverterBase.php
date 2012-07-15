@@ -28,6 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInt
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
@@ -40,9 +41,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInte
 abstract class AlSlotConverterBase implements AlSlotConverterInterface
 {
     protected $pageContentsContainer;
-    protected $languageRepository;
-    protected $pageRepository;
-    protected $blockRepository;
+    protected $factoryRepository = null;
+    protected $languageRepository = null;
+    protected $pageRepository = null;
+    protected $blockRepository = null;
     protected $slot;
     protected $arrayBlocks = array();
 
@@ -51,17 +53,16 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      *
      * @param AlSlot $slot
      * @param AlPageBlocksInterface $pageContentsContainer
-     * @param LanguageRepositoryInterface $languageRepository
-     * @param PageRepositoryInterface $pageRepository
-     * @param BlockRepositoryInterface $blockRepository
+     * @param AlFactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, LanguageRepositoryInterface $languageRepository, PageRepositoryInterface $pageRepository, BlockRepositoryInterface $blockRepository)
+    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->slot = $slot;
         $this->pageContentsContainer = $pageContentsContainer;
-        $this->languageRepository = $languageRepository;
-        $this->pageRepository = $pageRepository;
-        $this->blockRepository = $blockRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
         $slotBlocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
         $this->blocksToArray($slotBlocks);
     }
