@@ -19,8 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when a new page is added
@@ -38,10 +37,10 @@ class AddSeoListener
      * @param AlSeoManager $seoManager
      * @param LanguageRepositoryInterface $languageRepository
      */
-    public function __construct(AlSeoManager $seoManager, LanguageRepositoryInterface $languageRepository)
+    public function __construct(AlSeoManager $seoManager, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->seoManager = $seoManager;
-        $this->languageRepository = $languageRepository;
+        $this->languageRepository = $factoryRepository->createRepository('Language');
     }
 
     /**
@@ -75,7 +74,7 @@ class AddSeoListener
                     if (!$alLanguage->getMainLanguage() && array_key_exists('Permalink', $seoManagerValues)) $seoManagerValues['Permalink'] = $alLanguage->getLanguage() . '-' . $seoManagerValues['Permalink'];
                     $this->seoManager->set(null);
                     $result = $this->seoManager->save($seoManagerValues);
-                    
+
                     if (!$result) break;
                 }
 
