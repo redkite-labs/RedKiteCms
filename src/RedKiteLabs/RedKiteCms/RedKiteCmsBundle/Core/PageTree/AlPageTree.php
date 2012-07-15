@@ -30,7 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
@@ -45,41 +45,34 @@ class AlPageTree extends BaseAlPageTree
     protected $alLanguage = null;
     protected $alSeo = null;
     protected $alTheme = null;
-    protected $languageRepository;
-    protected $pageRepository;
-    protected $themeRepository;
-    protected $seoRepository;
+    protected $factoryRepository = null;
+    protected $languageRepository = null;
+    protected $pageRepository = null;
+    protected $themeRepository = null;
+    protected $seoRepository = null;
     protected $templateManager;
     protected $locatedAssets = array('css' => array(), 'js' => array());
     protected $isValidLanguage = false;
     protected $isValidPage = false;
-    protected $isValid;
     protected $parameterSchema = array('%s.%s_%s', '%s.%s_%s.cms');
 
     /**
      * Constructor
-     *
+     * 
      * @param ContainerInterface $container
-     * @param AlTemplateManager $templateManager
-     * @param Repository\LanguageRepositoryInterface $languageRepository
-     * @param Repository\PageRepositoryInterface $pageRepository
-     * @param Repository\ThemeRepositoryInterface $themeRepository
-     * @param Repository\SeoRepositoryInterface $seoRepository
+     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param AlThemesCollectionWrapper $themesCollectionWrapper
      */
     public function __construct(ContainerInterface $container,
-                                //AlTemplateManager $templateManager = null,
-                                AlThemesCollectionWrapper $themesCollectionWrapper = null,
-                                Repository\LanguageRepositoryInterface $languageRepository = null,
-                                Repository\PageRepositoryInterface $pageRepository = null,
-                                Repository\ThemeRepositoryInterface $themeRepository = null,
-                                Repository\SeoRepositoryInterface $seoRepository = null)
+                                AlFactoryRepositoryInterface $factoryRepository,
+                                AlThemesCollectionWrapper $themesCollectionWrapper = null)
     {
-        //$this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
         $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('alphalemon_cms.themes_collection_wrapper') : $themesCollectionWrapper;
-        $this->languageRepository = (null === $languageRepository) ? $container->get('language_model') : $languageRepository;
-        $this->pageRepository = (null === $pageRepository) ? $container->get('page_model') : $pageRepository;
-        $this->themeRepository = (null === $themeRepository) ? $container->get('theme_model') : $themeRepository;
-        $this->seoRepository = (null === $seoRepository) ? $container->get('seo_model') : $seoRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
+        $this->seoRepository = $this->factoryRepository->createRepository('Seo');
+        $this->themeRepository = $this->factoryRepository->createRepository('Theme');
 
         parent::__construct($container); // , $templateManager->getPageBlocks()
     }

@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Validator;
@@ -25,51 +25,56 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorL
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlParametersValidatorLanguagesManager extends TestCase 
-{    
+class AlParametersValidatorLanguagesManager extends TestCase
+{
     private $validator;
     private $languageRepository;
-    
-    protected function setUp() 
+
+    protected function setUp()
     {
         $this->languageRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
-        
-        $this->validator = new AlParametersValidatorLanguageManager($this->languageRepository);
+
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->languageRepository));
+
+        $this->validator = new AlParametersValidatorLanguageManager($this->factoryRepository);
     }
-    
+
     public function testHasLanguagesReturnsFalseWhenAnyLanguageExist()
     {
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(null));
-        
+
         $this->assertFalse($this->validator->hasLanguages());
     }
-    
+
     public function testHasLanguagesReturnsTrueWhenAtLeastALanguageExist()
     {
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array('fake')));
-        
+
         $this->assertTrue($this->validator->hasLanguages());
     }
-    
+
     public function testLanguageExistsReturnsFalseWhenTheRequiredLanguageDoesNotExist()
     {
         $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue(null));
-        
+
         $this->assertFalse($this->validator->languageExists('fake'));
     }
-    
+
     public function testLanguageExistsReturnsTrueWhenTheRequiredLanguageExists()
     {
         $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue(array('fake')));
-        
+
         $this->assertTrue($this->validator->languageExists('fake'));
     }
 }

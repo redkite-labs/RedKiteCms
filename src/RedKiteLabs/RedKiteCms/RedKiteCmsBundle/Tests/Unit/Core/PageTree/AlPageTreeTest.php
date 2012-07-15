@@ -65,13 +65,18 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
+        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
         $this->themeRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository));
 
         $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
@@ -81,7 +86,7 @@ class AlPageTreeTest extends TestCase
             ->method('assignTemplate')
             ->will($this->returnValue($this->templateManager));
 
-        $this->pageTree = new AlPageTree($this->container, $this->themesCollectionWrapper, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository);
+        $this->pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
     }
 
     public function testLanguageIsFetchedFromLanguageParam()
