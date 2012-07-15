@@ -35,7 +35,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
     /**
      * {@inheritdoc}
      */
-    public function getModelObjectClassName()
+    public function getRepositoryObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage';
     }

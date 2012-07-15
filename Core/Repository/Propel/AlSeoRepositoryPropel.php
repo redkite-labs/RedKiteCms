@@ -35,7 +35,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
     /**
      * {@inheritdoc}
      */
-    public function getModelObjectClassName()
+    public function getRepositoryObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo';
     }

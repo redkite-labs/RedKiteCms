@@ -123,7 +123,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         $block["LanguageId"] = $idLanguage;
         $block["PageId"] = $idPage;
 
-        $className = $this->blockRepository->getModelObjectClassName();
+        $className = $this->blockRepository->getRepositoryObjectClassName();
         $modelObject = new $className();
 
         $result = $this->blockRepository

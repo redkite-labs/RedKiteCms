@@ -262,7 +262,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $result = true;
             $this->pageRepository->startTransaction();
             if (null === $this->alPage) {
-                $className = $this->pageRepository->getModelObjectClassName();
+                $className = $this->pageRepository->getRepositoryObjectClassName();
                 $this->alPage = new $className();
             }
 

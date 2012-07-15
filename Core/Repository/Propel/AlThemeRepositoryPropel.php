@@ -33,7 +33,7 @@ class AlThemeRepositoryPropel extends Base\AlPropelRepository implements ThemeRe
     /**
      * {@inheritdoc}
      */
-    public function getModelObjectClassName()
+    public function getRepositoryObjectClassName()
     {
         return '\AlphaLemon\ThemeEngineBundle\Model\AlTheme';
     }

@@ -241,7 +241,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             {
                 // Saves the language
                 if (null === $this->alLanguage) {
-                    $className = $this->languageRepository->getModelObjectClassName();
+                    $className = $this->languageRepository->getRepositoryObjectClassName();
                     $this->alLanguage = new $className();
                 }
 

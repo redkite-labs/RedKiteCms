@@ -48,7 +48,7 @@ class AlLanguageManagerTest extends TestCase
                                     ->getMock();
 
         $this->languageRepository->expects($this->any())
-            ->method('getModelObjectClassName')
+            ->method('getRepositoryObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage'));
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');

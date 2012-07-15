@@ -62,7 +62,7 @@ class AlSlotsConverterBase extends TestCase
             ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->blockRepository));
 
         $this->blockRepository->expects($this->any())
-            ->method('getModelObjectClassName')
+            ->method('getRepositoryObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'));
 
         $this->blockRepository->expects($this->any())

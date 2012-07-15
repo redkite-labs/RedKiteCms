@@ -52,7 +52,7 @@ class AlPageManagerTest extends TestCase
                                     ->getMock();
 
         $this->pageRepository->expects($this->any())
-            ->method('getModelObjectClassName')
+            ->method('getRepositoryObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage'));
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');

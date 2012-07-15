@@ -35,7 +35,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
     /**
      * {@inheritdoc}
      */
-    public function getModelObjectClassName()
+    public function getRepositoryObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage';
     }
