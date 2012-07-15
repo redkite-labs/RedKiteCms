@@ -25,17 +25,17 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
 interface RepositoryInterface {
 
     /**
-     * Sets the model object
+     * Sets the repository object
      *
-     * @param object The model object
+     * @param object The repository object
      * @return object The active object to implement fluent interface
      */
     public function setRepositoryObject($object = null);
 
     /**
-     * Defines the model class name
+     * Defines the repository class name
      *
      * @return string
      */
-    public function getModelObjectClassName();
+    public function getRepositoryObjectClassName();
 }

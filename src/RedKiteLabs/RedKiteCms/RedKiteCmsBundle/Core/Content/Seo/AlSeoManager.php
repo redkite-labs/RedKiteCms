@@ -243,7 +243,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
             $this->seoRepository->startTransaction();
             if (null === $this->alSeo) {
-                $className = $this->seoRepository->getModelObjectClassName();
+                $className = $this->seoRepository->getRepositoryObjectClassName();
                 $this->alSeo = new $className();
             }
 

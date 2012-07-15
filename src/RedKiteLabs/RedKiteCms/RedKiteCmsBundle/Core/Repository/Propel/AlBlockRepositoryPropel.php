@@ -35,7 +35,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     /**
      * {@inheritdoc}
      */
-    public function getModelObjectClassName()
+    public function getRepositoryObjectClassName()
     {
         return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock';
     }

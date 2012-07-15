@@ -48,7 +48,7 @@ class AlSeoManagerTest extends TestCase
                                     ->getMock();
 
         $this->seoRepository->expects($this->any())
-            ->method('getModelObjectClassName')
+            ->method('getRepositoryObjectClassName')
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo'));
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
