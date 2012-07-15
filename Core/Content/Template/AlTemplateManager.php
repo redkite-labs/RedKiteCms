@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
@@ -52,18 +52,19 @@ class AlTemplateManager extends AlTemplateBase
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
+     * @param AlFactoryRepositoryInterface $factoryRepository
      * @param AlTemplate $template
      * @param AlPageBlocksInterface $pageBlocks
-     * @param BlockRepositoryInterface $blockRepository
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null, BlockRepositoryInterface $blockRepository = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $blockManagerFactory, $validator);
 
         $this->template = $template;
-        $this->blockRepository =  (null === $blockRepository) ? new AlBlockRepositoryPropel() : $blockRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
         $this->pageBlocks = (null === $pageBlocks) ? new AlPageBlocks($dispatcher, $this->blockRepository) : $pageBlocks;
     }
 
@@ -394,7 +395,7 @@ class AlTemplateManager extends AlTemplateBase
     protected function setUpSlotManagers()
     {
         $templateSlots = $this->template->getTemplateSlots();
-        
+
         if (null === $templateSlots) {
             throw new General\ParameterIsEmptyException("Any template has been set");
         }
