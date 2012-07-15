@@ -26,6 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChang
 use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page attributes when a new page is added
@@ -38,15 +39,18 @@ class ChangeTemplateListener
     private $themesCollectionWrapper;
     private $kernel;
 
-    public function __construct(KernelInterface $kernel, AlTemplateChanger $templateChanger, AlThemesCollectionWrapper $themesCollectionWrapper)
+    public function __construct(KernelInterface $kernel, AlTemplateChanger $templateChanger, AlThemesCollectionWrapper $themesCollectionWrapper, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->kernel = $kernel;
         $this->templateChanger = $templateChanger;
         $this->themesCollectionWrapper = $themesCollectionWrapper;
+
+        $this->factoryRepository = $factoryRepository;
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
 
     /**
-     * Changes the page's template 
+     * Changes the page's template
      *
      * @param BeforeAddPageCommitEvent $event
      * @throws \Exception
@@ -67,23 +71,23 @@ class ChangeTemplateListener
         if (array_key_exists("oldTemplateName", $values)) {
             $result = true;
             $currentTemplateManager = $pageManager->getTemplateManager();
-            $blockRepository = $currentTemplateManager->getBlockModel();
+            $this->blockRepository = $currentTemplateManager->getBlockModel();
             try {
                 $themeName = $currentTemplateManager->getTemplate()->getThemeName();
-                $blockRepository->startTransaction();
-                
-                $template = $this->themesCollectionWrapper->getTemplate($themeName, $values["TemplateName"]);                
-                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $template, $currentTemplateManager->getPageBlocks(), $blockRepository);
-                
+                $this->blockRepository->startTransaction();
+
+                $template = $this->themesCollectionWrapper->getTemplate($themeName, $values["TemplateName"]);
+                $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $this->factoryRepository, $template, $currentTemplateManager->getPageBlocks());
+
                 $result = $this->templateChanger->setCurrentTemplateManager($currentTemplateManager)
                             ->setNewTemplateManager($newTemplateManager)
                             ->change();
 
                 if ($result) {
-                    $blockRepository->commit();
+                    $this->blockRepository->commit();
                 }
                 else {
-                    $blockRepository->rollBack();
+                    $this->blockRepository->rollBack();
 
                     $event->abort();
                 }
@@ -91,8 +95,8 @@ class ChangeTemplateListener
             catch(\Exception $e) {
                 $event->abort();
 
-                if (isset($blockRepository) && $blockRepository !== null) {
-                    $blockRepository->rollBack();
+                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
                 }
 
                 throw $e;

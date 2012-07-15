@@ -73,12 +73,21 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $this->templateChanger = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger')
                            ->disableOriginalConstructor()
                             ->getMock();
-        
+
         $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->testListener = new ChangeTemplateListener($this->kernel, $this->templateChanger, $this->themesCollectionWrapper);
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->blockRepository));
+
+        $this->testListener = new ChangeTemplateListener($this->kernel, $this->templateChanger, $this->themesCollectionWrapper, $this->factoryRepository);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
@@ -232,7 +241,7 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $template->expects($this->any())
             ->method('getThemeName')
             ->will($this->returnValue("FakeTheme"));
-        
+
         $this->templateManager->expects($this->any())
             ->method('getTemplate')
             ->will($this->returnValue($template));
