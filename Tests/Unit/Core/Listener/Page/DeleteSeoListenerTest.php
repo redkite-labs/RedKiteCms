@@ -99,7 +99,7 @@ class DeleteSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue(array()));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeDeletePageCommit($this->event);
@@ -136,7 +136,7 @@ class DeleteSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeDeletePageCommit($this->event);
@@ -176,7 +176,7 @@ class DeleteSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeDeletePageCommit($this->event);
@@ -216,7 +216,7 @@ class DeleteSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeDeletePageCommit($this->event);
@@ -254,7 +254,7 @@ class DeleteSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeDeletePageCommit($this->event);
@@ -295,7 +295,7 @@ class DeleteSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeDeletePageCommit($this->event);

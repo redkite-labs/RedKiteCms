@@ -121,7 +121,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue(array()));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeAddPageCommit($this->event);
@@ -158,7 +158,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->once())
@@ -202,7 +202,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->once())
@@ -243,7 +243,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->once())
@@ -285,7 +285,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->exactly(2))
@@ -327,7 +327,7 @@ class AddSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->seoManager->expects($this->exactly(2))

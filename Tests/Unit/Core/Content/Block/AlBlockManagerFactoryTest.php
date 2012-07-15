@@ -84,7 +84,7 @@ class AlBlockManagerFactoryTest extends TestCase
                         ->will($this->returnValue('Fake'));
 
         $this->blockManager->expects($this->once())
-                        ->method('getBlockModel')
+                        ->method('getBlockRepository')
                         ->will($this->returnValue($this->blockRepository));
         
         $this->blockRepository->expects($this->once())

@@ -70,7 +70,7 @@ abstract class AddLanguageBaseListener
         }
 
         $this->languageManager = $event->getContentManager();
-        $languageRepository = $this->languageManager->getLanguageModel();
+        $languageRepository = $this->languageManager->getLanguageRepository();
 
         $this->mainLanguage = $languageRepository->mainLanguage();
         if(null === $this->mainLanguage) {
@@ -124,7 +124,7 @@ abstract class AddLanguageBaseListener
      */
     protected function getBaseLanguage()
     {
-        $languageRepository = $this->languageManager->getLanguageModel();
+        $languageRepository = $this->languageManager->getLanguageRepository();
 
         // Tries to fetch the current language from the request
         if(null !== $this->request) {

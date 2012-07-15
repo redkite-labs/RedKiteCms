@@ -58,7 +58,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
         $baseLanguage = $this->getBaseLanguage();
 
         return $this->blockManager
-                        ->getBlockModel()
+                        ->getBlockRepository()
                         ->fromLanguageId($baseLanguage->getId());
     }
 

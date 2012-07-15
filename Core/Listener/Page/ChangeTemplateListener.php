@@ -71,7 +71,7 @@ class ChangeTemplateListener
         if (array_key_exists("oldTemplateName", $values)) {
             $result = true;
             $currentTemplateManager = $pageManager->getTemplateManager();
-            $this->blockRepository = $currentTemplateManager->getBlockModel();
+            $this->blockRepository = $currentTemplateManager->getBlockRepository();
             try {
                 $themeName = $currentTemplateManager->getTemplate()->getThemeName();
                 $this->blockRepository->startTransaction();

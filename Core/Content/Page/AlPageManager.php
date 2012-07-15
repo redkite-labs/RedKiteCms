@@ -122,7 +122,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * @param PageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
      */
-    public function setPageModel(PageRepositoryInterface $v)
+    public function setPageRepository(PageRepositoryInterface $v)
     {
         $this->pageRepository = $v;
 
@@ -135,7 +135,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * @return PageRepositoryInterface
      */
-    public function getPageModel()
+    public function getPageRepository()
     {
         return $this->pageRepository;
     }

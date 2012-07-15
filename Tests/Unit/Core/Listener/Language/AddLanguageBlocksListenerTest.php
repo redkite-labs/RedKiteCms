@@ -38,7 +38,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
                                     ->getMock();
 
         $this->manager->expects($this->any())
-            ->method('getBlockModel')
+            ->method('getBlockRepository')
             ->will($this->returnValue($this->objectModel));
 
         parent::setUp();

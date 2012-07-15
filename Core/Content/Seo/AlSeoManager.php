@@ -48,7 +48,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
-     * @param SeoRepositoryInterface $alSeoModel
+     * @param SeoRepositoryInterface $alSeoRepository
      * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
@@ -65,7 +65,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * @param SeoRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager
      */
-    public function setSeoModel(SeoRepositoryInterface $v)
+    public function setSeoRepository(SeoRepositoryInterface $v)
     {
         $this->seoRepository = $v;
 
@@ -78,7 +78,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      *
      * @return SeoRepositoryInterface
      */
-    public function getSeoModel()
+    public function getSeoRepository()
     {
         return $this->seoRepository;
     }

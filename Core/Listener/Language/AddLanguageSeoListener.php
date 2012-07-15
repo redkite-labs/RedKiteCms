@@ -52,7 +52,7 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
     protected function setUpSourceObjects()
     {
         return $this->seoManager
-                    ->getSeoModel()
+                    ->getSeoRepository()
                     ->fromLanguageId($this->getBaseLanguage()->getId());
     }
 

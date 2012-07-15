@@ -52,7 +52,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      * @param PageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
      */
-    public function setPageModel(PageRepositoryInterface $v)
+    public function setPageRepository(PageRepositoryInterface $v)
     {
         $this->pageRepository = $v;
 
@@ -64,7 +64,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      *
      * @return PageRepositoryInterface
      */
-    public function getPageModel()
+    public function getPageRepository()
     {
         return $this->pageRepository;
     }

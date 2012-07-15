@@ -56,7 +56,7 @@ abstract class DeleteLanguageBaseListener
         }
 
         $this->languageManager = $event->getContentManager();
-        $languageRepository = $this->languageManager->getLanguageModel();
+        $languageRepository = $this->languageManager->getLanguageRepository();
 
         $this->sourceObjects = $this->setUpSourceObjects();
         if(null === $this->sourceObjects) {

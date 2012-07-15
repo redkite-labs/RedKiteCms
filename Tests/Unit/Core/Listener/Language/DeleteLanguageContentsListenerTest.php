@@ -38,7 +38,7 @@ class DeleteLanguageBlocksListenerTest extends Base\DeleteLanguageBaseListenerTe
                                     ->getMock();
         
         $this->manager->expects($this->any())
-            ->method('getBlockModel')
+            ->method('getBlockRepository')
             ->will($this->returnValue($this->objectModel));
         
         parent::setUp();

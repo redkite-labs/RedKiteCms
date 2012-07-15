@@ -138,7 +138,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     protected function removeBlock(AlBlock $block)
     {
         $blockManagerItem = $this->blockManagers[0];
-        $modelObject = clone($blockManagerItem->getBlockManager()->getBlockModel());
+        $modelObject = clone($blockManagerItem->getBlockManager()->getBlockRepository());
         $modelObject->setRepositoryObject($block);
         $modelObject->delete();
     }

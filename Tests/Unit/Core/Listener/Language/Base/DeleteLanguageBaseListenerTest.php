@@ -52,7 +52,7 @@ abstract class DeleteLanguageBaseListenerTest extends BaseListenerTest
                                     ->getMock();
 
         $this->languageManager->expects($this->any())
-            ->method('getLanguageModel')
+            ->method('getLanguageRepository')
             ->will($this->returnValue($this->languageRepository));
 
         $this->languageManager->expects($this->any())

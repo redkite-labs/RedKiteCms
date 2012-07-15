@@ -54,7 +54,7 @@ class AddPageBlocksListener
 
         $pageManager = $event->getContentManager();
         $templateManager = $pageManager->getTemplateManager();
-        $pageRepository = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageRepository();
         try {
             $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {

@@ -151,9 +151,9 @@ class AlTemplateManager extends AlTemplateBase
      * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
-    public function setBlockModel(BlockRepositoryInterface $v)
+    public function setBlockRepository(BlockRepositoryInterface $v)
     {
-        $this->pageBlocks = $v;
+        $this->blockRepository = $v;
 
         return $this;
     }
@@ -163,7 +163,7 @@ class AlTemplateManager extends AlTemplateBase
      *
      * @return BlockRepositoryInterface
      */
-    public function getBlockModel()
+    public function getBlockRepository()
     {
         return $this->blockRepository;
     }

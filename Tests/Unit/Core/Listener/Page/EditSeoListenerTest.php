@@ -242,7 +242,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue(2));
         
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
         
         $this->pageManager->expects($this->once())
@@ -259,7 +259,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
         
         $this->seoManager->expects($this->once())
-            ->method('getSeoModel')
+            ->method('getSeoRepository')
             ->will($this->returnValue($this->seoRepository));
     }
 }
