@@ -34,7 +34,8 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->seoRepository = $container->get('seo_model');
+        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
+        $this->seoRepository = $factoryRepository->createRepository('Seo');
     }
 
     public function testASeoObjectIsRetrievedFromItsPrimaryKey()
@@ -49,46 +50,46 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
         $seoAttributes = $this->seoRepository->fromPermalink(null);
         $this->assertNull($seoAttributes);
     }
-    
+
     /**
-     * @expectedException \InvalidArgumentException 
+     * @expectedException \InvalidArgumentException
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
         $this->seoRepository->fromPermalink(array('this-is-a-website-fake-page'));
     }
-    
+
     public function testRetrieveSeoObjectFromPermalink()
     {
         $seoAttributes = $this->seoRepository->fromPermalink('this-is-a-website-fake-page');
         $this->assertEquals(1, count($seoAttributes));
         $this->assertEquals('this-is-a-website-fake-page', $seoAttributes->getPermalink());
     }
-    
+
     public function testRetrieveSeoObjectsFromPageId()
     {
         $seoAttributes = $this->seoRepository->fromPageId(2);
         $this->assertEquals(2, count($seoAttributes));
     }
-    
+
     public function testRetrieveSeoObjectsFromLanguageId()
     {
         $seoAttributes = $this->seoRepository->fromLanguageId(2);
         $this->assertEquals(2, count($seoAttributes));
     }
-    
+
     public function testRetrieveSeoObjectsFromPageIdWithLanguages()
     {
         $seoAttributes = $this->seoRepository->fromPageIdWithLanguages(2);
         $this->assertEquals(2, count($seoAttributes));
         $this->assertEquals(1, count($seoAttributes[0]->getAlLanguage()));
     }
-    
+
     public function testRetrieveSeoObjectsWithPagesAndLanguages()
     {
         $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages(2);
         $this->assertEquals(4, count($seoAttributes));
-        
+
         $seo = $seoAttributes[0];
         $this->assertEquals(1, count($seo->getAlLanguage()));
         $this->assertEquals(1, count($seo->getAlPage()));

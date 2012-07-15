@@ -5,7 +5,7 @@
 
     <parameters>
         <parameter key="app_text.block.class">AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText</parameter>
-        
+
         <parameter key="text_editor_settings" type="collection">
             <parameter key="rich_editor">true</parameter>
         </parameter>
@@ -14,6 +14,7 @@
     <services>
         <service id="app_text.block" class="%app_text.block.class%">
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alphalemon_cms.factory_repository" />
             <tag name="alphalemon_cms.blocks_factory.block" description="Hypertext block" group="alphalemon_internals" />
         </service>
     </services>

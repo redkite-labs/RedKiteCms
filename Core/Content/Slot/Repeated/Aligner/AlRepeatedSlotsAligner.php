@@ -24,8 +24,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidFileNameException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
+use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
  * AlRepeatedSlotsManager is responsible to verify when a slot changes its repetition status and
@@ -41,19 +42,20 @@ class AlRepeatedSlotsAligner
     protected $slotsConverterFactory;
     protected $cacheFile;
     protected $skeletonFile;
-    protected $orm;
+    protected $blockRepository;
 
     /**
      * Constructor
      * @param ContainerInterface    $container
      * @param string                $activeThemeName  The active theme
      */
-    public function __construct(KernelInterface $kernel, \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlPropelOrm $orm = null)
+    public function __construct(KernelInterface $kernel, AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->kernel = $kernel;
         $this->themesCollection = $themesCollection;
         $this->slotsConverterFactory = $slotsConverterFactory;
-        $this->orm = (null === $orm) ? new AlPropelOrm() : $orm;
+        $this->factoryRepository = $factoryRepository;
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
 
         $this->cacheFile =  $kernel->getRootDir() . '/Resources/active_theme_slots.xml';
         $this->skeletonFile = AlToolkit::locateResource($this->kernel, '@AlphaLemonCmsBundle/Resources/data/xml/repeated-slots-skeleton.xml');
@@ -130,7 +132,7 @@ class AlRepeatedSlotsAligner
         try
         {
             $result = true;
-            $this->orm->startTransaction();
+            $this->blockRepository->startTransaction();
             foreach($changedSlots as $slotName => $repeated)
             {
                 $converter = $this->slotsConverterFactory->createConverter($templateSlots[$slotName], $repeated);
@@ -142,19 +144,19 @@ class AlRepeatedSlotsAligner
 
             if ($result)
             {
-                $this->orm->commit();
+                $this->blockRepository->commit();
             }
             else
             {
-                $this->orm->rollBack();
+                $this->blockRepository->rollBack();
             }
 
             return $result;
         }
         catch(\Exception $e)
         {
-            if (isset($this->orm) && $this->orm !== null) {
-                $this->orm->rollBack();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
             }
 
             throw $e;

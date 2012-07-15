@@ -58,7 +58,8 @@ class TinyMCEController extends Controller
 
     public function createLinksListAction()
     {
-        $seoRepository = $this->container->get('seo_model');
+        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $seoRepository = $factoryRepository->createRepository('Seo');
         $seoAttributes = $seoRepository->fromLanguageName($this->getRequest()->get('language'));
 
         $mcsLinks = array();

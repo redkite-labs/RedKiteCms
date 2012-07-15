@@ -33,8 +33,8 @@ class PagesController extends Controller
 {
     public function indexAction()
     {
-        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->container->get('theme_model')));
-        $seoForm = $this->get('form.factory')->create(new SeoForm($this->container->get('language_model')));
+        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->createRepository('Theme')));
+        $seoForm = $this->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
                         'pages' => $this->getPages(),
@@ -52,12 +52,14 @@ class PagesController extends Controller
         $languageId = $request->get('languageId');
         if($pageId != 'none' && $languageId != 'none')
         {
-            $alPage = $this->container->get('page_model')->fromPK($pageId);
+            $pageRepository = $this->createRepository('Page');
+            $alPage = $pageRepository->fromPK($pageId);
             $values[] = array("name" => "#pages_pageName", "value" => $alPage->getPageName());
             $values[] = array("name" => "#pages_template", "value" => $alPage->getTemplateName());
             $values[] = array("name" => "#pages_isHome", "value" => $alPage->getIsHome());
 
-            $alSeo = $this->container->get('seo_model')->fromPageAndLanguage($languageId, $pageId);
+            $seoRepository = $this->createRepository('Seo');
+            $alSeo = $seoRepository->fromPageAndLanguage($languageId, $pageId);
             $values[] = array("name" => "#page_attributes_permalink", "value" => ($alSeo != null) ? $alSeo->getPermalink() : '');
             $values[] = array("name" => "#page_attributes_title", "value" => ($alSeo != null) ? $alSeo->getMetaTitle() : '');
             $values[] = array("name" => "#page_attributes_description", "value" => ($alSeo != null) ? $alSeo->getMetaDescription() : '');
@@ -81,8 +83,8 @@ class PagesController extends Controller
             }
 
             $pageManager = $this->container->get('al_page_manager');
-            $pageRepository = $pageManager->getPageModel();
             if ($request->get('pageId') != 'none') {
+                $pageRepository = $this->createRepository('Page');
                 $alPage = $pageRepository->fromPk($request->get('pageId'));
 
                 // Refreshes the page manager using the given page to update
@@ -215,7 +217,14 @@ class PagesController extends Controller
 
     protected function getPages()
     {
-        return ChoiceValues::getPages($this->container->get('page_model'));
+        return ChoiceValues::getPages($this->createRepository('Page'));
+    }
+
+    private function createRepository($repository)
+    {
+        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+
+        return $factoryRepository->createRepository($repository);
     }
 }
 

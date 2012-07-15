@@ -34,12 +34,13 @@ class AlThemeRepositoryPropelTest extends Base\BaseModelPropel
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->themeRepository = $container->get('theme_model');
+        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
+        $this->themeRepository = $factoryRepository->createRepository('Theme');
     }
-    
+
     public function testRetrieveActiveTheme()
     {
-        $theme = $this->themeRepository->activeBackend();        
+        $theme = $this->themeRepository->activeBackend();
         $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Model\AlTheme', $theme);
         $this->assertEquals(1, count($theme));
     }
@@ -49,15 +50,15 @@ class AlThemeRepositoryPropelTest extends Base\BaseModelPropel
         $theme = $this->themeRepository->fromName(null);
         $this->assertNull($theme);
     }
-    
+
     /**
-     * @expectedException \InvalidArgumentException 
+     * @expectedException \InvalidArgumentException
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
         $this->themeRepository->fromName(array('BusinessWebsiteThemeBundle'));
     }
-    
+
     public function testRetrieveThemeObjectFromItsName()
     {
         $theme = $this->themeRepository->fromName('BusinessWebsiteThemeBundle');

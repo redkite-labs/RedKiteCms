@@ -58,7 +58,7 @@ class AlPageTree extends BaseAlPageTree
 
     /**
      * Constructor
-     * 
+     *
      * @param ContainerInterface $container
      * @param AlFactoryRepositoryInterface $factoryRepository
      * @param AlThemesCollectionWrapper $themesCollectionWrapper
@@ -197,19 +197,6 @@ class AlPageTree extends BaseAlPageTree
 
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->alTheme->getThemeName(), $this->alPage->getTemplateName());
 
-            /*
-            $theme = $themes->getTheme($themeName);
-            $this->template = $theme->getTemplate($templateName);
-            $this->templateManager->setTemplate($this->template);*/
-
-                    /*
-            if (null === $this->templateManager) {
-                $this->templateManager = new AlTemplateManager($this->container->get('event_dispatcher'), $this->template, null, null, $this->container->get('alphalemon_cms.block_manager_factory'));
-            }*/
-
-/*
-            $this->template->setThemeName($this->alTheme->getThemeName());
-            $this->template->setTemplateName($this->alPage->getTemplateName());*/
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
             return $this;

@@ -34,7 +34,8 @@ class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->languageRepository = $container->get('language_model');
+        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
+        $this->languageRepository = $factoryRepository->createRepository('Language');
     }
 
     public function testALanguageIsRetrievedFromItsPrimaryKey()
@@ -49,34 +50,34 @@ class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
         $languages = $this->languageRepository->activeLanguages();
         $this->assertEquals(2, count($languages));
     }
-    
+
     public function testLanguageIsNullWhenANullValueIsGiven()
     {
         $language = $this->languageRepository->fromLanguageName(null);
         $this->assertNull($language);
     }
-    
+
     /**
-     * @expectedException \InvalidArgumentException 
+     * @expectedException \InvalidArgumentException
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
         $this->languageRepository->fromLanguageName(array('en'));
     }
-    
+
     public function testTheLanguageIsRetrieved()
     {
         $languageName = 'es';
         $language = $this->languageRepository->fromLanguageName($languageName);
         $this->assertEquals($languageName, $language->getLanguage());
     }
-    
+
     public function testTheMainLanguageIsRetrieved()
     {
         $language = $this->languageRepository->mainLanguage();
         $this->assertEquals('en', $language->getLanguage());
     }
-    
+
     public function testTheFirstLanguageIsRetrieved()
     {
         $language = $this->languageRepository->firstOne();

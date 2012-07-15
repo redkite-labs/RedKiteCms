@@ -34,7 +34,8 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->pageRepository = $container->get('page_model');
+        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
+        $this->pageRepository = $factoryRepository->createRepository('Page');
     }
 
     public function testAPageIsRetrievedFromItsPrimaryKey()
@@ -49,28 +50,28 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
         $pages = $this->pageRepository->activePages();
         $this->assertEquals(2, count($pages));
     }
-    
+
     public function testPageIsNullWhenANullValueIsGiven()
     {
         $page = $this->pageRepository->fromPageName(null);
         $this->assertNull($page);
     }
-    
+
     /**
-     * @expectedException \InvalidArgumentException 
+     * @expectedException \InvalidArgumentException
      */
     public function testAnExceptionIsThrownWhenTheGivenParameterIsNotString()
     {
         $this->pageRepository->fromPageName(array('page1'));
     }
-    
+
     public function testThePageIsRetrieved()
     {
         $pageName = 'page1';
         $page = $this->pageRepository->fromPageName($pageName);
         $this->assertEquals($pageName, $page->getPageName());
     }
-    
+
     public function testTheHomePageIsRetrieved()
     {
         $page = $this->pageRepository->homePage();

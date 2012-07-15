@@ -46,7 +46,8 @@ class BlocksController extends Controller
         try
         {
             $request = $this->getRequest();
-            $blockRepository = $this->container->get('block_model');
+            $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+            $blockRepository = $factoryRepository->createRepository('Block');
             $block = $blockRepository->fromPK($request->get('idBlock'));
             if ($block != null)
             {

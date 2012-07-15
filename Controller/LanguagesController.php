@@ -42,7 +42,7 @@ class LanguagesController extends Controller
         $form = $this->get('form.factory')->create($languagesForm);
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
-                        'languages' => ChoiceValues::getLanguages($this->container->get('language_model')),
+                        'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
                         'form' => $form->createView());
         return $this->render('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
     }
@@ -136,7 +136,7 @@ class LanguagesController extends Controller
 
     protected function buildJSonHeader($message)
     {
-        $languages = ChoiceValues::getLanguages($this->container->get('language_model'));
+        $languages = ChoiceValues::getLanguages($this->createLanguageRepository());
 
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
@@ -147,6 +147,13 @@ class LanguagesController extends Controller
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    private function createLanguageRepository()
+    {
+        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+
+        return $factoryRepository->createRepository('Language');
     }
 
     private function fetchLanguage($id, $languageManager = null)

@@ -48,25 +48,13 @@ class AlCmsController extends Controller
 
     public function showAction()
     {
-        /*
-        $t = $this->container->get('alphalemon_theme_engine.template.home');
-        echo "Y".count($t->getExternalStylesheets())."R";
-
-
-        $t = $this->container->get('app_business_website.theme');
-        echo count($t->getTemplate('home')->getExternalStylesheets());
-
-        var_dump($this->container->get('business_website_theme.template.home.slots'));*/
-
-        /*
-        $ts = $this->container->get('business_website_theme.template.home.slots');
-        print_r($ts->getSlot('logo')->toArray());
-        exit;*/
-
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('al_page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
         $skin = AlToolkit::retrieveBundleWebFolder($this->kernel, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');
+        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $languageRepository = $factoryRepository->createRepository('Language');
+        $pageRepository = $factoryRepository->createRepository('Page');
 
         $params = array('template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
                         'templateStylesheets' => null,
@@ -76,8 +64,8 @@ class AlCmsController extends Controller
                         'internal_javascripts' => null,
                         'skin_path' => $skin,
                         'is_secure' => $isSecure,
-                        'pages' => ChoiceValues::getPages($this->container->get('page_model')),
-                        'languages' => ChoiceValues::getLanguages($this->container->get('language_model')),
+                        'pages' => ChoiceValues::getPages($pageRepository),
+                        'languages' => ChoiceValues::getLanguages($languageRepository),
                         'page' => 0,
                         'language' => 0,
                         'available_languages' => $this->container->getParameter('alcms.available_languages'),

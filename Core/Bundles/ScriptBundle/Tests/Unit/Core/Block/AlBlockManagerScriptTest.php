@@ -29,8 +29,9 @@ class AlBlockManagerScriptTest extends TestCase
 {
     protected function setUp()
     {
+        $factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->blockManager = new AlBlockManagerScript($dispatcher);
+        $this->blockManager = new AlBlockManagerScript($dispatcher, $factoryRepository);
     }
 
     public function testDefaultValue()

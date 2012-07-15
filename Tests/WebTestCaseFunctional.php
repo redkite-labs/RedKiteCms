@@ -30,6 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 use AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
 
 /**
  * WebTestCase
@@ -73,10 +74,19 @@ class WebTestCaseFunctional extends WebTestCase {
         }
 
         $dispatcher = new EventDispatcher();
+        /*
         $seoRepository = new Propel\AlSeoRepositoryPropel();
         $languageRepository = new Propel\AlLanguageRepositoryPropel();
         $pageRepository = new Propel\AlPageRepositoryPropel();
         $blockRepository = new Propel\AlBlockRepositoryPropel();
+
+        $factoryRepository = $factoryRepository;
+        $blockRepository = $factoryRepository->createRepository('Block');
+        $languageRepository = $factoryRepository->createRepository('Block');
+        $pageRepository = $factoryRepository->createRepository('Block');
+        $seoRepository = $factoryRepository->createRepository('Block');*/
+
+        $factoryRepository = new AlFactoryRepository('Propel');
 
         $client = static::createClient(array(
             'environment' => 'alcms_test',
@@ -88,18 +98,18 @@ class WebTestCaseFunctional extends WebTestCase {
         $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);
         $template = new AlTemplate($client->getContainer()->get('kernel'), new AlTemplateAssets(), $client->getContainer()->get('template_slots_factory'));
         $template->setTemplateSlots($templateSlots);*/
-        
+
         $themes = $client->getContainer()->get('alphalemon_theme_engine.themes');
         $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
         $template = $theme->getTemplate('home');
-        
-        $pageContentsContainer = new AlPageBlocks($dispatcher, $blockRepository);
-        $templateManager = new AlTemplateManager($dispatcher, $template, $pageContentsContainer, $blockRepository, $client->getContainer()->get('alphalemon_cms.block_manager_factory'));
-        $templateManager->refresh();
-        $seoManager = new AlSeoManager($dispatcher, $seoRepository);
 
-        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $languageRepository), 'onBeforeAddPageCommit'));
-        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageBlocksListener($languageRepository), 'onBeforeAddPageCommit'));
+        $pageContentsContainer = new AlPageBlocks($dispatcher, $factoryRepository);
+        $templateManager = new AlTemplateManager($dispatcher, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('alphalemon_cms.block_manager_factory'));
+        $templateManager->refresh();
+        $seoManager = new AlSeoManager($dispatcher, $factoryRepository);
+
+        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $factoryRepository), 'onBeforeAddPageCommit'));
+        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageBlocksListener($factoryRepository), 'onBeforeAddPageCommit'));
 
         $connection = \Propel::getConnection();
         $queries = array('TRUNCATE al_block;',
@@ -123,12 +133,12 @@ class WebTestCaseFunctional extends WebTestCase {
         $theme->setActive(1);
         $theme->save();
 
-        $alLanguageManager = new AlLanguageManager($dispatcher, $languageRepository, new Validator\AlParametersValidatorLanguageManager($languageRepository));
+        $alLanguageManager = new AlLanguageManager($dispatcher, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach(self::$languages as $language) {
             $alLanguageManager->set(null)->save($language);
         }
 
-        $alPageManager = new AlPageManager($dispatcher, $templateManager, $pageRepository, new Validator\AlParametersValidatorPageManager($languageRepository, $pageRepository));
+        $alPageManager = new AlPageManager($dispatcher, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
         foreach(self::$pages as $page) {
             $alPageManager->set(null)->save($page);
         }
