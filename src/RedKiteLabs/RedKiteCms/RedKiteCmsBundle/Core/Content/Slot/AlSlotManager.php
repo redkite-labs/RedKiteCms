@@ -92,7 +92,7 @@ class AlSlotManager extends AlTemplateBase
      * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
-    public function setBlockModel(BlockRepositoryInterface $v)
+    public function setBlockRepository(BlockRepositoryInterface $v)
     {
         $this->blockRepository = $v;
 
@@ -105,7 +105,7 @@ class AlSlotManager extends AlTemplateBase
      *
      * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
      */
-    public function getBlockModel()
+    public function getBlockRepository()
     {
         return $this->blockRepository;
     }

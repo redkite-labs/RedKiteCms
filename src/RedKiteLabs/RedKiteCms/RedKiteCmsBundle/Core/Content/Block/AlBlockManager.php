@@ -112,7 +112,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @param BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
      */
-    public function setBlockModel(BlockRepositoryInterface $v)
+    public function setBlockRepository(BlockRepositoryInterface $v)
     {
         $this->blockRepository = $v;
 
@@ -125,7 +125,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return BlockRepositoryInterface
      */
-    public function getBlockModel()
+    public function getBlockRepository()
     {
         return $this->blockRepository;
     }

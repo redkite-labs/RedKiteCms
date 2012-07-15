@@ -38,7 +38,7 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
                                     ->getMock();
 
         $this->manager->expects($this->any())
-            ->method('getSeoModel')
+            ->method('getSeoRepository')
             ->will($this->returnValue($this->objectModel));
 
         parent::setUp();

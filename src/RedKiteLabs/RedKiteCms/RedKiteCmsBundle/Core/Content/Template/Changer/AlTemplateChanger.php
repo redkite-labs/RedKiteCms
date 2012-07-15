@@ -93,7 +93,7 @@ class AlTemplateChanger
             throw new General\ParameterIsEmptyException("The current template manager has not been set. The tempèlate cannot be changed until this value is given");
         }
 
-        $blockRepository = $this->currentTemplateManager->getBlockModel();
+        $blockRepository = $this->currentTemplateManager->getBlockRepository();
         try
         {
             $operations = $this->analyse();//print_r($operations);

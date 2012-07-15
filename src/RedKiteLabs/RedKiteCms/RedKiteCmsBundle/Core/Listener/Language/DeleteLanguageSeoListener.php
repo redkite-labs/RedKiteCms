@@ -54,7 +54,7 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
         }
 
         return $this->seoManager
-                    ->getSeoModel()
+                    ->getSeoRepository()
                     ->fromLanguageId($language->getId());
     }
 

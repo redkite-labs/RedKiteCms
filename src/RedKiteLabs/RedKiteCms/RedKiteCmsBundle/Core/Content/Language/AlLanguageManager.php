@@ -94,7 +94,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * @param LanguageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager
      */
-    public function setLanguageModel(LanguageRepositoryInterface $v)
+    public function setLanguageRepository(LanguageRepositoryInterface $v)
     {
         $this->languageRepository = $v;
 
@@ -106,7 +106,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      *
      * @return LanguageRepositoryInterface
      */
-    public function getLanguageModel()
+    public function getLanguageRepository()
     {
         return $this->languageRepository;
     }

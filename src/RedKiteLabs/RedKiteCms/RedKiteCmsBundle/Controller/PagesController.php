@@ -133,13 +133,13 @@ class PagesController extends Controller
         {
             $request = $this->get('request');
             $pageManager = $this->container->get('al_page_manager');
-            $alPage = ($request->get('pageId') != 'none') ? $pageManager->getPageModel()->fromPK($request->get('pageId')) : null;
+            $alPage = ($request->get('pageId') != 'none') ? $pageManager->getPageRepository()->fromPK($request->get('pageId')) : null;
             if($alPage != null)
             {
                 $pageManager->set($alPage);
                 if($request->get('pageId') != "none" && $request->get('languageId') != "none")
                 {
-                    $pageManager->getPageModel()->startTransaction();
+                    $pageManager->getPageRepository()->startTransaction();
                     try
                     {
                         $result = $this->container->get('al_seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
@@ -147,15 +147,15 @@ class PagesController extends Controller
                             $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
                         }
                         if ($result) {
-                            $pageManager->getPageModel()->commit();
+                            $pageManager->getPageRepository()->commit();
                         }
                         else {
-                            $pageManager->getPageModel()->rollBack();
+                            $pageManager->getPageRepository()->rollBack();
                         }
                     }
                     catch (\Exception $ex) {
                         throw $ex;
-                        $pageManager->getPageModel()->rollBack();
+                        $pageManager->getPageRepository()->rollBack();
                     }
 
                     if($result)

@@ -49,7 +49,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManager
     public function getHtmlContent()
     {
         $content = '';
-        $languages = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
+        $languages = $this->languageRepository->activeLanguages()->find();
         foreach($languages as $language)
         {
             $permalink = "";

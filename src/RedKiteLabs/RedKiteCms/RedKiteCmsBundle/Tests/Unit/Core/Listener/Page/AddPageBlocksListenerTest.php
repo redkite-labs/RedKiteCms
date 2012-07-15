@@ -109,7 +109,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue(array()));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->testListener->onBeforeAddPageCommit($this->event);
@@ -146,7 +146,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
@@ -194,7 +194,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
@@ -239,7 +239,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
@@ -285,7 +285,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())
@@ -331,7 +331,7 @@ class AddPageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue($page));
 
         $this->pageManager->expects($this->once())
-            ->method('getPageModel')
+            ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
         $this->pageManager->expects($this->once())

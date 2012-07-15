@@ -466,7 +466,7 @@ class AlTemplateChangerTest extends TestCase
             ->will($this->returnValue($this->currentTemplateSlots));
 
         $this->currentTemplateManager->expects($this->once())
-            ->method('getBlockModel')
+            ->method('getBlockRepository')
             ->will($this->returnValue($this->blockRepository));
 
         $this->currentTemplateManager->expects($this->any())

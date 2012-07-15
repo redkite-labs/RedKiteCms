@@ -48,7 +48,7 @@ class EditSeoListener
         }
         
         $pageManager = $event->getContentManager();  
-        $pageRepository = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageRepository();
         $values = $event->getValues();
         
         if (!is_array($values)) {
@@ -60,7 +60,7 @@ class EditSeoListener
             $idLanguage = $pageManager->getTemplateManager()
                     ->getPageBlocks()
                     ->getIdLanguage();
-            $seo = $this->seoManager->getSeoModel()->fromPageAndLanguage($idLanguage, $idPage);
+            $seo = $this->seoManager->getSeoRepository()->fromPageAndLanguage($idLanguage, $idPage);
             if( null !== $seo) {
                 $pageRepository->startTransaction();
                 $this->seoManager->set($seo);

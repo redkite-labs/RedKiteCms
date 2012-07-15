@@ -56,7 +56,7 @@ class AddSeoListener
         }
 
         $pageManager = $event->getContentManager();
-        $pageRepository = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageRepository();
         $values = $event->getValues();
 
         if (!is_array($values)) {

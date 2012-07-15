@@ -56,7 +56,7 @@ class DeletePageBlocksListener
         }
 
         $pageManager = $event->getContentManager();
-        $pageRepository = $pageManager->getPageModel();
+        $pageRepository = $pageManager->getPageRepository();
 
         try {
             $languages = $this->languageRepository->activeLanguages();

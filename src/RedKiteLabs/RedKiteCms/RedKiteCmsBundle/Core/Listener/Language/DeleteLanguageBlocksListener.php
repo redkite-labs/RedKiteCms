@@ -54,7 +54,7 @@ class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
         }
 
         return $this->blockManager
-                        ->getBlockModel()
+                        ->getBlockRepository()
                         ->fromLanguageId($language->getId());
     }
 

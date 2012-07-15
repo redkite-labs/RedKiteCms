@@ -232,7 +232,7 @@ class ChangeTemplateListenerTest extends BaseListenerTest
             ->will($this->returnValue($this->pageContents));
 
         $this->templateManager->expects($this->once())
-            ->method('getBlockModel')
+            ->method('getBlockRepository')
             ->will($this->returnValue($this->blockRepository));
 
         $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
