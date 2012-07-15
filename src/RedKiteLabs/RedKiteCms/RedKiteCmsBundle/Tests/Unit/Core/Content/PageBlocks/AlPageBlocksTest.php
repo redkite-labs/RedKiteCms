@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\PageBlocks;
@@ -27,23 +27,28 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AlPageBlocksTest extends TestCase
-{   
+{
     private $dispatcher;
     private $blockRepository;
     private $pageContentsContainer;
-      
-    protected function setUp() 
+
+    protected function setUp()
     {
         parent::setUp();
-        
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');        
+
+        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
-        $this->pageContentsContainer = new AlPageBlocks($this->dispatcher, $this->blockRepository);
+
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->blockRepository));
+
+        $this->pageContentsContainer = new AlPageBlocks($this->dispatcher, $this->factoryRepository);
     }
-    
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
      */
@@ -51,7 +56,7 @@ class AlPageBlocksTest extends TestCase
     {
         $this->pageContentsContainer->refresh();
     }
-    
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
      */
@@ -61,7 +66,7 @@ class AlPageBlocksTest extends TestCase
                 ->setIdLanguage(2)
                 ->refresh();
     }
-    
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
      */
@@ -71,22 +76,22 @@ class AlPageBlocksTest extends TestCase
                 ->setIdPage(2)
                 ->refresh();
     }
-    
+
     public function testAnEmptyArrayIsRetrievedWhenAnyBlockExists()
     {
         $this->blockRepository->expects($this->once())
             ->method('retrieveContents')
             ->will($this->returnValue(array()));
-        
-        
+
+
         $this->pageContentsContainer
                 ->setIdLanguage(2)
                 ->setIdPage(2)
                 ->refresh();
-        
+
         $this->assertEquals(0, count($this->pageContentsContainer->getBlocks()));
     }
-    
+
     public function testContentsAreRetrieved()
     {
         $blocks = array(
@@ -94,29 +99,29 @@ class AlPageBlocksTest extends TestCase
             $this->setUpBlock('logo'),
             $this->setUpBlock('menu'),
         );
-        
+
         $this->blockRepository->expects($this->once())
             ->method('retrieveContents')
             ->will($this->returnValue($blocks));
-        
-        
+
+
         $this->pageContentsContainer
                 ->setIdLanguage(2)
                 ->setIdPage(2)
                 ->refresh();
-        
+
         $this->assertEquals(2, count($this->pageContentsContainer->getBlocks()));
         $this->assertEquals(2, count($this->pageContentsContainer->getSlotBlocks('logo')));
         $this->assertEquals(1, count($this->pageContentsContainer->getSlotBlocks('menu')));
     }
-    
+
     private function setUpBlock($slotName)
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getSlotName')
             ->will($this->returnValue($slotName));
-        
+
         return $block;
     }
 }
