@@ -58,7 +58,7 @@ interface SeoRepositoryInterface {
     public function fromPageId($pageId);
 
     /**
-     * Fetches the seo records found by its page
+     * Fetches the seo records found by its language id
      *
      * @param int       The id of the language
      * @return mixed A collection of objects
@@ -80,4 +80,12 @@ interface SeoRepositoryInterface {
      * @return mixed A collection of objects
      */
     public function fetchSeoAttributesWithPagesAndLanguages();
+
+    /**
+     * Fetches the seo records found by a language name
+     *
+     * @param string The name of the language
+     * @return mixed A collection of objects
+     */
+    public function fromLanguageName($languageName);
 }

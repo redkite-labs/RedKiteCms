@@ -141,4 +141,16 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
                     ->orderByLanguageId()
                     ->find();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fromLanguageName($languageName)
+    {
+        return AlSeoQuery::create('a')
+                    ->joinWith('a.AlLanguage')
+                    ->where('AlLanguage.language = ?', $languageName)
+                    ->filterByToDelete(0)
+                    ->find();
+    }
 }
