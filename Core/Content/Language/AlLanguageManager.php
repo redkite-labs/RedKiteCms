@@ -37,6 +37,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * Defines the language content manager object, that implements the methods to manage an AlLanguage object
@@ -152,7 +153,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
             $this->languageRepository->startTransaction();
             $result = $this->languageRepository
-                            ->setModelObject($this->alLanguage)
+                            ->setRepositoryObject($this->alLanguage)
                             ->delete();
 
             if ($result) {
@@ -245,7 +246,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 }
 
                 $result = $this->languageRepository
-                            ->setModelObject($this->alLanguage)
+                            ->setRepositoryObject($this->alLanguage)
                             ->save($values);
                 if ($result) {
                     if (null !== $this->dispatcher) {
@@ -340,7 +341,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
                 if (!empty($values)) {
                     $result = $this->languageRepository
-                                ->setModelObject($this->alLanguage)
+                                ->setRepositoryObject($this->alLanguage)
                                 ->save($values);
                 }
                 else {
@@ -459,7 +460,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             if (null !== $language)
             {
                 $result = $this->languageRepository
-                            ->setModelObject($language)
+                            ->setRepositoryObject($language)
                             ->save(array('MainLanguage' => 0));
 
                 return $result;

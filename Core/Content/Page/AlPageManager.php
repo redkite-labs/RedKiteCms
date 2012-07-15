@@ -32,6 +32,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesM
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
  * AlPageManager is the object responsible to an AlPage object
@@ -172,7 +173,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     }
 
                     $this->pageRepository->startTransaction();
-                    $this->pageRepository->setModelObject($this->alPage);
+                    $this->pageRepository->setRepositoryObject($this->alPage);
                     $result = $this->pageRepository->delete();
                     if ($result) {
                         if (null !== $this->dispatcher) {
@@ -274,7 +275,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
                 // Saves the page
                 $result = $this->pageRepository
-                            ->setModelObject($this->alPage)
+                            ->setRepositoryObject($this->alPage)
                             ->save($values);
                 if ($result) {
                     if (null !== $this->dispatcher) {
@@ -364,7 +365,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             if ($result) {
                 if (!empty($values)) {
                     $result = $this->pageRepository
-                                ->setModelObject($this->alPage)
+                                ->setRepositoryObject($this->alPage)
                                 ->save($values);
                 }
 
@@ -415,7 +416,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $page = $this->pageRepository->homePage();
             if (null !== $page) {
                 $result = $this->pageRepository
-                            ->setModelObject($page)
+                            ->setRepositoryObject($page)
                             ->save(array('IsHome' => 0));
 
                 return $result;

@@ -31,6 +31,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
 
 /**
  * AlBlockManager is the object responsible to manage an AlSeo object.
@@ -141,7 +142,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
                 $this->seoRepository->startTransaction();
                 $result = $this->seoRepository
-                            ->setModelObject($this->alSeo)
+                            ->setRepositoryObject($this->alSeo)
                             ->delete();
                 if ($result && null !== $this->dispatcher)
                 {
@@ -247,7 +248,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             }
 
             $result = $this->seoRepository
-                    ->setModelObject($this->alSeo)
+                    ->setRepositoryObject($this->alSeo)
                     ->save($values);
             if ($result)
             {
@@ -339,7 +340,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             }
 
             $this->seoRepository->startTransaction();
-            $this->seoRepository->setModelObject($this->alSeo);
+            $this->seoRepository->setRepositoryObject($this->alSeo);
             $res = (!empty($values)) ? $this->seoRepository->save($values) : true;
 
             if ($res && null !== $this->dispatcher) {

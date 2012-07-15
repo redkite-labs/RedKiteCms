@@ -634,7 +634,7 @@ class AlSlotManager extends AlTemplateBase
                     $block = $blockManager->get();
                     $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
                     $result = $this->blockRepository
-                                    ->setModelObject($block)
+                                    ->setRepositoryObject($block)
                                     ->save(array("ContentPosition" => $position));
 
                     if (!$result) break;

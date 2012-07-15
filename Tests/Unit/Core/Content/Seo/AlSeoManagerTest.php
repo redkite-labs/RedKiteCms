@@ -172,7 +172,7 @@ class AlSeoManagerTest extends TestCase
             ->method('rollback');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -200,7 +200,7 @@ class AlSeoManagerTest extends TestCase
             ->method('rollback');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -231,7 +231,7 @@ class AlSeoManagerTest extends TestCase
             ->method('rollback');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -306,7 +306,7 @@ class AlSeoManagerTest extends TestCase
             ->method('rollback');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -337,7 +337,7 @@ class AlSeoManagerTest extends TestCase
             ->method('rollback');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -366,7 +366,7 @@ class AlSeoManagerTest extends TestCase
             ->will($this->onConsecutiveCalls('this-is-a-website-fake-page', 'fake-page-has-been-renamed'));
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -409,7 +409,7 @@ class AlSeoManagerTest extends TestCase
             ->method('dispatch');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -462,7 +462,7 @@ class AlSeoManagerTest extends TestCase
             ->method('startTransaction');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -487,7 +487,7 @@ class AlSeoManagerTest extends TestCase
             ->method('startTransaction');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())
@@ -513,7 +513,7 @@ class AlSeoManagerTest extends TestCase
             ->method('startTransaction');
 
         $this->seoRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->seoRepository->expects($this->once())

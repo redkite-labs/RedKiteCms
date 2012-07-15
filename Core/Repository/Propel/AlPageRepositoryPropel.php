@@ -43,13 +43,13 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
     /**
      * {@inheritdoc}
      */
-    public function setModelObject($object = null)
+    public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlPage) {
             throw new InvalidParameterTypeException('AlPageRepositoryPropel accepts only AlPage propel objects.');
         }
 
-        return parent::setModelObject($object);
+        return parent::setRepositoryObject($object);
     }
 
     /**

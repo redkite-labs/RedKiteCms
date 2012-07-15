@@ -18,6 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * AlParametersValidatorLanguageManager adds specific validations for languages

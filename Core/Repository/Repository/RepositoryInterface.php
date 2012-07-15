@@ -30,7 +30,7 @@ interface RepositoryInterface {
      * @param object The model object
      * @return object The active object to implement fluent interface
      */
-    public function setModelObject($object = null);
+    public function setRepositoryObject($object = null);
 
     /**
      * Defines the model class name

@@ -43,6 +43,10 @@ class AlSlotsConverterFactoryTest extends TestCase
                            ->disableOriginalConstructor()
                             ->getMock();
 
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
