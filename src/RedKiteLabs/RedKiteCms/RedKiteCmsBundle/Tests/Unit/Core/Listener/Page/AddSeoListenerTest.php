@@ -58,7 +58,12 @@ class AddSeoListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->testListener = new AddSeoListener($this->seoManager, $this->languageRepository);
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->once())
+            ->method('createRepository')
+            ->will($this->returnValue($this->languageRepository));
+
+        $this->testListener = new AddSeoListener($this->seoManager, $this->factoryRepository);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
@@ -328,7 +333,7 @@ class AddSeoListenerTest extends BaseListenerTest
         $this->seoManager->expects($this->exactly(2))
             ->method('save')
             ->will($this->returnValue(true));
-        
+
         $this->testListener->onBeforeAddPageCommit($this->event);
     }
 }
