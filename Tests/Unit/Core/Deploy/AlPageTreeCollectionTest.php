@@ -40,9 +40,9 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
 
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->themesCollectionWrapper, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository));
+            ->will($this->returnValue($this->themesCollectionWrapper));
 
-        $pageTreeCollection = new AlPageTreeCollection($this->container);
+        $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
         $this->assertEquals(4, count($pageTreeCollection));
 
         $pageTree = $pageTreeCollection->at(0);
