@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 
 /**
@@ -28,13 +28,15 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInter
  */
 class UpdatePermalinkOnBlocksListener
 {
-    private $blockRepository;
-    private $blocksFactory;
+    protected $factoryRepository = null;
+    private $blockRepository = null;
+    private $blocksFactory = null;
 
-    public function __construct(AlBlockRepositoryPropel $blockRepository, AlBlockManagerFactoryInterface $blocksFactory)
+    public function __construct(AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blocksFactory)
     {
-        $this->blockRepository = $blockRepository;
         $this->blocksFactory = $blocksFactory;
+        $this->factoryRepository = $factoryRepository;
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
 
     /**

@@ -44,6 +44,11 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->blockRepository));
+
         $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent')
                                     ->disableOriginalConstructor()
                                     ->getMock();
@@ -54,7 +59,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
 
         $this->blockManagerFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
 
-        $this->testListener = new UpdatePermalinkOnBlocksListener($this->blockRepository ,$this->blockManagerFactory);
+        $this->testListener = new UpdatePermalinkOnBlocksListener($this->factoryRepository ,$this->blockManagerFactory);
     }
 
     public function testAnythingIsExecutedWhenTheEventHadBeenAborted()
