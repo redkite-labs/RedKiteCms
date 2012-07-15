@@ -212,7 +212,7 @@ class AlPageManagerTest extends TestCase
             ->method('rollback');
 
         $this->pageRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->validator->expects($this->once())
@@ -254,7 +254,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue($homepage));
 
         $this->pageRepository->expects($this->once(1))
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -290,7 +290,7 @@ class AlPageManagerTest extends TestCase
             ->method('rollBack');
 
         $this->pageRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->validator->expects($this->once())
@@ -331,7 +331,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue($homepage));
 
         $this->pageRepository->expects($this->once(1))
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -388,7 +388,7 @@ class AlPageManagerTest extends TestCase
             ->method('rollback');
 
         $this->pageRepository->expects($this->exactly(2))
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $params = array('PageName'      => 'fake page',
@@ -426,7 +426,7 @@ class AlPageManagerTest extends TestCase
             ->method('rollback');
 
         $this->pageRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $params = array('PageName'      => 'fake page',
@@ -474,7 +474,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue('fake-page'));
 
         $this->pageRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -508,7 +508,7 @@ class AlPageManagerTest extends TestCase
             ->method('rollback');
 
         $this->pageRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -540,7 +540,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue('fake-page'));
 
         $this->pageRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -583,7 +583,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue($homepage));
 
         $this->pageRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -621,7 +621,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue($homepage));
 
         $this->pageRepository->expects($this->once(1))
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -663,7 +663,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue($homepage));
 
         $this->pageRepository->expects($this->exactly(2))
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())
@@ -696,7 +696,7 @@ class AlPageManagerTest extends TestCase
             ->will($this->returnValue(true));
 
         $this->pageRepository->expects($this->once(2))
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
         $this->pageRepository->expects($this->once())

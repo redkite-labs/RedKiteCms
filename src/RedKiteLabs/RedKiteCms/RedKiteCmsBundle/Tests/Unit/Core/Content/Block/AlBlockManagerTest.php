@@ -200,7 +200,7 @@ class AlBlockManagerTest extends TestCase
             ->will($this->throwException(new \RuntimeException()));
 
         $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block)
                 ->will($this->returnSelf());
 
@@ -231,7 +231,7 @@ class AlBlockManagerTest extends TestCase
             ->will($this->returnValue(false));
 
         $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block)
                 ->will($this->returnSelf());
 
@@ -266,7 +266,7 @@ class AlBlockManagerTest extends TestCase
             ->will($this->returnValue(true));
 
         $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block)
                 ->will($this->returnSelf());
 
@@ -293,7 +293,7 @@ class AlBlockManagerTest extends TestCase
             ->will($this->throwException(new General\EmptyParametersException()));
 
         $this->blockRepository->expects($this->never())
-                ->method('setModelObject');
+                ->method('setRepositoryObject');
 
         $params = array();
         $this->blockManager->set($block);
@@ -321,7 +321,7 @@ class AlBlockManagerTest extends TestCase
             ->will($this->returnValue(false));
 
          $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block);
 
         $params = array('HtmlContent' => 'changed html content' );
@@ -358,7 +358,7 @@ class AlBlockManagerTest extends TestCase
             ->will($this->throwException(new \RuntimeException()));
 
         $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block)
                 ->will($this->returnSelf());
 
@@ -410,7 +410,7 @@ class AlBlockManagerTest extends TestCase
                 ->will($this->returnValue(true));
 
          $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block);
 
         $params = array('HtmlContent' => 'changed html content',
@@ -458,7 +458,7 @@ class AlBlockManagerTest extends TestCase
             ->method('rollBack');
 
         $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block)
                 ->will($this->returnSelf());
 
@@ -497,7 +497,7 @@ class AlBlockManagerTest extends TestCase
             ->will($this->throwException(new \RuntimeException()));
 
         $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block)
                 ->will($this->returnSelf());
 
@@ -520,7 +520,7 @@ class AlBlockManagerTest extends TestCase
             ->method('dispatch');
 
         $this->blockRepository->expects($this->once())
-                ->method('setModelObject')
+                ->method('setRepositoryObject')
                 ->with($block)
                 ->will($this->returnSelf());
 
@@ -571,10 +571,10 @@ class AlBlockManagerTest extends TestCase
         $this->assertEquals('my fancy content', $array['HtmlContent']);
     }
 
-    private function setModelObjectMethods($block)
+    private function setRepositoryObjectMethods($block)
     {
         $this->blockRepository->expects($this->any())
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->with($block)
             ->will($this->returnSelf());
 

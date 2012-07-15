@@ -221,7 +221,7 @@ class AlSlotManagerTest extends TestCase
             ->method('rollback');
 
         $this->blockRepository->expects($this->once())
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->will($this->returnSelf());
 
         $this->blockRepository->expects($this->once())
@@ -557,7 +557,7 @@ class AlSlotManagerTest extends TestCase
             ->method('rollback');
 
         $this->blockRepository->expects($this->once())
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->will($this->returnSelf());
 
         $this->blockRepository->expects($this->once())
@@ -752,7 +752,7 @@ class AlSlotManagerTest extends TestCase
             ->method('rollback');
 
         $this->blockRepository->expects($this->once())
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->will($this->returnSelf());
 
         $this->blockRepository->expects($this->once())

@@ -83,7 +83,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
                 $this->blockRepository->startTransaction();
                 foreach($blocks as $block) {
                     $result = $this->blockRepository
-                                ->setModelObject($block)
+                                ->setRepositoryObject($block)
                                 ->delete();
 
                     if(!$result) break;
@@ -127,7 +127,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         $modelObject = new $className();
 
         $result = $this->blockRepository
-                    ->setModelObject($modelObject)
+                    ->setRepositoryObject($modelObject)
                     ->save($block);
 
         return $result;

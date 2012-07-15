@@ -43,13 +43,13 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
     /**
      * {@inheritdoc}
      */
-    public function setModelObject($object = null)
+    public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlLanguage) {
             throw new InvalidParameterTypeException('AlLanguageRepositoryPropel accepts only AlLanguage propel objects');
         }
 
-        return parent::setModelObject($object);
+        return parent::setRepositoryObject($object);
     }
 
     /**

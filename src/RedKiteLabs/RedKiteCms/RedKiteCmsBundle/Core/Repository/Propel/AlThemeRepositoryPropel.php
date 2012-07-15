@@ -41,13 +41,13 @@ class AlThemeRepositoryPropel extends Base\AlPropelRepository implements ThemeRe
     /**
      * {@inheritdoc}
      */
-    public function setModelObject($object = null)
+    public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlTheme) {
             throw new InvalidParameterTypeException('AlThemeRepositoryPropel accepts only AlTheme propel objects');
         }
 
-        return parent::setModelObject($object);
+        return parent::setRepositoryObject($object);
     }
 
     /**

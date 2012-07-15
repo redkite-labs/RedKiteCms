@@ -139,7 +139,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     {
         $blockManagerItem = $this->blockManagers[0];
         $modelObject = clone($blockManagerItem->getBlockManager()->getBlockModel());
-        $modelObject->setModelObject($block);
+        $modelObject->setRepositoryObject($block);
         $modelObject->delete();
     }
 

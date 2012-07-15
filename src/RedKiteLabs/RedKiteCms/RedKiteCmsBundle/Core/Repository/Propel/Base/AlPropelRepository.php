@@ -36,7 +36,7 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
      * @throws General\InvalidParameterTypeException
      */
-    public function setModelObject($object = null)
+    public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof \BaseObject) {
             throw new General\InvalidParameterTypeException('AlPropelRepository accepts only objects derived from propel \BaseObject');

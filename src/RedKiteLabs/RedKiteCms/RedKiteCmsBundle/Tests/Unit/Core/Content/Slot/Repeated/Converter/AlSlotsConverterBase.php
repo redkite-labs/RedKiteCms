@@ -66,7 +66,7 @@ class AlSlotsConverterBase extends TestCase
             ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'));
 
         $this->blockRepository->expects($this->any())
-            ->method('setModelObject')
+            ->method('setRepositoryObject')
             ->will($this->returnSelf());
     }
 }

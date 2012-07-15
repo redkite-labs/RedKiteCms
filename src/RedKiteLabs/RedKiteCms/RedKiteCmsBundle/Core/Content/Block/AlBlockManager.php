@@ -30,6 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 
 /**
  * AlBlockManager is the object responsible to manage an AlBlock object.
@@ -312,7 +313,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $this->blockRepository->startTransaction();
 
             $result = $this->blockRepository
-                        ->setModelObject($this->alBlock)
+                        ->setRepositoryObject($this->alBlock)
                         ->delete();
             if ($result) {
                 $this->blockRepository->commit();
@@ -419,7 +420,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             }
 
             $result = $this->blockRepository
-                    ->setModelObject($this->alBlock)
+                    ->setRepositoryObject($this->alBlock)
                     ->save($values);
             if ($result) {
                 $this->blockRepository->commit();
@@ -474,7 +475,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
             // Edits the source content
             $this->blockRepository->startTransaction();
-            $this->blockRepository->setModelObject($this->alBlock);
+            $this->blockRepository->setRepositoryObject($this->alBlock);
             $result = $this->blockRepository->save($values);
             if ($result) {
                 $this->blockRepository->commit();
