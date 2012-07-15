@@ -78,9 +78,14 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
      */
     public function testAnExceptionIsThrownWhenATargetDirectoryDoesNotExist()
     {
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->seoRepository));
+
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnValue($this->kernel));
+            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository));
 
         $folders = array('AcmeWebSiteBundle' => array(), 'AlphaLemonCmsBundle' => array('Resources'));
         $this->root = vfsStream::setup('root', null, $folders);
@@ -94,6 +99,16 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
     public function testDeploy()
     {
         $this->initSomeLangugesAndPages();
+
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->onConsecutiveCalls($this->seoRepository, $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository));
+
         $seo1 = $this->setUpSeo('homepage', $this->page1, $this->language1);
         $seo2 = $this->setUpSeo('my-awesome-page', $this->page2, $this->language1);
         $seo3 = $this->setUpSeo('es-homepage', $this->page1, $this->language2);
@@ -105,7 +120,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->template->expects($this->exactly(4))
             ->method('getSlots')
             ->will($this->returnValue(array('logo' => array('repeated' => 'site'))));
-        
+
         $router = $this->getMock('\Symfony\Component\Routing\RouterInterface');
         $router->expects($this->any())
             ->method('match')
@@ -113,7 +128,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->seoRepository, $router, $this->themesCollectionWrapper, $this->languageRepository, $this->pageRepository, $this->themeRepository, $this->seoRepository));
+            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $router, $this->themesCollectionWrapper));
 
         $this->deployer = new AlTwigDeployer($this->container);
         $this->assertTrue($this->deployer->deploy());

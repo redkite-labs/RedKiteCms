@@ -50,6 +50,7 @@ abstract class AlDeployer
     protected $alphaLemonCmsBundleAsset = null;
     protected $configDir = null;
     protected $assetsDir = null;
+    protected $factoryRepository;
 
     /**
      * Save the page from an AlPageTree object
@@ -69,7 +70,8 @@ abstract class AlDeployer
     {
         $this->container = $container;
         $this->kernel = $this->container->get('kernel');
-        $this->seoRepository = $this->container->get('seo_model');
+        $this->factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->deployBundle = $this->container->getParameter('alphalemon_frontend.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
         if(null === $this->deployBundleAsset->getWebFolderRealPath())
@@ -130,7 +132,7 @@ abstract class AlDeployer
      */
     protected function savePages()
     {
-        $pageTreeCollection = new AlPageTreeCollection($this->container);
+        $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
         foreach ($pageTreeCollection as $pageTree) {
             if (!$this->save($pageTree))
             {
