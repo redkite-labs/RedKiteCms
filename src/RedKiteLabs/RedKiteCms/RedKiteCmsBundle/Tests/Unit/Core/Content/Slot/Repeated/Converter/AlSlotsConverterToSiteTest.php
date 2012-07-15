@@ -34,38 +34,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotCo
  */
 class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
 {
-    /*
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
-                           ->disableOriginalConstructor()
-                            ->getMock();
-
-
-
-        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $this->blockRepository->expects($this->any())
-            ->method('getModelObjectClassName')
-            ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'));
-
-        $this->blockRepository->expects($this->any())
-            ->method('setModelObject')
-            ->will($this->returnSelf());
-    }*/
-
     public function testConvertReturnsNullWhenAnyBlockExists()
     {
         $this->pageContents->expects($this->once())
