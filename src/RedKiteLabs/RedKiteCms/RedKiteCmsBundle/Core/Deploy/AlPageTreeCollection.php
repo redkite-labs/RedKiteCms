@@ -35,6 +35,7 @@ use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * The base object that implements the methods to deploy the website from development (CMS) to production (the deploy bundle)
@@ -43,29 +44,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
  */
 class AlPageTreeCollection implements \Iterator, \Countable
 {
-    private $container;
+    private $container = null;
     private $pages = array();
-    private $themeRepository;
-    private $languageRepository;
-    private $pageRepository;
-    private $themesCollectionWrapper;
-    private $seoRepository;
+    private $factoryRepository = null;
+    private $themeRepository = null;
+    private $languageRepository = null;
+    private $pageRepository = null;
+    private $themesCollectionWrapper = null;
+    private $seoRepository = null;
 
-    public function  __construct(ContainerInterface $container,                                
-                                AlThemesCollectionWrapper $themesCollectionWrapper = null,
-                                //AlTemplateManager $templateManager = null,
-                                Propel\AlLanguageRepositoryPropel $languageRepository = null,
-                                Propel\AlPageRepositoryPropel $pageRepository = null,
-                                Propel\AlThemeRepositoryPropel $themeRepository = null,
-                                Propel\AlSeoRepositoryPropel $seoRepository = null)
+    public function  __construct(ContainerInterface $container,
+            AlFactoryRepositoryInterface $factoryRepository,
+            AlThemesCollectionWrapper $themesCollectionWrapper = null)
     {
         $this->container = $container;
-        //$this->templateManager = (null === $templateManager) ? $container->get('template_manager') : $templateManager;
         $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('alphalemon_cms.themes_collection_wrapper') : $themesCollectionWrapper;
-        $this->languageRepository = (null === $languageRepository) ? $container->get('language_model') : $languageRepository;
-        $this->pageRepository = (null === $pageRepository) ? $container->get('page_model') : $pageRepository;
-        $this->themeRepository = (null === $themeRepository) ? $container->get('theme_model') : $themeRepository;
-        $this->seoRepository = (null === $seoRepository) ? $container->get('seo_model') : $seoRepository;
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
+        $this->seoRepository = $this->factoryRepository->createRepository('Seo');
+        $this->themeRepository = $this->factoryRepository->createRepository('Theme');
 
         $this->setUp();
     }
@@ -140,34 +138,16 @@ class AlPageTreeCollection implements \Iterator, \Countable
     {
         $languages = $this->languageRepository->activeLanguages();
         $pages = $this->pageRepository->activePages();
-        $theme = $this->themeRepository->activeBackend();
-        $themeName = $theme->getThemeName();
 
         // Cycles all the website's languages
         foreach($languages as $language)
-        { 
+        {
             // Cycles all the website's pages
             foreach($pages as $page)
             {
-                /*
-                $templateManager = clone($this->templateManager);
-                $templateManager->getTemplate()
-                        ->setThemeName($themeName)
-                        ->setTemplateName($page->getTemplateName());*/
-
-                /*
-                $theme = $this->themes->getTheme($themeName);
-                $template = $theme->getTemplate($page->getTemplateName());
-                $templateManager = new AlTemplateManager($this->container->get('event_dispatcher'), $template);*/
-                
-                //$templateManager = $this->themesCollectionWrapper->assignTemplate($themeName, $page->getTemplateName());
-
                 $pageTree = new AlPageTree($this->container,
-                        $this->themesCollectionWrapper,
-                        $this->languageRepository,
-                        $this->pageRepository,
-                        $this->themeRepository,
-                        $this->seoRepository);
+                        $this->factoryRepository,
+                        $this->themesCollectionWrapper);
                 $pageTree->refresh($language->getId(), $page->getId());
 
                 $this->pages[] = $pageTree;
