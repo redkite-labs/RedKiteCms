@@ -32,8 +32,7 @@
     "alphalemon/theme-engine-bundle": "dev-revisioning-theme-objects",
     "alphalemon/frontend-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
-    "alphalemon/business-website-theme-bundle": "dev-master",
-    "alphalemon/alphalemon-cms-installer-bundle": "dev-master"
+    "alphalemon/business-website-theme-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": {
