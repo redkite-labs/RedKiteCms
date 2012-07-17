@@ -11,9 +11,6 @@
       "email": "info@alphalemon.com"
     }
   ],
-  "require": {
-    "alphalemon/alphalemon-cms-bundle": "dev-develop"
-  },
   "autoload": {
     "psr-0": {
         "AlphaLemon\\CmsInstallerBundle": ""    
