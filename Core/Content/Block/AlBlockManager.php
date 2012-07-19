@@ -168,7 +168,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtmlContent()
     {
-        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
+        return $this->getHtmlContentForDeploy();
     }
 
     /**
@@ -181,8 +181,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @return string
      */
     public function getHtmlContentCMSMode()
-    {
+    {throw new \Exception('getHtmlContentCMSMode is deprecated');
         return $this->getHtmlContent();
+    }
+    
+    public function getHtmlContentForDeploy()
+    {
+        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
     }
 
     /**
@@ -356,13 +361,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager = array();
         $blockManager["HideInEditMode"] = $this->getHideInEditMode();
         $blockManager["HtmlContent"] = $this->getHtmlContent();
-        $blockManager["HtmlContentCMSMode"] = $this->getHtmlContentCMSMode();
         $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
         $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
         $blockManager["Block"] = $this->alBlock->toArray();
-
+        
         return $blockManager;
     }
 

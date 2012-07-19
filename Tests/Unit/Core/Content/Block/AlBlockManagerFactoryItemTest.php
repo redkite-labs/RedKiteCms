@@ -56,22 +56,24 @@ class AlBlockManagerFactoryItemTest extends TestCase
 
     public function testFactoryItemObjectHasBeenSetted()
     {
-        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block'));
+        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text'));
 
         $this->assertEquals($this->blockManager, $factoryItem->getBlockManager());
         $this->assertEquals('app_fake.block', $factoryItem->getId());
         $this->assertEquals('Fake block', $factoryItem->getDescription());
+        $this->assertEquals('Text', $factoryItem->getType());
         $this->assertEquals('none', $factoryItem->getGroup());
     }
 
 
     public function testFactoryItemObjectHasBeenSettedWithGroupOption()
     {
-        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'group' => 'My awesome group'));
+        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text', 'group' => 'My awesome group'));
 
         $this->assertEquals($this->blockManager, $factoryItem->getBlockManager());
         $this->assertEquals('app_fake.block', $factoryItem->getId());
         $this->assertEquals('Fake block', $factoryItem->getDescription());
+        $this->assertEquals('Text', $factoryItem->getType());
         $this->assertEquals('My awesome group', $factoryItem->getGroup());
     }
 }

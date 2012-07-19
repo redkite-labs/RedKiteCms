@@ -8,10 +8,9 @@
     </parameters>
 
     <services>
-        <service id="app_navigation_menu.block" class="%app_navigation_menu.block.class%">
-            <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Navigation menu block" group="alphalemon_internals" />
+        <service id="app_navigationmenu.block" class="%app_navigation_menu.block.class%">
+            <argument type="service" id="service_container" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Navigation menu block" type="NavigationMenu" group="alphalemon_internals" />
         </service>
     </services>
 </container>

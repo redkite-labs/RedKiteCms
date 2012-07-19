@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\Core\Media;
@@ -33,16 +33,18 @@ abstract class AlMedia
     protected $options;
     protected $container;
 
+    abstract public function render();
+    
     public function __construct($container, $src, $options = array())
     {
         if(null === $this->skeleton)
         {
             throw new \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException(sprintf('%s class must implement the protected variable skeleton', \get_class($this)));
         }
-        
+
         $this->container = $container;
         $this->src = $src;
-        
+
         if(!$this->container->get('al_page_tree')->isCmsMode())
         {
             $file = \sprintf('%s/%s/%s', $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'), $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'), $this->src);
@@ -55,11 +57,9 @@ abstract class AlMedia
             $bundleDir = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
             $this->absoluteSrcPath = sprintf('/%s/%s/%s', $bundleDir, $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'), $this->src);
         }
-        
+
         $this->realSrcPath = AlToolkit::normalizePath($this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . $this->absoluteSrcPath);
 
         $this->options = $options;
     }
-
-    abstract public function render();
 }

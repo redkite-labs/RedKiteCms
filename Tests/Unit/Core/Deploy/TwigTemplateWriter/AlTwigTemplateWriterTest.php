@@ -29,7 +29,7 @@ use org\bovigo\vfs\vfsStream;
 class AlTwigTemplateWriterTest extends TestCase
 {
     private $pageTree;
-    private $router;
+    private $urlManager;
 
     protected function setUp()
     {
@@ -42,7 +42,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->pageTree->expects($this->once())
             ->method('getTemplate')
             ->will($this->returnValue($this->setUpTemplate()));
-        
+
         $this->pageTree->expects($this->any())
             ->method('getAlPage')
             ->will($this->returnValue($this->setUpPage('index')));
@@ -50,8 +50,11 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->pageTree->expects($this->any())
             ->method('getAlLanguage')
             ->will($this->returnValue($this->setUpLanguage('en')));
-        
-        $this->router = $this->getMock('\Symfony\Component\Routing\RouterInterface');
+
+        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager->expects($this->any())
+            ->method('fromUrl')
+            ->will($this->returnSelf());
 
         $this->root = vfsStream::setup('root');
     }
@@ -60,7 +63,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets(null, null, null, array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $this->assertEquals("{% extends 'FakeTheme:Theme:Home.html.twig' %}\n", $twigTemplateWriter->getTemplateSection());
     }
@@ -69,7 +72,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", null, null, array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
         $section .= "{% block title %}\n";
@@ -83,7 +86,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets(null, "A description", null, array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
         $section .= "{% block description %}\n";
@@ -97,7 +100,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets(null, null, "some,keywords", array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
         $section .= "{% block keywords %}\n";
@@ -111,7 +114,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
         $section .= "{% block title %}\n";
@@ -131,7 +134,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
         $section .= "{% block external_stylesheets %}\n";
@@ -147,7 +150,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array('javascript1.js', 'javascript2.js'), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
         $section .= "{% block external_javascripts %}\n";
@@ -163,7 +166,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), 'some css code', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
         $section .= "{% block internal_header_stylesheets %}\n";
@@ -178,7 +181,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', 'some js code');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
         $section .= "{% block internal_header_javascripts %}\n";
@@ -192,7 +195,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
         $section .= "{% block external_stylesheets %}\n";
@@ -229,7 +232,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "  {% endif %}\n";
         $section .= "{% endblock %}\n\n";
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -247,20 +250,23 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "  {% endif %}\n";
         $section .= "{% endblock %}\n\n";
 
+        $this->urlManager->expects($this->any())
+            ->method('getProductionRoute')
+            ->will($this->returnValue(null));
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
-    
-    
+
+
     public function testContentsSectionWithOneBlockAndLinkNotReplaceBecauseNotRecognizedAsInternalRouteHaveBeenCreated()
     {
-        $this->router->expects($this->once())
-            ->method('match')
-            ->will($this->throwException(new \Symfony\Component\Routing\Exception\ResourceNotFoundException()));
-        
+        $this->urlManager->expects($this->any())
+            ->method('getProductionRoute')
+            ->will($this->returnValue(null));
+
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks(array("logo" => array($this->setUpBlock('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>'))));
 
@@ -273,16 +279,16 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "  {% endif %}\n";
         $section .= "{% endblock %}\n\n";
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
-    
+
     public function testContentsSectionWithOneBlockAndLinkReplaceHaveBeenCreated()
     {
-        $this->router->expects($this->once())
-            ->method('match')
-            ->will($this->returnValue(array('_en_index')));
-        
+        $this->urlManager->expects($this->any())
+            ->method('getProductionRoute')
+            ->will($this->returnValue('_en_index'));
+
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks(array("logo" => array($this->setUpBlock('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>'))));
 
@@ -295,10 +301,10 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "  {% endif %}\n";
         $section .= "{% endblock %}\n\n";
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
-    
+
     public function testContentsSectionWithMoreBlocksHaveBeenCreated()
     {
         $blocks = array(
@@ -339,7 +345,7 @@ class AlTwigTemplateWriterTest extends TestCase
             'prodPath' => "/bundles/acmewebsite");
 
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -357,10 +363,10 @@ class AlTwigTemplateWriterTest extends TestCase
                     $this->setUpBlock('<div>Lorem ipsum <ul><li><a href="my-awesome-page">Fancy page</a></li></ul></div>')
                 )
             );
-        
-        $this->router->expects($this->once())
-            ->method('match')
-            ->will($this->returnValue(array('_en_index')));
+
+        $this->urlManager->expects($this->any())
+            ->method('getProductionRoute')
+            ->will($this->returnValue('_en_index'));
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
@@ -416,7 +422,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getTwigTemplate());
     }
 
@@ -426,7 +432,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
 
         $this->assertFalse($this->root->hasChild('en'));
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->router);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
         $twigTemplateWriter->writeTemplate(vfsStream::url('root'));
         $this->assertTrue($this->root->hasChild('en'));
         $this->assertTrue($this->root->getChild('en')->hasChild('index.html.twig'));

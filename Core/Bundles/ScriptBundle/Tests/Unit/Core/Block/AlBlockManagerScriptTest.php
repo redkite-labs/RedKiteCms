@@ -42,24 +42,24 @@ class AlBlockManagerScriptTest extends TestCase
         $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
     }
 
-    public function testHtmlContentCMSModeDisplaysTheContentWhenAnyJavascriptTagExists()
+    public function testHtmlContentDisplaysTheContentWhenAnyJavascriptTagExists()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getHtmlContent')
             ->will($this->returnValue('A fancy javascript'));
         $this->blockManager->set($block);
-        $this->assertEquals('A fancy javascript', $this->blockManager->getHtmlContentCMSMode());
+        $this->assertEquals('A fancy javascript', $this->blockManager->getHtmlContent());
     }
 
-    public function testHtmlContentCMSModeDisplaysAWarningWhenAtLeastOneJavascriptTagExists()
+    public function testHtmlContentDisplaysAWarningWhenAtLeastOneJavascriptTagExists()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getHtmlContent')
             ->will($this->returnValue('<script>A fancy javascript</script>'));
         $this->blockManager->set($block);
-        $this->assertEquals('A script content is not rendered in editor mode', $this->blockManager->getHtmlContentCMSMode());
+        $this->assertEquals('A script content is not rendered in editor mode', $this->blockManager->getHtmlContent());
     }
 
     public function testHideInEditMode()

@@ -271,7 +271,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
 
         $link = $crawler->selectLink('Go to page 2')->link();
-        $this->assertEquals('http://localhost/backend/en/page-2-edited', $link->getUri());
+        $this->assertEquals('http://localhost/alcms_test.php/backend/page-2-edited', $link->getUri());
     }
 
     public function testChangeThePageTemplate()

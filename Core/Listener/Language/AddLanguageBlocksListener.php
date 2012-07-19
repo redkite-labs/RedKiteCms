@@ -31,7 +31,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 {
     private $blockManager;
-    private $router;
 
     /**
      * Constructor
@@ -42,9 +41,6 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
     {
         parent::__construct($container);
 
-        if(null !== $container) {
-            $this->router = $container->get('routing');
-        }
         $this->blockManager = $blockManager;
     }
 
@@ -83,7 +79,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 
     /**
      * Configures the permalink for the new language.
-     * 
+     *
      * The content is parsed to find links. When at least a link is found it is retrieved and matched to find
      * if it is an internal link. When it is an internal link, it is prefixed with the new language as follows:
      * [new_language]-[permalink], otherwise it is left untouched
@@ -93,13 +89,22 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
      */
     protected function configurePermalinkForNewLanguage($content)
     {
-        $router = $this->router;
-        
-        if(null === $this->languageManager || null === $router) {
+        //$router = $this->router;
+
+        if(null === $this->languageManager || null === $this->container) {
             return $content;
         }
-        
+
+        $urlManager = $this->container->get('alphalemon_cms.urlManager');
         $languageName =  $this->languageManager->get()->getLanguage();
+        return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager, $languageName) {
+            $url = $urlManager
+                ->fromUrl($matches[2])
+                ->getInternalUrl();
+
+            return (null !== $url) ? $matches[1] . $languageName . '-' . $url . $matches[3] : $matches[1] . $matches[2] . $matches[3];
+        }, $content);
+        /*
         $content = preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use($router, $languageName) {
 
             $url = $matches[2];
@@ -116,8 +121,8 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
             }
 
             return $matches[1] . $url . $matches[3];
-        }, $content);
-        
+        }, $content);*/
+
         return $content;
     }
 }

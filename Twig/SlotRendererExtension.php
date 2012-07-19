@@ -90,7 +90,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $slotName = $block["Block"]["SlotName"];
             if(\array_key_exists('Id', $block))
             {
-                $result = $block['HtmlContentCMSMode'];
+                $result = $block['HtmlContent'];
             }
             else
             {

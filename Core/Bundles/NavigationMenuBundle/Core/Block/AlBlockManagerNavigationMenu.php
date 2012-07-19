@@ -21,7 +21,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributePeer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * AlBlockManagerMenu
@@ -30,9 +31,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class AlBlockManagerNavigationMenu extends AlBlockManager
 {
+    private $container = null;
 
-    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
+        $this->container = $container;
+        $dispatcher = $container->get('event_dispatcher');
+        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
         parent::__construct($dispatcher, $factoryRepository, $validator);
 
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
@@ -46,25 +51,27 @@ class AlBlockManagerNavigationMenu extends AlBlockManager
         return array("HtmlContent" => "<ul><li>En</li></ul>");
     }
 
-    public function getHtmlContent()
+    /**
+     *  {@inheritdoc}
+     */
+    public function getHtmlContentForDeploy()
     {
         $content = '';
-        $languages = $this->languageRepository->activeLanguages()->find();
+        $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();
+        $router = $this->container->get('router');
+        $languages = $this->languageRepository->activeLanguages();
         foreach($languages as $language)
         {
-            $permalink = "";
-            $languageName = $language->getLanguage();
-
             try
             {
-                $route = sprintf('_%s_%s', $language, str_replace('-', '_', $this->container->get('al_page_tree')->getAlPage()->getPageName()));
-                $url = $this->container->get('router')->generate($route);
-
+                $languageName = $language->getLanguage();
+                $route = sprintf('_%s_%s', $language, str_replace('-', '_', $pageName));
+                $url = $router->generate($route);
             }
-            catch(\Exception $ex)
+            catch(RouteNotFoundException $ex)
             {
                 $url = "#";
-                $languageName .= " Err!";
+                $languageName .= "[Error]";
             }
 
             $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $languageName);
@@ -73,14 +80,27 @@ class AlBlockManagerNavigationMenu extends AlBlockManager
         return sprintf('<ul>%s</ul>', $content);
     }
 
-    public function getHtmlContentCMSMode()
+    /**
+     *  {@inheritdoc}
+     */
+    public function getHtmlContent()
     {
         $content = '';
-        $languages = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
+        $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();
+        $urlManager = $this->container->get('alphalemon_cms.url_manager');
+
+        $languages = $this->languageRepository->activeLanguages();
         foreach($languages as $language)
         {
-            $frontController = $this->container->get('kernel')->getEnvironment() . '.php';
-            $content .= sprintf('<li><a href="/%s/%s/%s">%s</a></li>', $frontController, $language->getLanguage(), $this->container->get('al_page_tree')->getAlPage()->getPageName(), $language->getLanguage());
+            $languageName = $language->getLanguage();
+            $url = $urlManager
+                    ->buildInternalUrl($languageName, $pageName)
+                    ->getInternalUrl();
+            if (null === $url) {
+                $url = '#';
+            }
+            
+            $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $languageName);
         }
 
         return sprintf('<ul>%s</ul>', $content);

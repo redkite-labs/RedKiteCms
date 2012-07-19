@@ -63,7 +63,7 @@ class AlBlockManagerFactoryTest extends TestCase
 
         $blocks = $this->factory->getBlocks();
         $this->assertEquals(1, count($blocks));
-        $this->assertEquals('Html text content', $blocks[0]);
+        $this->assertEquals('Html text content', $blocks['Text']);
     }
 
     public function testCreateBlockManagerFromAValidContentTypeReturnsTheNewBlockManager()
@@ -86,7 +86,7 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->blockManager->expects($this->once())
                         ->method('getBlockRepository')
                         ->will($this->returnValue($this->blockRepository));
-        
+
         $this->blockRepository->expects($this->once())
                         ->method('setRepositoryObject')
                         ->with($block);
@@ -141,42 +141,6 @@ class AlBlockManagerFactoryTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factory->addBlockManager($this->blockManager, array('id' => 'app_text.block', 'description' => 'Html text content'));
+        $this->factory->addBlockManager($this->blockManager, array('id' => 'app_text.block', 'description' => 'Html text content', 'type' => 'Text'));
     }
-
-/*
-    TODO!!!!
-
-    public function testCreatingFromARemovedBlockObjectDeletesTheBlock()
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->once())
-                ->method('setToDelete');
-
-        $block->expects($this->once())
-                ->method('save');
-
-        $block->expects($this->any())
-                ->method('getToDelete')
-                ->will($this->returnValue(1));
-
-        $contenManager = $this->factory->createBlock($this->blockRepository, $block);
-        $this->assertNull($contenManager);
-        $this->assertEquals(1, $block->getToDelete());
-    }
-
-    public function testCreateBlockWithTranslator()
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-                ->method('getClassName')
-                ->will($this->returnValue('Text'));
-
-        $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-
-        $factory = new AlBlockManagerFactory($this->dispatcher, $translator);
-        $contenManager = $factory->createBlock($this->blockRepository, $block);
-        $this->assertInstanceOf('Symfony\Component\Translation\TranslatorInterface', $contenManager->getTranslator());
-    }*/
 }
