@@ -44,6 +44,7 @@
         "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\NavigationMenuBundle" : ""
     }
   },
+  "minimum-stability": "dev",
   "target-dir" : "AlphaLemon/AlphaLemonCmsBundle",
   "bin": ["bin/cms-install", "bin/config.php"],
   "config": {
