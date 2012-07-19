@@ -36,11 +36,11 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
      * Constructor
      * 
      * @param EventDispatcherInterface $dispatcher
-     * @param AlFactoryRepositoryInterface $factoryRepository
      * @param AlUrlManagerInterface $urlManager
+     * @param AlFactoryRepositoryInterface $factoryRepository
      * @param AlParametersValidatorInterface $validator 
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlUrlManagerInterface $urlManager, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlUrlManagerInterface $urlManager, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $factoryRepository, $validator);
 

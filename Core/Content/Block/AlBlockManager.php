@@ -58,12 +58,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @param AlFactoryRepositoryInterface $factoryRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
-
-        $this->factoryRepository = $factoryRepository;
-        $this->blockRepository = $this->factoryRepository->createRepository('Block');
+        
+        $this->doSetFactoryRepository($factoryRepository);
     }
 
     /**
@@ -82,7 +81,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @return array
      */
     abstract function getDefaultValue();
-
+    
     /**
      * {@inheritdoc}
      */
@@ -104,24 +103,32 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         return $this;
     }
-
+    
     /**
-     * Sets the block model object
-     *
-     *
-     * @param BlockRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
+     * Sets the factory repository
+     * 
+     * @param AlFactoryRepositoryInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager 
      */
-    public function setBlockRepository(BlockRepositoryInterface $v)
+    public function setFactoryRepository(AlFactoryRepositoryInterface $v)
     {
-        $this->blockRepository = $v;
+        $this->doSetFactoryRepository($v);
 
         return $this;
     }
+    
+    /**
+     * Returns the factory repository object associated with this object
+     *
+     * @return BlockRepositoryInterface
+     */
+    public function getFactoryRepository()
+    {
+        return $this->factoryRepository;
+    }
 
     /**
-     * Returns the block model object associated with this object
-     *
+     * Returns the block repository object associated with this object
      *
      * @return BlockRepositoryInterface
      */
@@ -502,5 +509,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
             throw $e;
         }
+    }
+    
+    private function doSetFactoryRepository($factoryRepository)
+    {
+        $this->factoryRepository = $factoryRepository;
+        $this->blockRepository = (null !== $this->factoryRepository) ? $this->factoryRepository->createRepository('Block') : null;
     }
 }
