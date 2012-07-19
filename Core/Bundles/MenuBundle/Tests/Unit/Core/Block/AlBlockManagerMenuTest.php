@@ -32,7 +32,7 @@ class AlBlockManagerMenuTest extends TestCase
         $factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
-        $blockManager = new AlBlockManagerMenu($dispatcher, $factoryRepository, $urlManager);
+        $blockManager = new AlBlockManagerMenu($dispatcher, $urlManager, $factoryRepository);
 
         $expectedValue = array("HtmlContent" => "<ul><li>Link 1</li><li>Link 2</li><li>Link 3</li></ul>");
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
