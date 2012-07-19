@@ -17,14 +17,14 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\TinyMceBlock\AlBlockManagerTinyMce;
 
 /**
  * AlBlockManagerText
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerText extends AlBlockManager
+class AlBlockManagerText extends AlBlockManagerTinyMce
 {
     /**
      * {@inheritdoc}
