@@ -55,7 +55,7 @@ class AlBlockManagerTinyMceTest extends TestCase
 
         $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
 
-        $this->blockManager = new AlBlockManagerTinyMceTester($this->dispatcher, $this->factoryRepository, $this->urlManager, $this->validator);
+        $this->blockManager = new AlBlockManagerTinyMceTester($this->dispatcher, $this->urlManager, $this->factoryRepository, $this->validator);
     }
 
     public function testUrlManagerIsNotCalledWhenHtmlContentKeyDeosNotExist()

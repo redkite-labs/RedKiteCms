@@ -28,6 +28,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * AlBlockManagerFactory is the object responsible to create a new AlBlockManager object
@@ -43,14 +44,16 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 {
     private $blockManagers = array();
     private $translator = null;
+    private $factoryRepository;
 
     /**
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(AlFactoryRepositoryInterface $factoryRepository, TranslatorInterface $translator = null)
     {
+        $this->factoryRepository = $factoryRepository;
         $this->translator = $translator;
     }
 
@@ -67,7 +70,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if (empty($attributes['type'])) {
             return;
         }
-
+        
+        $blockManager->setFactoryRepository($this->factoryRepository);
         $this->blockManagers[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
     }
 
