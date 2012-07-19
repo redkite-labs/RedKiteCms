@@ -31,8 +31,8 @@ class AlBlockManagerTextTest extends TestCase
     {
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');        
-        $blockManager = new AlBlockManagerText($dispatcher, $factoryRepository, $urlManager);
+        $urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $blockManager = new AlBlockManagerText($dispatcher, $urlManager, $factoryRepository);
 
         $expectedValue = array("HtmlContent" => 'This is the default text for a new text content');
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
