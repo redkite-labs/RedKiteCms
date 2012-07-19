@@ -87,7 +87,9 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
             throw new \InvalidArgumentException('The permalink must be a string. The seo attribute cannot be retrieved');
         }
 
-        return AlSeoQuery::create()
+        return AlSeoQuery::create('a')
+                    ->joinWith('a.AlPage')
+                    ->joinWith('a.AlLanguage')
                     ->filterByPermalink($permalink)
                     ->filterByToDelete(0)
                     ->findOne();
