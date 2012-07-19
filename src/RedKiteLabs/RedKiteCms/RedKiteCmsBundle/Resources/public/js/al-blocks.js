@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 var isEditorOpened = false;
@@ -44,7 +44,7 @@ var isEditorOpened = false;
             });
         });
     };
-    
+
     $.fn.OpenEditor =function()
     {
         if(isEditorOpened)
@@ -54,13 +54,12 @@ var isEditorOpened = false;
 
         var editableData = $(this).metadata();
         var idBlock = editableData.id;
-        var slotName = editableData.slotName; 
-
+        var slotName = editableData.slotName;
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showBlocksEditor',
-            data: {'page' :  $('#al_pages_navigator').val(),
-                   'language' : $('#al_languages_navigator').val(),
+            data: {'page' :  $('#al_pages_navigator option:selected').text(),
+                   'language' : $('#al_languages_navigator option:selected').text(),
                    'idBlock' : idBlock,
                    'slotName' : slotName},
             beforeSend: function()
@@ -78,13 +77,12 @@ var isEditorOpened = false;
                 {
                     showMediaLibrary(response);
                 }
-                
+
                 $('body').data('idBlock', idBlock).data('slotName', slotName);
                 isEditorOpened = true;
             },
             error: function(err)
             {
-                console.log('An editor has been occoured opening the editor');
                 $('#al_dialog').html(err.responseText);
                 $('#al_dialog').dialog('open');
             },
@@ -101,7 +99,7 @@ var isEditorOpened = false;
         {
             var data = $(this).metadata();
             var idBlock = data.id;
-            var slotName = data.slotName; 
+            var slotName = data.slotName;
             var contentType = (type == null) ? data.contentType : type;
             $.ajax({
                 type: 'POST',
@@ -131,7 +129,7 @@ var isEditorOpened = false;
             });
 
             return false;
-            
+
         });
     };
 
@@ -140,7 +138,7 @@ var isEditorOpened = false;
         this.each(function()
         {
             value = (value == null) ? encodeURIComponent($(this).val()) : value;
-            
+
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/editBlock',
@@ -173,7 +171,7 @@ var isEditorOpened = false;
             return false;
         });
     };
-    
+
     $.fn.ShowExternalFilesManager =function(key)
     {
         this.each(function()
@@ -209,7 +207,7 @@ var isEditorOpened = false;
             });
         });
     };
-    
+
     $.fn.AddExternalFile =function(field, file)
     {
         this.each(function()
@@ -245,7 +243,7 @@ var isEditorOpened = false;
             return false;
         });
     };
-    
+
     function showMediaLibrary(html)
     {
         if($('body').find("al_media_lib").length == 0)
@@ -256,13 +254,13 @@ var isEditorOpened = false;
         }
         $('#al_media_lib').html(html);
     }
-    
+
     $.fn.RemoveExternalFile =function(field, fileName)
     {
         this.each(function()
         {
             $(this).click(function()
-            { 
+            {
                 $.ajax({
                     type: 'POST',
                     url: frontController + 'backend/' + $('#al_available_languages').val() + '/removeExternalFile',
@@ -307,13 +305,13 @@ var isEditorOpened = false;
             });
         });
     };
-    
+
     $.fn.DeleteContent =function()
     {
         var editableData = $(this).metadata();
         var idBlock = editableData.id;
-        var slotName = editableData.slotName; 
-        
+        var slotName = editableData.slotName;
+
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/deleteBlock',
@@ -368,11 +366,11 @@ function updateContentsJSon(response)
                 }
                 else
                 {
-                    $(item.value).insertAfter('#' + item.insertAfter).StartToEdit(); 
+                    $(item.value).insertAfter('#' + item.insertAfter).StartToEdit();
                 }
                 break;
             case "edit-block":
-                $('#' + item.blockName).html(item.value).StartToEdit(); 
+                $('#' + item.blockName).html(item.value).StartToEdit();
                 break;
             case "remove-block":
                 $('#' + item.blockName).remove();
@@ -383,18 +381,18 @@ function updateContentsJSon(response)
                     var dialogOptions = {
                         buttons:{},
                         close: function(event, ui)
-                        { 
+                        {
                             isEditorOpened = false;
-                            if(tinyMCE != null) $('#al_html_editor').RemoveTinyMCE();   
+                            if(tinyMCE != null) $('#al_html_editor').RemoveTinyMCE();
                             $('#al_editor_dialog').dialog('destroy').remove();
                         }
                     };
-                
+
                     InitDialog('al_editor_dialog', dialogOptions);
                     $('#al_editor_dialog').html(item.value);
                     $('#al_editor_dialog').dialog('open');
                 }
-                
+
                 break;
             case "externalAssets":
                 $('.al_' + item.section  + '_list').html(item.value);
@@ -402,7 +400,7 @@ function updateContentsJSon(response)
             case "editorContents":
                 $('.editor_contents').html(item.value);
                 break;
-            
+
         }
     });
 }
