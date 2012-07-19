@@ -121,14 +121,10 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->method('getSlots')
             ->will($this->returnValue(array('logo' => array('repeated' => 'site'))));
 
-        $router = $this->getMock('\Symfony\Component\Routing\RouterInterface');
-        $router->expects($this->any())
-            ->method('match')
-            ->will($this->throwException(new \Symfony\Component\Routing\Exception\ResourceNotFoundException()));
-
+        $urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $router, $this->themesCollectionWrapper));
+            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $urlManager, $this->themesCollectionWrapper));
 
         $this->deployer = new AlTwigDeployer($this->container);
         $this->assertTrue($this->deployer->deploy());

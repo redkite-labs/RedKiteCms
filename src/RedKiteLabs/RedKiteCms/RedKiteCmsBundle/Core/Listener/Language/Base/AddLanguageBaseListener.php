@@ -29,9 +29,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class AddLanguageBaseListener
 {
-    private $sourceObjects = null;
+    protected $container = null;
     protected $mainLanguage = null;
     protected $languageManager = null;
+    private $sourceObjects = null;
     private $request = null;
 
     /**
@@ -52,6 +53,7 @@ abstract class AddLanguageBaseListener
      */
     public function __construct(ContainerInterface $container = null)
     {
+        $this->container = $container;
         if(null !== $container) {
             $this->request = $container->get('request');
         }
@@ -83,7 +85,7 @@ abstract class AddLanguageBaseListener
         if(null === $this->sourceObjects) {
             return;
         }
-        
+
         if (count($this->sourceObjects) > 0) {
             try {
                 $result = true;

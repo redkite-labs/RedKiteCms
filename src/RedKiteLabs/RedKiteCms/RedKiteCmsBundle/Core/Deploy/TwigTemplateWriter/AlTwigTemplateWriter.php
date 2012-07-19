@@ -22,7 +22,7 @@ use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Routing\RouterInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
@@ -33,7 +33,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 class AlTwigTemplateWriter
 {
     protected $pageTree;
-    protected $router;
+    protected $urlManager;
     protected $template;
     protected $twigTemplate;
     protected $templateSection;
@@ -53,14 +53,14 @@ class AlTwigTemplateWriter
      *
      * When the page is saving, the images' path is replaced
      *
-     *
-     * @param ContainerInterface $container
+     * @param AlPageTree $pageTree
+     * @param AlUrlManagerInterface $urlManager
      * @param array $replaceImagesPaths
      */
-    public function  __construct(AlPageTree $pageTree, RouterInterface $router, array $replaceImagesPaths = array())
+    public function  __construct(AlPageTree $pageTree, AlUrlManagerInterface $urlManager, array $replaceImagesPaths = array())
     {
         $this->pageTree = $pageTree;
-        $this->router = $router;
+        $this->urlManager = $urlManager;
         $this->replaceImagesPaths = $replaceImagesPaths;
         $this->template = $this->pageTree->getTemplate();
         $this->generateTemplate();
@@ -202,7 +202,7 @@ class AlTwigTemplateWriter
         // Writes page contentsSection
         $this->contentsSection = $this->writeComment("Contents section");
         $slots = array_keys($this->template->getSlots());
-        
+
         $languageName = $this->pageTree->getAlLanguage()->getLanguage();
         $pageName = $this->pageTree->getAlPage()->getPageName();
         $blocks = $this->pageTree->getPageBlocks()->getBlocks();
@@ -215,7 +215,7 @@ class AlTwigTemplateWriter
                 $content = $block->getHtmlContent();
                 $content = $this->rewriteImagesPathForProduction($content);
                 $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
-                
+
                 $htmlContents[] = $content;
             }
 
@@ -237,28 +237,23 @@ class AlTwigTemplateWriter
 
         return preg_replace_callback('/(\<img[^\>]+src[="\'\s]+)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')["\']?([^\>]+\>)/s', function($matches) use($deployBundleAssetsFolder){return $matches[1].$deployBundleAssetsFolder.$matches[3];}, $content);
     }
-    
+
     protected function rewriteLinksForProduction($languageName, $pageName, $content)
     {
-        $router = $this->router;
-        $content = preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use($router, $languageName, $pageName) {
-
+        $urlManager = $this->urlManager;
+        return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager, $languageName, $pageName) {
             $url = $matches[2];
-            try
-            {
-                $tmpUrl = (empty($match) && substr($url, 0, 1) != '/') ? '/' . $url : $url;
-                $params = $router->match($tmpUrl);
+            $route = $urlManager
+                ->fromUrl($url)
+                ->getProductionRoute();
 
-                $url = (!empty($params)) ? sprintf("{{ path('_%s_%s') }}", $languageName, $pageName) : $url;
-            }
-            catch(ResourceNotFoundException $ex)
-            {
-                // Not internal route the link remains the same
-            }
+           if (null !== $route) {
+               $url = sprintf("{{ path('_%s_%s') }}", $languageName, $pageName);
+           }
 
-            return $matches[1] . $url . $matches[3];
+           return $matches[1] . $url . $matches[3];
         }, $content);
-        
+
         return $content;
     }
 

@@ -29,6 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpec
 class AlBlockManagerFactoryItem
 {
     private $id;
+    private $type;
     private $blockManager;
     private $description;
     private $group;
@@ -50,6 +51,7 @@ class AlBlockManagerFactoryItem
 
         $this->blockManager = $blockManager;
         $this->id = $attributes['id'];
+        $this->type = $attributes['type'];
         $this->description = $attributes['description'];
         $this->group = (array_key_exists('group', $attributes)) ? $attributes['group'] : 'none';
     }
@@ -72,6 +74,16 @@ class AlBlockManagerFactoryItem
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * Returns the item id
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

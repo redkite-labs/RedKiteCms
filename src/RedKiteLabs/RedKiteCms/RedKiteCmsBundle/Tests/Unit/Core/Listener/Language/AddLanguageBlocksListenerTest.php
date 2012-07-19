@@ -41,6 +41,11 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('getBlockRepository')
             ->will($this->returnValue($this->objectModel));
 
+        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager->expects($this->any())
+            ->method('fromUrl')
+            ->will($this->returnSelf());
+
         parent::setUp();
 
         $this->testListener = new AddLanguageBlocksListener($this->manager);
@@ -53,21 +58,20 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('getLanguages')
             ->will($this->returnValue(array('en-gb', 'en')));
 
-        $router = $this->getMock('\Symfony\Component\Routing\RouterInterface');
-        $router->expects($this->once())
-            ->method('match')
-            ->will($this->throwException(new \Symfony\Component\Routing\Exception\ResourceNotFoundException()));
+        $this->urlManager->expects($this->any())
+            ->method('getInternalUrl')
+            ->will($this->returnValue(null));
 
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->exactly(2))
             ->method('get')
-            ->will($this->onConsecutiveCalls($request, $router));
+            ->will($this->onConsecutiveCalls($request, $this->urlManager));
 
-        $this->setUpTestToCopyFromRequestLanguage();        
+        $this->setUpTestToCopyFromRequestLanguage();
         $testListener = new AddLanguageBlocksListener($this->manager, $container);
         $testListener->onBeforeAddLanguageCommit($this->event);
     }
-    
+
     public function testDbRecorsHaveBeenCopiedFromRequestLanguageAndALinkHasBeenConvertedBecauseItHasBeenRecognizedHasInternal()
     {
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
@@ -75,17 +79,16 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('getLanguages')
             ->will($this->returnValue(array('en-gb', 'en')));
 
-        $router = $this->getMock('\Symfony\Component\Routing\RouterInterface');
-        $router->expects($this->once())
-            ->method('match')
-            ->will($this->returnValue(array('_en_index')));
+        $this->urlManager->expects($this->any())
+            ->method('getInternalUrl')
+            ->will($this->returnValue('/alcms.php/backend/my-permalink'));
 
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->exactly(2))
             ->method('get')
-            ->will($this->onConsecutiveCalls($request, $router));
+            ->will($this->onConsecutiveCalls($request, $this->urlManager));
 
-        $this->setUpTestToCopyFromRequestLanguage();        
+        $this->setUpTestToCopyFromRequestLanguage();
         $testListener = new AddLanguageBlocksListener($this->manager, $container);
         $testListener->onBeforeAddLanguageCommit($this->event);
     }

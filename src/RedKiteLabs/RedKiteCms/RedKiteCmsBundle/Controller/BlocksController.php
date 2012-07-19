@@ -123,8 +123,6 @@ class BlocksController extends Controller
                                 "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $slotManager->lastAdded()->toArray()))));
 
             return $this->buildJSonResponse($values);
-
-
         }
         catch(\Exception $e)
         {

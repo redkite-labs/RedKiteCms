@@ -19,7 +19,7 @@
         <service id="app_media.block" class="%app_media.block.class%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="alphalemon_cms.factory_repository" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Media block" group="alphalemon_internals" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Media block" type="Media" group="alphalemon_internals" />
         </service>
 
         <service id="media_editor_renderer.class" class="%media_editor_renderer.class%">

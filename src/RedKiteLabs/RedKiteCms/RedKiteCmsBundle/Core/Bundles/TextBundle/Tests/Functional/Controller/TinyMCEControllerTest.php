@@ -31,7 +31,7 @@ class TinyMCEControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'al_createImagesList');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp('/var tinyMCEImageList = new Array\([\[\"\,\.\]\/\-\_\w\s]+\)/', $crawler->text());
+        $this->assertRegExp('/var tinyMCEImageList = new Array\([\[\"\,\.\]\/\\\-\_\w\s]+\)/', $crawler->text());
     }
 
     public function testCreatePermalinkList()

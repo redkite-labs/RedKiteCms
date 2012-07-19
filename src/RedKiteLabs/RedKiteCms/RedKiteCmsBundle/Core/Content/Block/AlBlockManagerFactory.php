@@ -64,6 +64,10 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      */
     public function addBlockManager(AlBlockManagerInterface $blockManager, array $attributes)
     {
+        if (empty($attributes['type'])) {
+            return;
+        }
+
         $this->blockManagers[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
     }
 
@@ -73,20 +77,15 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     public function createBlockManager($block)
     {
         $isAlBlock = $block instanceof AlBlock;
-        $blockType = $isAlBlock ? strtolower($block->getClassName()) : strtolower($block);
-        if(!preg_match('/app_[a-z]+.block/', $blockType))
-        {
-            $blockType = sprintf('app_%s.block', $blockType);
-        }
-
+        $blockType = $isAlBlock ? $block->getClassName() : $block;
+        
         $items = count($this->blockManagers);
-        if($items == 0) {
+        if ($items == 0) {
             return null;
         }
 
-        foreach($this->blockManagers as $blockManagerItem)
-        {
-            if($blockManagerItem->getId() == $blockType) {
+        foreach ($this->blockManagers as $blockManagerItem) {
+            if ($blockManagerItem->getType() == $blockType) {
                 $blockManager = $blockManagerItem->getBlockManager();
                 $blockManager = clone($blockManager);
                 if ($isAlBlock) $blockManager->set($block);
@@ -112,16 +111,14 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     public function getBlocks()
     {
         $blockGroups = array();
-        foreach($this->blockManagers as $blockManager)
-        {
-            $blockGroups[$blockManager->getGroup()][] = $blockManager->getDescription();
+        foreach ($this->blockManagers as $blockManager) {
+            $blockGroups[$blockManager->getGroup()][$blockManager->getType()] = $blockManager->getDescription();
         }
 
         $blocks = $this->extractGroup('alphalemon_internals', $blockGroups);
         $notGrouped = $this->extractGroup('none', $blockGroups);
-        foreach($blockGroups as $blockGroup)
-        {
-            sort($blockGroup);
+        foreach ($blockGroups as $blockGroup) {
+            asort($blockGroup);
             $blocks = array_merge($blocks, $blockGroup);
         }
         $blocks = array_merge($blocks, $notGrouped);
@@ -137,21 +134,25 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      */
     protected function removeBlock(AlBlock $block)
     {
+        if (empty($this->blockManagers)) {
+            return;
+        }
+
         $blockManagerItem = $this->blockManagers[0];
-        $modelObject = clone($blockManagerItem->getBlockManager()->getBlockRepository());
-        $modelObject->setRepositoryObject($block);
-        $modelObject->delete();
+        $repository = clone($blockManagerItem->getBlockManager()->getBlockRepository());
+        $repository->setRepositoryObject($block);
+        $repository->delete();
     }
 
     private function extractGroup($group, &$groups)
     {
-        if(!array_key_exists($group, $groups)) {
+        if (!array_key_exists($group, $groups)) {
             return array();
         }
 
         $blocks = $groups[$group];
-        if(!empty($blocks)) {
-            sort($blocks);
+        if (!empty($blocks)) {
+            asort($blocks);
             unset($groups[$group]);
         }
 
