@@ -6,9 +6,9 @@
    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
 
    For the full copyright and license information, please view the LICENSE
-   file that was distributed with this source code. 
+   file that was distributed with this source code.
 
-   For extra documentation and help please visit http://www.alphalemon.com 
+   For extra documentation and help please visit http://www.alphalemon.com
 
    @license    GPL LICENSE Version 2.0
 #}
@@ -81,7 +81,7 @@
         <div class="editor-contents">
             <textarea id="al_internal_javascript" class="input editor_inputs">{{ alContent.getInternalJavascriptForEditor }}</textarea>
         </div>
-        <div class="editor-commands">    
+        <div class="editor-commands">
             <input id="al_internal_javascript_saver" type="submit" value = "Save" class="input button" />
         </div>
         {% endblock %}
@@ -116,7 +116,7 @@
         {% endblock %}
     </div>
     {% endif %}
-        
+
     {% if alContent.getReloadSuggested  %}
         <div class="al_error">Warning: After adding or editing this kind of block, a page reload might be required, to properly display it</div>
     {% endif %}
@@ -160,10 +160,8 @@
     {% endblock %}
     {% endif %}
 <script type="text/javascript">
-    $(document).ready(function() {
-        {% if showRichEditor  %} $('#al_html_editor').AddTinyMCE(); {% endif %}
-        $('#al_editor_tabs').tabs();
-    });
+    {% if showRichEditor  %} $('#al_html_editor').AddTinyMCE(); {% endif %}
+    $('#al_editor_tabs').tabs();
 
     {% if showRichEditor  %}
     function saveHtmlContent()
@@ -178,7 +176,7 @@
         $('#al_html_editor').EditBlock('HtmlContent');
     });
     {% endif %}
-        
+
     {% if showInternalJsEditor  %}
     $('#al_internal_javascript_saver').click(function()
     {
