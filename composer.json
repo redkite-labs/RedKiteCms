@@ -28,12 +28,15 @@
     "sensio/generator-bundle": "dev-master",
     "jms/security-extra-bundle": "1.1.*",
     "jms/di-extra-bundle": "1.0.*",
-    "imagine/Imagine": ">=0.2",
+    "imagine/Imagine": ">=0.2",        
+    "willdurand/propel-typehintable-behavior": "dev-master",
+    "mikey179/vfsStream": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-revisioning-theme-objects",
     "alphalemon/frontend-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
     "alphalemon/business-website-theme-bundle": "dev-master"
   },
+  "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
         "AlphaLemon\\AlphaLemonCmsBundle": "",
