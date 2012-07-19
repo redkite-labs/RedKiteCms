@@ -26,5 +26,6 @@
     "autoload": {
         "psr-0": { "AlphaLemon\\ElFinderBundle": "" }
     },
+    "minimum-stability": "dev",
     "target-dir" : "AlphaLemon/ElFinderBundle"
 }
