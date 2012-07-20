@@ -34,6 +34,7 @@
     "phing/phing": "2.4.*",
     "willdurand/propel-typehintable-behavior": "dev-master",
     "mikey179/vfsStream": "dev-master",
+    "alphalemon/al-pagetree-bundle": "dev-revisioning-pagetree-objects",
     "alphalemon/theme-engine-bundle": "dev-revisioning-theme-objects",
     "alphalemon/frontend-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
