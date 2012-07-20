@@ -103,27 +103,7 @@ class CmsBootstrapListenerTest extends TestCase
 
         $this->testListener->onKernelRequest($this->event);
     }
-
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage An error has occoured during the creation of required folders
-     */
-    public function testAnExceptionIsThrownWhenSomethingWasWrongDuringFoldersCreation()
-    {
-        $this->setUpEnvironment('alcms');
-        $this->setupFolders(0444);
-
-        $this->kernel->expects($this->any())
-            ->method('locateResource')
-            ->will($this->onConsecutiveCalls(true, true, true, vfsStream::url('root/frontend-assets'), vfsStream::url('root/cms-assets/')));
-
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls(null, null, null, null, null, 'media', 'js', 'css', 'fake', 'media', 'js', 'css'));
-
-        $this->testListener->onKernelRequest($this->event);
-    }
-
+    
     public function testCmsHasBeenBootstrapped()
     {
         $this->setUpEnvironment('alcms');

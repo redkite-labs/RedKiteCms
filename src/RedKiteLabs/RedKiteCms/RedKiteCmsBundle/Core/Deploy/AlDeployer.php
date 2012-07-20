@@ -115,14 +115,7 @@ abstract class AlDeployer
     protected function checkFolder($folder)
     {
         $fileSystem = new Filesystem();
-
-        if(!is_dir($folder))
-        {
-            if(!$fileSystem->mkdir($folder))
-            {
-                throw new \RuntimeException(sprintf('The %s directory cannot be created. Please check your permissions on that folder.', $folder));
-            }
-        }
+        $fileSystem->mkdir($folder);
     }
 
     /**
