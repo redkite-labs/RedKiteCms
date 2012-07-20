@@ -1,0 +1,5 @@
+__alphaLemonCmsBundle:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing_cms.yml"
+
+_main:
+    resource: routing.yml
