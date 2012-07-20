@@ -102,10 +102,7 @@ class CmsBootstrapListener
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
 
         $fs = new Filesystem();
-        if(!$fs->mkdir($folders))
-        {
-            throw new \RuntimeException("An error has occoured during the creation of required folders");
-        }
+        $fs->mkdir($folders);
     }
 
     private function setUpPageTree()
