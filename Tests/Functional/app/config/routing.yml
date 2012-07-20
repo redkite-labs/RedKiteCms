@@ -1,0 +1,13 @@
+#_markdown:
+#    resource: "@MarkdownGeshiBundle/Resources/config/routing.yml"
+
+#_installer:
+#    resource: "@AlphaLemonCmsInstallerBundle/Resources/config/routing.yml"
+
+#_AcmeWebSiteBundle:
+#    resource: "@AcmeWebSiteBundle/Resources/config/site_routing.yml"
+
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal
