@@ -48,8 +48,8 @@ class AppKernel extends Kernel
             //new Highlight\Bundle\HighlightBundle(),
         );
 
-        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader($this->getEnvironment(), $bundles);
-        $bundles = $bootstrapper->getBundles();
+        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader($this->getEnvironment(), __DIR__, $bundles);
+        $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')->getBundles();
 
         return $bundles;
     }
