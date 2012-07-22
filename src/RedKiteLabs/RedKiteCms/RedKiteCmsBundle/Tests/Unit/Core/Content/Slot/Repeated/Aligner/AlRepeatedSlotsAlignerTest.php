@@ -68,7 +68,9 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
 
         $this->slotsConverterFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
-        $this->blockRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm');
+        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())

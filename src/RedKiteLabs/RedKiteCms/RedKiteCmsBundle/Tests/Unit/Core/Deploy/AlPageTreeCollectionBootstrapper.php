@@ -48,9 +48,14 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $this->language1 = $this->setUpLanguage('en', true);
         $this->language2 = $this->setUpLanguage('es');
 
-        $this->seoRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface');
+        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
 
-        $this->languageRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel');
+        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->language1, $this->language2)));
@@ -59,7 +64,9 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->method('fromPK')
             ->will($this->onConsecutiveCalls($this->language1, $this->language1, $this->language2, $this->language2));
 
-        $this->pageRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel');
+        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
         $this->pageRepository->expects($this->once())
             ->method('activePages')
             ->will($this->returnValue(array($this->page1, $this->page2)));
@@ -68,7 +75,9 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->method('fromPK')
             ->will($this->onConsecutiveCalls($this->page1, $this->page2, $this->page1, $this->page2));
 
-        $this->themeRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel');
+        $this->themeRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
         $this->themeRepository->expects($this->any())
             ->method('activeBackend')
             ->will($this->returnValue($this->setUpTheme()));

@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             //new Acme\WebSiteBundle\AcmeWebSiteBundle(),
             new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
+            new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle(),
 
             /*
             new AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle(),
