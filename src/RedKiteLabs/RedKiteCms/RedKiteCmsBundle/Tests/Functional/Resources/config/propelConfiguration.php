@@ -7,7 +7,7 @@ $config = array("datasources" => array (
         (
             "dsn" => "mysql:host=localhost;dbname=alphaLemonDevTest",
             "user" => "root",
-            "password" => "passera73",
+            "password" => "",
             "classname" => "DebugPDO",
             "options" => array(),
             "attributes" => array (),

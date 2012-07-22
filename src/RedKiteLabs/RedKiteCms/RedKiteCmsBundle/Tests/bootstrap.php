@@ -36,7 +36,7 @@ if (0 === strncasecmp(PHP_SAPI, 'cli', 3)) {
 }
 
 
-if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) {// 
+if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) {//
     $class = new \ReflectionClass('TypehintableBehavior');
     $builder = new \PropelQuickBuilder();
     $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
@@ -49,7 +49,7 @@ if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) 
     $builder->buildClasses();
 
     $queries = explode(";", file_get_contents(__DIR__ . '/Functional/Resources/sql/database.sql'));
-    mysql_connect('localhost', 'root', 'passera73');
+    mysql_connect('localhost', 'root', '');
     mysql_select_db('alphalemon_test');
     foreach($queries as $query)
     {

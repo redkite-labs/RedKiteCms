@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
 
@@ -27,9 +27,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 
 
 class TestCase extends \PHPUnit_Framework_TestCase {
- 
+
     protected $connection = null;
-    
+
     protected function setUp()
     {
         $this->connection = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Pdo\MockPDO');
@@ -44,7 +44,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
                 (
                     "dsn" => "mysql:host=localhost;dbname=alphaLemonDevTest",
                     "user" => "root",
-                    "password" => "passera73",
+                    "password" => "",
                     "classname" => "DebugPDO",
                     "options" => array(),
                     "attributes" => array (),
@@ -52,19 +52,19 @@ class TestCase extends \PHPUnit_Framework_TestCase {
                 )
             )
         ));
-        
+
         if (!\Propel::isInit()) {
             \Propel::setConfiguration($config);
             \Propel::initialize();
         }
     }
-    
+
     protected static function callMethod($obj, $name, array $args = array())
     {
         $object = new \ReflectionClass($obj);
         $method = $object->getMethod($name);
         $method->setAccesible(true);
-        
+
         return $method->invokeArgs($obj, $args);
     }
 }
