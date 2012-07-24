@@ -21,12 +21,12 @@ propel:
     dbal:
         driver:               mysql
         user:                 root
-        password:             
-        dsn:                  mysql:host=localhost;dbname=alphaLemonDevTest
+        password:
+        dsn:                  mysql:host=localhost;dbname=alphalemon_test
         options:              {}
         attributes:           {}
         default_connection:   default
-        
+
 alpha_lemon_theme_engine:
     base_theme_manager_template: AlphaLemonCmsBundle:Themes:index.html.twig
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
