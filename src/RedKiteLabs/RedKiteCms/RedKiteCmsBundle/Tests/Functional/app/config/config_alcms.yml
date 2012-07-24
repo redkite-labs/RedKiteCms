@@ -52,8 +52,8 @@ propel:
     dbal:
         driver:               mysql
         user:                 root
-        password:             
-        dsn:                  mysql:host=localhost;port=3306;dbname=alphaLemonDevTest
+        password:
+        dsn:                  mysql:host=localhost;port=3306;dbname=alphalemon_test
         options:              {}
         attributes:           {}
         default_connection:   default

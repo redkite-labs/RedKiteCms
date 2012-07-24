@@ -42,7 +42,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
                 "adapter" => "mysql",
                 "connection" => array
                 (
-                    "dsn" => "mysql:host=localhost;dbname=alphaLemonDevTest",
+                    "dsn" => "mysql:host=localhost;dbname=alphalemon_test",
                     "user" => "root",
                     "password" => "",
                     "classname" => "DebugPDO",
