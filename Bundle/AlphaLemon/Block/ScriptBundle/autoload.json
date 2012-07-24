@@ -1,0 +1,7 @@
+{
+    "bundles" : {
+        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\ScriptBundle\\ScriptBundle" : {
+            "environments" : ["alcms", "alcms_dev", "alcms_test"]
+        }
+    }
+}
