@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\ScriptBundle\\ScriptBundle" : {
+        "AlphaLemon\\Block\\ScriptBundle\\ScriptBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test"]
         }
     }
