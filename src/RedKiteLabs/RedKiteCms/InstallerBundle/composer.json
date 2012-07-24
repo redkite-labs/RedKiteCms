@@ -11,6 +11,7 @@
       "email": "info@alphalemon.com"
     }
   ],
+  "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
         "AlphaLemon\\CmsInstallerBundle": ""    
