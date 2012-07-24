@@ -1,17 +1,44 @@
+AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\Page:
+  properties:
+    pageName:
+      - MaxLength: { limit: 255  }
+      - NotBlank: { message: "The page name value should not be blank" }
+    template:
+      - NotBlank: { message: "The template value should not be blank" }
+    isHome:
+      - Type: boolean
+    isPublished:
+      - Type: boolean
+
+AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\Seo:
+  properties:
+    idLanguage:
+      - NotBlank: { message: "The language id, which the seo attributes belongs, is mandatory" }
+    idPage:
+      - NotBlank: { message: "The page id, which the seo attributes belongs, is mandatory" }
+    permalink:
+      - MaxLength: { limit: 255  }
+      - NotBlank: { message: "The permalink value should not be blank" }
+    title:
+      - MaxLength: { limit: 60  }
+      - NotBlank: { message: "The metatag title value should not be blank" }
+    description:
+      - NotBlank: { message: "The metatag description value should not be blank" }
+
 AlphaLemon\AlphaLemonCmsBundle\Model\AlUser:
   properties:
     username:
       - NotBlank: { message: Username field can not be empty }
-      - MinLength: { limit: 3, message: Username field is too short. It should have 3 characters or more  }
+      - MinLength: { limit: 3, message: "Username field is too short. It should have 3 characters or more"  }
     password:
       - NotBlank: { message: Password field can not be empty }
-      - MinLength: { limit: 6, message: Password field is too short. It should have 6 characters or more  }
+      - MinLength: { limit: 6, message: "Password field is too short. It should have 6 characters or more"  }
     email:
-      - NotBlank: { message: Email field can not be empty }
-      - Email: { message: The email you entered is not valid  }
-      
+      - NotBlank: { message: "Email field can not be empty" }
+      - Email: { message: "The email you entered is not valid" }
+
 AlphaLemon\AlphaLemonCmsBundle\Model\AlRole:
   properties:
     role:
-      - NotBlank: { message: Role field can not be empty }
-      - Regex: { pattern: "/^ROLE_[\w+]/", message: A valid role must start with the ROLE_ prefix  } 
+      - NotBlank: { message: "Role field can not be empty" }
+      - Regex: { pattern: "/^ROLE_[\w+]/", message: "A valid role must start with the ROLE_ prefix"  }

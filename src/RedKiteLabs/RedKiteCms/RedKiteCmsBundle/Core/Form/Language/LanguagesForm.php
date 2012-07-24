@@ -10,19 +10,17 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-
-use Symfony\Component\Locale\Stub\StubLocale;
 
 /**
  * Defines the languages form
@@ -37,8 +35,8 @@ class LanguagesForm extends AbstractType
     {
         $this->container = $container;
     }
-    
-    public function buildForm(FormBuilder $builder, array $options)
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('language', 'language');
         $builder->add('isMain', 'checkbox');
@@ -50,7 +48,7 @@ class LanguagesForm extends AbstractType
             'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\Language',
         );
     }
-    
+
     public function getName()
     {
         return 'languages';

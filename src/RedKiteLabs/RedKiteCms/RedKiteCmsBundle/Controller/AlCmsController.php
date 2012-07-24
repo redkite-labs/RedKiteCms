@@ -75,7 +75,7 @@ class AlCmsController extends Controller
         {
             $pageTree = $this->dispatchEvents($pageTree);
             $template = $this->findTemplate($pageTree);
-
+            
             $params = array_merge($params, array(
                                 'metatitle' => $pageTree->getMetaTitle(),
                                 'metadescription' => $pageTree->getMetaDescription(),
@@ -147,7 +147,7 @@ class AlCmsController extends Controller
                 $templateTwig = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $this->kernelPath, $themeName, $templateName))) ? sprintf('::%s/%s.html.twig', $themeName, $templateName) : sprintf('%s:Theme:%s.html.twig', $themeName, $templateName);
             }
         }
-        
+
         return $templateTwig;
     }
 

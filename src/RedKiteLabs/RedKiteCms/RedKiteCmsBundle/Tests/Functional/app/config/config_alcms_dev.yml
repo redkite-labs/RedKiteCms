@@ -20,4 +20,5 @@ monolog:
             level: info
 
 assetic:
+    bundles: [AlphaLemonCmsBundle, AlphaLemonElFinderBundle, BusinessWebsiteThemeBundle]
     use_controller: true
