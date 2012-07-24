@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\TextBundle\\TextBundle" : {
+        "AlphaLemon\\Block\\MenuBundle\\MenuBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test"]
         }
     }
