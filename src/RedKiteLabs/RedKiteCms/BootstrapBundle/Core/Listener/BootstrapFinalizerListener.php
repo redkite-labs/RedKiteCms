@@ -66,6 +66,7 @@ class BootstrapFinalizerListener
                         }
                     break;
                     case BootstrapperEvents::PACKAGE_UNINSTALLED:
+                        break;
                         foreach ($listenerClasses as $listener) {
                             $this->container->get('event_dispatcher')->addListener($listenerName, array(new $listener(), 'onPackageUninstalled')); 
                             $this->container->get('event_dispatcher')->dispatch(BootstrapperEvents::PACKAGE_UNINSTALLED, new PackageUninstalledEvent($this->container));

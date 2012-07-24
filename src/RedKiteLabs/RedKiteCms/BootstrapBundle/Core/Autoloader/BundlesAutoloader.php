@@ -159,14 +159,16 @@ class BundlesAutoloader
      */
     protected function parseComposer()
     {
-        //$path = __DIR__ . '/../../../../../../../vendor/.composer';
         $path = $this->vendorDir . '/composer';
         if (is_dir($path)) {
             $map = require $path . '/autoload_namespaces.php';
 
             foreach ($map as $namespace => $path) {
-                $dir = $path . str_replace('\\', '/', $namespace);
-                $bundleName = $this->getBundleName($dir);
+                $dir = $path . str_replace('\\', '/', $namespace); //echo  basename($dir)."\n";
+                /*if(basename($dir) == "TextBundle" || basename($dir) == "BusinessDropCapBundle") {
+                    echo $path."\n".$namespace."\n\n"; //is_dir($dir) ? $dir :
+                }*/
+                $bundleName = $this->getBundleName($dir);//echo basename($dir)."-".$bundleName."\n";
                 if (null !== $bundleName && $this->hasAutoloader($dir)) {
                     $bundleName = strtolower($bundleName);
                     $autoloader = $dir . '/autoload.json';
@@ -176,7 +178,7 @@ class BundlesAutoloader
                     if(null !== $listener) $this->dispatcher->addListener('package-installed', array(new $listener(), 'onPackageInstalled'));
                     $this->install($dir, $jsonAutoloader);
                 }
-            }
+            }//exit;
         }
         else {
             throw new InvalidProjectException('composer folder has not been found. Be sure to use this bundle on a project managed by Composer');
@@ -236,7 +238,7 @@ class BundlesAutoloader
      * @return string
      */
     protected function getBundleName($path)
-    {
+    {//
         if (is_dir($path)) {
             $finder = new Finder();
             $bundles = $finder->files()->depth(0)->name('*Bundle.php')->in($path);
