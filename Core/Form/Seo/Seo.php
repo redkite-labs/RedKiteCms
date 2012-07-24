@@ -10,15 +10,13 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo;
 
-use Symfony\Component\Validator\Validator;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Defines the page attributes form fields
@@ -27,31 +25,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Seo
 {
-    /**
-     * @Assert\NotBlank(message = "The page id, which the page attributes belongs, is mandatory")
-     */
     protected $idPage;
-
-    /**
-     *
-     * @Assert\NotBlank(message = "The language id, which the page attributes belongs, is mandatory")
-     */
     protected $idLanguage;
-    
-    /**
-     * @Assert\MaxLength(255)
-     */
     protected $permalink;
-
-    /**
-     * @Assert\MaxLength(60)
-     * @Assert\NotBlank(message = "The metatag title value should not be blank")
-     */
     protected $title;
-
-    /**
-     * @Assert\NotBlank(message = "The metatag description value should not be blank")
-     */
     protected $description;
     protected $keywords;
 
@@ -84,7 +61,7 @@ class Seo
     {
         $this->permalink = $v;
     }
-    
+
     public function getTitle()
     {
         return $this->title;

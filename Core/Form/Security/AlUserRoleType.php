@@ -3,11 +3,11 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class AlUserRoleType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('al_roles', 'model', array(
             'class' => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlRole',

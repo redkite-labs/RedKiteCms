@@ -7,7 +7,14 @@
 /Tests/CmsTestKernel/cache/
 /*~
 /Core/nbproject/private/
-/nbproject/private/
+/nbproject/*
 /vendor
 /composer.phar
 /composer.lock
+/Tests/Functional/app/cache/
+/Tests/Functional/app/logs/
+/Tests/Functional/app/config/bundles/
+/Tests/Functional/app/Resources/active_theme_slots.xml
+/bin/propel
+/bin/propel-gen
+/bin/propel-gen.bat

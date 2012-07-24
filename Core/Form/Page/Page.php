@@ -10,16 +10,13 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
 
-use Symfony\Component\Validator\Validator;
-use Symfony\Component\DependencyInjection\Exception;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Defines the pages form fields
@@ -28,25 +25,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
-    /**
-     * @Assert\MaxLength(255)
-     * @Assert\NotBlank(message = "The page name value should not be blank")
-     */
     protected $pageName;
-
-    /**
-     * @Assert\NotBlank(message = "The template value should not be blank")
-     */
     protected $template;
-
-    /**
-     * @Assert\Type("boolean")
-     */
     protected $isHome;
-
-    /**
-     * @Assert\Type("boolean")
-     */
     protected $isPublished;
 
     public function getPageName()

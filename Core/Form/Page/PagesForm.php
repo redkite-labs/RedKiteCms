@@ -18,10 +18,8 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel;
 
 /**
@@ -38,7 +36,7 @@ class PagesForm extends AbstractType
         $this->themeRepository = $themeRepository;
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('pageName');
         $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->themeRepository)));

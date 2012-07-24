@@ -23,6 +23,7 @@
     "twig/extensions": "dev-master",
     "symfony/swiftmailer-bundle": "dev-master",
     "symfony/monolog-bundle": "dev-master",
+    "symfony/assetic-bundle": "dev-master",
     "sensio/distribution-bundle": "dev-master",
     "sensio/framework-extra-bundle": "dev-master",
     "sensio/generator-bundle": "dev-master",
@@ -39,17 +40,18 @@
     "alphalemon/theme-engine-bundle": "dev-revisioning-theme-objects",
     "alphalemon/frontend-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
+    "alphalemon/al-valum-uploader-bundle": "dev-master",
     "alphalemon/business-website-theme-bundle": "dev-master"
   },
   "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
         "AlphaLemon\\AlphaLemonCmsBundle": "",
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\TextBundle" : "",
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\MenuBundle" : "",
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\MediaBundle" : "",
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\ScriptBundle" : "",
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\NavigationMenuBundle" : ""
+        "AlphaLemon\\Block\\TextBundle" : "Bundle/",
+        "AlphaLemon\\Block\\MenuBundle" : "Bundle/",
+        "AlphaLemon\\Block\\MediaBundle" : "Bundle/",
+        "AlphaLemon\\Block\\ScriptBundle" : "Bundle/",
+        "AlphaLemon\\Block\\NavigationMenuBundle" : "Bundle/"
     }
   },
   "minimum-stability": "dev",

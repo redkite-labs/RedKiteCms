@@ -21,18 +21,21 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             //new Acme\WebSiteBundle\AcmeWebSiteBundle(),
             new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
-            new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle(),
+            //new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
 
             /*
-            new AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle(),
-            new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle(),
-            new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
-            new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle(),
             new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\TextBundle(),
             new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\MediaBundle(),
             new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MenuBundle\MenuBundle(),
             new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\NavigationMenuBundle\NavigationMenuBundle(),
             new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle\ScriptBundle(),
+
+
+            new AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle(),
+            new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle(),
+            new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
+            new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle(),
+
             new AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle(),
             new AlphaLemon\Block\BusinessDropCapBundle\BusinessDropCapBundle(),
             new AlphaLemon\Block\BusinessMenuBundle\BusinessMenuBundle(),
@@ -51,6 +54,8 @@ class AppKernel extends Kernel
 
         $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader($this->getEnvironment(), __DIR__, $bundles);
         $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')->getBundles();
+
+        $bundles[] = new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle();
 
         return $bundles;
     }

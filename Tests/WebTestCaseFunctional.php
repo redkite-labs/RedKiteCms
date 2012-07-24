@@ -68,7 +68,7 @@ class WebTestCaseFunctional extends WebTestCase {
     protected static function populateDb()
     {
         if (!\Propel::isInit()) {
-            include __DIR__ . '/Functional/Resources/config/propelConfiguration.php';
+            include __DIR__ . '/Functional/app/Resources/config/propelConfiguration.php';
             \Propel::setConfiguration($config);
             \Propel::initialize();
         }

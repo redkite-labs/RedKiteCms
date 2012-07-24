@@ -196,7 +196,7 @@ class AlPageTree extends BaseAlPageTree
             }
 
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->alTheme->getThemeName(), $this->alPage->getTemplateName());
-
+            
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
             return $this;
