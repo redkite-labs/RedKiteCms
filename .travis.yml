@@ -20,8 +20,6 @@ before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
 
-script: phpunit --coverage-text
-
 notifications:
   email:
     - info@alphalemon.com
