@@ -433,7 +433,7 @@ class AlTemplateChangerTest extends TestCase
 
     private function setUpBlockManager($block)
     {
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\Core\Block\AlBlockManagerText')
+        $blockManager = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
                                 ->disableOriginalConstructor()
                                 ->getMock();
 
