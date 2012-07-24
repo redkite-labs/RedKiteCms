@@ -17,42 +17,54 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
+/**
+ * Converts a slot to site repeated status
+ * 
+ *
+ * @author alphalemon <webmaster@alphalemon.com> 
+ */
 class AlSlotConverterToSite extends AlSlotConverterBase
 { 
+    /**
+     * {inheritdoc}
+     * 
+     * @return null|boolean
+     * @throws Exception 
+     */
     public function convert()
     {
-        try
+        if(count($this->arrayBlocks) > 0)
         {
-            $rollback = false;
-            $this->connection->beginTransaction();
-
-            $this->removeContents(); 
-
-            foreach($this->contents as $content)
+            try
             {
-                $newContent = $this->cloneAndAddContent($content, 1, 1);
-                $result = $newContent->save();
-                if ($newContent->isModified() && $result == 0)
-                {
-                    $rollback = true;
+                $this->blockRepository->startTransaction();
+                $result = $this->deleteBlocks();
+                if (false !== $result) {
+                    foreach($this->arrayBlocks as $block)
+                    {
+                        $result = $this->updateBlock($block, 1, 1);
+                    }
+
+                    if ($result)
+                    {
+                        $this->blockRepository->commit();
+                    }
+                    else
+                    {
+                        $this->blockRepository->rollBack();
+                    }
                 }
+                
+                return $result;
             }
+            catch(\Exception $e)
+            {
+                if(isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
+                }
 
-            if (!$rollback)
-            {
-                $this->connection->commit();
-                return true;
+                throw $e;
             }
-            else
-            {
-                $this->connection->rollBack();
-                return false;
-            }
-        }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
-            throw $e;
         }
     }
 }

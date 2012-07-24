@@ -15,23 +15,16 @@
       </div>    
 
     {% if pages|length > 0 %}
-      <div id="al_pages_to_fix_list" class="al-items-list">
-    {% set i = 0 %}
+      <div id="al_pages_to_fix_list" class="al_items_list">
     {% for page in pages %}
-        {% if (i % 2) == 0 %}
-            {% set class = 'row' %}
-        {% else %}
-            {% set class = 'alternate-row' %}
-        {% endif %}
-        <div id="row_{{ page.id }}" class="{{ class }}">
+        <div id="row_{{ page.id }}" class="{{ cycle(['alternate_row', 'row'], loop.index) }}">
             <div class="al_float_left">
                 <input id="cb_{{ page.id }}" value="{{ page.id }}" name="al_page_to_fix" type="checkbox" class="input" rel="{{ page.id }}" />
             </div>
             <div class="al_float_left">{{ page.pageName }}</div>
             <div class="al_float_right al_assigned_template">{{ page.templateName }}</div>
             <div style="clear:left;"></div>
-        </div>    
-        {% set i  = i + 1 %}
+        </div>   
     {% endfor %}    
       </div>
     

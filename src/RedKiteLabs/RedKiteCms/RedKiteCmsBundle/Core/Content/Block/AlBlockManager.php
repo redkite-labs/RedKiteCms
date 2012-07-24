@@ -10,60 +10,78 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
-use Symfony\Component\DependencyInjection\Exception;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 
 /**
- * AlBlockManager is the base object that defines a block content on a slot.
- * It manages an AlBlock object, implementig the base methods to add, edit and delete it
+ * AlBlockManager is the object responsible to manage an AlBlock object.
  *
- * A new block content must inherit from this class.
- * 
- * @author AlphaLemon <info@alphalemon.com>
+ *
+ * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete
+ * that kind of object and provides several methods to change the behavior of the block itself,
+ * when it is rendered on the page.
+ *
+ * Every new block content must inherit from this class.
+ *
+ *
+ * @author alphalemon <webmaster@alphalemon.com>
  */
-abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface
+abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
     protected $alBlock = null;
-            
+    protected $factoryRepository = null;
+    protected $blockRepository = null;
 
-    /*
+    /**
+     * Constructor
+     *
+     * @param EventDispatcherInterface $dispatcher
+     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param AlParametersValidatorInterface $validator
+     */
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
+    {
+        parent::__construct($dispatcher, $validator);
+        
+        $this->doSetFactoryRepository($factoryRepository);
+    }
+
+    /**
+     * Defines the default value of the managed block
+     *
+     *
      * Returns an array which may contain one or more of these keys:
      *
-     *   HtmlContent            The html content displayed on the page
-     *   ExternalJavascript     A comma separated external javascripts files
-     *   InternalJavascript     A javascript code
-     *   ExternalStylesheet     A comma separated external stylesheets files
-     *   InternalStylesheet     A stylesheet code
-     * 
+     *   - *HtmlContent*            The html content displayed on the page
+     *   - *ExternalJavascript*     A comma separated external javascripts files
+     *   - *InternalJavascript*     A javascript code
+     *   - *ExternalStylesheet*     A comma separated external stylesheets files
+     *   - *InternalStylesheet*     A stylesheet code
+     *
+     *
      * @return array
      */
     abstract function getDefaultValue();
     
-    /**
-     * Constructor
-     * 
-     * @param ContainerInterface $container 
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -75,92 +93,59 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * {@inheritdoc}
      */
-    public function set(\BaseObject $propelObject = null)
+    public function set($object = null)
     {
-        if(null !== $propelObject && !$propelObject instanceof AlBlock)
-        {
-            throw new Exception\InvalidArgumentException('AlBlockManager accepts only AlBlock propel objects');
+        if (null !== $object && !$object instanceof AlBlock) {
+            throw new InvalidParameterTypeException('AlBlockManager is only able to manage AlBlock objects');
         }
 
-        $this->alBlock = $propelObject;
-    }
+        $this->alBlock = $object;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function save(array $parameters)
-    {
-        if(null === $this->alBlock)
-        {
-            return $this->add($parameters);
-        }
-        else
-        {
-            return $this->edit($parameters);
-        }
+        return $this;
     }
     
     /**
-     * {@inheritdoc}
-     */
-    public function delete()
-    {
-        try
-        {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new  Content\Block\BeforeBlockDeletingEvent($this);
-                $dispatcher->dispatch(BlockEvents::BEFORE_DELETE_BLOCK, $event);
-                
-                if($event->isAborted())
-                {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The content deleting action has been aborted", array(), 'al_content_manager_exceptions'));
-                }
-            }
-            
-            $result = false;
-            $rollback = false;
-            $this->connection->beginTransaction();
-
-            // Marks for deletion
-            $this->alBlock->setToDelete(1);
-            $this->result = $this->alBlock->save();
-            if ($this->alBlock->isModified() && $this->result == 0)
-            {
-                $rollback = true;
-            }
-            
-            if (!$rollback)
-            {
-                $this->connection->commit();
-
-                if(null !== $dispatcher)
-                {
-                    $event = new  Content\Block\AfterBlockDeletedEvent($this);
-                    $dispatcher->dispatch(BlockEvents::AFTER_DELETE_BLOCK, $event);
-                }
-                
-                return true;
-            }
-            else
-            {
-                $this->connection->rollBack();
-                return false;
-            }
-        }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
-            throw $e;
-        }
-    }
-    
-    /**
-     * Defines when a content is rendered or not in edit mode. By default the content is rendered, to hide the content,
-     * simply override this method and return true
+     * Sets the factory repository
      * 
-     * @return Boolean 
+     * @param AlFactoryRepositoryInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager 
+     */
+    public function setFactoryRepository(AlFactoryRepositoryInterface $v)
+    {
+        $this->doSetFactoryRepository($v);
+
+        return $this;
+    }
+    
+    /**
+     * Returns the factory repository object associated with this object
+     *
+     * @return BlockRepositoryInterface
+     */
+    public function getFactoryRepository()
+    {
+        return $this->factoryRepository;
+    }
+
+    /**
+     * Returns the block repository object associated with this object
+     *
+     * @return BlockRepositoryInterface
+     */
+    public function getBlockRepository()
+    {
+        return $this->blockRepository;
+    }
+
+    /**
+     * Defines when a content is rendered or not in edit mode.
+     *
+     *
+     * By default the content is rendered when the edit mode is active. To hide the content, simply override
+     * this method and return true
+     *
+     *
+     * @return Boolean
      */
     public function getHideInEditMode()
     {
@@ -168,256 +153,367 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Returns the content to display when the site is browsed in CMS mode
-     * 
-     * @return string
+     * Displays a message inside the editor to suggest a page relead
+     *
+     * Return true tu display a warnig on editor that suggest the used to reload the page when the block is added or edited
+     *
+     *
+     * @return Boolean
      */
-    public function getHtmlContentCMSMode()
+    public function getReloadSuggested()
     {
-        return $this->getHtmlContent();
+        return false;
     }
-    
+
     /**
-     * Returns the current saved HtmlContent 
-     * 
+     * Returns the content that must be displayed on the page
+     *
+     * The content that is displayed on the page not always is the same saved in the database.
+     *
+     *
      * @return string
      */
     public function getHtmlContent()
     {
-        return $this->alBlock->getHtmlContent();
+        return $this->getHtmlContentForDeploy();
     }
 
     /**
-     * Returns the current saved ExternalJavascript 
-     * 
+     * Returns the content to display, when the site is in CMS mode
+     *
+     * When the CMS mode is active, AlphaLemon CMS renders the same content displayed on the page.
+     * Override this method to change the content to display
+     *
+     *
+     * @return string
+     */
+    public function getHtmlContentCMSMode()
+    {throw new \Exception('getHtmlContentCMSMode is deprecated');
+        return $this->getHtmlContent();
+    }
+    
+    public function getHtmlContentForDeploy()
+    {
+        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
+    }
+
+    /**
+     * Returns the content displayed in the editor
+     *
+     * The editor that manages the content gets the content saved into the database.
+     * Override this method to change the content to display
+     *
+     *
+     * @return string
+     */
+    public function getHtmlContentForEditor()
+    {
+        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
+    }
+
+    /**
+     * Returns the current saved ExternalJavascript value
+     *
+     *
      * @return array
      */
     public function getExternalJavascript()
     {
-        $javascripts = trim($this->alBlock->getExternalJavascript());
+        if (null !== $this->alBlock) {
+            $javascripts = trim($this->alBlock->getExternalJavascript());
+        }
 
         return ($javascripts != "") ? explode(',', $javascripts) : array();
     }
-    
+
     /**
-     * Returns the current saved ExternalStylesheet 
-     * 
+     * Returns the current saved ExternalStylesheet value
+     *
+     *
      * @return array
      */
     public function getExternalStylesheet()
     {
-        $stylesheets = trim($this->alBlock->getExternalStylesheet());
+        if (null !== $this->alBlock) {
+            $stylesheets = trim($this->alBlock->getExternalStylesheet());
+        }
 
         return ($stylesheets != "") ? explode(',', $stylesheets) : array();
     }
 
     /**
-     * Returns the current saved InternalJavascript. When the values is setted, it is encapsulated in a try/catch 
+     * Returns the current saved InternalJavascript.
+     *
+     * When the values is setted, it is encapsulated in a try/catch
      * block to avoid breaking the execution of AlphaLemon javascripts
-     * 
+     *
+     *
      * @return string
      */
     public function getInternalJavascript()
     {
         $function = '';
-        if(trim($this->alBlock->getInternalJavascript()) != '')
-        {
-            $function .= 'try{';
-            $function .= $this->alBlock->getInternalJavascript();
-            $function .= '}';
-            $function .= 'catch(e){';
-            $function .= sprintf('alert("The javascript added to the slot %s has been generated an error, which reports:\n\n" + e);', $this->alBlock->getSlotName());
-            $function .= '}';
+        if (null !== $this->alBlock) {
+            if (trim($this->alBlock->getInternalJavascript()) != '') {
+                $function .= "try{\n";
+                $function .= $this->alBlock->getInternalJavascript();
+                $function .= "\n} catch(e){\n";
+                $function .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports:\n\n' + e);\n", $this->alBlock->getSlotName());
+                $function .= "}\n";
+            }
         }
-        
+
         return $function;
     }
 
     /**
-     * Returns the current saved InternalStylesheet 
-     * 
+     * Returns the current saved InternalStylesheet
+     *
+     *
      * @return string
      */
     public function getInternalStylesheet()
     {
-        return $this->alBlock->getInternalStylesheet();
+        return (null !== $this->alBlock) ? $this->alBlock->getInternalStylesheet() : "";
     }
 
-    /** 
-     * Converts the AlBlock object into an array
-     * 
+    /**
+     * Returns the current saved InternalStylesheet displayed in the editor
+     *
+     * @return string
+     */
+    public function getInternalJavascriptForEditor()
+    {
+        return (null !== $this->alBlock) ? $this->alBlock->getInternalJavascript() : "";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function save(array $parameters)
+    {
+        if (null === $this->alBlock || $this->alBlock->getId() == null) {
+
+            return $this->add($parameters);
+        }
+        else {
+
+            return $this->edit($parameters);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete()
+    {
+        try
+        {
+            if (null === $this->alBlock) {
+                throw new General\ParameterIsEmptyException($this->translate("Any valid block has been setted. Nothing to delete", array()));
+            }
+
+            if (null !== $this->dispatcher) {
+                $event = new  Content\Block\BeforeBlockDeletingEvent($this);
+                $this->dispatcher->dispatch(BlockEvents::BEFORE_DELETE_BLOCK, $event);
+
+                if ($event->isAborted()) {
+                    throw new Event\EventAbortedException($this->translate("The content deleting action has been aborted", array()));
+                }
+            }
+
+            $this->blockRepository->startTransaction();
+
+            $result = $this->blockRepository
+                        ->setRepositoryObject($this->alBlock)
+                        ->delete();
+            if ($result) {
+                $this->blockRepository->commit();
+
+                if (null !== $this->dispatcher) {
+                    $event = new  Content\Block\AfterBlockDeletedEvent($this);
+                    $this->dispatcher->dispatch(BlockEvents::AFTER_DELETE_BLOCK, $event);
+                }
+
+                return true;
+            }
+            else {
+                $this->blockRepository->rollBack();
+
+                return false;
+            }
+        }
+        catch(\Exception $e)
+        {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Converts the AlBlockManager object into an array
+     *
+     *
      * @return array
      */
     public function toArray()
     {
-        $content = array();
-        $content["Id"] = $this->alBlock->getId();
-        $content["HideInEditMode"] = $this->getHideInEditMode();
-        $content["HtmlContent"] = $this->getHtmlContent();
-        $content["HtmlContentCMSMode"] = $this->getHtmlContentCMSMode();
-        $content["ExternalJavascript"] = $this->getExternalJavascript();
-        $content["InternalJavascript"] = $this->getInternalJavascript();
-        $content["ExternalStylesheet"] = $this->getExternalStylesheet();
-        $content["InternalStylesheet"] = $this->getInternalStylesheet();
-        $content["Position"] = $this->alBlock->getContentPosition();
-        $content["Type"] = $this->alBlock->getClassName();
+        if (null === $this->alBlock) {
+            return array();
+        }
 
-        return $content;
+        $blockManager = array();
+        $blockManager["HideInEditMode"] = $this->getHideInEditMode();
+        $blockManager["HtmlContent"] = $this->getHtmlContent();
+        $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
+        $blockManager["InternalJavascript"] = $this->getInternalJavascript();
+        $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
+        $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
+        $blockManager["Block"] = $this->alBlock->toArray();
+        
+        return $blockManager;
     }
-    
+
 
     /**
-     * Adds a content to the AlBlock table
+     * Adds a new block to the AlBlock table
      *
-     * @param array  $values     An array where keys are the AlBlockField definition and values are the values to add     *
+     *
+     * @param array  $values      An array where keys are the AlBlockField definition and values are the values to add
+     * @throws \InvalidArgumentException  When the expected parameters are invalid
+     * @throws \RuntimeException  When the action is aborted by a calling event
      * @return Boolean
      */
     protected function add(array $values)
     {
-        try
-        {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
-                $event = new  Content\Block\BeforeBlockAddingEvent($this, $values);
-                $dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
-                
-                if($event->isAborted())
-                {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The content adding action has been aborted", array(), 'al_content_manager_exceptions'));
-                }
+        if (null !== $this->dispatcher) {
+            $event = new Content\Block\BeforeBlockAddingEvent($this, $values);
+            $this->dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
 
-                if($values !== $event->getValues())
-                {
-                    $values = $event->getValues();
-                }
+            if ($event->isAborted()) {
+                throw new Event\EventAbortedException($this->translate("The current block adding action has been aborted", array(), 'exceptions'));
             }
 
-            $this->checkEmptyParams($values);
-
-            $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => ""); 
-            $this->checkRequiredParamsExists($requiredParameters, $values);
-        
-            // Moves the contents placed below the adding content one position down
-            $languageId = (isset($values['LanguageId'])) ? $values['LanguageId'] : $this->container->get('al_page_tree')->getAlLanguage()->getId();
-            $pageId = (isset($values['PageId'])) ? $values['PageId'] : $this->container->get('al_page_tree')->getAlPage()->getId();
-            $values['LanguageId'] = $languageId;
-            $values['PageId'] = $pageId;
-            
-            // When the Content is null the dafault text is inserted
-            if (!array_key_exists('HtmlContent', $values))
-            { 
-                $defaults = $this->getDefaultValue();
-                if(!is_array($defaults))
-                {
-                    throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
-                }
-
-                $availableOptions = array('HtmlContent', 'InternalJavascript', 'ExternalJavascript', 'InternalStylesheet', 'ExternalStylesheet');
-                $diff = array_diff(array_keys($defaults), $availableOptions);
-                if (count($diff) == count($defaults))
-                {
-                    throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, '%className% requires at least one of the following options: "%options%". Your input parameters are: "%parameters%"', array('%className%' => get_class($this), '%options%' => implode(', ', $availableOptions), '%parameters%' => implode(', ', array_keys($defaults))), 'al_content_manager_exceptions'));
-                }
-
-                $values = array_merge($values, $defaults);
-            }
-            
-            $result = false;
-            $rollback = false;
-            $this->connection->beginTransaction();
-
-            // Saves the content
-            $alBlock = new AlBlock();
-            $alBlock->fromArray($values);
-            $result = $alBlock->save(); 
-            if ($alBlock->isModified() && $result == 0) $rollback = true;
-
-            if (!$rollback)
-            {
-                $this->connection->commit();
-                $this->alBlock = $alBlock;
-                
-                if(null !== $dispatcher)
-                {
-                    $event = new  Content\Block\AfterBlockAddedEvent($this);
-                    $dispatcher->dispatch(BlockEvents::AFTER_ADD_BLOCK, $event);
-                }
-                
-                return true;
-            }
-            else
-            {
-                $this->connection->rollBack();
-                return false;
+            if ($values !== $event->getValues()) {
+                $values = $event->getValues();
             }
         }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+
+        $this->validator->checkEmptyParams($values);
+
+        $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => "");
+        $this->validator->checkRequiredParamsExists($requiredParameters, $values);
+
+        // When the Content is null the dafault text is inserted
+        if (!array_key_exists('HtmlContent', $values)) {
+            $defaults = $this->getDefaultValue();
+            if (!is_array($defaults)) {
+                throw new General\InvalidParameterTypeException($this->translate('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
+            }
+
+            $mergedValues = array_merge($values, $defaults);
+            $availableOptions = array('HtmlContent' => '', 'InternalJavascript' => '', 'ExternalJavascript' => '', 'InternalStylesheet' => '', 'ExternalStylesheet' => '');
+            $this->validator->checkOnceValidParamExists($availableOptions, $mergedValues);
+            $values = $mergedValues;
+        }
+
+        try {
+            $this->blockRepository->startTransaction();
+
+            // Saves the content
+            if (null === $this->alBlock) {
+                //$this->alBlock = new AlBlock();
+                $className = $this->blockRepository->getRepositoryObjectClassName();
+                $this->alBlock = new $className();
+            }
+
+            $result = $this->blockRepository
+                    ->setRepositoryObject($this->alBlock)
+                    ->save($values);
+            if ($result) {
+                $this->blockRepository->commit();
+
+                if (null !== $this->dispatcher) {
+                    $event = new  Content\Block\AfterBlockAddedEvent($this);
+                    $this->dispatcher->dispatch(BlockEvents::AFTER_ADD_BLOCK, $event);
+                }
+            }
+            else {
+                $this->blockRepository->rollBack();
+            }
+
+            return $result;
+        }
+        catch(\Exception $e) {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
             throw $e;
         }
     }
 
     /**
-     * Edits the AlBlock object
+     * Edits the current block object
      *
-     * @param array  $values     An array where keys are the AlBlockField definition and values are the values to edit     *
+     *
+     * @param array  $values  An array where keys are the AlBlockField definition and values are the values to edit
+     * @throws \InvalidArgumentException  When the expected parameters are invalid
+     * @throws \RuntimeException  When the action is aborted by a calling event
      * @return Boolean
      */
-    protected function edit($values)
+    protected function edit(array $values)
     {
         try
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
+            if (null !== $this->dispatcher) {
                 $event = new  Content\Block\BeforeBlockEditingEvent($this, $values);
-                $dispatcher->dispatch(BlockEvents::BEFORE_EDIT_BLOCK, $event);
-            
-                if($event->isAborted())
-                {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
+                $this->dispatcher->dispatch(BlockEvents::BEFORE_EDIT_BLOCK, $event);
+
+                if ($event->isAborted()) {
+                    throw new Event\EventAbortedException($this->translate("The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
                 }
 
-                if($values !== $event->getValues())
-                {
+                if ($values !== $event->getValues()) {
                     $values = $event->getValues();
                 }
             }
-            
-            $this->checkEmptyParams($values);
 
-            $rollback = false;
-            $this->connection->beginTransaction();
+            $this->validator->checkEmptyParams($values);
 
             // Edits the source content
-            $this->alBlock->fromArray($values);
-            $this->result = $this->alBlock->save();
-            if ($this->alBlock->isModified() && $this->result == 0) $rollback = true;
+            $this->blockRepository->startTransaction();
+            $this->blockRepository->setRepositoryObject($this->alBlock);
+            $result = $this->blockRepository->save($values);
+            if ($result) {
+                $this->blockRepository->commit();
 
-            if (!$rollback)
-            {
-                $this->connection->commit();
-
-                if(null !== $dispatcher)
-                {
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Block\AfterBlockEditedEvent($this);
-                    $dispatcher->dispatch(BlockEvents::AFTER_EDIT_BLOCK, $event);
+                    $this->dispatcher->dispatch(BlockEvents::AFTER_EDIT_BLOCK, $event);
                 }
-                
-                return true;
             }
-            else
-            {
-                $this->connection->rollBack();
-                return false;
+            else {
+                $this->blockRepository->rollBack();
             }
+            return $result;
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
             throw $e;
         }
+    }
+    
+    private function doSetFactoryRepository($factoryRepository)
+    {
+        $this->factoryRepository = $factoryRepository;
+        $this->blockRepository = (null !== $this->factoryRepository) ? $this->factoryRepository->createRepository('Block') : null;
     }
 }

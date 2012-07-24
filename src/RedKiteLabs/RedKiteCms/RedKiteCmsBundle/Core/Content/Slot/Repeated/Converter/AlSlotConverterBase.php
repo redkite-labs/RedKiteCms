@@ -10,62 +10,141 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use AlphaLemon\PageTreeBundle\Core\PageBlocks\AlPageBlocksInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
-abstract class AlSlotConverterBase extends AlSlotManager implements AlSlotConverterInterface
+/**
+ * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
+ * which is changing its repeated status
+ *
+ *
+ *
+ * @author alphalemon <webmaster@alphalemon.com>
+ */
+abstract class AlSlotConverterBase implements AlSlotConverterInterface
 {
-    protected $contents;
+    protected $pageContentsContainer;
+    protected $factoryRepository = null;
+    protected $languageRepository = null;
+    protected $pageRepository = null;
+    protected $blockRepository = null;
+    protected $slot;
+    protected $arrayBlocks = array();
 
-    public function __construct(ContainerInterface $container, AlSlot $slot, AlPage $alPage, AlLanguage $alLanguage)
+    /**
+     * Constructor
+     *
+     * @param AlSlot $slot
+     * @param AlPageBlocksInterface $pageContentsContainer
+     * @param AlFactoryRepositoryInterface $factoryRepository
+     */
+    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
     {
-        parent::__construct($container, $slot, $alPage, $alLanguage);
-        
-        $this->contents = AlBlockQuery::create()
-                            ->setContainer($this->container)
-                            ->retrieveContents(array(1, $this->alLanguage->getId()), array(1, $this->alPage->getId()), $this->slot->getSlotName())
-                            ->find();
+        $this->slot = $slot;
+        $this->pageContentsContainer = $pageContentsContainer;
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
+        $slotBlocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
+        $this->blocksToArray($slotBlocks);
     }
-    
-    protected function removeContents()
+
+    /**
+     * Removes the blocks placed on the current slot from the database
+     *
+     * @return null|boolean
+     * @throws Exception
+     */
+    protected function deleteBlocks()
     {
-        AlBlockQuery::create()
-                    ->setContainer($this->container)
-                    ->retrieveContentsBySlotName($this->slot->getSlotName())
-                    ->delete();        
+        $blocks = $this->blockRepository->retrieveContentsBySlotName($this->slot->getSlotName());
+        if(count($blocks) > 0) {
+            try {
+                $result = null;
+
+                $this->blockRepository->startTransaction();
+                foreach($blocks as $block) {
+                    $result = $this->blockRepository
+                                ->setRepositoryObject($block)
+                                ->delete();
+
+                    if(!$result) break;
+                }
+
+                if ($result) {
+                    $this->blockRepository->commit();
+                }
+                else {
+                    $this->blockRepository->rollBack();
+                }
+
+                return $result;
+            }
+            catch(\Exception $e)
+            {
+                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
+                }
+
+                throw $e;
+            }
+        }
     }
-    
-    protected function cloneAndAddContent($content, $idLanguage, $idPage)
+
+    /**
+     * Updates the block, according the page and language with the new repeated status
+     *
+     * @param array $block
+     * @param int $idLanguage
+     * @param int $idPage
+     *
+     * @return boolean
+     */
+    protected function updateBlock(array $block, $idLanguage, $idPage)
     {
-        $alBlockManager = AlBlockManagerFactory::createBlock($this->container, $content->getClassName()); 
-        $contentValue = array(
-            "PageId"                => $idPage,
-            "LanguageId"            => $idLanguage,
-            "SlotName"              => $content->getSlotName(),
-            "ClassName"             => $content->getClassName(),
-            "HtmlContent"           => $content->getHtmlContent(),
-            "InternalJavascript"    => $content->getInternalJavascript(),
-            "InternalStylesheet"    => $content->getInternalStylesheet(),
-            "ExternalJavascript"    => $content->getExternalJavascript(),
-            "ExternalStylesheet"    => $content->getExternalStylesheet(),
-            "ContentPosition"       => $content->getContentPosition()
-        );
-        $alBlockManager->save($contentValue);
-        
-        return $alBlockManager->get();
+        $block["LanguageId"] = $idLanguage;
+        $block["PageId"] = $idPage;
+
+        $className = $this->blockRepository->getRepositoryObjectClassName();
+        $modelObject = new $className();
+
+        $result = $this->blockRepository
+                    ->setRepositoryObject($modelObject)
+                    ->save($block);
+
+        return $result;
+    }
+
+    /**
+     * Converts to array the blocks placed on the current slot
+     *
+     * @param array $slotBlocks
+     */
+    private function blocksToArray(array $slotBlocks)
+    {
+        foreach($slotBlocks as $block) {
+            $aBlock = $block->toArray();
+            unset($aBlock["Id"]);
+
+            $this->arrayBlocks[] = $aBlock;
+        }
     }
 }

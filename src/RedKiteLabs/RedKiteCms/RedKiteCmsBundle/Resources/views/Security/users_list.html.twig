@@ -1,13 +1,7 @@
-<div class="al-items-list">
+<div class="al_items_list">
     <table>
-    {% set i = 0 %}
     {% for user in users %}
-        {% if (i % 2) == 0 %}
-            {% set class = 'row' %}
-        {% else %}
-            {% set class = 'alternate-row' %}
-        {% endif %}
-        <tr class="{{ class }}">
+        <tr class="{{ cycle(['alternate_row', 'row'], loop.index) }}">
             <td width="100%">{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td>
@@ -20,7 +14,6 @@
                 {% endif %}
             </td>            
         </tr>
-        {% set i  = i + 1 %}
     {% endfor %}
     </table>
 </div>

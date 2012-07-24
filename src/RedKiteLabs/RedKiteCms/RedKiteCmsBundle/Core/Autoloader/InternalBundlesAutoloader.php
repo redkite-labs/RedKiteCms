@@ -22,16 +22,14 @@ use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloader;
 /**
  * Autoload the internal block editors bundles 
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
+ * @deprecated in favour of https://github.com/alphalemon/BootstrapBundle
  */
 class InternalBundlesAutoloader extends BundlesAutoloader
 {
     protected function  configure()
     {
-        $params = array();
-        $params["pathToSeek"] = __DIR__ . '/../Bundles';
-        $params["nameSpace"] =  'AlphaLemon\AlphaLemonCmsBundle\Core\Bundles';
-
-        return $params;
+        return  array('AlphaLemon\AlphaLemonCmsBundle\Core\Bundles' => __DIR__ . '/../Bundles',
+                      'AlphaLemon\Block' => array(__DIR__ . '/../../../../../../../src/AlphaLemon/Block', 'composer',));
     }
 }

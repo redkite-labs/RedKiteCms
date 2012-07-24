@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder;
@@ -31,16 +31,17 @@ class ElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
     protected function configure()
     {
         $request = $this->container->get('request');
-        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, 'AlphaLemonCmsBundle');
-        $absolutePath = $bundleFolder . '/' . $this->container->getParameter('alcms.upload_assets_dir') . '/' . $this->container->getParameter('al.deploy_bundle_media_folder') . '/';
-        
+        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonCmsBundle');
+        $absolutePath = $bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder') . '/';
+
         $options = array(
             'roots' => array(
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
                     'path'          => $absolutePath,         // path to files (REQUIRED)
                     'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $absolutePath, // URL to files (REQUIRED)
-                    'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
+                    'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
+                    'rootAlias'     => 'Media'             // disable and hide dot starting files (OPTIONAL)
                 )
             )
         );

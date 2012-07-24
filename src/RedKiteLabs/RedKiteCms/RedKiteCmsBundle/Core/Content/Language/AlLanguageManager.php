@@ -10,36 +10,60 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlBlockQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\LanguageEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * Defines the language content manager object, that implements the methods to manage an AlLanguage object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     protected $alLanguage = null;
+    protected $factoryRepository = null;
+    protected $languageRepository = null;
+
+    /**
+     * Constructor
+     *
+     * @param EventDispatcherInterface $dispatcher
+     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param AlParametersValidatorLanguageManager $validator
+     */
+    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorLanguageManager $validator = null)
+    {
+        parent::__construct($dispatcher, $validator);
+
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+    }
 
     /**
      * {@inheritdoc}
@@ -52,14 +76,39 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * {@inheritdoc}
      */
-    public function set(\BaseObject $propelObject = null)
+    public function set($object = null)
     {
-        if(null !== $propelObject && !$propelObject instanceof AlLanguage)
-        {
-            throw new \InvalidArgumentException('AlLanguageManager accepts only AlLanguage propel objects.');
+        if (null !== $object && !$object instanceof AlLanguage) {
+            throw new General\InvalidParameterTypeException('AlLanguageManager is only able to manage only AlLanguage objects');
         }
 
-        $this->alLanguage = $propelObject;
+        $this->alLanguage = $object;
+
+        return $this;
+    }
+
+    /**
+     * Sets the language model object
+     *
+     *
+     * @param LanguageRepositoryInterface $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager
+     */
+    public function setLanguageRepository(LanguageRepositoryInterface $v)
+    {
+        $this->languageRepository = $v;
+
+        return $this;
+    }
+
+    /**
+     * Returns the block model object associated with this object
+     *
+     * @return LanguageRepositoryInterface
+     */
+    public function getLanguageRepository()
+    {
+        return $this->languageRepository;
     }
 
     /**
@@ -67,7 +116,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     public function save(array $parameters)
     {
-        if(null === $this->alLanguage)
+        if (null === $this->alLanguage || $this->alLanguage->getId() == null)
         {
             return $this->add($parameters);
         }
@@ -76,368 +125,271 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             return $this->edit($parameters);
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function delete()
     {
-        if (null === $this->alLanguage)
-        {
-            throw new \RuntimeException(AlToolkit::translateMessage($this->container, "Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
+        if (null === $this->alLanguage) {
+            throw new General\ParameterIsEmptyException($this->translate("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
         }
-        
-        if ($this->alLanguage->getMainLanguage() == 1)
-        {
-            throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
+
+        if ($this->alLanguage->getMainLanguage() == 1) {
+            throw new Language\RemoveMainLanguageException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
         }
-        
+
         try
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
+            if (null !== $this->dispatcher) {
                 $event = new  Content\Language\BeforeLanguageDeletingEvent($this);
-                $dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE, $event);
+                $this->dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE, $event);
 
-                if($event->isAborted())
+                if ($event->isAborted())
                 {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The language deleting action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language deleting action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
             }
 
-            $rollBack = false;
-            $this->connection->beginTransaction();
+            $this->languageRepository->startTransaction();
+            $result = $this->languageRepository
+                            ->setRepositoryObject($this->alLanguage)
+                            ->delete();
 
-            $this->alLanguage->setToDelete(1);
-            $result = $this->alLanguage->save();
-            if ($this->alLanguage->isModified() && $result == 0)
-            {
-                $rollBack = true;
+            if ($result) {
+                if (null !== $this->dispatcher) {
+                    $event = new  Content\Language\BeforeDeleteLanguageCommitEvent($this);
+                    $this->dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE_COMMIT, $event);
+
+                    if ($event->isAborted()) {
+                        $result = false;
+                    }
+                }
             }
-            else
-            {
-                $rollBack = !$this->deleteBlocksAndPageAttributes();
-            }
 
-            if (!$rollBack)
+            if ($result)
             {
-                $this->connection->commit();
+                $this->languageRepository->commit();
 
-                if(null !== $dispatcher)
-                {
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Language\AfterLanguageDeletedEvent($this);
-                    $dispatcher->dispatch(LanguageEvents::AFTER_DELETE_LANGUAGE, $event);
+                    $this->dispatcher->dispatch(LanguageEvents::AFTER_DELETE_LANGUAGE, $event);
                 }
-
-                return true;
             }
             else
             {
-                $this->connection->rollback();
-                return false;
+                $this->languageRepository->rollBack();
             }
+
+            return $result;
         }
-        catch(Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+        catch(\Exception $e) {
+            if (isset($this->languageRepository) && $this->languageRepository !== null) {
+                $this->languageRepository->rollBack();
+            }
+
             throw $e;
-        }    
+        }
     }
-    
+
     /**
      * Adds a new AlLanguage object from the given params
-     * 
+     *
      * @param array $values
-     * @return Boolean
+     * @return boolean
+     * @throws Exception
+     * @throws \RuntimeException
+     * @throws LanguageExistsException
      */
     protected function add(array $values)
     {
         try
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
+            if (null !== $this->dispatcher) {
                 $event = new  Content\Language\BeforeLanguageAddingEvent($this, $values);
-                $dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE, $event);
+                $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE, $event);
 
-                if($event->isAborted())
+                if ($event->isAborted())
                 {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The language adding action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language adding action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
 
-                if($values !== $event->getValues())
+                if ($values !== $event->getValues())
                 {
                     $values = $event->getValues();
                 }
             }
 
-            $result = false;
-            if(empty($values))
-            {
-                throw new \InvalidArgumentException($this->container->get('translator')->trans('The language cannot be added because any parameter has been given'));
+            $this->validator->checkEmptyParams($values);
+            $this->validator->checkRequiredParamsExists(array('Language' => ''), $values);
+            if($this->validator->languageExists($values["Language"])) {
+                throw new LanguageExistsException($this->translate("The language you are trying to add, already exists in the website"));
             }
 
-            $this->checkRequiredParamsExists(array('language' => ''), $values);
-
-            // Checks if page already exists
-            $language = AlLanguageQuery::create()
-                                        ->setContainer($this->container)
-                                        ->fromLanguageName($values["language"])
-                                        ->findOne();
-            if ($language != null)
-            {
-                throw new \InvalidArgumentException($this->container->get('translator')->trans("The language you are trying to add, already exists in the website."));
+            if (empty($values['Language'])) {
+                throw new General\ParameterIsEmptyException($this->translate("A language cannot be null. Please provide a valid language name to add the language"));
             }
 
-        
-            $rollback = false;
-            $this->connection->beginTransaction();
+            $result = true;
+            $this->languageRepository->startTransaction();
 
-            // Retrieves the site's main language
-            $mainLanguage = AlLanguageQuery::create()->mainLanguage()->findOne();
-            $currentLanguageId = (null !== $mainLanguage) ? $mainLanguage->getId() : 0;
+            $hasLanguages = $this->validator->hasLanguages();
+            $values['MainLanguage'] = ($hasLanguages) ? (isset($values['MainLanguage'])) ? $values['MainLanguage'] : 0 : 1;
+            if ($values['MainLanguage'] == 1 && $hasLanguages) $result = $this->resetMain();
 
-            // Resets the column mainLanguage is the new one will be the main language
-            $isMain = ($currentLanguageId == 0) ? 1 : 0; 
-            if (array_key_exists("isMain", $values) && $values["isMain"] == 1)
-            {
-                $rollback = !$this->resetMain();
-                $isMain = $values["isMain"];
-            }
-            
-            if (!$rollback)
+            if ($result)
             {
                 // Saves the language
-                $this->alLanguage = new AlLanguage();
-                $this->alLanguage->setLanguage($values["language"]);
-                $this->alLanguage->setMainLanguage($isMain);
-                $result = $this->alLanguage->save();
-                if ($this->alLanguage->isModified() && $result == 0)
-                {
-                    $rollback = true;
+                if (null === $this->alLanguage) {
+                    $className = $this->languageRepository->getRepositoryObjectClassName();
+                    $this->alLanguage = new $className();
                 }
-                else
-                {
-                    $rollback = !$this->addPageAttributesAndBlocks($currentLanguageId);
+
+                $result = $this->languageRepository
+                            ->setRepositoryObject($this->alLanguage)
+                            ->save($values);
+                if ($result) {
+                    if (null !== $this->dispatcher) {
+                        $event = new Content\Language\BeforeAddLanguageCommitEvent($this, $values);
+                        $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE_COMMIT, $event);
+
+                        if ($event->isAborted()) {
+                            $result = false;
+                        }
+                    }
                 }
             }
 
-            if (!$rollback)
+            if ($result)
             {
-                $this->connection->commit();
-                
-                if(null !== $dispatcher)
-                {
+                $this->languageRepository->commit();
+
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Language\AfterLanguageAddedEvent($this);
-                    $dispatcher->dispatch(LanguageEvents::AFTER_ADD_LANGUAGE, $event);
+                    $this->dispatcher->dispatch(LanguageEvents::AFTER_ADD_LANGUAGE, $event);
                 }
-                
-                return true;
             }
             else
             {
-                $this->connection->rollback();
-                return false;
+                $this->languageRepository->rollBack();
             }
+
+            return $result;
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->languageRepository) && $this->languageRepository !== null) {
+                $this->languageRepository->rollBack();
+            }
+
             throw $e;
         }
     }
 
-    /**
-     * Adds the page attribute and contents for the language identified by the given param
-     * 
-     * @param int $idLanguage The current language's id
-     * @return Boolean 
-     */
-    protected function addPageAttributesAndBlocks($idLanguage)
-    {
-        try
-        {
-            $rollBack = false;
-            $this->connection->beginTransaction();
-            
-            // Copies the page attributes to the new language
-            $alPageAttributesManager = $this->container->get('al_page_attributes_manager');
-            $pagesAttributes = AlPageAttributeQuery::create()
-                                ->setContainer($this->container)
-                                ->fromLanguageId($idLanguage)
-                                ->find();
-            foreach($pagesAttributes as $pageAttributes)
-            {
-                $values = array('idPage' => $pageAttributes->getPageId(),
-                                'idLanguage' => $this->alLanguage->getId(),
-                                'permalink' => $pageAttributes->getPermalink(),
-                                'languageName' => $this->alLanguage->getLanguage(),
-                                'title' => $pageAttributes->getMetaTitle(),
-                                'description' => $pageAttributes->getMetaDescription(),
-                                'keywords' => $pageAttributes->getMetaKeywords());                
-                $alPageAttributesManager->set(null);
-                $rollBack = !$alPageAttributesManager->save($values);
-                if($rollBack)
-                {
-                    return false;
-                }
-            }
-            
-            // Copies the contents to the new language
-            $contents = AlBlockQuery::create()
-                                ->setContainer($this->container)
-                                ->fromLanguageId($idLanguage)
-                                ->find();
-            foreach($contents as $content)
-            {
-                $newContent = new AlBlock();
-                $values = $content->toArray();
-                unset($values['Id']);
-                unset($values['CreatedAt']);
-                $values['HtmlContent'] = $this->fixInternalLinks($values['HtmlContent']);
-                $newContent->fromArray($values);
-                $newContent->setLanguageId($this->alLanguage->getId());
-                $newContent->save($this->connection);
-            }
-
-            if (!$rollBack)
-            {
-              $this->connection->commit();
-              return true;
-            }
-            else
-            {
-              $this->connection->rollback();
-              return false;
-            }
-        }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
-            throw $e;
-        }
-    }
-    
-    /**
-     * Fixes all the internal links according with the new language
-     * 
-     * @param string $content
-     * @return string 
-     */
-    protected function fixInternalLinks($content)
-    {
-        $container = $this->container;
-        $languageName =  $this->alLanguage->getLanguage();
-        $content = preg_replace_callback('/(\<a[\s+\w+]href=[\"\'])(.*?)([\"\'])/s', function ($matches) use($container, $languageName) {
-            
-            $url = $matches[2];
-            try
-            {
-                $tmpUrl = (empty($match) && substr($url, 0, 1) != '/') ? '/' . $url : $url;
-                $params = $container->get('router')->match($tmpUrl); 
-                
-                $url = (!empty($params)) ? $languageName . '-' . $url : $url;
-            }
-            catch(\Symfony\Component\Routing\Exception\ResourceNotFoundException $ex)
-            {
-                // Not internal route the link remains the same
-            }
-            
-            return $matches[1] . $url . $matches[3];
-        }, $content);
-        
-        return $content;
-    }
-    
     /**
      * Edits the managed language object
-     * 
+     *
      * @param array $values
-     * @return Boolean
+     * @return boolean
+     * @throws Exception
+     * @throws \RuntimeException
      */
     protected function edit(array $values)
     {
         try
         {
-            $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
+            if (null !== $this->dispatcher)
             {
                 $event = new  Content\Language\BeforeLanguageEditingEvent($this, $values);
-                $dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE, $event);
-            
-                if($event->isAborted())
+                $this->dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE, $event);
+
+                if ($event->isAborted())
                 {
-                    throw new \RuntimeException(AlToolkit::translateMessage($this->container, "The language editing action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language editing action has been aborted", array(), 'al_language_manager_exceptions'));
                 }
 
-                if($values !== $event->getValues())
+                if ($values !== $event->getValues())
                 {
                     $values = $event->getValues();
                 }
             }
-            
-            $this->checkEmptyParams($values);            
-            $this->checkOnceValidParamExists(array('language' => '', 'isMain' => ''), $values);
-            
-            $rollBack = false;
-            $this->connection->beginTransaction();
 
-            $isMainChanged = false;
-            if(isset($values["isMain"]) && $values["isMain"] == 1)
+            $this->validator->checkEmptyParams($values);
+            $this->validator->checkOnceValidParamExists(array('Language' => '', 'MainLanguage' => ''), $values);
+
+            $result = true;
+            $this->languageRepository->startTransaction();
+
+            if (isset($values["MainLanguage"]) && $values["MainLanguage"] == 1)
             {
-                if($this->alLanguage->getMainLanguage() != $values["isMain"])
+                if ($this->alLanguage->getMainLanguage() == 1)
                 {
                     // If the language is declared as main, resets the previuos
-                    $rollBack = !$this->resetMain();
-                    if (!$rollBack) $this->alLanguage->setMainLanguage($values["isMain"]);
-                    $isMainChanged = true;
+                    $result = $this->resetMain();
                 }
             }
+            else {
+                unset($values["MainLanguage"]);
+            }
 
-            if (!$rollBack)
+            if ($result)
             {
-                if(array_key_exists('language', $values) && $this->alLanguage->getLanguage() != $values["language"]) $this->alLanguage->setLanguage($values["language"]);
-
-                // Skips the control when the isMain param has been changed
-                If(!$isMainChanged && null !== AlLanguageQuery::create()->fromLanguageName($values["language"])->findOne())
+                if (!empty($values["Language"]) && $this->alLanguage->getLanguage() == $values["Language"])
                 {
-                    throw new \RuntimeException('There\'s nothing to edit, because a language which has the given parameters already exist');
+                    unset($values["Language"]);
                 }
 
-                $this->result = $this->alLanguage->save();
-                if ($this->alLanguage->isModified() && $this->result == 0) $rollBack = true;
+                if (!empty($values)) {
+                    $result = $this->languageRepository
+                                ->setRepositoryObject($this->alLanguage)
+                                ->save($values);
+                }
+                else {
+                    $result = false;
+                }
+
+                if ($result && null !== $this->dispatcher) {
+                    $event = new  Content\Language\BeforeEditLanguageCommitEvent($this, $values);
+                    $this->dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE_COMMIT, $event);
+
+                    if ($event->isAborted()) {
+                        $result = false;
+                    }
+                }
             }
 
-            if (!$rollBack)
+            if ($result)
             {
-                $this->connection->commit();
-                
-                if(null !== $dispatcher)
+                $this->languageRepository->commit();
+
+                if (null !== $this->dispatcher)
                 {
                     $event = new  Content\Language\AfterLanguageEditedEvent($this);
-                    $dispatcher->dispatch(LanguageEvents::AFTER_EDIT_LANGUAGE, $event);
+                    $this->dispatcher->dispatch(LanguageEvents::AFTER_EDIT_LANGUAGE, $event);
                 }
-                
-                return true;
             }
             else
             {
-                $this->connection->rollback();
-                return false;
+                $this->languageRepository->rollBack();
             }
+
+            return $result;
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->languageRepository) && $this->languageRepository !== null)
+            {
+                $this->languageRepository->rollBack();
+            }
+
             throw $e;
         }
     }
 
     /**
      * Deletes the blocks and page attributes for the current language
-     * 
-     * @return type 
+     *
+     * @return type
      */
     protected function deleteBlocksAndPageAttributes()
     {
@@ -460,7 +412,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                     break;
                 }
             }
-            
+
             $pageAttributes = AlPageAttributeQuery::create()
                                 ->setContainer($this->container)
                                 ->fromLanguageId($this->alLanguage->getId())
@@ -483,41 +435,46 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
             else
             {
-                $this->connection->rollback();
+                $this->connection->rollBack();
                 return false;
             }
         }
         catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
+            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }
 
     /**
      * Degrades the main language to normal
-     * 
-     * @return bool 
+     *
+     * @return boolean
+     * @throws Exception
      */
     protected function resetMain()
     {
         try
         {
-            $mainLanguage = AlLanguageQuery::create()->setContainer($this->container)->mainLanguage()->findOne();
-            if(null !== $mainLanguage)
+            $language = $this->languageRepository->mainLanguage();
+            if (null !== $language)
             {
-                $mainLanguage->setMainLanguage(0);
-                $result = $mainLanguage->save();
+                $result = $this->languageRepository
+                            ->setRepositoryObject($language)
+                            ->save(array('MainLanguage' => 0));
 
-                return ($mainLanguage->isModified() && $result == 0) ? false : true;
+                return $result;
             }
-            
+
             return true;
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
-            throw new $e;
+            if (isset($this->languageRepository) && $this->languageRepository !== null) {
+                $this->languageRepository->rollBack();
+            }
+
+            throw $e;
         }
     }
 }

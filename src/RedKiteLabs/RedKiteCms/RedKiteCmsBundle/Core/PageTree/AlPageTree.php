@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
@@ -20,223 +20,353 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
+
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
+use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
- * Extends the bas AlPageTree object to work with the database
+ * Extends the bas AlPageTree object to fetch page information from the database
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlPageTree extends BaseAlPageTree
 {
     protected $alPage = null;
     protected $alLanguage = null;
+    protected $alSeo = null;
     protected $alTheme = null;
-    //protected $bridge = null;
+    protected $factoryRepository = null;
+    protected $languageRepository = null;
+    protected $pageRepository = null;
+    protected $themeRepository = null;
+    protected $seoRepository = null;
+    protected $templateManager;
+    protected $locatedAssets = array('css' => array(), 'js' => array());
+    protected $isValidLanguage = false;
+    protected $isValidPage = false;
+    protected $parameterSchema = array('%s.%s_%s', '%s.%s_%s.cms');
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $container
+     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param AlThemesCollectionWrapper $themesCollectionWrapper
+     */
+    public function __construct(ContainerInterface $container,
+                                AlFactoryRepositoryInterface $factoryRepository,
+                                AlThemesCollectionWrapper $themesCollectionWrapper = null)
     {
-        parent::__construct($container);
+        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('alphalemon_cms.themes_collection_wrapper') : $themesCollectionWrapper;
+        $this->factoryRepository = $factoryRepository;
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
+        $this->seoRepository = $this->factoryRepository->createRepository('Seo');
+        $this->themeRepository = $this->factoryRepository->createRepository('Theme');
+
+        parent::__construct($container); // , $templateManager->getPageBlocks()
     }
-    
+
+    /**
+     * Returns the current AlPage object
+     *
+     * @return AlPage
+     */
     public function getAlPage()
     {
         return $this->alPage;
     }
 
+    /**
+     * Returns the current AlLanguage object
+     *
+     * @return AlLanguage
+     */
     public function getAlLanguage()
     {
         return $this->alLanguage;
     }
 
+    /**
+     * Returns the current AlTheme object
+     *
+     * @return AlTheme
+     */
+    public function getAlSeo()
+    {
+        return $this->alSeo;
+    }
+
+    /**
+     * Returns the current AlTheme object
+     *
+     * @return AlTheme
+     */
     public function getAlTheme()
     {
         return $this->alTheme;
     }
-    
-    public function getBridge()
+
+    /**
+     * Sets the template manager
+     *
+     * @param AlTemplateManager $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     */
+    public function setTemplateManager(AlTemplateManager $v)
     {
-        return $this->bridge;
+        $this->templateManager = $v;
+
+        return $this;
     }
 
+    /**
+     * Returns the current AlTemplateManager object
+     *
+     * @return AlTemplateManager
+     */
+    public function getTemplateManager()
+    {
+        return $this->templateManager;
+    }
+
+    /**
+     * AlphaLemon is in CMS mode
+     *
+     * @return boolean
+     */
     public function isCmsMode()
     {
         return true;
     }
 
     /**
-     * Sets up the page tree object from the language and page objects passed as parameters. When one or both those parameters misses, 
+     * Returns true when both page and language have been setted
+     *
+     * @return boolean
+     */
+    public function isValid()
+    {
+        return ($this->isValidPage && $this->isValidLanguage) ? true : false;
+    }
+
+    public function getTemplate()
+    {
+        return (null !== $this->templateManager) ? $this->templateManager->getTemplate() : $this->template;
+    }
+
+    /**
+     * Sets up the page tree object from the language and page objects passed as parameters. When one or both those parameters misses,
      * the PageTree is setted up from the current request and session
-     * 
+     *
      * @param   AlLanguage  $alLanguage The AlLanguage object to use or none
      * @param   AlPage      $alPage     The AlPage object to use or none
-     * @return  null        Returns null when something goes wrong 
+     * @return  null        Returns null when something goes wrong
      */
-    public function setup(AlLanguage $alLanguage = null, AlPage $alPage = null)
+
+    /**
+     * Sets up the page tree object from current request or session (symfony 2.0.x)
+     *
+     * @return null
+     * @throws Exception
+     */
+    public function setUp()
     {
         try
         {
-            $alTheme = AlThemeQuery::create()->activeBackend()->findOne();
-            if(!$alTheme)
+            $this->alLanguage = $this->setupLanguageFromSession();
+            $this->alPage = $this->setupPageFromRequest();
+            if (null === $this->alLanguage || null === $this->alPage) {
+                return null;
+            }
+
+            if(null === $this->initTheme())
             {
                 return null;
             }
 
-            $this->alTheme = $alTheme;
-            $this->setThemeName($this->alTheme->getThemeName());
+            $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->alTheme->getThemeName(), $this->alPage->getTemplateName());
             
-            $this->alLanguage = (null === $alLanguage) ? $this->setupLanguageFromSession() : $alLanguage;
-            $this->alPage = (null === $alPage) ? $this->setupPageFromRequest() : $alPage;
+            $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
-            if(null === $this->alLanguage || null === $this->alPage) return null;
-            $this->setTemplateName($this->alPage->getTemplateName());
-            
-            $templateManager = new AlTemplateManager($this->container, $this->alPage, $this->alLanguage, $this->themeName, $this->templateName);
-            $this->setContents($templateManager->slotsToArray(), true);
-
-            $rs = new AlRepeatedSlotsManager($this->container, $alTheme->getThemeName());
-            $rs->compareSlots($this->templateName, $this->getSlots(), true);
+            return $this;
         }
         catch(\Exception $ex)
         {
             throw $ex;
         }
     }
-    
+
     /**
-     * Sets up the AlLanguage object from the current session
-     * 
-     * @return AlLanguage or null
+     * Refreshes the page tree object with the given language and page ids
+     *
+     * @param int $idLanguage
+     * @param int $idPage
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     */
+    public function refresh($idLanguage, $idPage)
+    {
+        $this->alLanguage = $this->languageRepository->fromPK($idLanguage);
+        $this->alPage = $this->pageRepository->fromPK($idPage);
+
+        if (null === $this->alTheme) {
+            if(null === $this->initTheme())
+            {
+                return null;
+            }
+        }
+
+        $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->alTheme->getThemeName(), $this->alPage->getTemplateName());
+
+        $this->pageBlocks = $this->templateManager
+                    ->getPageBlocks()
+                    ->setIdLanguage($idLanguage)
+                    ->setIdPage($idPage)
+                    ->refresh();
+
+        $this->templateManager
+                    ->setPageBlocks($this->pageBlocks)
+                    //->setTemplateSlots($this->template->getTemplateSlots())
+                    ->refresh();
+
+        $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
+        $this->setUpMetaTags($this->alSeo);
+
+        return $this;
+    }
+
+    private function initTheme()
+    {
+        $this->alTheme = $this->themeRepository->activeBackend();
+        if (null === $this->alTheme) {
+            return null;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns the template's slots
+     *
+     * @return array
+     */
+    public function getBlockManagers($slotName = null)
+    {
+        return $this->templateManager->getSlotManager($slotName)->getBlockManagers();
+    }
+
+    /**
+     * {@ inheritdoc}
+     */
+    protected function mergeAssets($method, $assetType, $type)
+    {
+        $template = $this->getTemplate();
+        if(null === $template) return array();
+
+        $assetsCollection = $template->$method();
+        if(null !== $assetsCollection) {
+            // When a block has examined, it is saved in this array to avoid parsing it again
+            $appsAssets = array();
+            $assetsCollection = clone($assetsCollection);
+            $blocks = $this->pageBlocks->getBlocks();
+            foreach ($blocks as $slotBlocks) {
+                foreach ($slotBlocks as $block) {
+                    $className = $block->getClassName();
+                    if (!in_array($className, $appsAssets)) {
+                        foreach ($this->parameterSchema as $parameterSchema) {
+                            $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
+                            $assetsCollection->addRange(($this->container->hasParameter($parameter)) ? $this->container->getParameter($parameter) : array());
+                        }
+
+                        $appsAssets[] = $className;
+                    }
+
+                    $method = 'get'. ucfirst($type) . ucfirst($assetType);
+                    $method = substr($method, 0, strlen($method) - 1);
+                    $assetsCollection->addRange(explode(',', $block->$method()));
+                }
+            }
+
+            return $assetsCollection;
+        }
+    }
+
+    /**
+     * Sets up the AlLanguage object from the current request or session (symfony 2.0.x)
+     *
+     * @return null|AlLanguage
      */
     protected function setupLanguageFromSession()
     {
-        $language = $this->container->get('request')->get('language');        
-        if(null === $language) $language = $this->container->get('session')->getLocale();
-        
-        $check = (int)$language;
-        $alLanguage = ($check > 0) ? AlLanguageQuery::create()->findPk($language) : AlLanguageQuery::create()->fromLanguageName($language)->findOne();
-        
+        $request = $this->container->get('request');
+        $language = $request->get('language');
+        if (null === $language) {
+            $session = $this->container->get('session');
+            $language = method_exists ($session, "getLocale") ? $session->getLocale() : $request->getLocale();
+        }
+
+        $alLanguage = ((int)$language > 0) ? $this->languageRepository->fromPK($language) : $this->languageRepository->fromLanguageName($language);
+        $this->isValidLanguage = true;
+
         return $alLanguage;
     }
-    
+
     /**
-     * Sets up the AlLanguage object from the current session and language
-     * 
-     * @param AlLanguage    $alLanguage The AlLanguage object
-     * 
-     * @return AlPage or null 
+     * Sets up the AlLanguage object from the current request
+     *
+     * @return null
      */
-    protected function setupPageFromRequest(AlLanguage $alLanguage = null)
+    protected function setupPageFromRequest()
     {
-        if(null === $alLanguage && null === $this->alLanguage)
-        {
+        if (null === $this->alLanguage) {
             return null;
         }
-        
-        if(null === $alLanguage)
-        {
-            $alLanguage = $this->alLanguage;
-        }
-        
+
         $pageName = $this->container->get('request')->get('page');
-        if(!$pageName || $pageName == "" || !is_string($pageName) || $pageName == "backend")
-        {
+        if (!$pageName || $pageName == "" || $pageName == "backend") {
             return null;
         }
 
-        $alPageAttribute = AlPageAttributeQuery::create()->setContainer($this->container)->fromPermalink($pageName, $alLanguage->getId())->findOne();
-        if(!$alPageAttribute)
-        {
-            $alPageAttribute = AlPageAttributeQuery::create()->setContainer($this->container)->fromPageAndLanguage($pageName, $alLanguage->getId())->findOne();
+        $seo = $this->seoRepository->fromPermalink($pageName);
+        if (null === $seo) {
+            $seo = $this->seoRepository->fromPageAndLanguage($pageName, $this->alLanguage->getId());
         }
 
-        if(null === $alPageAttribute)
-        {
-            $alPage = AlPageQuery::create()->setContainer($this->container)->fromPageName($pageName)->findOne();
-            if(!$alPage)
-            {
-                $alPage = AlPageQuery::create()->findPk($pageName);
-                if(!$alPage)
-                {
+        if (null === $seo) {
+            $alPage = $this->pageRepository->fromPageName($pageName);
+            if (null === $alPage) {
+                $alPage = $this->pageRepository->fromPK($pageName);
+                if (!$alPage) {
                     return null;
                 }
             }
         }
-        else
-        {
-            $alPage = $alPageAttribute->getAlPage();
+        else {
+            $alPage = $seo->getAlPage();
+            $this->setUpMetaTags($seo);
         }
-        
+
+        $this->isValidPage = true;
+
         return $alPage;
     }
-    
-    /**
-     * Overrides the base method to add extra functionalities
-     * 
-     * @see   AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree->addContent()
-     */
-    public function addContent($slotName, array $content, $key = null)
-    {
-        parent::addContent($slotName, $content, $key);
 
-        if(array_key_exists("ExternalJavascript", $content))
-        {
-            $javascripts = (!is_array($content["ExternalJavascript"])) ? ($content["ExternalJavascript"] != "") ? \explode(',', $content["ExternalJavascript"]) : array(): $content["ExternalJavascript"];
-            
-            foreach($javascripts as $javascript)
-            {
-                $this->addJavascript($javascript);
-            }
-        }
-        
-        if(array_key_exists("InternalJavascript", $content) && $content["InternalJavascript"] != "")
-        {
-            $this->appendInternalJavascript($content["InternalJavascript"]);
-        }
-
-        if(array_key_exists("ExternalStylesheet", $content))
-        {
-            $stylesheets = (!is_array($content["ExternalStylesheet"])) ? \explode(',', $content["ExternalStylesheet"]) : $content["ExternalStylesheet"];
-            foreach($stylesheets as $stylesheet)
-            {
-                $this->addStylesheet($stylesheet);
-            }
-        }
-
-        if(array_key_exists("InternalStylesheet", $content) && $content["InternalStylesheet"] != "")
-        {
-            $this->appendInternalStylesheet($content["InternalStylesheet"]);
-        }
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function addStylesheet($value)
+    protected function setUpMetaTags($seo)
     {
-        if($value != "" && !in_array($value, $this->externalStylesheets))
-        {
-            $this->externalStylesheets[] = $value;
-        }
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function addJavascript($value)
-    {
-        if($value != "" && !in_array($value, $this->externalJavascripts))
-        {
-            $this->externalJavascripts[] = $value;
+        if(null !== $seo) {
+            $this->metaTitle = $seo->getMetaTitle();
+            $this->metaDescription = $seo->getMetaDescription();
+            $this->metaKeywords = $seo->getMetaKeywords();
         }
     }
 }

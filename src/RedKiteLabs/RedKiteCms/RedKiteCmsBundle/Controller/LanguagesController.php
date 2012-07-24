@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Language\AlLanguageManager;
 
 class LanguagesController extends Controller
@@ -34,14 +34,15 @@ class LanguagesController extends Controller
         if (!extension_loaded('intl')) {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
+
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
         }
-            
+
         $languagesForm = new LanguagesForm($this->container);
         $form = $this->get('form.factory')->create($languagesForm);
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
-                        'languages' => ChoiceValues::getLanguages($this->container),
+                        'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
                         'form' => $form->createView());
         return $this->render('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
     }
@@ -51,24 +52,25 @@ class LanguagesController extends Controller
         try
         {
             $request = $this->get('request');
-            $alLanguage = ($request->get('idLanguage') != 'none') ? AlLanguageQuery::create()->findPk($request->get('idLanguage')) : null;
-
-            $parameters = array('isMain' => $request->get('isMain'),
-                                'language' => $request->get('newLanguage'));
             $languageManager = $this->container->get('al_language_manager');
-            if(null !== $alLanguage)
-            {
-                $languageManager->set($alLanguage);
+            $languageManager->setTranslator($this->container->get('translator'));
+            $alLanguage = $this->fetchLanguage($request->get('idLanguage'), $languageManager);
+            $languageManager->set($alLanguage);
+
+            $parameters = array('MainLanguage' => $request->get('isMain'),
+                                'Language' => $request->get('newLanguage'));
+            if ($languageManager->save($parameters)) {
+                return $this->buildJSonHeader('The language has been successfully saved');
             }
-            $message = ($languageManager->save($parameters)) ? 'The language has been successfully saved' : 'The language has not been saved';
-            
-            return $this->buildJSonHeader($message);
+            else {
+                throw new \RuntimeException('An error has been occoured, so the language has not been saved');
+            }
         }
         catch(\Exception $e)
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -77,13 +79,13 @@ class LanguagesController extends Controller
         try
         {
             $request = $this->get('request');
-            $alLanguage = ($request->get('languageId') != 'none') ? AlLanguageQuery::create()->findPk($request->get('languageId')) : null;
-
+            $languageManager = $this->container->get('al_language_manager');
+            $alLanguage = $this->fetchLanguage($request->get('idLanguage'), $languageManager);
             if($alLanguage != null)
             {
-                $languageManager = $this->container->get('al_language_manager'); 
-                $languageManager->set($alLanguage);
-                $result = $languageManager->delete();
+                $result = $languageManager
+                            ->set($alLanguage)
+                            ->delete();
                 if($result)
                 {
                     $message = $this->get('translator')->trans('The language has been successfully removed');
@@ -108,7 +110,7 @@ class LanguagesController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -125,7 +127,7 @@ class LanguagesController extends Controller
             $values[] = array("name" => "#languages_language", "value" => $alLanguage->getLanguage());
             $values[] = array("name" => "#languages_isMain", "value" => $alLanguage->getMainLanguage());
         }
-        
+
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
 
@@ -134,7 +136,7 @@ class LanguagesController extends Controller
 
     protected function buildJSonHeader($message)
     {
-        $languages = ChoiceValues::getLanguages($this->container);
+        $languages = ChoiceValues::getLanguages($this->createLanguageRepository());
 
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
@@ -146,5 +148,19 @@ class LanguagesController extends Controller
 
         return $response;
     }
-}
 
+    private function createLanguageRepository()
+    {
+        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+
+        return $factoryRepository->createRepository('Language');
+    }
+
+    private function fetchLanguage($id, $languageManager = null)
+    {
+        $languageManager = (null === $languageManager) ? $this->container->get('al_language_manager') : $languageManager;
+        $languageRepository = $languageManager->getLanguageRepository();
+
+        return ($id != 'none') ? $languageRepository->fromPk($id) : null;
+    }
+}

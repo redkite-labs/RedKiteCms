@@ -1,3 +1,0 @@
-AlMediaBundle_homepage:
-    pattern:  /
-    defaults: { _controller: AlMediaBundle:Default:index }

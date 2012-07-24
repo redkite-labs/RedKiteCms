@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="_deploy" pattern="/backend/{_locale}/al_deploy">
-        <default key="_controller">AlphaLemonCmsBundle:Deploy:publish</default>
+    <route id="_local_deploy" pattern="/backend/{_locale}/al_local_deploy">
+        <default key="_controller">AlphaLemonCmsBundle:Deploy:local</default>
     </route>
 </routes>

@@ -24,18 +24,18 @@
         <default key="_controller">AlphaLemonCmsBundle:Themes:activateTheme</default>
         <default key="_locale">en</default>
     </route>
-    
+
     <route id="_show_theme_fixer" pattern="/{_locale}/al_showThemeFixer">
         <default key="_controller">AlphaLemonCmsBundle:Themes:showThemeFixer</default>
         <default key="_locale">en</default>
     </route>
-    
+
     <route id="_fix_theme" pattern="/{_locale}/al_fixTheme">
         <default key="_controller">AlphaLemonCmsBundle:Themes:fixTheme</default>
         <default key="_locale">en</default>
     </route>
 
-    <route id="_extract_themes" pattern="/backend/{_locale}/al_extractTheme"> 
+    <route id="_extract_themes" pattern="/backend/{_locale}/al_extractTheme">
         <default key="_controller">AlphaLemonCmsBundle:Themes:extractThemes</default>
         <default key="_locale">en</default>
     </route>
@@ -44,7 +44,7 @@
         <default key="_controller">AlphaLemonCmsBundle:Themes:removeTheme</default>
         <default key="_locale">en</default>
     </route>
-    
+
     <route id="_install_assets" pattern="/backend/{_locale}/al_installAssets">
         <default key="_controller">AlphaLemonCmsBundle:Themes:installAssets</default>
     </route>

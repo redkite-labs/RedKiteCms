@@ -15,7 +15,6 @@
 
 {% extends 'AlphaLemonCmsBundle:Elfinder:media_library.html.twig' %}
 
-
 {% block init_script %}
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
@@ -30,7 +29,7 @@
                     }
                 },
                 getFileCallback : function(file, fm) {
-                    $('#al-javascript-external-files').EditBlock('ExternalJavascript', file.name);
+                    $('#al-javascript-external-files').AddExternalFile('ExternalJavascript', file.path);
                 }
         }).dialogelfinder('instance');
     });

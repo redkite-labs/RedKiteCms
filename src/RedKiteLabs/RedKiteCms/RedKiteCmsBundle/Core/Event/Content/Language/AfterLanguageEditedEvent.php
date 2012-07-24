@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseActionEvent;
 /**
  * Defines the AfterLanguageEditedEvent event
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AfterLanguageEditedEvent extends BaseActionEvent
 {

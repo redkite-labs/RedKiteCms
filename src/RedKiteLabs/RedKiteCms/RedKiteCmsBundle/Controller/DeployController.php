@@ -10,27 +10,34 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Process\Process;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlXmlDeployer;
+use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 class DeployController extends Controller
 {
-    public function publishAction()
+    public function localAction()
     {
         try
         {
-            $publisher = new AlXmlDeployer($this->container);
-            $publisher->deploy();
+            $deployer = $this->container->get('alphalemon_cms.local_deployer');
+            $deployer->deploy();
 
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => 'The site has been deployed'));
+            $appDir = $this->container->get('kernel')->getRootDir();
+            $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
+            $command = sprintf('assets:install %s %s', $this->container->getParameter('alphalemon_cms.web_folder'), $symlink);
+            AlToolkit::executeCommand($appDir, $command);
+            AlToolkit::executeCommand($appDir, 'assetic:dump --env=prod');
+            AlToolkit::executeCommand($appDir, 'cache:clear --env=prod');
+
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
         }
         catch(Exception $ex)
         {

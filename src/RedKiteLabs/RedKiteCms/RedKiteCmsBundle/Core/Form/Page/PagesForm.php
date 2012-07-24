@@ -10,37 +10,36 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel;
 
 /**
  * Defines the pages form
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class PagesForm extends AbstractType
 {
-    private $_container;
+    private $themeRepository;
 
-    public function __construct($container)
+    public function __construct(AlThemeRepositoryPropel $themeRepository)
     {
-        $this->_container = $container;
+        $this->themeRepository = $themeRepository;
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $themesDir = AlToolkit::locateResource($this->_container, '@AlphaLemonThemeEngineBundle') . $this->_container->getParameter('althemes.base_dir');
         $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($themesDir)));
+        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->themeRepository)));
         $builder->add('isHome', 'checkbox');
         $builder->add('isPublished', 'checkbox');
     }
@@ -51,7 +50,7 @@ class PagesForm extends AbstractType
             'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\Page',
         );
     }
-    
+
     public function getName()
     {
         return 'pages';

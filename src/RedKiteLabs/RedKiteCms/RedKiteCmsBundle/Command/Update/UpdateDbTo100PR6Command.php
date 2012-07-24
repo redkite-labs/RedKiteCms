@@ -31,7 +31,7 @@ use Propel\PropelBundle\Command\BuildModelCommand;
 /**
  * Populates the database after a fresh install
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class UpdateDbTo100PR6Command extends ContainerAwareCommand
 {
