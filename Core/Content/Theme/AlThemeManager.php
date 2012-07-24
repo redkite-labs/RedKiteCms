@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Theme;
@@ -26,10 +26,10 @@ use AlphaLemon\ThemeEngineBundle\Core\Interfaces\AlThemeManagerInterface;
 
 /**
  * Implements the AlThemeManagerInterface to manage a theme
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInterface
+class AlThemeManager extends AlContentManagerBase //implements AlThemeManagerInterface
 {
     protected $theme = null;
     protected $siteThemesDir;
@@ -102,7 +102,7 @@ class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInter
                     $theme->setActive(0)->save();
                     if ($theme->isModified() && $result == 0) $rollBack = true;
                 }
-                
+
                 if(!$rollBack)
                 {
                     // Activates the new one
@@ -118,7 +118,7 @@ class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInter
                         $rollBack = true;
                     }
                 }
-                
+
                 if (!$rollBack)
                 {
                     $this->connection->commit();
@@ -130,8 +130,8 @@ class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInter
                     return false;
                 }
             }
-            
-            return null;            
+
+            return null;
         }
         catch(Exception $e)
         {
@@ -139,22 +139,22 @@ class AlThemeManager extends AlContentManagerBase implements AlThemeManagerInter
         }
     }
 
-    
+
     /**
      * {@inheritdoc}
      */
     public function remove($themeName)
     {
-        try 
-        {   
+        try
+        {
             $this->connection->beginTransaction();
-                
+
             $theme = AlThemeQuery::create()->setContainer($this->container)->fromName($themeName);
             if (null !== $theme)
             {
                 $theme->delete();
             }
-            
+
             $this->connection->commit();
             return true;
         }
