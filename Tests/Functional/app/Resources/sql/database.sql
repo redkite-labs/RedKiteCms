@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `al_page` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `al_seo`;
-CREATE TABLE IF NOT EXISTS `al_page_attribute` (
+CREATE TABLE IF NOT EXISTS `al_seo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `language_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
