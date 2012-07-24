@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle;
@@ -21,17 +21,24 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
 
+
+use AlphaLemon\AlphaLemonCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+
 /**
  * AlphaLemonCmsBundle
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlphaLemonCmsBundle extends Bundle
 {
+
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
         $container->addCompilerPass(new RegisterCmsListenersPass());
+
+        $container->addCompilerPass(new AlBlocksCompilerPass());
+
     }
 }

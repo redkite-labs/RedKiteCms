@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 /**
  * Defines a base event raised from a ContentManager
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class BaseActionEvent extends Event
 {

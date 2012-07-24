@@ -42,7 +42,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockVersion;
 /**
  * Populates the database after a fresh install
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class UpdateDbTo100PR5Command extends ContainerAwareCommand
 {

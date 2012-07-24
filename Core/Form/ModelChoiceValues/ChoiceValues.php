@@ -17,54 +17,68 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlThemeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageAttributeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlThemeQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
+
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
+use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\ThemeRepositoryInterface;
 
 /**
  * Retrieves form the database the values used in the forms
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class ChoiceValues
 {
-    public static function getPages(ContainerInterface $container = null, $withNoneOption = true)
+    public static function getPages(PageRepositoryInterface $pageRepository, $withNoneOption = true)
     {
-        $pages = array();
+        $result = array();
         if($withNoneOption) $pages["none"] = " ";
-        $pagesQuery = AlPageQuery::create()->setContainer($container)->activePages()->find();
-        foreach($pagesQuery as $page)
+        $pages = $pageRepository->activePages();
+        foreach($pages as $page)
         {
-            $pages[$page->getId()] = $page->getPageName();
+            $result[$page->getId()] = $page->getPageName();
         }
 
-        return $pages;
+        return $result;
     }
 
-    public static function getLanguages(ContainerInterface $container = null, $withNoneOption = true)
+    public static function getLanguages(LanguageRepositoryInterface $languageRepository, $withNoneOption = true)
     {
-        $languages = array();
+        $result = array();
         if($withNoneOption) $languages["none"] = " ";
-        $languagesQuery = AlLanguageQuery::create()->setContainer($container)->activeLanguages()->find(); 
-        foreach($languagesQuery as $language)
+        $languages = $languageRepository->activeLanguages();
+        foreach($languages as $language)
         {
-            $languages[$language->getId()] = $language->getLanguage();
+            $result[$language->getId()] = $language->getLanguage();
         }
 
-        return $languages;
+        return $result;
     }
 
-    public static function getTemplates($themesDir, ContainerInterface $container = null)
+    public static function getTemplates(ThemeRepositoryInterface $themeRepository)
     {
+        // Default templates
         $templates = array("none" => " ");
         
-        $theme = AlThemeQuery::create()->activeBackend()->findOne(); 
+        // Find the current active theme
+        $theme = $themeRepository->activeBackend(); 
         if(null === $theme) return $templates;
-
-        $templatesPath = sprintf('%s/%s/Resources/views/Theme', $themesDir, $theme->getThemeName());
+        
+        $composer = new BundlesAutoloaderComposer('AlphaLemon\\Theme' );
+        $bundles = $composer->getBundles();  
+        
+        // Retrieves the path for the current theme
+        $themeNamespace = 'AlphaLemon\\Theme\\' . $theme->getThemeName();
+        if(!array_key_exists($themeNamespace, $bundles)) return $templates;        
+        $themeDir = $bundles[$themeNamespace];
+        
+        // Points the templates' folder and retrieve the templates
+        $templatesPath = sprintf('%s/Resources/views/Theme', $themeDir);
         $finder = new Finder();
         $templateFiles = $finder->files()->name('*.twig')->depth(0)->sortByName()->in($templatesPath);
 

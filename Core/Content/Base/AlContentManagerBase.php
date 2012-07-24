@@ -10,75 +10,114 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * The base class that defines a content manager object
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * Several entities are considered "content" by AlphaLemon CMS:
+ *
+ *   - Languages
+ *   - Pages
+ *   - Seo attributes
+ *   - Templates
+ *   - Slots
+ *   - Blocks
+ *
+ * All of them extends this class
+ *
+ *
+ * @author alphalemon <webmaster@alphalemon.com>
  */
-abstract class AlContentManagerBase
+abstract class AlContentManagerBase extends AlTranslator
 {
-    protected $container;
-    protected $connection;
+    protected $dispatcher;
+    protected $validator;
 
     /**
-     * Container 
-     * 
-     * @param ContainerInterface $container 
+     * Constructor
+     *
+     * @param EventDispatcherInterface $dispatcher
+     * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(EventDispatcherInterface $dispatcher, AlParametersValidatorInterface $validator = null)
     {
-        $this->container = $container;
-        $this->connection =  \Propel::getConnection();
-    }
-    
-    public function getConnection()
-    {
-        return $this->connection;
-    }
-    
-    public function setConnection(Propel $v)
-    {
-        $this->connection = $v;
+        $this->dispatcher = $dispatcher;
+        $this->validator = (null === $validator) ? new AlParametersValidator() : $validator;
     }
 
-    protected function checkEmptyParams(array $values)
+    /**
+     * Sets the event dispatcher object
+     *
+     * @param EventDispatcherInterface $dispatcher
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase (for fluent API)
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
-        if(empty($values))
-        {
-            throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'save() method requires at least one valid parameter, any one has been given'));
-        }
+        $this->dispatcher = $dispatcher;
+
+        return $this;
     }
-    
-    protected function checkOnceValidParamExists(array $requiredParams, array $values)
+
+    /**
+     * Sets the parameters validator object
+     *
+     *
+     * @param AlParametersValidatorInterface $validator
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
+     */
+    public function setValidator(AlParametersValidatorInterface $validator)
     {
-        $diff = array_diff_key($requiredParams, $values); 
-        if(count($diff) != 0 && count($diff) != count($values))
-        {
-            throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
-        }
+        $this->validator = $validator;
+
+        return $this;
     }
-    
-    protected function checkRequiredParamsExists(array $requiredParams, array $values)
+
+    /**
+     * Sets the tranlator object
+     *
+     * @param TranslatorInterface $translator
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
+     */
+    public function setTranslator(TranslatorInterface $translator)
     {
-        $diff = array_diff_key($requiredParams, $values);
-        if(count($diff) == count($requiredParams) || count($diff) > 0)
-        {
-            throw new \InvalidArgumentException(AlToolkit::translateMessage($this->container, 'save() method requires the following parameters: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff))));
-        }
+        parent::setTranslator($translator);
+
+        $this->validator->setTranslator($translator);
+
+        return $this;
     }
-    
-    private function doImplode(array $params)
+
+    /**
+     * Returns the Event dispatcher object
+     *
+     * @return EventDispatcherInterface
+     */
+    public function getDispatcher()
     {
-        return implode(',', array_keys($params));
+        return $this->dispatcher;
+    }
+
+    /**
+     * Returns the ParameterValidator object
+     *
+     *
+     * @return TranslatorInterface
+     */
+    public function getValidator()
+    {
+        return $this->validator;
     }
 }

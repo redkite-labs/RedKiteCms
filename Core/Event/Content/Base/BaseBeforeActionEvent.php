@@ -23,12 +23,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 /**
  * Defines a base event raised by a Content before an action occours
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class BaseBeforeActionEvent extends BaseActionEvent
 {
     protected $values;
-    protected $cancel = false;
+    protected $abort = false;
 
     public function __construct(AlContentManagerBase $contentManager, array $values = null)
     {
@@ -50,14 +50,14 @@ abstract class BaseBeforeActionEvent extends BaseActionEvent
     /** 
      * Stops the current action
      */
-    public function cancel()
+    public function abort()
     {
-        $this->cancel = true;
+        $this->abort = true;
     }
 
     public function isAborted()
     {
-        return $this->cancel;
+        return $this->abort;
     }
 }
 

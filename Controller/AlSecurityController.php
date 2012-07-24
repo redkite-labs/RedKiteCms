@@ -31,7 +31,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
 /**
  * Implements the authentication action to grant the use of the CMS. 
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlSecurityController extends Controller
 {
@@ -66,8 +66,8 @@ class AlSecurityController extends Controller
             $template = 'AlphaLemonCmsBundle:Security:login.html.twig';
         }
         
-        $alPage = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery::create()->homePage()->findOne();
-        $alLanguage = \AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery::create()->mainLanguage()->findOne();
+        $alPage = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery::create()->homePage()->findOne();
+        $alLanguage = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery::create()->mainLanguage()->findOne();
         
         return $this->render($template, array(
             'last_username' => $lastUsername,
@@ -135,7 +135,7 @@ class AlSecurityController extends Controller
             {
                 $response = new Response();
                 $response->setStatusCode('404');
-                return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+                return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
             }
         }
         
@@ -169,7 +169,7 @@ class AlSecurityController extends Controller
             {
                 $response = new Response();
                 $response->setStatusCode('404');
-                return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+                return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
             }
         }
         
@@ -196,7 +196,7 @@ class AlSecurityController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
     
@@ -217,7 +217,7 @@ class AlSecurityController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Error:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
     

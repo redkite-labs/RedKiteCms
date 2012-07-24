@@ -24,7 +24,7 @@ use AlphaLemon\PageTreeBundle\Core\Compiler\ListenersRegistrator;
 /**
  * Registers the CMS events
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class RegisterCmsListenersPass implements CompilerPassInterface
 {

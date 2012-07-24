@@ -17,57 +17,58 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
 class AlSlotConverterToPage extends AlSlotConverterBase
 { 
+    /**
+     * {inheritdoc}
+     * 
+     * @return null|boolean
+     * @throws Exception 
+     */
     public function convert()
     {
-        try
+        if(count($this->arrayBlocks) > 0)
         {
-            $rollback = false;
-            $this->connection->beginTransaction();
-
-            $this->removeContents(); 
-
-            $languages = AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find(); 
-            $pages = AlPageQuery::create()->setContainer($this->container)->activePages()->find();
-            foreach($this->contents as $content)
+            try
             {
-                foreach($languages as $language)
-                {
-                    foreach($pages as $page)
+                $this->blockRepository->startTransaction();
+                $result = $this->deleteBlocks(); 
+                if(false !== $result) {
+                    $languages = $this->languageRepository->activeLanguages();
+                    $pages = $this->pageRepository->activePages();
+                    foreach($this->arrayBlocks as $block)
                     {
-                        $newContent = $this->cloneAndAddContent($content, $language->getId(), $page->getId());
-                        $result = $newContent->save();
-
-                        if ($newContent->isModified() && $result == 0)
+                        foreach($languages as $language)
                         {
-                            $rollback = true;
-                            break;
+                            foreach($pages as $page)
+                            {
+                                $result = $this->updateBlock($block, $language->getId(), $page->getId());
+                            }
                         }
                     }
 
-                    if($rollback) break;
+                    if ($result)
+                    {
+                        $this->blockRepository->commit();
+                    }
+                    else
+                    {
+                        $this->blockRepository->rollBack();
+                    }
                 }
+                return $result;
             }
+            catch(\Exception $e)
+            {
+                if(isset($this->blockRepository) && $this->blockRepository !== null) {
+                    $this->blockRepository->rollBack();
+                }
 
-            if (!$rollback)
-            {
-                $this->connection->commit();
-                return true;
+                throw $e;
             }
-            else
-            {
-                $this->connection->rollBack();
-                return false;
-            }
-        }
-        catch(\Exception $e)
-        {
-            if(isset($this->connection) && $this->connection !== null) $this->connection->rollback();
-            throw $e;
         }
     }
 }

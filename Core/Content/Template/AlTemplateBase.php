@@ -10,40 +10,65 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
- * Defines the template content manager object
+ * Implements the base object that defines a template
  *
- * @author AlphaLemon <info@alphalemon.com>
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlTemplateBase extends AlContentManagerBase
 {
-    protected $alLanguage; 
-    protected $alPage;
-    
+    protected $blockManagerFactory;
+
     /**
      * Contructor
-     * 
-     * @param ContainerInterface $container
-     * @param AlPage $alPage
-     * @param AlLanguage $alLanguage 
+     *
+     * @param EventDispatcherInterface $dispatcher
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(ContainerInterface $container, AlPage $alPage = null, AlLanguage $alLanguage = null) 
+    public function __construct(EventDispatcherInterface $dispatcher, AlBlockManagerFactoryInterface $blockManagerFactory, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($container);
-        
-        $this->alLanguage = (null !== $alLanguage) ? $alLanguage : $this->container->get('al_page_tree')->getAlLanguage(); 
-        $this->alPage = (null !== $alPage) ? $alPage : $this->container->get('al_page_tree')->getAlPage(); 
+        parent::__construct($dispatcher, $validator);
+
+        $this->blockManagerFactory = $blockManagerFactory; //(null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
+    }
+
+    /**
+     * Sets the blockManager factory object
+     *
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase (for fluent API)
+     */
+    public function setBlockManagerFactory(AlBlockManagerFactoryInterface $blockManagerFactory)
+    {
+        $this->blockManagerFactory = $blockManagerFactory;
+
+        return $this;
+    }
+
+    /**
+     * Returns the blockManager factory object
+     *
+     * @return AlBlockManagerFactoryInterface
+     */
+    public function getBlockManagerFactory()
+    {
+        return $this->blockManagerFactory;
     }
 }
