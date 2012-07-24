@@ -1,7 +1,0 @@
-{
-    "bundles" : {
-        "AlphaLemon\\AlphaLemonCmsBundle\\Core\\Bundles\\TextBundle\\TextBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test"]
-        }
-    }
-}
