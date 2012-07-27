@@ -10,19 +10,20 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://alphalemon.com
- * 
+ *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Event;
+namespace AlphaLemon\BootstrapBundle\Core\ActionManager;
 
 /**
- * Defines the event names 
- *
+ * 
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-final class BootstrapperEvents
+interface ActionManagerInterface
 {
-    const PACKAGE_INSTALLED = 'package-installed';
-    const PACKAGE_UNINSTALLED = 'package-uninstalled';
+    public function packageInstalledPreBoot();
+    public function packageUninstalledPreBoot();
+    public function packageInstalledPostBoot();
+    public function packageUninstalledPostBoot();
 }
