@@ -2,10 +2,12 @@
 AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle
 is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.
 
+[![Build Status](https://secure.travis-ci.org/alphalemon/AlphaLemonBootstrapBundle.png)](http://travis-ci.org/alphalemon/AlphaLemonBootstrapBundle)
+
 ## Install the AlphaLemonBootstrapBundle
 To install the AlphaLemonBootstrapBundle, simply require it in your composer.json:
 
-    "require": {        
+    "require": {
         [...]
         "alphalemon/alphalemon-bootstrap-bundle": "dev-master"
     }
@@ -46,10 +48,10 @@ There are two possible sections:
 - scripts
 
 ### Bundles section
-The bundles section declares the bundles that must be autoloaded and configured. 
+The bundles section declares the bundles that must be autoloaded and configured.
 
-Each bundle must have an **environments section** where the bundle's author must declare the environments where the bundle will be enabled. 
-Environments could be an array, as in the example above, or a string when a single environment is managed. A bundle is enable for all the 
+Each bundle must have an **environments section** where the bundle's author must declare the environments where the bundle will be enabled.
+Environments could be an array, as in the example above, or a string when a single environment is managed. A bundle is enable for all the
 environments giving the **all** value.
 
 ### Scripts section
@@ -61,7 +63,7 @@ values could be the following:
 
 The value must be the full namespaced path to the listener that implements the script action. The listener for the declared action could be the following:
 
-    namespace AlphaLemon\Block\BusinessDropCapBundle\Core\Listener; 
+    namespace AlphaLemon\Block\BusinessDropCapBundle\Core\Listener;
 
     use AlphaLemon\BootstrapBundle\Core\Event\PackageInstalledEvent;
     use AlphaLemon\BootstrapBundle\Core\Event\PackageUninstalledEvent;
@@ -69,7 +71,7 @@ The value must be the full namespaced path to the listener that implements the s
     /**
      * Executes some actions when a package is installed or uninstalled
      */
-    class TestListener 
+    class TestListener
     {
         public function onPackageInstalled(PackageInstalledEvent $event)
         {
@@ -83,7 +85,7 @@ The value must be the full namespaced path to the listener that implements the s
     }
 
 ## Configuration files
-When a new package is autoloaded, the bundle's configuration files are copied under the **app/config/bundles** folder and loaded in the AppKernel class. 
+When a new package is autoloaded, the bundle's configuration files are copied under the **app/config/bundles** folder and loaded in the AppKernel class.
 In this way the user that installs the bundle is not required to add the bundle's configuration to the **config.yml** and **routing.yml** files.
 
 To add a configuration that usually goes into the **config.yml** file, just add a config.yml file under the Resources/config folder of your bundle. The
@@ -92,7 +94,7 @@ autoloader will copy that file for the config section and the routing.yml file f
 Obviously if something has to be changed to tune the autoloaded bundle, those customizations will be made in the config.yml file as usual.
 
 ### A practical example
-For example, AlphaLemon CMS requires a deploy bundle to work, which usually resides into the **src** folder of the application. This configuration is made 
+For example, AlphaLemon CMS requires a deploy bundle to work, which usually resides into the **src** folder of the application. This configuration is made
 in the FrontendBundle, which requires the following configuration into the config.yml file:
 
     alpha_lemon_frontend:
@@ -111,7 +113,7 @@ To enable the routing autoloader the following configuration must be added to th
         resource: .
         type: bootstrap
 
-## Use the BootstrapBundle in your AppKernel 
+## Use the BootstrapBundle in your AppKernel
 To enable the autoloading some small changes must be applied to the AppKernel file. At the end of the **registerBundles** method, declare
 a new **BundlesAutoloader** object, as follows:
 
@@ -119,14 +121,14 @@ a new **BundlesAutoloader** object, as follows:
     public function registerBundles()
     {
         [...]
-        
+
         $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader($this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->getBundles();
-        
+
         return $bundles;
     }
 
-That object requires the current environment and the instantiated bundles. Then bundles are retrieved by the **getBundles** method and 
+That object requires the current environment and the instantiated bundles. Then bundles are retrieved by the **getBundles** method and
 returned as asual.
 
 To load the configurations from the app/config/bundles folder, the **registerContainerConfiguration** must be changed as follows:
@@ -135,11 +137,11 @@ To load the configurations from the app/config/bundles folder, the **registerCon
     {
         $configFolder = __DIR__ . '/config/bundles/config';
         $finder = new \Symfony\Component\Finder\Finder();
-        $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);       
+        $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
         foreach($configFiles as $config) {
             $loader->load((string)$config);
         }
-        
+
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 
