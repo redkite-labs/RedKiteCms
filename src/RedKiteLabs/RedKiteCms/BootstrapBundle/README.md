@@ -2,7 +2,7 @@
 AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle
 is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.
 
-[![Build Status](https://secure.travis-ci.org/alphalemon/AlphaLemonBootstrapBundle.png)](http://travis-ci.org/alphalemon/AlphaLemonBootstrapBundle)
+[![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapBundle.png)](http://travis-ci.org/alphalemon/BootstrapBundle)
 
 ## Install the AlphaLemonBootstrapBundle
 To install the AlphaLemonBootstrapBundle, simply require it in your composer.json:
