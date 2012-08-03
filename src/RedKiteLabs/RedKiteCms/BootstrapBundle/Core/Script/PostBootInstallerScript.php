@@ -14,13 +14,20 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Exception;
+namespace AlphaLemon\BootstrapBundle\Core\Script;
 
 /**
- * Defines the InvalidAutoloaderException exception
- *
+ * Defines the Script object to execute the install actions when the kernel has been booted
+ * 
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class InvalidAutoloaderException extends \LogicException
+class PostBootInstallerScript extends Base\BasePostScript
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function executeActions(array $actionManagers)
+    {
+        $this->doExecuteActions('packageInstalledPostBoot', $actionManagers);
+    }
 }

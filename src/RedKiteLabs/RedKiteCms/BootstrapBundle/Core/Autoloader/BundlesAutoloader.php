@@ -21,16 +21,16 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use AlphaLemon\BootstrapBundle\Core\Exception\InvalidProjectException;
-use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Exception\InvalidAutoloaderException;
+use AlphaLemon\BootstrapBundle\Core\Exception\InvalidAutoloaderException;
 use AlphaLemon\BootstrapBundle\Core\Json\JsonAutoloader;
 use AlphaLemon\BootstrapBundle\Core\Event\BootstrapperEvents;
 use AlphaLemon\BootstrapBundle\Core\Event\PackageInstalledEvent;
 use AlphaLemon\BootstrapBundle\Core\Event\PackageUninstalledEvent;
-use AlphaLemon\BootstrapBundle\Core\PackagesBootstrapper\PackagesBootstrapper;
+use AlphaLemon\BootstrapBundle\Core\Script;
 
 /**
  * Parses the bundles installed by composer, checks if the bundle has an autoload.json file in its main root
- * and when the file is present, copies the autoloader.json and the routing.yml and config.yml under the
+ * folder and when the file is present, copies the autoloader.json, the routing.yml and config.yml under the
  * app/config/bundles folder, to autoconfigure the bundle.
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
@@ -45,22 +45,24 @@ class BundlesAutoloader
     private $autoloaders = array();
     private $installedBundles = array();
     private $environmentsBundles = array();
-    private $notExecutedActions = array();
-
+    private $overridedBundles = array();
     private $basePath;
     private $autoloadersPath;
     private $configPath;
     private $routingPath;
     private $cachePath;
-    private $postActions = array();
     private $filesystem;
-    private $packagesBootstrapper;
     private $bootstrapped = false;
 
     /**
      * Constructor
+     *
+     * @param string $kernelDir     The kernel directory path
+     * @param string $environment   The current environment
+     * @param array $bundles        The bundles already loaded
+     * @param Script\Factory\ScriptFactoryInterface $scriptFactory
      */
-    public function __construct($kernelDir, $environment, array $bundles, PackagesBootstrapperInterface $packagesBootstrapper = null)
+    public function __construct($kernelDir, $environment, array $bundles, Script\Factory\ScriptFactoryInterface $scriptFactory = null)
     {
         $this->environment = $environment;
         $this->kernelDir = $kernelDir;
@@ -69,8 +71,7 @@ class BundlesAutoloader
 
         $this->setupFolders();
 
-        $this->packagesBootstrapper = (null === $packagesBootstrapper) ? new PackagesBootstrapper($this->basePath) : $packagesBootstrapper;
-
+        $this->scriptFactory = (null === $scriptFactory) ? new Script\Factory\ScriptFactory($this->basePath) : $scriptFactory;
         $this->bundles = $bundles;
         foreach ($this->bundles as $bundle) {
             $this->instantiatedBundles[] = get_class($bundle);
@@ -89,22 +90,63 @@ class BundlesAutoloader
         return $this->bundles;
     }
 
-    public function setVendorDir($v)
+    /**
+     * Sets the vendor directory path
+     *
+     * @param type $vendorDir
+     * @return \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader
+     */
+    public function setVendorDir($vendorDir)
     {
-        $this->vendorDir = $v;
+        $this->vendorDir = $vendorDir;
 
         return $this;
     }
 
+    /**
+     * Runs the process
+     */
     protected function run()
     {
         if (!$this->bootstrapped) {
             $this->retrieveInstalledBundles();
             $this->install();
             $this->uninstall();
-            $this->packagesBootstrapper->writePostActions();
-            $this->arrangeBundlesForEnvironment();            
+            $this->arrangeBundlesForEnvironment();
             $this->bootstrapped = true;
+        }
+    }
+
+    /**
+     * Orders the bundles according to bundle's json param "overrided"
+     */
+    protected function orderBundles()
+    {
+        // Gives a score to each bundle
+        $order = array();
+        foreach ($this->overridedBundles as $overriderBundle => $overridedBundles) {
+
+            // An overrider bundle enters in the compilation, but takes any point
+            if (!array_key_exists($overriderBundle, $order)) $order[$overriderBundle] = 0;
+
+            // An overrided takes a point everytime is found
+            foreach ($overridedBundles as $overriderBundle => $overridedBundle) {
+                if (array_key_exists($overridedBundle, $order)) {
+                    $order[$overridedBundle] = $order[$overridedBundle] + 1;
+                }
+                else {
+                    $order[$overridedBundle] = 1;
+                }
+            }
+        }
+
+        arsort($order);
+
+        // Arranges the bundles entries
+        foreach ($order as $bundleName => $pos) {
+            $bundle = $this->bundles[$bundleName];
+            unset($this->bundles[$bundleName]);
+            $this->bundles[$bundleName] = $bundle;
         }
     }
 
@@ -123,14 +165,18 @@ class BundlesAutoloader
         }
 
         // A bundle enabled by one or more environments, must be removed from all section
-        $all = $this->environmentsBundles['all'];
-        unset($this->environmentsBundles['all']);
-        foreach ($this->environmentsBundles as $bundles) {
-            $all = array_diff($all, $bundles);
+        if (array_key_exists('all', $this->environmentsBundles)) {
+            $all = $this->environmentsBundles['all'];
+            unset($this->environmentsBundles['all']);
+            foreach ($this->environmentsBundles as $bundles) {
+                $all = array_diff($all, $bundles);
+            }
+            $this->environmentsBundles['all'] = $all;
+            $this->register('all');
         }
-        $this->environmentsBundles['all'] = $all;
-        $this->register('all');
+
         $this->register($this->environment);
+        $this->orderBundles();
     }
 
     /**
@@ -142,14 +188,18 @@ class BundlesAutoloader
     {
         if (isset($this->environmentsBundles[$environment])) {
             foreach ($this->environmentsBundles[$environment] as $bundle) {
-                if (empty($this->instantiatedBundles) || !in_array($bundle, $this->instantiatedBundles)) {
-                    if (!class_exists($bundle)) {
-                        throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem.", $bundle, get_class($this)));
+                $bundleClass = $bundle->getClass();
+                if (empty($this->instantiatedBundles) || !in_array($bundleClass, $this->instantiatedBundles)) {
+
+                    if (!class_exists($bundleClass)) {
+                        throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem", $bundleClass, get_class($this)));
                     }
 
-                    $instantiatedBundle = new $bundle();
-                    $this->bundles[] = $instantiatedBundle;
-                    $this->instantiatedBundles[] = $bundle;
+                    $instantiatedBundle = new $bundleClass;
+                    $this->bundles[$bundle->getId()] = $instantiatedBundle;
+                    $overridedBundles = $bundle->getOverrides();
+                    if (!empty($overridedBundles)) $this->overridedBundles[$bundle->getId()] = $overridedBundles;
+                    $this->instantiatedBundles[] = $bundleClass;
                 }
             }
         }
@@ -162,28 +212,45 @@ class BundlesAutoloader
     protected function install()
     {
         $path = $this->vendorDir . '/composer';
-        if (is_dir($path)) {
-            $this->packagesBootstrapper->executeFailedActions('packageInstalledPreBoot');
+        if (!is_dir($path)) throw new InvalidProjectException('"composer" folder has not been found. Be sure to use this bundle on a project managed by Composer');
 
-            $map = require $path . '/autoload_namespaces.php';
+        $installScripts = array();
+        $map = require $path . '/autoload_namespaces.php';
+        foreach ($map as $namespace => $path) {
+            $dir = $path . str_replace('\\', '/', $namespace);
+            $bundleName = $this->getBundleName($dir);
 
-            foreach ($map as $namespace => $path) {
-                $dir = $path . str_replace('\\', '/', $namespace);
-                $bundleName = $this->getBundleName($dir);
-                if (null !== $bundleName && $this->hasAutoloader($dir)) {
-                    $bundleName = strtolower($bundleName);
-                    $autoloader = $dir . '/autoload.json';
-                    $jsonAutoloader = new JsonAutoloader($bundleName, $autoloader);
-                    $this->autoloaders[] = $jsonAutoloader;
-                    $this->doInstall($dir, $jsonAutoloader);
+            // The bundle is inclued only when the autoloader.json file exists
+            if (null !== $bundleName && $this->hasAutoloader($dir)) {
+                // Instantiates the autoload
+                $bundleName = strtolower($bundleName);
+                $autoloader = $dir . '/autoload.json';
+                $jsonAutoloader = new JsonAutoloader($bundleName, $autoloader);
+                $this->autoloaders[] = $jsonAutoloader;
+
+                $this->installPackage($dir, $jsonAutoloader);
+
+                // Check if the bundle under exam has attached an ActionManager file
+                $actionsManager = $jsonAutoloader->getActionManager();
+                if ((!array_key_exists($bundleName, $this->installedBundles) && null !== $actionsManager)) {
+                    if (null !== $jsonAutoloader->getActionManagerClass()) {
+                        $installScripts[$bundleName] = $actionsManager;
+
+                        // Copies the current ActionManager class to app/config/bundles/cache folder
+                        // because it must be preserved when a bundle is uninstalled
+                        $reflection = new \ReflectionClass($actionsManager);
+                        $fileName = $reflection->getFileName();
+                        $className = $this->cachePath . '/' . $bundleName . '/' . basename($fileName);
+                        $this->filesystem->copy($fileName, $className, true);
+                    }
                 }
-            }
 
-            $this->packagesBootstrapper->writeFailedActions('.packageInstalledPreBoot');
+                unset($this->installedBundles[$bundleName]);
+            }
         }
-        else {
-            throw new InvalidProjectException('composer folder has not been found. Be sure to use this bundle on a project managed by Composer');
-        }
+
+        $installerScript = $this->scriptFactory->createScript('PreBootInstaller');
+        $installerScript->executeActions($installScripts);
     }
 
     /**
@@ -192,7 +259,7 @@ class BundlesAutoloader
      * @param string $sourceFolder          The source folder where the autoloader is placed
      * @param JsonAutoloader $autoloader    The generated autoloader object
      */
-    protected function doInstall($sourceFolder, JsonAutoloader $autoloader)
+    protected function installPackage($sourceFolder, JsonAutoloader $autoloader)
     {
         $bundleName = $autoloader->getBundleName();
 
@@ -203,15 +270,6 @@ class BundlesAutoloader
         $filename = '/' . $bundleName . '.yml';
         $this->copy($sourceFolder . '/config.yml', $this->configPath . $filename);
         $this->copy($sourceFolder . '/routing.yml', $this->routingPath . $filename);
-
-        if (!array_key_exists($bundleName, $this->installedBundles)) {
-            $actionManager = $autoloader->getActionManager();
-            if (null !== $actionManager) {
-                $this->packagesBootstrapper->executeInstallActionPreBoot($bundleName, $actionManager);
-            }
-        }
-
-        unset($this->installedBundles[$bundleName]);
     }
 
     /**
@@ -219,19 +277,21 @@ class BundlesAutoloader
      */
     protected function uninstall()
     {
+        $uninstallScripts = array();
         if (!empty($this->installedBundles)) {
-            $this->packagesBootstrapper->executeFailedActions('packageUninstalledPreBoot');
             foreach ($this->installedBundles as $autoloader) {
                 $bundleName = $autoloader->getBundleName();
-                $this->packagesBootstrapper->executeUninstallActionPreBoot($bundleName, $autoloader->getActionManagerClass());
-
-                $this->filesystem->remove($this->autoloadersPath . '/' . $autoloader->getBundleName() . '.json');
+                $uninstallScripts[$bundleName] = $autoloader->getActionManagerClass();
+                $this->filesystem->remove($this->autoloadersPath . '/' . $bundleName . '.json');
                 $filename = '/' . $autoloader->getBundleName() . '.yml';
                 $this->filesystem->remove($this->configPath . $filename);
                 $this->filesystem->remove($this->routingPath . $filename);
             }
-            $this->packagesBootstrapper->writeFailedActions('.packageUninstalledPreBoot');
         }
+
+        $this->requireCachedClasses();
+        $uninstallerScript = $this->scriptFactory->createScript('PreBootUninstaller');
+        $uninstallerScript->executeActions($uninstallScripts);
     }
 
     /**
@@ -240,7 +300,7 @@ class BundlesAutoloader
     protected function retrieveInstalledBundles()
     {
         $finder = new Finder();
-        $autoloaders = $finder->files()->depth(0)->name('*.json')->in(realpath($this->autoloadersPath));
+        $autoloaders = $finder->files()->depth(0)->name('*.json')->in($this->autoloadersPath);
         foreach ($autoloaders as $autoloader) {
             $bundleName = strtolower(basename($autoloader->getFilename(), '.json'));
             $jsonAutoloader = new JsonAutoloader($bundleName, (string)$autoloader);
@@ -287,7 +347,7 @@ class BundlesAutoloader
     }
 
     /**
-     * Copies the source file to the target
+     * Copies the source file
      *
      * @param string $source
      * @param string $target
@@ -317,11 +377,34 @@ class BundlesAutoloader
         $this->autoloadersPath = $this->basePath . '/autoloaders';
         $this->configPath = $this->basePath . '/config';
         $this->routingPath = $this->basePath . '/routing';
+        $this->cachePath = $this->basePath . '/cache';
 
         $this->filesystem->mkdir(array(
             $this->basePath,
             $this->autoloadersPath,
             $this->configPath,
-            $this->routingPath,));
+            $this->routingPath,
+            $this->cachePath,));
+    }
+
+    /**
+     * Requires the cached classes when needed
+     */
+    private function requireCachedClasses()
+    {
+        $classPath = $this->cachePath;
+        if (is_dir($classPath)) {
+            $finder = new Finder();
+            $actionManagerFiles = $finder->files()->depth(1)->name('*.php')->in($classPath);
+            foreach ($actionManagerFiles as $actionManagerFile) {
+                $classFileName = (string)$actionManagerFile;
+                $classContents = file_get_contents($classFileName);
+                preg_match('/namespace ([\w\\\]+);.*?class ([\w]+).*?{/s', $classContents, $match);
+                if (isset($match[1]) && isset($match[2])) {
+                    $class = $match[1] . '\\' . $match[2];
+                    if (!in_array($class, get_declared_classes())) @require_once $classFileName;
+                }
+            }
+        }
     }
 }

@@ -14,13 +14,16 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Exception;
+namespace AlphaLemon\BootstrapBundle\Core\Script;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines the InvalidAutoloaderException exception
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class InvalidAutoloaderException extends \LogicException
+interface PostScriptInterface extends ScriptInterface
 {
+    public function setContainer(ContainerInterface $container);
+    public function executeActionsFromFile($fileName);
 }

@@ -17,10 +17,10 @@
 namespace AlphaLemon\BootstrapBundle\Core\Exception;
 
 /**
- * Defines the InvalidAutoloaderException exception
+ * Defines the CreateScriptException exception
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class InvalidAutoloaderException extends \LogicException
+class CreateScriptException extends \RuntimeException
 {
 }

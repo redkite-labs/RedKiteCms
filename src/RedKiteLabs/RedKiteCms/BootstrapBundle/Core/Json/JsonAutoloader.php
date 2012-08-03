@@ -16,21 +16,26 @@
 
 namespace AlphaLemon\BootstrapBundle\Core\Json;
 
+use AlphaLemon\BootstrapBundle\Core\Json\Bundle\Bundle;
 use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface;
+use AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException;
+use AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
+
+
+
 
 /**
- * Parses a json autoloader and converts it into an objectì
+ * Parses a json autoloader and converts it into an object
  *
- * @author alphalemon
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class JsonAutoloader
+class JsonAutoloader extends JsonToolkit
 {
     private $bundleName;
-    private $filename = array();
+    private $filename = null;
     private $bundles = array();
     private $actionManager = null;
     private $actionManagerClass = null;
-    private $force = false;
     private $json = null;
 
     /**
@@ -46,26 +51,41 @@ class JsonAutoloader
         $this->setup();
     }
 
+    /**
+     * Returns the bundle name
+     *
+     * @return string
+     */
     public function getBundleName()
     {
         return $this->bundleName;
     }
 
+    /**
+     * Return the json file name
+     *
+     * @return string
+     */
     public function getFilename()
     {
         return $this->filename;
     }
 
+    /**
+     * Return the bundles declared in the json autoloader
+     *
+     * @return string
+     */
     public function getBundles()
     {
         return $this->bundles;
     }
 
-    public function getForce()
-    {
-        return $this->force;
-    }
-
+    /**
+     * Returns the ActionManger object from the class declared in the autoloader json
+     *
+     * @return null|AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface
+     */
     public function getActionManager()
     {
         if (null === $this->actionManager) {
@@ -75,11 +95,19 @@ class JsonAutoloader
         return $this->actionManager;
     }
 
+    /**
+     * Returns the ActionManger class declared in the autoloader json
+     *
+     * @return null|string
+     */
     public function getActionManagerClass()
     {
         return $this->actionManagerClass;
     }
 
+    /**
+     * Returns the json file contents
+     */
     public function getSourceJson()
     {
         return $this->json;
@@ -90,29 +118,29 @@ class JsonAutoloader
      */
     protected function setup()
     {
-        $this->json = file_get_contents($this->filename);
-        $autoloader = json_decode($this->json, true);
-        if (null !== $autoloader) {
-            if (isset($autoloader["bundles"])) {
-                foreach ($autoloader["bundles"] as $bundle => $options) {
-                    $environments = $options["environments"];
-                    if (!is_array($environments)) $environments = array($environments);
-                    foreach ($environments as $environment) {
-                        $this->bundles[$environment][] = $bundle;
-                    }
-                    if(isset($options["force"]) && (bool)$options["force"]) $this->force = (bool)$options["force"];
-                }
-            }
-            else {
-                throw new \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException(sprintf('The json file %s requires the bundles section. Please add that section to fix the problem', $this->filename));
-            }
+        $autoloader = $this->decode($this->filename);
+        if (null === $autoloader) {
+            throw new InvalidJsonFormatException(sprintf('The json file %s is malformed. Please check the file syntax to fix the problem', $this->filename));
+        }
 
-            if (isset($autoloader["actionManager"])) {
-                $this->actionManagerClass = $autoloader["actionManager"];
+        if (empty($autoloader["bundles"])) {
+            throw new InvalidJsonFormatException(sprintf('The json file %s requires the bundles section. Please add that section to fix the problem', $this->filename));
+        }
 
+        foreach ($autoloader["bundles"] as $bundleClass => $options) {
+            $environments = (isset($options["environments"])) ? $options["environments"] : 'all';
+            if (!is_array($environments)) $environments = array($environments);
+            $overrides = (isset($options["overrides"])) ? $options["overrides"] : array();
+            $bundle = new Bundle();
+            $bundle->setClass($bundleClass);
+            $bundle->setOverrides($overrides);
+            foreach ($environments as $environment) {
+                $this->bundles[$environment][] = $bundle;
             }
-        } else {
-            throw new \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException(sprintf('The json file %s is malformed. Please check the file syntax to fix the problem', $this->filename));
+        }
+
+        if (isset($autoloader["actionManager"])) {
+            $this->actionManagerClass = $autoloader["actionManager"];
         }
     }
 

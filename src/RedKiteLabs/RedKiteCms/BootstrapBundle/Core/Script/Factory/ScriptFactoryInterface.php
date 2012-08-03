@@ -14,13 +14,23 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Exception;
+namespace AlphaLemon\BootstrapBundle\Core\Script\Factory;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines the InvalidAutoloaderException exception
- *
+ * Defines the base methods to create a Script object
+ * 
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class InvalidAutoloaderException extends \LogicException
+interface ScriptFactoryInterface
 {
+    /**
+     * Creates a script object
+     * 
+     * @param type $script
+     * @return \AlphaLemon\BootstrapBundle\Core\Script\ScriptInterface
+     * @throws CreateScriptException 
+     */
+    public function createScript($scriptClass);
 }

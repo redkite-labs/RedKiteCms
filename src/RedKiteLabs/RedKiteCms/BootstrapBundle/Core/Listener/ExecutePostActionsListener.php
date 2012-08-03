@@ -4,25 +4,28 @@ namespace AlphaLemon\BootstrapBundle\Core\Listener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use AlphaLemon\BootstrapBundle\Core\PackagesBootstrapper\PackagesBootstrapper;
+use AlphaLemon\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface;
 
 /**
- * Dispatches the bootstrap events when required
+ * Executes the post action
  */
 class ExecutePostActionsListener
 {
     private $container;
+    private $basePath;
 
     /**
      * Constructor
-     *
+     * 
      * @param ContainerInterface $container
+     * @param ScriptFactoryInterface $scriptFactory 
      */
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, ScriptFactoryInterface $scriptFactory = null)
     {
         $this->container = $container;
+
         $this->basePath = $this->container->getParameter('kernel.root_dir') . '/config/bundles';
+        $this->scriptFactory = (null === $scriptFactory) ? new ScriptFactory($this->basePath) : $scriptFactory;
     }
 
     /**
@@ -30,7 +33,12 @@ class ExecutePostActionsListener
      */
     public function onKernelRequest()
     {
-        $packagesBootstrapper = new PackagesBootstrapper($this->basePath, $this->container);
-        $packagesBootstrapper->executePostBootActions();
+        $installerScript = $this->scriptFactory->createScript('PostBootInstaller');
+        $installerScript->setContainer($this->container)
+                        ->executeActionsFromFile($this->basePath . '/.PostInstall');
+
+        $installerScript = $this->scriptFactory->createScript('PostBootUninstaller');
+        $installerScript->setContainer($this->container)
+                        ->executeActionsFromFile($this->basePath . '/.PostUninstall');
     }
 }

@@ -17,10 +17,10 @@
 namespace AlphaLemon\BootstrapBundle\Core\Exception;
 
 /**
- * Defines the InvalidAutoloaderException exception
+ * Defines the MissingDependencyException exception
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class InvalidAutoloaderException extends \LogicException
+class MissingDependencyException extends \LogicException
 {
 }

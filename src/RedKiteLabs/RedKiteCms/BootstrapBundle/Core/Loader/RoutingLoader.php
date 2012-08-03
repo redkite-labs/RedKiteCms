@@ -31,12 +31,12 @@ class RoutingLoader extends YamlFileLoader
 
     /**
      * {@inheritdoc}
-     *
      */
     public function load($resource, $type = null)
     {
         $collection = new RouteCollection();
 
+        //$routingFolder = __DIR__ . '/../../../../../../../app/config/bundles/routing';
         $routingFolder = __DIR__ . '/../../../../../../../Tests/Functional/app/config/bundles/routing';
         $finder = new Finder();
         $configs = $finder->depth(0)->name('*.yml')->in($routingFolder);
@@ -51,7 +51,6 @@ class RoutingLoader extends YamlFileLoader
 
     /**
      * {@inheritdoc}
-     *
      */
     public function supports($resource, $type = null)
     {

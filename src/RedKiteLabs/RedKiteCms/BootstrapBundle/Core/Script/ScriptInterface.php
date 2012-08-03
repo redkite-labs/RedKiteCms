@@ -14,13 +14,21 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Exception;
+namespace AlphaLemon\BootstrapBundle\Core\Script;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines the InvalidAutoloaderException exception
- *
+ * Defines the base methods a Script object must implement
+ * 
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class InvalidAutoloaderException extends \LogicException
+interface ScriptInterface
 {
+    /**
+     * Executes the actions from the given ActionManager objects 
+     * 
+     * @param array
+     */
+    public function executeActions(array $actionManagers);
 }

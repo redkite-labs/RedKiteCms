@@ -29,36 +29,52 @@ use AlphaLemon\BootstrapBundle\Core\Event\PackageUninstalledEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Implements all the methods declared by ActionManagerInterface executing a NOP action
+ * Generates an ActionManager object and implements the methods to retrieve both
+ * the generated object and its class. The ActionManager could be generated from
+ * an object or from a vald class name
+ * 
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-abstract class ActionManager implements ActionManagerInterface
+class ActionManagerGenerator
 {
+    private $actionManager = null;
+    private $actionManagerClass = null;
+
     /**
-     * {@inheritdoc] 
+     * Generates the ActionManager object
+     *  
+     * @param mixed ActionManagerInterface|string $actionManager 
      */
-    public function packageInstalledPreBoot()
+    public function generate($actionManager)
     {
+        if ($actionManager instanceof ActionManagerInterface) {
+            $this->actionManager = $actionManager;
+            $this->actionManagerClass = get_class($this->actionManager);
+        }
+
+        if (is_string($actionManager) && class_exists($actionManager)) {
+            $this->actionManager = new $actionManager();
+            $this->actionManagerClass = $actionManager;
+        }
     }
 
     /**
-     * {@inheritdoc] 
+     * Returns the ActionManager object
+     * 
+     * @return null|ActionManagerInterface 
      */
-    public function packageUninstalledPreBoot()
+    public function getActionManager()
     {
+        return $this->actionManager;
     }
 
     /**
-     * {@inheritdoc] 
+     * Returns the ActionManager's class name
+     * 
+     * @return null|string 
      */
-    public function packageInstalledPostBoot(ContainerInterface $container)
+    public function getActionManagerClass()
     {
-    }
-
-    /**
-     * {@inheritdoc] 
-     */
-    public function packageUninstalledPostBoot(ContainerInterface $container)
-    {
+        return $this->actionManagerClass;
     }
 }
