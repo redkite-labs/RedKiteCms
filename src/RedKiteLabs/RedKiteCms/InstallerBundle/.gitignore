@@ -2,3 +2,5 @@
 /vendor/
 /composer.phar
 /composer.lock
+/Tests/Functional/project/app/cache/
+/Tests/Functional/project/app/logs/
