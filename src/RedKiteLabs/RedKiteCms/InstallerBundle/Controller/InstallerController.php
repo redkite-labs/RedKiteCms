@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\CmsInstallerBundle\Controller;
@@ -33,8 +33,8 @@ class InstallerController extends Controller
     public function installAction()
     {
         $type = new AlphaLemonCmsParametersType();
-        $form = $this->container->get('form.factory')->create($type, array('company' => 'Acme', 
-                                                                           'bundle' => 'WebSiteBundle', 
+        $form = $this->container->get('form.factory')->create($type, array('company' => 'Acme',
+                                                                           'bundle' => 'WebSiteBundle',
                                                                            'host' => 'localhost',
                                                                            'database' => 'alphalemon_composer_20',
                                                                            'user' => 'root',
@@ -46,8 +46,8 @@ class InstallerController extends Controller
         if ('POST' === $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $data = $form->getData(); 
-                
+                $data = $form->getData();
+
                 $dsn = $data['dsn'];
                 if (trim($data['dsn']) == "") {
                     switch($data['driver']) {
@@ -59,17 +59,20 @@ class InstallerController extends Controller
                             break;
                     }
                 }
-                
+
                 if(!empty($dsn)) {
                    try {
-                        $installer = new Installer($this->container->getParameter('kernel.root_dir') . '/../vendor');
-                        $installer->install($data['company'], $data['bundle'], $dsn, $data['database'], $data['user'], $data['password'], $data['driver']);
+                       $connection = new \PropelPDO($dsn, $this->user, $this->password);
+                       $orm = new AlPropelOrm($connection);
 
-                        return new RedirectResponse('/alcms.php/backend/en/index');
+                       $installer = new Installer($this->container->getParameter('kernel.root_dir') . '/../vendor', $orm);
+                       $installer->install($data['company'], $data['bundle'], $dsn, $data['database'], $data['user'], $data['password'], $data['driver']);
+
+                       return new RedirectResponse('/alcms.php/backend/en/index');
                     }
                     catch(\Exception $ex) {
-                        $this->get('session')->setFlash('error', $ex->getMessage());
-                    } 
+                       $this->get('session')->setFlash('error', $ex->getMessage());
+                    }
                 }
                 else {
                     $this->get('session')->setFlash('error', "It seems that any data source has been configured");

@@ -1,1 +1,4 @@
-/Resources/public/css/lib/.sass-cache/
+/nbproject/
+/vendor/
+/composer.phar
+/composer.lock

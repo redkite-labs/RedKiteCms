@@ -1,0 +1,5 @@
+_assetic:
+    resource: .
+    type: assetic
+_app:
+    resource: /home/giansimon/bundles/AlphaLemon/CmsInstallerBundle/Tests/Functional/project/app/config/routing_dev.yml

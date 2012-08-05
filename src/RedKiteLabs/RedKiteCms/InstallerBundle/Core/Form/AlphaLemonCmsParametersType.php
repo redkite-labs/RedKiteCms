@@ -10,15 +10,15 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\CmsInstallerBundle\Core\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * AlphaLemonCms Form Type.
@@ -27,11 +27,11 @@ use Symfony\Component\Form\FormBuilder;
  */
 class AlphaLemonCmsParametersType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('company', 'text')
-            ->add('bundle', 'text')     
+            ->add('bundle', 'text')
             ->add('driver', 'choice', array('choices' => array('mysql' => 'mysql', 'pgsql' => 'postgres', 'other' => 'other')))
             ->add('host', 'text')
             ->add('database', 'text')
@@ -44,7 +44,7 @@ class AlphaLemonCmsParametersType extends AbstractType
                 'second_name'     => 'password_again',
                 'invalid_message' => 'The password fields must match.',
             ))
-            ->add('dsn', 'text', array('required' => false)) 
+            ->add('dsn', 'text', array('required' => false))
         ;
     }
 
