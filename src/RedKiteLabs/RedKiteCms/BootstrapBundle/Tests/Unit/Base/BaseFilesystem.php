@@ -38,11 +38,12 @@ class BaseFilesystem extends TestCase
         mkdir(vfsStream::url($folder), $permissions, true);
     }
 
-    protected function createBundle($bundleFolder, $bundleName, $autoload = null)
+    protected function createBundle($bundleFolder, $bundleName, $autoload = null, $namespace = null)
     {
+        $namespace = (null === $namespace) ? 'AlphaLemon\Block' : $namespace;
         $this->createFolder($bundleFolder);
         $class = '<?php' . PHP_EOL;
-        $class .= sprintf('namespace AlphaLemon\Block\%s;', $bundleName) . PHP_EOL;
+        $class .= sprintf('namespace %s\%s;', $namespace, $bundleName) . PHP_EOL;
         $class .= 'use Symfony\Component\HttpKernel\Bundle\Bundle;' . PHP_EOL;
         $class .= sprintf('class %s extends Bundle', $bundleName) . PHP_EOL;
         $class .= '{' . PHP_EOL;

@@ -219,7 +219,7 @@ class BundlesAutoloader
         foreach ($map as $namespace => $path) {
             $dir = $path . str_replace('\\', '/', $namespace);
             $bundleName = $this->getBundleName($dir);
-
+            
             // The bundle is inclued only when the autoloader.json file exists
             if (null !== $bundleName && $this->hasAutoloader($dir)) {
                 // Instantiates the autoload
@@ -315,7 +315,7 @@ class BundlesAutoloader
      * @return string
      */
     protected function getBundleName($path)
-    {//
+    {
         if (is_dir($path)) {
             $finder = new Finder();
             $bundles = $finder->files()->depth(0)->name('*Bundle.php')->in($path);

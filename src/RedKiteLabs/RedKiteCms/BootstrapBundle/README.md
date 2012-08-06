@@ -1,5 +1,8 @@
 # AlphaLemonBootstrapBundle
-AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle
+AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer could add
+an autoloader.json file to its Bundle and configure it to autoload the bundle
+
+The responsibility to configure the bundle
 is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.
 
 [![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapBundle.png)](http://travis-ci.org/alphalemon/BootstrapBundle)
@@ -12,9 +15,9 @@ To install the AlphaLemonBootstrapBundle, simply require it in your composer.jso
         "alphalemon/alphalemon-bootstrap-bundle": "dev-master"
     }
 
-then update the packages:
+then install/update the packages:
 
-    php composer.phar install
+    php composer.phar install/update
 
 At last the bundle must be added to the AppKernel.php file:
 
@@ -27,60 +30,107 @@ At last the bundle must be added to the AppKernel.php file:
         );
     }
 
+
 ## The autoload.json file
-The autoload.json file is a very basic json implementation, structured as follows:
+The autoload.json file must be placed into the root of the bundle you want to autoload. It is made by two sections:
+
+- bundles (mandatory)
+- actionManager
+
+The mandatory **bundles** section contains the bundles you want to autoload. Let's see a very basic example:
 
     {
         "bundles" : {
+            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
+        }
+    }
+	
+This autoloads the BusinessDropCapBundle for all the environments.
+
+### Environments
+Sometimes it could be useful to autoload a bundle for certains environments, so a simple configuration could be added for the bundle
+as follows:
+
+	 {
+        "bundles" : {
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
-                "environments" : ["alcms", "alcms_dev", "test"]
-            }
-        },
-        "scripts" : {
-            "package-installed" : "\\AlphaLemon\\Block\\BusinessDropCapBundle\\Core\\Listener\\TestListener",
-            "package-uninstalled" : "\\AlphaLemon\\Block\\BusinessDropCapBundle\\Core\\Listener\\TestListener"
+				"environments" : ["dev", "test"]
+			}
+        }
+    }
+	
+The **environments** option enables the bundle only for the specified environments. In the example above, the BusinessDropCapBundle 
+is enabled only for the dev and test enviroments.
+
+### The all keyword
+To specifiy all the enviroments you can use the **all** keyword:
+
+	{
+        "bundles" : {
+            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
+				"environments" : ["all"]
+			}
+        }
+    }
+	
+This example is equivalent to the very first one.
+
+### The **overrides** options
+Sometimes it could happen that a bundle overrides a part of another bundle. In this specific case the overrider bundle must be declared
+after the overriden one. The **overrides** option can be used to achieve this task:
+
+	{
+        "bundles" : {
+            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
+				"environments" : ["dev", "test"],
+				"overrides" : ["BusinessCarouselBundle"]
+			}
+        }
+    }
+	
+The bundles order will be resolved instantiating the BusinessCarouselBundle before the BusinessDropCapBundle
+
+### Autoloading a bundle without the autoloader.json file	
+You might wonder why we are talking about "bundles" and not just "bundle". This is quite simple to explain, in fact you could autoload a bundle without
+the autoloader.json file.
+
+Let's suppose the BusinessCarouselBundle has not the autoloader.json file and the BusinessDropCapBundle requires it. You can
+write the BusinessDropCapBundle's autoloader as follows to autoload it:
+
+	{
+        "bundles" : {
+            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
+				"environments" : ["dev", "test"]
+			},
+			"AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle" : ""
         }
     }
 
-There are two possible sections:
+If you need to enable it for specific environments, you just  have to add the **environments** option as explained above.
 
-- bundles
-- scripts
+### Execute and action when the package is installed or uninstalled
+When you need to execute some actions after the package is installed or uninstalled, you have to add a class that extends the 
+**ActionManager** object and that implements the **ActionManagerInterface**. This last one requires four methods which are:
 
-### Bundles section
-The bundles section declares the bundles that must be autoloaded and configured.
+	packageInstalledPreBoot
+    packageUninstalledPreBoot
+    packageInstalledPostBoot
+    packageUninstalledPostBoot
+	
+The **ActionManager** class implemements all those methods as blank methods because all of them are always executed, so
+the only thing you have to do is to extend the **ActionManager** object and override the method you need.
 
-Each bundle must have an **environments section** where the bundle's author must declare the environments where the bundle will be enabled.
-Environments could be an array, as in the example above, or a string when a single environment is managed. A bundle is enable for all the
-environments giving the **all** value.
+Let's see the actions in detail. The most important thing to notice is when the action is executed: there are two actions that are suffixed by 
+**PreBoot** and two actions that are suffixed by **PostBoot**. The difference is quite important, in fact the first actions are executed when
+the kernel is not booted, the second ones when it has been booted and they receive the container as well.
 
-### Scripts section
-The scripts section let the bundles author to define a custom action that will be executed when a bundle is installed or uninstalled. The possibile
-values could be the following:
+To declare your ActionManager class in your autoloader.json file, you just need to specify that class to the actionManager section as follows:
 
-- package-installed
-- package-uninstalled
-
-The value must be the full namespaced path to the listener that implements the script action. The listener for the declared action could be the following:
-
-    namespace AlphaLemon\Block\BusinessDropCapBundle\Core\Listener;
-
-    use AlphaLemon\BootstrapBundle\Core\Event\PackageInstalledEvent;
-    use AlphaLemon\BootstrapBundle\Core\Event\PackageUninstalledEvent;
-
-    /**
-     * Executes some actions when a package is installed or uninstalled
-     */
-    class TestListener
-    {
-        public function onPackageInstalled(PackageInstalledEvent $event)
-        {
-            echo "<br>TestListener installed<br>";
-        }
-
-        public function onPackageUninstalled(PackageUninstalledEvent $event)
-        {
-            echo "<br>TestListener uninstalled<br>";
+	{
+        "bundles" : {
+            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
+        },
+        "actionManager" : "\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"
         }
     }
 
@@ -122,14 +172,14 @@ a new **BundlesAutoloader** object, as follows:
     {
         [...]
 
-        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader($this->getEnvironment(), $bundles);
+        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->getBundles();
 
         return $bundles;
     }
 
-That object requires the current environment and the instantiated bundles. Then bundles are retrieved by the **getBundles** method and
-returned as asual.
+That object requires the kernel dir, the one where the AppKernel is placed, the current environment and the instantiated bundles. Then bundles 
+are retrieved by the **getBundles** method and returned as usual.
 
 To load the configurations from the app/config/bundles folder, the **registerContainerConfiguration** must be changed as follows:
 
@@ -146,38 +196,3 @@ To load the configurations from the app/config/bundles folder, the **registerCon
     }
 
 That's enough to autoload all the bundles that have an autoload file
-
-## Autoload a bundle that hasn't an autoload.json file
-Each bundle can be always autoloaded also if any autoload.json is provided. The following json enables the **WebProfilerBundle** bundle
-for the alcms_dev environment:
-
-    {
-        "bundles" : {
-            "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {
-                "environments" : ["alcms_dev"]
-            }
-        }
-    }
-
-
-## Force a bundle to be loaded just for one or more environments
-Many bundles comes configured as follows:
-
-    {
-        "bundles" : {
-            "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
-                "environments" : "all"
-            }
-        }
-    }
-
-AlphaLemonCMS requires the ElFinder bundle but it must be enabled just for the environments that manages the backed. To do that the AlphaLemonCMS' autoload.json
-will declare the ElFinder bundle as follows:
-
-    {
-        "bundles" : {
-            "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
-                "environments" : ["alcms", "alcms_dev", "test"]
-            }
-        }
-    }
