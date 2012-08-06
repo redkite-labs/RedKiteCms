@@ -7,14 +7,16 @@
     <parameters>
         <parameter key="bootstrap.routing.loader.class">AlphaLemon\BootstrapBundle\Core\Loader\RoutingLoader</parameter>
         <parameter key="bootstrap.post_actions.class">AlphaLemon\BootstrapBundle\Core\Listener\ExecutePostActionsListener</parameter>
+        <parameter key="alphalemon_bootstrap.routing_dir">%kernel.root_dir%/config/bundles/routing</parameter>
     </parameters>
 
     <services>
         <service id="acme.routing_loader" class="%bootstrap.routing.loader.class%">
             <argument type="service" id="file_locator" />
+            <argument type="string">%alphalemon_bootstrap.routing_dir%</argument>
             <tag name="routing.loader" />
         </service>
-        
+
         <service id="bootstrap.post_actions" class="%bootstrap.post_actions.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="99999" />
             <argument type="service" id="service_container" />

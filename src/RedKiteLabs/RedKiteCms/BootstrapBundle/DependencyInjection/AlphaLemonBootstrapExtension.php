@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://alphalemon.com
- * 
+ *
  * @license    MIT License
  */
 
@@ -38,5 +38,9 @@ class AlphaLemonBootstrapExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        if (isset($config['routing_dir'])) {
+            $container->setParameter('alphalemon_bootstrap.routing_dir', $config['routing_dir']);
+        }
     }
 }

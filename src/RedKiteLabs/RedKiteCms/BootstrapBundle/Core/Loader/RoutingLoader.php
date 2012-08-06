@@ -28,6 +28,17 @@ use Symfony\Component\Finder\Finder;
  */
 class RoutingLoader extends YamlFileLoader
 {
+    private $routingDir;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(FileLocatorInterface $locator, $routingDir)
+    {
+        parent::__construct($locator);
+
+        $this->routingDir = $routingDir;
+    }
 
     /**
      * {@inheritdoc}
@@ -35,11 +46,8 @@ class RoutingLoader extends YamlFileLoader
     public function load($resource, $type = null)
     {
         $collection = new RouteCollection();
-
-        //$routingFolder = __DIR__ . '/../../../../../../../app/config/bundles/routing';
-        $routingFolder = __DIR__ . '/../../../../../../../Tests/Functional/app/config/bundles/routing';
         $finder = new Finder();
-        $configs = $finder->depth(0)->name('*.yml')->in($routingFolder);
+        $configs = $finder->depth(0)->name('*.yml')->in($this->routingDir);
         foreach($configs as $config) {
             $routingConfig = (string)$config;
             $collection->addCollection(parent::load($routingConfig));
