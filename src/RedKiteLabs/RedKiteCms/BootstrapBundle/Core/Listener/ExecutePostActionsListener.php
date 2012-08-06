@@ -4,7 +4,7 @@ namespace AlphaLemon\BootstrapBundle\Core\Listener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use AlphaLemon\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface;
+use AlphaLemon\BootstrapBundle\Core\Script\Factory as ScriptFactory;
 
 /**
  * Executes the post action
@@ -20,12 +20,12 @@ class ExecutePostActionsListener
      * @param ContainerInterface $container
      * @param ScriptFactoryInterface $scriptFactory 
      */
-    public function __construct(ContainerInterface $container, ScriptFactoryInterface $scriptFactory = null)
+    public function __construct(ContainerInterface $container, ScriptFactory\ScriptFactoryInterface $scriptFactory = null)
     {
         $this->container = $container;
 
         $this->basePath = $this->container->getParameter('kernel.root_dir') . '/config/bundles';
-        $this->scriptFactory = (null === $scriptFactory) ? new ScriptFactory($this->basePath) : $scriptFactory;
+        $this->scriptFactory = (null === $scriptFactory) ? new ScriptFactory\ScriptFactory($this->basePath) : $scriptFactory;
     }
 
     /**

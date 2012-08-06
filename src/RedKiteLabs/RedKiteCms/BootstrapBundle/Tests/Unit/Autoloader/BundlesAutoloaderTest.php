@@ -228,7 +228,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
     }
 
-    public function testAnOverridedBundleIsPladedAfterTheOneHowOverrideIt()
+    public function testAnOverridedBundleIsPlacedAfterTheOneHowOverrideIt()
     {
         $this->createAutoloadNamespacesFile();
 

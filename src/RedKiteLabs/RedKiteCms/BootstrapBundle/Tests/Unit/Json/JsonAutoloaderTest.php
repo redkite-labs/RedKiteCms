@@ -36,10 +36,10 @@ class JsonAutoloaderTest extends TestCase
 
         $this->root = vfsStream::setup('root');
     }
-    
+
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException 
-     * @expectedExceptionMessage The json file %s is malformed. Please check the file syntax to fix the problem
+     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException
+     * @expectedExceptionMessage The json file vfs://root/autoload.json is malformed. Please check the file syntax to fix the problem
      */
     public function testAnExceptionIsThrownWhenTheJsonIsMalformed()
     {
@@ -50,13 +50,13 @@ class JsonAutoloaderTest extends TestCase
         $jsonAutoload .= '    }' . PHP_EOL;
         $jsonAutoload .= '  }' . PHP_EOL;
         file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
-        
+
         $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
     }
-    
+
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException 
-     * @expectedExceptionMessage The json file %s requires the bundles section. Please add that section to fix the problem
+     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException
+     * @expectedExceptionMessage The json file vfs://root/autoload.json requires the bundles section. Please add that section to fix the problem
      */
     public function testAnExceptionIsThrownWhenTheBundlesSectionDoesNotExists()
     {
@@ -68,7 +68,7 @@ class JsonAutoloaderTest extends TestCase
         $jsonAutoload .= '  }' . PHP_EOL;
         $jsonAutoload .= '}';
         file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
-        
+
         $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
     }
 
@@ -83,19 +83,35 @@ class JsonAutoloaderTest extends TestCase
         $jsonAutoload .= '  }' . PHP_EOL;
         $jsonAutoload .= '}';
         file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
-        
+
         $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
         $bundles = $autoload->getBundles();
         $this->assertEquals(1, count($bundles));
         $this->assertArrayHasKey('all', $bundles);
         $this->assertEquals(1, count($bundles['all']));
-        
+
         $bundle = $bundles['all'][0];
-        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());        
+        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());
         $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
     }
-    
+
+    public function testWhenAnyEnvironmentIsSpecifiedBundleIsEnabledForAllEnvironments()
+    {
+        $jsonAutoload = '{' . PHP_EOL;
+        $jsonAutoload .= '  "bundles" : {' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : ""' . PHP_EOL;
+        $jsonAutoload .= '  }' . PHP_EOL;
+        $jsonAutoload .= '}';
+        file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
+
+        $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
+        $bundles = $autoload->getBundles();
+        $this->assertEquals(1, count($bundles));
+        $this->assertArrayHasKey('all', $bundles);
+        $this->assertEquals(1, count($bundles['all']));
+    }
+
     public function testJsonFileWithActionManager()
     {
         $jsonAutoload = '{' . PHP_EOL;
@@ -108,24 +124,24 @@ class JsonAutoloaderTest extends TestCase
         $jsonAutoload .= '  "actionManager" : "\\\\AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"' . PHP_EOL;
         $jsonAutoload .= '}';
         file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
-        
+
         $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
         $bundles = $autoload->getBundles();
         $this->assertEquals(2, count($bundles));
         $this->assertArrayHasKey('prod', $bundles);
         $this->assertArrayHasKey('dev', $bundles);
-        $this->assertEquals(1, count($bundles['prod']));        
+        $this->assertEquals(1, count($bundles['prod']));
         $this->assertEquals(1, count($bundles['dev']));
-        
-        $bundle = $bundles['prod'][0];        
-        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());        
+
+        $bundle = $bundles['prod'][0];
+        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());
         $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
-        $bundle = $bundles['dev'][0];        
-        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());        
+        $bundle = $bundles['dev'][0];
+        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());
         $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
-        $this->assertEquals('\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel', $autoload->getActionManagerClass());        
-        
+        $this->assertEquals('\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel', $autoload->getActionManagerClass());
+
     }
 }
