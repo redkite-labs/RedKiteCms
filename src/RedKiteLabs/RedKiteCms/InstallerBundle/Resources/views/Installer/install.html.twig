@@ -6,9 +6,9 @@
    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
 
    For the full copyright and license information, please view the LICENSE
-   file that was distributed with this source code. 
+   file that was distributed with this source code.
 
-   For extra documentation and help please visit http://www.alphalemon.com 
+   For extra documentation and help please visit http://www.alphalemon.com
 
    @license    GPL LICENSE Version 2.0
 #}
@@ -32,15 +32,15 @@
 
 {% block internal_header_stylesheets %}
     <script>
-    $(document).ready(function(){ 
-        
+    $(document).ready(function(){
+
         setByDriver($('#alphalemon_cms_parameters_driver').val());
-        $('#alphalemon_cms_parameters_driver').change(function(){            
-            
+        $('#alphalemon_cms_parameters_driver').change(function(){
+
             setByDriver($(this).val());
             return false;
         });
-        
+
         function setByDriver(driver) {
             switch(driver) {
                 case 'mysql':
@@ -61,7 +61,7 @@
             $('#al_db_standard_section').hide();
             $('#al_db_dsn_section').show();
         }
-        
+
         function showStandardDbParams() {
             $('#alphalemon_cms_parameters_dsn').val('');
             $('#al_db_standard_section').show();
@@ -97,7 +97,7 @@
             <div class="al_column">
             {{ form_row(form.bundle) }}
             </div>
-            <div class="al_clear"></div>          
+            <div class="al_clear"></div>
         </div>
         <div>
             <h2>Database</h2>

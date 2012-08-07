@@ -1,0 +1,60 @@
+imports:
+    - { resource: config.yml }
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+
+assetic:
+    use_controller: true
+    
+#alpha_lemon_cms:
+    # skin: alphaLemon
+    # page_blocks:
+        #BundleName: Bundle description
+    #   Markdown: Markdown file
+      
+    # stylesheets:
+    #     0: path/to/stylesheet
+    #     1: path/to/stylesheet
+        
+    # javascripts:
+    #     0: path/to/javascript
+    #     1: path/to/javascript
+        
+    # deploy:
+    #     xliff_skeleton: AlphaLemonCmsBundle/Resources/data/xml/xliff-skeleton.xml
+    #     xml_skeleton: AlphaLemonCmsBundle/Resources/data/xml/page-skeleton.xml
+        
+    # assets:
+    #     skeletons_folder: AlphaLemonCmsBundle/Resources/data/assets
+    #     output_folder: Resources/views/Assets
+    
+framework:
+    router:   { resource: "%kernel.root_dir%/config/routing_alcms.yml" }
+    
+alpha_lemon_theme_engine:
+    base_theme_manager_template: AlphaLemonCmsBundle:Themes:index.html.twig
+    render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
+    theme_skeleton_template: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
+
+propel:
+    path:       "%kernel.root_dir%/../vendor/propel/propel1"
+    phing_path: "%kernel.root_dir%/../vendor/phing/phing"
+
+    dbal:
+        driver:               mysql
+        user:                 root
+        password:             
+        dsn:                  mysql:host=localhost;port=3306;dbname=alphalemon_test
+        options:              {}
+        attributes:           {}
+        default_connection:   default
+

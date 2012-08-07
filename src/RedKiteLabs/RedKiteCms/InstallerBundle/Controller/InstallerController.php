@@ -62,15 +62,12 @@ class InstallerController extends Controller
 
                 if(!empty($dsn)) {
                    try {
-                       $connection = new \PropelPDO($dsn, $this->user, $this->password);
-                       $orm = new AlPropelOrm($connection);
-
-                       $installer = new Installer($this->container->getParameter('kernel.root_dir') . '/../vendor', $orm);
+                       $installer = new Installer($this->container->getParameter('kernel.root_dir') . '/../vendor');
                        $installer->install($data['company'], $data['bundle'], $dsn, $data['database'], $data['user'], $data['password'], $data['driver']);
 
                        return new RedirectResponse('/alcms.php/backend/en/index');
                     }
-                    catch(\Exception $ex) {
+                    catch(\Exception $ex) {echo $ex->getMessage();
                        $this->get('session')->setFlash('error', $ex->getMessage());
                     }
                 }

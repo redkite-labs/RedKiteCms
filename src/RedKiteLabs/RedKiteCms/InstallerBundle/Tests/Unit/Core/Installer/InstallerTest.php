@@ -208,7 +208,7 @@ class InstallerTest extends TestCase
 
         $appKernelContents = file_get_contents(vfsStream::url('root/app/AppKernel.php'));
         $this->assertRegExp("/AlphaLemon\\\\BootstrapBundle\\\\AlphaLemonBootstrapBundle\(\),/s", $appKernelContents);
-        $this->assertRegExp('/\$bootstrapper = new \\\\AlphaLemon\\\\BootstrapBundle\\\\Core\\\\Autoloader\\\\BundlesAutoloader\(\$this-\>getEnvironment\(\), \$bundles\);/s', $appKernelContents);
+        $this->assertRegExp('/\$bootstrapper = new \\\\AlphaLemon\\\\BootstrapBundle\\\\Core\\\\Autoloader\\\\BundlesAutoloader\(__DIR__, \$this-\>getEnvironment\(\), \$bundles\);/s', $appKernelContents);
         $this->assertRegExp('/\$bundles = \$bootstrapper-\>getBundles\(\);/s', $appKernelContents);
         $this->assertRegExp('/\$configFolder = __DIR__ . \'\/config\/bundles\/config\';/s', $appKernelContents);
 

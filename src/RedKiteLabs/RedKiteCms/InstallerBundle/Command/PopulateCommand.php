@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\CmsInstallerBundle\Command;
@@ -31,6 +31,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
+
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer;
 
 /**
  * Populates the database after a fresh install
@@ -56,42 +61,45 @@ class PopulateCommand extends ContainerAwareCommand
 
     /**
      * @see Command
-     * 
+     *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
-        
-        $queries = array('TRUNCATE al_block;',
-                         'TRUNCATE al_language;',
-                         'TRUNCATE al_page;',
-                         'TRUNCATE al_page_attribute;',
-                         'TRUNCATE al_theme;',
-                         'TRUNCATE al_user;',
-                         'TRUNCATE al_role;',
-                         'INSERT INTO al_language (language) VALUES(\'-\');',
-                         'INSERT INTO al_page (page_name) VALUES(\'-\');',
-                        );
-        
+
+        $queries = array(
+            'TRUNCATE al_block;',
+            'TRUNCATE al_language;',
+            'TRUNCATE al_page;',
+            'TRUNCATE al_page_attribute;',
+            'TRUNCATE al_theme;',
+            'TRUNCATE al_user;',
+            'TRUNCATE al_role;',
+            'INSERT INTO al_language (language) VALUES(\'-\');',
+            'INSERT INTO al_page (page_name) VALUES(\'-\');',
+
+            // This query will be removed when themes management would be setted up
+            'INSERT INTO al_theme (theme_name, active) VALUES(\'BusinessWebsiteThemeBundle\', 1);',
+        );
+
         foreach($queries as $query)
         {
             $statement = $connection->prepare($query);
             $statement->execute();
         }
-        
-        $themeName = "BusinessWebsiteThemeBundle";
-        $this->getContainer()->get('al_page_tree')->setThemeName($themeName);
-        
+
+        /* TODO Users management
+
         $adminRoleId = 0;
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
             $alRole = new AlRole();
             $alRole->setRole($role);
             $alRole->save();
-            
+
             if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
         }
-        
+
         $user = new AlUser();
         $encoder = new MessageDigestPasswordEncoder();
         $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
@@ -100,29 +108,40 @@ class PopulateCommand extends ContainerAwareCommand
         $user->setSalt($salt);
         $user->setPassword($password);
         $user->setRoleId($adminRoleId);
-        $user->setUsername('admin');                
+        $user->setUsername('admin');
         $user->setEmail('');
         $user->save();
-        
-        $themeManager = new AlThemeManager($this->getContainer());
-        $themeManager->add(array('name' => $themeName, 'active' => 1));
-        
-        $languageManager = new AlLanguageManager($this->getContainer());
-        $languageManager->save(array('language' => 'en'));
-        
-        $pageManager = new AlPageManager($this->getContainer());
-        $pageManager->save(array('pageName' => 'index',
-                                 'template' => 'home',
-                                 'permalink' => 'homepage',
-                                 'title' => 'A website made with AlphaLemon CMS',
-                                 'description' => 'Website homepage',
-                                 'keywords' => '',
-                              ));
-        
-        $this->getContainer()->get('al_page_tree')->setup($languageManager->get(), $pageManager->get());
+        */
+
+        $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
+        $languageManager = new AlLanguageManager($this->getContainer()->get('event_dispatcher'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
+        $languageManager->set(null)->save(
+            array(
+                'Language'      => 'en',
+            ));
+
+        $themes = $this->getContainer()->get('alphalemon_theme_engine.themes');
+        $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
+        $template = $theme->getTemplate('home');
+
+        $pageContentsContainer = new AlPageBlocks($this->getContainer()->get('event_dispatcher'), $factoryRepository);
+        $templateManager = new AlTemplateManager($this->getContainer()->get('event_dispatcher'), $factoryRepository, $template, $pageContentsContainer, $this->getContainer()->get('alphalemon_cms.block_manager_factory'));
+        $templateManager->refresh();
+
+        $pageManager = new AlPageManager($this->getContainer()->get('event_dispatcher'), $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
+        $pageManager->set(null)->save(
+            array(
+                'PageName' => 'index',
+                'TemplateName' => 'home',
+                'Permalink' => 'homepage',
+                'MetaTitle' => 'A website made with AlphaLemon CMS',
+                'MetaDescription' => 'Website homepage',
+                'MetaKeywords' => '',
+            ));
+
         try
         {
-            $deployer = new \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlXmlDeployer($this->getContainer());
+            $deployer = new AlTwigDeployer($this->getContainer());
             $deployer->deploy();
         }
         catch(\Exception $ex)

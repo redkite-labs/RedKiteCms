@@ -1,0 +1,1914 @@
+[
+    {
+        "name": "doctrine/common",
+        "version": "2.3.x-dev",
+        "version_normalized": "2.3.9999999.9999999-dev",
+        "time": "2012-08-01 14:51:16",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/common",
+            "reference": "2ec4bc6db13db6a0976a16b71058083c55cbcdbd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/doctrine/common/zipball/2ec4bc6db13db6a0976a16b71058083c55cbcdbd",
+            "reference": "2ec4bc6db13db6a0976a16b71058083c55cbcdbd",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com",
+                "homepage": "http://www.jwage.com/",
+                "role": null
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com",
+                "homepage": "https://github.com/schmittjoh",
+                "role": null
+            }
+        ],
+        "description": "Common Library for Doctrine projects",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "collections",
+            "spl",
+            "eventmanager",
+            "annotations",
+            "persistence"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Doctrine\\Common": "lib/"
+            }
+        }
+    },
+    {
+        "name": "twig/twig",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-07-28 06:32:13",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/fabpot/Twig.git",
+            "reference": "51c866f415bbee670cd9ba13591307bce8dabdca"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/fabpot/Twig/zipball/51c866f415bbee670cd9ba13591307bce8dabdca",
+            "reference": "51c866f415bbee670cd9ba13591307bce8dabdca",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.9-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "BSD-3"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Armin Ronacher",
+                "email": "armin.ronacher@active-4.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "Twig, the flexible, fast, and secure template language for PHP",
+        "homepage": "http://twig.sensiolabs.org",
+        "keywords": [
+            "templating"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Twig_": "lib/"
+            }
+        }
+    },
+    {
+        "name": "symfony/symfony",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-08-03 10:48:44",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/symfony/symfony.git",
+            "reference": "be41ca353b8b69148d7993e3d7006733ff8dfff7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/symfony/symfony/zipball/be41ca353b8b69148d7993e3d7006733ff8dfff7",
+            "reference": "be41ca353b8b69148d7993e3d7006733ff8dfff7",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/common": ">2.2,<2.4-dev",
+            "php": ">=5.3.3",
+            "twig/twig": ">=1.9.1,<2.0-dev"
+        },
+        "replace": {
+            "symfony/doctrine-bridge": "self.version",
+            "symfony/monolog-bridge": "self.version",
+            "symfony/twig-bridge": "self.version",
+            "symfony/framework-bundle": "self.version",
+            "symfony/security-bundle": "self.version",
+            "symfony/twig-bundle": "self.version",
+            "symfony/web-profiler-bundle": "self.version",
+            "symfony/browser-kit": "self.version",
+            "symfony/class-loader": "self.version",
+            "symfony/config": "self.version",
+            "symfony/console": "self.version",
+            "symfony/css-selector": "self.version",
+            "symfony/dependency-injection": "self.version",
+            "symfony/dom-crawler": "self.version",
+            "symfony/event-dispatcher": "self.version",
+            "symfony/filesystem": "self.version",
+            "symfony/finder": "self.version",
+            "symfony/form": "self.version",
+            "symfony/http-foundation": "self.version",
+            "symfony/http-kernel": "self.version",
+            "symfony/locale": "self.version",
+            "symfony/process": "self.version",
+            "symfony/routing": "self.version",
+            "symfony/security": "self.version",
+            "symfony/serializer": "self.version",
+            "symfony/templating": "self.version",
+            "symfony/translation": "self.version",
+            "symfony/validator": "self.version",
+            "symfony/yaml": "self.version",
+            "symfony/propel1-bridge": "self.version",
+            "symfony/options-resolver": "self.version",
+            "symfony/swiftmailer-bridge": "self.version"
+        },
+        "require-dev": {
+            "doctrine/data-fixtures": "1.0.*",
+            "propel/propel1": "dev-master",
+            "monolog/monolog": "dev-master",
+            "doctrine/dbal": ">=2.2,<2.4-dev",
+            "doctrine/orm": ">=2.2.3,<2.4-dev"
+        },
+        "suggest": {
+            "doctrine/data-fixtures": "1.0.*"
+        },
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Symfony Community",
+                "email": null,
+                "homepage": "http://symfony.com/contributors",
+                "role": null
+            }
+        ],
+        "description": "The Symfony PHP framework",
+        "homepage": "http://symfony.com",
+        "keywords": [
+            "framework"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Symfony": "src/",
+                "SessionHandlerInterface": "src/Symfony/Component/HttpFoundation/Resources/stubs"
+            }
+        }
+    },
+    {
+        "name": "phing/phing",
+        "version": "2.4.12",
+        "version_normalized": "2.4.12.0",
+        "time": "2012-04-06 16:33:25",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phingofficial/phing",
+            "reference": "2.4.12"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/phingofficial/phing/zipball/2.4.12",
+            "reference": "2.4.12",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "type": "library",
+        "installation-source": "dist",
+        "license": [
+            "LGPL3"
+        ],
+        "authors": [
+            {
+                "name": "Michiel Rook",
+                "email": "mrook@php.net",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Phing Community",
+                "email": null,
+                "homepage": "http://www.phing.info/trac/wiki/Development/Contributors",
+                "role": null
+            }
+        ],
+        "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
+        "homepage": "http://www.phing.info/",
+        "keywords": [
+            "build",
+            "task",
+            "tool"
+        ],
+        "autoload": {
+            "classmap": [
+                "classes/phing/"
+            ]
+        }
+    },
+    {
+        "name": "propel/propel1",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-08-03 23:05:28",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/propelorm/Propel",
+            "reference": "20460221f2a29cbac590458715fe182e5c13cf63"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/propelorm/Propel/zipball/20460221f2a29cbac590458715fe182e5c13cf63",
+            "reference": "20460221f2a29cbac590458715fe182e5c13cf63",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4",
+            "phing/phing": ">=2.4.12,2.4.*"
+        },
+        "bin": [
+            "generator/bin/propel-gen",
+            "generator/bin/propel-gen.bat"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.6-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "William Durand",
+                "email": "william.durand1@gmail.com",
+                "homepage": "http://www.willdurand.fr",
+                "role": null
+            }
+        ],
+        "description": "Propel is an open-source Object-Relational Mapping (ORM) for PHP5.",
+        "homepage": "http://www.propelorm.org/",
+        "keywords": [
+            "database",
+            "orm",
+            "persistence",
+            "Active Record",
+            "mapping"
+        ],
+        "autoload": {
+            "classmap": [
+                "runtime/lib",
+                "generator/lib"
+            ]
+        },
+        "include-path": [
+            "runtime/lib",
+            "generator/lib"
+        ]
+    },
+    {
+        "name": "propel/propel-bundle",
+        "version": "1.1.x-dev",
+        "version_normalized": "1.1.9999999.9999999-dev",
+        "target-dir": "Propel/PropelBundle",
+        "time": "2012-07-26 05:17:36",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/propelorm/PropelBundle",
+            "reference": "4980f54b6ea0b1ad906d230e6b51f998e64bf6d5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/propelorm/PropelBundle/zipball/4980f54b6ea0b1ad906d230e6b51f998e64bf6d5",
+            "reference": "4980f54b6ea0b1ad906d230e6b51f998e64bf6d5",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/symfony": "2.1.*",
+            "propel/propel1": "1.6.*"
+        },
+        "require-dev": {
+            "sensio/framework-extra-bundle": "dev-master",
+            "fzaninotto/faker": "dev-master"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "William Durand",
+                "email": "william.durand1@gmail.com",
+                "homepage": "http://www.willdurand.fr",
+                "role": null
+            }
+        ],
+        "description": "Integration of Propel in Symfony2",
+        "keywords": [
+            "orm",
+            "persistence",
+            "propel"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Propel\\PropelBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/app-business-carousel-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/Block/BusinessCarouselBundle",
+        "time": "2012-07-24 03:57:14",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/BusinessCarouselBundle",
+            "reference": "7a89632352c16f5d35f18cdfc82dc5922f041304"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/BusinessCarouselBundle/zipball/7a89632352c16f5d35f18cdfc82dc5922f041304",
+            "reference": "7a89632352c16f5d35f18cdfc82dc5922f041304",
+            "shasum": ""
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "GPLv2"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "An AlphaLemon CMS app that adds a cool carousel content type and the related editor to manage it",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "cms",
+            "alphalemon",
+            "app"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\Block\\BusinessCarouselBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/app-business-slider-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/Block/BusinessSliderBundle",
+        "time": "2012-07-20 14:05:52",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/BusinessSliderBundle",
+            "reference": "e655bafd12e3144860283c955893821185c8e106"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/BusinessSliderBundle/zipball/e655bafd12e3144860283c955893821185c8e106",
+            "reference": "e655bafd12e3144860283c955893821185c8e106",
+            "shasum": ""
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "GPLv2"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "An AlphaLemon CMS app that adds a slider content type and the related editor to manage it",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "cms",
+            "alphalemon",
+            "app"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\Block\\BusinessSliderBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/app-business-menu-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/Block/BusinessMenuBundle",
+        "time": "2012-07-20 14:04:24",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/BusinessMenuBundle",
+            "reference": "e12b16a4e29b8e7eeb0879400c4b1ad43e67c9b7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/BusinessMenuBundle/zipball/e12b16a4e29b8e7eeb0879400c4b1ad43e67c9b7",
+            "reference": "e12b16a4e29b8e7eeb0879400c4b1ad43e67c9b7",
+            "shasum": ""
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "GPLv2"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "An AlphaLemon CMS app that adds a cool navigation menu content type and the related editor to manage it",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "cms",
+            "alphalemon",
+            "app"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\Block\\BusinessMenuBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/app-business-dropcap-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/Block/BusinessDropCapBundle",
+        "time": "2012-07-20 14:04:57",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/BusinessDropCapBundle",
+            "reference": "8de7ca0d67c2fcc27d418a272e74c9c1db319f5b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/BusinessDropCapBundle/zipball/8de7ca0d67c2fcc27d418a272e74c9c1db319f5b",
+            "reference": "8de7ca0d67c2fcc27d418a272e74c9c1db319f5b",
+            "shasum": ""
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "GPLv2"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "An AlphaLemon CMS app that adds a dropcap title content type and the related editor to manage it",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "cms",
+            "alphalemon",
+            "app"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\Block\\BusinessDropCapBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/business-website-theme-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/Theme/BusinessWebsiteThemeBundle",
+        "time": "2012-07-13 16:32:38",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/BusinessWebsiteTheme",
+            "reference": "481fbfb1508e8d5fbb2e282d21729f2faf18a256"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/BusinessWebsiteTheme/zipball/481fbfb1508e8d5fbb2e282d21729f2faf18a256",
+            "reference": "481fbfb1508e8d5fbb2e282d21729f2faf18a256",
+            "shasum": ""
+        },
+        "require": {
+            "alphalemon/app-business-dropcap-bundle": "dev-master",
+            "alphalemon/app-business-menu-bundle": "dev-master",
+            "alphalemon/app-business-slider-bundle": "dev-master",
+            "alphalemon/app-business-carousel-bundle": "dev-master"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "GPLv2"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "AlphaLemon CMS Template's Monster Business Website Theme porting",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "theme",
+            "cms",
+            "alphalemon",
+            "app"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\Theme\\BusinessWebsiteThemeBundle": ""
+            }
+        }
+    },
+    {
+        "name": "swiftmailer/swiftmailer",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-08-03 08:01:56",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/swiftmailer/swiftmailer.git",
+            "reference": "19045c3692f6f6ddb4abc5ebfaf3f86f1c57d265"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/swiftmailer/swiftmailer/zipball/19045c3692f6f6ddb4abc5ebfaf3f86f1c57d265",
+            "reference": "19045c3692f6f6ddb4abc5ebfaf3f86f1c57d265",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.2-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Chris Corbyn",
+                "email": "",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "Swiftmailer, free feature-rich PHP mailer",
+        "homepage": "http://swiftmailer.org",
+        "keywords": [
+            "mail",
+            "mailer"
+        ],
+        "autoload": {
+            "files": [
+                "lib/swift_required.php"
+            ]
+        }
+    },
+    {
+        "name": "monolog/monolog",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "time": "2012-04-23 16:27:40",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Seldaek/monolog.git",
+            "reference": "1.1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/Seldaek/monolog/zipball/1.1.0",
+            "reference": "1.1.0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "mlehner/gelf-php": "1.0.*"
+        },
+        "suggest": {
+            "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server"
+        },
+        "type": "library",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jordi Boggiano",
+                "email": "j.boggiano@seld.be",
+                "homepage": "http://seld.be",
+                "role": "Developer"
+            }
+        ],
+        "description": "Logging for PHP 5.3",
+        "homepage": "http://github.com/Seldaek/monolog",
+        "keywords": [
+            "log",
+            "logging"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Monolog": "src/"
+            }
+        }
+    },
+    {
+        "name": "jms/metadata",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "time": "2012-01-02 21:32:49",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/schmittjoh/metadata",
+            "reference": "1.1.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/schmittjoh/metadata/zipball/1.1.1",
+            "reference": "1.1.1",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "type": "library",
+        "installation-source": "dist",
+        "license": [
+            "Apache"
+        ],
+        "authors": [
+            {
+                "name": "Johannes M. Schmitt",
+                "email": "schmittjoh@gmail.com",
+                "homepage": "https://github.com/schmittjoh",
+                "role": null
+            }
+        ],
+        "description": "Class/method/property metadata management in PHP",
+        "keywords": [
+            "annotations",
+            "yaml",
+            "xml",
+            "metadata"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Metadata\\": "src/"
+            }
+        }
+    },
+    {
+        "name": "jms/di-extra-bundle",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "target-dir": "JMS/DiExtraBundle",
+        "time": "2012-02-28 05:01:54",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/schmittjoh/JMSDiExtraBundle",
+            "reference": "1.0.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/schmittjoh/JMSDiExtraBundle/zipball/1.0.1",
+            "reference": "1.0.1",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/framework-bundle": "2.*",
+            "jms/metadata": "1.1.*"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "dist",
+        "license": [
+            "Apache"
+        ],
+        "authors": [
+            {
+                "name": "Johannes M. Schmitt",
+                "email": "schmittjoh@gmail.com",
+                "homepage": "https://github.com/schmittjoh",
+                "role": null
+            }
+        ],
+        "description": "Allows to configure dependency injection using annotations",
+        "keywords": [
+            "dependency injection",
+            "annotations"
+        ],
+        "autoload": {
+            "psr-0": {
+                "JMS\\DiExtraBundle": ""
+            }
+        }
+    },
+    {
+        "name": "jms/cg",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "time": "2012-01-02 20:40:52",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/schmittjoh/cg-library.git",
+            "reference": "1.0.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/schmittjoh/cg-library/zipball/1.0.0",
+            "reference": "1.0.0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "type": "library",
+        "installation-source": "dist",
+        "license": [
+            "Apache"
+        ],
+        "authors": [
+            {
+                "name": "Johannes M. Schmitt",
+                "email": "schmittjoh@gmail.com",
+                "homepage": "https://github.com/schmittjoh",
+                "role": null
+            }
+        ],
+        "description": "Toolset for generating PHP code",
+        "keywords": [
+            "code generation"
+        ],
+        "autoload": {
+            "psr-0": {
+                "CG\\": "src/"
+            }
+        }
+    },
+    {
+        "name": "jms/aop-bundle",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "target-dir": "JMS/AopBundle",
+        "time": "2012-01-02 20:50:26",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/schmittjoh/JMSAopBundle",
+            "reference": "1.0.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/schmittjoh/JMSAopBundle/zipball/1.0.0",
+            "reference": "1.0.0",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/framework-bundle": "2.*",
+            "jms/cg": "1.0.0"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "dist",
+        "license": [
+            "Apache"
+        ],
+        "authors": [
+            {
+                "name": "Johannes M. Schmitt",
+                "email": "schmittjoh@gmail.com",
+                "homepage": "https://github.com/schmittjoh",
+                "role": null
+            }
+        ],
+        "description": "Adds AOP capabilities to Symfony2",
+        "keywords": [
+            "annotations",
+            "aop"
+        ],
+        "autoload": {
+            "psr-0": {
+                "JMS\\AopBundle": ""
+            }
+        }
+    },
+    {
+        "name": "jms/security-extra-bundle",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "target-dir": "JMS/SecurityExtraBundle",
+        "time": "2012-01-02 21:38:12",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle",
+            "reference": "1.1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle/zipball/1.1.0",
+            "reference": "1.1.0",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/framework-bundle": "2.*",
+            "jms/metadata": "1.1.*",
+            "jms/aop-bundle": "1.0.*"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "dist",
+        "license": [
+            "Apache"
+        ],
+        "authors": [
+            {
+                "name": "Johannes M. Schmitt",
+                "email": "schmittjoh@gmail.com",
+                "homepage": "https://github.com/schmittjoh",
+                "role": null
+            }
+        ],
+        "description": "Enhances the Symfony2 Security Component by adding several new features",
+        "keywords": [
+            "annotations",
+            "authorization"
+        ],
+        "autoload": {
+            "psr-0": {
+                "JMS\\SecurityExtraBundle": ""
+            }
+        }
+    },
+    {
+        "name": "sensio/generator-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Sensio/Bundle/GeneratorBundle",
+        "time": "2012-08-03 07:49:10",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sensio/SensioGeneratorBundle",
+            "reference": "d8fc1666f3cdb403f1b2d4320c45ddd6adbdf6a5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/sensio/SensioGeneratorBundle/zipball/d8fc1666f3cdb403f1b2d4320c45ddd6adbdf6a5",
+            "reference": "d8fc1666f3cdb403f1b2d4320c45ddd6adbdf6a5",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/framework-bundle": "2.1.*"
+        },
+        "require-dev": {
+            "symfony/doctrine-bridge": "2.1.*",
+            "doctrine/orm": ">=2.1,<2.4-dev",
+            "twig/twig": ">=1.8,<2.0-dev"
+        },
+        "suggest": {
+            "doctrine/doctrine-bundle": "to generate entities and their crud controller"
+        },
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "This bundle generates code for you",
+        "autoload": {
+            "psr-0": {
+                "Sensio\\Bundle\\GeneratorBundle": ""
+            }
+        }
+    },
+    {
+        "name": "sensio/framework-extra-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
+        "time": "2012-07-30 08:37:34",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sensio/SensioFrameworkExtraBundle",
+            "reference": "dbe4432742e16ee9ca550a2f953b059f0a80c53d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/sensio/SensioFrameworkExtraBundle/zipball/dbe4432742e16ee9ca550a2f953b059f0a80c53d",
+            "reference": "dbe4432742e16ee9ca550a2f953b059f0a80c53d",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/common": ">=2.1,<2.4-dev",
+            "symfony/framework-bundle": "2.1.*"
+        },
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "This bundle provides a way to configure your controllers with annotations",
+        "keywords": [
+            "annotations",
+            "controllers"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Sensio\\Bundle\\FrameworkExtraBundle": ""
+            }
+        }
+    },
+    {
+        "name": "sensio/distribution-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Sensio/Bundle/DistributionBundle",
+        "time": "2012-08-03 07:31:43",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sensio/SensioDistributionBundle",
+            "reference": "26a1165b8cfbde91bf01d809f87bc286f18f0963"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/sensio/SensioDistributionBundle/zipball/26a1165b8cfbde91bf01d809f87bc286f18f0963",
+            "reference": "26a1165b8cfbde91bf01d809f87bc286f18f0963",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/framework-bundle": "2.1.*"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "The base bundle for the Symfony Distributions",
+        "keywords": [
+            "distribution",
+            "configuration"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Sensio\\Bundle\\DistributionBundle": ""
+            }
+        }
+    },
+    {
+        "name": "symfony/monolog-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Bundle/MonologBundle",
+        "time": "2012-06-30 17:48:07",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/MonologBundle",
+            "reference": "v2.1.0-BETA4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/symfony/MonologBundle/zipball/v2.1.0-BETA4",
+            "reference": "v2.1.0-BETA4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "monolog/monolog": "1.*",
+            "symfony/monolog-bridge": "2.1.*",
+            "symfony/dependency-injection": "2.1.*",
+            "symfony/config": "2.1.*"
+        },
+        "require-dev": {
+            "symfony/yaml": "2.1.*",
+            "symfony/config": "2.1.*"
+        },
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Symfony Community",
+                "email": null,
+                "homepage": "http://symfony.com/contributors",
+                "role": null
+            }
+        ],
+        "description": "Symfony MonologBundle",
+        "homepage": "http://symfony.com",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Bundle\\MonologBundle": ""
+            }
+        }
+    },
+    {
+        "name": "symfony/swiftmailer-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Bundle/SwiftmailerBundle",
+        "time": "2012-07-19 07:55:12",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/SwiftmailerBundle",
+            "reference": "v2.1.0-BETA4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/symfony/SwiftmailerBundle/zipball/v2.1.0-BETA4",
+            "reference": "v2.1.0-BETA4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "symfony/swiftmailer-bridge": "2.1.*",
+            "swiftmailer/swiftmailer": ">=4.2.0,<4.3-dev"
+        },
+        "require-dev": {
+            "symfony/dependency-injection": "2.1.*",
+            "symfony/http-kernel": "2.1.*",
+            "symfony/config": "2.1.*"
+        },
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Symfony Community",
+                "email": null,
+                "homepage": "http://symfony.com/contributors",
+                "role": null
+            }
+        ],
+        "description": "Symfony SwiftmailerBundle",
+        "homepage": "http://symfony.com",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Bundle\\SwiftmailerBundle": ""
+            }
+        }
+    },
+    {
+        "name": "twig/extensions",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-05-21 11:28:19",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fabpot/Twig-extensions",
+            "reference": "feb6d3f10c411e2631997c0a905aa581c80305c1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/fabpot/Twig-extensions/zipball/feb6d3f10c411e2631997c0a905aa581c80305c1",
+            "reference": "feb6d3f10c411e2631997c0a905aa581c80305c1",
+            "shasum": ""
+        },
+        "require": {
+            "twig/twig": "1.*"
+        },
+        "type": "library",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "Common additional features for Twig that do not directly belong in core",
+        "homepage": "https://github.com/fabpot/Twig-extensions",
+        "keywords": [
+            "debug",
+            "i18n",
+            "text"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Twig_Extensions_": "lib/"
+            }
+        }
+    },
+    {
+        "name": "alphalemon/al-valum-uploader-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/AlValumUploaderBundle",
+        "time": "2012-07-19 11:36:32",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/AlValumUploaderBundle",
+            "reference": "115e121fe52055fce337c7ba2c991528bb4e1acc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/AlValumUploaderBundle/zipball/115e121fe52055fce337c7ba2c991528bb4e1acc",
+            "reference": "115e121fe52055fce337c7ba2c991528bb4e1acc",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/symfony": "dev-master",
+            "twig/extensions": "dev-master",
+            "symfony/swiftmailer-bundle": "dev-master",
+            "symfony/monolog-bundle": "dev-master",
+            "sensio/distribution-bundle": "dev-master",
+            "sensio/framework-extra-bundle": "dev-master",
+            "sensio/generator-bundle": "dev-master",
+            "jms/security-extra-bundle": "1.1.*",
+            "jms/di-extra-bundle": "1.0.*"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "AlValumUploaderBundle adds upload capabilities to any symfony project. This bundle encapsulates the valum uploader javascript tool",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "javascript",
+            "cms",
+            "upload"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\AlValumUploaderBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/al-pagetree-bundle",
+        "version": "dev-revisioning-pagetree-objects",
+        "version_normalized": "dev-revisioning-pagetree-objects",
+        "target-dir": "AlphaLemon/PageTreeBundle",
+        "time": "2012-07-19 11:35:18",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/PageTreeBundle",
+            "reference": "bbbe808bb40206920d58b014874a54436e4d6a21"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/PageTreeBundle/zipball/bbbe808bb40206920d58b014874a54436e4d6a21",
+            "reference": "bbbe808bb40206920d58b014874a54436e4d6a21",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/symfony": "dev-master",
+            "twig/extensions": "dev-master",
+            "symfony/swiftmailer-bundle": "dev-master",
+            "symfony/monolog-bundle": "dev-master",
+            "sensio/distribution-bundle": "dev-master",
+            "sensio/framework-extra-bundle": "dev-master",
+            "sensio/generator-bundle": "dev-master",
+            "jms/security-extra-bundle": "1.1.*",
+            "jms/di-extra-bundle": "1.0.*"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "Describes a web page.",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "themes",
+            "theme",
+            "cms",
+            "web",
+            "web page"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\PageTreeBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/theme-engine-bundle",
+        "version": "dev-revisioning-theme-objects",
+        "version_normalized": "dev-revisioning-theme-objects",
+        "target-dir": "AlphaLemon/ThemeEngineBundle",
+        "time": "2012-07-20 16:21:50",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/ThemeEngineBundle",
+            "reference": "21b2239ee1f8fd8e840c8e15d95148641a41a34e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/ThemeEngineBundle/zipball/21b2239ee1f8fd8e840c8e15d95148641a41a34e",
+            "reference": "21b2239ee1f8fd8e840c8e15d95148641a41a34e",
+            "shasum": ""
+        },
+        "require": {
+            "propel/propel1": "1.6.*",
+            "phing/phing": "2.4.*",
+            "alphalemon/al-pagetree-bundle": "dev-revisioning-pagetree-objects",
+            "php": ">=5.3.3",
+            "symfony/symfony": "dev-master",
+            "twig/extensions": "dev-master",
+            "symfony/swiftmailer-bundle": "dev-master",
+            "symfony/monolog-bundle": "dev-master",
+            "sensio/distribution-bundle": "dev-master",
+            "sensio/framework-extra-bundle": "dev-master",
+            "sensio/generator-bundle": "dev-master",
+            "jms/security-extra-bundle": "1.1.*",
+            "jms/di-extra-bundle": "1.0.*",
+            "propel/propel-bundle": "1.1.x-dev"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "ThemeEngineBundle adds theming feature to any Symfony2 application, adding themes packed as standard Symfony2 Bundles",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "themes",
+            "theme",
+            "cms"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\ThemeEngineBundle": ""
+            }
+        }
+    },
+    {
+        "name": "mikey179/vfsStream",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-05-15 19:05:40",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mikey179/vfsStream",
+            "reference": "v1.0.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/mikey179/vfsStream/zipball/v1.0.0",
+            "reference": "v1.0.0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "type": "library",
+        "installation-source": "source",
+        "license": [
+            "BSD"
+        ],
+        "homepage": "http://vfs.bovigo.org/",
+        "autoload": {
+            "psr-0": {
+                "org\\bovigo\\vfs": "src/main/php"
+            }
+        }
+    },
+    {
+        "name": "alphalemon/alphalemon-bootstrap-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/BootstrapBundle",
+        "time": "2012-08-03 16:43:15",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/BootstrapBundle",
+            "reference": "6ace24a9a84980df249b663432212d276aca8ad6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/BootstrapBundle/zipball/6ace24a9a84980df249b663432212d276aca8ad6",
+            "reference": "6ace24a9a84980df249b663432212d276aca8ad6",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/symfony": "dev-master",
+            "twig/extensions": "dev-master",
+            "symfony/swiftmailer-bundle": "dev-master",
+            "symfony/monolog-bundle": "dev-master",
+            "sensio/distribution-bundle": "dev-master",
+            "sensio/framework-extra-bundle": "dev-master",
+            "sensio/generator-bundle": "dev-master",
+            "jms/security-extra-bundle": "1.1.*",
+            "jms/di-extra-bundle": "1.0.*",
+            "mikey179/vfsstream": "dev-master"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "autoload",
+            "bootstrap",
+            "bundle",
+            "alphalemon"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\BootstrapBundle": ""
+            }
+        }
+    },
+    {
+        "name": "willdurand/propel-typehintable-behavior",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-07-15 14:03:24",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/willdurand/TypehintableBehavior",
+            "reference": "1.0.3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/willdurand/TypehintableBehavior/zipball/1.0.3",
+            "reference": "1.0.3",
+            "shasum": ""
+        },
+        "require": {
+            "propel/propel1": "1.6.*"
+        },
+        "type": "library",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "William DURAND",
+                "email": "william.durand1@gmail.com",
+                "homepage": "http://www.willdurand.fr",
+                "role": null
+            }
+        ],
+        "description": "Insane Propel behavior that helps you to be compliant with third-party interfaces by adding type hint to generated methods.",
+        "keywords": [
+            "propel",
+            "Behavior",
+            "typehint"
+        ],
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        }
+    },
+    {
+        "name": "imagine/Imagine",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-07-29 00:35:18",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/avalanche123/Imagine",
+            "reference": "v0.3.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/avalanche123/Imagine/zipball/v0.3.0",
+            "reference": "v0.3.0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "sami/sami": "dev-master"
+        },
+        "type": "library",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bulat Shakirzyanov",
+                "email": "mallluhuct@gmail.com",
+                "homepage": "http://avalanche123.com",
+                "role": null
+            }
+        ],
+        "description": "Image processing for PHP 5.3",
+        "homepage": "http://imagine.readthedocs.org/",
+        "keywords": [
+            "image manipulation",
+            "image processing",
+            "drawing",
+            "graphics"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Imagine": "lib/"
+            }
+        }
+    },
+    {
+        "name": "kriswallsmith/assetic",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-07-30 21:48:30",
+        "source": {
+            "type": "git",
+            "url": "http://github.com/kriswallsmith/assetic.git",
+            "reference": "11324294acf2dcf6b7f7cb0c4f35fd77e6f01cb7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/kriswallsmith/assetic/zipball/11324294acf2dcf6b7f7cb0c4f35fd77e6f01cb7",
+            "reference": "11324294acf2dcf6b7f7cb0c4f35fd77e6f01cb7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "symfony/process": "2.1.*"
+        },
+        "require-dev": {
+            "twig/twig": ">=1.6.0,<2.0",
+            "leafo/lessphp": "*",
+            "leafo/scssphp": "*"
+        },
+        "suggest": {
+            "twig/twig": "Assetic provides the integration with the Twig templating engine",
+            "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
+            "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler"
+        },
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kris Wallsmith",
+                "email": "kris.wallsmith@gmail.com",
+                "homepage": "http://kriswallsmith.net/",
+                "role": null
+            }
+        ],
+        "description": "Asset Management for PHP",
+        "homepage": "https://github.com/kriswallsmith/assetic",
+        "keywords": [
+            "assets",
+            "compression",
+            "minification"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Assetic": "src/"
+            }
+        }
+    },
+    {
+        "name": "symfony/assetic-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Bundle/AsseticBundle",
+        "time": "2012-08-01 09:18:40",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/AsseticBundle",
+            "reference": "0c09207be07b044e06d28a4111f554f071e5b658"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/symfony/AsseticBundle/zipball/0c09207be07b044e06d28a4111f554f071e5b658",
+            "reference": "0c09207be07b044e06d28a4111f554f071e5b658",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "symfony/framework-bundle": "2.1.*",
+            "kriswallsmith/assetic": "1.1.*"
+        },
+        "suggest": {
+            "symfony/twig-bundle": "2.1.*"
+        },
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kris Wallsmith",
+                "email": "kris.wallsmith@gmail.com",
+                "homepage": "http://kriswallsmith.net/",
+                "role": null
+            }
+        ],
+        "description": "Integrates Assetic into Symfony2",
+        "homepage": "https://github.com/symfony/AsseticBundle",
+        "keywords": [
+            "assets",
+            "compression",
+            "minification"
+        ],
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Bundle\\AsseticBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/frontend-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/FrontendBundle",
+        "time": "2012-07-24 03:27:12",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/alphalemon/FrontendBundle.git",
+            "reference": "d7a68ae6c778f170448bf1c2eb557ddff58f3c50"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/FrontendBundle/zipball/d7a68ae6c778f170448bf1c2eb557ddff58f3c50",
+            "reference": "d7a68ae6c778f170448bf1c2eb557ddff58f3c50",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/symfony": "dev-master",
+            "twig/extensions": "dev-master",
+            "symfony/swiftmailer-bundle": "dev-master",
+            "symfony/monolog-bundle": "dev-master",
+            "sensio/distribution-bundle": "dev-master",
+            "sensio/framework-extra-bundle": "dev-master",
+            "sensio/generator-bundle": "dev-master",
+            "jms/security-extra-bundle": "1.1.*",
+            "jms/di-extra-bundle": "1.0.*"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "GPLv2"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "FrontendBundle provides a Frontend environment for an AlphaLemon CMS websites",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "cms",
+            "alphalemoncms"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\FrontendBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/elfinder-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/ElFinderBundle",
+        "time": "2012-07-19 11:37:07",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alphalemon/ElFinderBundle",
+            "reference": "d5121ffc0da5fb300be0a87da599bd7067a2afe1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/ElFinderBundle/zipball/d5121ffc0da5fb300be0a87da599bd7067a2afe1",
+            "reference": "d5121ffc0da5fb300be0a87da599bd7067a2afe1",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/symfony": "dev-master",
+            "twig/extensions": "dev-master",
+            "symfony/swiftmailer-bundle": "dev-master",
+            "symfony/monolog-bundle": "dev-master",
+            "sensio/distribution-bundle": "dev-master",
+            "sensio/framework-extra-bundle": "dev-master",
+            "sensio/generator-bundle": "dev-master",
+            "jms/security-extra-bundle": "1.1.*",
+            "jms/di-extra-bundle": "1.0.*"
+        },
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "info@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "The ElFinderBundle encapsulates the elFinder file manager to be used in Symfony2.",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "cms",
+            "elfinder",
+            "ajax",
+            "file manager",
+            "alphalemon"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\ElFinderBundle": ""
+            }
+        }
+    },
+    {
+        "name": "alphalemon/alphalemon-cms-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "AlphaLemon/AlphaLemonCmsBundle",
+        "time": "2012-07-24 16:53:53",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/alphalemon/AlphaLemonCmsBundle.git",
+            "reference": "0cbb086ac434e43dbd407c94b7cf380653694155"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/alphalemon/AlphaLemonCmsBundle/zipball/0cbb086ac434e43dbd407c94b7cf380653694155",
+            "reference": "0cbb086ac434e43dbd407c94b7cf380653694155",
+            "shasum": ""
+        },
+        "require": {
+            "alphalemon/elfinder-bundle": "dev-master",
+            "alphalemon/frontend-bundle": "dev-master",
+            "php": ">=5.3.3",
+            "symfony/symfony": "dev-master",
+            "twig/extensions": "dev-master",
+            "symfony/swiftmailer-bundle": "dev-master",
+            "symfony/monolog-bundle": "dev-master",
+            "symfony/assetic-bundle": "dev-master",
+            "sensio/distribution-bundle": "dev-master",
+            "sensio/framework-extra-bundle": "dev-master",
+            "sensio/generator-bundle": "dev-master",
+            "jms/security-extra-bundle": "1.1.*",
+            "jms/di-extra-bundle": "1.0.*",
+            "imagine/imagine": ">=0.2",
+            "propel/propel-bundle": "1.1.x-dev",
+            "propel/propel1": "1.6.*",
+            "phing/phing": "2.4.*",
+            "willdurand/propel-typehintable-behavior": "dev-master",
+            "mikey179/vfsstream": "dev-master",
+            "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
+            "alphalemon/al-pagetree-bundle": "dev-revisioning-pagetree-objects",
+            "alphalemon/theme-engine-bundle": "dev-revisioning-theme-objects",
+            "alphalemon/al-valum-uploader-bundle": "dev-master",
+            "alphalemon/business-website-theme-bundle": "dev-master"
+        },
+        "bin": [
+            "bin/cms-install",
+            "bin/config.php"
+        ],
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "license": [
+            "GPLv2"
+        ],
+        "authors": [
+            {
+                "name": "AlphaLemon",
+                "email": "webmaster@alphalemon.com",
+                "homepage": null,
+                "role": null
+            }
+        ],
+        "description": "AlphaLemon CMS is an Open Source Content Management System Application, built on top of Symfony2 Framework, providing an easy an intuitive user-interface, to improve the website's content management experience",
+        "homepage": "http://alphalemon.com",
+        "keywords": [
+            "cms",
+            "alphalemon"
+        ],
+        "autoload": {
+            "psr-0": {
+                "AlphaLemon\\AlphaLemonCmsBundle": "",
+                "AlphaLemon\\Block\\TextBundle": "Bundle/",
+                "AlphaLemon\\Block\\MenuBundle": "Bundle/",
+                "AlphaLemon\\Block\\MediaBundle": "Bundle/",
+                "AlphaLemon\\Block\\ScriptBundle": "Bundle/",
+                "AlphaLemon\\Block\\NavigationMenuBundle": "Bundle/"
+            }
+        }
+    }
+]

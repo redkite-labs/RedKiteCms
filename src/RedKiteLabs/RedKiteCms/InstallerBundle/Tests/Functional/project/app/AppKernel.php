@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new AlphaLemon\CmsInstallerBundle\AlphaLemonCmsInstallerBundle(),
             new Acme\WebSiteBundle\AcmeWebSiteBundle(),
+            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -30,11 +31,21 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
 
+        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
+        $bundles = $bootstrapper->getBundles();
+
         return $bundles;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
+        $configFolder = __DIR__ . '/config/bundles/config';
+        $finder = new \Symfony\Component\Finder\Finder();
+        $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
+        foreach ($configFiles as $config) {
+            $loader->load((string)$config);
+        };
+
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 }

@@ -1,0 +1,9 @@
+_assetic:
+    resource: .
+    type:     assetic
+    
+_alphaLemonCmsBundle:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing_cms.yml"
+
+_main:
+    resource: routing.yml

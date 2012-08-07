@@ -41,12 +41,12 @@ class Installer {
     protected $filesystem;
     protected $orm;
 
-    public function __construct($vendorDir, OrmInterface $orm, ProcessConsole\ProcessConsoleInterface $processConsole = null)
+    public function __construct($vendorDir, OrmInterface $orm = null, ProcessConsole\ProcessConsoleInterface $processConsole = null)
     {
         $this->vendorDir = $this->normalizePath($vendorDir);
         $this->orm = $orm;
         $consolePath = $this->vendorDir . '/../app';
-        $this->processConsole = (null === $processConsole) ? new ProcessConsole($consolePath) : $processConsole;
+        $this->processConsole = (null === $processConsole) ? new ProcessConsole\ProcessConsole($consolePath) : $processConsole;
         $this->filesystem = new Filesystem();
     }
 
@@ -65,6 +65,7 @@ class Installer {
         $this->driver = $driver;
         $this->deployBundle = $companyName . $bundleName;
 
+        if(null === $this->orm) $this->setUpOrm($this->shortDsn);
         $this->checkPrerequisites();
         $this->setUpEnvironments();
         $this->writeConfigurations();
@@ -130,7 +131,7 @@ class Installer {
 
         if(strpos($contents, 'new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
         {
-            $cmsBundles = "\n\n        \$bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(\$this->getEnvironment(), \$bundles);\n";
+            $cmsBundles = "\n\n        \$bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, \$this->getEnvironment(), \$bundles);\n";
             $cmsBundles .= "        \$bundles = \$bootstrapper->getBundles();\n\n";
             $cmsBundles .= "        return \$bundles;";
             $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
@@ -254,29 +255,32 @@ class Installer {
         }
     }
 
-    /*
-    protected function connectDb($dsn = null)
+    protected function setUpOrm($dsn = null)
     {
         try
         {
             $dsn = (null === $dsn) ? $this->dsn : $dsn;
 
-            return new \PropelPDO($dsn, $this->user, $this->password);
+            $connection = new \PropelPDO($dsn, $this->user, $this->password);
+            $this->orm = new \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm($connection);
         }
         catch(\Exception $ex)
         {
             throw new \RuntException("An error occoured when trying to connect the database with the given parameters. The server returned the following error:\n\n" . $ex->getMessage() . "\n\nCheck your configuration parameters into the bin/config.php file and be sure that the database name given is the same exposed by the dsn\n\n");
         }
-    }*/
+    }
 
     protected function createDb()
     {
         try
         {
-            $query = 'CREATE DATABASE ' . $this->database;
+            $queries = array('DROP DATABASE IF EXISTS ' . $this->database,
+                             'CREATE DATABASE ' . $this->database);
 
-            if (false === $this->orm->executeQuery($query)) {
-                throw new \RuntimeException("The database has not be created. Check your configuration parameters");
+            foreach($queries as $query) {
+                if (false === $this->orm->executeQuery($query)) {
+                    throw new \RuntimeException("The database has not be created. Check your configuration parameters");
+                }
             }
         }
         catch(\Exception $ex)
@@ -287,17 +291,18 @@ class Installer {
 
     protected function setup()
     {
+        //$this->setUpOrm($this->dsn);
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
         $assetsInstall = 'assets:install --env=alcms_dev ' . $this->vendorDir . '/../web' . $symlink;
         $populate = sprintf('alphalemon:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);
-        $commands = array('propel:build --env=alcms_dev',
-                          'propel:insert-sql --force --env=alcms_dev',
-                          $assetsInstall,
+        $commands = array('propel:build --insert-sql --env=alcms_dev',
+                          //$assetsInstall,
                           $populate,
-                          'assetic:dump --env=alcms_dev',
-                          'cache:clear --env=alcms_dev',
+                          //'assetic:dump --env=alcms_dev',
+                          //'cache:clear --env=alcms_dev',
             );
-        $this->processConsole->executeCommands($commands);
+
+        $this->processConsole->executeCommands($commands, function($type, $buffer){ echo $buffer; });
         /*
         $this->processConsole->executeCommand('propel:build --env=alcms_dev');
         $this->processConsole->executeCommand('propel:insert-sql --force --env=alcms_dev');
