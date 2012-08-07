@@ -13,47 +13,20 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            //new Symfony\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            //new Acme\WebSiteBundle\AcmeWebSiteBundle(),
             new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
-            //new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
-
-            /*
-            new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\TextBundle\TextBundle(),
-            new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MediaBundle\MediaBundle(),
-            new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\MenuBundle\MenuBundle(),
-            new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\NavigationMenuBundle\NavigationMenuBundle(),
-            new AlphaLemon\AlphaLemonCmsBundle\Core\Bundles\ScriptBundle\ScriptBundle(),
-
-
-            new AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle(),
-            new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle(),
-            new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
-            new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle(),
-
-            new AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle(),
-            new AlphaLemon\Block\BusinessDropCapBundle\BusinessDropCapBundle(),
-            new AlphaLemon\Block\BusinessMenuBundle\BusinessMenuBundle(),
-            new AlphaLemon\Block\BusinessSliderBundle\BusinessSliderBundle(),
-            new AlphaLemon\FrontendBundle\AlphaLemonFrontendBundle(),
-            new Propel\PropelBundle\PropelBundle(),*/
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Sensio\Bundle\DistributionBundle\SensioDistributionBundle(),
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
-            //new AlphaLemon\Block\MarkdownGeshiBundle\MarkdownGeshiBundle(),
-            //new AlphaLemon\CmsInstallerBundle\AlphaLemonCmsInstallerBundle(),
-
-            //new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
-            //new Highlight\Bundle\HighlightBundle(),
         );
-
-        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader($this->getEnvironment(), __DIR__, $bundles);
-        $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')->getBundles();
+        
+        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
+        $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
+                                ->getBundles();
 
         $bundles[] = new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle();
 
@@ -63,5 +36,39 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+    }
+
+    /**
+     * Credits for this awesome time-saver method to Kris Wallsmith
+     *
+     * http://kriswallsmith.net/post/27979797907
+     */
+    protected function initializeContainer()
+    {
+        static $first = true;
+
+        if (strpos($this->getEnvironment(), 'test') === false) {
+            parent::initializeContainer();
+            return;
+        }
+
+        $debug = $this->debug;
+
+        if (!$first) {
+            // disable debug mode on all but the first initialization
+            $this->debug = false;
+        }
+
+        // will not work with --process-isolation
+        $first = false;
+
+        try {
+            parent::initializeContainer();
+        } catch (\Exception $e) {
+            $this->debug = $debug;
+            throw $e;
+        }
+
+        $this->debug = $debug;
     }
 }
