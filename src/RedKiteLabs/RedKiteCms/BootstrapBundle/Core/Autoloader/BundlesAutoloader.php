@@ -219,7 +219,7 @@ class BundlesAutoloader
         foreach ($map as $namespace => $path) {
             $dir = $path . str_replace('\\', '/', $namespace);
             $bundleName = $this->getBundleName($dir);
-            
+
             // The bundle is inclued only when the autoloader.json file exists
             if (null !== $bundleName && $this->hasAutoloader($dir)) {
                 // Instantiates the autoload
@@ -248,7 +248,7 @@ class BundlesAutoloader
                 unset($this->installedBundles[$bundleName]);
             }
         }
-
+        
         $installerScript = $this->scriptFactory->createScript('PreBootInstaller');
         $installerScript->executeActions($installScripts);
     }

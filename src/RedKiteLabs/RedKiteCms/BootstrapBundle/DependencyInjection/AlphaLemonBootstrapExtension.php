@@ -43,4 +43,9 @@ class AlphaLemonBootstrapExtension extends Extension
             $container->setParameter('alphalemon_bootstrap.routing_dir', $config['routing_dir']);
         }
     }
+
+    public function getAlias()
+    {
+        return 'alpha_lemon_bootstrap';
+    }
 }
