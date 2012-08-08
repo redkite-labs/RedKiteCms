@@ -27,7 +27,7 @@ class AppKernel extends Kernel
         $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
                                 ->getBundles();
-
+        
         $bundles[] = new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle();
 
         return $bundles;

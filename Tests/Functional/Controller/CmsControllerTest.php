@@ -91,39 +91,13 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businessslider/css/business-slider.css",
             "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
-            /*"/css/77ee4d3_part_1_images_1.css",
-            "/css/77ee4d3_part_1_jquery-ui-1.8.6.custom_2.css",
-            "/css/77ee4d3_part_2_contextMenu_1.css",
-            "/css/77ee4d3_part_2_jquery.contextMenu_2.css",
-            "/css/77ee4d3_part_3_images_1.css",
-            "/css/77ee4d3_part_3_lib_2.css",
-            "/css/77ee4d3_part_3_skin_3.css",
-            "/css/77ee4d3_part_3_vendor_4.css",*/
+            "/css/77ee4d3.css",
             "/favicon.ico",
         );
 
         $expectedJavascripts = array
         (
-            /*"/js/f7628a5_part_1_jquery-last.min_1.js",
-            "/js/f7628a5_part_2_jquery_1.js",
-            "/js/f7628a5_part_2_jquery-ui.min_2.js",
-            "/js/f7628a5_part_2_jquery.easing-1.3_3.js",
-            "/js/f7628a5_part_2_jquery.metadata_4.js",
-            "/js/f7628a5_part_2_jquery.ui.position_5.js",
-            "/js/f7628a5_part_3_jquery.contextMenu_1.js",
-            "/js/f7628a5_part_4_al-ajax-loader_1.js",
-            "/js/f7628a5_part_4_al-blocks_2.js",
-            "/js/f7628a5_part_4_al-dialog_3.js",
-            "/js/f7628a5_part_4_al-images-list_4.js",
-            "/js/f7628a5_part_4_al-languages_5.js",
-            "/js/f7628a5_part_4_al-pages_6.js",
-            "/js/f7628a5_part_4_al-panel_7.js",
-            "/js/f7628a5_part_4_al-security_8.js",
-            "/js/f7628a5_part_4_al-themes_9.js",
-            "/js/f7628a5_part_4_al-tinyMce_10.js",
-            "/js/f7628a5_part_4_al-tools_11.js",
-            "/js/f7628a5_part_4_alphalemon_12.js",
-            "/js/f7628a5_part_4_vendor_13.js",*/
+            "/js/f7628a5.js",
             "/js/tiny_mce/tiny_mce.js",
             "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businessmenu/js/cufon-yui.js",
@@ -181,39 +155,13 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businessslider/css/business-slider.css",
             "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
-            /*"/css/77ee4d3_part_1_images_1.css",
-            "/css/77ee4d3_part_1_jquery-ui-1.8.6.custom_2.css",
-            "/css/77ee4d3_part_2_contextMenu_1.css",
-            "/css/77ee4d3_part_2_jquery.contextMenu_2.css",
-            "/css/77ee4d3_part_3_images_1.css",
-            "/css/77ee4d3_part_3_lib_2.css",
-            "/css/77ee4d3_part_3_skin_3.css",
-            "/css/77ee4d3_part_3_vendor_4.css",*/
+            "/css/77ee4d3.css",
             "/favicon.ico",
         );
 
         $expectedJavascripts = array
         (
-            /*"/js/f7628a5_part_1_jquery-last.min_1.js",
-            "/js/f7628a5_part_2_jquery_1.js",
-            "/js/f7628a5_part_2_jquery-ui.min_2.js",
-            "/js/f7628a5_part_2_jquery.easing-1.3_3.js",
-            "/js/f7628a5_part_2_jquery.metadata_4.js",
-            "/js/f7628a5_part_2_jquery.ui.position_5.js",
-            "/js/f7628a5_part_3_jquery.contextMenu_1.js",
-            "/js/f7628a5_part_4_al-ajax-loader_1.js",
-            "/js/f7628a5_part_4_al-blocks_2.js",
-            "/js/f7628a5_part_4_al-dialog_3.js",
-            "/js/f7628a5_part_4_al-images-list_4.js",
-            "/js/f7628a5_part_4_al-languages_5.js",
-            "/js/f7628a5_part_4_al-pages_6.js",
-            "/js/f7628a5_part_4_al-panel_7.js",
-            "/js/f7628a5_part_4_al-security_8.js",
-            "/js/f7628a5_part_4_al-themes_9.js",
-            "/js/f7628a5_part_4_al-tinyMce_10.js",
-            "/js/f7628a5_part_4_al-tools_11.js",
-            "/js/f7628a5_part_4_alphalemon_12.js",
-            "/js/f7628a5_part_4_vendor_13.js",*/
+            "/js/f7628a5.js",
             "/js/tiny_mce/tiny_mce.js",
             "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
@@ -268,7 +216,7 @@ class CmsControllerTest extends WebTestCaseFunctional
 
     private function checkStylesheets($crawler, $expectedAssets)
     {
-        $assets = $crawler->filter('link')->extract(array('href'));
+        $assets = $crawler->filter('link')->extract(array('href')); 
         $this->assertEquals(count($expectedAssets), count($assets));
         $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
