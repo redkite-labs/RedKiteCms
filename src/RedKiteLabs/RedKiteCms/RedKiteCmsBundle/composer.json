@@ -51,7 +51,7 @@
         "AlphaLemon\\Block\\MenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\MediaBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\ScriptBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\NavigationMenuBundle" : "Bundle/"
+        "AlphaLemon\\Block\\NavigationMenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/"
     }
   },
   "minimum-stability": "dev",
