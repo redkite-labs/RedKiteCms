@@ -47,10 +47,10 @@
   "autoload": {
     "psr-0": {
         "AlphaLemon\\AlphaLemonCmsBundle": "",
-        "AlphaLemon\\Block\\TextBundle" : "Bundle/",
-        "AlphaLemon\\Block\\MenuBundle" : "Bundle/",
-        "AlphaLemon\\Block\\MediaBundle" : "Bundle/",
-        "AlphaLemon\\Block\\ScriptBundle" : "Bundle/",
+        "AlphaLemon\\Block\\TextBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
+        "AlphaLemon\\Block\\MenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
+        "AlphaLemon\\Block\\MediaBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
+        "AlphaLemon\\Block\\ScriptBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\NavigationMenuBundle" : "Bundle/"
     }
   },
