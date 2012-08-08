@@ -40,13 +40,14 @@ class Installer {
     protected $vendorDir;
     protected $filesystem;
     protected $orm;
+    protected $commandsProcessor;
 
-    public function __construct($vendorDir, OrmInterface $orm = null, CommandsProcessor\AlCommandsProcessorInterface $processConsole = null)
+    public function __construct($vendorDir, OrmInterface $orm = null, CommandsProcessor\AlCommandsProcessorInterface $commandsProcessor = null)
     {
         $this->vendorDir = $this->normalizePath($vendorDir);
         $this->orm = $orm;
         $consolePath = $this->vendorDir . '/../app';
-        $this->processConsole = (null === $processConsole) ? new CommandsProcessor\AlCommandsProcessor($consolePath) : $processConsole;
+        $this->commandsProcessor = (null === $commandsProcessor) ? new CommandsProcessor\AlCommandsProcessor($consolePath) : $commandsProcessor;
         $this->filesystem = new Filesystem();
     }
 
@@ -295,14 +296,14 @@ class Installer {
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
         $assetsInstall = 'assets:install --env=alcms_dev ' . $this->vendorDir . '/../web' . $symlink;
         $populate = sprintf('alphalemon:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);
-        $commands = array('propel:build --insert-sql --env=alcms_dev',
-                          //$assetsInstall,
-                          $populate,
-                          //'assetic:dump --env=alcms_dev',
-                          //'cache:clear --env=alcms_dev',
+        $commands = array('propel:build --insert-sql --env=alcms_dev' => null,
+                          $assetsInstall => null,
+                          $populate => null,
+                          'assetic:dump --env=alcms_dev' => null,
+                          'cache:clear --env=alcms_dev' => null,
             );
 
-        $this->processConsole->executeCommands($commands, function($type, $buffer){ echo $buffer; });
+        $this->commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });
         /*
         $this->processConsole->executeCommand('propel:build --env=alcms_dev');
         $this->processConsole->executeCommand('propel:insert-sql --force --env=alcms_dev');
