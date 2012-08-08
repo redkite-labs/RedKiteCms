@@ -32,8 +32,8 @@ class AlPropelOrm implements OrmInterface
 
     /**
      * Constructor
-     * 
-     * @param \PropelPDO $connection 
+     *
+     * @param \PropelPDO $connection
      */
     public function __construct(\PropelPDO $connection = null)
     {
@@ -80,6 +80,9 @@ class AlPropelOrm implements OrmInterface
         self::$connection->rollBack();
     }
 
+    /**
+     * {@ inheritdoc}
+     */
     public function getAffectedRecords()
     {
         return $this->affectedRecords;
@@ -103,7 +106,7 @@ class AlPropelOrm implements OrmInterface
             else {
                 $success = true;
             }
-            
+
             if ($success) {
                 $this->commit();
             }
@@ -134,5 +137,15 @@ class AlPropelOrm implements OrmInterface
 
             throw $ex;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function executeQuery($query)
+    {
+        $statement = self::$connection->prepare($query);
+
+        return $statement->execute();
     }
 }
