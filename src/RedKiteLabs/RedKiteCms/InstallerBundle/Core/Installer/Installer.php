@@ -19,7 +19,7 @@ namespace AlphaLemon\CmsInstallerBundle\Core\Installer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ProcessConsole;
+use AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm\OrmInterface;
 
 /**
@@ -41,12 +41,12 @@ class Installer {
     protected $filesystem;
     protected $orm;
 
-    public function __construct($vendorDir, OrmInterface $orm = null, ProcessConsole\ProcessConsoleInterface $processConsole = null)
+    public function __construct($vendorDir, OrmInterface $orm = null, CommandsProcessor\AlCommandsProcessorInterface $processConsole = null)
     {
         $this->vendorDir = $this->normalizePath($vendorDir);
         $this->orm = $orm;
         $consolePath = $this->vendorDir . '/../app';
-        $this->processConsole = (null === $processConsole) ? new ProcessConsole\ProcessConsole($consolePath) : $processConsole;
+        $this->processConsole = (null === $processConsole) ? new CommandsProcessor\AlCommandsProcessor($consolePath) : $processConsole;
         $this->filesystem = new Filesystem();
     }
 
