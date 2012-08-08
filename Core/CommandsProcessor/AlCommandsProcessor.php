@@ -46,9 +46,13 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
      */
     public function executeCommand($cmd, \Closure $closure = null, Process $process = null)
     {
-        if (null === $process)  $process =  new Process();
-
-        $process->setCommandLine($this->php.' '.$this->console.' '.$cmd);
+        $cmd = $this->php.' '.$this->console.' '.$cmd;
+        if (null === $process)  {
+            $process =  new Process($cmd);
+        }
+        else {
+            $process->setCommandLine($cmd);
+        }
 
         return $process->run($closure);
     }
@@ -64,7 +68,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
                 throw new \RuntimeException(sprintf('An error has occoured executing the "%s" command', $command));
             }
         }
-        
+
         return true;
     }
 }
