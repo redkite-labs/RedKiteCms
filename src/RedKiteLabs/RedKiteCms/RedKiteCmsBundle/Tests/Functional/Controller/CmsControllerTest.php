@@ -91,13 +91,11 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businessslider/css/business-slider.css",
             "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
-            "/css/77ee4d3.css",
             "/favicon.ico",
         );
 
         $expectedJavascripts = array
         (
-            "/js/f7628a5.js",
             "/js/tiny_mce/tiny_mce.js",
             "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businessmenu/js/cufon-yui.js",
@@ -155,13 +153,11 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businessslider/css/business-slider.css",
             "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
-            "/css/77ee4d3.css",
             "/favicon.ico",
         );
 
         $expectedJavascripts = array
         (
-            "/js/f7628a5.js",
             "/js/tiny_mce/tiny_mce.js",
             "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
@@ -216,7 +212,8 @@ class CmsControllerTest extends WebTestCaseFunctional
 
     private function checkStylesheets($crawler, $expectedAssets)
     {
-        $assets = $crawler->filter('link')->extract(array('href')); 
+        $assets = $crawler->filter('link')->extract(array('href'));
+        $assets = array_filter($assets, function ($key) { return false === strpos($key, 'part'); });
         $this->assertEquals(count($expectedAssets), count($assets));
         $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
@@ -224,6 +221,7 @@ class CmsControllerTest extends WebTestCaseFunctional
     private function checkJavascripts($crawler, $expectedAssets)
     {
         $assets = array_filter($crawler->filter('script')->extract(array('src')));
+        $assets = array_filter($assets, function ($key) { return false === strpos($key, 'part'); });
         $this->assertEquals(count($expectedAssets), count($assets));
         $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
