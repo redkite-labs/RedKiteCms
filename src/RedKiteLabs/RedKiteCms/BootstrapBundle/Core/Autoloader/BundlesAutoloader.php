@@ -113,6 +113,7 @@ class BundlesAutoloader
             $this->install();
             $this->uninstall();
             $this->arrangeBundlesForEnvironment();
+
             $this->bootstrapped = true;
         }
     }
@@ -165,16 +166,17 @@ class BundlesAutoloader
         }
 
         // A bundle enabled by one or more environments, must be removed from all section
-        if (array_key_exists('all', $this->environmentsBundles)) {
+        /*if (array_key_exists('all', $this->environmentsBundles)) {
             $all = $this->environmentsBundles['all'];
             unset($this->environmentsBundles['all']);
             foreach ($this->environmentsBundles as $bundles) {
-                $all = array_diff($all, $bundles);
+                $all = array_diff($all, $bundles);print_r($all);exit;
             }
             $this->environmentsBundles['all'] = $all;
             $this->register('all');
-        }
+        }*/
 
+        $this->register('all');
         $this->register($this->environment);
         $this->orderBundles();
     }
@@ -195,11 +197,13 @@ class BundlesAutoloader
                         throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem", $bundleClass, get_class($this)));
                     }
 
-                    $instantiatedBundle = new $bundleClass;
-                    $this->bundles[$bundle->getId()] = $instantiatedBundle;
-                    $overridedBundles = $bundle->getOverrides();
-                    if (!empty($overridedBundles)) $this->overridedBundles[$bundle->getId()] = $overridedBundles;
-                    $this->instantiatedBundles[] = $bundleClass;
+                    if (!in_array($bundle->getId(), $this->bundles)) {
+                        $instantiatedBundle = new $bundleClass;
+                        $this->bundles[$bundle->getId()] = $instantiatedBundle;
+                        $overridedBundles = $bundle->getOverrides();
+                        if (!empty($overridedBundles)) $this->overridedBundles[$bundle->getId()] = $overridedBundles;
+                        $this->instantiatedBundles[] = $bundleClass;
+                    }
                 }
             }
         }
@@ -248,7 +252,7 @@ class BundlesAutoloader
                 unset($this->installedBundles[$bundleName]);
             }
         }
-        
+
         $installerScript = $this->scriptFactory->createScript('PreBootInstaller');
         $installerScript->executeActions($installScripts);
     }
@@ -263,13 +267,15 @@ class BundlesAutoloader
     {
         $bundleName = $autoloader->getBundleName();
 
-        $target = $this->autoloadersPath . '/' . $bundleName  . '.json';
-        $this->copy($autoloader->getFilename(), $target);
+        if (array_key_exists('all', $autoloader->getBundles()) || array_key_exists($this->environment, $autoloader->getBundles())) {
+            $target = $this->autoloadersPath . '/' . $bundleName  . '.json';
+            $this->copy($autoloader->getFilename(), $target);
 
-        $sourceFolder = $sourceFolder . '/Resources/config';
-        $filename = '/' . $bundleName . '.yml';
-        $this->copy($sourceFolder . '/config.yml', $this->configPath . $filename);
-        $this->copy($sourceFolder . '/routing.yml', $this->routingPath . $filename);
+            $sourceFolder = $sourceFolder . '/Resources/config';
+            $filename = $bundleName . '.yml';
+            $this->copy($sourceFolder . '/config.yml', $this->configPath . '/' . $this->environment . '/' . $filename);
+            $this->copy($sourceFolder . '/routing.yml', $this->routingPath . '/' . $filename);
+        }
     }
 
     /**
@@ -283,9 +289,8 @@ class BundlesAutoloader
                 $bundleName = $autoloader->getBundleName();
                 $uninstallScripts[$bundleName] = $autoloader->getActionManagerClass();
                 $this->filesystem->remove($this->autoloadersPath . '/' . $bundleName . '.json');
-                $filename = '/' . $autoloader->getBundleName() . '.yml';
-                $this->filesystem->remove($this->configPath . $filename);
-                $this->filesystem->remove($this->routingPath . $filename);
+                $this->filesystem->remove($this->configPath);
+                $this->filesystem->remove($this->routingPath);
             }
         }
 
