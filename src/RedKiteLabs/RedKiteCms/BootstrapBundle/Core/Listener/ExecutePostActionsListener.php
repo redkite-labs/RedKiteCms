@@ -13,12 +13,13 @@ class ExecutePostActionsListener
 {
     private $container;
     private $basePath;
+    private $executed = false;
 
     /**
      * Constructor
-     * 
+     *
      * @param ContainerInterface $container
-     * @param ScriptFactoryInterface $scriptFactory 
+     * @param ScriptFactoryInterface $scriptFactory
      */
     public function __construct(ContainerInterface $container, ScriptFactory\ScriptFactoryInterface $scriptFactory = null)
     {
@@ -33,6 +34,8 @@ class ExecutePostActionsListener
      */
     public function onKernelRequest()
     {
+        if ($this->executed) return;
+        
         $installerScript = $this->scriptFactory->createScript('PostBootInstaller');
         $installerScript->setContainer($this->container)
                         ->executeActionsFromFile($this->basePath . '/.PostInstall');
@@ -40,5 +43,7 @@ class ExecutePostActionsListener
         $installerScript = $this->scriptFactory->createScript('PostBootUninstaller');
         $installerScript->setContainer($this->container)
                         ->executeActionsFromFile($this->basePath . '/.PostUninstall');
+
+        $this->executed = true;
     }
 }
