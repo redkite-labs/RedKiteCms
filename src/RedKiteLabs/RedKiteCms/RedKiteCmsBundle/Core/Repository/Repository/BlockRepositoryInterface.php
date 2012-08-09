@@ -75,4 +75,13 @@ interface BlockRepositoryInterface {
      * @return object   A collection of objects
      */
     public function fromHtmlContent($search);
+    
+    /**
+     * Fetches the block records from the class name
+     *
+     * @param string    The class name to find
+     * @param string    The operation to execute
+     * @return object   A collection of objects
+     */
+    public function fromClassName($className, $operation = 'find');
 }
