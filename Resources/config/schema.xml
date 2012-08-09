@@ -24,6 +24,12 @@
     <unique name="I_BLOCK">
       <unique-column name="id" />
     </unique>
+    
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+        <parameter name="AutoIncrement" value="1"/>
+    </vendor>
   </table>
   
   <table name="al_language" idMethod="native">
@@ -35,6 +41,12 @@
     <unique name="I_LANGUAGE">
       <unique-column name="id" />
     </unique>
+    
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+        <parameter name="AutoIncrement" value="1"/>
+    </vendor>
   </table>
 
   <table name="al_page" idMethod="native">
@@ -54,6 +66,12 @@
     <index name="I_PAGE_NAME">
       <index-column name="page_name" />
     </index>
+    
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+        <parameter name="AutoIncrement" value="1"/>
+    </vendor>
   </table>
 
   <table name="al_seo" idMethod="native">
@@ -88,6 +106,12 @@
     <unique name="I_PAGE">
       <unique-column name="id" />
     </unique>
+    
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+        <parameter name="AutoIncrement" value="1"/>
+    </vendor>
   </table>
   
   <table name="al_user" idMethod="native">
@@ -111,6 +135,12 @@
     <foreign-key foreignTable="al_role" onDelete="CASCADE">
       <reference local="role_id" foreign="id" />
     </foreign-key>
+    
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+        <parameter name="AutoIncrement" value="1"/>
+    </vendor>
   </table>
   
   <table name="al_role" idMethod="native">
@@ -122,5 +152,11 @@
     <unique name="I_ROLENAME">
       <unique-column name="role" />
     </unique>
+    
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+        <parameter name="AutoIncrement" value="1"/>
+    </vendor>
   </table>
 </database>
