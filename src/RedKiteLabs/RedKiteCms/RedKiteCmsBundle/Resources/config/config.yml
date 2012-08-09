@@ -1,4 +1,5 @@
 assetic:
+    bundles: [AlphaLemonCmsBundle]
     filters:
         cssrewrite: ~
         yui_css:

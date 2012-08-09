@@ -1,7 +1,3 @@
-_AlphaLemonBootstrapBundle:
-    resource: .
-    type: bootstrap
-    
 _security:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/security.xml"
     
