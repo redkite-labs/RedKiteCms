@@ -1,9 +1,7 @@
 # AlphaLemonBootstrapBundle
-AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer could add
-an autoloader.json file to its Bundle and configure it to autoload the bundle
-
-The responsibility to configure the bundle
-is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.
+AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer 
+could add an autoloader.json file to a bundle and configure it to autoload that bundle, without have to enable it 
+manually in the AppKernel file.
 
 [![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapBundle.png)](http://travis-ci.org/alphalemon/BootstrapBundle)
 
@@ -51,11 +49,11 @@ This autoloads the BusinessDropCapBundle for all the environments.
 Sometimes it could be useful to autoload a bundle for certains environments, so a simple configuration could be added for the bundle
 as follows:
 
-	 {
+    {
         "bundles" : {
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
-				"environments" : ["dev", "test"]
-			}
+                "environments" : ["dev", "test"]
+            }
         }
     }
 	
@@ -65,11 +63,11 @@ is enabled only for the dev and test enviroments.
 ### The all keyword
 To specifiy all the enviroments you can use the **all** keyword:
 
-	{
+    {
         "bundles" : {
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
-				"environments" : ["all"]
-			}
+                "environments" : ["all"]
+            }
         }
     }
 	
@@ -79,12 +77,12 @@ This example is equivalent to the very first one.
 Sometimes it could happen that a bundle overrides a part of another bundle. In this specific case the overrider bundle must be declared
 after the overriden one. The **overrides** option can be used to achieve this task:
 
-	{
+    {
         "bundles" : {
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
-				"environments" : ["dev", "test"],
-				"overrides" : ["BusinessCarouselBundle"]
-			}
+                "environments" : ["dev", "test"],
+                "overrides" : ["BusinessCarouselBundle"]
+            }
         }
     }
 	
@@ -97,7 +95,7 @@ the autoloader.json file.
 Let's suppose the BusinessCarouselBundle has not the autoloader.json file and the BusinessDropCapBundle requires it. You can
 write the BusinessDropCapBundle's autoloader as follows to autoload it:
 
-	{
+    {
         "bundles" : {
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
 				"environments" : ["dev", "test"]
@@ -112,7 +110,7 @@ If you need to enable it for specific environments, you just  have to add the **
 When you need to execute some actions after the package is installed or uninstalled, you have to add a class that extends the 
 **ActionManager** object and that implements the **ActionManagerInterface**. This last one requires four methods which are:
 
-	packageInstalledPreBoot
+    packageInstalledPreBoot
     packageUninstalledPreBoot
     packageInstalledPostBoot
     packageUninstalledPostBoot
@@ -126,35 +124,50 @@ the kernel is not booted, the second ones when it has been booted and they recei
 
 To declare your ActionManager class in your autoloader.json file, you just need to specify that class to the actionManager section as follows:
 
-	{
+    {
         "bundles" : {
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
         },
-        "actionManager" : "\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"
-        }
+        "actionManager" : "\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"        
     }
 
 ## Configuration files
-When a new package is autoloaded, the bundle's configuration files are copied under the **app/config/bundles** folder and loaded in the AppKernel class.
-In this way the user that installs the bundle is not required to add the bundle's configuration to the **config.yml** and **routing.yml** files.
+Usually each bundle requires to add some configurations inside the application's config.yml to make it work properly. Some of these settings could be
+generic, ie. enabling the bundle to use assetic, while others could be specific for the application which is using that bundle. 
 
-To add a configuration that usually goes into the **config.yml** file, just add a config.yml file under the Resources/config folder of your bundle. The
-autoloader will copy that file for the config section and the routing.yml file for the routing section.
+The **BootstrapBundle** let the developer to define the generic settings directly with the bundle. This will produce some benefits for the final
+user:
 
-Obviously if something has to be changed to tune the autoloaded bundle, those customizations will be made in the config.yml file as usual.
+- The bundle that requires only generic setting is ready to be used without thouching the application's config.yml file
+- When the bundle is used by many applications, the generic configuration is already made
+- Less frustation for the user
+- Less frustation for the bundle's developer who has to write less documentation
+- Light config.yml file
+
+To add a configuration that usually goes into the **config.yml** file of your application, just add a **config.yml** file under the 
+**Resources/config** folder of your bundle and add the required setting to it. The BootstrapBundle takes care to copy it into the 
+**app/config/bundles/[environment]** folder and loaded in the AppKernel class.
+
+The same concepts are applied to the routes implemented by the bundle, so you can add a **routing.yml** file into the **Resources/config**
+of your bundle and the BootstrapBundle will do the rest for you.
 
 ### A practical example
-For example, AlphaLemon CMS requires a deploy bundle to work, which usually resides into the **src** folder of the application. This configuration is made
-in the FrontendBundle, which requires the following configuration into the config.yml file:
+For example, AlphaLemon CMS uses assetic to manage its assets, so the user who want to use that bundle should add the following configuration 
+to the config.yml file of his application:
 
-    alpha_lemon_frontend:
-        deploy_bundle: AcmeWebSiteBundle
+    app/config/config.yml
+    
+    assetic:
+    bundles: [AlphaLemonCmsBundle]
+    filters:
+        cssrewrite: ~
+        yui_css:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
+        yui_js:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
 
-This configuration has been added to a **config.yml** file placed under the **Resources/config** folder of the **FrontendBundle**, so the user has the
-default configuration ready to be used and doesn't require to add nothing to the **config.yml** file.
-
-When the user wants to change the **deploy_bundle** value, simply adds the configuration under the **config.yml** file as usual and that value is ovverided
-as well.
+With the BootstrapBundle these setting have been added to the config.yml file of AlphaLemonCms bundle so the user has the
+generic configuration ready to be used and doesn't require to add nothing to the **config.yml** file.
 
 ## Enabling the routing autoloader
 To enable the routing autoloader the following configuration must be added to the **routing.yml** configuration file:
@@ -185,12 +198,12 @@ To load the configurations from the app/config/bundles folder, the **registerCon
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $configFolder = __DIR__ . '/config/bundles/config';
+        $configFolder = __DIR__ . '/config/bundles/config/' . $this->getEnvironment();
         $finder = new \Symfony\Component\Finder\Finder();
         $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
-        foreach($configFiles as $config) {
+        foreach ($configFiles as $config) {
             $loader->load((string)$config);
-        }
+        };
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
