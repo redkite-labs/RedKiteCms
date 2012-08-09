@@ -120,4 +120,15 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->filterByToDelete(0)
                 ->find();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function fromClassName($className, $operation = 'find')
+    {
+        return AlBlockQuery::create()
+                ->filterByClassName($className)
+                ->filterByToDelete(0)
+                ->$operation();
+    }
 }
