@@ -32,5 +32,6 @@
         "AlphaLemon\\BootstrapBundle": ""
     }
   },
+  "minimum-stability": "dev",
   "target-dir" : "AlphaLemon/BootstrapBundle"
 }
