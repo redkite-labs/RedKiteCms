@@ -91,12 +91,10 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businessslider/css/business-slider.css",
             "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
-            "/favicon.ico",
         );
 
         $expectedJavascripts = array
         (
-            "/js/tiny_mce/tiny_mce.js",
             "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businessmenu/js/cufon-yui.js",
             "/bundles/businessmenu/js/al-cufon-replace.js",
@@ -153,12 +151,10 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businessslider/css/business-slider.css",
             "/bundles/businessdropcap/css/business-dropcap.css",
             "/bundles/businessdropcap/css/business-dropcap-editor.css",
-            "/favicon.ico",
         );
 
         $expectedJavascripts = array
         (
-            "/js/tiny_mce/tiny_mce.js",
             "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js/cufon-replace.js",
@@ -213,7 +209,7 @@ class CmsControllerTest extends WebTestCaseFunctional
     private function checkStylesheets($crawler, $expectedAssets)
     {
         $assets = $crawler->filter('link')->extract(array('href'));
-        $assets = array_filter($assets, function ($key) { return false === strpos($key, 'part'); });
+        $assets = array_filter($assets, 'self::ignoreAssetic');
         $this->assertEquals(count($expectedAssets), count($assets));
         $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
@@ -221,7 +217,7 @@ class CmsControllerTest extends WebTestCaseFunctional
     private function checkJavascripts($crawler, $expectedAssets)
     {
         $assets = array_filter($crawler->filter('script')->extract(array('src')));
-        $assets = array_filter($assets, function ($key) { return false === strpos($key, 'part'); });
+        $assets = array_filter($assets, 'self::ignoreAssetic');
         $this->assertEquals(count($expectedAssets), count($assets));
         $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
@@ -232,4 +228,10 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $el->count());
         $this->assertEquals($value, $el->text());
     }
+    
+    private static function ignoreAssetic($key)
+    {
+        return false !== strpos($key, 'bundles');
+    }
 }
+

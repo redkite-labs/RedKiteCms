@@ -1,5 +1,10 @@
-__alphaLemonCmsBundle:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing_cms.yml"
+_assetic:
+    resource: .
+    type:     assetic
+    
+_AlphaLemonBootstrapBundle:
+    resource: .
+    type: bootstrap
 
 _main:
     resource: routing.yml
