@@ -141,7 +141,7 @@ class Installer {
 
         if(strpos($contents, '$configFolder = __DIR__ . \'/config/bundles/config\';') === false)
         {
-            $cmsBundles = "\n        \$configFolder = __DIR__ . '/config/bundles/config/\' . \$this->getEnvironment();\n";
+            $cmsBundles = "\n        \$configFolder = __DIR__ . '/config/bundles/config/' . \$this->getEnvironment();\n";
             $cmsBundles .= "        \$finder = new \Symfony\Component\Finder\Finder();\n";
             $cmsBundles .= "        \$configFiles = \$finder->depth(0)->name('*.yml')->in(\$configFolder);\n";
             $cmsBundles .= "        foreach (\$configFiles as \$config) {\n";
