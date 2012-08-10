@@ -18,10 +18,15 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Sensio\Bundle\DistributionBundle\SensioDistributionBundle(),
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
+            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
+            new AlphaLemon\Block\TextBundle\TextBundle(),
+            new AlphaLemon\Block\MenuBundle\MenuBundle(),
+            new AlphaLemon\Block\MediaBundle\MediaBundle(),
+            new AlphaLemon\Block\ScriptBundle\ScriptBundle(),
+            new AlphaLemon\Block\NavigationMenuBundle\NavigationMenuBundle(),/**/
         );
 
         $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
@@ -41,7 +46,7 @@ class AppKernel extends Kernel
         foreach ($configFiles as $config) {
             $loader->load((string)$config);
         };
-        
+
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 

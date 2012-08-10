@@ -47,6 +47,7 @@
   "autoload": {
     "psr-0": {
         "AlphaLemon\\AlphaLemonCmsBundle": "",
+        "AlphaLemon\\Block": "Bundle/",
         "AlphaLemon\\Block\\TextBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\MenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\MediaBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
