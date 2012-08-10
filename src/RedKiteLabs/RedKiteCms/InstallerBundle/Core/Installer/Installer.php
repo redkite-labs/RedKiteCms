@@ -194,8 +194,10 @@ class Installer {
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms.yml', $this->vendorDir . '/../app/config/config_alcms.yml', true);
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms_dev.yml', $this->vendorDir . '/../app/config/config_alcms_dev.yml', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms_test.yml', $this->vendorDir . '/../app/config/config_alcms_test.yml', true);
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms.yml', $this->vendorDir . '/../app/config/routing_alcms.yml', true);
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms_dev.yml', $this->vendorDir . '/../app/config/routing_alcms_dev.yml', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms_test.yml', $this->vendorDir . '/../app/config/routing_alcms_test.yml', true);
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/media');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
