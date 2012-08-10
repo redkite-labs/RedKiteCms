@@ -34,5 +34,6 @@
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
     }
   },
+  "minimum-stability": "dev",
   "target-dir" : "AlphaLemon/ThemeEngineBundle"
 }

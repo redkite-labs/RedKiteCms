@@ -11,7 +11,6 @@
         <service id="twig.extension.render_slot" class="%twig.extension.render_slot.class%" public="false">
             <tag name="twig.extension" alias="slotRenderer" />
             <argument type="service" id="service_container" />
-            <argument type="service" id="al_page_tree" />
         </service>
     </services>
 

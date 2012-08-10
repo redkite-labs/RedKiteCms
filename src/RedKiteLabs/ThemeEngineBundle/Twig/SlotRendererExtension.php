@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://alphalemon.com
- * 
+ *
  * @license    MIT License
  */
 
@@ -28,12 +28,10 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 class SlotRendererExtension extends \Twig_Extension
 {
     protected $container;
-    protected $pageTree;
 
-    public function __construct(ContainerInterface $container, AlPageTree $pageTree)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->pageTree = $pageTree;
     }
 
     public function render($slotName = null)
@@ -46,7 +44,7 @@ class SlotRendererExtension extends \Twig_Extension
         try
         {
             $result = '';
-            $slotContents = $this->pageTree->getContents($slotName);
+            $slotContents = $this->container->get('al_page_tree')->getBlocks($slotName);
             if(count($slotContents) > 0)
             {
                 foreach($slotContents as $contents)
@@ -62,7 +60,7 @@ class SlotRendererExtension extends \Twig_Extension
                     }
                 }
             }
-            
+
             return $result;
         }
         catch (\Exception $ex)

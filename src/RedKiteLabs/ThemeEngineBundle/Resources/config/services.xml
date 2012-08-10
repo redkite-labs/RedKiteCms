@@ -8,11 +8,10 @@
         <parameter key="althemes.stylesheets" type="collection">
             <parameter>css/al_themes.css</parameter>
         </parameter>
-        <parameter key="althemes.base_template">AlphaLemonThemeEngineBundle:Theme:base.html.twig</parameter>        
+        <parameter key="althemes.base_template">AlphaLemonThemeEngineBundle:Theme:base.html.twig</parameter>
         <parameter key="althemes.base_theme_manager_template">AlphaLemonThemeEngineBundle:Themes:index.html.twig</parameter>
         <parameter key="althemes.panel_sections_template">AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig</parameter>
         <parameter key="althemes.theme_skeleton_template">AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig</parameter>
-        <!--<parameter key="althemes.app_themes_dir">%kernel.root_dir%/../src/AlphaLemon/Theme</parameter>-->
         <parameter key="althemes.info_valid_entries" type="collection">
             <parameter>title</parameter>
             <parameter>description</parameter>
@@ -22,5 +21,18 @@
             <parameter>email</parameter>
             <parameter>version</parameter>
         </parameter>
+
+
+        <parameter key="alphalemon_theme_engine.theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
+        <parameter key="alphalemon_theme_engine.themes.class">AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
+        <parameter key="alphalemon_theme_engine.slot.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot</parameter>
+        <parameter key="alphalemon_theme_engine.template.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate</parameter>
+        <parameter key="alphalemon_theme_engine.template_assets.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets</parameter>
+        <parameter key="alphalemon_theme_engine.template_slots.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots</parameter>
     </parameters>
+
+    <services>
+        <service id="alphalemon_theme_engine.themes" class="%alphalemon_theme_engine.themes.class%">
+        </service>
+    </services>
 </container>

@@ -1,7 +1,7 @@
 <?php
 /*
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
- * under the MIT License. In addiction, to use this bundle, you must leave
+ * This file is part of the AlphaLemon CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
@@ -9,32 +9,62 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://www.alphalemon.com
  * 
- * @license    MIT License
+ * @license    GPL LICENSE Version 2.0
  * 
  */
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
 
-namespace AlphaLemon\ThemeEngineBundle\Tests;
 
-require_once __DIR__.'/../../../../../app/AppKernel.php';
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
+
+
+
 
 class TestCase extends \PHPUnit_Framework_TestCase {
  
-    private $container = null;
+    protected $connection = null;
     
     protected function setUp()
     {
-        if(null === $this->container)
-        {
-            $this->app = new \AppKernel('test', true);
-            $this->app->boot();
-            $this->container = $this->app->getContainer(); 
+        $this->connection = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Pdo\MockPDO');
+    }
+
+    public static function setUpBeforeClass()
+    {
+        $config = array("datasources" => array (
+            "default" => array (
+                "adapter" => "mysql",
+                "connection" => array
+                (
+                    "dsn" => "mysql:host=localhost;dbname=alphaLemonDevTest",
+                    "user" => "root",
+                    "password" => "passera73",
+                    "classname" => "DebugPDO",
+                    "options" => array(),
+                    "attributes" => array (),
+                    "settings" => array (),
+                )
+            )
+        ));
+        
+        if (!\Propel::isInit()) {
+            \Propel::setConfiguration($config);
+            \Propel::initialize();
         }
     }
     
-    public function getContainer()
+    protected static function callMethod($obj, $name, array $args = array())
     {
-        return $this->container;
+        $object = new \ReflectionClass($obj);
+        $method = $object->getMethod($name);
+        $method->setAccesible(true);
+        
+        return $method->invokeArgs($obj, $args);
     }
 }
