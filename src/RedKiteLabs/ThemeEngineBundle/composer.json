@@ -25,7 +25,7 @@
     "sensio/generator-bundle": "dev-master",
     "jms/security-extra-bundle": "1.2.*",
     "jms/di-extra-bundle": "1.1.*",
-    "alphalemon/al-pagetree-bundle": "dev-revisioning-pagetree-objects",
+    "alphalemon/al-pagetree-bundle": "dev-master",
     "propel/propel-bundle": "1.1.x-dev",
     "propel/propel1": "1.6.*",
     "phing/phing": "2.4.*"
