@@ -10,32 +10,33 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
-namespace AlphaLemon\ElFinderBundle\Core\Listener; 
+namespace AlphaLemon\ElFinderBundle\Core\ActionManager;
 
-use AlphaLemon\BootstrapBundle\Core\Event\PackageInstalledEvent;
 use Symfony\Component\Process\Process;
+use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManager;
 
 /**
- * Manipulates the block's editor response when the editor has been rendered 
+ * Installs ElFinder library
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class PackageInstalledListener 
+class ActionManagerElFinder extends ActionManager
 {
-    public function onPackageInstalled(PackageInstalledEvent $event)
-    {   
+    public function packageInstalledPreBoot()
+    {
         chdir(__DIR__ . '/../../');
-        
+
         $process = new Process('git submodule init');
         $process->run();
-        
+
         $process = new Process('git submodule update');
         $res = $process->run();
-        if($res === 0) $event->setSuccess (true);
+
+        if($res == 0) return false;
     }
 }

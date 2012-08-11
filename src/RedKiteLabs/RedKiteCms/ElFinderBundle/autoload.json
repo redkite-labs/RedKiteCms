@@ -4,7 +4,5 @@
             "environments" : "all"
         }
     },
-    "scripts" : {
-        "package-installed" : "\\AlphaLemon\\ElFinderBundle\\Core\\Listener\\PackageInstalledListener"
-    }
+    "actionManager" : "AlphaLemon\\ElFinderBundle\\Core\\ActionManager\\ActionManagerElFinder"
 }
