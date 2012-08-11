@@ -11,13 +11,15 @@ website's content management experience.
 
 Requirements
 ------------
-PHP 5.3+
-Symfony 2.1
+
+- PHP 5.3+
+- Symfony 2.1
+
 
 Install AlphaLemon CMS
 ----------------------
 
-To install AlphaLemon CMS you just need to download the [AlphaLemon CMS Sandbox](http://github.com/alphalemon/)[https://github.com/alphalemon/AlphaLemonCmsSandbox]
+To install AlphaLemon CMS you just need to download the [AlphaLemon CMS Sandbox](https://github.com/alphalemon/AlphaLemonCmsSandbox)
 and follow the intructions that comes with the sandbox itself.
 
 The AlphaLemon CMS Sandbox is just a Symfony2 Application fully configured for AlphaLemon CMS, which contains the tools required by AlphaLemon CMS, like the
@@ -27,10 +29,11 @@ yuicompressor or tiny_mce.
 Use AlphaLemon CMS
 ------------------
 
-To browse your site, simply open a browser and point to http://localhost or whatever your domain is.
+To browse your site, simply open a browser and point to **http://localhost** or whatever your domain is.
 
-To work with AlphaLemon CMS simply point to http://localhost/alcms.php/backend/en/index. You may debug your
-application using the alcms_dev.php environment: http://localhost/alcms_dev.php/backend/en/index
+To work with AlphaLemon CMS simply point to **http://localhost/alcms.php/backend/en/index**
+
+You may debug your application using the alcms_dev.php environment: **http://localhost/alcms_dev.php/backend/en/index**
 
 
 The page is blank
@@ -52,13 +55,15 @@ available now, but it is buggy and incomplete, so don't expect so much from it.
 
 You may partecipate to the development browsing the official AlphaLemon's space on github:
 
-    https://github.com/alphalemon
+    [https://github.com/alphalemon](https://github.com/alphalemon)
 
 
 Documentation
 -------------
 For more information and documentation see the [documentation](https://github.com/alphalemon/AlphaLemonCmsBundle/tree/master/Resources/docs)
 that comes with AlphaLemon CMS.
+
+The documentation is still in progress.
 
 
 Notes for windows users
