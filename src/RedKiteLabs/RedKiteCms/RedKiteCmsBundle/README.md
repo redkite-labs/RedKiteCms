@@ -53,17 +53,13 @@ Development status
 AlphaLemon CMS has been eavily refactored since preview releases and it is not stable yet. A pre-alpha version is
 available now, but it is buggy and incomplete, so don't expect so much from it.
 
-You may partecipate to the development browsing the official AlphaLemon's space on github:
-
-    [https://github.com/alphalemon](https://github.com/alphalemon)
+You may partecipate to the development browsing the official AlphaLemon's space on github [https://github.com/alphalemon](https://github.com/alphalemon).
 
 
 Documentation
 -------------
 For more information and documentation see the [documentation](https://github.com/alphalemon/AlphaLemonCmsBundle/tree/master/Resources/docs)
 that comes with AlphaLemon CMS.
-
-The documentation is still in progress.
 
 
 Notes for windows users
