@@ -57,9 +57,5 @@
         "AlphaLemon\\Block\\NavigationMenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/"
     }
   },
-  "target-dir" : "AlphaLemon/AlphaLemonCmsBundle",
-  "bin": ["bin/cms-install", "bin/config.php"],
-  "config": {
-    "bin-dir": "bin"
-  }
+  "target-dir" : "AlphaLemon/AlphaLemonCmsBundle"
 }
