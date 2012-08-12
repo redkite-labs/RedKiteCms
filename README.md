@@ -61,6 +61,9 @@ Documentation
 For more information and documentation see the [documentation](https://github.com/alphalemon/AlphaLemonCmsBundle/tree/master/Resources/docs)
 that comes with AlphaLemon CMS.
 
+Stay in touch
+-------------
+Follow [@alphalemon on twitter](https://twitter.com/alphalemon) for the latest news
 
 Notes for windows users
 -----------------------
