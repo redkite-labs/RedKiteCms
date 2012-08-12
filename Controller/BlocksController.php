@@ -115,12 +115,21 @@ class BlocksController extends Controller
             }
 
             $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
-            $values = array(array("key" => "message",
-                                "value" => $this->get('translator')->trans('The content has been successfully added')),
-                            array("key" => "add-block",
-                                "insertAfter" => "block_" . $idBlock,
-                                "slotName" => 'al_' . $request->get('slotName'),
-                                "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $slotManager->lastAdded()->toArray()))));
+            $values = array(
+                array(
+                    "key" => "message",
+                    "value" => $this->get('translator')->trans('The content has been successfully added')
+                ),
+                array(
+                    "key" => "add-block",
+                    "insertAfter" => "block_" . $idBlock,
+                    "slotName" => 'al_' . $request->get('slotName'),
+                    "value" => $this->container->get('templating')->render(
+                            'AlphaLemonCmsBundle:Cms:render_block.html.twig',
+                            array("block" => $slotManager->lastAdded()->toArray(), 'add' => true)
+                        )
+                    )
+                );
 
             return $this->buildJSonResponse($values);
         }
