@@ -50,33 +50,33 @@ class PreeBootUninstallerScriptTest extends BaseFilesystem
     public function testUninstallPreBoot()
     {
         $this->setUpFileSystemForUninstall();
-        $actionsManagers = array('BusinessCarouselBundle' => $this->initActionsManager('packageUninstalledPreBoot'));
+        $actionsManagers = array('BusinessCarouselFakeBundle' => $this->initActionsManager('packageUninstalledPreBoot'));
         $this->preBootUninstallerScript->executeActions($actionsManagers);
         $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/.PostUninstall')));
         $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/.packageUninstalledPreBoot')));
 
         $postActions = json_decode(file_get_contents(vfsStream::url('root/app/config/bundles/.PostUninstall')), true);
-        $this->assertArrayHasKey('BusinessCarouselBundle', $postActions);
-        $this->assertEquals($postActions['BusinessCarouselBundle'], get_class($actionsManagers['BusinessCarouselBundle']));
+        $this->assertArrayHasKey('BusinessCarouselFakeBundle', $postActions);
+        $this->assertEquals($postActions['BusinessCarouselFakeBundle'], get_class($actionsManagers['BusinessCarouselFakeBundle']));
     }
 
     public function testUninstallPreBootGeneratesAJsonFileWhenAnActionIsNotExecuted()
     {
         $this->setUpFileSystemForUninstall();
-        $actionsManagers = array('BusinessCarouselBundle' => $this->initActionsManager('packageUninstalledPreBoot', false));
+        $actionsManagers = array('BusinessCarouselFakeBundle' => $this->initActionsManager('packageUninstalledPreBoot', false));
         $this->preBootUninstallerScript->executeActions($actionsManagers);
         $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/.packageUninstalledPreBoot')));
 
         $actionsNotExecuted = json_decode(file_get_contents(vfsStream::url('root/app/config/bundles/.packageUninstalledPreBoot')), true);
-        $this->assertArrayHasKey('BusinessCarouselBundle', $actionsNotExecuted);
-        $this->assertEquals($actionsNotExecuted['BusinessCarouselBundle'], get_class($actionsManagers['BusinessCarouselBundle']));
+        $this->assertArrayHasKey('BusinessCarouselFakeBundle', $actionsNotExecuted);
+        $this->assertEquals($actionsNotExecuted['BusinessCarouselFakeBundle'], get_class($actionsManagers['BusinessCarouselFakeBundle']));
     }
 
     public function testThePackageUninstalledPreBootJsonFileIsNotRemovedBecauseTheActionHasNotCorrectlyExecuted()
     {
         $this->setUpFileSystemForUninstall();
 
-        $notExecutedActions = array('BusinessCarouselBundle' => '\AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageUninstalledPreBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageUninstalledPreBoot', false);
@@ -98,7 +98,7 @@ class PreeBootUninstallerScriptTest extends BaseFilesystem
     {
         $this->setUpFileSystemForUninstall();
 
-        $notExecutedActions = array('BusinessCarouselBundle' => '\AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageUninstalledPreBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageUninstalledPreBoot');
@@ -126,8 +126,8 @@ class PreeBootUninstallerScriptTest extends BaseFilesystem
 
     private function setUpFileSystemForUninstall()
     {
-        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselBundle');
-        $this->createFolder('root/app/config/bundles/cache/BusinessCarouselBundle');
-        copy(vfsStream::url('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/Core/ActionManager/ActionManagerBusinessCarousel.php'), vfsStream::url('root/app/config/bundles/cache/BusinessCarouselBundle/ActionManagerBusinessCarousel.php'));
+        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
+        $this->createFolder('root/app/config/bundles/cache/BusinessCarouselFakeBundle');
+        copy(vfsStream::url('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/ActionManagerBusinessCarousel.php'), vfsStream::url('root/app/config/bundles/cache/BusinessCarouselFakeBundle/ActionManagerBusinessCarousel.php'));
     }
 }

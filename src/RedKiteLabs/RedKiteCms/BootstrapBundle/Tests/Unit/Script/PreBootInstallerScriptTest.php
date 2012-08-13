@@ -50,33 +50,33 @@ class PreeBootInstallerScriptTest extends BaseFilesystem
     public function testInstallPreBoot()
     {
         $this->setUpFileSystemForInstall();
-        $actionsManagers = array('BusinessCarouselBundle' => $this->initActionsManager('packageInstalledPreBoot'));
+        $actionsManagers = array('BusinessCarouselFakeBundle' => $this->initActionsManager('packageInstalledPreBoot'));
         $this->preBootInstallerScript->executeActions($actionsManagers);
         $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/.PostInstall')));
         $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/.packageInstalledPreBoot')));
 
         $postActions = json_decode(file_get_contents(vfsStream::url('root/app/config/bundles/.PostInstall')), true);        
-        $this->assertArrayHasKey('BusinessCarouselBundle', $postActions);
-        $this->assertEquals($postActions['BusinessCarouselBundle'], get_class($actionsManagers['BusinessCarouselBundle']));
+        $this->assertArrayHasKey('BusinessCarouselFakeBundle', $postActions);
+        $this->assertEquals($postActions['BusinessCarouselFakeBundle'], get_class($actionsManagers['BusinessCarouselFakeBundle']));
     }
 
     public function testInstallPreBootGeneratesAJsonFileWhenAnActionIsNotExecuted()
     {
         $this->setUpFileSystemForInstall();
-        $actionsManagers = array('BusinessCarouselBundle' => $this->initActionsManager('packageInstalledPreBoot', false));
+        $actionsManagers = array('BusinessCarouselFakeBundle' => $this->initActionsManager('packageInstalledPreBoot', false));
         $this->preBootInstallerScript->executeActions($actionsManagers);
         $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/.packageInstalledPreBoot')));
 
         $actionsNotExecuted = json_decode(file_get_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPreBoot')), true);
-        $this->assertArrayHasKey('BusinessCarouselBundle', $actionsNotExecuted);
-        $this->assertEquals($actionsNotExecuted['BusinessCarouselBundle'], get_class($actionsManagers['BusinessCarouselBundle']));
+        $this->assertArrayHasKey('BusinessCarouselFakeBundle', $actionsNotExecuted);
+        $this->assertEquals($actionsNotExecuted['BusinessCarouselFakeBundle'], get_class($actionsManagers['BusinessCarouselFakeBundle']));
     }
 
     public function testThePackageInstalledPreBootJsonFileIsNotRemovedBecauseTheActionHasNotCorrectlyExecuted()
     {
         $this->setUpFileSystemForInstall();
 
-        $notExecutedActions = array('BusinessCarouselBundle' => '\AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPreBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageInstalledPreBoot', false);
@@ -98,7 +98,7 @@ class PreeBootInstallerScriptTest extends BaseFilesystem
     {
         $this->setUpFileSystemForInstall();
 
-        $notExecutedActions = array('BusinessCarouselBundle' => '\AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPreBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageInstalledPreBoot');
@@ -127,7 +127,7 @@ class PreeBootInstallerScriptTest extends BaseFilesystem
 
     private function setUpFileSystemForInstall()
     {
-        $classFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/Core/ActionManager/';
+        $classFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/';
         $this->createFolder($classFolder);
         $this->createFile($classFolder . 'ActionManagerBusinessCarousel.php');
     }

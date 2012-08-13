@@ -60,7 +60,7 @@ class PostBootInstallerScriptTest extends BaseFilesystem
         $actionsManagerPost = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface');
         $actionsManagerPost->expects($this->never())
             ->method('packageInstalledPostBoot');
-        $actionsManagers = array('BusinessCarouselBundle' => $actionsManagerPost);
+        $actionsManagers = array('BusinessCarouselFakeBundle' => $actionsManagerPost);
         $postBootInstallerScript = new postBootInstallerScript(vfsStream::url('root/app/config/bundles'));
         $postBootInstallerScript->executeActions($actionsManagers);
     }
@@ -68,7 +68,7 @@ class PostBootInstallerScriptTest extends BaseFilesystem
     public function testInstallPostBoot()
     {
         $this->setUpFileSystemForInstall();
-        $actionsManagers = array('BusinessCarouselBundle' => $this->initActionsManager('packageInstalledPostBoot'));
+        $actionsManagers = array('BusinessCarouselFakeBundle' => $this->initActionsManager('packageInstalledPostBoot'));
         $this->postBootInstallerScript->executeActions($actionsManagers);
         $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/.PostInstall')));
         $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/.packageInstalledPreBoot')));
@@ -77,20 +77,20 @@ class PostBootInstallerScriptTest extends BaseFilesystem
     public function testInstallPostBootGeneratesAJsonFileWhenAnActionIsNotExecuted()
     {
         $this->setUpFileSystemForInstall();
-        $actionsManagers = array('BusinessCarouselBundle' => $this->initActionsManager('packageInstalledPostBoot', false));
+        $actionsManagers = array('BusinessCarouselFakeBundle' => $this->initActionsManager('packageInstalledPostBoot', false));
         $this->postBootInstallerScript->executeActions($actionsManagers);
         $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/.packageInstalledPostBoot')));
 
         $actionsNotExecuted = json_decode(file_get_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPostBoot')), true);
-        $this->assertArrayHasKey('BusinessCarouselBundle', $actionsNotExecuted);
-        $this->assertEquals($actionsNotExecuted['BusinessCarouselBundle'], get_class($actionsManagers['BusinessCarouselBundle']));
+        $this->assertArrayHasKey('BusinessCarouselFakeBundle', $actionsNotExecuted);
+        $this->assertEquals($actionsNotExecuted['BusinessCarouselFakeBundle'], get_class($actionsManagers['BusinessCarouselFakeBundle']));
     }
 
     public function testThePackageInstalledPostBootJsonFileIsNotRemovedBecauseTheActionHasNotCorrectlyExecuted()
     {
         $this->setUpFileSystemForInstall();
 
-        $notExecutedActions = array('BusinessCarouselBundle' => '\AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPostBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageInstalledPostBoot', false);
@@ -113,7 +113,7 @@ class PostBootInstallerScriptTest extends BaseFilesystem
     {
         $this->setUpFileSystemForInstall();
 
-        $notExecutedActions = array('BusinessCarouselBundle' => '\AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPostBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageInstalledPostBoot');
@@ -143,10 +143,10 @@ class PostBootInstallerScriptTest extends BaseFilesystem
 
     private function setUpFileSystemForInstall()
     {
-        $fileContents = '"businesscarousel":"AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel"';
+        $fileContents = '"businesscarousel":"AlphaLemon\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel"';
         $this->createFile('root/app/config/bundles/.postInstall', $fileContents);
 
-        $classFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/Core/ActionManager/';
+        $classFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/';
         $this->createFolder($classFolder);
         $this->createFile($classFolder . 'ActionManagerBusinessCarousel.php');
     }

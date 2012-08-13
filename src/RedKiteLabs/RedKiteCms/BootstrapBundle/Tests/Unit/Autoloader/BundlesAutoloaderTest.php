@@ -40,26 +40,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
                         );
         $this->root = vfsStream::setup('root', null, $folders);
 
-        $this->bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
-    }
-
-    public function testFoldersHaveBeenCreated()
-    {
-        $expectedResult = array('root' =>
-                                    array('app' =>
-                                        array('config' =>
-                                            array('bundles' =>
-                                                array('autoloaders' => array(),
-                                                      'config' => array(),
-                                                      'routing' => array(),
-                                                      'cache' => array(),
-                                                    )
-                                                )
-                                            ),
-                                'vendor' => array('composer' => array()),
-                                ));
-
-        $this->assertEquals($expectedResult, vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());
+        //$this->bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
     }
 
     /**
@@ -75,25 +56,54 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
         $bundlesAutoloader->getBundles();
     }
+    
+    
+    public function testFoldersHaveBeenCreated()
+    {
+        //$this->createAutoloadNamespacesFile();
+        
+        $folders = array('app' => array(),
+                         'vendor' => array('composer' => array('autoload_namespaces.php' => '<?php return array();')),
+                        );
+        $this->root = vfsStream::setup('root', null, $folders);
+        
+        $expectedResult = array('root' =>
+                                    array('app' =>
+                                        array('config' =>
+                                            array('bundles' =>
+                                                array('autoloaders' => array(),
+                                                      'config' => array(),
+                                                      'routing' => array(),
+                                                      'cache' => array(),
+                                                    )
+                                                )
+                                            ),
+                                'vendor' => array('composer' => array('autoload_namespaces.php' => '<?php return array();')),
+                                ));
+
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $this->assertEquals($expectedResult, vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());
+    }
 
     public function testOnlyBundlesWithAnAutoloadFileAreAutoloaded()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle');
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapBundle/';
-        $this->createBundle($bundleFolder, 'BusinessDropCapBundle', false); // This bundle has any autoload.json file
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', false); // This bundle has any autoload.json file
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
             ->will($this->returnValue($this->createScript()));
 
-        $this->assertEquals(1, count($this->bundlesAutoloader->getBundles()));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarousel.json')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarousel.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarousel.yml')));
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);        
+        $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
+        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
+        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
         $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businessdropcap.json')));
     }
 
@@ -101,28 +111,29 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    },' . PHP_EOL;
-        $autoload .= '    "actionManager" : "\\\\AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"';
+        $autoload .= '    "actionManager" : "\\\\AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"';
         $autoload .= '}';
 
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
-        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselBundle');
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
+        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
             ->will($this->returnValue($this->createScript()));
 
-        $this->assertEquals(1, count($this->bundlesAutoloader->getBundles()));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarousel.json')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarousel.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarousel.yml')));
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);        
+        $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
+        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
+        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
         $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businessdropcap.json')));
     }
 
@@ -130,8 +141,8 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle');
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
         $configFolder = $bundleFolder . 'Resources/config';
         $this->createFolder($configFolder);
         $this->createFile($configFolder . '/config.yml');
@@ -141,53 +152,55 @@ class BundlesAutoloaderTest extends BaseFilesystem
             ->method('createScript')
             ->will($this->returnValue($this->createScript()));
 
-        $this->bundlesAutoloader->getBundles();
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);        
+        $bundlesAutoloader->getBundles();
 
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarousel.json')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarousel.yml')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarousel.yml')));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
     }
 
     /**
      * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidAutoloaderException
-     * @expectedExceptionMessage The bundle class AlphaLemon\Block\BusinessCarouselBundle\BusinessCarousellBundle does not exist. Check the bundle's autoload.json to fix the problem
+     * @expectedExceptionMessage The bundle class AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarousellBundle does not exist. Check the bundle's autoload.json to fix the problem
      */
     public function testAnExceptionIsThrownWhenTheClassGIvenInTheAutoloaderHasNotBeenFound()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarousellBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarousellBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
             ->will($this->returnValue($this->createScript()));
 
-        $this->bundlesAutoloader->getBundles();
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);        
+        $bundlesAutoloader->getBundles();
     }
 
     public function testABundleIsNotInstantiatedWhenItIsNotRequiredForTheCurrentEnvironment()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["dev"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -203,20 +216,20 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["dev"],' . PHP_EOL;
-        $autoload .= '           "overrides" : ["BusinessDropCapBundle"]' . PHP_EOL;
+        $autoload .= '           "overrides" : ["BusinessDropCapFakeBundle"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapBundle/';
-        $this->createBundle($bundleFolder, 'BusinessDropCapBundle');
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -232,20 +245,20 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"],' . PHP_EOL;
-        $autoload .= '           "overrides" : ["BusinessDropCapBundle"]' . PHP_EOL;
+        $autoload .= '           "overrides" : ["BusinessDropCapFakeBundle"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapBundle/';
-        $this->createBundle($bundleFolder, 'BusinessDropCapBundle');
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -254,26 +267,26 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertEquals(2, count($bundles));
-        $this->assertEquals(array('BusinessDropCapBundle', 'BusinessCarouselBundle'), array_keys($bundles));
+        $this->assertEquals(array('BusinessDropCapFakeBundle', 'BusinessCarouselFakeBundle'), array_keys($bundles));
     }
     
     public function testAutoloadingABundleWithoutAutoloader()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsBundle\\\\AlphaLemonCmsBundle" : ""' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsFakeBundle\\\\AlphaLemonCmsFakeBundle" : ""' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
                 
-        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCms/AlphaLemonCmsBundle/';
-        $this->createBundle($bundleFolder, 'AlphaLemonCmsBundle', false, 'AlphaLemon\AlphaLemonCms');
+        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCms/AlphaLemonCmsFakeBundle/';
+        $this->createBundle($bundleFolder, 'AlphaLemonCmsFakeBundle', false, 'AlphaLemon\AlphaLemonCms');
         
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -282,35 +295,35 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertEquals(2, count($bundles));
-        $this->assertEquals(array('BusinessCarouselBundle', 'AlphaLemonCmsBundle'), array_keys($bundles));
+        $this->assertEquals(array('BusinessCarouselFakeBundle', 'AlphaLemonCmsFakeBundle'), array_keys($bundles));
     }
     
     public function testABundleDelaredInSeveralAutoloadersIsInstantiatedOnce()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessDropCapBundle\\\\BusinessDropCapBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessDropCapFakeBundle\\\\BusinessDropCapFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;     
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["dev"]' . PHP_EOL;     
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessDropCapBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', $autoload);
              
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -319,37 +332,37 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertEquals(2, count($bundles));
-        $this->assertEquals(array('BusinessCarouselBundle', 'BusinessDropCapBundle'), array_keys($bundles));
+        $this->assertEquals(array('BusinessCarouselFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
     }
     
     public function testABundleDelaredInSeveralAutoloadersWithoutAutoloaderIsInstantiatedOnce()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsBundle\\\\AlphaLemonCmsBundle" : ""' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsFakeBundle\\\\AlphaLemonCmsFakeBundle" : ""' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessDropCapBundle\\\\BusinessDropCapBundle" : {' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessDropCapFakeBundle\\\\BusinessDropCapFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;     
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsBundle\\\\AlphaLemonCmsBundle" : ""' . PHP_EOL;
+        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsFakeBundle\\\\AlphaLemonCmsFakeBundle" : ""' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
-        $this->createBundle($bundleFolder, 'BusinessDropCapBundle', $autoload);
+        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', $autoload);
                 
-        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCms/AlphaLemonCmsBundle/';
-        $this->createBundle($bundleFolder, 'AlphaLemonCmsBundle', false, 'AlphaLemon\AlphaLemonCms');
+        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCms/AlphaLemonCmsFakeBundle/';
+        $this->createBundle($bundleFolder, 'AlphaLemonCmsFakeBundle', false, 'AlphaLemon\AlphaLemonCms');
         
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -358,7 +371,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertEquals(3, count($bundles));
-        $this->assertEquals(array('BusinessCarouselBundle', 'AlphaLemonCmsBundle', 'BusinessDropCapBundle'), array_keys($bundles));
+        $this->assertEquals(array('BusinessCarouselFakeBundle', 'AlphaLemonCmsFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
     }
 
     public function testUninstall()
@@ -366,8 +379,8 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $this->createAutoloadNamespacesFile();
 
         // Autoloads a bundle
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/';
-        $this->createBundle($bundleFolder, 'BusinessCarouselBundle');
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
         $configFolder = $bundleFolder . 'Resources/config';
         $this->createFolder($configFolder);
         $this->createFile($configFolder . '/config.yml');
@@ -377,16 +390,17 @@ class BundlesAutoloaderTest extends BaseFilesystem
             ->method('createScript')
             ->will($this->returnValue($this->createScript()));
 
-        $this->assertEquals(1, count($this->bundlesAutoloader->getBundles()));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarousel.json')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarousel.yml')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarousel.yml')));
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);        
+        $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
+        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
 
         // Next call
         $fs = new \Symfony\Component\Filesystem\Filesystem();
         $fs->remove(vfsStream::url($bundleFolder));
 
-        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselBundle');
+        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
 
         $script = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\ScriptInterface');
         $script->expects($this->exactly(2))
@@ -399,9 +413,9 @@ class BundlesAutoloaderTest extends BaseFilesystem
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $scriptFactory);
         $this->assertEquals(0, count($bundlesAutoloader->getBundles()));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarousel.json')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarousel.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarousel.yml')));
+        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
+        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
+        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
     }
 
     protected function createAutoloadNamespacesFile($autoloadNamespaces = null)
@@ -411,9 +425,9 @@ class BundlesAutoloaderTest extends BaseFilesystem
             $autoloadNamespaces .= '$vendorDir = dirname(__DIR__);' . PHP_EOL;
             $autoloadNamespaces .= '$baseDir = dirname($vendorDir);' . PHP_EOL;
             $autoloadNamespaces .= 'return array(' . PHP_EOL;
-            $autoloadNamespaces .= '    \'AlphaLemon\\Block\\BusinessCarouselBundle\' => $vendorDir . \'/alphalemon/app-business-carousel-bundle/\',' . PHP_EOL;
-            $autoloadNamespaces .= '    \'AlphaLemon\\Block\\BusinessDropCapBundle\' => $vendorDir . \'/alphalemon/app-business-dropcap-bundle/\',' . PHP_EOL;
-            $autoloadNamespaces .= '    \'AlphaLemon\\AlphaLemonCms\\AlphaLemonCmsBundle\' => $vendorDir . \'/alphalemon/alphalemon-cms-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'AlphaLemon\\Block\\BusinessCarouselFakeBundle\' => $vendorDir . \'/alphalemon/app-business-carousel-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'AlphaLemon\\Block\\BusinessDropCapFakeBundle\' => $vendorDir . \'/alphalemon/app-business-dropcap-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'AlphaLemon\\AlphaLemonCms\\AlphaLemonCmsFakeBundle\' => $vendorDir . \'/alphalemon/alphalemon-cms-bundle/\',' . PHP_EOL;
             $autoloadNamespaces .= ');' . PHP_EOL;
         }
 

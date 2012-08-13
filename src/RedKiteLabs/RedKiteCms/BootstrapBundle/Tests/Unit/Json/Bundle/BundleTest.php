@@ -39,25 +39,25 @@ class BundleTest extends TestCase
     
     /**
      * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonParameterException
-     * @expectedExceptionMessage The class AlphaLemon\Block\BusinessCarouselBundle\BusinessCarouselBundl does not seem to be a valid bundle class. Check your autoloader.json file
+     * @expectedExceptionMessage The class AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselBundl does not seem to be a valid bundle class. Check your autoloader.json file
      */
     public function testAnExceptionIsThrownWhenTheGivenClassIsInvalid()
     {
-        $this->bundle->setClass("AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundl");
+        $this->bundle->setClass("AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselBundl");
     }
     
     public function testSettingTheClassPropertySetsTheBundleIdToo()
     {
         $this->assertNull($this->bundle->getId());
-        $this->bundle->setClass("AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle");
-        $this->assertEquals("AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle", $this->bundle->getClass());        
-        $this->assertEquals("BusinessCarouselBundle", $this->bundle->getId());
-        $this->assertEquals("BusinessCarouselBundle", $this->bundle->__toString());
+        $this->bundle->setClass("AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle");
+        $this->assertEquals("AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle", $this->bundle->getClass());        
+        $this->assertEquals("BusinessCarouselFakeBundle", $this->bundle->getId());
+        $this->assertEquals("BusinessCarouselFakeBundle", $this->bundle->__toString());
     }
     
     public function testSetTheOverridesProperty()
     {
-        $overridesValue = array("BusinessCarouselBundle");
+        $overridesValue = array("BusinessCarouselFakeBundle");
         $this->bundle->setOverrides($overridesValue);
         $this->assertEquals($overridesValue, $this->bundle->getOverrides());
     }

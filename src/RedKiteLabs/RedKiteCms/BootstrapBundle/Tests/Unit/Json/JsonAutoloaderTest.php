@@ -45,7 +45,7 @@ class JsonAutoloaderTest extends TestCase
     {
         $jsonAutoload = '{' . PHP_EOL;
         $jsonAutoload .= '  "bundels" : {' . PHP_EOL;
-        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $jsonAutoload .= '       "environments" : ["all"]' . PHP_EOL;
         $jsonAutoload .= '    }' . PHP_EOL;
         $jsonAutoload .= '  }' . PHP_EOL;
@@ -62,7 +62,7 @@ class JsonAutoloaderTest extends TestCase
     {
         $jsonAutoload = '{' . PHP_EOL;
         $jsonAutoload .= '  "bundels" : {' . PHP_EOL;
-        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $jsonAutoload .= '       "environments" : ["all"]' . PHP_EOL;
         $jsonAutoload .= '    }' . PHP_EOL;
         $jsonAutoload .= '  }' . PHP_EOL;
@@ -76,7 +76,7 @@ class JsonAutoloaderTest extends TestCase
     {
         $jsonAutoload = '{' . PHP_EOL;
         $jsonAutoload .= '  "bundles" : {' . PHP_EOL;
-        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $jsonAutoload .= '       "environments" : ["all"],' . PHP_EOL;
         $jsonAutoload .= '       "overrides" : ["BusinessDropCapBundle"]' . PHP_EOL;
         $jsonAutoload .= '    }' . PHP_EOL;
@@ -91,8 +91,8 @@ class JsonAutoloaderTest extends TestCase
         $this->assertEquals(1, count($bundles['all']));
 
         $bundle = $bundles['all'][0];
-        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());
-        $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle', $bundle->getClass());
+        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getId());
+        $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
     }
 
@@ -100,7 +100,7 @@ class JsonAutoloaderTest extends TestCase
     {
         $jsonAutoload = '{' . PHP_EOL;
         $jsonAutoload .= '  "bundles" : {' . PHP_EOL;
-        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : ""' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : ""' . PHP_EOL;
         $jsonAutoload .= '  }' . PHP_EOL;
         $jsonAutoload .= '}';
         file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
@@ -116,12 +116,12 @@ class JsonAutoloaderTest extends TestCase
     {
         $jsonAutoload = '{' . PHP_EOL;
         $jsonAutoload .= '  "bundles" : {' . PHP_EOL;
-        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $jsonAutoload .= '       "environments" : ["prod", "dev"],' . PHP_EOL;
         $jsonAutoload .= '       "overrides" : ["BusinessDropCapBundle"]' . PHP_EOL;
         $jsonAutoload .= '    }' . PHP_EOL;
         $jsonAutoload .= '  },' . PHP_EOL;
-        $jsonAutoload .= '  "actionManager" : "\\\\AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"' . PHP_EOL;
+        $jsonAutoload .= '  "actionManager" : "\\\\AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"' . PHP_EOL;
         $jsonAutoload .= '}';
         file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
 
@@ -134,14 +134,14 @@ class JsonAutoloaderTest extends TestCase
         $this->assertEquals(1, count($bundles['dev']));
 
         $bundle = $bundles['prod'][0];
-        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());
-        $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle', $bundle->getClass());
+        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getId());
+        $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
         $bundle = $bundles['dev'][0];
-        $this->assertEquals('BusinessCarouselBundle', $bundle->getId());
-        $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle', $bundle->getClass());
+        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getId());
+        $this->assertEquals('AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
-        $this->assertEquals('\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel', $autoload->getActionManagerClass());
+        $this->assertEquals('\\AlphaLemon\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel', $autoload->getActionManagerClass());
 
     }
 }

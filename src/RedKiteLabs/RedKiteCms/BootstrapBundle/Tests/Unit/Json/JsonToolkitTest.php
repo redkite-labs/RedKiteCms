@@ -37,7 +37,7 @@ class JsonToolkitTest extends TestCase
 
         $this->jsonAutoload = '{' . PHP_EOL;
         $this->jsonAutoload .= '  "bundels" : {' . PHP_EOL;
-        $this->jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselBundle\\\\BusinessCarouselBundle" : {' . PHP_EOL;
+        $this->jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $this->jsonAutoload .= '       "environments" : ["all"]' . PHP_EOL;
         $this->jsonAutoload .= '    }' . PHP_EOL;
         $this->jsonAutoload .= '  }' . PHP_EOL;
