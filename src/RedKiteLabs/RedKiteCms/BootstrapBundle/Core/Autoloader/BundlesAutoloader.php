@@ -27,6 +27,7 @@ use AlphaLemon\BootstrapBundle\Core\Event\BootstrapperEvents;
 use AlphaLemon\BootstrapBundle\Core\Event\PackageInstalledEvent;
 use AlphaLemon\BootstrapBundle\Core\Event\PackageUninstalledEvent;
 use AlphaLemon\BootstrapBundle\Core\Script;
+use AlphaLemon\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 
 /**
  * Parses the bundles installed by composer, checks if the bundle has an autoload.json file in its main root
@@ -42,7 +43,7 @@ class BundlesAutoloader
     private $environment;
     private $kernelDir;
     private $vendorDir;
-    private $autoloaders = array();
+    //private $autoloaders = array();
     private $installedBundles = array();
     private $environmentsBundles = array();
     private $overridedBundles = array();
@@ -68,6 +69,7 @@ class BundlesAutoloader
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
         $this->filesystem = new Filesystem();
+        $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir);
 
         $this->setupFolders();
 
@@ -156,7 +158,7 @@ class BundlesAutoloader
      */
     protected function arrangeBundlesForEnvironment()
     {
-        foreach ($this->autoloaders as $autoloader) {
+        foreach ($this->autoloaderCollection as $autoloader) {
             $autoloaderBundles = $autoloader->getBundles();
             foreach ($autoloaderBundles as $environment => $bundles) {
                 foreach ($bundles as $bundle) {
@@ -164,17 +166,6 @@ class BundlesAutoloader
                 }
             }
         }
-
-        // A bundle enabled by one or more environments, must be removed from all section
-        /*if (array_key_exists('all', $this->environmentsBundles)) {
-            $all = $this->environmentsBundles['all'];
-            unset($this->environmentsBundles['all']);
-            foreach ($this->environmentsBundles as $bundles) {
-                $all = array_diff($all, $bundles);print_r($all);exit;
-            }
-            $this->environmentsBundles['all'] = $all;
-            $this->register('all');
-        }*/
 
         $this->register('all');
         $this->register($this->environment);
@@ -215,42 +206,27 @@ class BundlesAutoloader
      */
     protected function install()
     {
-        $path = $this->vendorDir . '/composer';
-        if (!is_dir($path)) throw new InvalidProjectException('"composer" folder has not been found. Be sure to use this bundle on a project managed by Composer');
-
         $installScripts = array();
-        $map = require $path . '/autoload_namespaces.php';
-        foreach ($map as $namespace => $path) {
-            $dir = $path . str_replace('\\', '/', $namespace);
-            $bundleName = $this->getBundleName($dir);
+        foreach ($this->autoloaderCollection as $dir => $jsonAutoloader) {
+            $bundleName = $jsonAutoloader->getBundleName();
+            $this->installPackage($dir, $jsonAutoloader);
 
-            // The bundle is inclued only when the autoloader.json file exists
-            if (null !== $bundleName && $this->hasAutoloader($dir)) {
-                // Instantiates the autoload
-                $bundleName = strtolower($bundleName);
-                $autoloader = $dir . '/autoload.json';
-                $jsonAutoloader = new JsonAutoloader($bundleName, $autoloader);
-                $this->autoloaders[] = $jsonAutoloader;
+            // Check if the bundle under exam has attached an ActionManager file
+            $actionsManager = $jsonAutoloader->getActionManager();
+            if ((!array_key_exists($bundleName, $this->installedBundles) && null !== $actionsManager)) {
+                if (null !== $jsonAutoloader->getActionManagerClass()) {
+                    $installScripts[$bundleName] = $actionsManager;
 
-                $this->installPackage($dir, $jsonAutoloader);
-
-                // Check if the bundle under exam has attached an ActionManager file
-                $actionsManager = $jsonAutoloader->getActionManager();
-                if ((!array_key_exists($bundleName, $this->installedBundles) && null !== $actionsManager)) {
-                    if (null !== $jsonAutoloader->getActionManagerClass()) {
-                        $installScripts[$bundleName] = $actionsManager;
-
-                        // Copies the current ActionManager class to app/config/bundles/cache folder
-                        // because it must be preserved when a bundle is uninstalled
-                        $reflection = new \ReflectionClass($actionsManager);
-                        $fileName = $reflection->getFileName();
-                        $className = $this->cachePath . '/' . $bundleName . '/' . basename($fileName);
-                        $this->filesystem->copy($fileName, $className, true);
-                    }
+                    // Copies the current ActionManager class to app/config/bundles/cache folder
+                    // because it must be preserved when a bundle is uninstalled
+                    $reflection = new \ReflectionClass($actionsManager);
+                    $fileName = $reflection->getFileName();
+                    $className = $this->cachePath . '/' . $bundleName . '/' . basename($fileName);
+                    $this->filesystem->copy($fileName, $className, true);
                 }
-
-                unset($this->installedBundles[$bundleName]);
             }
+
+            unset($this->installedBundles[$bundleName]);
         }
 
         $installerScript = $this->scriptFactory->createScript('PreBootInstaller');

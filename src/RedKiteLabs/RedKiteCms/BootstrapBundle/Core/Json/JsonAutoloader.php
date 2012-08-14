@@ -37,6 +37,7 @@ class JsonAutoloader extends JsonToolkit
     private $actionManager = null;
     private $actionManagerClass = null;
     private $json = null;
+    private $routing = null;
 
     /**
      * Constructor
@@ -112,6 +113,14 @@ class JsonAutoloader extends JsonToolkit
     {
         return $this->json;
     }
+    
+    /**
+     * Returns the json file contents
+     */
+    public function getRouting()
+    {
+        return $this->routing;
+    }
 
     /**
      * Parses the json file and sets up the object
@@ -141,6 +150,10 @@ class JsonAutoloader extends JsonToolkit
 
         if (isset($autoloader["actionManager"])) {
             $this->actionManagerClass = $autoloader["actionManager"];
+        }
+        
+        if (isset($autoloader["routing"])) {
+            $this->routing = $autoloader["routing"];
         }
     }
 

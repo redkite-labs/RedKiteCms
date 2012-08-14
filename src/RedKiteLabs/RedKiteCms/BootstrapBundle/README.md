@@ -1,6 +1,6 @@
 # AlphaLemonBootstrapBundle
-AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer 
-could add an autoloader.json file to a bundle and configure it to autoload that bundle, without have to enable it 
+AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer
+could add an autoloader.json file to a bundle and configure it to autoload that bundle, without have to enable it
 manually in the AppKernel file.
 
 [![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapBundle.png)](http://travis-ci.org/alphalemon/BootstrapBundle)
@@ -30,10 +30,11 @@ At last the bundle must be added to the AppKernel.php file:
 
 
 ## The autoload.json file
-The autoload.json file must be placed into the root of the bundle you want to autoload. It is made by two sections:
+The autoload.json file must be placed into the root of the bundle you want to autoload. It is made by the following sections:
 
 - bundles (mandatory)
 - actionManager
+- routing
 
 The mandatory **bundles** section contains the bundles you want to autoload. Let's see a very basic example:
 
@@ -42,7 +43,7 @@ The mandatory **bundles** section contains the bundles you want to autoload. Let
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
         }
     }
-	
+
 This autoloads the BusinessDropCapBundle for all the environments.
 
 ### Environments
@@ -56,8 +57,8 @@ as follows:
             }
         }
     }
-	
-The **environments** option enables the bundle only for the specified environments. In the example above, the BusinessDropCapBundle 
+
+The **environments** option enables the bundle only for the specified environments. In the example above, the BusinessDropCapBundle
 is enabled only for the dev and test enviroments.
 
 ### The all keyword
@@ -70,7 +71,7 @@ To specifiy all the enviroments you can use the **all** keyword:
             }
         }
     }
-	
+
 This example is equivalent to the very first one.
 
 ### The **overrides** options
@@ -85,10 +86,10 @@ after the overriden one. The **overrides** option can be used to achieve this ta
             }
         }
     }
-	
+
 The bundles order will be resolved instantiating the BusinessCarouselBundle before the BusinessDropCapBundle
 
-### Autoloading a bundle without the autoloader.json file	
+### Autoloading a bundle without the autoloader.json file
 You might wonder why we are talking about "bundles" and not just "bundle". This is quite simple to explain, in fact you could autoload a bundle without
 the autoloader.json file.
 
@@ -107,18 +108,18 @@ write the BusinessDropCapBundle's autoloader as follows to autoload it:
 If you need to enable it for specific environments, you just  have to add the **environments** option as explained above.
 
 ### Execute and action when the package is installed or uninstalled
-When you need to execute some actions after the package is installed or uninstalled, you have to add a class that extends the 
+When you need to execute some actions after the package is installed or uninstalled, you have to add a class that extends the
 **ActionManager** object and that implements the **ActionManagerInterface**. This last one requires four methods which are:
 
     packageInstalledPreBoot
     packageUninstalledPreBoot
     packageInstalledPostBoot
     packageUninstalledPostBoot
-	
+
 The **ActionManager** class implemements all those methods as blank methods because all of them are always executed, so
 the only thing you have to do is to extend the **ActionManager** object and override the method you need.
 
-Let's see the actions in detail. The most important thing to notice is when the action is executed: there are two actions that are suffixed by 
+Let's see the actions in detail. The most important thing to notice is when the action is executed: there are two actions that are suffixed by
 **PreBoot** and two actions that are suffixed by **PostBoot**. The difference is quite important, in fact the first actions are executed when
 the kernel is not booted, the second ones when it has been booted and they receive the container as well.
 
@@ -128,12 +129,12 @@ To declare your ActionManager class in your autoloader.json file, you just need 
         "bundles" : {
             "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
         },
-        "actionManager" : "\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"        
+        "actionManager" : "\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"
     }
 
 ## Configuration files
 Usually each bundle requires to add some configurations inside the application's config.yml to make it work properly. Some of these settings could be
-generic, ie. enabling the bundle to use assetic, while others could be specific for the application which is using that bundle. 
+generic, ie. enabling the bundle to use assetic, while others could be specific for the application which is using that bundle.
 
 The **BootstrapBundle** let the developer to define the generic settings directly with the bundle. This will produce some benefits for the final
 user:
@@ -144,19 +145,35 @@ user:
 - Less frustation for the bundle's developer who has to write less documentation
 - Light config.yml file
 
-To add a configuration that usually goes into the **config.yml** file of your application, just add a **config.yml** file under the 
-**Resources/config** folder of your bundle and add the required setting to it. The BootstrapBundle takes care to copy it into the 
+To add a configuration that usually goes into the **config.yml** file of your application, just add a **config.yml** file under the
+**Resources/config** folder of your bundle and add the required setting to it. The BootstrapBundle takes care to copy it into the
 **app/config/bundles/[environment]** folder and loaded in the AppKernel class.
 
 The same concepts are applied to the routes implemented by the bundle, so you can add a **routing.yml** file into the **Resources/config**
 of your bundle and the BootstrapBundle will do the rest for you.
 
+## Routing priority
+Sometimes a routing file must be processed after another routing file of another bundle. To help achieve this task, you can add a **routing**
+option to the autoloader.json file, as follows:
+
+    {
+        "bundles" : {
+            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
+        },
+        "routing" : {
+            "priority" : "128"
+        }
+    }
+
+Each bundle gets zero as routing priority when the option is not specified. To load the routing file after, specify a value higher than zero,
+to load the routing file before, specify a value lower than zero.
+
 ### A practical example
-For example, AlphaLemon CMS uses assetic to manage its assets, so the user who want to use that bundle should add the following configuration 
+For example, AlphaLemon CMS uses assetic to manage its assets, so the user who want to use that bundle should add the following configuration
 to the config.yml file of his application:
 
     app/config/config.yml
-    
+
     assetic:
     bundles: [AlphaLemonCmsBundle]
     filters:
@@ -191,7 +208,7 @@ a new **BundlesAutoloader** object, as follows:
         return $bundles;
     }
 
-That object requires the kernel dir, the one where the AppKernel is placed, the current environment and the instantiated bundles. Then bundles 
+That object requires the kernel dir, the one where the AppKernel is placed, the current environment and the instantiated bundles. Then bundles
 are retrieved by the **getBundles** method and returned as usual.
 
 To load the configurations from the app/config/bundles folder, the **registerContainerConfiguration** must be changed as follows:

@@ -85,6 +85,7 @@ class JsonAutoloaderTest extends TestCase
         file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
 
         $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
+
         $bundles = $autoload->getBundles();
         $this->assertEquals(1, count($bundles));
         $this->assertArrayHasKey('all', $bundles);
@@ -143,5 +144,34 @@ class JsonAutoloaderTest extends TestCase
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
         $this->assertEquals('\\AlphaLemon\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel', $autoload->getActionManagerClass());
 
+    }
+
+    public function testRoutingPriorityIsNullWhenRoutingOptionIsNotDeclare()
+    {
+        $jsonAutoload = '{' . PHP_EOL;
+        $jsonAutoload .= '  "bundles" : {' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : ""' . PHP_EOL;
+        $jsonAutoload .= '  }' . PHP_EOL;
+        $jsonAutoload .= '}';
+        file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
+
+        $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
+        $this->assertNull($autoload->getRouting());
+    }
+
+    public function testJsonFileWithRoutingPriority()
+    {
+        $jsonAutoload = '{' . PHP_EOL;
+        $jsonAutoload .= '  "bundles" : {' . PHP_EOL;
+        $jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : ""' . PHP_EOL;
+        $jsonAutoload .= '  },' . PHP_EOL;
+        $jsonAutoload .= '  "routing" : {';
+        $jsonAutoload .= '       "priority" : "128"' . PHP_EOL;
+        $jsonAutoload .= '  }' . PHP_EOL;
+        $jsonAutoload .= '}';
+        file_put_contents(vfsStream::url('root/autoload.json'), $jsonAutoload);
+
+        $autoload = new JsonAutoloader('BusinessCarousel', vfsStream::url('root/autoload.json'));
+        $this->assertEquals(array("priority" => "128"), $autoload->getRouting());
     }
 }

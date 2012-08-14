@@ -52,7 +52,7 @@ class BaseFilesystem extends TestCase
 
         if(null === $autoload && false !== $autoload) {
             $autoload = '{' . PHP_EOL;
-            $autoload .= '    "bundles" : {' . PHP_EOL;            
+            $autoload .= '    "bundles" : {' . PHP_EOL;
             $autoload .= sprintf('        "AlphaLemon\\\\Block\\\\%s\\\\%s" : {', $bundleName, $bundleName) . PHP_EOL;
             $autoload .= '           "environments" : ["all"]' . PHP_EOL;
             $autoload .= '        }' . PHP_EOL;
@@ -80,5 +80,22 @@ class BaseFilesystem extends TestCase
         $classFile = $classFolder . $classFileName;
 
         $this->addClass($classFile, $classContent);
+    }
+
+
+    protected function createAutoloadNamespacesFile($autoloadNamespaces = null)
+    {
+        if(null === $autoloadNamespaces) {
+            $autoloadNamespaces = '<?php' . PHP_EOL;
+            $autoloadNamespaces .= '$vendorDir = dirname(__DIR__);' . PHP_EOL;
+            $autoloadNamespaces .= '$baseDir = dirname($vendorDir);' . PHP_EOL;
+            $autoloadNamespaces .= 'return array(' . PHP_EOL;
+            $autoloadNamespaces .= '    \'AlphaLemon\\Block\\BusinessCarouselFakeBundle\' => $vendorDir . \'/alphalemon/app-business-carousel-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'AlphaLemon\\Block\\BusinessDropCapFakeBundle\' => $vendorDir . \'/alphalemon/app-business-dropcap-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'AlphaLemon\\AlphaLemonCms\\AlphaLemonCmsFakeBundle\' => $vendorDir . \'/alphalemon/alphalemon-cms-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= ');' . PHP_EOL;
+        }
+
+        $this->createFile('root/vendor/composer/autoload_namespaces.php', $autoloadNamespaces);
     }
 }
