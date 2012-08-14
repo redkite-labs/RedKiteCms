@@ -5,6 +5,23 @@ The ElFinderBundle encapsulates the elFinder file manager to be used in Symfony2
 Clone this bundle in the vendor/bundles/AlphaLemon directory:
 
     git clone git://github.com/alphalemon/ElFinderBundle.git vendor/bundles/AlphaLemon/ElFinderBundle
+    
+
+**OR (if you're using deps file)**
+
+Add the following to the deps file:
+
+```
+[ElFinderBundle]
+    git=git://github.com/alphalemon/ElFinderBundle.git
+    target=bundles/AlphaLemon/ElFinderBundle
+```
+
+
+Now use the vendors script to clone the newly added repositories into your project:
+```
+php bin/vendors install
+```
 
 ## Configure the ElFinderBundle
 Open the AppKernel configuration file and add the bundle to the registerBundles() method:
