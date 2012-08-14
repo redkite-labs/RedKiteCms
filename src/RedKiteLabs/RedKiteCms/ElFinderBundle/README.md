@@ -30,7 +30,7 @@ Open the AppKernel configuration file and add the bundle to the registerBundles(
     {
         $bundles = array(
             ...
-            new new AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle(),
+            new AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle(),
         )
     }
 
