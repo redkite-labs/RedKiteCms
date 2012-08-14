@@ -25,7 +25,7 @@ use org\bovigo\vfs\vfsStream;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class BundlesAutoloaderTest extends BaseFilesystem
+class JsonAutoloaderCollectionTest extends BaseFilesystem
 {
     /**
      * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidProjectException
