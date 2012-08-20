@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder;
 
 use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
  * Configures the ElFinder library to manage media files, like images, flash, pdf and more
@@ -31,10 +31,12 @@ class ElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
     protected function configure()
     {
         $request = $this->container->get('request');
-        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonCmsBundle');
-        $absolutePath = $bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder') . '/';
+
+        $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
+        $absolutePath = $asset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder') . '/';
 
         $options = array(
+            'locale' => '',
             'roots' => array(
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
@@ -45,7 +47,7 @@ class ElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
                 )
             )
         );
-        
+
         return $options;
     }
 }
