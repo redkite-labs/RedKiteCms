@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\ElFinder;
@@ -33,43 +33,41 @@ class ElFinderMediaConnectorExt extends ElFinderMediaConnector
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class ElFinderMediaConnectorTest extends TestCase 
-{    
+class ElFinderMediaConnectorTest extends TestCase
+{
     public function testOptions()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $request->expects($this->once())
             ->method('getScheme')
             ->will($this->returnValue('http'));
-        
+
         $request->expects($this->once())
             ->method('getHttpHost')
             ->will($this->returnValue('example.com'));
-        
+
         $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
         $bundle->expects($this->any())
             ->method('getName')
             ->will($this->returnValue('AlphaLemonCmsBundle'));
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $kernel->expects($this->once())
-            ->method('getBundles')
-            ->will($this->returnValue(array($bundle)));
-        
+
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->exactly(2))
             ->method('get')
             ->will($this->onConsecutiveCalls($request, $kernel));
-        
+
         $container->expects($this->exactly(2))
             ->method('getParameter')
             ->will($this->onConsecutiveCalls('upload', 'deploy'));
-        
+
         $espected = array
         (
+            "locale" => "",
             "roots" => array
                 (
                     array
