@@ -13,6 +13,9 @@ _themes:
 _blocks:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/blocks.xml"
 
+_json_block:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/json-block.xml"
+    
 _deploy:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/deploy.xml"
 
