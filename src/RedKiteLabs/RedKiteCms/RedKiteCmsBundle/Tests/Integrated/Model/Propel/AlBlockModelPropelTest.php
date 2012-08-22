@@ -108,8 +108,8 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
 
     public function testRetrieveContentsByHtmlContent()
     {
-        $blocks = $this->blockRepository->fromHtmlContent('Business');
-        $this->assertEquals(22, count($blocks));
+        $blocks = $this->blockRepository->fromHtmlContent('<h4>');
+        $this->assertEquals(8, count($blocks));
     }
 
     public function testRetrieveContentsByStrictContent()

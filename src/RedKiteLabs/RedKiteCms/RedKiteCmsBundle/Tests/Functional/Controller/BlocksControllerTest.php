@@ -74,9 +74,9 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("editor", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertRegExp("/al_editor_tabs/s", $json[0]["value"]);
-        $this->assertRegExp("/\<textarea[^\>]+id=\"al_html_editor\"[^\>]+name=\"al_html_editor\"[^\>]+\>/s", $json[0]["value"]);
-        $this->assertRegExp("/tinyMCE.init/s", $json[0]["value"]);
+        $this->assertRegExp('/class="al_items_list"/s', $json[0]["value"]);
+        $this->assertRegExp('/\<td\>Home\<\/td\>/s', $json[0]["value"]);
+        $this->assertRegExp("/\('\.al_add_item'\)\.AddItem\(2\);/s", $json[0]["value"]);
     }
 
     public function testAddBlockFailsWhenAnyValidParameterIsGiven()
@@ -121,7 +121,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        //$this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
         $this->assertRegExp("/\<div\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
@@ -251,7 +250,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("blockName", $json[1]));
         $this->assertEquals("block_" . $blockId, $json[1]["blockName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        //$this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\>New content\<\/div\>/s", $json[1]["value"]);
         $this->assertRegExp("/\<div\>New content\<\/div\>/s", $json[1]["value"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
@@ -313,7 +311,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\><div class=\"al_editable[^\>]+\>This slot has any content inside. Use the contextual menu to add a new one\<\/div\>\<\/div\>/s", $json[1]["value"]);
+        $this->assertRegExp("/This slot has any content inside. Use the contextual menu to add a new one/s", $json[1]["value"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(0, count($blocks));

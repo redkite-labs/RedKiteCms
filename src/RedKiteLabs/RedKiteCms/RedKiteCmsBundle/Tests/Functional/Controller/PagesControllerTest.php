@@ -51,16 +51,15 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#pages_template')->count());
         $this->assertEquals(1, $crawler->filter('#pages_isHome')->count());
         $this->assertEquals(1, $crawler->filter('#pages_isPublished')->count());
-        $this->assertEquals(1, $crawler->filter('#seo_permalink')->count());
-        $this->assertEquals(1, $crawler->filter('#seo_title')->count());
-        $this->assertEquals(1, $crawler->filter('#seo_description')->count());
-        $this->assertEquals(1, $crawler->filter('#seo_keywords')->count());
-        $this->assertEquals(1, $crawler->filter('#seo_idLanguage')->count());
+        $this->assertEquals(1, $crawler->filter('#seo_attributes_permalink')->count());
+        $this->assertEquals(1, $crawler->filter('#seo_attributes_title')->count());
+        $this->assertEquals(1, $crawler->filter('#seo_attributes_description')->count());
+        $this->assertEquals(1, $crawler->filter('#seo_attributes_keywords')->count());
+        $this->assertEquals(1, $crawler->filter('#seo_attributes_idLanguage')->count());
         $this->assertEquals(1, $crawler->filter('#al_page_saver')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_list')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_list .al_element_selector')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_remover')->count());
-        //$this->assertEquals('pages_template', $crawler->filter('select')->attr('id'));//echo $crawler->filter('#pages_template > *')->eq(1)->attr('value');
     }
 
     public function testAddPageFailsWhenPagenameContainsInvalidPrefix()
@@ -172,7 +171,7 @@ class PagesControllerTest extends WebTestCaseFunctional
     public function testPageJustAddedSeoAttributes()
     {
         $params = array('pageId' => 3, 'languageId' => 2);
-        $crawler = $this->client->request('POST', 'backend/en/al_loadPageAttributes', $params);
+        $crawler = $this->client->request('POST', 'backend/en/al_loadSeoAttributes', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $json = json_decode($response->getContent(), true);
@@ -182,13 +181,13 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals("home", $json[1]["value"]);
         $this->assertEquals("#pages_isHome", $json[2]["name"]);
         $this->assertEquals("0", $json[2]["value"]);
-        $this->assertEquals("#page_attributes_permalink", $json[3]["name"]);
+        $this->assertEquals("#seo_attributes_permalink", $json[3]["name"]);
         $this->assertEquals("page-1", $json[3]["value"]);
-        $this->assertEquals("#page_attributes_title", $json[4]["name"]);
+        $this->assertEquals("#seo_attributes_title", $json[4]["name"]);
         $this->assertEquals("A title", $json[4]["value"]);
-        $this->assertEquals("#page_attributes_description", $json[5]["name"]);
+        $this->assertEquals("#seo_attributes_description", $json[5]["name"]);
         $this->assertEquals("A description", $json[5]["value"]);
-        $this->assertEquals("#page_attributes_keywords", $json[6]["name"]);
+        $this->assertEquals("#seo_attributes_keywords", $json[6]["name"]);
         $this->assertEquals("Some keywords", $json[6]["value"]);
     }
 
@@ -364,7 +363,7 @@ class PagesControllerTest extends WebTestCaseFunctional
     public function testPageJustDeletedSeoAttributes()
     {
         $params = array('pageId' => 3, 'languageId' => 2);
-        $crawler = $this->client->request('POST', 'backend/en/al_loadPageAttributes', $params);
+        $crawler = $this->client->request('POST', 'backend/en/al_loadSeoAttributes', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $json = json_decode($response->getContent(), true);
@@ -374,13 +373,13 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals("home", $json[1]["value"]);
         $this->assertEquals("#pages_isHome", $json[2]["name"]);
         $this->assertEquals("0", $json[2]["value"]);
-        $this->assertEquals("#page_attributes_permalink", $json[3]["name"]);
+        $this->assertEquals("#seo_attributes_permalink", $json[3]["name"]);
         $this->assertEquals("", $json[3]["value"]);
-        $this->assertEquals("#page_attributes_title", $json[4]["name"]);
+        $this->assertEquals("#seo_attributes_title", $json[4]["name"]);
         $this->assertEquals("", $json[4]["value"]);
-        $this->assertEquals("#page_attributes_description", $json[5]["name"]);
+        $this->assertEquals("#seo_attributes_description", $json[5]["name"]);
         $this->assertEquals("", $json[5]["value"]);
-        $this->assertEquals("#page_attributes_keywords", $json[6]["name"]);
+        $this->assertEquals("#seo_attributes_keywords", $json[6]["name"]);
         $this->assertEquals("", $json[6]["value"]);
     }
 
