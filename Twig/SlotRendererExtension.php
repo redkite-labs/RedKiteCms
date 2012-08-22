@@ -29,12 +29,6 @@ use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererE
  */
 class SlotRendererExtension extends BaseSlotRendererExtension
 {
-    /*
-    public function __construct(AlPageTree $pageTree, \Symfony\Component\Templating $templating)
-    {
-        parent::__construct($container,);
-    }*/
-
     public function renderSlot($slotName = null)
     {
         if(null === $slotName)
@@ -61,8 +55,11 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     $result[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
                 }
             }
+            
+            $content = implode("\n", $result);
+            $content = \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter::MarkSlotContents($slotName, $content);
 
-            return sprintf('<div class="al_%s">%s</div>', $slotName, implode("\n", $result));
+            return sprintf('<div class="al_%s">%s</div>', $slotName, $content);
         }
         catch (\Exception $ex)
         {
