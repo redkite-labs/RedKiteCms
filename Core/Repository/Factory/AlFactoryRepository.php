@@ -17,6 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException;
+
 /**
  * AlFactoryRepository object instantiates repository objects according with the orm
  * and the repository type
@@ -26,6 +28,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory;
 class AlFactoryRepository implements AlFactoryRepositoryInterface
 {
     private $orm = null;
+    private $namespace = 'AlphaLemon\AlphaLemonCmsBundle\Core\Repository';
 
     /**
      * Constructor
@@ -40,12 +43,16 @@ class AlFactoryRepository implements AlFactoryRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createRepository($repository)
+    public function createRepository($blockType, $namespace = null)
     {
-        $repository = ucfirst($repository);
-        $class = sprintf('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\%s\Al%sRepository%s', $this->orm, $repository, $this->orm);
+        $namespace = (null === $namespace) ?  $this->namespace : $namespace;
+        $blockType = ucfirst($blockType);
+        $class = sprintf('%s\%s\%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
         if(!class_exists($class)) {
-            echo $class;exit;
+            $class = sprintf('%s\%s\Al%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
+            if(!class_exists($class)) {
+                throw new RepositoryNotFoundException(sprintf('The repository for the "%s" block type at the namespace "%s" cannot be created', $blockType, $namespace));
+            }
         }
 
         return new $class();
