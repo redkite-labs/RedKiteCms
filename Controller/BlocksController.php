@@ -177,8 +177,8 @@ class BlocksController extends Controller
                 $values = array(
                     array("key" => "message", "value" => "The content has been successfully edited"),
                     array("key" => "edit-block",
-                                   "blockName" => "block_" . $blockManager->get()->getId(),
-                                   "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))));
+                          "blockName" => "block_" . $blockManager->get()->getId(),
+                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))));
             }
 
             return $this->buildJSonResponse($values);
