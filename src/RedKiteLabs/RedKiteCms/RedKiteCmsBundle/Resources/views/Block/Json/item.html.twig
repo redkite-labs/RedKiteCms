@@ -1,0 +1,54 @@
+{#
+   This file is part of the BusinessSliderBundle and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.alphalemon.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+<div>
+    {% block form %}
+    <form id="al_item_form" action="#" method="post" {{ form_enctype(form) }}>
+        <table>
+            {% for key, item in form %}
+                {% if(item.vars.block_prefixes.2 != "hidden") %}
+                <tr>
+                    <td>{{ form_label(item) }}</td>
+                    <td>{{ form_errors(item) }} {{ form_widget(item, { 'attr': {'class' : 'input' }}) }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            {{ form_rest(form) }}
+        </table>
+    </form>
+    {% endblock %}
+</div>
+<div>
+    {% block commands %}
+    <input type="submit" class="al_save_item input panel_input button" value="Save" />
+    {% endblock %}
+</div>
+<div id="al_save_item_errors"></div>
+
+{% block script %}
+<script>
+    $('.al_save_item').click(function()
+    {
+        $('#al_item_form').EditBlock('HtmlContent', $('#al_item_form').serialize());
+
+        if ( $("#al_json_block_id").val() == "") {
+            $("#al_item_form").find("input").val("");
+            $("#al_item_form").find("select").val("");
+        }
+
+        return false;
+    });
+</script>
+{% endblock %}
