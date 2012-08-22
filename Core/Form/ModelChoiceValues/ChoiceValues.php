@@ -60,35 +60,18 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getTemplates(ThemeRepositoryInterface $themeRepository)
+    public static function getTemplates(ThemeRepositoryInterface $themeRepository, \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes)
     {
-        // Default templates
+        $alTheme = $themeRepository->activeBackend();
+        $theme = $themes->getTheme($alTheme->getThemeName());
+        
         $templates = array("none" => " ");
-        
-        // Find the current active theme
-        $theme = $themeRepository->activeBackend(); 
-        if(null === $theme) return $templates;
-        
-        $composer = new BundlesAutoloaderComposer('AlphaLemon\\Theme' );
-        $bundles = $composer->getBundles();  
-        
-        // Retrieves the path for the current theme
-        $themeNamespace = 'AlphaLemon\\Theme\\' . $theme->getThemeName();
-        if(!array_key_exists($themeNamespace, $bundles)) return $templates;        
-        $themeDir = $bundles[$themeNamespace];
-        
-        // Points the templates' folder and retrieve the templates
-        $templatesPath = sprintf('%s/Resources/views/Theme', $themeDir);
-        $finder = new Finder();
-        $templateFiles = $finder->files()->name('*.twig')->depth(0)->sortByName()->in($templatesPath);
-
-        foreach($templateFiles as $templateFile)
+        foreach($theme as $template)
         {
-            $info = pathinfo($templateFile);
-            $templateName = basename($info['filename'], '.html');
+            $templateName = $template->getTemplateName();
             $templates[$templateName] = $templateName;
         }
-
+        
         return $templates;
     }
 }
