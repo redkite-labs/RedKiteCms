@@ -55,6 +55,7 @@ class AlPageTree extends BaseAlPageTree
     protected $isValidLanguage = false;
     protected $isValidPage = false;
     protected $parameterSchema = array('%s.%s_%s', '%s.%s_%s.cms');
+    protected $themesCollectionWrapper;
 
     /**
      * Constructor
@@ -260,10 +261,19 @@ class AlPageTree extends BaseAlPageTree
      *
      * @return array
      */
-    public function getBlockManagers($slotName = null)
+    public function getBlockManagers($slotName)
     {
-        return $this->templateManager->getSlotManager($slotName)->getBlockManagers();
-    }
+        $templateManager = $this->themesCollectionWrapper->getTemplateManager();
+        if (null !== $templateManager) {
+            $slotManager = $templateManager->getSlotManager($slotName);
+            if (null !== $slotManager) {
+                return $slotManager->getBlockManagers();
+            }
+        }
+        
+        return array(); 
+    }    
+
 
     /**
      * {@ inheritdoc}
