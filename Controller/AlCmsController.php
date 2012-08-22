@@ -35,19 +35,21 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Assetic\AlAsseticDynamicFileManager\AlAs
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRenderer\BeforePageRenderingEvent;
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 
 /**
  * Implements the controller to load AlphaLemon CMS
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlCmsController extends Controller
+class AlCmsController extends BaseFrontendController
 {
     private $cmsAssets = array();
     private $kernel = null;
 
     public function showAction()
     {
+        $request = $this->container->get('request');        
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('al_page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
@@ -73,9 +75,8 @@ class AlCmsController extends Controller
 
         if(null !== $pageTree)
         {
-            $pageTree = $this->dispatchEvents($pageTree);
             $template = $this->findTemplate($pageTree);
-            
+
             $params = array_merge($params, array(
                                 'metatitle' => $pageTree->getMetaTitle(),
                                 'metadescription' => $pageTree->getMetaDescription(),
@@ -96,33 +97,10 @@ class AlCmsController extends Controller
             $this->get('session')->setFlash('message', 'The requested page has not been loaded.');
         }
 
-        return $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', $params);
-    }
-
-    private function dispatchEvents(AlPageTree $pageTree)
-    {
-        $request = $this->container->get('request');
-        $dispatcher = $this->container->get('event_dispatcher');
-
-        $event = new BeforePageRenderingEvent($this->container->get('request'), $pageTree);
-        $dispatcher->dispatch(PageRendererEvents::BEFORE_RENDER_PAGE, $event);
-        if ($pageTree != $event->getPageTree()) {
-            $pageTree = $event->getPageTree();
-        }
-
-        $eventName = sprintf('page_renderer.before_%s_rendering', $request->attributes->get('_locale'));
-        $dispatcher->dispatch($eventName, $event);
-        if ($pageTree != $event->getPageTree()) {
-            $pageTree = $event->getPageTree();
-        }
-
-        $eventName = sprintf('page_renderer.before_%s_rendering', $request->get('page'));
-        $dispatcher->dispatch($eventName, $event);
-        if ($pageTree != $event->getPageTree()) {
-            $pageTree = $event->getPageTree();
-        }
-
-        return $pageTree;
+        $response = $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', $params);
+        $response = $this->dispatchEvents($request, $response);
+        
+        return $response;
     }
 
     private function findTemplate(AlPageTree $pageTree)
