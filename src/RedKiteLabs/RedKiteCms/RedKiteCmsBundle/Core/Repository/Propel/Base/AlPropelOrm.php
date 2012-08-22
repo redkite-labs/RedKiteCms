@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm\OrmInterface;
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
-class AlPropelOrm implements OrmInterface
+abstract class AlPropelOrm implements OrmInterface
 {
     protected static $connection = null;
     protected $affectedRecords = null;
