@@ -10,21 +10,16 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
- * @license    GPL LICENSE Version 2.0
- * 
- */
-
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Pdo;
-
-
-/**
- * Wraps PropelPDO class to make it mockable
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @license    GPL LICENSE Version 2.0
+ *
  */
-class MockPDO extends \PropelPDO
+
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel;
+
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+
+
+class TestRepositoryPropel extends AlBlockRepositoryPropel
 {
-    public function __construct ()
-    {}
 }
