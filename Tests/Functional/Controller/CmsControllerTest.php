@@ -103,7 +103,6 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businesswebsitetheme/js/jquery.easing.1.3.js",
             "/bundles/businesscarousel/js/jcarousellite.js",
             "/bundles/businesscarousel/js/carousel.js",
-            "/bundles/businesscarousel/js/crud.js",
             "/bundles/businessslider/js/tms-0.3.js",
             "/bundles/businessslider/js/tms_presets.js",
             "/bundles/businessslider/js/slider.js",
@@ -163,7 +162,6 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businesswebsitetheme/js/tabs.js",
             "/bundles/businesscarousel/js/jcarousellite.js",
             "/bundles/businesscarousel/js/carousel.js",
-            "/bundles/businesscarousel/js/crud.js",
             "/bundles/businessslider/js/tms-0.3.js",
             "/bundles/businessslider/js/tms_presets.js",
             "/bundles/businessslider/js/slider.js",
@@ -228,7 +226,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $el->count());
         $this->assertEquals($value, $el->text());
     }
-    
+
     private static function ignoreAssetic($key)
     {
         return false !== strpos($key, 'bundles');
