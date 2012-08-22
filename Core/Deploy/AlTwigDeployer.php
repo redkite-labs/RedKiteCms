@@ -32,6 +32,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplate
 class AlTwigDeployer extends AlDeployer
 {
     private $urlManager;
+    private $blockManagerFactory;
 
     /**
      * Constructor
@@ -43,6 +44,7 @@ class AlTwigDeployer extends AlDeployer
         parent::__construct($container);
 
         $this->urlManager = $container->get('alphalemon_cms.url_manager');
+        $this->blockManagerFactory = $this->container->get('alphalemon_cms.block_manager_factory');
         $this->viewsDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.views_dir');
     }
 
@@ -61,9 +63,11 @@ class AlTwigDeployer extends AlDeployer
      */
     protected function save(AlPageTree $pageTree)
     {
-        $imagesPath = array('backendPath' => $this->alphaLemonCmsBundleAsset->getAbsolutePath() . '/' . $this->uploadAssetsDir,
-            'prodPath' => $this->deployBundleAsset->getAbsolutePath());
-        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->urlManager, $imagesPath);
+        $imagesPath = array(
+            'backendPath' => $this->alphaLemonCmsBundleAsset->getAbsolutePath() . '/' . $this->uploadAssetsDir,
+            'prodPath' => $this->deployBundleAsset->getAbsolutePath()
+        );
+        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);
 
         return $twigTemplateWriter->writeTemplate($this->viewsDir);
     }
