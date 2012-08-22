@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 (function( $ ){
@@ -21,7 +21,7 @@
         {
             $(this).unbind().ShowBlockEditor();
             $(this).HideContentsForEditMode();
-            
+
             $(this).addClass('al_edit_on');
             $(this).mouseover(function(event)
             {
@@ -33,18 +33,18 @@
             {
                 $(this).removeClass('al_highlight_content');
                 $(this).css('cursor', 'auto');
-                
+
                 return false;
             });
-            
+
             $(this).find("a").unbind().click(function(event) {
                 event.preventDefault();
             });
         });
-        
+
         return this;
     };
-    
+
     $.fn.StopToEdit = function(closeEditor)
     {
         if(closeEditor == null)
@@ -55,22 +55,24 @@
 
         $('.al_hide_edit_mode').ShowHiddenContentsFromEditMode();
         if(closeEditor) $('#al_editor_dialog').dialog('close');
-        
+
         this.each(function()
         {
             $(this).unbind().removeClass('al_edit_on');
         });
 
+        cmsStartInternalJavascripts();
+
         return this;
     };
-    
+
     $.fn.HideContentsForEditMode = function()
     {
         this.each(function()
         {
             if($(this).hasClass('al_hide_edit_mode'))
             {
-                var data = $(this).metadata(); 
+                var data = $(this).metadata();
                 $(this).data('block', $(this).html()).html('<p>A ' + data.type  + ' block is not renderable in edit mode</p>').addClass('is_hidden_in_edit_mode');
             }
         });
@@ -86,7 +88,7 @@
             }
         });
     };
-    
+
     function ChangeSitePage()
     {
         this.each(function()
@@ -118,24 +120,24 @@ $(document).ready(function(){
     $('#al_start_editor').click(function()
     {
         $('.al_editable').StartToEdit();
-        
+
         return false;
     });
 
     $('#al_stop_editor').click(function()
     {
         $('.al_editable').StopToEdit();
-        
+
         return false;
     });
 
     $('#al_open_users_manager').ListUsers();
-    
+
     $('#al_logout').click(function()
     {
         location.href = frontController + 'backend/logout';
     });
-    
+
     $('#al_open_pages_panel').click(function()
     {
         if($('#al_panel_contents').length == 0)
@@ -163,7 +165,7 @@ $(document).ready(function(){
                 }
             });
         }
-        
+
         return false;
     });
 
@@ -194,7 +196,7 @@ $(document).ready(function(){
                 }
             });
         }
-        
+
         return false;
     });
 
@@ -225,10 +227,10 @@ $(document).ready(function(){
                 }
             });
         }
-        
+
         return false;
     });
-    
+
     $('#al_open_media_library').click(function()
     {
         $.ajax({
@@ -254,7 +256,7 @@ $(document).ready(function(){
                 $('body').RemoveAjaxLoader();
             }
         });
-        
+
         return false;
     });
 
@@ -262,7 +264,7 @@ $(document).ready(function(){
     {
         $.ajax({
             type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deploy',
+            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_local_deploy',
             data: {'page' :  $('#al_pages_navigator').val(),
                    'language' : $('#al_languages_navigator').val()},
             beforeSend: function()
@@ -284,7 +286,7 @@ $(document).ready(function(){
                 $('body').RemoveAjaxLoader();
             }
         });
-        
+
         return false;
     });
 });
