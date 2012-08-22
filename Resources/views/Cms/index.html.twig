@@ -18,6 +18,17 @@
 {% block internal_header_javascripts %}
 {{ parent() }}
 <script>
+
+    function cmsStartInternalJavascripts(){
+        try {
+        {{ internal_javascripts|raw }}
+        }
+        catch(e)
+        {
+            alert(e);
+        }
+    }
+
     $(document).ready(function()
     {
         frontController = '{{ frontController }}';
@@ -39,8 +50,12 @@
             }
         });
 
-        {{ internal_javascripts|raw }}
+        {#cmsStartInternalJavascripts();#}
+
     });
+
+
+
 </script>
 {% endblock %}
 
