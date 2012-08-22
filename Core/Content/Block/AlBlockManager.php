@@ -61,7 +61,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($dispatcher, $validator);
-        
+
         $this->doSetFactoryRepository($factoryRepository);
     }
 
@@ -81,7 +81,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @return array
      */
     abstract function getDefaultValue();
-    
+
     /**
      * {@inheritdoc}
      */
@@ -103,12 +103,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         return $this;
     }
-    
+
     /**
      * Sets the factory repository
-     * 
+     *
      * @param AlFactoryRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
      */
     public function setFactoryRepository(AlFactoryRepositoryInterface $v)
     {
@@ -116,7 +116,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         return $this;
     }
-    
+
     /**
      * Returns the factory repository object associated with this object
      *
@@ -175,23 +175,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtmlContent()
     {
-        return $this->getHtmlContentForDeploy();
+        $content = $this->getHtmlContentForDeploy();
+        if ((string)$this->getInternalJavascript() != "") {
+            $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s});</script>', $this->getInternalJavascript());
+        }
+
+        return $content;
     }
 
-    /**
-     * Returns the content to display, when the site is in CMS mode
-     *
-     * When the CMS mode is active, AlphaLemon CMS renders the same content displayed on the page.
-     * Override this method to change the content to display
-     *
-     *
-     * @return string
-     */
-    public function getHtmlContentCMSMode()
-    {throw new \Exception('getHtmlContentCMSMode is deprecated');
-        return $this->getHtmlContent();
-    }
-    
     public function getHtmlContentForDeploy()
     {
         return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
@@ -258,7 +249,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $function .= "try{\n";
                 $function .= $this->alBlock->getInternalJavascript();
                 $function .= "\n} catch(e){\n";
-                $function .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports:\n\n' + e);\n", $this->alBlock->getSlotName());
+                $function .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports: ' + e);\n", $this->alBlock->getSlotName());
                 $function .= "}\n";
             }
         }
@@ -373,7 +364,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
         $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
         $blockManager["Block"] = $this->alBlock->toArray();
-        
+
         return $blockManager;
     }
 
@@ -510,7 +501,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             throw $e;
         }
     }
-    
+
     private function doSetFactoryRepository($factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
