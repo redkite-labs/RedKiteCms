@@ -43,7 +43,7 @@ class SeoForm extends AbstractType
         $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages($this->languageRepository)));
         $builder->add('permalink');
         $builder->add('title');
-        $builder->add('description', 'textarea'); //, array('row' => 10, 'col' => 5)
+        $builder->add('description', 'textarea');
         $builder->add('keywords', 'textarea');
     }
 
@@ -56,6 +56,6 @@ class SeoForm extends AbstractType
 
     public function getName()
     {
-        return 'seo';
+        return 'seo_attributes';
     }
 }
