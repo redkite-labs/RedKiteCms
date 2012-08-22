@@ -51,7 +51,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      *
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository, TranslatorInterface $translator = null)
+    public function __construct(AlFactoryRepositoryInterface $factoryRepository = null, TranslatorInterface $translator = null)
     {
         $this->factoryRepository = $factoryRepository;
         $this->translator = $translator;
