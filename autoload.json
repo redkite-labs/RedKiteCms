@@ -21,5 +21,8 @@
         "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
             "environments" : ["alcms_dev", "alcms_test"]
         }
+    },
+    "routing" : {
+        "priority" : "99999"
     }
 }
