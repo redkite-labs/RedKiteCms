@@ -33,7 +33,7 @@ class PagesController extends Controller
 {
     public function indexAction()
     {
-        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->createRepository('Theme')));
+        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->createRepository('Theme'), $this->container->get('alphalemon_theme_engine.themes')));
         $seoForm = $this->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
@@ -44,7 +44,7 @@ class PagesController extends Controller
         return $this->render('AlphaLemonCmsBundle:Pages:index.html.twig', $params);
     }
 
-    public function loadPageAttributesAction()
+    public function loadSeoAttributesAction()
     {
         $values = array();
         $request = $this->get('request');
@@ -60,10 +60,10 @@ class PagesController extends Controller
 
             $seoRepository = $this->createRepository('Seo');
             $alSeo = $seoRepository->fromPageAndLanguage($languageId, $pageId);
-            $values[] = array("name" => "#page_attributes_permalink", "value" => ($alSeo != null) ? $alSeo->getPermalink() : '');
-            $values[] = array("name" => "#page_attributes_title", "value" => ($alSeo != null) ? $alSeo->getMetaTitle() : '');
-            $values[] = array("name" => "#page_attributes_description", "value" => ($alSeo != null) ? $alSeo->getMetaDescription() : '');
-            $values[] = array("name" => "#page_attributes_keywords", "value" => ($alSeo != null) ? $alSeo->getMetaKeywords() : '');
+            $values[] = array("name" => "#seo_attributes_permalink", "value" => ($alSeo != null) ? $alSeo->getPermalink() : '');
+            $values[] = array("name" => "#seo_attributes_title", "value" => ($alSeo != null) ? $alSeo->getMetaTitle() : '');
+            $values[] = array("name" => "#seo_attributes_description", "value" => ($alSeo != null) ? $alSeo->getMetaDescription() : '');
+            $values[] = array("name" => "#seo_attributes_keywords", "value" => ($alSeo != null) ? $alSeo->getMetaKeywords() : '');
         }
 
         $response = new Response(json_encode($values));

@@ -28,20 +28,20 @@
                     $('#al_pages_list .al_element_selected').removeClass('al_element_selected');
                     $(this).addClass('al_element_selected');
 
-                    if($('#page_attributes_idLanguage').val() != 'none')
+                    if($('#seo_attributes_idLanguage').val() != 'none')
                     {
-                        LoadPageAttributes($(this).attr('ref'));
+                        LoadSeoAttributes($(this).attr('ref'));
                     }
                     else
                     {
                         $('#al_select_languages_reminder').show();
-                        $('#page_attributes_idPage').val($(this).attr('ref'));
+                        $('#seo_attributes_idPage').val($(this).attr('ref'));
                     }
                 }
                 else
                 {
                     $(this).removeClass('al_element_selected');
-                    $('#page_attributes_idPage').val('');
+                    $('#seo_attributes_idPage').val('');
                     $('#al_select_languages_reminder').hide();
                 }
 
@@ -68,15 +68,15 @@ function InitPagesCommands()
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_savePage',
             data: {'language' : $('#al_languages_navigator').val(),
                    'page' : $('#al_pages_navigator').val(),
-                   'pageId' : $('#page_attributes_idPage').val(),
-                   'languageId' : $('#page_attributes_idLanguage').val(),
+                   'pageId' : $('#seo_attributes_idPage').val(),
+                   'languageId' : $('#seo_attributes_idLanguage').val(),
                    'pageName' : $('#pages_pageName').val(),
                    'templateName' : $('#pages_template').val(),
-                   'permalink' : $('#page_attributes_permalink').val(),
+                   'permalink' : $('#seo_attributes_permalink').val(),
                    'isHome' : isHome,
-                   'title' : $('#page_attributes_title').val(),
-                   'description' : $('#page_attributes_description').val(),
-                   'keywords' : $('#page_attributes_keywords').val()
+                   'title' : $('#seo_attributes_title').val(),
+                   'description' : $('#seo_attributes_description').val(),
+                   'keywords' : $('#seo_attributes_keywords').val()
                },
             beforeSend: function()
             {
@@ -84,7 +84,7 @@ function InitPagesCommands()
             },
             success: function(response)
             {
-                if($('#page_attributes_idPage').val() == '') ResetWholeForm();
+                if($('#seo_attributes_idPage').val() == '') ResetWholeForm();
                 UpdatePagesJSon(response);
             },
             error: function(err)
@@ -108,8 +108,8 @@ function InitPagesCommands()
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deletePage',
                 data: {'language' : $('#al_languages_navigator').val(),
                        'page' : $('#al_pages_navigator').val(),
-                       'languageId' : $('#page_attributes_idLanguage').val(),
-                       'pageId' : $('#page_attributes_idPage').val()
+                       'languageId' : $('#seo_attributes_idLanguage').val(),
+                       'pageId' : $('#seo_attributes_idPage').val()
                    },
                 beforeSend: function()
                 {
@@ -118,14 +118,14 @@ function InitPagesCommands()
                 success: function(response)
                 {
                     UpdatePagesJSon(response);
-                    if($('#page_attributes_idLanguage').val() != 'none')
+                    if($('#seo_attributes_idLanguage').val() != 'none')
                     {
                         $("#al_attributes_form").ResetFormElements();
                     }
                     else
                     {
                         ResetWholeForm();
-                        $('#page_attributes_idPage').val('');
+                        $('#seo_attributes_idPage').val('');
                     }
                     $('#al_select_languages_reminder').hide();
                 },
@@ -142,14 +142,14 @@ function InitPagesCommands()
         }
     });
 
-    $("#page_attributes_idLanguage").change(function()
+    $("#seo_attributes_idLanguage").change(function()
     {
-        if($("#page_attributes_idLanguage").val() != 'none')
+        if($("#seo_attributes_idLanguage").val() != 'none')
         {
             var idPage = $('#al_pages_list .al_element_selected').attr('ref');
             if(idPage)
             {
-                LoadPageAttributes(idPage);
+                LoadSeoAttributes(idPage);
             }
         }
         else
@@ -191,7 +191,7 @@ function UpdatePagesJSon(response)
                 });
                 break;
             case "permalink":
-                if($('#page_attributes_permalink').val() != item.value) $('#page_attributes_permalink').val(item.value);
+                if($('#seo_attributes_permalink').val() != item.value) $('#seo_attributes_permalink').val(item.value);
                 break;
         }
     });
@@ -204,16 +204,16 @@ function ObservePages()
     $('.al_element_selector').unbind().SelectPage();
 }
 
-function LoadPageAttributes(idPage)
+function LoadSeoAttributes(idPage)
 {
     ResetWholeForm();
-    $('#page_attributes_idPage').val(idPage);
+    $('#seo_attributes_idPage').val(idPage);
     $.ajax({
         type: 'POST',
-        url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadPageAttributes',
+        url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadSeoAttributes',
         data: {'language' : $('#al_languages_navigator').val(),
                'page' : $('#al_pages_navigator').val(),
-               'languageId' : $('#page_attributes_idLanguage').val(),
+               'languageId' : $('#seo_attributes_idLanguage').val(),
                'pageId' : idPage},
         beforeSend: function()
         {

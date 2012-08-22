@@ -20,7 +20,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\ThemeRepositoryInterface;
+use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
  * Defines the pages form
@@ -30,16 +31,18 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPrope
 class PagesForm extends AbstractType
 {
     private $themeRepository;
+    private $themes;
 
-    public function __construct(AlThemeRepositoryPropel $themeRepository)
+    public function __construct(ThemeRepositoryInterface $themeRepository, AlThemesCollection $themes)
     {
         $this->themeRepository = $themeRepository;
+        $this->themes = $themes;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->themeRepository)));
+        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->themeRepository, $this->themes)));
         $builder->add('isHome', 'checkbox');
         $builder->add('isPublished', 'checkbox');
     }
