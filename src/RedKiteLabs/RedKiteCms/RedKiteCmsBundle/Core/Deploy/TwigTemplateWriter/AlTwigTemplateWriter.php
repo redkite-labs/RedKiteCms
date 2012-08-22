@@ -24,6 +24,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 
 /**
  * AlTwigTemplateWriter generates a twig template from a PageTree object
@@ -40,6 +41,7 @@ class AlTwigTemplateWriter
     protected $metatagsSection;
     protected $assetsSection;
     protected $contentsSection;
+    protected $blockManagerFactory;
 
     /**
      * Constructor
@@ -57,9 +59,10 @@ class AlTwigTemplateWriter
      * @param AlUrlManagerInterface $urlManager
      * @param array $replaceImagesPaths
      */
-    public function  __construct(AlPageTree $pageTree, AlUrlManagerInterface $urlManager, array $replaceImagesPaths = array())
+    public function  __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, array $replaceImagesPaths = array())
     {
         $this->pageTree = $pageTree;
+        $this->blockManagerFactory = $blockManagerFactory;
         $this->urlManager = $urlManager;
         $this->replaceImagesPaths = $replaceImagesPaths;
         $this->template = $this->pageTree->getTemplate();
@@ -151,7 +154,7 @@ class AlTwigTemplateWriter
      */
     protected function generateTemplateSection()
     {
-        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}\n", $this->template->getThemeName(), $this->template->getTemplateName());
+        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->template->getTemplateName());
     }
 
     /**
@@ -177,12 +180,12 @@ class AlTwigTemplateWriter
         $this->assetsSection = $this->writeComment("Assets section");
         if (!empty($externalStylesheets)) {
             $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';
-            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(" ", $externalStylesheets), $sectionContent, '?yui_css,cssrewrite'));
+            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, '?yui_css,cssrewrite'));
         }
 
         if (!empty($externalJavascripts)) {
             $sectionContent = '<script src="{{ asset_url }}"></script>';
-            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(" ", $externalJavascripts), $sectionContent, '?yui_js'));
+            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, '?yui_js'));
         }
 
         if (!empty($internalStylesheet)) {
@@ -212,14 +215,16 @@ class AlTwigTemplateWriter
 
             $htmlContents = array();
             foreach ($blocks as $block) {
-                $content = $block->getHtmlContent();
+                $bm = $this->blockManagerFactory->createBlockManager($block);
+                $content = $bm->getHtmlContentForDeploy();
+                //$content = $block->getHtmlContent();
                 $content = $this->rewriteImagesPathForProduction($content);
                 $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
 
                 $htmlContents[] = $content;
             }
 
-            $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n\n", $htmlContents)));
+            $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $htmlContents)));
         }
     }
 
@@ -267,7 +272,7 @@ class AlTwigTemplateWriter
     {
         $comment = strtoupper($comment);
 
-        return "\n{#--------------  $comment  --------------#}\n";
+        return "\n{#--------------  $comment  --------------#}" . PHP_EOL;
     }
 
     /**
@@ -283,9 +288,9 @@ class AlTwigTemplateWriter
             return "";
         }
 
-        $block = "{% block $blockName %}\n";
-        $block .= $blockContent . "\n";
-        $block .= "{% endblock %}\n\n";
+        $block = "{% block $blockName %}" . PHP_EOL;
+        $block .= $blockContent . "" . PHP_EOL;
+        $block .= "{% endblock %}\n" . PHP_EOL;
 
         return $block;
     }
@@ -311,8 +316,8 @@ class AlTwigTemplateWriter
             $section .= " filter=\"$filter\"";
         if (null !== $output)
             $section .= " output=\"$output\"";
-        $block = "  {% $section %}\n";
-        $block .= $this->identateContent($sectionContent) . "\n";
+        $block = "  {% $section %}" . PHP_EOL;
+        $block .= $this->identateContent($sectionContent) . "" . PHP_EOL;
         $block .= "  {% end$sectionName %}";
 
         return $block;
@@ -331,13 +336,30 @@ class AlTwigTemplateWriter
             return "";
         }
 
-        $block = "  {% if(slots.$slotName is not defined) %}\n";
-        $block .= $this->identateContent($content) . "\n";
-        $block .= "  {% else %}\n";
-        $block .= "    {{ parent() }}\n";
+        $content = $this->MarkSlotContents($slotName, $content);
+
+        $block = "  {% if(slots.$slotName is not defined) %}" . PHP_EOL;
+        $block .= $this->identateContent($content) . PHP_EOL;
+        $block .= "  {% else %}" . PHP_EOL;
+        $block .= "    {{ parent() }}" . PHP_EOL;
         $block .= "  {% endif %}";
 
         return $block;
+    }
+
+    /**
+     * Marks the contents of the given slot with a Begin/End comment
+     *
+     * @param string $slotName
+     * @param string $content
+     * @return string
+     */
+    public static function MarkSlotContents($slotName, $content)
+    {
+        $commentSkeleton = '<!-- %s %s BLOCK -->';
+        $slotName = strtoupper($slotName);
+
+        return PHP_EOL . sprintf($commentSkeleton, "BEGIN", $slotName) . PHP_EOL . $content . PHP_EOL . sprintf($commentSkeleton, "END", $slotName) . PHP_EOL;
     }
 
     /**
@@ -349,11 +371,12 @@ class AlTwigTemplateWriter
     protected function identateContent($content)
     {
         $formattedContents = array();
-        $tokens = explode("\n", $content);
+        $tokens = explode(PHP_EOL, $content);
         foreach ($tokens as $token) {
-            $formattedContents[] = "    " . $token;
+            $token = trim($token);
+            if(!empty($token)) $formattedContents[] = "    " . $token;
         }
 
-        return implode("\n", $formattedContents);
+        return implode(PHP_EOL, $formattedContents);
     }
 }

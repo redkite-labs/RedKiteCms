@@ -56,6 +56,8 @@ class AlTwigTemplateWriterTest extends TestCase
             ->method('fromUrl')
             ->will($this->returnSelf());
 
+        $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+
         $this->root = vfsStream::setup('root');
     }
 
@@ -63,21 +65,25 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets(null, null, null, array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $this->assertEquals("{% extends 'FakeTheme:Theme:Home.html.twig' %}\n", $twigTemplateWriter->getTemplateSection());
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $this->assertEquals("{% extends 'FakeTheme:Theme:Home.html.twig' %}" . PHP_EOL, $twigTemplateWriter->getTemplateSection());
     }
 
     public function testJustTheMetaTagsTitleSectionIsCreated()
     {
         $this->setUpMetatagsAndAssets("A title", null, null, array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
-        $section .= "{% block title %}\n";
-        $section .= "A title\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block title %}" . PHP_EOL;
+        $section .= "A title" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
@@ -86,12 +92,14 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets(null, "A description", null, array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
-        $section .= "{% block description %}\n";
-        $section .= "A description\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block description %}" . PHP_EOL;
+        $section .= "A description" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
@@ -100,12 +108,14 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets(null, null, "some,keywords", array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
-        $section .= "{% block keywords %}\n";
-        $section .= "some,keywords\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block keywords %}" . PHP_EOL;
+        $section .= "some,keywords" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
@@ -114,18 +124,20 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  METATAGS SECTION  --------------#}\n";
-        $section .= "{% block title %}\n";
-        $section .= "A title\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block description %}\n";
-        $section .= "A description\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block keywords %}\n";
-        $section .= "some,keywords\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block title %}" . PHP_EOL;
+        $section .= "A title" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block description %}" . PHP_EOL;
+        $section .= "A description" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block keywords %}" . PHP_EOL;
+        $section .= "some,keywords" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
@@ -134,14 +146,16 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array(), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
-        $section .= "{% block external_stylesheets %}\n";
-        $section .= "  {% stylesheets style1.css style2.css filter=\"?yui_css,cssrewrite\" %}\n";
-        $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />\n";
-        $section .= "  {% endstylesheets %}\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
+        $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
+        $section .= "  {% endstylesheets %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
@@ -150,14 +164,16 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array('javascript1.js', 'javascript2.js'), '', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
-        $section .= "{% block external_javascripts %}\n";
-        $section .= "  {% javascripts javascript1.js javascript2.js filter=\"?yui_js\" %}\n";
-        $section .= "    <script src=\"{{ asset_url }}\"></script>\n";
-        $section .= "  {% endjavascripts %}\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
+        $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
+        $section .= "  {% endjavascripts %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
@@ -166,12 +182,14 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), 'some css code', '');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
-        $section .= "{% block internal_header_stylesheets %}\n";
-        $section .= "<style>some css code</style>\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
+        $section .= "<style>some css code</style>" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
@@ -181,12 +199,14 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', 'some js code');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
-        $section .= "{% block internal_header_javascripts %}\n";
-        $section .= "<script>$(document).ready(function(){some js code});</script>\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
@@ -195,25 +215,27 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  ASSETS SECTION  --------------#}\n";
-        $section .= "{% block external_stylesheets %}\n";
-        $section .= "  {% stylesheets style1.css style2.css filter=\"?yui_css,cssrewrite\" %}\n";
-        $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />\n";
-        $section .= "  {% endstylesheets %}\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block external_javascripts %}\n";
-        $section .= "  {% javascripts javascript1.js javascript2.js filter=\"?yui_js\" %}\n";
-        $section .= "    <script src=\"{{ asset_url }}\"></script>\n";
-        $section .= "  {% endjavascripts %}\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block internal_header_stylesheets %}\n";
-        $section .= "<style>some css code</style>\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block internal_header_javascripts %}\n";
-        $section .= "<script>$(document).ready(function(){some js code});</script>\n";
-        $section .= "{% endblock %}\n\n";
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
+        $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
+        $section .= "  {% endstylesheets %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
+        $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
+        $section .= "  {% endjavascripts %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
+        $section .= "<style>some css code</style>" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
@@ -222,33 +244,39 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
+        $this->setUpBlockManagerFactory();
 
-        $section = "\n{#--------------  CONTENTS SECTION  --------------#}\n";
-        $section .= "{% block logo %}\n";
-        $section .= "  {% if(slots.logo is not defined) %}\n";
-        $section .= "    my content\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n\n";
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "    Formatted content for deploying" . PHP_EOL;
+        $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);//echo nl2br($twigTemplateWriter->getContentsSection());exit;
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
     public function testContentsSectionWithOneBlockAndImagesReplaceHaveBeenCreated()
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
-        $this->setUpPageBlocks(array("logo" => array($this->setUpBlock('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">'))));
+        $this->setUpPageBlocks();
+        $this->setUpBlockManagerFactory('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
 
-        $section = "\n{#--------------  CONTENTS SECTION  --------------#}\n";
-        $section .= "{% block logo %}\n";
-        $section .= "  {% if(slots.logo is not defined) %}\n";
-        $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n\n";
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">" . PHP_EOL;
+        $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
@@ -256,7 +284,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -268,18 +296,21 @@ class AlTwigTemplateWriterTest extends TestCase
             ->will($this->returnValue(null));
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
-        $this->setUpPageBlocks(array("logo" => array($this->setUpBlock('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>'))));
+        $this->setUpPageBlocks();
+        $this->setUpBlockManagerFactory('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>');
 
-        $section = "\n{#--------------  CONTENTS SECTION  --------------#}\n";
-        $section .= "{% block logo %}\n";
-        $section .= "  {% if(slots.logo is not defined) %}\n";
-        $section .= "    <ul><li><a href=\"my-awesome-page\">Fancy page</a></li></ul>\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n\n";
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "    <ul><li><a href=\"my-awesome-page\">Fancy page</a></li></ul>" . PHP_EOL;
+        $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -290,18 +321,21 @@ class AlTwigTemplateWriterTest extends TestCase
             ->will($this->returnValue('_en_index'));
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
-        $this->setUpPageBlocks(array("logo" => array($this->setUpBlock('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>'))));
+        $this->setUpPageBlocks();
+        $this->setUpBlockManagerFactory('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>');
 
-        $section = "\n{#--------------  CONTENTS SECTION  --------------#}\n";
-        $section .= "{% block logo %}\n";
-        $section .= "  {% if(slots.logo is not defined) %}\n";
-        $section .= "    <ul><li><a href=\"{{ path('_en_index') }}\">Fancy page</a></li></ul>\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n\n";
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "    <ul><li><a href=\"{{ path('_en_index') }}\">Fancy page</a></li></ul>" . PHP_EOL;
+        $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -310,42 +344,51 @@ class AlTwigTemplateWriterTest extends TestCase
         $blocks = array(
             "logo" =>
                 array(
-                    $this->setUpBlock('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">')
+                    $this->setUpBlock()
                 ),
             "nav-menu" =>
                 array(
-                    $this->setUpBlock('<div>A new content</div>'),
-                    $this->setUpBlock('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>')
+                    $this->setUpBlock(),
+                    $this->setUpBlock()
                 )
             );
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
 
-        $section = "\n{#--------------  CONTENTS SECTION  --------------#}\n";
-        $section .= "{% block logo %}\n";
-        $section .= "  {% if(slots.logo is not defined) %}\n";
-        $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n";
-        $section .= "\n";
-        $section .= "{% block nav-menu %}\n";
-        $section .= "  {% if(slots.nav-menu is not defined) %}\n";
-        $section .= "    <div>A new content</div>\n";
-        $section .= "    \n";
-        $section .= "    <div>Some other text <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/image.png\"></div>\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n\n";
+        $blockManager1 = $this->setUpBlockManager('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
+        $blockManager2 = $this->setUpBlockManager('<div>A new content</div>');
+        $blockManager3 = $this->setUpBlockManager('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>');
+        $this->blockManagerFactory->expects($this->any())
+            ->method('createBlockManager')
+            ->will($this->onConsecutiveCalls($blockManager1, $blockManager2, $blockManager3));
+
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">" . PHP_EOL;
+        $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}" . PHP_EOL;
+        $section .= "" . PHP_EOL;
+        $section .= "{% block nav-menu %}" . PHP_EOL;
+        $section .= "  {% if(slots.nav-menu is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN NAV-MENU BLOCK -->" . PHP_EOL;
+        $section .= "    <div>A new content</div>" . PHP_EOL;
+        $section .= "    <div>Some other text <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/image.png\"></div>" . PHP_EOL;
+        $section .= "    <!-- END NAV-MENU BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
 
-
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -354,13 +397,13 @@ class AlTwigTemplateWriterTest extends TestCase
         $blocks = array(
             "logo" =>
                 array(
-                    $this->setUpBlock('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">')
+                    $this->setUpBlock()
                 ),
             "nav-menu" =>
                 array(
-                    $this->setUpBlock('<div>A new content</div>'),
-                    $this->setUpBlock('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>'),
-                    $this->setUpBlock('<div>Lorem ipsum <ul><li><a href="my-awesome-page">Fancy page</a></li></ul></div>')
+                    $this->setUpBlock(),
+                    $this->setUpBlock(),
+                    $this->setUpBlock()
                 )
             );
 
@@ -370,59 +413,68 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
+        $blockManager1 = $this->setUpBlockManager('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
+        $blockManager2 = $this->setUpBlockManager('<div>A new content</div>');
+        $blockManager3 = $this->setUpBlockManager('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>');
+        $blockManager4 = $this->setUpBlockManager('<div>Lorem ipsum <ul><li><a href="my-awesome-page">Fancy page</a></li></ul></div>');
+        $this->blockManagerFactory->expects($this->any())
+            ->method('createBlockManager')
+            ->will($this->onConsecutiveCalls($blockManager1, $blockManager2, $blockManager3, $blockManager4));
 
-        $section = "{% extends 'FakeTheme:Theme:Home.html.twig' %}\n";
-        $section .= "\n{#--------------  METATAGS SECTION  --------------#}\n";
-        $section .= "{% block title %}\n";
-        $section .= "A title\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block description %}\n";
-        $section .= "A description\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block keywords %}\n";
-        $section .= "some,keywords\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "\n{#--------------  ASSETS SECTION  --------------#}\n";
-        $section .= "{% block external_stylesheets %}\n";
-        $section .= "  {% stylesheets style1.css style2.css filter=\"?yui_css,cssrewrite\" %}\n";
-        $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />\n";
-        $section .= "  {% endstylesheets %}\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block external_javascripts %}\n";
-        $section .= "  {% javascripts javascript1.js javascript2.js filter=\"?yui_js\" %}\n";
-        $section .= "    <script src=\"{{ asset_url }}\"></script>\n";
-        $section .= "  {% endjavascripts %}\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block internal_header_stylesheets %}\n";
-        $section .= "<style>some css code</style>\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "{% block internal_header_javascripts %}\n";
-        $section .= "<script>$(document).ready(function(){some js code});</script>\n";
-        $section .= "{% endblock %}\n\n";
-        $section .= "\n{#--------------  CONTENTS SECTION  --------------#}\n";
-        $section .= "{% block logo %}\n";
-        $section .= "  {% if(slots.logo is not defined) %}\n";
-        $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n";
-        $section .= "\n";
-        $section .= "{% block nav-menu %}\n";
-        $section .= "  {% if(slots.nav-menu is not defined) %}\n";
-        $section .= "    <div>A new content</div>\n";
-        $section .= "    \n";
-        $section .= "    <div>Some other text <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/image.png\"></div>\n";
-        $section .= "    \n";
-        $section .= "    <div>Lorem ipsum <ul><li><a href=\"{{ path('_en_index') }}\">Fancy page</a></li></ul></div>\n";
-        $section .= "  {% else %}\n";
-        $section .= "    {{ parent() }}\n";
-        $section .= "  {% endif %}\n";
-        $section .= "{% endblock %}\n\n";
+        $section = "{% extends 'FakeTheme:Theme:Home.html.twig' %}" . PHP_EOL;
+        $section .= "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block title %}" . PHP_EOL;
+        $section .= "A title" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block description %}" . PHP_EOL;
+        $section .= "A description" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block keywords %}" . PHP_EOL;
+        $section .= "some,keywords" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
+        $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
+        $section .= "  {% endstylesheets %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
+        $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
+        $section .= "  {% endjavascripts %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
+        $section .= "<style>some css code</style>" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">" . PHP_EOL;
+        $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}" . PHP_EOL;
+        $section .= "" . PHP_EOL;
+        $section .= "{% block nav-menu %}" . PHP_EOL;
+        $section .= "  {% if(slots.nav-menu is not defined) %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN NAV-MENU BLOCK -->" . PHP_EOL;
+        $section .= "    <div>A new content</div>" . PHP_EOL;
+        $section .= "    <div>Some other text <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/image.png\"></div>" . PHP_EOL;
+        $section .= "    <div>Lorem ipsum <ul><li><a href=\"{{ path('_en_index') }}\">Fancy page</a></li></ul></div>" . PHP_EOL;
+        $section .= "    <!-- END NAV-MENU BLOCK -->" . PHP_EOL;
+        $section .= "  {% else %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getTwigTemplate());
     }
 
@@ -430,9 +482,10 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
+        $this->setUpBlockManagerFactory();
 
         $this->assertFalse($this->root->hasChild('en'));
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->urlManager);
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
         $twigTemplateWriter->writeTemplate(vfsStream::url('root'));
         $this->assertTrue($this->root->hasChild('en'));
         $this->assertTrue($this->root->getChild('en')->hasChild('index.html.twig'));
@@ -503,13 +556,30 @@ class AlTwigTemplateWriterTest extends TestCase
     }
 
 
-    private function setUpBlock($content)
+    private function setUpBlock()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-            ->method('getHtmlContent')
-            ->will($this->returnValue($content));
+        return $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+    }
 
-        return $block;
+    private function setUpBlockManager($deployContent = 'Formatted content for deploying')
+    {
+        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $blockManager->expects($this->once())
+            ->method('getHtmlContentForDeploy')
+            ->will($this->returnValue($deployContent));
+
+        return $blockManager;
+    }
+
+    private function setUpBlockManagerFactory($deployContent = 'Formatted content for deploying', $callingTimes = 1)
+    {
+        $blockManager = $this->setUpBlockManager($deployContent);
+
+        $this->blockManagerFactory->expects($this->exactly($callingTimes))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager));
     }
 }

@@ -121,10 +121,20 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->method('getSlots')
             ->will($this->returnValue(array('logo' => array('repeated' => 'site'))));
 
+        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $blockManager->expects($this->exactly(4))
+            ->method('getHtmlContentForDeploy')
+            ->will($this->returnValue('Formatted content for deploying'));
+        $blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $blockManagerFactory->expects($this->exactly(4))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager));
         $urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $urlManager, $this->themesCollectionWrapper));
+            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $urlManager, $blockManagerFactory, $this->themesCollectionWrapper));
 
         $this->deployer = new AlTwigDeployer($this->container);
         $this->assertTrue($this->deployer->deploy());
