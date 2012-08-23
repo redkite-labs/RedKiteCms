@@ -40,7 +40,6 @@
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/al-pagetree-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
-    "alphalemon/frontend-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
     "alphalemon/al-valum-uploader-bundle": "dev-master",
     "alphalemon/business-website-theme-bundle": "dev-master"
