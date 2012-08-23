@@ -89,8 +89,6 @@ class Installer {
 
     protected function checkPrerequisites()
     {
-        //$this->connection = $this->connectDb($this->shortDsn);
-
         $this->checkClass('propel', '\Propel');
         $this->checkFolder($this->vendorDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
@@ -211,7 +209,7 @@ class Installer {
         $alphaLemonConfigFile = $this->vendorDir . '/../app/config/config_alcms.yml';
         $this->checkFile($alphaLemonConfigFile);
 
-        $section = "\nalpha_lemon_frontend:\n";
+        $section = "\nalpha_lemon_theme_engine:\n";
         $section .= "    deploy_bundle: $this->deployBundle\n\n";
         $this->writeConfigFile($configFile, '/alpha_lemon_frontend/is', $section);
 
