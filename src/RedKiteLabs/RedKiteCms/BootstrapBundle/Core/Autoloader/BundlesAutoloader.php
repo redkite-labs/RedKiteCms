@@ -69,7 +69,7 @@ class BundlesAutoloader
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
         $this->filesystem = new Filesystem();
-        $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir);
+
 
         $this->setupFolders();
 
@@ -111,6 +111,7 @@ class BundlesAutoloader
     protected function run()
     {
         if (!$this->bootstrapped) {
+            $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir);
             $this->retrieveInstalledBundles();
             $this->install();
             $this->uninstall();
