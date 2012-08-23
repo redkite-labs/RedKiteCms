@@ -16,18 +16,18 @@ namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Listener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class BasePageRenderingListener
 {
     protected $container;
 
-    abstract protected function renderSlotContent();
+    abstract protected function renderSlotContents();
     
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-    
     
     /**
     * Handles the event when notified or filtered.
@@ -36,7 +36,18 @@ abstract class BasePageRenderingListener
     */
     public function onPageRendering(BeforePageRenderingEvent $event)
     {
-        $slotContent = $this->renderSlotContent();
+        $response = $event->getResponse();
+        
+        $slotContents = $this->renderSlotContents();
+        foreach ($slotContents as $slotContent) {
+            $this->renderSlot($response, $slotContent);
+        }
+        
+        $event->setResponse($response);
+    }
+    
+    protected function renderSlot(Response $response, AlSlotContent $slotContent)
+    {
         if (!$slotContent instanceof AlSlotContent) {
            throw new \RuntimeException('"renderSlotContent" method must return a "AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent" object');
         }
@@ -53,13 +64,13 @@ abstract class BasePageRenderingListener
            return;
         }
         
-        $response = $event->getResponse();
         $content = $response->getContent(); 
         $content = ($slotContent->isReplacing()) ? $this->replaceContent($slotContent, $content) : $this->injectContent($slotContent, $content);
         if (null !== $content) {
             $response->setContent($content);
-            $event->setResponse($response);
         }
+        
+        return $response;
     }
     
     protected function replaceContent(AlSlotContent $slotContent, $content)
