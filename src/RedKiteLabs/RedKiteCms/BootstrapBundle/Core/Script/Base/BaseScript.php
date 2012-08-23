@@ -26,7 +26,7 @@ use AlphaLemon\BootstrapBundle\Core\Json\JsonToolkit;
 
 /**
  * Defines the base object to execute a script
- * 
+ *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 abstract class BaseScript extends JsonToolkit implements ScriptInterface
@@ -36,9 +36,9 @@ abstract class BaseScript extends JsonToolkit implements ScriptInterface
 
     /**
      * Constructor
-     * 
+     *
      * @param string $basePath
-     * @param ActionManagerGenerator $actionManagerGenerator 
+     * @param ActionManagerGenerator $actionManagerGenerator
      */
     public function __construct($basePath,  ActionManagerGenerator $actionManagerGenerator = null)
     {
@@ -48,11 +48,11 @@ abstract class BaseScript extends JsonToolkit implements ScriptInterface
     }
 
     /**
-     * Executes the given method defined by the given ActionsManager 
-     * 
+     * Executes the given method defined by the given ActionsManager
+     *
      * @param string $method
      * @param array $actionManagers
-     * @return array An array that contains the post actions and the not execution action 
+     * @return array An array that contains the post actions and the not execution action
      */
     protected function doExecuteActions($method, array $actionManagers)
     {
@@ -68,8 +68,8 @@ abstract class BaseScript extends JsonToolkit implements ScriptInterface
 
     /**
      * Executes the failed action
-     * 
-     * @param string $action 
+     *
+     * @param string $action
      */
     protected function executeFailedActions($action)
     {
@@ -83,11 +83,11 @@ abstract class BaseScript extends JsonToolkit implements ScriptInterface
 
     /**
      * Executes the actions
-     * 
+     *
      * @param type $method
      * @param array $actionManagers
      * @return type
-     * @throws MissingDependencyException 
+     * @throws MissingDependencyException
      */
     protected function execute($method, array $actionManagers)
     {
@@ -95,7 +95,8 @@ abstract class BaseScript extends JsonToolkit implements ScriptInterface
         foreach ($actionManagers as $bundleName => $actionManager) {
             $this->actionManagerGenerator->generate($actionManager);
             $actionManagerClass = $this->actionManagerGenerator->getActionManagerClass();
-            if (false === $this->actionManagerGenerator->getActionManager()->$method()) $actions['notExecuted'][$bundleName] = $actionManagerClass;
+            $actionManager = $this->actionManagerGenerator->getActionManager();
+            if (null !== $actionManager && false === $actionManager->$method()) $actions['notExecuted'][$bundleName] = $actionManagerClass;
             $actions['post'][$bundleName] = $actionManagerClass;
         }
 
@@ -104,9 +105,9 @@ abstract class BaseScript extends JsonToolkit implements ScriptInterface
 
     /**
      * Writes the post actions file
-     * 
+     *
      * @param string $fileName
-     * @param array $actions 
+     * @param array $actions
      */
     protected function writePostActions($fileName, array $actions)
     {
@@ -116,9 +117,9 @@ abstract class BaseScript extends JsonToolkit implements ScriptInterface
 
     /**
      * Writes the failed actions file
-     * 
+     *
      * @param string $fileName
-     * @param type $actions 
+     * @param type $actions
      */
     protected function writeFailedActions($fileName, $actions)
     {

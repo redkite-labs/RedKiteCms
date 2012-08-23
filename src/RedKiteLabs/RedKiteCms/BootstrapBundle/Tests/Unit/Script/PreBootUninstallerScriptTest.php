@@ -28,7 +28,7 @@ use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManager;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class PreeBootUninstallerScriptTest extends BaseFilesystem
+class PreBootUninstallerScriptTest extends BaseFilesystem
 {
     private $preBootUninstallerScript = null;
 

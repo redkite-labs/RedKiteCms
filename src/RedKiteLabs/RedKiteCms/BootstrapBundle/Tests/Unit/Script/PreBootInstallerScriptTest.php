@@ -28,7 +28,7 @@ use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManager;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class PreeBootInstallerScriptTest extends BaseFilesystem
+class PreBootInstallerScriptTest extends BaseFilesystem
 {
     private $preBootInstallerScript = null;
 
@@ -55,7 +55,7 @@ class PreeBootInstallerScriptTest extends BaseFilesystem
         $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/.PostInstall')));
         $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/.packageInstalledPreBoot')));
 
-        $postActions = json_decode(file_get_contents(vfsStream::url('root/app/config/bundles/.PostInstall')), true);        
+        $postActions = json_decode(file_get_contents(vfsStream::url('root/app/config/bundles/.PostInstall')), true);
         $this->assertArrayHasKey('BusinessCarouselFakeBundle', $postActions);
         $this->assertEquals($postActions['BusinessCarouselFakeBundle'], get_class($actionsManagers['BusinessCarouselFakeBundle']));
     }
