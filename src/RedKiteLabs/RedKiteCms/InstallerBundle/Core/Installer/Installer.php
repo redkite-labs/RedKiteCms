@@ -199,6 +199,9 @@ class Installer {
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/media');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
+    
+        
+        $this->filesystem ->mkdir($this->vendorDir . '/../app/propel/sql');
     }
 
     protected function writeConfigurations()
