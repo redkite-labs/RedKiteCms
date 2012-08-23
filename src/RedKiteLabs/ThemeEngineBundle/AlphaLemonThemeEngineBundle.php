@@ -18,7 +18,7 @@ namespace AlphaLemon\ThemeEngineBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use AlphaLemon\ThemeEngineBundle\DependencyInjection\Compiler\RegisterThemeEngineListenersPass;
+use AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler\RegisterRenderingListenersPass;
 use AlphaLemon\ThemeEngineBundle\Core\Compiler\AlThemesCollectionCompilerPass;
 
 class AlphaLemonThemeEngineBundle extends Bundle
@@ -27,7 +27,7 @@ class AlphaLemonThemeEngineBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new RegisterThemeEngineListenersPass());
+        $container->addCompilerPass(new RegisterRenderingListenersPass());
         $container->addCompilerPass(new AlThemesCollectionCompilerPass());
     }
 }

@@ -39,6 +39,7 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
         $rootNode
             ->children()
+                ->scalarNode('deploy_bundle')->isRequired()->end()
                 ->scalarNode('slot_contents_dir')->end()
                 ->scalarNode('base_template')->end()
                 ->scalarNode('base_theme_manager_template')->end()

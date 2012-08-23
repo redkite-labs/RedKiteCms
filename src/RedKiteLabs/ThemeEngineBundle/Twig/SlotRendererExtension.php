@@ -44,7 +44,7 @@ class SlotRendererExtension extends \Twig_Extension
         try
         {
             $result = '';
-            $slotContents = $this->container->get('al_page_tree')->getBlocks($slotName);
+            $slotContents = $this->container->get('al_page_tree')->getPageBlocks($slotName);
             if(count($slotContents) > 0)
             {
                 foreach($slotContents as $contents)

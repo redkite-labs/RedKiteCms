@@ -1,5 +1,5 @@
 alpha_lemon_theme_engine:
-    base_template: AlphaLemonFrontendBundle:Theme:base.html.twig
+    base_template: AlphaLemonThemeEngineBundle:Frontend:base.html.twig
      
 assetic:
     filters:
