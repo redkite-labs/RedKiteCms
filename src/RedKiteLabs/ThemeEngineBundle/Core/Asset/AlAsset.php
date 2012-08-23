@@ -66,7 +66,7 @@ class AlAsset
         if(null === $this->asset || empty($this->asset)) {
             return null;
         }
-
+        
         return $this->normalizePath($this->realPath($this->realPath));
     }
 
@@ -87,7 +87,7 @@ class AlAsset
      */
     public function getWebFolderRealPath($webFolder = 'web')
     {
-        return $this->normalizePath($this->realPath($this->kernel->getRootDir() . '/../' .  $webFolder . $this->absolutePath));
+        return $this->normalizePath($this->realPath($this->kernel->getRootDir() . '/../' .  $webFolder . '/' . $this->absolutePath));
     }
 
     /**
@@ -116,17 +116,18 @@ class AlAsset
     {
         preg_match('/([^@\/][\w]+Bundle)\/(Resources\/public)?\/(.*)/', $this->asset, $matches);
         if (!empty($matches) && count($matches) == 4) {
-            return sprintf('/bundles/%s/%s', preg_replace('/bundle$/', '', strtolower($matches[1])), $matches[3]);
+            return sprintf('bundles/%s/%s', preg_replace('/bundle$/', '', strtolower($matches[1])), $matches[3]);
         }
 
-        preg_match('/([\/]?bundles.*)/', strtolower($this->asset), $matches);
+        preg_match('/[\/]?(bundles.*)/', strtolower($this->asset), $matches);
         if (!empty($matches)) {
             return $matches[1];
         }
 
-        $asset = strtolower($this->asset);
+        $asset = str_replace("@", "", strtolower($this->asset));
         $bundleDir = preg_replace('/bundle$/', '', $asset);
-        return ($bundleDir !== $asset) ? '/bundles/' . $bundleDir : null;
+        
+        return ($bundleDir !== $asset) ? 'bundles/' . $bundleDir : null;
     }
 
     /**
@@ -141,7 +142,15 @@ class AlAsset
 
         try
         {
-            return $this->kernel->locateResource($asset);
+            // Fetches the relative resource to locate from asset
+            preg_match('/(@[^\/]+)?([\w\/\.-_]+)?/', $asset, $match);
+            if (empty($match[1])) return;
+            
+            $resource = $this->kernel->locateResource($match[1]);
+            $resourceLength = strlen($resource) - 1;
+            if (substr($resource, $resourceLength, 1) == '/') $resource = substr($resource, 0, $resourceLength);
+
+            return (isset($match[2])) ? $resource . $match[2] : $resource;
         }
         catch(\InvalidArgumentException $e)
         {

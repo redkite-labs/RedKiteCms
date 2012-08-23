@@ -57,36 +57,36 @@ class AlAssetTest extends TestCase
     public function testAssetPathAreCalculatedFromARelativePath()
     {
         $asset = '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css';
-        $fullAssetPath = '/path/to/web/folder/bundles/businesswebsitetheme/css/reset.css';
-        $this->setUpKernel($fullAssetPath);
+        $bundleAssetPath = '/path/to/bundle/folder';
+        $this->setUpKernel($bundleAssetPath);
 
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
-        $this->assertEquals($fullAssetPath, $alAsset->getRealPath());
-        $this->assertEquals('/bundles/businesswebsitetheme/css/reset.css', $alAsset->getAbsolutePath());
+        $this->assertEquals($bundleAssetPath . '/Resources/public/css/reset.css', $alAsset->getRealPath());
+        $this->assertEquals('bundles/businesswebsitetheme/css/reset.css', $alAsset->getAbsolutePath());
     }
 
     public function testAssetPathAreCalculatedFromARealPath()
     {
         $asset = '/path/to/web/folder/bundles/businesswebsitetheme/css/style.css';
-        $this->setUpKernel($asset);
+        $this->setUpKernel($asset, 0);
 
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals($asset, $alAsset->getRealPath());
-        $this->assertEquals('/bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
+        $this->assertEquals('bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
     }
 
     public function testAssetPathsAreAlwaysNormalized()
     {
         $asset = '\\path\\to\\web\\folder\\bundles\\businesswebsitetheme\\css\\style.css';
         $normalizedAsset = '/path/to/web/folder/bundles/businesswebsitetheme/css/style.css';
-        $this->setUpKernel($normalizedAsset);
+        $this->setUpKernel($normalizedAsset, 0);
 
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($normalizedAsset, $alAsset->getAsset());
         $this->assertEquals($normalizedAsset, $alAsset->getRealPath());
-        $this->assertEquals('/bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
+        $this->assertEquals('bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
     }
 
     public function testAssetIsRecognizedAsBundle()
@@ -96,12 +96,12 @@ class AlAssetTest extends TestCase
 
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getRealPath());
-        $this->assertEquals('/bundles/fake', $alAsset->getAbsolutePath());
+        $this->assertEquals('bundles/fake', $alAsset->getAbsolutePath());
     }
 
-    private function setUpKernel($asset)
+    private function setUpKernel($asset, $numberOfCalls = 1)
     {
-        $this->kernel->expects($this->once())
+        $this->kernel->expects($this->exactly($numberOfCalls))
             ->method('locateResource')
             ->will($this->returnValue($asset));
     }
