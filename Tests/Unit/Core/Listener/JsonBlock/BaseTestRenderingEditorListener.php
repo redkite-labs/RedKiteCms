@@ -1,0 +1,86 @@
+<?php
+/*
+ * This file is part of the AlphaLemon CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.alphalemon.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
+
+use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\RenderingListEditorListener;
+
+/**
+ * RenderingListEditorListenerTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
+class BaseTestRenderingEditorListener extends TestCase
+{
+    protected $testListener;
+    protected $event;
+    protected $container;
+    protected $engine;
+    protected $blockManager;
+    protected $block;
+    
+    protected function setUp()
+    {
+        parent::setUp();
+        
+        $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+        
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
+        $this->engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
+        $this->blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+    }
+
+    protected function setUpEvents($expectedCalls = 1)
+    {
+        $this->event->expects($this->exactly($expectedCalls))
+            ->method('getAlBlockManager')
+            ->will($this->returnValue($this->blockManager));
+        
+        $this->event->expects($this->exactly($expectedCalls))
+            ->method('getContainer')
+            ->will($this->returnValue($this->container));
+    }
+    
+    protected function setUpBlockManager()
+    {
+        $value = '{
+                "0" : {
+                    "field1" : "value1",
+                    "field2" : "value2"
+                }
+            }';
+        
+        $this->block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+                
+        $this->block->expects($this->once())
+            ->method('getClassName')
+            ->will($this->returnValue('Class'));
+        
+        $this->block->expects($this->once())
+            ->method('getHtmlContent')
+            ->will($this->returnValue($value));
+        
+        $this->blockManager->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($this->block));
+    }
+}
