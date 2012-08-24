@@ -51,10 +51,6 @@ class BlocksController extends Controller
             $block = $blockRepository->fromPK($request->get('idBlock'));
             if ($block != null)
             {
-                $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getClassName()));
-                $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
-                $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
-
                 $alBlockManager = $this->container->get('alphalemon_cms.block_manager_factory')->createBlockManager($block);
                 $dispatcher = $this->container->get('event_dispatcher');
                 if(null !== $dispatcher)
@@ -66,6 +62,10 @@ class BlocksController extends Controller
 
                 if(null === $editor)
                 {
+                    $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getClassName()));
+                    $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
+                    $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
+
                     $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
                                                                                            "jsFiles" => explode(",", $block->getExternalJavascript()),
                                                                                            "cssFiles" => explode(",", $block->getExternalStylesheet()),
