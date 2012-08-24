@@ -67,37 +67,19 @@ class WebTestCaseFunctional extends WebTestCase {
 
     protected static function populateDb()
     {
+        /*
         if (!\Propel::isInit()) {
             include __DIR__ . '/Functional/app/Resources/config/propelConfiguration.php';
             \Propel::setConfiguration($config);
             \Propel::initialize();
-        }
+        }*/
 
         $dispatcher = new EventDispatcher();
-        /*
-        $seoRepository = new Propel\AlSeoRepositoryPropel();
-        $languageRepository = new Propel\AlLanguageRepositoryPropel();
-        $pageRepository = new Propel\AlPageRepositoryPropel();
-        $blockRepository = new Propel\AlBlockRepositoryPropel();
-
-        $factoryRepository = $factoryRepository;
-        $blockRepository = $factoryRepository->createRepository('Block');
-        $languageRepository = $factoryRepository->createRepository('Block');
-        $pageRepository = $factoryRepository->createRepository('Block');
-        $seoRepository = $factoryRepository->createRepository('Block');*/
-
         $factoryRepository = new AlFactoryRepository('Propel');
-
         $client = static::createClient(array(
             'environment' => 'alcms_test',
             'debug'       => true,
             ));
-
-        /*
-        $dir = realpath(__DIR__ . '/Functional/Resources/fixtures');
-        $templateSlots = new BusinessWebsiteThemeBundleHomeSlots(null, $dir);
-        $template = new AlTemplate($client->getContainer()->get('kernel'), new AlTemplateAssets(), $client->getContainer()->get('template_slots_factory'));
-        $template->setTemplateSlots($templateSlots);*/
 
         $themes = $client->getContainer()->get('alphalemon_theme_engine.themes');
         $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
