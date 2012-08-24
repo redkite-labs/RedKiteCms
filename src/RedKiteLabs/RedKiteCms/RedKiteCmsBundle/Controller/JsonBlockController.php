@@ -46,7 +46,7 @@ class JsonBlockController extends Controller
             $block = $this->fetchBlock($request->get('blockId'));
 
             $items = json_decode($block->getHtmlContent(), true);
-            $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
+            $template = sprintf('%sBundle:Block:%s_list.html.twig', $block->getClassName(), strtolower($block->getClassName()));
 
             return $this->render($template, array("items" => $items, "block_id" => $block->getId()));
         }
@@ -98,7 +98,7 @@ class JsonBlockController extends Controller
             $blockManager->save(array('RemoveItem' => $request->get('RemoveItem')));
 
             $items = json_decode($block->getHtmlContent(), true);
-            $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
+            $template = sprintf('%sBundle:Block:%s_list.html.twig', $block->getClassName(), strtolower($block->getClassName()));
 
             $responseValues = array(
                 array('key' => 'content',
