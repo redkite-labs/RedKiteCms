@@ -9,13 +9,14 @@
         <parameter key="alphalemon_bootstrap.routing.loader.class">AlphaLemon\BootstrapBundle\Core\Loader\RoutingLoader</parameter>
         <parameter key="alphalemon_bootstrap.post_actions.class">AlphaLemon\BootstrapBundle\Core\Listener\ExecutePostActionsListener</parameter>
         <parameter key="alphalemon_bootstrap.routing_dir">%kernel.root_dir%/config/bundles/routing</parameter>
+        <parameter key="alphalemon_bootstrap.vendor_dir">%kernel.root_dir%/../vendor</parameter>
     </parameters>
 
     <services>
         <service id="alphalemon_bootstrap.autoloaders_collection" class="%alphalemon_bootstrap.autoloaders_collection.class%">
-            <argument type="string">%kernel.root_dir%/../vendor</argument>
+            <argument type="string">%alphalemon_bootstrap.vendor_dir%</argument>
         </service>
-        
+
         <service id="alphalemon_bootstrap.routing_loader" class="%alphalemon_bootstrap.routing.loader.class%">
             <argument type="service" id="file_locator" />
             <argument type="service" id="alphalemon_bootstrap.autoloaders_collection" />

@@ -41,6 +41,7 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('routing_dir')->end()
+                ->scalarNode('vendor_dir')->end()
             ->end()
         ;
 

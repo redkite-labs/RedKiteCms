@@ -42,6 +42,10 @@ class AlphaLemonBootstrapExtension extends Extension
         if (isset($config['routing_dir'])) {
             $container->setParameter('alphalemon_bootstrap.routing_dir', $config['routing_dir']);
         }
+        
+        if (isset($config['vendor_dir'])) {
+            $container->setParameter('alphalemon_bootstrap.vendor_dir', $config['vendor_dir']);
+        }
     }
 
     public function getAlias()

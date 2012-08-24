@@ -48,43 +48,34 @@ class RoutingLoader extends YamlFileLoader
     public function load($resource, $type = null)
     {
         $bundles = $this->orderRoutes();
-        $collection = new RouteCollection();        
-        foreach($bundles as $bundle) { 
+        $collection = new RouteCollection();
+        foreach($bundles as $bundle) {
             $routingConfig = $this->routingDir . '/' . strtolower($bundle) . '.yml';
             if (file_exists($routingConfig)) {
                 $collection->addCollection(parent::load($routingConfig));
                 $collection->addResource(new FileResource($routingConfig));
             }
         }
-        
-        /*
-        $finder = new Finder();
-        $configs = $finder->depth(0)->name('*.yml')->in($this->routingDir);
-        foreach($configs as $config) {
-            $routingConfig = (string)$config;
-            $collection->addCollection(parent::load($routingConfig));
-            $collection->addResource(new FileResource($routingConfig));
-        }*/
 
         return $collection;
     }
-    
+
     protected function orderRoutes()
-    {        
+    {
         $order = array();
         foreach ($this->autoloaderCollection as $autoloader) {
-            $bundleName = strtolower($autoloader->getBundleName());            
+            $bundleName = strtolower($autoloader->getBundleName());
             $routing = $autoloader->getRouting();
             $section = (null !== $routing) ? (int)$routing['priority'] : 0;
             $order[$section][] = $bundleName;
         }
         ksort($order);
-        
+
         $result = array();
         foreach ($order as $bundle) {
             $result = array_merge($result, $bundle);
         }
-        
+
         return $result;
     }
 
