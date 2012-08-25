@@ -1,7 +1,0 @@
-{
-    "bundles" : {
-        "AlphaLemon\\Block\\MediaBundle\\MediaBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test"]
-        }
-    }
-}
