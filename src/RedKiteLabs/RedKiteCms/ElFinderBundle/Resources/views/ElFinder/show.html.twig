@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% endblock %}
-    
+
 {% block javascript_files %}
     {% javascripts
-        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/jquery-1.7.1.min.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/jquery-ui-1.8.16.custom.min.js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.version.js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.elfinder.js'
