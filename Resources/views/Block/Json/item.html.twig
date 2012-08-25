@@ -21,11 +21,11 @@
                 {% if(item.vars.block_prefixes.2 != "hidden") %}
                 <tr>
                     <td>{{ form_label(item) }}</td>
-                    <td>{{ form_errors(item) }}  
-                    {% if(item.vars.block_prefixes.3 != "textarea") %} 
+                    <td>{{ form_errors(item) }}
+                    {% if(item.vars.block_prefixes.3 != "textarea") %}
                         {{ form_widget(item, { 'attr': {'class' : 'input' }}) }}
                     {% else %}
-                        {{ form_widget(item, { 'attr': {'class' : 'input panel_input', 'rows' : '4', 'cols' : '28' }}) }}
+                        {{ form_widget(item, { 'attr': {'class' : 'textarea' }}) }}
                     {% endif %}
                     </td>
                 </tr>
