@@ -24,7 +24,6 @@ class AppKernel extends Kernel
             new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
             new AlphaLemon\Block\TextBundle\TextBundle(),
             new AlphaLemon\Block\MenuBundle\MenuBundle(),
-            new AlphaLemon\Block\MediaBundle\MediaBundle(),
             new AlphaLemon\Block\ScriptBundle\ScriptBundle(),
             new AlphaLemon\Block\NavigationMenuBundle\NavigationMenuBundle(),/**/
         );
