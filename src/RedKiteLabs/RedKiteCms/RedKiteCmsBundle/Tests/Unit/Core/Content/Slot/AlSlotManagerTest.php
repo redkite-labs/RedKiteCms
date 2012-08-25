@@ -275,24 +275,24 @@ class AlSlotManagerTest extends TestCase
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getClassName')
-                ->will($this->returnValue('Media'));
+                ->will($this->returnValue('Menu'));
 
         $block->expects($this->once())
                 ->method('getContentPosition')
                 ->will($this->returnValue(2));
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\MediaBundle\Core\Block\AlBlockManagerMedia', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', $block);
         $this->slotManager->setBlockManagerFactory($factory);
 
         $this->blockManager->expects($this->once())
                 ->method('set')
                 ->with(null);
 
-        $this->assertTrue($this->slotManager->addBlock(2, 2, "Media", 1));
+        $this->assertTrue($this->slotManager->addBlock(2, 2, "Menu", 1));
 
         $this->assertEquals(3, $this->slotManager->length());
         $this->assertEquals('Text', $this->slotManager->first()->get()->getClassName());
-        $this->assertEquals('Media', $this->slotManager->indexAt(1)->get()->getClassName());
+        $this->assertEquals('Menu', $this->slotManager->indexAt(1)->get()->getClassName());
         $this->assertEquals('Script', $this->slotManager->last()->get()->getClassName());
         $this->assertEquals(1, $this->slotManager->first()->get()->getContentPosition());
         $this->assertEquals(2, $this->slotManager->indexAt(1)->get()->getContentPosition());
@@ -782,12 +782,12 @@ class AlSlotManagerTest extends TestCase
 
         $block->expects($this->any())
                 ->method('getClassName')
-                ->will($this->returnValue('Media'));
+                ->will($this->returnValue('Menu'));
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\MediaBundle\Core\Block\AlBlockManagerMedia', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', $block);
         $this->slotManager->setBlockManagerFactory($factory);
-        $this->assertTrue($this->slotManager->addBlock(2, 2, 'Media', 1));
-        $this->assertEquals('Media', $this->slotManager->lastAdded()->get()->getClassName());
+        $this->assertTrue($this->slotManager->addBlock(2, 2, 'Menu', 1));
+        $this->assertEquals('Menu', $this->slotManager->lastAdded()->get()->getClassName());
         $this->assertEquals('Script', $this->slotManager->last()->get()->getClassName());
     }
 
@@ -805,12 +805,12 @@ class AlSlotManagerTest extends TestCase
         $this->assertNull($this->slotManager->indexAt(0));
         $this->addBlockManagerOnlyWithClassName('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
         $this->addBlockManagerOnlyWithClassName('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
-        $this->addBlockManagerOnlyWithClassName('AlphaLemon\Block\MediaBundle\Core\Block\AlBlockManagerMedia', 'Media');
+        $this->addBlockManagerOnlyWithClassName('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', 'Menu');
         $this->assertNull($this->slotManager->indexAt(-1));
         $this->assertNull($this->slotManager->indexAt(3));
         $this->assertEquals('Text', $this->slotManager->indexAt(0)->get()->getClassName());
         $this->assertEquals('Script', $this->slotManager->indexAt(1)->get()->getClassName());
-        $this->assertEquals('Media', $this->slotManager->indexAt(2)->get()->getClassName());
+        $this->assertEquals('Menu', $this->slotManager->indexAt(2)->get()->getClassName());
     }
 
     public function testLength()
