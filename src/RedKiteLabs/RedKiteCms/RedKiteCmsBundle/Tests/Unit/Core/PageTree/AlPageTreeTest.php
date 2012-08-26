@@ -394,7 +394,7 @@ class AlPageTreeTest extends TestCase
         $this->assertTrue($this->pageTree->isValid());
     }
 
-    public function testPageTreeHasNotBeenSettedBecauseAnyThemeHasBeenFetched()
+    public function testPageTreeHasNotBeenSetBecauseAnyThemeHasBeenFetched()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
@@ -417,7 +417,7 @@ class AlPageTreeTest extends TestCase
         $this->assertNull($this->pageTree->setup());
     }
 
-    public function testPageTreeHasBeenSetted()
+    public function testPageTreeHasBeenSet()
     {
         $this->initValidPageTree();
         $this->pageTree->setup();

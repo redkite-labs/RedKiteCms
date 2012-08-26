@@ -54,7 +54,7 @@ class AlBlockManagerFactoryItemTest extends TestCase
         $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block'));
     }
 
-    public function testFactoryItemObjectHasBeenSetted()
+    public function testFactoryItemObjectHasBeenSet()
     {
         $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text'));
 
@@ -66,7 +66,7 @@ class AlBlockManagerFactoryItemTest extends TestCase
     }
 
 
-    public function testFactoryItemObjectHasBeenSettedWithGroupOption()
+    public function testFactoryItemObjectHasBeenSetWithGroupOption()
     {
         $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text', 'group' => 'My awesome group'));
 
