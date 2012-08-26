@@ -29,7 +29,7 @@ class ElFinderStylesheetsConnectorExt extends ElFinderStylesheetsConnector
 }
 
 /**
- * AlParametersValidatorLanguagesManager
+ * ElFinderStylesheetsConnectorTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
