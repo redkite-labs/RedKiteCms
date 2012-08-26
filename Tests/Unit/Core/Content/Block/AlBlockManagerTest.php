@@ -432,7 +432,7 @@ class AlBlockManagerTest extends TestCase
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
      */
-    public function testDeleteBlockFailsWhenAnyBlockIsSetted()
+    public function testDeleteBlockFailsWhenAnyBlockIsSet()
     {
         $this->dispatcher->expects($this->never())
             ->method('dispatch');
