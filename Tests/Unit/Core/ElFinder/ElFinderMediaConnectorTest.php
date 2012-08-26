@@ -29,7 +29,7 @@ class ElFinderMediaConnectorExt extends ElFinderMediaConnector
 }
 
 /**
- * AlParametersValidatorLanguagesManager
+ * ElFinderMediaConnectorTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
