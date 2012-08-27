@@ -2,41 +2,50 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
- * AlBlockManagerImages
+ * AlBlockManagerImages manages a content made by a serie of images
  *
- * @author alphalemon
+ * @author alphalemon <webmaster@alphalemon.com>
  */
-abstract class AlBlockManagerImages extends AlBlockManager
+abstract class AlBlockManagerImages extends AlBlockManagerContainer
 {
     protected function edit(array $values)
     {
-        if(array_key_exists('HtmlContent', $values)) {
-            
-            $content = $values["HtmlContent"];
-            
-            if(!array_key_exists('remove', $values)) {
-                $imageFile = preg_replace('/http?:\/\/[^\/]+/', '', $content);
-                if(false === strpos($this->alBlock->getHtmlContent(), $imageFile))
-                {
-                    $values["HtmlContent"] = $this->alBlock->getHtmlContent() . ',' . $imageFile;
-                }
-                else
-                {
-                    throw new \Exception("File already added");
-                }
+        $images = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getHtmlContent());
+        $savedImages = array_map(function($el){ return $el['image']; }, $images);
+
+        if(array_key_exists('AddFile', $values)) {
+            $file = $values["AddFile"];
+
+            $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
+            $absolutePath = $asset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
+
+            $imageFile = "/" . $absolutePath . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
+            if (in_array($imageFile, $savedImages))
+            {
+                throw new \Exception("The image file has already been added");
             }
-            else {
-                $file = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . $content;
-                $files = array_flip(explode(',', $this->alBlock->getHtmlContent()));
-                unset($files[$content]);
-                $values["HtmlContent"] = implode(',', array_flip($files));
-                @unlink($file);
-            }
+
+            $images[]['image'] = $imageFile;
         }
-        
+
+        if(array_key_exists('RemoveFile', $values)) {
+            $fileToRemove = $values["RemoveFile"];
+            $file = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . $fileToRemove;
+
+            $key = array_search($fileToRemove, $savedImages);
+            if (false !== $key)  unset($images[$key]);
+        }
+
+        $values["HtmlContent"] = json_encode($images);
+
         return parent::edit($values);
     }
 }

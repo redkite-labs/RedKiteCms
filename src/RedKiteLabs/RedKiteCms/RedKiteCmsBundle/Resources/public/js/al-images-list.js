@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 (function($){
@@ -19,21 +19,21 @@
     {
         this.each(function()
         {
-            $(this).EditBlock('HtmlContent', file);
+            $(this).EditBlock('AddFile', file);
 
             return false;
         });
 
         return this;
     };
-    
+
     $.fn.RemoveImage =function(file)
     {
         this.each(function()
         {
             $(this).click(function()
             {
-                $(this).EditBlock('HtmlContent', $('.al_image_selected img').attr('rel'), {remove: true});
+                $(this).EditBlock('RemoveFile', $('.al_image_selected img').attr('rel'));
 
                 return false;
             });
