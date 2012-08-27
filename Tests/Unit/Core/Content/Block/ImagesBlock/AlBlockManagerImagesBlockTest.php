@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
@@ -29,11 +29,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerImagesBlockTest extends TestCase
-{
-    private $dispatcher;
-    private  $blockManager;
-
+class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
+{   
+    private $blockManager;
+    
     protected function setUp()
     {
         parent::setUp();
@@ -70,10 +69,7 @@ class AlBlockManagerImagesBlockTest extends TestCase
         }';
         $block = $this->initBlock(2, $htmlContent);
 
-        $this->container->expects($this->exactly(2))
-                        ->method('get')
-                        ->will($this->onConsecutiveCalls($this->dispatcher,$this->factoryRepository));
-
+        $this->initContainer();
         $params = array('AddFile' => "/new/path/to/image");
         $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
         $this->blockManager->set($block)
@@ -97,9 +93,7 @@ class AlBlockManagerImagesBlockTest extends TestCase
 
     public function testAnImageHasBeenRemovedFromImagesBlock()
     {
-        $this->container->expects($this->exactly(2))
-                        ->method('get')
-                        ->will($this->onConsecutiveCalls($this->dispatcher,$this->factoryRepository));
+        $this->initContainer();
 
         $this->container->expects($this->exactly(2))
                         ->method('getParameter');
