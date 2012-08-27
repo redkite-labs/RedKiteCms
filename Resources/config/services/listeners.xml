@@ -4,7 +4,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="images_block_edited.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\AlImagesBlockEditedListener</parameter>
+        <parameter key="images_block_edited.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener</parameter>
         <parameter key="al_cms_bootstrap_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
         <parameter key="al_cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\FinalizeContentsListener</parameter>
         <parameter key="al_access_deniend_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
@@ -24,7 +24,7 @@
     <services>
         <service id="images_block_edited.class" class="%images_block_edited.class%">
             <tag name="alcms.event_listener" event="actions.block_edited" method="onBlockEdited" priority="0" />
-            <argument type="service" id="service_container" />
+            <argument type="service" id="templating" />
         </service>
 
         <service id="al_cms_bootstrap_listener" class="%al_cms_bootstrap_listener.class%">
