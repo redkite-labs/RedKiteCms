@@ -17,28 +17,23 @@
 
 namespace AlphaLemon\Block\NavigationMenuBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributePeer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * AlBlockManagerMenu
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerNavigationMenu extends AlBlockManager
+class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
 {
-    private $container = null;
-
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
-        $this->container = $container;
-        $dispatcher = $container->get('event_dispatcher');
-        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
-        parent::__construct($dispatcher, $factoryRepository, $validator);
+        parent::__construct($container, $validator);
 
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
     }
@@ -99,7 +94,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManager
             if (null === $url) {
                 $url = '#';
             }
-            
+
             $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $languageName);
         }
 
