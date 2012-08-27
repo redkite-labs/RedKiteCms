@@ -155,7 +155,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Displays a message inside the editor to suggest a page relead
      *
-     * Return true tu display a warnig on editor that suggest the used to reload the page when the block is added or edited
+     * Return true to display a warnig on editor that suggest the used to reload the page when the block is added or edited
      *
      *
      * @return Boolean
@@ -163,6 +163,20 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getReloadSuggested()
     {
         return false;
+    }
+
+    /**
+     * Displays a message inside the editor to suggest a page relead
+     *
+     * Return false to avoid AlphaLemon add the internal javascript code to html when the content is displayed on the
+     * web page
+     *
+     *
+     * @return Boolean
+     */
+    public function getExecuteInternalJavascript()
+    {
+        return true;
     }
 
     /**
@@ -177,7 +191,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         $content = $this->getHtmlContentForDeploy();
         if ((string)$this->getInternalJavascript() != "") {
-            $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s});</script>', $this->getInternalJavascript());
+            $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
+            $internalJavascript = ($this->getExecuteInternalJavascript()) ? $this->getInternalJavascript() : '';
+            if ($scriptForHideContents != '' || $internalJavascript != '') {
+                $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s%s});</script>', $scriptForHideContents, $internalJavascript);
+            }
         }
 
         return $content;

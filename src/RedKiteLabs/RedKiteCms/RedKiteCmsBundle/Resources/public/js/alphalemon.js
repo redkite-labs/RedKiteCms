@@ -17,6 +17,8 @@
 (function( $ ){
     $.fn.StartToEdit = function()
     {
+        $('body').addClass('cms_started');
+
         this.each(function()
         {
             $(this).unbind().ShowBlockEditor();
@@ -47,21 +49,25 @@
 
     $.fn.StopToEdit = function(closeEditor)
     {
-        if(closeEditor == null)
+        if($('body').hasClass('cms_started'))
         {
-            closeEditor = true;
-            $("#al_cms_contents a").unbind();
+            if(closeEditor == null)
+            {
+                closeEditor = true;
+                $("#al_cms_contents a").unbind();
+            }
+
+            $('.al_hide_edit_mode').ShowHiddenContentsFromEditMode();
+            if(closeEditor) $('#al_editor_dialog').dialog('close');
+
+            this.each(function()
+            {
+                $(this).unbind().removeClass('al_edit_on');
+            });
+
+            cmsStartInternalJavascripts();
+            $('body').removeClass('cms_started');
         }
-
-        $('.al_hide_edit_mode').ShowHiddenContentsFromEditMode();
-        if(closeEditor) $('#al_editor_dialog').dialog('close');
-
-        this.each(function()
-        {
-            $(this).unbind().removeClass('al_edit_on');
-        });
-
-        cmsStartInternalJavascripts();
 
         return this;
     };
@@ -73,7 +79,7 @@
             if($(this).hasClass('al_hide_edit_mode'))
             {
                 var data = $(this).metadata();
-                $(this).data('block', $(this).html()).html('<p>A ' + data.type  + ' block is not renderable in edit mode</p>').addClass('is_hidden_in_edit_mode');
+                $(this).html('<p>A ' + data.type  + ' block is not renderable in edit mode</p>').addClass('is_hidden_in_edit_mode');
             }
         });
     };

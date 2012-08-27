@@ -375,6 +375,9 @@ function updateContentsJSon(response)
             case "remove-block":
                 $('#' + item.blockName).remove();
                 break;
+            case "images-list":
+                $('.al_images_list').html(item.value);
+                break;
             case "editor":
                 var openEditor = (item.openEditor != null) ? item.openEditor : true;
                 if(openEditor) {
