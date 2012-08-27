@@ -10,16 +10,16 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\ImageThumbnailer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer;
 
 
 /**
@@ -30,21 +30,21 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\ImageThumbnailer;
 class ImageThumbnailExtension extends \Twig_Extension
 {
     private $container;
-    
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-    
+
     public function thumbnail($image, $targetWidth = 100, $targetHeight = 100)
     {
         $imagePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . $image;
         if (is_file($imagePath)) {
-            $thumbnailer = new ImageThumbnailer($imagePath, $targetWidth, $targetHeight);
-            $thumbnailer->create();
+            $thumbnailer = new AlImageThumbnailer();
+            $thumbnailer->create($imagePath, $targetWidth, $targetHeight);
             $size = getimagesize($thumbnailer->getThumbnailImage());
 
-            return sprintf('<img src="%s" width="%s" height="%s" rel="%s" />', dirname($image) .  '/' . $thumbnailer->getThumbnailFolder() . '/' . basename($thumbnailer->getThumbnailImage()), $size[0], $size[1], $image);        
+            return sprintf('<img src="%s" width="%s" height="%s" rel="%s" />', dirname($image) .  '/' . $thumbnailer->getThumbnailFolder() . '/' . basename($thumbnailer->getThumbnailImage()), $size[0], $size[1], $image);
         }
     }
 
