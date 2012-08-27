@@ -52,7 +52,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
                 throw new Exception\InvalidFormConfigurationException('There is a configuration error in the form that manages this content: it must contain an hidden file called "id". ' . $commonMessageText);
             }
 
-            $content = $this->fetchSavedContent();
+            $content = $this->decodeJsonContent($this->alBlock->getHtmlContent());
             $itemId = $item["id"];
             unset($item["id"]);
             if ($itemId != "") {
@@ -62,13 +62,13 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
             else {
                 $content[] = $item;
             }
-            
+
             $values['HtmlContent'] = json_encode($content);
         }
 
         if (array_key_exists('RemoveItem', $values)) {
             $itemId = $values['RemoveItem'];
-            $content = $this->fetchSavedContent();
+            $content = $this->decodeJsonContent($this->alBlock->getHtmlContent());
             $this->checkValidItemId($itemId, $content);
             unset($content[$itemId]);
             $content = array_values($content);
@@ -79,9 +79,9 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
         return parent::edit($values);
     }
 
-    private function fetchSavedContent()
+    public static function decodeJsonContent($content)
     {
-        $content = json_decode($this->alBlock->getHtmlContent(), true);
+        $content = json_decode($content, true);
         if (null === $content) {
             throw new Exception\InvalidJsonFormatException('The content format is wrong. You should remove the content and add it again.');
         }
