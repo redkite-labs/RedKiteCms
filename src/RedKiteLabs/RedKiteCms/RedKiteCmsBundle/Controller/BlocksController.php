@@ -164,6 +164,7 @@ class BlocksController extends Controller
 
             $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
 
+            $response = null;
             $dispatcher = $this->container->get('event_dispatcher');
             if(null !== $dispatcher)
             {
@@ -179,9 +180,11 @@ class BlocksController extends Controller
                     array("key" => "edit-block",
                           "blockName" => "block_" . $blockManager->get()->getId(),
                           "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))));
+
+                return $this->buildJSonResponse($values);
             }
 
-            return $this->buildJSonResponse($values);
+            return $response;
         }
         catch(\Exception $e)
         {
