@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner;
 
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
@@ -27,6 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidFileNam
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
  * AlRepeatedSlotsManager is responsible to verify when a slot changes its repetition status and
@@ -58,7 +58,8 @@ class AlRepeatedSlotsAligner
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
 
         $this->cacheFile =  $kernel->getRootDir() . '/Resources/active_theme_slots.xml';
-        $this->skeletonFile = AlToolkit::locateResource($this->kernel, '@AlphaLemonCmsBundle/Resources/data/xml/repeated-slots-skeleton.xml');
+        $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle/Resources/data/xml/repeated-slots-skeleton.xml');
+        $this->skeletonFile = $asset->getRealPath();  
     }
 
     public function setCacheFile($fileName)
@@ -70,7 +71,7 @@ class AlRepeatedSlotsAligner
 
     public function setSkeletonFile($fileName)
     {
-        if(file_exists($fileName) && @simplexml_load_file($fileName)) {
+        if (file_exists($fileName) && @simplexml_load_file($fileName)) {
             $this->skeletonFile = $fileName;
         }
 

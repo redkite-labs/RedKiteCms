@@ -28,7 +28,7 @@ use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
@@ -95,7 +95,7 @@ class BlocksController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -137,7 +137,7 @@ class BlocksController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -190,7 +190,7 @@ class BlocksController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -216,8 +216,6 @@ class BlocksController extends Controller
                                   "blockName" => "block_" . $request->get('idBlock'));
                 }
                 else {
-                    // TODO
-                    //$this->get('al_page_tree')->setContents(array($request->get('slotName') => array()), true);
                     $values[] = array("key" => "redraw-slot",
                           "slotName" => 'al_' . $request->get('slotName'),
                           "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'))));
@@ -234,7 +232,7 @@ class BlocksController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -253,7 +251,7 @@ class BlocksController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -315,7 +313,7 @@ class BlocksController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -343,9 +341,9 @@ class BlocksController extends Controller
                 $field = $request->get('field');
                 $externalFiles =  $blockManager->get()->{'get' . $field}();
 
-                if($request->get('file') != null) // TODO  || $externalFiles == "" Check this control validity
-                {
-                    $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonCmsBundle');
+                if ($request->get('file') != null) {
+                    $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
+                    $bundleFolder = $asset->getAbsolutePath();
                     $filePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . $bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder') . '/';
                     $file = $filePath . $request->get('file');
                     @unlink($file);
@@ -387,7 +385,7 @@ class BlocksController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 

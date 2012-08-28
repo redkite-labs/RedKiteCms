@@ -54,7 +54,7 @@ class JsonBlockController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -77,7 +77,7 @@ class JsonBlockController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -114,7 +114,7 @@ class JsonBlockController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 

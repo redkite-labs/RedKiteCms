@@ -58,64 +58,19 @@ class CmsBootstrapListenerTest extends TestCase
         $this->setUpEnvironment('dev');
         $this->assertNull($this->testListener->onKernelRequest($this->event));
     }
-
-    /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException
-     * @expectedExceptionMessage The parameter xliff_skeleton is not well configured. Check your configuration file to solve the problem
-     */
-    public function testAnExceptionIsThrownWhenXliffSkeletonFileDoesNotExist()
-    {
-        $this->setUpEnvironment('alcms');
-
-        $this->kernel->expects($this->any())
-            ->method('locateResource')
-            ->will($this->returnValue(false));
-
-        $this->testListener->onKernelRequest($this->event);
-    }
-
-    /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException
-     * @expectedExceptionMessage The parameter xml_skeleton is not well configured. Check your configuration file to solve the problem
-     */
-    public function testAnExceptionIsThrownWhenXmlSkeletonFileDoesNotExist()
-    {
-        $this->setUpEnvironment('alcms');
-
-        $this->kernel->expects($this->any())
-            ->method('locateResource')
-            ->will($this->onConsecutiveCalls(true, false));
-
-        $this->testListener->onKernelRequest($this->event);
-    }
-
-    /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException
-     * @expectedExceptionMessage The parameter skeletons_folder is not well configured. Check your configuration  file to solve the problem
-     */
-    public function testAnExceptionIsThrownWhenAssetsSkeletonsFolderFileDoesNotExist()
-    {
-        $this->setUpEnvironment('alcms');
-
-        $this->kernel->expects($this->any())
-            ->method('locateResource')
-            ->will($this->onConsecutiveCalls(true, true, false));
-
-        $this->testListener->onKernelRequest($this->event);
-    }
     
     public function testCmsHasBeenBootstrapped()
     {
         $this->setUpEnvironment('alcms');
         $this->setupFolders();
 
-        $this->kernel->expects($this->any())
+        $this->kernel->expects($this->exactly(2))
             ->method('locateResource')
-            ->will($this->onConsecutiveCalls(true, true, true, vfsStream::url('root/frontend-assets'), vfsStream::url('root/cms-assets/')));
+            ->will($this->onConsecutiveCalls(vfsStream::url('root/frontend-assets'), vfsStream::url('root/cms-assets/')));
 
         $this->container->expects($this->any())
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls(null, null, null, null, null, 'media', 'js', 'css', 'fake', 'media', 'js', 'css'));
+            ->will($this->onConsecutiveCalls('@AcmeWebSiteBundle', 'asset-base-dir', 'media', 'js', 'css', 'uploades-base-dir', 'media', 'js', 'css'));
 
         $this->pageTree->expects($this->once())
             ->method('setup');
@@ -144,16 +99,20 @@ class CmsBootstrapListenerTest extends TestCase
 
         $expectedResult = array('root' =>
                                     array('frontend-assets' =>
-                                        array('media' => array(),
+                                        array('asset-base-dir' => 
+                                            array(
+                                                'media' => array(),
                                                 'js' => array(),
                                                 'css' => array()
+                                            ),
                                         ),
 
                                         'cms-assets' =>
                                             array('Resources' =>
                                                 array('public' =>
-                                                    array('fake' =>
-                                                        array('media' => array(),
+                                                    array('uploades-base-dir' =>
+                                                        array(
+                                                            'media' => array(),
                                                             'js' => array(),
                                                             'css' => array()
                                                         ),

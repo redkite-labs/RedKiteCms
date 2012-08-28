@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
 
 class DeployController extends Controller
 {
@@ -33,11 +33,19 @@ class DeployController extends Controller
             $appDir = $this->container->get('kernel')->getRootDir();
             $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
             $command = sprintf('assets:install %s %s', $this->container->getParameter('alphalemon_cms.web_folder'), $symlink);
+
+            $commandProcessor = new AlCommandsProcessor($appDir);
+            $commandProcessor->executeCommands(array(
+                $command => null,
+                'assetic:dump --env=prod' => null,
+                'cache:clear --env=prod' => null,
+            ));
+            /*
             AlToolkit::executeCommand($appDir, $command);
             AlToolkit::executeCommand($appDir, 'assetic:dump --env=prod');
-            AlToolkit::executeCommand($appDir, 'cache:clear --env=prod');
+            AlToolkit::executeCommand($appDir, 'cache:clear --env=prod');*/
 
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
         }
         catch(Exception $ex)
         {

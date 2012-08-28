@@ -22,6 +22,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AnyValidParameterGivenException extends \InvalidArgumentException
+class AnyValidArgumentGivenException extends \InvalidArgumentException
 {
 }

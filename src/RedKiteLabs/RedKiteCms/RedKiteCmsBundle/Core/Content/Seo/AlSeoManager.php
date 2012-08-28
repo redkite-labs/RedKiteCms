@@ -32,6 +32,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 
 /**
  * AlBlockManager is the object responsible to manage an AlSeo object.
@@ -239,7 +240,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 throw new General\ParameterIsEmptyException($this->translate("The Permalink parameter is mandatory to save a seo object"));
             }
 
-            $values["Permalink"] = AlToolkit::slugify($values["Permalink"]);
+            $values["Permalink"] = AlPageManager::slugify($values["Permalink"]);
 
             $this->seoRepository->startTransaction();
             if (null === $this->alSeo) {
@@ -320,7 +321,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $currentPermalink = $this->alSeo->getPermalink();
                 if ($values['Permalink'] != $currentPermalink) {
                     $values["oldPermalink"] = $currentPermalink;
-                    $values['Permalink'] = AlToolkit::slugify($values["Permalink"]);
+                    $values['Permalink'] = AlPageManager::slugify($values["Permalink"]);
                 }
                 else {
                     unset($values['Permalink']);

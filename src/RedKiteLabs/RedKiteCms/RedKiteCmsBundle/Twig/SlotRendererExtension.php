@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 
-use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;

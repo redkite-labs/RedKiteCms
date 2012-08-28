@@ -37,9 +37,7 @@
         </parameter>
 
         <parameter key="alcms.deploy.xliff_skeleton">@AlphaLemonCmsBundle/Resources/data/xml/xliff-skeleton.xml</parameter>
-        <parameter key="alcms.deploy.xml_skeleton">@AlphaLemonCmsBundle/Resources/data/xml/page-skeleton.xml</parameter>
 
-        <parameter key="alcms.assets.skeletons_folder">@AlphaLemonCmsBundle/Resources/data/assets</parameter>
         <parameter key="alcms.assets.output_folder">Resources/views/Assets</parameter>
         <parameter key="alphalemon_cms.upload_assets_dir">uploads/assets</parameter>
 

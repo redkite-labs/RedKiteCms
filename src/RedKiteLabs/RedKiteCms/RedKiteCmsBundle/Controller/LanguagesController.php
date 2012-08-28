@@ -35,7 +35,7 @@ class LanguagesController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
         }
 
         $languagesForm = new LanguagesForm($this->container);
@@ -70,7 +70,7 @@ class LanguagesController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -110,7 +110,7 @@ class LanguagesController extends Controller
         {
             $response = new Response();
             $response->setStatusCode('404');
-            return $this->render('AlphaLemonPageTreeBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 

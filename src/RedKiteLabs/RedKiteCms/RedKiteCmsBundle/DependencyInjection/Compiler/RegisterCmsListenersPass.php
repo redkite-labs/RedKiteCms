@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use AlphaLemon\PageTreeBundle\Core\Compiler\ListenersRegistrator;
+use AlphaLemon\ThemeEngineBundle\Core\Compiler\EventListenersRegistrator;
 
 /**
  * Registers the CMS events
@@ -30,7 +30,7 @@ class RegisterCmsListenersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        ListenersRegistrator::registerByTaggedServiceId($container, 'alcms.event_listener');
+        EventListenersRegistrator::registerByTaggedServiceId($container, 'alcms.event_listener');
     }
 }
 
