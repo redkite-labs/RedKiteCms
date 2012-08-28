@@ -54,7 +54,7 @@ The Block Manager object will inherit from the AlBlockManagerJsonBlock, as follo
         }
     }
 
-The default value will add only an item. To have your block returning the desidered output, the **getHtmlContentForDeploy** method has been 
+The default value will add only an item. To have your block returning the desidered output, the **getHtml** method has been 
 redefined as follows:
 
     AlphaLemon/Block/BusinessCarouselBundle/Core/Block/AlBlockManagerBusinessCarousel.php
@@ -63,7 +63,7 @@ redefined as follows:
     class AlBlockManagerBusinessCarousel extends AlBlockManagerJsonBlock
     {
         [...]
-        public function getHtmlContentForDeploy()
+        public function getHtml()
         {
             $carousel = '';
             $elements = array();

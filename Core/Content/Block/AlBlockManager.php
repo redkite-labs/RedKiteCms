@@ -180,16 +180,27 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Returns the content that must be displayed on the page
+     * Returns the block's html content
      *
-     * The content that is displayed on the page not always is the same saved in the database.
+     * @return string
+     */
+    public function getHtml()
+    {
+        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
+    }
+
+    /**
+     * Returns the html content when AlphaLemon CMS is active.
+     *
+     * By default the internal javascript is concatenated to the block's html content: this behavior
+     * can be changed overriding the getExecuteInternalJavascript() method
      *
      *
      * @return string
      */
-    public function getHtmlContent()
+    public function getHtmlCmsActive()
     {
-        $content = $this->getHtmlContentForDeploy();
+        $content = $this->getHtml();
         if ((string)$this->getInternalJavascript() != "") {
             $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
             $internalJavascript = ($this->getExecuteInternalJavascript()) ? $this->getInternalJavascript() : '';
@@ -199,11 +210,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         }
 
         return $content;
-    }
-
-    public function getHtmlContentForDeploy()
-    {
-        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
     }
 
     /**
@@ -217,7 +223,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtmlContentForEditor()
     {
-        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
+        return $this->getHtml();
     }
 
     /**
@@ -253,26 +259,30 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the current saved InternalJavascript.
      *
-     * When the values is setted, it is encapsulated in a try/catch
-     * block to avoid breaking the execution of AlphaLemon javascripts
+     * By default the values is encapsulated into a try/catch block to avoid breaking the execution.
+     * To get only the internal javascript, call the method with the safe argument as false
      *
-     *
+     * 
+     * @param boolean
      * @return string
      */
-    public function getInternalJavascript()
+    public function getInternalJavascript($safe = true)
     {
-        $function = '';
-        if (null !== $this->alBlock) {
-            if (trim($this->alBlock->getInternalJavascript()) != '') {
-                $function .= "try{\n";
-                $function .= $this->alBlock->getInternalJavascript();
-                $function .= "\n} catch(e){\n";
-                $function .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports: ' + e);\n", $this->alBlock->getSlotName());
-                $function .= "}\n";
+        $internalJavascript = '';
+        if (null !== $this->alBlock && trim($this->alBlock->getInternalJavascript()) != '') {
+            $internalJavascript = $this->alBlock->getInternalJavascript();
+            if ($safe) {
+                $safeInternalJavascript = "try{\n";
+                $safeInternalJavascript .= $internalJavascript;
+                $safeInternalJavascript .= "\n} catch(e){\n";
+                $safeInternalJavascript .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports: ' + e);\n", $this->alBlock->getSlotName());
+                $safeInternalJavascript .= "}\n";
+
+                return $safeInternalJavascript;
             }
         }
 
-        return $function;
+        return $internalJavascript;
     }
 
     /**
@@ -284,16 +294,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getInternalStylesheet()
     {
         return (null !== $this->alBlock) ? $this->alBlock->getInternalStylesheet() : "";
-    }
-
-    /**
-     * Returns the current saved InternalStylesheet displayed in the editor
-     *
-     * @return string
-     */
-    public function getInternalJavascriptForEditor()
-    {
-        return (null !== $this->alBlock) ? $this->alBlock->getInternalJavascript() : "";
     }
 
     /**
@@ -376,7 +376,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         $blockManager = array();
         $blockManager["HideInEditMode"] = $this->getHideInEditMode();
-        $blockManager["HtmlContent"] = $this->getHtmlContent();
+        $blockManager["HtmlContent"] = $this->getHtmlCmsActive();
         $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();

@@ -216,7 +216,7 @@ class AlTwigTemplateWriter
             $htmlContents = array();
             foreach ($blocks as $block) {
                 $bm = $this->blockManagerFactory->createBlockManager($block);
-                $content = $bm->getHtmlContentForDeploy();
+                $content = $bm->getHtml();
                 //$content = $block->getHtmlContent();
                 $content = $this->rewriteImagesPathForProduction($content);
                 $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
