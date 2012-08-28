@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page;
 
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
@@ -216,6 +215,39 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             throw new General\ParameterIsEmptyException($this->translate('Any page is actually managed, so there\'s nothing to remove'));
         }
     }
+    
+    /**
+     * Slugifies a path
+     *
+     * Based on http://php.vrana.cz/vytvoreni-pratelskeho-url.php
+     *
+     * @param type $text
+     * @return type
+     */
+    static public function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        if (empty($text))
+        {
+            return 'n-a';
+        }
+
+        return $text;
+    }
 
     /**
      * Adds a new AlPage object from the given params
@@ -271,7 +303,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             if ($values['IsHome'] == 1 && $hasPages) $result = $this->resetHome();
 
             if ($result) {
-                $values['PageName'] = AlToolkit::slugify($values['PageName']);
+                $values['PageName'] = $this->slugify($values['PageName']);
 
                 // Saves the page
                 $result = $this->pageRepository
@@ -339,7 +371,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $this->pageRepository->startTransaction();
 
             if (isset($values['PageName']) && $values['PageName'] != "" && $this->alPage->getPageName() != $values['PageName']) {
-                $values['PageName'] = AlToolkit::slugify($values['PageName']);
+                $values['PageName'] = $this->slugify($values['PageName']);
             } else {
                 unset($values['PageName']);
             }

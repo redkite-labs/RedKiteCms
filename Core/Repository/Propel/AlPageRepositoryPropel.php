@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\PagesEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
@@ -89,7 +89,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
 
         return AlPageQuery::create()
                     ->filterByToDelete(0)
-                    ->filterByPageName(AlToolkit::slugify($pageName))
+                    ->filterByPageName(AlPageManager::slugify($pageName))
                     ->findOne();
     }
 

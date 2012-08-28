@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 
-use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
+use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface;

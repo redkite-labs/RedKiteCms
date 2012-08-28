@@ -65,7 +65,7 @@ class FinalizeContentsListener
             $content = $response->getContent();
             $content = preg_replace_callback('/(\<link.*?href=["|\'])\/alcms.php/s', function($matches){ return $matches[1];}, $content);
             $content = preg_replace_callback('/(\<script.*?src=["|\'])\/alcms.php/s', function($matches){ return $matches[1];}, $content);
-
+            
             $response->setContent($content);
         }
     }

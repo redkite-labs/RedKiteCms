@@ -23,7 +23,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
@@ -63,46 +63,41 @@ class CmsBootstrapListener
             return;
         }
 
-        $this->checkConfigurationParameters();
         $this->setUpRequiredFolders();
         $this->setUpPageTree();
         $this->checkTemplatesSlots();
     }
 
-    private function checkConfigurationParameters()
-    {
-        if(false === AlToolkit::locateResource($this->kernel, $this->container->getParameter('alcms.deploy.xliff_skeleton'), true))
-        {
-            throw new InvalidParameterException("The parameter xliff_skeleton is not well configured. Check your configuration file to solve the problem");
-        }
-
-        if(false === AlToolkit::locateResource($this->kernel, $this->container->getParameter('alcms.deploy.xml_skeleton'), true))
-        {
-            throw new InvalidParameterException("The parameter xml_skeleton is not well configured. Check your configuration file to solve the problem");
-        }
-
-        if(false === AlToolkit::locateResource($this->kernel, $this->container->getParameter('alcms.assets.skeletons_folder'), true))
-        {
-            throw new InvalidParameterException("The parameter skeletons_folder is not well configured. Check your configuration  file to solve the problem");
-        }
-    }
-
     private function setUpRequiredFolders()
     {
-        $folders = array();
-        $basePath = AlToolkit::locateResource($this->kernel, $this->container->getParameter('alphalemon_frontend.deploy_bundle')) . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir');
+        $folders = array(); 
+        $basePath = $this->locate($this->container->getParameter('alphalemon_frontend.deploy_bundle') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'));
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
 
-        $basePath = AlToolkit::locateResource($this->kernel,  '@AlphaLemonCmsBundle') . 'Resources/public/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
+        $basePath = $this->locate('@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir'));
         $folders[] = $basePath;
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
-
+        
         $fs = new Filesystem();
         $fs->mkdir($folders);
+    }
+    
+    private function locate($asset, $message = null)
+    {
+        $asset = new AlAsset($this->kernel, $asset);
+        $assetPath = $asset->getRealPath(); 
+        if(null === $assetPath)
+        {
+            $message = (null === $message) ? sprintf('It seems that the asset %s does not exist', $asset) : $message;
+            
+            throw new InvalidParameterException($message);
+        }
+        
+        return $assetPath;
     }
 
     private function setUpPageTree()

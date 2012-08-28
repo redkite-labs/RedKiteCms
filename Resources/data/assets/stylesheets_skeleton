@@ -1,3 +1,0 @@
-{%% stylesheets %s filter='%s' %s %%}
-<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
-{%% endstylesheets %%}
