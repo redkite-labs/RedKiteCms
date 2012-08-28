@@ -92,7 +92,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->will($this->returnValue(array($language)));
 
         $blockManager = new AlBlockManagerNavigationMenu($container);
-        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li></ul>', $blockManager->getHtmlContent());
+        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li></ul>', $blockManager->getHtmlCmsActive());
     }
 
     public function testHtmlContentWhenRouteDoesNotExist()
@@ -128,7 +128,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->will($this->returnValue(array($language)));
 
         $blockManager = new AlBlockManagerNavigationMenu($container);
-        $this->assertEquals('<ul><li><a href="#">en</a></li></ul>', $blockManager->getHtmlContent());
+        $this->assertEquals('<ul><li><a href="#">en</a></li></ul>', $blockManager->getHtmlCmsActive());
     }
 
     public function testHtmlContentWithMoreLanguages()
@@ -169,6 +169,6 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->will($this->returnValue(array($language1, $language2)));
 
         $blockManager = new AlBlockManagerNavigationMenu($container);
-        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li><li><a href="/alcms.php/backend/another-fancy-permalink">es</a></li></ul>', $blockManager->getHtmlContent());
+        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li><li><a href="/alcms.php/backend/another-fancy-permalink">es</a></li></ul>', $blockManager->getHtmlCmsActive());
     }
 }

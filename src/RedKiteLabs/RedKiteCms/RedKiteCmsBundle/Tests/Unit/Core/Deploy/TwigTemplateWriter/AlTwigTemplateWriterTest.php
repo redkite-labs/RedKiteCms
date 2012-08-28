@@ -568,7 +568,7 @@ class AlTwigTemplateWriterTest extends TestCase
                                     ->getMock();
 
         $blockManager->expects($this->once())
-            ->method('getHtmlContentForDeploy')
+            ->method('getHtml')
             ->will($this->returnValue($deployContent));
 
         return $blockManager;

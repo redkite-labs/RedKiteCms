@@ -79,7 +79,7 @@
     <div id="al-editor-tab-2">
         {% block internal_javascript_editor %}
         <div class="editor-contents">
-            <textarea id="al_internal_javascript" class="input editor_inputs">{{ alContent.getInternalJavascriptForEditor }}</textarea>
+            <textarea id="al_internal_javascript" class="input editor_inputs">{{ alContent.getInternalJavascript(false) }}</textarea>
         </div>
         <div class="editor-commands">
             <input id="al_internal_javascript_saver" type="submit" value = "Save" class="input button" />

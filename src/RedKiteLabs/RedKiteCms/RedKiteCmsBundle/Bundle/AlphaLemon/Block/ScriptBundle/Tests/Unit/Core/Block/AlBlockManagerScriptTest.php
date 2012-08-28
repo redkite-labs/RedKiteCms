@@ -49,7 +49,7 @@ class AlBlockManagerScriptTest extends TestCase
             ->method('getHtmlContent')
             ->will($this->returnValue('A fancy javascript'));
         $this->blockManager->set($block);
-        $this->assertEquals('A fancy javascript', $this->blockManager->getHtmlContent());
+        $this->assertEquals('A fancy javascript', $this->blockManager->getHtmlCmsActive());
     }
 
     public function testHtmlContentDisplaysAWarningWhenAtLeastOneJavascriptTagExists()
@@ -59,7 +59,7 @@ class AlBlockManagerScriptTest extends TestCase
             ->method('getHtmlContent')
             ->will($this->returnValue('<script>A fancy javascript</script>'));
         $this->blockManager->set($block);
-        $this->assertEquals('A script content is not rendered in editor mode', $this->blockManager->getHtmlContent());
+        $this->assertEquals('A script content is not rendered in editor mode', $this->blockManager->getHtmlCmsActive());
     }
 
     public function testHideInEditMode()

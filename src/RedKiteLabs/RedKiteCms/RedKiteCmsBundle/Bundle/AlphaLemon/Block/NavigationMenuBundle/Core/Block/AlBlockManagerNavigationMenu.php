@@ -49,7 +49,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     /**
      *  {@inheritdoc}
      */
-    public function getHtmlContentForDeploy()
+    public function getHtml()
     {
         $content = '';
         $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();
@@ -78,7 +78,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     /**
      *  {@inheritdoc}
      */
-    public function getHtmlContent()
+    public function getHtmlCmsActive()
     {
         $content = '';
         $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();
