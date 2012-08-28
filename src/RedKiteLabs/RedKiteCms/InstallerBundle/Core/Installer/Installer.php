@@ -93,7 +93,6 @@ class Installer {
         $this->checkFolder($this->vendorDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
         $this->checkClass('AlphaLemonCmsBundle', 'AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle');
-        $this->checkClass('PageTreeBundle', 'AlphaLemon\PageTreeBundle\AlphaLemonPageTreeBundle');
         $this->checkClass('AlValumUploaderBundle', 'AlphaLemon\AlValumUploaderBundle\AlValumUploaderBundle');
         $this->checkClass('AlValumUploaderBundle', 'AlphaLemon\AlValumUploaderBundle\AlValumUploaderBundle');
         $this->checkClass('ElFinderBundle', 'AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle');
@@ -199,8 +198,8 @@ class Installer {
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/media');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
-    
-        
+
+
         $this->filesystem ->mkdir($this->vendorDir . '/../app/propel/sql');
     }
 
