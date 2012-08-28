@@ -19,7 +19,7 @@ namespace AlphaLemon\ThemeEngineBundle\Core\Template;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException;
+use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
  * AlTemplateAssets
@@ -183,7 +183,7 @@ class AlTemplateAssets
     private function validateString($v)
     {
         if(!is_string($v)) {
-            throw new InvalidParameterException('The called method expects a string value as param.');
+            throw new InvalidArgumentException('The called method expects a string value as param.');
         }
     }
 }

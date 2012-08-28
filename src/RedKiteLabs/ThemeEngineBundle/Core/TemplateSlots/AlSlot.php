@@ -16,7 +16,7 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
 
-use AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException;
+use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 /**
  * This class represents a slot on a page. The slot is the last html tag, usually a DIV tag,  
  * where the displayed content lives.
@@ -45,12 +45,12 @@ class AlSlot
     {
         if(null === $slotName)
         {
-            throw new InvalidParameterException("The slotName param could not be null");
+            throw new InvalidArgumentException("The slotName param could not be null");
         }
         
         if(!is_string($slotName))
         {
-            throw new InvalidParameterException("The slotName param must be a string");
+            throw new InvalidArgumentException("The slotName param must be a string");
         }
         
         $this->slotName = $slotName;

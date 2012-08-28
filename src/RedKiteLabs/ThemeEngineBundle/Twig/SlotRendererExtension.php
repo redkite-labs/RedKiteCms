@@ -16,7 +16,7 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Twig;
 
-use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 

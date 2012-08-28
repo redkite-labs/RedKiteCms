@@ -15,13 +15,13 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Exception\General;
+namespace AlphaLemon\ThemeEngineBundle\Core\PageTree\Exception;
 
 /**
- * Thrown when the parameter is not valid
+ * Thrown when any of the expected parameters has been given
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class InvalidParameterException extends \InvalidArgumentException
+class AnyValidArgumentGivenException extends \InvalidArgumentException
 {
 }

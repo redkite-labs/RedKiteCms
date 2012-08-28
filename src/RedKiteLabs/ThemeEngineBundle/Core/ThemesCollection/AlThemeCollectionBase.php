@@ -17,7 +17,7 @@
 namespace AlphaLemon\ThemeEngineBundle\Core\ThemesCollection;
 
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException;
+use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
  * AlTheme represents a theme and it is a collection of AlTemplate objects

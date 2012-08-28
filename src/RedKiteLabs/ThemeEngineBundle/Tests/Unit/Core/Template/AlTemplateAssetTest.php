@@ -33,7 +33,7 @@ class AlTemplateAssetTest extends TestCase
     }
     
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException
+     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testThemeNameThrowsAnExceptionWhenANullValueIsGiven()
     {
@@ -41,7 +41,7 @@ class AlTemplateAssetTest extends TestCase
     }
     
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException
+     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testThemeNameThrowsAnExceptionWhenANonStringValueIsGiven()
     {
@@ -49,7 +49,7 @@ class AlTemplateAssetTest extends TestCase
     }
     
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException
+     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testTemplateNameThrowsAnExceptionWhenANullValueIsGiven()
     {
@@ -57,7 +57,7 @@ class AlTemplateAssetTest extends TestCase
     }
     
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException
+     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testTemplateNameThrowsAnExceptionWhenANonStringValueIsGiven()
     {

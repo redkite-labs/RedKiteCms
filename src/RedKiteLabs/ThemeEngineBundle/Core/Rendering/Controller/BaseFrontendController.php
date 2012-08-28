@@ -23,7 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Event\PageRendererEvents;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +37,7 @@ abstract class BaseFrontendController extends Controller
     protected function dispatchEvents(Request $request, Response $response)
     {
         $dispatcher = $this->container->get('event_dispatcher');
-            
+
         // Dispatches the pre rendering events for current language and page
         $event = new BeforePageRenderingEvent($response);
         $dispatcher->dispatch(PageRendererEvents::BEFORE_RENDER_PAGE, $event);
@@ -51,7 +50,7 @@ abstract class BaseFrontendController extends Controller
         $eventName = sprintf('page_renderer.before_%s_rendering', $request->get('page'));
         $dispatcher->dispatch($eventName, $event);
         $response = $event->getResponse();
-        
+
         return $response;
     }
 }

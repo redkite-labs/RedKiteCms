@@ -28,7 +28,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
 class AlThemeTest extends TestCase
 {
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException
+     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAnExceptionIsThrownsWhenTheAlThemeNotReceiveAString()
     {

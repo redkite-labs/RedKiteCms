@@ -28,7 +28,7 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 class AlSlotTest extends TestCase
 {
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException
+     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAlSlotDoesNotAdmitNullValuesForTheSlotNameParam()
     {         
@@ -36,7 +36,7 @@ class AlSlotTest extends TestCase
     }
     
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException
+     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAlSlotRequiresAStringValueForTheSlotNameParam()
     {         

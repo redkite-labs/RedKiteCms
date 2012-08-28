@@ -143,10 +143,11 @@ class AlAsset
         try
         {
             // Fetches the relative resource to locate from asset
-            preg_match('/(@[^\/]+)?([\w\/\.-_]+)?/', $asset, $match);
+            preg_match('/(@[^\/]+)?([\w\/\.\-_]+)?/', $asset, $match); 
             if (empty($match[1])) return;
             
             $resource = $this->kernel->locateResource($match[1]);
+            
             $resourceLength = strlen($resource) - 1;
             if (substr($resource, $resourceLength, 1) == '/') $resource = substr($resource, 0, $resourceLength);
 

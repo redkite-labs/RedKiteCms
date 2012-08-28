@@ -24,7 +24,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
 use AlphaLemon\ThemeEngineBundle\Core\Manager\Theme\AlThemeManager;
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRenderer\BeforePageRenderingEvent;
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
-use AlphaLemon\PageTreeBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree;
 
 class TemplateController extends Controller
 {   

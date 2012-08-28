@@ -18,7 +18,7 @@ namespace AlphaLemon\ThemeEngineBundle\Core\Theme;
 
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemeCollectionBase;
-use AlphaLemon\ThemeEngineBundle\Core\Exception\General\InvalidParameterException;
+use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
  * AlTheme represents a theme and it is a collection of AlTemplate objects
@@ -38,7 +38,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     public function __construct($themeName)
     {
         if (!is_string($themeName)) {
-            throw new InvalidParameterException('The theme name, passed to the AlTheme object, must be a string');
+            throw new InvalidArgumentException('The theme name, passed to the AlTheme object, must be a string');
         }
 
         $this->themeName = (!preg_match('/[\w+]Bundle$/', $themeName)) ? ucfirst($themeName) . 'Bundle' : $themeName;

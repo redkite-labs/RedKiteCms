@@ -23,7 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRenderer\BeforePageRenderingEvent;
 use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -52,10 +51,10 @@ abstract class FrontendController extends BaseFrontendController
 
             return $response;
         }
-        catch(\Exception $ex) {
+        catch(\Exception $ex) {echo $ex->getMessage();
             $response = new Response();
             $response->setContent("CUSTOM ERROR PAGE");
-            
+
             return $response;
         }
     }

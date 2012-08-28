@@ -19,13 +19,13 @@ namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use AlphaLemon\PageTreeBundle\Core\Compiler\ListenersRegistrator;
+use AlphaLemon\ThemeEngineBundle\Core\Compiler\EventListenersRegistrator;
 
 class RegisterRenderingListenersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        ListenersRegistrator::registerByTaggedServiceId($container, 'alphalemon_theme_engine.event_listener');
+        EventListenersRegistrator::registerByTaggedServiceId($container, 'alphalemon_theme_engine.event_listener');
     }
 }
 
