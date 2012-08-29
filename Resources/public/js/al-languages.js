@@ -58,8 +58,8 @@ function InitLanguagesCommands()
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_saveLanguage',
             data: {'idLanguage' : retrieveIdLanguage(),
                    'newLanguage' : $('#languages_language').val(),
-                   'language' : $('#al_languages_navigator').val(),
-                   'page' : $('#al_pages_navigator').val(),
+                   'language' : $('#al_languages_navigator option:selected').text(),
+                   'page' : $('#al_pages_navigator option:selected').text(),
                    'isMain' : isMain
                },
             beforeSend: function()
@@ -91,8 +91,8 @@ function InitLanguagesCommands()
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deleteLanguage',
                 data: {'idLanguage' : retrieveIdLanguage(),
-                       'language' : $('#al_languages_navigator').val(),
-                       'page' : $('#al_pages_navigator').val()},
+                       'language' : $('#al_languages_navigator option:selected').text(),
+                       'page' : $('#al_pages_navigator option:selected').text()},
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();
