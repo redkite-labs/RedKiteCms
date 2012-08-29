@@ -242,8 +242,8 @@ $(document).ready(function(){
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showFilesManager',
-            data: {'page' :  $('#al_pages_navigator').val(),
-                   'language' : $('#al_languages_navigator').val()},
+            data: {'page' :  $('#al_pages_navigator option:selected').text(),
+                   'language' : $('#al_languages_navigator option:selected').text()},
             beforeSend: function()
             {
                 $('body').AddAjaxLoader();
@@ -271,8 +271,8 @@ $(document).ready(function(){
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_local_deploy',
-            data: {'page' :  $('#al_pages_navigator').val(),
-                   'language' : $('#al_languages_navigator').val()},
+            data: {'page' :  $('#al_pages_navigator option:selected').text(),
+                   'language' : $('#al_languages_navigator option:selected').text()},
             beforeSend: function()
             {
                 $('body').AddAjaxLoader();

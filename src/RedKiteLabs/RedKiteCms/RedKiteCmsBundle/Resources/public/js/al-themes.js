@@ -57,7 +57,7 @@
             $(this).click(function()
             {
                 var data = $(this).metadata();
-                location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/al_activateTheme/' + data.themeName + '/' + $('#al_languages_navigator').val() + '/' + $('#al_pages_navigator').val();
+                location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/al_activateTheme/' + data.themeName + '/' + $('#al_languages_navigator option:selected').text() + '/' + $('#al_pages_navigator option:selected').text();
             });
         });
     };
