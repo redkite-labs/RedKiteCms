@@ -65,8 +65,11 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
     protected function copy(array $values)
     {
         unset($values['Id']);
-        $values['LanguageId'] = $this->languageManager->get()->getId();
-        $values['LanguageName'] = $this->languageManager->get()->getLanguage();
+        $language = $this->languageManager->get();
+        $languageName = $language->getLanguage();
+        $values['LanguageId'] = $language->getId();
+        $values['LanguageName'] = $languageName;
+        $values['Permalink'] = $languageName . '-' . $values['Permalink'];
         $result = $this->seoManager
                     ->set(null)
                     ->save($values);

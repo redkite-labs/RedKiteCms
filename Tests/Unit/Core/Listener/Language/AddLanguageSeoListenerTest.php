@@ -46,7 +46,7 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
         $this->testListener = new AddLanguageSeoListener($this->manager);
     }
 
-    public function testDbRecorsHaveBeenCopiedFromRequestLanguage()
+    public function testDbRecordsHaveBeenCopiedFromRequestLanguage()
     {
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $request->expects($this->once())
@@ -58,18 +58,18 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('get')
             ->will($this->returnValue($request));
 
-        $this->setUpTestToCopyFromRequestLanguage();        
+        $this->setUpTestToCopyFromRequestLanguage();
         $testListener = new AddLanguageSeoListener($this->manager, $container);
         $testListener->onBeforeAddLanguageCommit($this->event);
     }
 
     protected function setUpObject()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
-        $block->expects($this->once())
+        $seo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo->expects($this->once())
             ->method('toArray')
-            ->will($this->returnValue(array('idLanguage' => 2, 'languageName' => 'fake')));
+            ->will($this->returnValue(array('idLanguage' => 2, 'languageName' => 'fake', 'Permalink' => 'fake')));
 
-        return $block;
+        return $seo;
     }
 }
