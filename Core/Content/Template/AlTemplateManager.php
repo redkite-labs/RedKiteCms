@@ -406,7 +406,7 @@ class AlTemplateManager extends AlTemplateBase
         $slots = $templateSlots->getSlots();
         if (empty($slots)) return;
 
-        foreach ($slots as $slotName => $slot) { 
+        foreach ($slots as $slotName => $slot) {
             $this->slotManagers[$slotName] = $this->createSlotManager($slot);
         }
 
