@@ -375,7 +375,7 @@ class AlSlotManager extends AlTemplateBase
     public function editBlock($idBlock, array $values)
     {
         $blockManager = $this->getBlockManager($idBlock);
-        if ($blockManager != null) {
+        if (null !== $blockManager) {
             try {
                 $this->blockRepository->startTransaction();
 
