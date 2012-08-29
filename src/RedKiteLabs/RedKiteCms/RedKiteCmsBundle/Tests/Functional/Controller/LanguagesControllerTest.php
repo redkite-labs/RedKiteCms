@@ -101,7 +101,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
         $seo = $this->seoRepository->fromPageAndLanguage(3, 2);
         $this->assertNotNull($seo);
-        $this->assertEquals('this-is-a-website-fake-page', $seo->getPermalink());
+        $this->assertEquals('fr-this-is-a-website-fake-page', $seo->getPermalink());
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
