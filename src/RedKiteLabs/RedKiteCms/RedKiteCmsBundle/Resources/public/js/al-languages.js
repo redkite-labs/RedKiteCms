@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 (function($){
@@ -33,7 +33,7 @@
                     $(this).removeClass('al_element_selected');
                     $("#al_attributes_form").ResetFormElements();
                 }
-                
+
                 return false;
             });
         });
@@ -90,7 +90,7 @@ function InitLanguagesCommands()
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deleteLanguage',
-                data: {'languageId' : retrieveIdLanguage(),
+                data: {'idLanguage' : retrieveIdLanguage(),
                        'language' : $('#al_languages_navigator').val(),
                        'page' : $('#al_pages_navigator').val()},
                 beforeSend: function()
@@ -114,7 +114,7 @@ function InitLanguagesCommands()
               });
         }
     });
-    
+
     $("#languages_idLanguage").change(function()
     {
         LoadLanguageAttributes();
@@ -151,7 +151,7 @@ function UpdateLanguagesJSon(response)
                 break;
         }
     });
-    
+
     ObserveLanguages();
 };
 
