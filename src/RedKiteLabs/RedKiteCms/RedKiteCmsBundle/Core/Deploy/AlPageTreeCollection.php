@@ -36,6 +36,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * The base object that implements the methods to deploy the website from development (CMS) to production (the deploy bundle)
@@ -145,10 +146,16 @@ class AlPageTreeCollection implements \Iterator, \Countable
             // Cycles all the website's pages
             foreach($pages as $page)
             {
+                // Clones the current TemplateManager object and adds it to a new instance of
+                // AlThemesCollectionWrapper, which will be passed to the new PageTree object
+                $templateManager = clone($this->themesCollectionWrapper->getTemplateManager());
+                $themesCollectionWrapper = new AlThemesCollectionWrapper($this->themesCollectionWrapper->getThemesCollection(), $templateManager);
+
                 $pageTree = new AlPageTree($this->container,
                         $this->factoryRepository,
-                        $this->themesCollectionWrapper);
-                $pageTree->refresh($language->getId(), $page->getId());
+                        $themesCollectionWrapper);
+                $pageTree->setExtraAssetsSuffixes()
+                         ->refresh($language->getId(), $page->getId());
 
                 $this->pages[] = $pageTree;
             }
