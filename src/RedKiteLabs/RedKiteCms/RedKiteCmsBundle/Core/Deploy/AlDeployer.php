@@ -72,7 +72,7 @@ abstract class AlDeployer
         $this->kernel = $this->container->get('kernel');
         $this->factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
-        $this->deployBundle = $this->container->getParameter('alphalemon_frontend.deploy_bundle');
+        $this->deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
         if(null === $this->deployBundleAsset->getWebFolderRealPath())
         {
@@ -127,10 +127,7 @@ abstract class AlDeployer
     {
         $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
         foreach ($pageTreeCollection as $pageTree) {
-            if (!$this->save($pageTree))
-            {
-                return false;
-            }
+            if (!$this->save($pageTree)) return false;
         }
 
         return true;
