@@ -39,7 +39,7 @@ class AlTemplate
     protected $templateAssets = null;
     protected $assets = null;
     protected $templateSlots = null;
-    
+
     /**
      * Constructor
      *
@@ -52,8 +52,17 @@ class AlTemplate
         $this->kernel = $kernel;
         $this->templateAssets = $templateAssets;
         $this->templateSlots = $templateSlots;
-        
+
         $this->setUp();
+    }
+
+    /**
+     * Clones the holden objects, when the object is cloned
+     */
+    function __clone()
+    {
+        if (null !== $this->templateAssets) $this->templateAssets = clone($this->templateAssets);
+        if (null !== $this->templateSlots) $this->templateSlots = clone($this->templateSlots);
     }
 
     /**
