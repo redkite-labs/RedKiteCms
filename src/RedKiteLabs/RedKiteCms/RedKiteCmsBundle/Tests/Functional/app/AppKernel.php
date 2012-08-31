@@ -25,7 +25,7 @@ class AppKernel extends Kernel
             new AlphaLemon\Block\TextBundle\TextBundle(),
             new AlphaLemon\Block\MenuBundle\MenuBundle(),
             new AlphaLemon\Block\ScriptBundle\ScriptBundle(),
-            new AlphaLemon\Block\NavigationMenuBundle\NavigationMenuBundle(),/**/
+            new AlphaLemon\Block\NavigationMenuBundle\NavigationMenuBundle(),
         );
 
         $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
