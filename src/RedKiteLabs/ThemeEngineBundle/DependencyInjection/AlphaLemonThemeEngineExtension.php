@@ -66,7 +66,7 @@ class AlphaLemonThemeEngineExtension extends Extension
             $container->setParameter('twig.extension.render_slot.class', $config['render_slot_class']);
         }
         
-        $container->setParameter('alphalemon_frontend.deploy_bundle', $config['deploy_bundle']);       
+        $container->setParameter('alpha_lemon_theme_engine.deploy_bundle', $config['deploy_bundle']);       
         
         $container->setParameter('althemes.app_themes_dir', $container->getParameter('kernel.root_dir') . '/../src/AlphaLemon/Theme');
         
