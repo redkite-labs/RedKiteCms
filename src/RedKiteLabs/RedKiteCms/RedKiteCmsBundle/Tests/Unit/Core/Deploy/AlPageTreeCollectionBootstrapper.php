@@ -141,6 +141,24 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $this->themesCollectionWrapper->expects($this->any())
             ->method('assignTemplate')
             ->will($this->returnValue($this->templateManager));
+
+        $this->themesCollectionWrapper->expects($this->exactly(4))
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
+
+        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme->expects($this->exactly(4))
+            ->method('getTemplate')
+            ->will($this->returnValue($this->template));
+
+        $themesCollection = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $themesCollection->expects($this->exactly(4))
+            ->method('getTheme')
+            ->will($this->returnValue($theme));
+
+        $this->themesCollectionWrapper->expects($this->exactly(4))
+            ->method('getThemesCollection')
+            ->will($this->returnValue($themesCollection));
     }
 
     protected function setUpPage($pageName, $isHome = false)
