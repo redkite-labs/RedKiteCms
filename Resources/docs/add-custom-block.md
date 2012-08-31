@@ -4,7 +4,7 @@ This chapter will tell you how to add a new Block to AlphaLemon CMS.
 
 ## What is a Block
 
-A Block represent a content displayed on a web page. In addiction an app-block includes the editor to manage 
+A Block represents a content displayed on a web page. In addiction an app-block includes the editor to manage 
 the block itself by AlphaLemon CMS when the editor is active. 
 
 ## How is structured a Block
@@ -13,7 +13,7 @@ An App-Block is a standalone symfony2 bundle. This approach has several advantag
 
 1. Is a Symfony2 Bundle
 2. Is reusable in many web sites
-3. Assets required by the content are packed into a well known container
+3. Assets required by the content are packed into a well known structure
 
 ## Create the FancyBlockBundle
 
