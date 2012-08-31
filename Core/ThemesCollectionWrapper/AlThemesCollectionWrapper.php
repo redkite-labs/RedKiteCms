@@ -50,7 +50,7 @@ class AlThemesCollectionWrapper
      */
     public function getThemesCollection()
     {
-        return $this->templateManager;
+        return $this->themes;
     }
 
     /**
@@ -90,7 +90,7 @@ class AlThemesCollectionWrapper
 
     /**
      * Assigns the template retrieved from theme name and the template name to the template manager
-     * 
+     *
      * @param string $themeName
      * @param string $templateName
      * @return AlTemplateManager
