@@ -49,7 +49,7 @@ class AlCmsController extends BaseFrontendController
 
     public function showAction()
     {
-        $request = $this->container->get('request');        
+        $request = $this->container->get('request');
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('al_page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
@@ -78,7 +78,7 @@ class AlCmsController extends BaseFrontendController
         if(null !== $pageTree)
         {
             $template = $this->findTemplate($pageTree);
-            
+
             $params = array_merge($params, array(
                                 'metatitle' => $pageTree->getMetaTitle(),
                                 'metadescription' => $pageTree->getMetaDescription(),
@@ -101,18 +101,18 @@ class AlCmsController extends BaseFrontendController
 
         $response = $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', $params);
         $response = $this->dispatchEvents($request, $response);
-        
+
         return $response;
     }
 
     private function findTemplate(AlPageTree $pageTree)
     {
-        $templateTwig = 'AlphaLemonCmsBundle:Cms:welcome.html.twig'; 
+        $templateTwig = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
         if(null !== $template = $pageTree->getTemplate())
         {
             $themeName = $template->getThemeName();
             $templateName = $template->getTemplateName();
-            
+
             //$themeFolder = AlToolkit::locateResource($this->kernel, $themeName);
             $asset = new AlAsset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
