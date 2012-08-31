@@ -89,8 +89,6 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
      */
     protected function configurePermalinkForNewLanguage($content)
     {
-        //$router = $this->router;
-
         if(null === $this->languageManager || null === $this->container) {
             return $content;
         }
@@ -104,24 +102,6 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 
             return (null !== $url) ? $matches[1] . $languageName . '-' . $url . $matches[3] : $matches[1] . $matches[2] . $matches[3];
         }, $content);
-        /*
-        $content = preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use($router, $languageName) {
-
-            $url = $matches[2];
-            try
-            {
-                $tmpUrl = (empty($match) && substr($url, 0, 1) != '/') ? '/' . $url : $url;
-                $params = $router->match($tmpUrl);
-
-                $url = (!empty($params)) ? $languageName . '-' . $url : $url;
-            }
-            catch(ResourceNotFoundException $ex)
-            {
-                // Not internal route the link remains the same
-            }
-
-            return $matches[1] . $url . $matches[3];
-        }, $content);*/
 
         return $content;
     }
