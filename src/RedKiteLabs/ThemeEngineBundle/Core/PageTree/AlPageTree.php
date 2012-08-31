@@ -181,17 +181,13 @@ class AlPageTree
      */
     protected function mergeAssets($method, $assetType, $type)
     {
-        $templateAssets = $this->template->$method();
+        $templateAssets = $this->getTemplate()->$method();
         if(null !== $templateAssets) {
-            // Colects the blocks when parsed
-            $appsAssets = array();
+            // Collects the blocks when parsed
             $templateAssets = clone($templateAssets);
             $blocks = $this->pageBlocks->getBlocks();
             foreach ($blocks as $slotBlocks) {
                 foreach ($slotBlocks as $block) {
-
-                    // TODO
-
                     $method = 'get'. ucfirst($type) . ucfirst($assetType);
                     $method = substr($method, 0, strlen($method) - 1);
                     $templateAssets->addRange(explode(',', $block->$method()));
