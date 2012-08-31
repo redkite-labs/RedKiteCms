@@ -26,20 +26,17 @@
         <parameter key="alphalemon_cms.themes_collection_wrapper.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
         <parameter key="alphalemon_cms.factory_repository.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
         <parameter key="alphalemon_cms.url_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager</parameter>
-
-        <!-- Overrides the base ThemeEngine base class -->
-        <parameter key="alphalemon_theme_engine.template_assets.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets</parameter>
     </parameters>
 
-    <services>        
+    <services>
         <service id="alphalemon_cms.factory_repository" class="%alphalemon_cms.factory_repository.class%">
             <argument type="string">%alphalemon_cms.orm%</argument>
         </service>
-        
-        <service id="alphalemon_cms.block_manager_factory" class="%alphalemon_cms.block_manager_factory.class%">            
+
+        <service id="alphalemon_cms.block_manager_factory" class="%alphalemon_cms.block_manager_factory.class%">
             <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
-        
+
         <service id="alphalemon_cms.url_manager" class="%alphalemon_cms.url_manager.class%">
             <argument type="service" id="kernel" />
             <argument type="service" id="alphalemon_cms.factory_repository" />
