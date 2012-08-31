@@ -104,8 +104,8 @@ var isEditorOpened = false;
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/addBlock',
-                data: {'page' :  $('#al_pages_navigator option:selected').text(),
-                       'language' : $('#al_languages_navigator option:selected').text(),
+                data: {'page' :  $('#al_pages_navigator option:selected').val(),
+                       'language' : $('#al_languages_navigator option:selected').val(),
                        'idBlock' : idBlock,
                        'slotName' : slotName,
                        'contentType': contentType},
