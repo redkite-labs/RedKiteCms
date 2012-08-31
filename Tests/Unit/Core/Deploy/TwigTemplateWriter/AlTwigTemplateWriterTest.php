@@ -30,6 +30,7 @@ class AlTwigTemplateWriterTest extends TestCase
 {
     private $pageTree;
     private $urlManager;
+    private $template;
 
     protected function setUp()
     {
@@ -38,10 +39,16 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->pageTree = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
                                     ->disableOriginalConstructor()
                                     ->getMock();
+        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->setUpTemplate();
 
-        $this->pageTree->expects($this->once())
+        $this->template->expects($this->any())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($this->templateSlots));
+
+        $this->pageTree->expects($this->exactly(2))
             ->method('getTemplate')
-            ->will($this->returnValue($this->setUpTemplate()));
+            ->will($this->returnValue($this->template));
 
         $this->pageTree->expects($this->any())
             ->method('getAlPage')
@@ -63,6 +70,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testExtendsDirectiveHasBeenCreatedForTheGivenTemplate()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets(null, null, null, array(), array(), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -74,6 +82,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testJustTheMetaTagsTitleSectionIsCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", null, null, array(), array(), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -90,6 +99,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testJustTheMetaDescriptionSectionIsCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets(null, "A description", null, array(), array(), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -106,6 +116,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testJustTheKeywordsSectionIsCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets(null, null, "some,keywords", array(), array(), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -122,6 +133,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testAllMetatagsSectionsAreCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -144,6 +156,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testJustTheExternalStylesheetsSectionIsCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array(), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -162,6 +175,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testJustTheExternalJavascriptsSectionIsCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array('javascript1.js', 'javascript2.js'), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -180,6 +194,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testJustTheInternalStylesheetsSectionIsCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), 'some css code', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -197,6 +212,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testJustTheInternalJavascriptsSectionIsCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', 'some js code');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -213,6 +229,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testAllAssetsSectionsAreCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -242,6 +259,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testContentsSectionWithOneBlockHaveBeenCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -263,6 +281,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testContentsSectionWithOneBlockAndImagesReplaceHaveBeenCreated()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
@@ -291,6 +310,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testContentsSectionWithOneBlockAndLinkNotReplaceBecauseNotRecognizedAsInternalRouteHaveBeenCreated()
     {
+        $this->setUpTemplateSlots();
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
             ->will($this->returnValue(null));
@@ -316,6 +336,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testContentsSectionWithOneBlockAndLinkReplaceHaveBeenCreated()
     {
+        $this->setUpTemplateSlots();
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
             ->will($this->returnValue('_en_index'));
@@ -339,6 +360,34 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
+    public function testAnContentSectionIsWrittenWhenAnyBlockExistsForThatslotButThatSlotExistsInTheTemplate()
+    {
+        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+                ->disableOriginalConstructor()
+                ->getMock();
+        $slot->expects($this->once())
+            ->method('getSlotName')
+            ->will($this->returnValue('fake_slot'));
+
+        $this->setUpTemplateSlots(array($slot));
+        $this->urlManager->expects($this->any())
+            ->method('getProductionRoute')
+            ->will($this->returnValue('_en_index'));
+
+        $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
+        $this->setUpPageBlocks(array());
+        $this->setUpBlockManagerFactory('fake', 0);
+
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block fake_slot %}" . PHP_EOL;
+        $section .= "  {% if(slots.fake_slot is not defined) %}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
+        $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
+    }
+
     public function testContentsSectionWithMoreBlocksHaveBeenCreated()
     {
         $blocks = array(
@@ -353,6 +402,7 @@ class AlTwigTemplateWriterTest extends TestCase
                 )
             );
 
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
 
@@ -411,6 +461,7 @@ class AlTwigTemplateWriterTest extends TestCase
             ->method('getProductionRoute')
             ->will($this->returnValue('_en_index'));
 
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
         $blockManager1 = $this->setUpBlockManager('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
@@ -480,6 +531,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testWriteFile()
     {
+        $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
@@ -536,38 +588,47 @@ class AlTwigTemplateWriterTest extends TestCase
 
     private function setUpTemplate()
     {
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $template->expects($this->once())
+        $this->template->expects($this->once())
             ->method('getThemeName')
             ->will($this->returnValue('FakeTheme'));
 
-        $template->expects($this->once())
+        $this->template->expects($this->once())
             ->method('getTemplateName')
             ->will($this->returnValue('Home'));
 
-        $template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => array('repeated' => 'site'), 'nav-menu' => array('repeated' => 'language'))));
+        $slots = array(
+            'logo' => array('repeated' => 'site'),
+            'nav-menu' => array('repeated' => 'language')
+        );
 
-        return $template;
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue($slots));
     }
 
+    private function setUpTemplateSlots($slots = array())
+    {
+        $this->templateSlots->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue($slots));
+    }
 
     private function setUpBlock()
     {
         return $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
     }
 
-    private function setUpBlockManager($deployContent = 'Formatted content for deploying')
+    private function setUpBlockManager($deployContent = 'Formatted content for deploying', $callingTimes = 1)
     {
         $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $blockManager->expects($this->once())
+        $blockManager->expects($this->exactly($callingTimes))
             ->method('getHtml')
             ->will($this->returnValue($deployContent));
 
@@ -576,7 +637,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
     private function setUpBlockManagerFactory($deployContent = 'Formatted content for deploying', $callingTimes = 1)
     {
-        $blockManager = $this->setUpBlockManager($deployContent);
+        $blockManager = $this->setUpBlockManager($deployContent, $callingTimes);
 
         $this->blockManagerFactory->expects($this->exactly($callingTimes))
             ->method('createBlockManager')
