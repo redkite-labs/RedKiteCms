@@ -113,8 +113,9 @@ class AlTemplateAssets
         if(preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
         {
             $property = strtolower($matches[2]) . $matches[3];
+            $assets = $this->$property;
 
-            return $this->$property;
+            return $assets;
         }
 
         $values = $params[0];
@@ -125,59 +126,12 @@ class AlTemplateAssets
         if(preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)?/', $name, $matches))
         {
             $property = strtolower($matches[2]) . $matches[3];
-
-            $assets = $params[0];
-            $groupedAssets = array();
-            
-            // merges valid groups
-            $assetGroups = $this->getAssetsGroups();
-            foreach ($assetGroups as $assetGroup) {
-                if (array_key_exists($assetGroup, $assets)) {
-                    $groupedAssets = array_merge($groupedAssets, $assets[$assetGroup]);
-                    unset($assets[$assetGroup]);
-                }
-            }
-            
-            // removes invalid groups
-            foreach ($assets as $key => $asset) { 
-                if(is_array($asset)) {
-                    unset($assets[$key]);
-                }
-            }
-            
-            $this->$property = array_merge($assets, $groupedAssets);
+            $this->$property = $params[0];
 
             return $this;
         }
 
         throw new \RuntimeException('Call to undefined method: ' . $name);
-    }
-
-    /**
-     * Defines the valid assets groups for the current environment.
-     *
-     * By default any valid group is permitted, so just plain arrays are processed.
-     * To add one or more groups, just override this method and return an array
-     * with valid groups. For example the AlphaLemon CMS overrides this method
-     * and returns the following array:
-     *
-     *      array("cms")
-     *
-     * In this way, when the setXXX method is called, it can accept an addictional array
-     * which has the cms key:
-     *
-     *      array( "asset1",
-     *             "asset2",
-     *             array("cms" => array("asset1", "asset2",),
-     *            )
-     *
-     * Grouped assets are always placed to the last position
-     *
-     * @return array
-     */
-    protected function getAssetsGroups()
-    {
-        return array();
     }
 
     private function validateString($v)

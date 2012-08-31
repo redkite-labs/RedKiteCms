@@ -88,21 +88,8 @@ class AlTemplateAssetTest extends TestCase
     {
         $assets = array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
         
-        $this->templateAssets
-                ->setExternalStylesheets($assets);
-        $this->assertEquals($assets, $this->templateAssets->getExternalStylesheets());        
-        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 1);  
-    }
-    
-    public function testOnlyPlainAssetsArraysAreAllowed()
-    {
-        $baseAssets = array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
-        
-        $assets = $baseAssets;
-        $assets[] = array('cms' => '@BusinessWebsiteThemeBundle/Resources/public/css/fake.css');
-        
         $this->templateAssets->setExternalStylesheets($assets);
-        $this->assertEquals($baseAssets, $this->templateAssets->getExternalStylesheets()); 
+        $this->assertEquals($assets, $this->templateAssets->getExternalStylesheets());        
         $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 1);  
     }
 }
