@@ -68,7 +68,17 @@ class AlTemplateManager extends AlTemplateBase
         $this->template = $template;
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
-        $this->pageBlocks = (null === $pageBlocks) ? new AlPageBlocks($dispatcher, $this->blockRepository) : $pageBlocks;
+        $this->pageBlocks = (null === $pageBlocks) ? new AlPageBlocks($dispatcher, $this->factoryRepository) : $pageBlocks;
+    }
+
+    /**
+     * Clones the holden objects, when the object is cloned
+     */
+    function __clone()
+    {
+        if (null !== $this->template) $this->template = clone($this->template);
+        if (null !== $this->blockRepository) $this->blockRepository = clone($this->blockRepository);
+        if (null !== $this->pageBlocks) $this->pageBlocks = clone($this->pageBlocks);
     }
 
     /**
