@@ -208,13 +208,32 @@ class Installer {
         $configFile = $this->vendorDir . '/../app/config/config.yml';
         $this->checkFile($configFile);
 
+        // Writes the config.yml file
+        $contents = file_get_contents($configFile);
+        $deployBundle = $this->deployBundle;
+        $contents = preg_replace_callback('/(bundles:[\s]+\[)([\w\s,]+)(\]+)/s', function ($matches) use ($deployBundle) {
+
+            $bundles = trim($matches[2]);
+            if (strpos($bundles, $deployBundle) !== false) {
+               return $matches[1] . " " . $bundles . " " . $matches[3];
+            }
+
+            $value = ($bundles == "") ? $deployBundle : ", " . $deployBundle;
+            $value =  $value . " ";
+
+            return $matches[1] . " " . $bundles . $value . $matches[3];
+        }, $contents);
+
+
+        preg_match('/deploy_bundle:[\s]+' . $this->deployBundle . '/s', $contents, $match);
+        if (empty($match)) {
+            $contents .= "\nalpha_lemon_theme_engine:\n";
+            $contents .= "    deploy_bundle: $this->deployBundle\n\n";
+        }
+        file_put_contents($configFile, $contents);
+
         $alphaLemonConfigFile = $this->vendorDir . '/../app/config/config_alcms.yml';
         $this->checkFile($alphaLemonConfigFile);
-
-        $section = "\nalpha_lemon_theme_engine:\n";
-        $section .= "    deploy_bundle: $this->deployBundle\n\n";
-        $this->writeConfigFile($configFile, '/alpha_lemon_frontend/is', $section);
-
         $section = "\n\npropel:\n";
         $section .= "    path:       \"%kernel.root_dir%/../vendor/propel/propel1\"\n";
         $section .= "    phing_path: \"%kernel.root_dir%/../vendor/phing/phing\"\n\n";
