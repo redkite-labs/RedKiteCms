@@ -29,6 +29,8 @@ class DeployController extends Controller
         {
             $deployer = $this->container->get('alphalemon_cms.local_deployer');
             $deployer->deploy();
+            
+            $response = $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
 
             $appDir = $this->container->get('kernel')->getRootDir();
             $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
@@ -37,15 +39,11 @@ class DeployController extends Controller
             $commandProcessor = new AlCommandsProcessor($appDir);
             $commandProcessor->executeCommands(array(
                 $command => null,
-                'assetic:dump --env=prod' => null,
-                'cache:clear --env=prod' => null,
+                'assetic:dump' => null,
+                'cache:clear' => null,
             ));
-            /*
-            AlToolkit::executeCommand($appDir, $command);
-            AlToolkit::executeCommand($appDir, 'assetic:dump --env=prod');
-            AlToolkit::executeCommand($appDir, 'cache:clear --env=prod');*/
-
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
+            
+            return $response;
         }
         catch(Exception $ex)
         {
