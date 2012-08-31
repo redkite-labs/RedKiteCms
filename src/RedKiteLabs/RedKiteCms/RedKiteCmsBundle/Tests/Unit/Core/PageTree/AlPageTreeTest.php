@@ -476,20 +476,53 @@ class AlPageTreeTest extends TestCase
         $this->assertEquals($themeAssets[0] . $internalStylesheet, $this->pageTree->getInternalStylesheets());
     }
 
-    public function testPageTreeSetsUpExternalAssetsFromTheParameterDeclaredOnTheBlockConfiguration()
+    public function testPageTreeSetsUpExtraAssetsForCurrentTemplate()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getClassName')
             ->will($this->returnValue('FancyApp'));
 
+        $this->setUpTemplateAttributes();
+
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue(array('logo' => array($block))));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('hasParameter')
-            ->will($this->onConsecutiveCalls(true, false));
+            ->will($this->onConsecutiveCalls(true, false, false));
+
+        $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
+        $this->container->expects($this->any())
+            ->method('getParameter')
+            ->with('businesswebsitetheme.home.external_stylesheets.cms')
+            ->will($this->returnValue($appAssets));
+
+        $themeAssets = array('theme-stylesheet.css');
+        $this->setUpAssetsCollection($themeAssets);
+
+        $this->initValidPageTree();
+        $this->pageTree->setup();
+        $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
+    }
+
+    public function testPageTreeSetsUpExternalAssetsForCurrentAppBlock()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getClassName')
+            ->will($this->returnValue('FancyApp'));
+
+        $this->setUpTemplateAttributes();
+
+        $this->pageBlocks->expects($this->once())
+            ->method('getBlocks')
+            ->will($this->returnValue(array('logo' => array($block))));
+
+        $this->container->expects($this->exactly(3))
+            ->method('hasParameter')
+            ->will($this->onConsecutiveCalls(false, true, false));
 
         $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
         $this->container->expects($this->any())
@@ -512,13 +545,15 @@ class AlPageTreeTest extends TestCase
             ->method('getClassName')
             ->will($this->returnValue('FancyApp'));
 
+        $this->setUpTemplateAttributes();
+
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue(array('logo' => array($block))));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('hasParameter')
-            ->will($this->onConsecutiveCalls(false, true));
+            ->will($this->onConsecutiveCalls(false, false, true));
 
         $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
         $this->container->expects($this->any())
@@ -721,10 +756,16 @@ class AlPageTreeTest extends TestCase
         $this->templateManager->expects($this->once())
             ->method('setPageBlocks')
             ->will($this->returnSelf());
+    }
 
-        /*
-        $this->templateManager->expects($this->once())
-            ->method('setTemplateSlots')
-            ->will($this->returnSelf());*/
+    private function setUpTemplateAttributes()
+    {
+        $this->template->expects($this->once())
+            ->method('getThemeName')
+            ->will($this->returnValue('BusinessWebsiteThemeBundle'));
+
+        $this->template->expects($this->once())
+            ->method('getTemplateName')
+            ->will($this->returnValue('home'));
     }
 }
