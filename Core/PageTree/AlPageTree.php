@@ -54,7 +54,7 @@ class AlPageTree extends BaseAlPageTree
     protected $locatedAssets = array('css' => array(), 'js' => array());
     protected $isValidLanguage = false;
     protected $isValidPage = false;
-    protected $parameterSchema = array('%s.%s_%s', '%s.%s_%s.cms');
+    protected $extraAssetsSuffixes = array('cms');
     protected $themesCollectionWrapper;
 
     /**
@@ -75,7 +75,7 @@ class AlPageTree extends BaseAlPageTree
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->themeRepository = $this->factoryRepository->createRepository('Theme');
 
-        parent::__construct($container); // , $templateManager->getPageBlocks()
+        parent::__construct($container);
     }
 
     /**
@@ -161,19 +161,15 @@ class AlPageTree extends BaseAlPageTree
         return ($this->isValidPage && $this->isValidLanguage) ? true : false;
     }
 
+    /**
+     * Returns the current template
+     *
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     */
     public function getTemplate()
     {
         return (null !== $this->templateManager) ? $this->templateManager->getTemplate() : $this->template;
     }
-
-    /**
-     * Sets up the page tree object from the language and page objects passed as parameters. When one or both those parameters misses,
-     * the PageTree is setted up from the current request and session
-     *
-     * @param   AlLanguage  $alLanguage The AlLanguage object to use or none
-     * @param   AlPage      $alPage     The AlPage object to use or none
-     * @return  null        Returns null when something goes wrong
-     */
 
     /**
      * Sets up the page tree object from current request or session (symfony 2.0.x)
@@ -197,7 +193,7 @@ class AlPageTree extends BaseAlPageTree
             }
 
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->alTheme->getThemeName(), $this->alPage->getTemplateName());
-            
+
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
             return $this;
@@ -237,7 +233,6 @@ class AlPageTree extends BaseAlPageTree
 
         $this->templateManager
                     ->setPageBlocks($this->pageBlocks)
-                    //->setTemplateSlots($this->template->getTemplateSlots())
                     ->refresh();
 
         $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
@@ -246,14 +241,26 @@ class AlPageTree extends BaseAlPageTree
         return $this;
     }
 
-    private function initTheme()
+    /**
+     * Sets the external assets suffixes. These suffixes tells AlphaLemon CMS that there are some parameters
+     * declared in the DIC that must be used when the CMS is active.
+     *
+     * By default, AlphaLemon CMS, lets you add a parameter that must be added only when the CMS
+     * is active simply adding a .cms suffix to that parameter.
+     *
+     * For example, let's suppose you have a block with an absolute position declared. AlphaLemon CMS
+     * has a fixed toolbar that has a certain height, so, to display that content properly, you must add a new
+     * stylesheet that must be loaded only when you are in CMS mode. That task is achieved adding a parameter
+     * suffixed with the ".cms" suffix (businesswebsitetheme.home.external_stylesheets.cms)
+     *
+     * @param array $value
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     */
+    public function setExtraAssetsSuffixes(array $value = array())
     {
-        $this->alTheme = $this->themeRepository->activeBackend();
-        if (null === $this->alTheme) {
-            return null;
-        }
+        $this->extraAssetsSuffixes = $value;
 
-        return true;
+        return $this;
     }
 
     /**
@@ -270,9 +277,9 @@ class AlPageTree extends BaseAlPageTree
                 return $slotManager->getBlockManagers();
             }
         }
-        
-        return array(); 
-    }    
+
+        return array();
+    }
 
 
     /**
@@ -288,15 +295,22 @@ class AlPageTree extends BaseAlPageTree
             // When a block has examined, it is saved in this array to avoid parsing it again
             $appsAssets = array();
             $assetsCollection = clone($assetsCollection);
+
+            // merges extra assets from current theme
+            $themeName = preg_replace('/bundle$/', '', strtolower($template->getThemeName()));
+            $parameter = sprintf('%s.%s.%s_%s', $themeName, $template->getTemplateName(), $type, $assetType);
+            $this->addExtraAssets($assetsCollection, $parameter);
+
+            // merges assets from installed apps
             $blocks = $this->pageBlocks->getBlocks();
             foreach ($blocks as $slotBlocks) {
                 foreach ($slotBlocks as $block) {
                     $className = $block->getClassName();
                     if (!in_array($className, $appsAssets)) {
-                        foreach ($this->parameterSchema as $parameterSchema) {
-                            $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
-                            $assetsCollection->addRange(($this->container->hasParameter($parameter)) ? $this->container->getParameter($parameter) : array());
-                        }
+                        $parameterSchema = '%s.%s_%s';
+                        $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
+                        $this->addAssetsFromContainer($assetsCollection, $parameter);
+                        $this->addExtraAssets($assetsCollection, $parameter);
 
                         $appsAssets[] = $className;
                     }
@@ -371,6 +385,11 @@ class AlPageTree extends BaseAlPageTree
         return $alPage;
     }
 
+    /**
+     * Sets up the metatags section
+     *
+     * @param AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo $seo
+     */
     protected function setUpMetaTags($seo)
     {
         if(null !== $seo) {
@@ -378,5 +397,40 @@ class AlPageTree extends BaseAlPageTree
             $this->metaDescription = $seo->getMetaDescription();
             $this->metaKeywords = $seo->getMetaKeywords();
         }
+    }
+
+    /**
+     * Adds a range of assets to the assets collection
+     *
+     * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
+     * @param string $parameter
+     */
+    protected function addAssetsFromContainer(&$assetsCollection, $parameter)
+    {
+        $assetsCollection->addRange($this->container->hasParameter($parameter) ? $this->container->getParameter($parameter) : array());
+    }
+
+    /**
+     * Adds to the assets collection the extra parameters defined by extraAssetsSuffixes
+     *
+     * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
+     * @param string $baseParam
+     */
+    protected function addExtraAssets(&$assetsCollection, $baseParam)
+    {
+        foreach ($this->extraAssetsSuffixes as $suffix) {
+            $parameter = sprintf('%s.%s', $baseParam, $suffix);
+            $this->addAssetsFromContainer($assetsCollection, $parameter);
+        }
+    }
+
+    private function initTheme()
+    {
+        $this->alTheme = $this->themeRepository->activeBackend();
+        if (null === $this->alTheme) {
+            return null;
+        }
+
+        return true;
     }
 }
