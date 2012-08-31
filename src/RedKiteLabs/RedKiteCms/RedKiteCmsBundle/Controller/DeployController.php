@@ -29,7 +29,7 @@ class DeployController extends Controller
         {
             $deployer = $this->container->get('alphalemon_cms.local_deployer');
             $deployer->deploy();
-            
+
             $response = $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
 
             $appDir = $this->container->get('kernel')->getRootDir();
@@ -42,7 +42,7 @@ class DeployController extends Controller
                 'assetic:dump' => null,
                 'cache:clear' => null,
             ));
-            
+
             return $response;
         }
         catch(Exception $ex)
