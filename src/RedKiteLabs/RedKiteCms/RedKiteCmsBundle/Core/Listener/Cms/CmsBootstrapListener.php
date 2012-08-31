@@ -71,7 +71,7 @@ class CmsBootstrapListener
     private function setUpRequiredFolders()
     {
         $folders = array(); 
-        $basePath = $this->locate($this->container->getParameter('alphalemon_frontend.deploy_bundle') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'));
+        $basePath = $this->locate($this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'));
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
