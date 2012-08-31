@@ -209,15 +209,14 @@ class AlTwigTemplateWriter
         $languageName = $this->pageTree->getAlLanguage()->getLanguage();
         $pageName = $this->pageTree->getAlPage()->getPageName();
         $blocks = $this->pageTree->getPageBlocks()->getBlocks();
-        foreach ($blocks as $slotName => $blocks) {
+        foreach ($blocks as $slotName => $slotBlocks) {
             if (!in_array($slotName, $slots))
                 continue;
 
             $htmlContents = array();
-            foreach ($blocks as $block) {
+            foreach ($slotBlocks as $block) {
                 $bm = $this->blockManagerFactory->createBlockManager($block);
                 $content = $bm->getHtml();
-                //$content = $block->getHtmlContent();
                 $content = $this->rewriteImagesPathForProduction($content);
                 $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
 
@@ -225,6 +224,17 @@ class AlTwigTemplateWriter
             }
 
             $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $htmlContents)));
+        }
+
+        $template = $this->pageTree->getTemplate();
+        if (null === $template) return;
+
+        $templateSlots = $template->getTemplateSlots();
+        $slots = $templateSlots->getSlots();
+        $orphanSlots = array_diff_key($slots, $blocks);
+        foreach ($orphanSlots as $slot) {
+            $slotName = $slot->getSlotName();
+            $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, ""));
         }
     }
 
@@ -332,16 +342,16 @@ class AlTwigTemplateWriter
      */
     protected function writeContent($slotName, $content)
     {
-        if (empty($content)) {
-            return "";
+        if (!empty($content)) {
+            $content = $this->MarkSlotContents($slotName, $content);
+
+            $content = $this->identateContent($content) . PHP_EOL;
+            $content .= "  {% else %}" . PHP_EOL;
+            $content .= "    {{ parent() }}" . PHP_EOL;
         }
 
-        $content = $this->MarkSlotContents($slotName, $content);
-
         $block = "  {% if(slots.$slotName is not defined) %}" . PHP_EOL;
-        $block .= $this->identateContent($content) . PHP_EOL;
-        $block .= "  {% else %}" . PHP_EOL;
-        $block .= "    {{ parent() }}" . PHP_EOL;
+        $block .= $content;
         $block .= "  {% endif %}";
 
         return $block;
