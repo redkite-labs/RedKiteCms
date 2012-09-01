@@ -36,7 +36,7 @@ class InstallerController extends Controller
         $form = $this->container->get('form.factory')->create($type, array('company' => 'Acme',
                                                                            'bundle' => 'WebSiteBundle',
                                                                            'host' => 'localhost',
-                                                                           'database' => 'alphalemon_composer_20',
+                                                                           'database' => 'alphalemon',
                                                                            'user' => 'root',
                                                                            'driver' => 'mysql',
                                                                            'port' => '3306',
