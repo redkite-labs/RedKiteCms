@@ -4,3 +4,4 @@
 /composer.lock
 /Tests/Functional/project/app/cache/
 /Tests/Functional/project/app/logs/
+/Resources/public/css/lib/.sass-cache/

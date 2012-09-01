@@ -13,21 +13,11 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'AlphaLemonCmsInstallerBundle:Installer:base.html.twig' %}
+{% extends 'AlphaLemonCmsInstallerBundle:Installer:main.html.twig' %}
 {% form_theme form "AlphaLemonCmsInstallerBundle::Installer/form.html.twig" %}
 
-{% block external_stylesheets %}
-{# stylesheets filter='yui_css' '@AlphaLemonCmsInstallerBundle/Resources/public/css/*' %}
-<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
-{% endstylesheets #}
-<link href="{{ asset('bundles/alphalemoncmsinstaller/css/style.css') }}" rel="stylesheet" type="text/css" />
-{% endblock %}
-
 {% block external_javascripts %}
-    <link href="{{ asset('bundles/alphalemoncmsinstaller/js/jquery-last.min.js') }}" rel="stylesheet" type="text/css" />
-    {# javascripts  filter='?yui_js' '@AlphaLemonCmsInstallerBundle/Resources/public/js/*' %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts #}
+<script src="{{ asset('bundles/alphalemoncmsinstaller/js/jquery-last.min.js') }}"></script>
 {% endblock %}
 
 {% block internal_header_stylesheets %}
@@ -71,10 +61,14 @@
     </script>
 {% endblock %}
 
-{% block body %}
-<div id="al_main">
+{% block contents %}
 <h1>AlphaLemonCMS Web-Installer interface</h1>
-<div id="al_installer_box">
+<div>
+    <p>
+        Welcome to AlphaLemon CMS installer. Please fill the form below to install AlphaLemon CMS.
+    </p>
+</div>
+<div>
     <form action="{{ path('_install') }}" method="POST">
         {% if app.session.hasFlash('error') %}
         <div id="al_process_errors">
@@ -86,8 +80,8 @@
             <h2>Bundle data</h2>
             <p>
             AlphaLemon CMS requires a bundle where AlphaLemon CMS will save the contents you insert. Every time
-            you start a new Symfony2 project you always create a new bundle where your application lives:
-            the required external bundle, by AlphaLemon CMS, is exactly that bundle.
+            you start a new Symfony2 project you always create a new bundle where your application lives: this is
+            the bundle required by AlphaLemon CMS.
             </p>
         </div>
         <div id="al_bundle_section">
@@ -131,6 +125,5 @@
             <input type="submit" value="install" />
         </div>
     </form>
-</div>
 </div>
 {% endblock %}

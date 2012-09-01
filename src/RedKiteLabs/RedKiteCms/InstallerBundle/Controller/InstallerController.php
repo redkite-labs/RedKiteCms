@@ -43,6 +43,7 @@ class InstallerController extends Controller
             ));
 
         $request = $this->container->get('request');
+        $scheme = $request->getScheme().'://'.$request->getHttpHost();
         if ('POST' === $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
@@ -62,12 +63,15 @@ class InstallerController extends Controller
 
                 if(!empty($dsn)) {
                    try {
+                       $response = $this->render('AlphaLemonCmsInstallerBundle:Installer:install_success.html.twig', array(
+                            'scheme'    => $scheme,
+                        ));
                        $installer = new Installer($this->container->getParameter('kernel.root_dir') . '/../vendor');
                        $installer->install($data['company'], $data['bundle'], $dsn, $data['database'], $data['user'], $data['password'], $data['driver']);
 
-                       return new RedirectResponse('/alcms.php/backend/en/index');
+                       return $response;
                     }
-                    catch(\Exception $ex) {echo $ex->getMessage();
+                    catch(\Exception $ex) {
                        $this->get('session')->setFlash('error', $ex->getMessage());
                     }
                 }

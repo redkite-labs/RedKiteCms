@@ -1,0 +1,45 @@
+{#
+   This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.alphalemon.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonCmsInstallerBundle:Installer:main.html.twig' %}
+
+{% block contents %}
+<div>
+    <h1>AlphaLemonCMS has been installed!</h1>
+    <p>
+    Congratulations! You have just completed the AlphaLemonCms install procedure and you are ready to go!
+    </p>
+</div>
+<div>
+    <h2>What to do now</h2>
+    <p><b>Start AlphaLemon CMS</b></p>
+    <p><a href="/alcms.php/backend/en/index">{{ scheme }}/alcms.php/backend/en/index</a></p>
+    <p><b>Start AlphaLemon CMS in debug mode</b></p>
+    <p><a href="/alcms_dev.php/backend/en/index">{{ scheme }}/alcms_dev.php/backend/en/index</a></p>
+</div>
+<div>
+    <h2>Troubleshoting</h2>
+    <p>
+        If something goes wrong when you try to start working with AlphaLemon CMS, open a terminal and move to your install folder,
+        then run the following commands:
+    </p>
+    <ol>
+    <li>php app/console assets:install web --symlink</li>
+    <li>php app/console assetic:dump</li>
+    <li>php app/console cache:clear</li>
+    </ol>
+    <p>If the problem persists enter in debug mode to try to understand what's wrong.</p>
+</div>
+{% endblock %}

@@ -288,7 +288,7 @@ class Installer {
         }
         catch(\Exception $ex)
         {
-            throw new \RuntimeException("An error occoured when trying to connect the database with the given parameters. The server returned the following error:\n\n" . $ex->getMessage() . "\n\nCheck your configuration parameters into the bin/config.php file and be sure that the database name given is the same exposed by the dsn\n\n");
+            throw new \RuntimeException("An error occoured when trying to connect the database with the given parameters. The server returned the following error:\n\n" . $ex->getMessage());
         }
     }
 
