@@ -262,7 +262,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * By default the values is encapsulated into a try/catch block to avoid breaking the execution.
      * To get only the internal javascript, call the method with the safe argument as false
      *
-     * 
+     *
      * @param boolean
      * @return string
      */

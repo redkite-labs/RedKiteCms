@@ -75,7 +75,7 @@ class ChangeTemplateListener
             try {
                 $themeName = $currentTemplateManager->getTemplate()->getThemeName();
                 $this->blockRepository->startTransaction();
-
+                
                 $template = $this->themesCollectionWrapper->getTemplate($themeName, $values["TemplateName"]);
                 $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $this->factoryRepository, $template, $currentTemplateManager->getPageBlocks());
 
