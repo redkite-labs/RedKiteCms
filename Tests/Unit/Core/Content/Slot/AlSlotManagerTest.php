@@ -904,18 +904,6 @@ class AlSlotManagerTest extends TestCase
         $slot->expects($this->once())
                 ->method('getHtmlContent');
 
-        $slot->expects($this->once())
-                ->method('getExternalJavascript');
-
-        $slot->expects($this->once())
-                ->method('getInternalJavascript');
-
-        $slot->expects($this->once())
-                ->method('getExternalStylesheet');
-
-        $slot->expects($this->once())
-                ->method('getInternalStylesheet');
-
         $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockRepository,  $factory, $this->validator);
         $slotManager->setBlockManagerFactory($factory);
         $slotManager->setForceSlotAttributes(true);

@@ -281,6 +281,11 @@ class AlSlotManager extends AlTemplateBase
                 }
             }
 
+            // Forces the creation of the block type defined in the AlSlot object
+            if ($this->forceSlotAttributes) {
+                $type = $this->slot->getBlockType();
+            }
+
             $alBlockManager = $this->blockManagerFactory->createBlockManager($type);
             if (null === $alBlockManager) {
                 throw new \InvalidArgumentException("The $type type does not exist");
@@ -311,10 +316,6 @@ class AlSlotManager extends AlTemplateBase
             }
 
             if (false !== $result) {
-                if ($this->forceSlotAttributes) {
-                    $type = $this->slot->getBlockType();
-                }
-
                 $values = array(
                   "PageId"          => $idPage,
                   "LanguageId"      => $idLanguage,
@@ -324,11 +325,8 @@ class AlSlotManager extends AlTemplateBase
                 );
 
                 if ($this->forceSlotAttributes) {
-                    $values["HtmlContent"] = $this->slot->getHtmlContent();
-                    $values["ExternalJavascript"] = $this->slot->getExternalJavascript();
-                    $values["InternalJavascript"] = $this->slot->getInternalJavascript();
-                    $values["ExternalStylesheet"] = $this->slot->getExternalStylesheet();
-                    $values["InternalStylesheet"] = $this->slot->getInternalStylesheet();
+                    $content = $this->slot->getHtmlContent();
+                    if (null !== $content) $values["HtmlContent"] = $content;
                 }
 
                 $alBlockManager->set(null);
