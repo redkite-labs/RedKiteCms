@@ -29,6 +29,34 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
  */
 abstract class AlBlockManagerJsonBlock extends AlBlockManager
 {
+
+    /**
+     * Decodes a json content
+     *
+     * @param mixed string|AlBlock $block
+     * @param boolean $assoc
+     * @return mixed array|object depends on assoc param     *
+     * @throws Exception\InvalidJsonFormatException
+     */
+    public static function decodeJsonContent($block, $assoc = true)
+    {
+        $content = $block;
+        $blockType = null;
+        if (is_object($block)) {
+            $content = $block->getHtmlContent();
+            $blockType = $block->getClassName();
+        }
+
+        $content = json_decode($content, $assoc);
+        if (null === $content) {
+            $blockTypeInfo = (null !== $blockType) ? ' for the block ' . $blockType . ' ' : '';
+
+            throw new Exception\InvalidJsonFormatException(sprintf('The content format %sis wrong. You should remove that block and add it again.', $blockTypeInfo));
+        }
+
+        return $content;
+    }
+
     /**
      * {@inheritdoc}
      *
@@ -52,7 +80,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
                 throw new Exception\InvalidFormConfigurationException('There is a configuration error in the form that manages this content: it must contain an hidden file called "id". ' . $commonMessageText);
             }
 
-            $content = $this->decodeJsonContent($this->alBlock->getHtmlContent());
+            $content = $this->decodeJsonContent($this->alBlock);
             $itemId = $item["id"];
             unset($item["id"]);
             if ($itemId != "") {
@@ -68,7 +96,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
 
         if (array_key_exists('RemoveItem', $values)) {
             $itemId = $values['RemoveItem'];
-            $content = $this->decodeJsonContent($this->alBlock->getHtmlContent());
+            $content = $this->decodeJsonContent($this->alBlock);
             $this->checkValidItemId($itemId, $content);
             unset($content[$itemId]);
             $content = array_values($content);
@@ -77,16 +105,6 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
         }
 
         return parent::edit($values);
-    }
-
-    public static function decodeJsonContent($content)
-    {
-        $content = json_decode($content, true);
-        if (null === $content) {
-            throw new Exception\InvalidJsonFormatException('The content format is wrong. You should remove the content and add it again.');
-        }
-
-        return $content;
     }
 
     private function checkValidItemId($itemId, $content)
