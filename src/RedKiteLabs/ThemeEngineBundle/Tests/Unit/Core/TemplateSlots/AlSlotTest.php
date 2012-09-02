@@ -31,55 +31,43 @@ class AlSlotTest extends TestCase
      * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAlSlotDoesNotAdmitNullValuesForTheSlotNameParam()
-    {         
+    {
         $slot = new AlSlot(null);
     }
-    
+
     /**
      * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAlSlotRequiresAStringValueForTheSlotNameParam()
-    {         
+    {
         $slot = new AlSlot(array('logo'));
     }
-    
+
     public function testAlSlotInizializedWithDefaultValues()
-    {         
+    {
         $slot = new AlSlot('logo');
         $this->assertEquals('logo', $slot->getSlotName());
-        $this->assertEquals('This is the default text for the slot logo', $slot->getHtmlContent());
+        $this->assertNull($slot->getHtmlContent());
         $this->assertEquals('Text', $slot->getBlockType());
         $this->assertEquals('page', $slot->getRepeated());
     }
-    
+
     public function testAlSlotInizializedWithGivenValues()
-    {         
+    {
         $slot = new AlSlot('nav-menu', array('repeated' => 'site',
                                         'blockType' => 'script',
-                                        'htmlContent' => 'my fancy content',
-                                        'externalJavascript' => 'some external javascripts',
-                                        'internalJavascript' => 'some internal javascripts',
-                                        'externalStylesheet' => 'some external stylesheets',
-                                        'internalStylesheet' => 'some internal stylesheets',));
+                                        'htmlContent' => 'my fancy content'));
         $this->assertEquals('nav-menu', $slot->getSlotName());
         $this->assertEquals('my fancy content', $slot->getHtmlContent());
         $this->assertEquals('Script', $slot->getBlockType());
         $this->assertEquals('site', $slot->getRepeated());
-        $this->assertEquals('some external javascripts', $slot->getExternalJavascript());
-        $this->assertEquals('some internal javascripts', $slot->getInternalJavascript());
-        $this->assertEquals('some external stylesheets', $slot->getExternalStylesheet());
-        $this->assertEquals('some internal stylesheets', $slot->getInternalStylesheet());
     }
-    
+
     public function testAlSlotToArray()
-    {         
+    {
         $values = array('repeated' => 'site',
                         'blockType' => 'script',
-                        'htmlContent' => 'my fancy content',
-                        'externalJavascript' => 'some external javascripts',
-                        'internalJavascript' => 'some internal javascripts',
-                        'externalStylesheet' => 'some external stylesheets',
-                        'internalStylesheet' => 'some internal stylesheets');
+                        'htmlContent' => 'my fancy content');
         $slot = new AlSlot('logo', $values);
         $values['slotName'] = 'logo';
         $values['blockType'] = 'Script';
