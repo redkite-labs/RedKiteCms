@@ -278,13 +278,13 @@ class AlTemplateManager extends AlTemplateBase
 
                 $result = false;
                 $this->blockRepository->startTransaction();
-                foreach ($this->slotManagers as $slot) {
-                    if ($ignoreRepeated && $slot->getRepeated() != 'page') {
+                foreach ($this->slotManagers as $slotManager) {
+                    if ($ignoreRepeated && $slotManager->getRepeated() != 'page') {
                         continue;
                     }
 
-                    $slot->setForceSlotAttributes(true);
-                    $result = $slot->addBlock($idLanguage, $idPage);
+                    $slotManager->setForceSlotAttributes(true);
+                    $result = $slotManager->addBlock($idLanguage, $idPage);
                     if (null !== $result) {
                         if (!$result) break;
                     }
