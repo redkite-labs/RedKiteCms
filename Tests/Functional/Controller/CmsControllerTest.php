@@ -156,7 +156,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         (
             "/bundles/alphalemonthemeengine/js/vendor/jquery/*",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
-            "/bundles/businesswebsitetheme/js/cufon-replace.js",
+            "/bundles/businesswebsitetheme/js//al-cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_700.font.js",
             "/bundles/businesswebsitetheme/js/tabs.js",
