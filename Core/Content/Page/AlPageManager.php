@@ -215,7 +215,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             throw new General\ParameterIsEmptyException($this->translate('Any page is actually managed, so there\'s nothing to remove'));
         }
     }
-    
+
     /**
      * Slugifies a path
      *
