@@ -353,3 +353,10 @@ The logo for this website must be the same on each page, so we add the repeated 
         [...]
         <argument key="repeated">site</argument>
     </argument>
+
+
+### The base config file
+The slot logo has been added to the home.xml config file. This works but if we need to add another template to the theme the slot logo should be added to
+this new file, creating a code repetition.
+
+To avoid this situation, these special slots must be place on a common file named **base.xml**. The name is mandatory.
