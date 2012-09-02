@@ -4,8 +4,8 @@ This chapter will tell you how to add a new Block to AlphaLemon CMS.
 
 ## What is a Block
 
-A Block represents a content displayed on a web page. In addiction an app-block includes the editor to manage 
-the block itself by AlphaLemon CMS when the editor is active. 
+A Block represents a content displayed on a web page. In addiction an app-block includes the editor to manage
+the block itself by AlphaLemon CMS when the editor is active.
 
 ## How is structured a Block
 
@@ -17,8 +17,8 @@ An App-Block is a standalone symfony2 bundle. This approach has several advantag
 
 ## Create the FancyBlockBundle
 
-The very first step is to add a new bundle to your application. AlphaLemon does not require to place the bundle into a specific
-location, so you can place it everywhere. Let's add this new bundle to the standard **src** folder:
+The very first step is to add a new bundle to your application. AlphaLemon does not require to have the bundle placed
+into a specific location, so you can place it everywhere. Let's add this new bundle into the standard **src** folder:
 
     php app/console generate:bundle
 
@@ -45,7 +45,7 @@ The proposed bundle **name must be changed** to FancyBlockBundle:
     the standard conventions.
 
 The proposed folder is fine:
-    
+
     Target directory [/home/alphalemon/www/AlphaLemonCmsSandbox/src]:
 
 Leave the next options as proposed:
@@ -108,8 +108,8 @@ Open that file and add the following code:
     }
 
 This new object symply extends the AlBlockManager base class, but at the moment, it is not completed,
-because the parent object requires you to implement a method that defines the default value displayed 
-on the web page when a new content is added. 
+because the parent object requires you to implement a method that defines the default value displayed
+on the web page when a new content is added.
 
 This method is called **getDefaultValue** and its implementation for this object is simply the following one:
 
@@ -129,13 +129,13 @@ This method returns and array, which may have the following options:
     4. ExternalJavascript
     5. InternalJavascript
 
-Combining the available options, you may have the desidered behaviour your content must have, when it is added to the 
-web page. In our example just a simple html paragraph is added to the page. 
+Combining the available options, you may have the desidered behaviour your content must have, when it is added to the
+web page. In our example just a simple html paragraph is added to the page.
 
 > The ExternalStylesheet and ExternalJavascript must contain a string of assets separated by a comma value.
 
 ## How to tell AlphaLemonCMS to manager the Bundle
-An App-Block Bundles must be declared as services in the **Dependency Injector Container**. To tell AlphaLemonCMS to manage 
+An App-Block Bundles must be declared as services in the **Dependency Injector Container**. To tell AlphaLemonCMS to manage
 this bundle open the **service.xml** file under the bundle's **Resources/config** folder and add the following code:
 
     <parameters>
@@ -148,7 +148,7 @@ this bundle open the **service.xml** file under the bundle's **Resources/config*
         </service>
     </services>
 
-A new service named **app_fancy_block.block** has been declared. Please notice that this object requires the symfony2 **event_dispatcher** 
+A new service named **app_fancy_block.block** has been declared. Please notice that this object requires the symfony2 **event_dispatcher**
 service passed as argument.
 
 But that's not enough to declare that service as a App-Block, in fact to achieve that task, the service must be tagged as follows:
@@ -181,20 +181,20 @@ To have the bundle work, it must be enabled in the AppKernel class, so open your
     }
 
 To check if everything is right, open AlphaLemonCMS in your browser, enter in **Edit mode**, right click on a block and verify that
-the **Fancy block** entry has been added to **Add** menu. 
+the **Fancy block** entry has been added to **Add** menu.
 
 You made a great work since now, so, glad yourself and add the Fancy block to the page.
 
 ## The editor
-If you were impatient and you clicked on the Fancy block, you got an error message. This because any editor for the Fancy block has 
+If you were impatient and you clicked on the Fancy block, you got an error message. This because any editor for the Fancy block has
 been added yet.
 
-Adding a new editor is really simple, if fact the only required thing to do is to add a new twig file that must live under the 
+Adding a new editor is really simple, if fact the only required thing to do is to add a new twig file that must live under the
 **Resources/views** folder of the FancyBlockBundle, into a directory called **Block**. The file name must follow this convention:
 
     **[bundle name without bundle suffix in lower case]_editor.html.twig**
 
-Add the **fancyblock_editor.html.twig** file, then open it and add the following code to take advantage from the base editor that comes 
+Add the **fancyblock_editor.html.twig** file, then open it and add the following code to take advantage from the base editor that comes
 with AlphaLemonCms:
 
     {% extends 'AlphaLemonCmsBundle:Block:base_editor.html.twig' %}
@@ -214,7 +214,7 @@ To enable the editor you must add a parameter to the services configuration file
         <parameter key="external_js">true</parameter>
     </parameter>
 
-That configuration enables both the editor to manage the html content as a rich editor and the editor to manage the external 
+That configuration enables both the editor to manage the html content as a rich editor and the editor to manage the external
 javascripts. So you just combine those options to get the editor you need.
 
 ### Custom editor
@@ -252,15 +252,15 @@ the editor, then add your custom code to the editor. And example could be this o
 which renders the ElFinder media library tool.
 
 ## Share your App-Bundle
-The Bundle just created works at the moment but it could difficult to share it with the world. To achieve this job something must 
+The Bundle just created works at the moment but it could difficult to share it with the world. To achieve this job something must
 be changed.
 
 ### VCS
-The very first thing you need is to put your code under a **VCS tool**. You may use whatever you want, but it's strongly suggested to 
+The very first thing you need is to put your code under a **VCS tool**. You may use whatever you want, but it's strongly suggested to
 use **git** as VCS and **github** as remote repository.
 
 ### The composer.json file
-The Bundle is shared is by [composer](http://getcomposer.org) an awesome package manager tool. If you don't know it or how it works, there 
+The Bundle is shared is by [composer](http://getcomposer.org) an awesome package manager tool. If you don't know it or how it works, there
 is a great documentation on their site which explains how to start with it.
 
 Add a new composer.json file under the FancyBlockBundle folder and paste this code:
@@ -273,13 +273,13 @@ Add a new composer.json file under the FancyBlockBundle folder and paste this co
         "target-dir" : "AlphaLemon/Block/FancyBlockBundle"
     }
 
-By reading the code, you should have understood that something must be changed in Bundle's namespaces because the filesystem 
-structure will change when composer will install your App-Bundle, infact it will install the bundle under 
+By reading the code, you should have understood that something must be changed in Bundle's namespaces because the filesystem
+structure will change when composer will install your App-Bundle, infact it will install the bundle under
 
     [your repo name]/AlphaLemon/Block/FancyBlockBundle
 
 If you come from this tutorial, you must rename all the namespaces created by the bundles generator wizard to reflect the new
-namespace. When you will create your next App-Bundle you will enter the right values to avoid this step. 
+namespace. When you will create your next App-Bundle you will enter the right values to avoid this step.
 
 So, to rename the namespaces you may use an editor that will replace all the occourences of your old namespace to the new one:
 
@@ -287,7 +287,7 @@ So, to rename the namespaces you may use an editor that will replace all the occ
     new: AlphaLemon\Block\FancyBlockBundle
 
 Publish your Bundle to **github** then add the Bundle to [packagist](http://packagist.org) to let it be distributable by composer.
-But there is abetter solution instead using packagist: you should email us to add your bundle to our packages system, to avoid 
+But there is abetter solution instead using packagist: you should email us to add your bundle to our packages system, to avoid
 spamming packagist with bundles made for a specific application. So feel free to write at **info [aT] alphalemon [DoT] com** to have
 your bundle managed by our packagist.
 
