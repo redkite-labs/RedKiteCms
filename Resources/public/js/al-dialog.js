@@ -9,33 +9,38 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 InitDialog = function(id, options)
 {
-    var defaultOptions = {
-    autoOpen: false,
-    width: 800,
-    buttons: {
-        "Close": function() {
-            $(this).dialog("close");
-        }
-    }};
-
-    if(id == null) id = "al_dialog";
-    if(options !== null) $.extend (defaultOptions, options);
-
-    if($('body').find(id).length == 0)
+    try
     {
-        $('<div id="' + id + '"></div>')
-                  .css("display", "none")
-                  .appendTo('body');
+        var defaultOptions = {
+        autoOpen: false,
+        width: 800,
+        buttons: {
+            "Close": function() {
+                $(this).dialog("close");
+            }
+        }};
+
+        if(id == null) id = "al_dialog";
+        if(options !== null) $.extend (defaultOptions, options);
+
+        if($('body').find(id).length == 0)
+        {
+            $('<div id="' + id + '"></div>')
+                    .css("display", "none")
+                    .appendTo('body');
+        }
+
+        $('#' + id).dialog(defaultOptions);
     }
-    
-
-    $('#' + id).dialog(defaultOptions);
-
+    catch(e)
+    {
+        alert(e);
+    }
 };
