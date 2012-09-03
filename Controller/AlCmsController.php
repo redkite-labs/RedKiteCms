@@ -55,7 +55,6 @@ class AlCmsController extends BaseFrontendController
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
         $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle');
         $skin = $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alcms.skin');
-        //$skin = AlToolkit::retrieveBundleWebFolder($this->kernel, 'AlphaLemonCmsBundle') . '/css/skins/' . $this->container->getParameter('alcms.skin');
         $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
         $languageRepository = $factoryRepository->createRepository('Language');
         $pageRepository = $factoryRepository->createRepository('Page');
@@ -79,7 +78,7 @@ class AlCmsController extends BaseFrontendController
         {
             $template = $this->findTemplate($pageTree);
 
-            $params = array_merge($params, array(
+           $params = array_merge($params, array(
                                 'metatitle' => $pageTree->getMetaTitle(),
                                 'metadescription' => $pageTree->getMetaDescription(),
                                 'metakeywords' => $pageTree->getMetaKeywords(),
@@ -90,8 +89,8 @@ class AlCmsController extends BaseFrontendController
                                 'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
                                 'available_blocks' => $this->container->get('alphalemon_cms.block_manager_factory')->getBlocks(),
                                 'base_template' => $this->container->getParameter('althemes.base_template'),
-                                'templateStylesheets' => $this->locateAssets($pageTree->getExternalStylesheets()),
-                                'templateJavascripts' => $this->locateAssets($pageTree->getExternalJavascripts()),
+                                'templateStylesheets' => $pageTree->getExternalStylesheets(),
+                                'templateJavascripts' => $pageTree->getExternalJavascripts(),
                                 ));
         }
         else
@@ -113,7 +112,6 @@ class AlCmsController extends BaseFrontendController
             $themeName = $template->getThemeName();
             $templateName = $template->getTemplateName();
 
-            //$themeFolder = AlToolkit::locateResource($this->kernel, $themeName);
             $asset = new AlAsset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
             if(false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig'))
@@ -131,38 +129,6 @@ class AlCmsController extends BaseFrontendController
         }
 
         return $templateTwig;
-    }
-
-    private function locateAssets(array $assets)
-    {
-        $located = array();
-        foreach($assets as $asset)
-        {
-            $filename = basename($asset);
-            if(in_array($filename, $this->cmsAssets))
-            {
-                continue;
-            }
-
-            $currentAsset = $asset;
-
-            // Checks if the assets is given with a relative path
-            if(false !== strpos($currentAsset, 'bundles') || false !== strpos($currentAsset, '@'))
-            {
-                preg_match('/^@([\w]+Bundle)\/Resources\/public\/([\w\/\.-]+)/', $currentAsset, $match);
-                if(!empty($match))
-                {
-                        //$currentAsset = AlToolkit::retrieveBundleWebFolder($this->kernel, $match[1]) . '/' . $match[2];
-                        $asset = new AlAsset($this->kernel, $match[1] . '/' . $match[2]);
-                        $currentAsset = $asset->getRealPath();
-                }
-
-                //$currentAsset = AlToolkit::normalizePath($currentAsset);
-                $located[] =  $currentAsset;
-            }
-        }
-
-        return $located;
     }
 }
 
