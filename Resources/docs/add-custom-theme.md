@@ -83,9 +83,12 @@ that bundle as a Theme, so let's see how to tell AlphaLemon to use the FancyThem
 
 ## Add the Theme service
 An AlphaLemon CMS theme must be defined as a service in the DIC **Dependency Injector Container**. To tell AlphaLemon CMS to manage
-this bundle open the **service.xml** file under the bundle's **Resources/config** folder and add the following code:
+this bundle, you should add to the **service.xml** file, stored under the bundle's **Resources/config** folder the theme's configuration.
 
-    Acme/Theme/FancyThemeBundle/Resources/config/services.xml
+As best practice for this kind of bundle, it's better to create a dedicated configuration file, named as the theme itself.
+So copy the services.xml file, rename it as **fancy_theme.xml** and add the following code:
+
+    Acme/Theme/FancyThemeBundle/Resources/config/fancy_theme.xml
     <services>
         <service id="fancy.theme" class="%alphalemon_theme_engine.theme.class%">
             <argument type="string">FancyTheme</argument>
@@ -354,9 +357,66 @@ The logo for this website must be the same on each page, so we add the repeated 
         <argument key="repeated">site</argument>
     </argument>
 
-
 ### The base config file
 The slot logo has been added to the home.xml config file. This works but if we need to add another template to the theme the slot logo should be added to
 this new file, creating a code repetition.
 
 To avoid this situation, these special slots must be place on a common file named **base.xml**. The name is mandatory.
+
+## Register the configuration files
+The configuration files must be registered in the **Dependency Injector Container**:
+
+    Acme/Theme/FancyThemeBundle/DependencyInjection/FancyThemeExtension.php
+    class FancyThemeExtension extends Extension
+    {
+        public function load(array $configs, ContainerBuilder $container)
+        {
+            // Register the services file
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+            $loader->load('fancy_theme.xml');
+
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/templates'));
+            $loader->load('home.xml');
+
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/templates/slots'));
+            $loader->load('base.xml');
+            $loader->load('home.xml');
+        }
+
+        public function getAlias()
+        {
+            return 'business_website_theme';
+        }
+    }
+
+At last the bundle must be registerd in the **AppKernel** file:
+
+    app/AppKernel.php
+    class AppKernel extends Kernel
+    {
+        public function registerBundles()
+        {
+            $bundles = array(
+                [...],
+                new Acme/Theme/FancyThemeBundle/FancyThemeBundle(),
+            );
+        }
+    }
+
+## Override a template
+Let's assume that you want to use a new theme, called **AwesomeThemeBundle** and that this theme has two templates, named home.twig.html and internal.twig.html.
+
+When the **renderSlot** function has been explained, it has been presented as best practice to adopt for distributable themes, to wrap the render block function
+with a block section to let the template overridable.
+
+To override a template, simple create a new folder called as the new theme you want to use, so **AwesomeThemeBundle**, under the **app/Resources/views** folder
+of your application than add a new **home.twig.html**, open it and add the following code:
+
+    {% extends 'AwesomeThemeBundle:Theme:home.html.twig' %}
+
+    {% block left_sidebar %}
+    {{ renderSlot('top_section_1') }}
+    {% endblock %}
+
+This code overrides the **AwesomeThemeBundle's home.html.twig** template replacing the **left_sidebar** slot with the contents saved with the **top_section_1** slot
+you have filled in your previous **home.twig.html** template.
