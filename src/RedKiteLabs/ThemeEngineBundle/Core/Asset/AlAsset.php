@@ -66,7 +66,7 @@ class AlAsset
         if(null === $this->asset || empty($this->asset)) {
             return null;
         }
-        
+
         return $this->normalizePath($this->realPath($this->realPath));
     }
 
@@ -126,7 +126,7 @@ class AlAsset
 
         $asset = str_replace("@", "", strtolower($this->asset));
         $bundleDir = preg_replace('/bundle$/', '', $asset);
-        
+
         return ($bundleDir !== $asset) ? 'bundles/' . $bundleDir : null;
     }
 
@@ -143,11 +143,11 @@ class AlAsset
         try
         {
             // Fetches the relative resource to locate from asset
-            preg_match('/(@[^\/]+)?([\w\/\.\-_]+)?/', $asset, $match); 
+            preg_match('/(@[^\/]+)?([\w\/\.\-_]+)?/', $asset, $match);
             if (empty($match[1])) return;
-            
+
             $resource = $this->kernel->locateResource($match[1]);
-            
+
             $resourceLength = strlen($resource) - 1;
             if (substr($resource, $resourceLength, 1) == '/') $resource = substr($resource, 0, $resourceLength);
 

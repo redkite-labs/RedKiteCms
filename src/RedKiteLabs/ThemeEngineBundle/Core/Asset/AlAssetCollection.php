@@ -17,6 +17,7 @@
 namespace AlphaLemon\ThemeEngineBundle\Core\Asset;
 
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Class for iterating over a list of Assets elements
@@ -80,7 +81,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     {
         return (current($this->assets) !== false);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -97,12 +98,39 @@ class AlAssetCollection implements AlAssetsCollectionInterface
         if(null !== $asset && $asset != "" && is_string($asset))
         {
             $assetName = basename($asset);
+            // parses the first subfolder when all the subfolder's files are required
+            if ($assetName == '*') {
+                $asset = new AlAsset($this->kernel, substr($asset, 0, strlen($asset) - 2));
 
-            // Avois assets duplication
-            if(!in_array($assetName, $this->assets))
-            {
-                $this->assets[$assetName] = new AlAsset($this->kernel, $asset);
+                $assetPath = $asset->getRealPath();
+                $finder = new Finder();
+                $subAssets = $finder->files()->depth(0)->in($assetPath);
+                foreach ($subAssets as $subAsset) {
+                    $this->addAsset((string)$subAsset);
+                }
+
+                return;
             }
+
+            $this->addAsset($asset);
+        }
+    }
+
+    protected function addAsset($asset)
+    {
+        $asset = new AlAsset($this->kernel, $asset);
+        if (!is_file($asset->getRealPath())) {
+            if (!in_array($asset, $this->assets)) {
+                $this->assets[] = $asset;
+            }
+
+            return;
+        }
+
+        // Avoids assets duplication
+        $key = basename($asset->getRealPath());
+        if (!array_key_exists($key, $this->assets)) {
+            $this->assets[$key] = $asset;
         }
     }
 
@@ -123,7 +151,15 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     {
         $assetName = basename($asset);
         if (array_key_exists($assetName, $this->assets)) {
-           unset($this->assets[$assetName]); 
+           unset($this->assets[$assetName]);
+
+           return;
+        }
+
+        $asset = new AlAsset($this->kernel, $asset);
+        if (in_array($asset, $this->assets)) {
+            $key = array_search($asset, $this->assets);
+            unset($this->assets[$key]);
         }
     }
 }
