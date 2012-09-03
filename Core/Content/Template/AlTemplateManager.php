@@ -414,7 +414,9 @@ class AlTemplateManager extends AlTemplateBase
         }
 
         $slots = $templateSlots->getSlots();
-        if (empty($slots)) return;
+        if (empty($slots)) {
+            throw new Exception\EmptyTemplateSlotsException(sprintf('The template "%s" has any slot attached. Please check your template\'s configuration', $this->template->getTemplateName()));
+        }
 
         foreach ($slots as $slotName => $slot) {
             $this->slotManagers[$slotName] = $this->createSlotManager($slot);

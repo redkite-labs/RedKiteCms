@@ -54,17 +54,6 @@ class AlSlotsConverterFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Slot\SameRepeatedStatusException
-     */
-    public function testCreateConverterThrowsAnExceptionGivingTheSameRepeatedStatus()
-    {
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->factoryRepository);
-
-        $slotsConverterFactory->createConverter($slot, 'page');
-    }
-
-    /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException
      */
     public function testCreateConverterThrowsAnExceptionWhenTheConvertedClassCannotBeInstantiated()
@@ -73,6 +62,14 @@ class AlSlotsConverterFactoryTest extends TestCase
         $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->factoryRepository);
 
         $slotsConverterFactory->createConverter($slot, 'fake');
+    }
+
+    public function testCreateConverterReturnsNullGivingTheSameRepeatedStatus()
+    {
+        $slot = new AlSlot('test', array('repeated' => 'page'));
+        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->factoryRepository);
+
+        $this->assertNull($slotsConverterFactory->createConverter($slot, 'page'));
     }
 
     public function testConverterHasBeenInstantiated()

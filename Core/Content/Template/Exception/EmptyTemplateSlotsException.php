@@ -10,18 +10,18 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Slot;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Exception;
 
 /**
- * Thrown when invoking the same slot's repeated status is not allowed
+ * Thrown when the template has any slot
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class SameRepeatedStatusException extends \InvalidArgumentException
+class EmptyTemplateSlotsException extends \InvalidArgumentException
 {
 }
