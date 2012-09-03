@@ -59,7 +59,7 @@ class AlRepeatedSlotsAligner
 
         $this->cacheFile =  $kernel->getRootDir() . '/Resources/active_theme_slots.xml';
         $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle/Resources/data/xml/repeated-slots-skeleton.xml');
-        $this->skeletonFile = $asset->getRealPath();  
+        $this->skeletonFile = $asset->getRealPath();
     }
 
     public function setCacheFile($fileName)
@@ -137,6 +137,8 @@ class AlRepeatedSlotsAligner
             foreach($changedSlots as $slotName => $repeated)
             {
                 $converter = $this->slotsConverterFactory->createConverter($templateSlots[$slotName], $repeated);
+                if (null === $converter) continue;
+                
                 $result = $converter->convert();
                 if(!$result) {
                     break;

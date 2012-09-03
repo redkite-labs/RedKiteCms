@@ -75,7 +75,26 @@ class AlTemplateManagerTest extends TestCase
             ->will($this->returnValue($this->blockManager));
     }
 
-    public function testAnySlotManagerIsInstantiatedWhenAnySlotISGiven()
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     */
+    public function testAnExceptionIsThrownWhenTheTemplateSlotsObjectIsNull()
+    {
+        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                           ->disableOriginalConstructor()
+                            ->getMock();
+        $template->expects($this->any())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue(null));
+
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->factoryRepository, $template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager->refresh();
+    }
+
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Exception\EmptyTemplateSlotsException
+     */
+    public function testAnExceptionIsThrownWhenAnySlotIsGiven()
     {
         $this->templateSlots->expects($this->once())
                 ->method('getSlots')
@@ -88,10 +107,6 @@ class AlTemplateManagerTest extends TestCase
         $templateManager = new AlTemplateManager($this->dispatcher, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
-
-        $this->assertEquals(0, count($templateManager->getSlotManagers()));
-        $slotManager = $templateManager->getSlotManager('test');
-        $this->assertNull($slotManager);
     }
 
     public function testCreatesASlotManagerWithoutAnyBlockManagerInstantiated()
@@ -297,6 +312,9 @@ class AlTemplateManagerTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Exception\EmptyTemplateSlotsException
+     */
     public function testAnyBlockIsClearedWhenSlotsAreEmpty()
     {
         $this->templateSlots->expects($this->once())
@@ -306,9 +324,6 @@ class AlTemplateManagerTest extends TestCase
         $templateManager = new AlTemplateManager($this->dispatcher, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
-
-        $result = $templateManager->clearBlocks();
-        $this->assertNull($result);
     }
 
     /**
