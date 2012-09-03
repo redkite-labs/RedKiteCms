@@ -47,19 +47,29 @@ class AlThemesCollectionWrapperTest extends TestCase
         $this->themesCollectionWrapper = new AlThemesCollectionWrapper($this->themesCollection, $this->templateManager);
     }
 
+
     public function testFetchAThemeFromTheThemesCollection()
     {
-        $theme = $theme = $this->setUpTheme();
+        $theme = $this->setUpTheme();
 
         $this->assertEquals($theme, $this->themesCollectionWrapper->getTheme('fakeTheme'));
     }
-
 
     public function testFetchATemplateFromTheThemesCollection()
     {
         $template = $this->setUpTemplate();
 
         $this->assertEquals($template, $this->themesCollectionWrapper->getTemplate('fakeTheme', 'fakeTemplate'));
+    }
+
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException
+     */
+    public function testFetchAThemeFromTheThemesCollection1()
+    {
+        $this->setUpTheme();
+
+        $this->themesCollectionWrapper->assignTemplate('fakeTheme', 'fakeTemplate');
     }
 
     public function testAssignATemplateToTheTemplateManager()

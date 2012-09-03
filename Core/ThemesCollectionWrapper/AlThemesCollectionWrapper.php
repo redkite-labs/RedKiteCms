@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper;
 
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException;
 
 /**
  * Wraps the themes collection object to provide an easy way to deal with themes
@@ -98,6 +99,10 @@ class AlThemesCollectionWrapper
     public function assignTemplate($themeName, $templateName)
     {
         $template = $this->getTemplate($themeName, $templateName);
+        if (null === $template) {
+            throw new NonExistentTemplateException(sprintf('The template "%s" does not seem to belong the "%s" theme. Please check your template\'s configuration', $templateName, $themeName));
+        }
+
         $this->templateManager->setTemplate($template);
 
         return $this->templateManager;
