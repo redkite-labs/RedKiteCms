@@ -1,0 +1,2 @@
+_al_file_block:
+    resource: "@FileBundle/Resources/config/routing/file.xml"

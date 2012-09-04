@@ -1,0 +1,38 @@
+<?php
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+namespace AlMarkdown\ElFinder;
+
+use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
+use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
+
+/**
+ * Description of AlElFinderConnector
+ *
+ * @author giansimon
+ */
+class AlElFinderMarkdownConnector extends AlphaLemonElFinderBaseConnector
+{
+    protected function configure()
+    {
+        $request = $this->container->get('request');
+        $bundleFolder = AlToolkit::retrieveBundleWebFolder($this->container, $this->container->getParameter('al.deploy_bundle'));
+        $absolutePath = $bundleFolder . '/' . $this->container->getParameter('al.deploy_bundle.markdown_folder'). '/';
+        
+        $options = array(
+            'roots' => array(
+                array(
+                    'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
+                    'path'          => $absolutePath,         // path to files (REQUIRED)
+                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $absolutePath, // URL to files (REQUIRED)
+                    'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
+                )
+            )
+        );
+        
+        return $options;
+    }
+}
