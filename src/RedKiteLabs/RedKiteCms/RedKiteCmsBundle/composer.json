@@ -50,7 +50,7 @@
         "AlphaLemon\\Block": "Bundle/",
         "AlphaLemon\\Block\\TextBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\MenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\MediaBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
+        "AlphaLemon\\Block\\FileBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\ScriptBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
         "AlphaLemon\\Block\\NavigationMenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/"
     }
