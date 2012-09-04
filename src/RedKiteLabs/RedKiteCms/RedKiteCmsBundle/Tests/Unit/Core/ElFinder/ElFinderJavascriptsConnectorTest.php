@@ -61,9 +61,9 @@ class ElFinderJavascriptsConnectorTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls($request, $kernel));
 
-        $container->expects($this->exactly(2))
+        $container->expects($this->exactly(4))
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls('upload', 'deploy'));
+            ->will($this->onConsecutiveCalls('upload', 'deploy', '/base/path', 'web'));
 
         $espected = array
         (
@@ -73,7 +73,7 @@ class ElFinderJavascriptsConnectorTest extends TestCase
                     array
                         (
                             "driver" => "LocalFileSystem",
-                            "path" => "bundles/alphalemoncms/upload/deploy/",
+                            "path" => "/base/path/../web/bundles/alphalemoncms/upload/deploy/",
                             "URL" => "http://example.com/bundles/alphalemoncms/upload/deploy/",
                             "accessControl" => "access",
                             "rootAlias" => "Javascripts"
