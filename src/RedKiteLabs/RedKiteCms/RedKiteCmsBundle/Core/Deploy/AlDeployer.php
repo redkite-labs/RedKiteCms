@@ -94,6 +94,7 @@ abstract class AlDeployer
     {
         $this->checkTargetFolders();
         $this->copyAssets();
+        
         return ($this->generateRoutes() && $this->savePages()) ? true :false;
     }
 
