@@ -95,7 +95,6 @@ class CmsControllerTest extends WebTestCaseFunctional
 
         $expectedJavascripts = array
         (
-            "/bundles/themeengine/js/vendor/jquery/jquery-last.min.js",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js/al-cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
@@ -154,7 +153,6 @@ class CmsControllerTest extends WebTestCaseFunctional
 
         $expectedJavascripts = array
         (
-            "/bundles/themeengine/js/vendor/jquery/jquery-last.min.js",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js//al-cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
@@ -216,7 +214,7 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         $assets = array_filter($crawler->filter('script')->extract(array('src')));
         $assets = array_filter($assets, 'self::ignoreAssetic');
-        $this->assertEquals(count($expectedAssets), count($assets));//print_R($expectedAssets);print_R($assets);
+        $this->assertEquals(count($expectedAssets), count($assets));
         $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
     }
 
