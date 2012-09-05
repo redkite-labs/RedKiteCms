@@ -20,8 +20,9 @@
 <script>
 
     function cmsStartInternalJavascripts(){
-        try {
-        {{ internal_javascripts|raw }}
+        try
+        {
+            {{ internal_javascripts|raw }}
         }
         catch(e)
         {
@@ -50,10 +51,8 @@
             }
         });
 
+        cmsStartInternalJavascripts();
     });
-
-
-
 </script>
 {% endblock %}
 
