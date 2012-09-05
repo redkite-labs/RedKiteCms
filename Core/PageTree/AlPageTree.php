@@ -317,7 +317,13 @@ class AlPageTree extends BaseAlPageTree
 
                     $method = 'get'. ucfirst($type) . ucfirst($assetType);
                     $method = substr($method, 0, strlen($method) - 1);
-                    $assetsCollection->addRange(explode(',', $block->$method()));
+                    $assets = $block->$method();
+                    if ($type == "external") {
+                        $assetsCollection->addRange(explode(',', $assets));
+                    }
+                    else {
+                        $assetsCollection->add($assets);
+                    }
                 }
             }
 
