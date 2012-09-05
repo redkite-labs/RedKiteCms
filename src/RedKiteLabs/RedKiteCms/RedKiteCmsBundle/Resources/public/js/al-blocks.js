@@ -58,8 +58,8 @@ var isEditorOpened = false;
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showBlocksEditor',
-            data: {'page' :  $('#al_pages_navigator option:selected').text(),
-                   'language' : $('#al_languages_navigator option:selected').text(),
+            data: {'page' :  $('#al_pages_navigator option:selected').val(),
+                   'language' : $('#al_languages_navigator option:selected').val(),
                    'idBlock' : idBlock,
                    'slotName' : slotName},
             beforeSend: function()
@@ -142,8 +142,8 @@ var isEditorOpened = false;
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/editBlock',
-                data: {'page'       :  $('#al_pages_navigator option:selected').text(),
-                       'language'   : $('#al_languages_navigator option:selected').text(),
+                data: {'page'       :  $('#al_pages_navigator option:selected').val(),
+                       'language'   : $('#al_languages_navigator option:selected').val(),
                        'idBlock'    : $('body').data('idBlock'),
                        'slotName'   : $('body').data("slotName"),
                        'key'        : key,
@@ -181,8 +181,8 @@ var isEditorOpened = false;
                 $.ajax({
                     type: 'POST',
                     url: frontController + 'backend/' + $('#al_available_languages').val() + '/showExternalFilesManager',
-                    data: {'page' :  $('#al_pages_navigator option:selected').text(),
-                           'language' : $('#al_languages_navigator option:selected').text(),
+                    data: {'page' :  $('#al_pages_navigator option:selected').val(),
+                           'language' : $('#al_languages_navigator option:selected').val(),
                            'key'      : key},
                     beforeSend: function()
                     {
@@ -215,8 +215,8 @@ var isEditorOpened = false;
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/addExternalFile',
-                data: {'page' :  $('#al_pages_navigator option:selected').text(),
-                       'language' : $('#al_languages_navigator option:selected').text(),
+                data: {'page' :  $('#al_pages_navigator option:selected').val(),
+                       'language' : $('#al_languages_navigator option:selected').val(),
                        'idBlock' : $('body').data('idBlock'),
                        'slotName' : $('body').data("slotName"),
                        'field'       : field,
@@ -264,8 +264,8 @@ var isEditorOpened = false;
                 $.ajax({
                     type: 'POST',
                     url: frontController + 'backend/' + $('#al_available_languages').val() + '/removeExternalFile',
-                    data: {'page'     :  $('#al_pages_navigator option:selected').text(),
-                           'language' : $('#al_languages_navigator option:selected').text(),
+                    data: {'page'     :  $('#al_pages_navigator option:selected').val(),
+                           'language' : $('#al_languages_navigator option:selected').val(),
                            'idBlock'  : $('body').data('idBlock'),
                            'field'    : field,
                            'file'     : fileName},
@@ -315,8 +315,8 @@ var isEditorOpened = false;
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/deleteBlock',
-            data: {'page' :  $('#al_pages_navigator option:selected').text(),
-                   'language' : $('#al_languages_navigator option:selected').text(),
+            data: {'page' :  $('#al_pages_navigator option:selected').val(),
+                   'language' : $('#al_languages_navigator option:selected').val(),
                    'slotName' : slotName,
                    'idBlock' : idBlock},
             beforeSend: function()
