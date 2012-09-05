@@ -114,17 +114,29 @@ class AlAsset
      */
     protected function retrieveBundleWebFolder()
     {
-        preg_match('/([^@\/][\w]+Bundle)\/(Resources\/public)?\/(.*)/', $this->asset, $matches);
+        $asset = $this->asset;
+        $namespacesFile = $this->kernel->getRootDir() . '/../vendor/composer/autoload_namespaces.php';
+        if (file_exists($namespacesFile)) {
+            $map = require $namespacesFile;
+            foreach ($map as $namespace => $path) {
+                if (strpos($this->asset, $path) !== false) {
+                    preg_match('/Bundle(.*)/', $this->asset, $matches);
+                    $asset = str_replace("\\", "", $namespace) . $matches[1];
+                }
+            }
+        }
+
+        preg_match('/([^@\/][\w]+Bundle)\/(Resources\/public)?\/(.*)/', $asset, $matches);
         if (!empty($matches) && count($matches) == 4) {
             return sprintf('bundles/%s/%s', preg_replace('/bundle$/', '', strtolower($matches[1])), $matches[3]);
         }
 
-        preg_match('/[\/]?(bundles.*)/', strtolower($this->asset), $matches);
+        preg_match('/[\/]?(bundles.*)/', strtolower($asset), $matches);
         if (!empty($matches)) {
             return $matches[1];
         }
 
-        $asset = str_replace("@", "", strtolower($this->asset));
+        $asset = str_replace("@", "", strtolower($asset));
         $bundleDir = preg_replace('/bundle$/', '', $asset);
 
         return ($bundleDir !== $asset) ? 'bundles/' . $bundleDir : null;
@@ -135,9 +147,11 @@ class AlAsset
      *
      * @return null!string
      */
-    protected function locateResource()
+    protected function locateResource($asset = null)
     {
-        $asset = $this->normalizePath($this->asset);
+        if (null === $asset) $asset = $this->asset;
+
+        $asset = $this->normalizePath($asset);
         if(\substr($asset, 0, 1) != '@') $asset = '@' . $asset;
 
         try
