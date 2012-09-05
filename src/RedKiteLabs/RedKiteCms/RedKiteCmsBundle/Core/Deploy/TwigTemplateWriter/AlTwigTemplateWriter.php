@@ -193,7 +193,7 @@ class AlTwigTemplateWriter
         }
 
         if (!empty($internalJavascript)) {
-            $this->assetsSection .= $this->writeBlock('internal_header_javascripts', '<script>$(document).ready(function(){' . $internalJavascript . '});</script>');
+            $this->assetsSection .= $this->writeBlock('internal_header_javascripts', '<script>$(document).ready(function(){' . $this->rewriteImagesPathForProduction($internalJavascript) . '});</script>');
         }
     }
 
@@ -215,10 +215,13 @@ class AlTwigTemplateWriter
 
             $htmlContents = array();
             foreach ($slotBlocks as $block) {
-                $bm = $this->blockManagerFactory->createBlockManager($block);
-                $content = $bm->getHtml();
-                $content = $this->rewriteImagesPathForProduction($content);
-                $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
+                $content = "";
+                $blockManager = $this->blockManagerFactory->createBlockManager($block);
+                if (null !== $blockManager) {
+                    $content = $blockManager->getHtml();
+                    $content = $this->rewriteImagesPathForProduction($content);
+                    $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
+                }
 
                 $htmlContents[] = $content;
             }
@@ -250,7 +253,7 @@ class AlTwigTemplateWriter
         $cmsAssetsFolder = $this->replaceImagesPaths['backendPath'];
         $deployBundleAssetsFolder = $this->replaceImagesPaths['prodPath'];
 
-        return preg_replace_callback('/(\<img[^\>]+src[="\'\s]+)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')["\']?([^\>]+\>)/s', function($matches) use($deployBundleAssetsFolder){return $matches[1].$deployBundleAssetsFolder.$matches[3];}, $content);
+        return preg_replace_callback('/([\/]?)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')/s', function($matches) use($deployBundleAssetsFolder){return $matches[1].$deployBundleAssetsFolder;}, $content);
     }
 
     protected function rewriteLinksForProduction($languageName, $pageName, $content)
@@ -263,7 +266,7 @@ class AlTwigTemplateWriter
                 ->getProductionRoute();
 
            if (null !== $route) {
-               $url = sprintf("{{ path('_%s_%s') }}", $languageName, $pageName);
+               $url = sprintf("{{ path('%s') }}", $route);
            }
 
            return $matches[1] . $url . $matches[3];

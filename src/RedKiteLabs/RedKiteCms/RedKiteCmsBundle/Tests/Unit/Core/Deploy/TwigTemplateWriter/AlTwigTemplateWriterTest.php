@@ -209,7 +209,6 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
 
-
     public function testJustTheInternalJavascriptsSectionIsCreated()
     {
         $this->setUpTemplateSlots();
@@ -222,6 +221,34 @@ class AlTwigTemplateWriterTest extends TestCase
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
         $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+
+        $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
+    }
+
+    public function testImagesAreFixedForProduction()
+    {
+        $jsCode = 'doSomething({images:["/bundles/alphalemoncms/uploads/assets/media/screenshots/img01.png",],});';
+        $expectedJsCode = 'doSomething({images:["/bundles/acmewebsite/media/screenshots/img01.png",],});';
+
+        $this->setUpTemplateSlots();
+        $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', $jsCode);
+        $this->setUpPageBlocks();
+        $this->setUpBlockManagerFactory();
+
+        $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
+            'prodPath' => "/bundles/acmewebsite");
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);
+
+        $jsCode = 'doSomething({
+                                images:[
+				 "/bundles/alphalemoncms/uploads/assets/media/screenshots/img01.png",
+				 ],
+			});';
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "<script>$(document).ready(function(){" . $expectedJsCode . "});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
@@ -255,6 +282,25 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
+    }
+
+    public function testWhenTheBlockManagerIsNotCreatedTheBlockIsIgnored()
+    {
+        $this->setUpTemplateSlots();
+        $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
+        $this->setUpPageBlocks();
+        $this->blockManagerFactory->expects($this->once())
+            ->method('createBlockManager')
+            ->will($this->returnValue(null));
+
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);//echo nl2br($twigTemplateWriter->getContentsSection());exit;
+        $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
     public function testContentsSectionWithOneBlockHaveBeenCreated()
