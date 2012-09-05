@@ -44,6 +44,11 @@ class SlotRendererExtension extends \Twig_Extension
         try
         {
             $result = '';
+
+            if (!$this->container->has('al_page_tree')) {
+                return $result;
+            }
+
             $slotContents = $this->container->get('al_page_tree')->getPageBlocks($slotName);
             if(count($slotContents) > 0)
             {
