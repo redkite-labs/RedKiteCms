@@ -76,7 +76,7 @@ class AlCmsController extends BaseFrontendController
 
         if(null !== $pageTree)
         {
-            $template = $this->findTemplate($pageTree);
+           $template = $this->findTemplate($pageTree);
 
            $params = array_merge($params, array(
                                 'metatitle' => $pageTree->getMetaTitle(),
@@ -90,7 +90,7 @@ class AlCmsController extends BaseFrontendController
                                 'available_blocks' => $this->container->get('alphalemon_cms.block_manager_factory')->getBlocks(),
                                 'base_template' => $this->container->getParameter('althemes.base_template'),
                                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
-                                'templateJavascripts' => $pageTree->getExternalJavascripts(),
+                                'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
                                 ));
         }
         else
@@ -129,6 +129,25 @@ class AlCmsController extends BaseFrontendController
         }
 
         return $templateTwig;
+    }
+
+    /**
+     * Workaround due to static assetic javascripts/stylesheets declaration
+     */
+    private function fixAssets($assets)
+    {
+        $ignore = array('jquery-last.min.js',
+                        'jquery-ui.min.js',
+                        'jquery.easing-1.3.js',
+                        'jquery.metadata.js',
+                        'jquery.ui.position.js',);
+        foreach ($assets as $key => $asset) {
+            if (in_array(basename($asset), $ignore)) {
+                unset($assets[$key]);
+            }
+        }
+
+        return $assets;
     }
 }
 
