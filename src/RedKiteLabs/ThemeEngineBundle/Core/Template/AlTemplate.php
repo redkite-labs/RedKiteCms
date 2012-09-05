@@ -211,6 +211,8 @@ class AlTemplate
         }
     }
 
+
+
     private function addAssetsRange($assetType, $type, $asset)
     {
         $assetsCollection = $this->assets->$assetType->$type;
