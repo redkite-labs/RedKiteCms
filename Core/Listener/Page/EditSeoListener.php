@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
@@ -28,7 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 class EditSeoListener
 {
     private $seoManager;
-    
+
     public function __construct(AlSeoManager $seoManager)
     {
         $this->seoManager = $seoManager;
@@ -36,27 +36,27 @@ class EditSeoListener
 
     /**
      * Edits the seo attributes when a new page is edited
-     * 
+     *
      * @param BeforeEditPageCommitEvent $event
      * @throws \InvalidArgumentException
-     * @throws Exception 
+     * @throws Exception
      */
     public function onBeforeEditPageCommit(BeforeEditPageCommitEvent $event)
     {
         if ($event->isAborted()) {
             return;
         }
-        
-        $pageManager = $event->getContentManager();  
+
+        $pageManager = $event->getContentManager();
         $pageRepository = $pageManager->getPageRepository();
         $values = $event->getValues();
-        
+
         if (!is_array($values)) {
             throw new \InvalidArgumentException("The values param is expected to be an array");
         }
-            
+
         try {
-            $idPage = $pageManager->get()->getId();  
+            $idPage = $pageManager->get()->getId();
             $idLanguage = $pageManager->getTemplateManager()
                     ->getPageBlocks()
                     ->getIdLanguage();
@@ -65,27 +65,26 @@ class EditSeoListener
                 $pageRepository->startTransaction();
                 $this->seoManager->set($seo);
                 $values = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $idLanguage));
-                $result = $this->seoManager->save($values); 
+                $result = $this->seoManager->save($values);
 
                 if ($result) {
                     $pageRepository->commit();
                 }
                 else {
                     $pageRepository->rollBack();
-                    
+
                     $event->abort();
                 }
             }
         }
-        catch(\Exception $e) {          
+        catch(\Exception $e) {
             $event->abort();
-            
+
             if (isset($pageRepository) && $pageRepository !== null) {
                 $pageRepository->rollBack();
             }
-            
+
             throw $e;
         }
     }
 }
-
