@@ -66,8 +66,8 @@ function InitPagesCommands()
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_savePage',
-            data: {'language' : $('#al_languages_navigator option:selected').text(),
-                   'page' : $('#al_pages_navigator option:selected').text(),
+            data: {'language' : $('#al_languages_navigator option:selected').val(),
+                   'page' : $('#al_pages_navigator option:selected').val(),
                    'pageId' : $('#seo_attributes_idPage').val(),
                    'languageId' : $('#seo_attributes_idLanguage').val(),
                    'pageName' : $('#pages_pageName').val(),
@@ -106,8 +106,8 @@ function InitPagesCommands()
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deletePage',
-                data: {'language' : $('#al_languages_navigator option:selected').text(),
-                       'page' : $('#al_pages_navigator option:selected').text(),
+                data: {'language' : $('#al_languages_navigator option:selected').val(),
+                       'page' : $('#al_pages_navigator option:selected').val(),
                        'languageId' : $('#seo_attributes_idLanguage').val(),
                        'pageId' : $('#seo_attributes_idPage').val()
                    },
@@ -211,8 +211,8 @@ function LoadSeoAttributes(idPage)
     $.ajax({
         type: 'POST',
         url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadSeoAttributes',
-        data: {'language' : $('#al_languages_navigator option:selected').text(),
-               'page' : $('#al_pages_navigator option:selected').text(),
+        data: {'language' : $('#al_languages_navigator option:selected').val(),
+               'page' : $('#al_pages_navigator option:selected').val(),
                'languageId' : $('#seo_attributes_idLanguage').val(),
                'pageId' : idPage},
         beforeSend: function()
