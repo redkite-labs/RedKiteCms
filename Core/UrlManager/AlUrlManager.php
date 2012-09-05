@@ -96,7 +96,7 @@ class AlUrlManager implements AlUrlManagerInterface
             if (null !== $seo) {
                 $this->permalink = $seo->getPermalink();
                 $this->internalUrl = $this->generateDefaultUrlTokens() . $this->permalink;
-                $this->productionRoute = sprintf('_%s_%s', $language->getLanguage(), $page->getPageName());
+                $this->productionRoute = $this->generateRoute($language, $page);
             }
         }
         catch(\Exception $ex) {
@@ -134,11 +134,16 @@ class AlUrlManager implements AlUrlManagerInterface
             if (null !== $seo) {
                 $this->permalink = $permalink;
                 $this->internalUrl = $internalUrl;
-                $this->productionRoute = sprintf('_%s_%s', $seo->getAlLanguage()->getLanguage(), $seo->getAlPage()->getPageName());
+                $this->productionRoute = $this->generateRoute($seo->getAlLanguage(), $seo->getAlPage());
             }
         }
 
         return $this;
+    }
+
+    private function generateRoute(AlLanguage $language, AlPage $page)
+    {
+        return sprintf('_%s_%s', $language->getLanguage(), str_replace("-", "_", $page->getPageName()));
     }
 
     private function generateDefaultUrlTokens()
