@@ -300,16 +300,18 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
             $hasPages = $this->validator->hasPages();
             $values['IsHome'] = ($hasPages) ? (isset($values['IsHome'])) ? $values['IsHome'] : 0 : 1;
-            if ($values['IsHome'] == 1 && $hasPages) $result = $this->resetHome();
+            if ($values['IsHome'] == 1 && $hasPages) {
+                $result = $this->resetHome();
+            }
 
-            if ($result) {
+            if (false !== $result) {
                 $values['PageName'] = $this->slugify($values['PageName']);
 
                 // Saves the page
                 $result = $this->pageRepository
                             ->setRepositoryObject($this->alPage)
                             ->save($values);
-                if ($result) {
+                if (false !== $result) {
                     if (null !== $this->dispatcher) {
                         $event = new  Content\Page\BeforeAddPageCommitEvent($this, $values);
                         $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE_COMMIT, $event);
@@ -321,7 +323,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 }
             }
 
-            if ($result) {
+            if (false !== $result) {
                 $this->pageRepository->commit();
 
                 if (null !== $this->dispatcher) {
@@ -394,14 +396,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 unset($values['IsHome']);
             }
 
-            if ($result) {
+            if ($result !== false) {
                 if (!empty($values)) {
                     $result = $this->pageRepository
                                 ->setRepositoryObject($this->alPage)
                                 ->save($values);
                 }
 
-                if ($result && null !== $this->dispatcher) {
+                if (false !== $result && null !== $this->dispatcher) {
                     $event = new  Content\Page\BeforeEditPageCommitEvent($this, $values);
                     $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE_COMMIT, $event);
 
@@ -411,7 +413,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 }
             }
 
-            if ($result) {
+            if (false !== $result) {
                 $this->pageRepository->commit();
 
                 if (null !== $this->dispatcher) {

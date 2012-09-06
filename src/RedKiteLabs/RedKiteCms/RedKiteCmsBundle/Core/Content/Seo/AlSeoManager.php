@@ -145,7 +145,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $result = $this->seoRepository
                             ->setRepositoryObject($this->alSeo)
                             ->delete();
-                if ($result && null !== $this->dispatcher)
+                if (false !== $result && null !== $this->dispatcher)
                 {
                     $event = new  Content\Seo\BeforeDeleteSeoCommitEvent($this);
                     $this->dispatcher->dispatch(SeoEvents::BEFORE_DELETE_SEO_COMMIT, $event);
@@ -155,7 +155,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     }
                 }
 
-                if ($result)
+                if (false !== $result)
                 {
                     $this->seoRepository->commit();
 
@@ -251,7 +251,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             $result = $this->seoRepository
                     ->setRepositoryObject($this->alSeo)
                     ->save($values);
-            if ($result)
+            if (false !== $result)
             {
                 if (null !== $this->dispatcher)
                 {
@@ -264,7 +264,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 }
             }
 
-            if ($result)
+            if (false !== $result)
             {
                 $this->seoRepository->commit();
 
@@ -342,14 +342,14 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
             $this->seoRepository->startTransaction();
             $this->seoRepository->setRepositoryObject($this->alSeo);
-            $res = (!empty($values)) ? $this->seoRepository->save($values) : true;
+            $result = (!empty($values)) ? $this->seoRepository->save($values) : true;
 
-            if ($res && null !== $this->dispatcher) {
+            if (false !== $result && null !== $this->dispatcher) {
                 $event = new Content\Seo\BeforeEditSeoCommitEvent($this, $values);
                 $this->dispatcher->dispatch(SeoEvents::BEFORE_EDIT_SEO_COMMIT, $event);
             }
 
-            if ($res) {
+            if (false !== $result) {
                 $this->seoRepository->commit();
 
                 if (null !== $this->dispatcher) {

@@ -254,5 +254,18 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $this->templateChanger->expects($this->once())
             ->method('setNewTemplateManager')
             ->will($this->returnSelf());
+
+        $this->setUpPageRepository();
+    }
+
+    private function setUpPageRepository()
+    {
+        $pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+
+        $this->pageManager->expects($this->once())
+            ->method('getPageRepository')
+            ->will($this->returnValue($pageRepository));
     }
 }

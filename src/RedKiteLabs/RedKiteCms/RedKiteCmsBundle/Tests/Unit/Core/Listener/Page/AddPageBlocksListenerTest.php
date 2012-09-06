@@ -30,8 +30,8 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 {
     private $event;
     private $testListener;
-    private $pageManager;
     private $templateManager;
+    private $pageManager;
     private $validator;
     private $pageRepository;
     private $languageRepository;
@@ -117,6 +117,8 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
     public function testSaveFailsWhenContentsAreNotSaved()
     {
+        $this->setUpBlockRepository();
+
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
@@ -169,6 +171,8 @@ class AddPageBlocksListenerTest extends BaseListenerTest
      */
     public function testSaveFailsBecauseAndUnespectedExceptionIsThrown()
     {
+        $this->setUpBlockRepository();
+
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
@@ -214,6 +218,8 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
     public function testSave()
     {
+        $this->setUpBlockRepository();
+
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
@@ -259,6 +265,8 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
     public function testSaveFailsWhenAtLeastAtributeIsNotSaved()
     {
+        $this->setUpBlockRepository();
+
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
@@ -305,6 +313,8 @@ class AddPageBlocksListenerTest extends BaseListenerTest
 
     public function testSaveWhenSiteHasMoreLanguages()
     {
+        $this->setUpBlockRepository();
+
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
@@ -347,5 +357,16 @@ class AddPageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue(true));
 
         $this->testListener->onBeforeAddPageCommit($this->event);
+    }
+
+    private function setUpBlockRepository()
+    {
+        $blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+
+        $this->templateManager->expects($this->once())
+            ->method('getBlockRepository')
+            ->will($this->returnValue($blockRepository));
     }
 }

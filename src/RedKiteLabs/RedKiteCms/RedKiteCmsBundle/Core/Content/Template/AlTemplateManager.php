@@ -285,12 +285,10 @@ class AlTemplateManager extends AlTemplateBase
 
                     $slotManager->setForceSlotAttributes(true);
                     $result = $slotManager->addBlock($idLanguage, $idPage);
-                    if (null !== $result) {
-                        if (!$result) break;
-                    }
+                    if(false === $result) break;
                 }
 
-                if ($result) {
+                if ($result !== false) {
                     $this->blockRepository->commit();
                 }
                 else {
@@ -330,14 +328,10 @@ class AlTemplateManager extends AlTemplateBase
                     }
                     $result = $slotManager->deleteBlocks();
 
-                    if (!$result) {
-                        break;
-                    }
+                    if(false === $result) break;
                 }
 
-                if(null === $result) return;
-
-                if ($result) {
+                if ($result !== false) {
                     $this->blockRepository->commit();
                 }
                 else {
@@ -381,7 +375,7 @@ class AlTemplateManager extends AlTemplateBase
             $this->pageBlocks = $pageBlocks;
             $this->setUpSlotManagers();
 
-            if ($result) {
+            if ($result !== false) {
                 $this->blockRepository->commit();
             }
             else {

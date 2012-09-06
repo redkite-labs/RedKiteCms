@@ -107,7 +107,7 @@ class AlPropelOrm implements OrmInterface
                 $success = true;
             }
 
-            if ($success) {
+            if (false !== $success) {
                 $this->commit();
             }
             else {
