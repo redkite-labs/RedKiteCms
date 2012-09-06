@@ -333,9 +333,14 @@ class AlSlotManager extends AlTemplateBase
                 $result = $alBlockManager->save($values);
             }
 
-            if ($result) {
+            if ($result !== false) {
                 $this->blockRepository->commit();
-
+            }
+            else {
+                $this->blockRepository->rollBack();
+            }
+            
+            if($result) {
                 if (!empty($leftArray) || !empty($rightArray)) {
                     $index = $position - 1;
                     $this->blockManagers = array_merge($leftArray, array($index => $alBlockManager), $rightArray);
@@ -345,9 +350,6 @@ class AlSlotManager extends AlTemplateBase
                 }
 
                 $this->lastAdded = $alBlockManager;
-            }
-            else {
-                $this->blockRepository->rollBack();
             }
 
             return $result;
@@ -378,11 +380,11 @@ class AlSlotManager extends AlTemplateBase
                 $this->blockRepository->startTransaction();
 
                 $result = $blockManager->save($values);
-                if ($result) {
-                    $this->blockRepository->commit();
+                if ($result === false) {
+                    $this->blockRepository->rollBack();
                 }
                 else {
-                    $this->blockRepository->rollBack();
+                    $this->blockRepository->commit();
                 }
 
                 return $result;
@@ -424,7 +426,7 @@ class AlSlotManager extends AlTemplateBase
                     $result = $info['manager']->delete();
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $this->blockRepository->commit();
 
                     $this->blockManagers = array_merge($leftArray, $rightArray);
@@ -464,12 +466,12 @@ class AlSlotManager extends AlTemplateBase
 
                 foreach($this->blockManagers as $blockManager) {
                     $result = $blockManager->delete();
-                    if (!$result) {
+                    if (false === $result) {
                         break;
                     }
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $this->blockRepository->commit();
                     $this->blockManagers = array();
 
@@ -635,10 +637,10 @@ class AlSlotManager extends AlTemplateBase
                                     ->setRepositoryObject($block)
                                     ->save(array("ContentPosition" => $position));
 
-                    if (!$result) break;
+                    if (false === $result) break;
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $this->blockRepository->commit();
                 }
                 else {

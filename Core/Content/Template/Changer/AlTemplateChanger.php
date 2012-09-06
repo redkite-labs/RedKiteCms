@@ -111,12 +111,9 @@ class AlTemplateChanger
 
                                 $pageContentsContainer = $this->currentTemplateManager->getPageBlocks();
                                 $result = $slotManager->addBlock($pageContentsContainer->getIdLanguage(), $pageContentsContainer->getIdPage());
-                                if (null !== $result) {
-                                    $rollBack = !$result;
-                                    if($rollBack) break;
-                                }
+                                $rollBack = false === $result;
+                                if($rollBack) break 4;
                             }
-                            if($rollBack) break;
                         }
                         break;
 
@@ -129,13 +126,10 @@ class AlTemplateChanger
                                         $converter = $this->slotsConverterFactory->createConverter($slot, $repeated);
                                         $rollBack = !$converter->convert();
 
-                                        if($rollBack) break;
+                                        if($rollBack) break 6;
                                     }
-                                    if($rollBack) break;
                                 }
-                                if($rollBack) break;
                             }
-                            if($rollBack) break;
                         }
                         break;
 
@@ -147,17 +141,12 @@ class AlTemplateChanger
                                 $blocks = $this->currentTemplateManager->getPageBlocks()->getSlotBlocks($slotName);
                                 $slotManager->setUpBlockManagers($blocks);
                                 $result = $slotManager->deleteBlocks();
-                                if (null !== $result) {
-                                    if (!$result) {
-                                        $rollBack = true;
-                                        break;
-                                    }
-                                }
+                                $rollBack = false === $result;
+                                if($rollBack) break 4;
                             }
                         }
                         break;
                 }
-                if($rollBack) break;
             }
 
             if (!$rollBack) {

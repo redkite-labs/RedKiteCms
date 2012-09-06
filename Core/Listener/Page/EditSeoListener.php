@@ -60,14 +60,16 @@ class EditSeoListener
             $idLanguage = $pageManager->getTemplateManager()
                     ->getPageBlocks()
                     ->getIdLanguage();
-            $seo = $this->seoManager->getSeoRepository()->fromPageAndLanguage($idLanguage, $idPage);
+            $seoRepository = $this->seoManager->getSeoRepository();
+            $seo = $seoRepository->fromPageAndLanguage($idLanguage, $idPage);
             if( null !== $seo) {
+                $seoRepository->setConnection($pageRepository->getConnection());
                 $pageRepository->startTransaction();
                 $this->seoManager->set($seo);
                 $values = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $idLanguage));
                 $result = $this->seoManager->save($values);
 
-                if ($result) {
+                if (false !== $result) {
                     $pageRepository->commit();
                 }
                 else {

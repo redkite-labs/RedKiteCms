@@ -68,6 +68,7 @@ class AddSeoListener
             if (count($languages)) {
                 $result = true;
                 $idPage = $pageManager->get()->getId();
+                $this->seoManager->getSeoRepository()->setConnection($pageRepository->getConnection());
                 $pageRepository->startTransaction();
                 foreach ($languages as $alLanguage) {
                     $seoManagerValues = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $alLanguage->getId()));
@@ -75,12 +76,10 @@ class AddSeoListener
                     $this->seoManager->set(null);
                     $result = $this->seoManager->save($seoManagerValues);
 
-                    if (!$result) break;
+                    if (false === $result) break;
                 }
 
-                if(null === $result) return;
-
-                if ($result) {
+                if (false !== $result) {
                     $pageRepository->commit();
                 }
                 else {

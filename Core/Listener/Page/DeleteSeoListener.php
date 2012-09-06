@@ -68,12 +68,10 @@ class DeleteSeoListener
                 $idPage = $pageManager->get()->getId();
                 foreach ($languages as $alLanguage) {
                     $result = $this->seoManager->deleteSeoAttributesFromLanguage($alLanguage->getId(), $idPage);
-                    if (!$result) {
-                        break;
-                    }
+                    if (false === $result) break;
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $pageRepository->commit();
                 }
                 else {

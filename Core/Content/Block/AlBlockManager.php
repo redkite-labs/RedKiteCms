@@ -497,7 +497,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $this->blockRepository->startTransaction();
             $this->blockRepository->setRepositoryObject($this->alBlock);
             $result = $this->blockRepository->save($values);
-            if ($result) {
+            if (false !== $result) {
                 $this->blockRepository->commit();
 
                 if (null !== $this->dispatcher) {

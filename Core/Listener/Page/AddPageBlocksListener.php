@@ -32,7 +32,7 @@ class AddPageBlocksListener
 
     /**
      * Constructor
-     * 
+     *
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
@@ -55,10 +55,12 @@ class AddPageBlocksListener
         $pageManager = $event->getContentManager();
         $templateManager = $pageManager->getTemplateManager();
         $pageRepository = $pageManager->getPageRepository();
+
         try {
             $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {
                 $result = true;
+                $templateManager->getBlockRepository()->setConnection($pageRepository->getConnection());
                 $pageRepository->startTransaction();
                 // The min number of pages is setted to 1 because we are adding a page which has been saved but not
                 // committed so it counts as one
@@ -67,16 +69,16 @@ class AddPageBlocksListener
                 foreach ($languages as $alLanguage) {
                     $result = $templateManager->populate($alLanguage->getId(), $idPage, $ignoreRepeatedSlots);
 
-                    if (!$result) break;
+                    if ($result === false) break;
                 }
 
-                if ($result) {
-                    $pageRepository->commit();
-                }
-                else {
+                if ($result === false) {
                     $pageRepository->rollBack();
 
                     $event->abort();
+                }
+                else {
+                    $pageRepository->commit();
                 }
             }
         }

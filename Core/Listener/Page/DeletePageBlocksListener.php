@@ -66,10 +66,10 @@ class DeletePageBlocksListener
                 $pageRepository->startTransaction();
                 foreach ($languages as $alLanguage) {
                     $result = $pageManager->getTemplateManager()->clearPageBlocks($alLanguage->getId(), $idPage);
-                    if (!$result) break;
+                    if (false === $result) break;
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $pageRepository->commit();
                 }
                 else {

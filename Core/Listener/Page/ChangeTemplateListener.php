@@ -72,10 +72,11 @@ class ChangeTemplateListener
             $result = true;
             $currentTemplateManager = $pageManager->getTemplateManager();
             $this->blockRepository = $currentTemplateManager->getBlockRepository();
+            $this->blockRepository->setConnection($pageManager->getPageRepository()->getConnection());
+            $this->blockRepository->startTransaction();
             try {
                 $themeName = $currentTemplateManager->getTemplate()->getThemeName();
-                $this->blockRepository->startTransaction();
-                
+
                 $template = $this->themesCollectionWrapper->getTemplate($themeName, $values["TemplateName"]);
                 $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $this->factoryRepository, $template, $currentTemplateManager->getPageBlocks());
 
@@ -83,7 +84,7 @@ class ChangeTemplateListener
                             ->setNewTemplateManager($newTemplateManager)
                             ->change();
 
-                if ($result) {
+                if (false !== $result) {
                     $this->blockRepository->commit();
                 }
                 else {
