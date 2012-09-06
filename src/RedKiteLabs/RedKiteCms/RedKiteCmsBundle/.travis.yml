@@ -17,6 +17,7 @@ mysql:
 
 before_script:
   - "mysql -e 'create database alphalemon_test;'"
+  - "sudo mysql -e 'SET GLOBAL sql_mode="";'"
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
 
