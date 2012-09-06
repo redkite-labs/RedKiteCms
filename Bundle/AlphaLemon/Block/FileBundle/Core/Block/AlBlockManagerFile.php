@@ -38,6 +38,11 @@ class AlBlockManagerFile extends AlBlockManagerContainer
             $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alphalemon_cms.upload_assets_dir');
             $asset = new AlAsset($container->get('kernel'),  $assetPath);
 
+            $content = str_replace('{{', '{ {' , $content);
+            $content = str_replace('}}', '} }' , $content);
+            $content = str_replace('{%', '{ %' , $content);
+            $content = str_replace('%}', '% }' , $content);
+
             return file_get_contents($asset->getRealPath() . '/' . $content);
 
             /* TODO
