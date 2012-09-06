@@ -27,9 +27,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
-use AlphaLemon\Theme\BusinessWebsiteThemeBundle\Core\Slots\BusinessWebsiteThemeBundleHomeSlots;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
 
 /**
@@ -37,8 +34,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class WebTestCaseFunctional extends WebTestCase {
-
+class WebTestCaseFunctional extends WebTestCase
+{
     protected $client;
     protected static $languages;
     protected static $pages;
@@ -103,8 +100,7 @@ class WebTestCaseFunctional extends WebTestCase {
                          'INSERT INTO al_page (page_name) VALUES(\'-\');',
                         );
 
-        foreach($queries as $query)
-        {
+        foreach ($queries as $query) {
             $statement = $connection->prepare($query);
             $statement->execute();
         }
@@ -116,12 +112,12 @@ class WebTestCaseFunctional extends WebTestCase {
         $theme->save();
 
         $alLanguageManager = new AlLanguageManager($dispatcher, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
-        foreach(self::$languages as $language) {
+        foreach (self::$languages as $language) {
             $alLanguageManager->set(null)->save($language);
         }
 
         $alPageManager = new AlPageManager($dispatcher, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
-        foreach(self::$pages as $page) {
+        foreach (self::$pages as $page) {
             $alPageManager->set(null)->save($page);
         }
     }

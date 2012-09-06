@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
@@ -27,11 +27,11 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface AlSlotsConverterFactoryInterface
-{ 
+{
     /**
      * Creates the appropriate conver using the given parameter
-     * 
-     * @param string $newRepeatedStatus  The new repeated status the slot must get
+     *
+     * @param string $newRepeatedStatus The new repeated status the slot must get
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus);
 }

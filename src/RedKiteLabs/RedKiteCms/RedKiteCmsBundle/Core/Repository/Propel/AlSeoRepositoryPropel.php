@@ -17,9 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Seo;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\SeoEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeoQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
@@ -77,13 +75,11 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromPermalink($permalink)
     {
-        if (null === $permalink)
-        {
+        if (null === $permalink) {
             return null;
         }
 
-        if (!is_string($permalink))
-        {
+        if (!is_string($permalink)) {
             throw new \InvalidArgumentException('The permalink must be a string. The seo attribute cannot be retrieved');
         }
 

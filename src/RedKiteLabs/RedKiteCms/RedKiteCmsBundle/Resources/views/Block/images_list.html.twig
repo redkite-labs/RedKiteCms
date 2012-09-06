@@ -6,9 +6,9 @@
    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
 
    For the full copyright and license information, please view the LICENSE
-   file that was distributed with this source code. 
+   file that was distributed with this source code.
 
-   For extra documentation and help please visit http://www.alphalemon.com 
+   For extra documentation and help please visit http://www.alphalemon.com
 
    @license    GPL LICENSE Version 2.0
 #}
@@ -20,15 +20,15 @@
    {% if i == 6 %}
        <div class="al_float_clear"></div>
        {% set i = 0 %}
-   {% endif %}    
+   {% endif %}
 {% endfor %}
-<div class="al_float_clear"></div> 
+<div class="al_float_clear"></div>
 
 <script type="text/javascript">
         $('.al_image').click(function()
         {
             var isCurrentItemSelected = $(this).hasClass('al_image_selected');
-            $('.al_image').removeClass('al_image_selected'); 
+            $('.al_image').removeClass('al_image_selected');
             if(!isCurrentItemSelected) $(this).addClass('al_image_selected');
         });
 </script>

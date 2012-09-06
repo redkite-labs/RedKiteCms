@@ -23,9 +23,9 @@ class AlImageThumbnailer
     /**
      * Constructor
      *
-     * @param string $image
-     * @param int $thumbnailWidth
-     * @param int $thumbnailHeight
+     * @param string  $image
+     * @param int     $thumbnailWidth
+     * @param int     $thumbnailHeight
      * @param Imagine $imagine
      */
     public function __construct(Image\ImagineInterface $imagine = null, Transformation $transformation = null)
@@ -58,8 +58,8 @@ class AlImageThumbnailer
      * Creates the thumbnail
      *
      * @param string $image
-     * @param int $thumbnailWidth
-     * @param int $thumbnailHeight
+     * @param int    $thumbnailWidth
+     * @param int    $thumbnailHeight
      */
     public function create($image, $thumbnailWidth = 100, $thumbnailHeight = 100)
     {
@@ -77,8 +77,7 @@ class AlImageThumbnailer
     protected function setupTargetPath($image)
     {
         $this->thumbnailPath = dirname($image) . '/' . $this->thumbnailsFolder . '/';
-        if(!is_dir($this->thumbnailPath))
-        {
+        if (!is_dir($this->thumbnailPath)) {
             $filesystem = new Filesystem();
             $filesystem->mkdir($this->thumbnailPath);
         }

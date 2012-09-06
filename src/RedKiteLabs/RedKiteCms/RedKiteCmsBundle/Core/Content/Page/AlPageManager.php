@@ -24,10 +24,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\PageEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageAttributes\AlPageAttributesManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
@@ -53,9 +51,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface $dispatcher
-     * @param AlTemplateManager $templateManager
-     * @param PageRepositoryInterface $pageRepository
+     * @param EventDispatcherInterface       $dispatcher
+     * @param AlTemplateManager              $templateManager
+     * @param PageRepositoryInterface        $pageRepository
      * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
@@ -93,7 +91,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Sets the template manager object
      *
      *
-     * @param AlTemplateManager $templateManager
+     * @param  AlTemplateManager                                               $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
      */
     public function setTemplateManager(AlTemplateManager $templateManager)
@@ -118,7 +116,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Sets the page model object
      *
      *
-     * @param PageRepositoryInterface $v
+     * @param  PageRepositoryInterface                                         $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
      */
     public function setPageRepository(PageRepositoryInterface $v)
@@ -145,11 +143,8 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     public function save(array $parameters)
     {
         if (null === $this->alPage || $this->alPage->getId() == null) {
-
             return $this->add($parameters);
-        }
-        else {
-
+        } else {
             return $this->edit($parameters);
         }
     }
@@ -192,26 +187,22 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                             $event = new  Content\Page\AfterPageDeletedEvent($this);
                             $this->dispatcher->dispatch(PageEvents::AFTER_DELETE_PAGE, $event);
                         }
-                    }
-                    else {
+                    } else {
                         $this->pageRepository->rollBack();
                     }
 
                     return $result;
-                }
-                catch(\Exception $e) {
+                } catch (\Exception $e) {
                     if (isset($this->pageRepository) && $this->pageRepository !== null) {
                         $this->pageRepository->rollBack();
                     }
 
                     throw $e;
                 }
-            }
-            else {
+            } else {
                 throw new Page\RemoveHomePageException($this->translate('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one'));
             }
-        }
-        else {
+        } else {
             throw new General\ParameterIsEmptyException($this->translate('Any page is actually managed, so there\'s nothing to remove'));
         }
     }
@@ -221,10 +212,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * Based on http://php.vrana.cz/vytvoreni-pratelskeho-url.php
      *
-     * @param type $text
+     * @param  type $text
      * @return type
      */
-    static public function slugify($text)
+    public static function slugify($text)
     {
         // replace non letter or digits by -
         $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
@@ -241,8 +232,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
         // remove unwanted characters
         $text = preg_replace('~[^-\w]+~', '', $text);
 
-        if (empty($text))
-        {
+        if (empty($text)) {
             return 'n-a';
         }
 
@@ -253,7 +243,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Adds a new AlPage object from the given params
      *
      *
-     * @param array $values
+     * @param  array $values
      * @return bool
      */
     protected function add(array $values)
@@ -330,14 +320,12 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     $event = new  Content\Page\AfterPageAddedEvent($this);
                     $this->dispatcher->dispatch(PageEvents::AFTER_ADD_PAGE, $event);
                 }
-            }
-            else {
+            } else {
                 $this->pageRepository->rollBack();
             }
 
             return $result;
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (isset($this->pageRepository) && $this->pageRepository !== null) {
                 $this->pageRepository->rollBack();
             }
@@ -350,7 +338,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Edits the managed page object
      *
      *
-     * @param array $values
+     * @param  array   $values
      * @return Boolean
      */
     protected function edit(array $values)
@@ -391,8 +379,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $result = true;
             if (isset($values['IsHome']) && $values['IsHome'] != "" && $values['IsHome'] != 0 && $this->validator->hasPages(1)) {
                 $result = $this->resetHome();
-            }
-            else {
+            } else {
                 unset($values['IsHome']);
             }
 
@@ -422,14 +409,12 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 }
 
                 return true;
-            }
-            else {
+            } else {
                 $this->pageRepository->rollBack();
 
                 return false;
             }
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (isset($this->pageRepository) && $this->pageRepository !== null) {
                 $this->pageRepository->rollBack();
             }
@@ -457,8 +442,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             return true;
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }

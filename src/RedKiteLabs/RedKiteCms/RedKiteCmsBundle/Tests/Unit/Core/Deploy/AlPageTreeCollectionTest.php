@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection;
 
 /**
@@ -37,8 +36,6 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
     public function testPageTreeCollectionHasBeenPopulated()
     {
         $this->initSomeLangugesAndPages();
-
-
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())

@@ -41,7 +41,6 @@ class AlTemplateManagerTest extends TestCase
             ->method('getTemplateSlots')
             ->will($this->returnValue($this->templateSlots));
 
-
         $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();

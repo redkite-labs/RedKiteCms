@@ -92,8 +92,7 @@ class AlphaLemonCmsExtension extends Extension
 
     private function mergeArrayParameter(ContainerBuilder $container, $config, $parameterName, $configName)
     {
-        if(!is_array($config[$configName]))
-        {
+        if (!is_array($config[$configName])) {
             throw new \Symfony\Component\Form\Exception\InvalidConfigurationException(sprintf('%s param must be an array', $configName));
         }
 

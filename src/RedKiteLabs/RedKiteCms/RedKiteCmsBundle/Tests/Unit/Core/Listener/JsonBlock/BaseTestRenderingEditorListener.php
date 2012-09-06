@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\RenderingListEditorListener;
 
 /**
  * RenderingListEditorListenerTest
@@ -33,16 +32,16 @@ class BaseTestRenderingEditorListener extends TestCase
     protected $engine;
     protected $blockManager;
     protected $block;
-    
+
     protected function setUp()
     {
         parent::setUp();
-        
+
         $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent')
                             ->disableOriginalConstructor()
                             ->getMock();
-        
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
+
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $this->blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
                             ->disableOriginalConstructor()
@@ -54,12 +53,12 @@ class BaseTestRenderingEditorListener extends TestCase
         $this->event->expects($this->exactly($expectedCalls))
             ->method('getAlBlockManager')
             ->will($this->returnValue($this->blockManager));
-        
+
         $this->event->expects($this->exactly($expectedCalls))
             ->method('getContainer')
             ->will($this->returnValue($this->container));
     }
-    
+
     protected function setUpBlockManager()
     {
         $value = '{
@@ -68,17 +67,17 @@ class BaseTestRenderingEditorListener extends TestCase
                     "field2" : "value2"
                 }
             }';
-        
+
         $this->block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-                
+
         $this->block->expects($this->once())
             ->method('getClassName')
             ->will($this->returnValue('Class'));
-        
+
         $this->block->expects($this->once())
             ->method('getHtmlContent')
             ->will($this->returnValue($value));
-        
+
         $this->blockManager->expects($this->once())
             ->method('get')
             ->will($this->returnValue($this->block));

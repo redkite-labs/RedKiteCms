@@ -38,8 +38,8 @@ class AlBlockManagerFactoryItem
     /**
      * Constructor
      *
-     * @param AlBlockManagerInterface $blockManager
-     * @param array $attributes
+     * @param  AlBlockManagerInterface    $blockManager
+     * @param  array                      $attributes
      * @throws ParameterExpectedException
      */
     public function __construct(AlBlockManagerInterface $blockManager, array $attributes)
@@ -75,7 +75,7 @@ class AlBlockManagerFactoryItem
     {
         return $this->id;
     }
-    
+
     /**
      * Returns the item id
      *

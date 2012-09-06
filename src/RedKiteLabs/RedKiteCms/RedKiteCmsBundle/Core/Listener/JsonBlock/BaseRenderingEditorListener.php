@@ -31,8 +31,7 @@ abstract class BaseRenderingEditorListener
 
     public function onBlockEditorRendering(BlockEditorRenderingEvent $event)
     {
-        try
-        {
+        try {
             $params = $this->configure();
 
             if (!is_array($params)) {
@@ -48,9 +47,7 @@ abstract class BaseRenderingEditorListener
             }
 
             $this->renderEditor($event, $params);
-        }
-        catch(\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             throw $ex;
         }
     }

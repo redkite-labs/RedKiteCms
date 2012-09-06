@@ -37,7 +37,7 @@ class EditSeoListener
     /**
      * Edits the seo attributes when a new page is edited
      *
-     * @param BeforeEditPageCommitEvent $event
+     * @param  BeforeEditPageCommitEvent $event
      * @throws \InvalidArgumentException
      * @throws Exception
      */
@@ -62,7 +62,7 @@ class EditSeoListener
                     ->getIdLanguage();
             $seoRepository = $this->seoManager->getSeoRepository();
             $seo = $seoRepository->fromPageAndLanguage($idLanguage, $idPage);
-            if( null !== $seo) {
+            if (null !== $seo) {
                 $seoRepository->setConnection($pageRepository->getConnection());
                 $pageRepository->startTransaction();
                 $this->seoManager->set($seo);
@@ -71,15 +71,13 @@ class EditSeoListener
 
                 if (false !== $result) {
                     $pageRepository->commit();
-                }
-                else {
+                } else {
                     $pageRepository->rollBack();
 
                     $event->abort();
                 }
             }
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             $event->abort();
 
             if (isset($pageRepository) && $pageRepository !== null) {

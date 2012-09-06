@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
@@ -43,7 +42,7 @@ class AddPageBlocksListener
     /**
      * Adds the contents for the page when a new page is added, for each language of the site
      *
-     * @param BeforeAddPageCommitEvent $event
+     * @param  BeforeAddPageCommitEvent $event
      * @throws Exception
      */
     public function onBeforeAddPageCommit(BeforeAddPageCommitEvent $event)
@@ -76,13 +75,11 @@ class AddPageBlocksListener
                     $pageRepository->rollBack();
 
                     $event->abort();
-                }
-                else {
+                } else {
                     $pageRepository->commit();
                 }
             }
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             $event->abort();
             if (isset($pageRepository) && $pageRepository !== null) {
                 $pageRepository->rollBack();
@@ -92,4 +89,3 @@ class AddPageBlocksListener
         }
     }
 }
-

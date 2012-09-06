@@ -42,7 +42,6 @@ class AlImageThumbnailerTest extends TestCase
             'Does not work correctly the very first time is runned by the full test suite.'
         );
 
-
         $thumbnailer = new AlImageThumbnailer();
         $thumbnailer->setThumbnailFolder(vfsStream::url('root'));
         $thumbnailer->create(null, 10, 10);

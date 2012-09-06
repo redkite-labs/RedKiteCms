@@ -20,8 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Language;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\LanguagesEvents;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
@@ -76,13 +74,11 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function fromLanguageName($languageName)
     {
-        if (null === $languageName)
-        {
+        if (null === $languageName) {
             return null;
         }
 
-        if (!is_string($languageName))
-        {
+        if (!is_string($languageName)) {
             throw new \InvalidArgumentException('The name of the laguage must be a string. The language cannot be retrieved');
         }
 

@@ -36,7 +36,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Constructor
      *
-     * @param LanguageRepositoryInterface $languageRepository
+     * @param LanguageRepositoryInterface  $languageRepository
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
@@ -49,7 +49,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Sets the page model object
      *
-     * @param PageRepositoryInterface $v
+     * @param  PageRepositoryInterface                                                                 $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
      */
     public function setPageRepository(PageRepositoryInterface $v)
@@ -73,7 +73,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      * Checks if any page exists. When the min parameter is specified, checks thatthe number of existing pages
      * is greater than the given value
      *
-     * @param int $min
+     * @param  int     $min
      * @return boolean
      */
     public function hasPages($min = 0)
@@ -84,7 +84,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Checks when the given page name exists
      *
-     * @param int $pageName
+     * @param  int     $pageName
      * @return boolean
      */
     public function pageExists($pageName)

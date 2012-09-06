@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageSeoListener;
 
 /**

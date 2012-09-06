@@ -48,9 +48,9 @@ class AlFactoryRepository implements AlFactoryRepositoryInterface
         $namespace = (null === $namespace) ?  $this->namespace : $namespace;
         $blockType = ucfirst($blockType);
         $class = sprintf('%s\%s\%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
-        if(!class_exists($class)) {
+        if (!class_exists($class)) {
             $class = sprintf('%s\%s\Al%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
-            if(!class_exists($class)) {
+            if (!class_exists($class)) {
                 throw new RepositoryNotFoundException(sprintf('The repository for the "%s" block type at the namespace "%s" cannot be created', $blockType, $namespace));
             }
         }

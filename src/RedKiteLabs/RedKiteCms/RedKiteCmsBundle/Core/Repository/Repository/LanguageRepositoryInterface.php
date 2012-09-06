@@ -22,20 +22,20 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface LanguageRepositoryInterface {
-
+interface LanguageRepositoryInterface
+{
     /**
      * Fetches a language record using its primary key
      *
      * @param int       The primary key
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function fromPK($id);
 
     /**
      * Fetches the main language record
      *
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function mainLanguage();
 
@@ -43,7 +43,7 @@ interface LanguageRepositoryInterface {
      * Fetches a language record from its name
      *
      * @param string    The language name
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function fromLanguageName($languageName);
 
@@ -57,7 +57,7 @@ interface LanguageRepositoryInterface {
     /**
      * Fetches the first language record
      *
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function firstOne();
 }

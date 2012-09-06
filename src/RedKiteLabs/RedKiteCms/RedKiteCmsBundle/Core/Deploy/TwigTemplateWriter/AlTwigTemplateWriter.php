@@ -18,12 +18,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter;
 
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 
 /**
@@ -55,9 +51,9 @@ class AlTwigTemplateWriter
      *
      * When the page is saving, the images' path is replaced
      *
-     * @param AlPageTree $pageTree
+     * @param AlPageTree            $pageTree
      * @param AlUrlManagerInterface $urlManager
-     * @param array $replaceImagesPaths
+     * @param array                 $replaceImagesPaths
      */
     public function  __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, array $replaceImagesPaths = array())
     {
@@ -122,7 +118,7 @@ class AlTwigTemplateWriter
     /**
      * Writes the template
      *
-     * @param string $dir
+     * @param  string  $dir
      * @return boolean
      */
     public function writeTemplate($dir)
@@ -246,19 +242,20 @@ class AlTwigTemplateWriter
      */
     protected function rewriteImagesPathForProduction($content)
     {
-        if(empty($this->replaceImagesPaths) && count(array_diff_key(array('backendPath' => '', 'prodPath' => ''), $this->replaceImagesPaths)) > 0) {
+        if (empty($this->replaceImagesPaths) && count(array_diff_key(array('backendPath' => '', 'prodPath' => ''), $this->replaceImagesPaths)) > 0) {
             return $content;
         }
 
         $cmsAssetsFolder = $this->replaceImagesPaths['backendPath'];
         $deployBundleAssetsFolder = $this->replaceImagesPaths['prodPath'];
 
-        return preg_replace_callback('/([\/]?)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')/s', function($matches) use($deployBundleAssetsFolder){return $matches[1].$deployBundleAssetsFolder;}, $content);
+        return preg_replace_callback('/([\/]?)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')/s', function($matches) use ($deployBundleAssetsFolder) {return $matches[1].$deployBundleAssetsFolder;}, $content);
     }
 
     protected function rewriteLinksForProduction($languageName, $pageName, $content)
     {
         $urlManager = $this->urlManager;
+
         return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager, $languageName, $pageName) {
             $url = $matches[2];
             $route = $urlManager
@@ -278,7 +275,7 @@ class AlTwigTemplateWriter
     /**
      * Writes a comment section
      *
-     * @param string $comment
+     * @param  string $comment
      * @return string
      */
     protected function writeComment($comment)
@@ -291,8 +288,8 @@ class AlTwigTemplateWriter
     /**
      * Writes a block section
      *
-     * @param string $blockName
-     * @param string $blockContent
+     * @param  string $blockName
+     * @param  string $blockContent
      * @return string
      */
     protected function writeBlock($blockName, $blockContent)
@@ -311,11 +308,11 @@ class AlTwigTemplateWriter
     /**
      * Writes an assetc section
      *
-     * @param string $sectionName
-     * @param string $assetsSection
-     * @param string $sectionContent
-     * @param string $filter
-     * @param string $output
+     * @param  string $sectionName
+     * @param  string $assetsSection
+     * @param  string $sectionContent
+     * @param  string $filter
+     * @param  string $output
      * @return string
      */
     protected function writeAssetic($sectionName, $assetsSection, $sectionContent, $filter = null, $output = null)
@@ -339,8 +336,8 @@ class AlTwigTemplateWriter
     /**
      * Writes a content section
      *
-     * @param string $slotName
-     * @param string $content
+     * @param  string $slotName
+     * @param  string $content
      * @return string
      */
     protected function writeContent($slotName, $content)
@@ -363,8 +360,8 @@ class AlTwigTemplateWriter
     /**
      * Marks the contents of the given slot with a Begin/End comment
      *
-     * @param string $slotName
-     * @param string $content
+     * @param  string $slotName
+     * @param  string $content
      * @return string
      */
     public static function MarkSlotContents($slotName, $content)
@@ -378,7 +375,7 @@ class AlTwigTemplateWriter
     /**
      * Indentates the given content
      *
-     * @param string $content
+     * @param  string $content
      * @return string
      */
     protected function identateContent($content)

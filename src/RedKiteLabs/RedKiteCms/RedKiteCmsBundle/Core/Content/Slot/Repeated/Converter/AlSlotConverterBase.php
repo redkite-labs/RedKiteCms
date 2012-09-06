@@ -17,17 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
@@ -51,8 +42,8 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     /**
      * Constructor
      *
-     * @param AlSlot $slot
-     * @param AlPageBlocksInterface $pageContentsContainer
+     * @param AlSlot                       $slot
+     * @param AlPageBlocksInterface        $pageContentsContainer
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
@@ -76,12 +67,12 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     protected function deleteBlocks()
     {
         $blocks = $this->blockRepository->retrieveContentsBySlotName($this->slot->getSlotName());
-        if(count($blocks) > 0) {
+        if (count($blocks) > 0) {
             try {
                 $result = null;
 
                 $this->blockRepository->startTransaction();
-                foreach($blocks as $block) {
+                foreach ($blocks as $block) {
                     $result = $this->blockRepository
                                 ->setRepositoryObject($block)
                                 ->delete();
@@ -91,15 +82,12 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
 
                 if ($result) {
                     $this->blockRepository->commit();
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
                 }
 
                 return $result;
-            }
-            catch(\Exception $e)
-            {
+            } catch (\Exception $e) {
                 if (isset($this->blockRepository) && $this->blockRepository !== null) {
                     $this->blockRepository->rollBack();
                 }
@@ -113,8 +101,8 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      * Updates the block, according the page and language with the new repeated status
      *
      * @param array $block
-     * @param int $idLanguage
-     * @param int $idPage
+     * @param int   $idLanguage
+     * @param int   $idPage
      *
      * @return boolean
      */
@@ -140,7 +128,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      */
     private function blocksToArray(array $slotBlocks)
     {
-        foreach($slotBlocks as $block) {
+        foreach ($slotBlocks as $block) {
             $aBlock = $block->toArray();
             unset($aBlock["Id"]);
 

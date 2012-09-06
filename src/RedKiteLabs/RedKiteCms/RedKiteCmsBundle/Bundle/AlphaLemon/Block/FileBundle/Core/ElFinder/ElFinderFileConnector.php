@@ -23,7 +23,7 @@ class ElFinderFileConnector extends AlphaLemonElFinderBaseConnector
         $absolutePath = $asset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('app_file.base_folder') . '/';
         $filesPath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . $absolutePath;
         if (!is_dir($filesPath)) @mkdir($filesPath);
-        
+
         $options = array(
             'locale' => '',
             'roots' => array(

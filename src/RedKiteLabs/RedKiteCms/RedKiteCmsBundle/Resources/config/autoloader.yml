@@ -6,9 +6,9 @@ Cms:
     1:
       alias: AlphaLemonCmsCore
       path: /../vendor/bundles/AlphaLemon/CmsBundle/src
-  bundle: 
+  bundle:
     class: AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle
-    environment: 
+    environment:
       0: alcms
       1: alcms_dev
       2: text

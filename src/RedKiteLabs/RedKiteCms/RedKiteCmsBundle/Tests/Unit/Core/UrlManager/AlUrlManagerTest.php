@@ -20,7 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\UrlManager;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager;
 
-
 /**
  * AlUrlManager
  *

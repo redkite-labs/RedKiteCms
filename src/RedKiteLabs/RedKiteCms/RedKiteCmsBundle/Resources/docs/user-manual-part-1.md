@@ -14,10 +14,10 @@ Both have their respective _devs environments, so AlphaLemon comes with four add
 The Symfony2's **app** environment is the one where your application frontend runs, the **alcms** one could be considered as the backend where the website can be edited, while the **stage** is the one where the website can be tested before go to production. This last one is under development at the moment, and it is not ready anymore.
 
 ## The app environment
-The app environment doesn't require to spend many words: it is the place where your application runs, so it can be considered as the frontend of your application. It works as proposed by Symfony2 so you can work with it as you usually do, with a standard Symfony2 application. 
+The app environment doesn't require to spend many words: it is the place where your application runs, so it can be considered as the frontend of your application. It works as proposed by Symfony2 so you can work with it as you usually do, with a standard Symfony2 application.
 
 ## The alcms environment
-The alcms environment is the backend of your website. Here, you can edit the contents of your website, add new pages, languages and themes, in other words, it is the place where you can manage and control your website. This environment is totally decoupled from the frontend so every change you made will not affect the website until you deploy it. 
+The alcms environment is the backend of your website. Here, you can edit the contents of your website, add new pages, languages and themes, in other words, it is the place where you can manage and control your website. This environment is totally decoupled from the frontend so every change you made will not affect the website until you deploy it.
 
 ## The stage environment
 The stage environment is the place where you can check and test your website before the final deployment. It is placed between the backend and the frontend environments.
@@ -31,13 +31,13 @@ When a user has been authenticated himself, he can start to edit the website. Th
 a toolbar menu. Here are placed all the commands you need to manage the whole website. Under it, the website is rendered exactly as it will be deployed.
 
 # Moving through the pages
-Moving through the website's pages is simply as clicking the link you want to reach, in fact, the site is explorable exactly as in the production environment. So if you have a link called **features**, you just click it and enter in the feature's page. However it could happen that a page is not linked on the website's menu, so you can reach it by clicking the page you want in the navigation menu at the top-right corner of the toolbar menu. 
+Moving through the website's pages is simply as clicking the link you want to reach, in fact, the site is explorable exactly as in the production environment. So if you have a link called **features**, you just click it and enter in the feature's page. However it could happen that a page is not linked on the website's menu, so you can reach it by clicking the page you want in the navigation menu at the top-right corner of the toolbar menu.
 
 # Add, edit and remove contents
 All those operations are made directly on the web page and every change you made is displayed in real time on the page. When you are inside the page you want to edit, just click the **Edit** button on the toolbar, and the editable contents are immediaty surrounded by a red dotted border rectangle. Contents editing is made interacting with those squares, let's see how.
 
 ## Add a content
-To add a new content you must right click on an existing content or if any content exists on a slot, a message takes place into the empty slot that lets you interact with it. This opens the contextual menu that lets you manage the content itself. Now you must choose the content to add, by clicking the content type from the Add content submenu. 
+To add a new content you must right click on an existing content or if any content exists on a slot, a message takes place into the empty slot that lets you interact with it. This opens the contextual menu that lets you manage the content itself. Now you must choose the content to add, by clicking the content type from the Add content submenu.
 
 AlphaLemon CMS, in its basic configuration, comes with five standard content types which are the base content required to build a website, but more can be added to improve your own environment. The standard contents you can choose from, are:
 
@@ -78,4 +78,4 @@ This is the most powerful content type you get, because it lets you enter an ent
 
 As you might guess, you can add a piece of html code, external and internal stylesheets and javascripts. There is a [dedicated chapter](how-to-add-an-external-javascript-tool) that explains how to use a javascript gallery on your website.
 
-Go to next chapter [AlphaLemon CMS User Manual (Part 12)](user-manual-part-2) 
+Go to next chapter [AlphaLemon CMS User Manual (Part 12)](user-manual-part-2)

@@ -18,9 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer;
-
 
 /**
  * Adds the renderSlot function to Twig engine
@@ -63,7 +61,8 @@ class ImageThumbnailExtension extends \Twig_Extension
     /**
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return 'images';
     }
 }

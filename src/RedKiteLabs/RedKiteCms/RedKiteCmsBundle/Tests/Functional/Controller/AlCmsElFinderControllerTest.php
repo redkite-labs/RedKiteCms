@@ -18,9 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * AlCmsElFinderControllerTest

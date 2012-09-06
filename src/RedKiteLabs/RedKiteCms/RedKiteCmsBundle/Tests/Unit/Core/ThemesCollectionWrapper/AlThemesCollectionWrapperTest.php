@@ -20,7 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
-
 /**
  * AlThemesCollectionWrapperTest
  *
@@ -46,7 +45,6 @@ class AlThemesCollectionWrapperTest extends TestCase
 
         $this->themesCollectionWrapper = new AlThemesCollectionWrapper($this->themesCollection, $this->templateManager);
     }
-
 
     public function testFetchAThemeFromTheThemesCollection()
     {

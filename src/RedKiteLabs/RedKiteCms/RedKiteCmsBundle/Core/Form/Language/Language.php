@@ -37,7 +37,6 @@ class Language
      */
     protected $isMain = false;
 
-
     public function getLanguage()
     {
         return $this->language;

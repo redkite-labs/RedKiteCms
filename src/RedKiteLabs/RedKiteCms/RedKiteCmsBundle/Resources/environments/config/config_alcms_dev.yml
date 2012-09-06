@@ -3,7 +3,7 @@
 
 imports:
     - { resource: config_alcms.yml }
-    
+
 framework:
     router:   { resource: "%kernel.root_dir%/config/routing_alcms_dev.yml" }
     profiler: { only_exceptions: false }

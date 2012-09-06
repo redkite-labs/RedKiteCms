@@ -65,7 +65,6 @@ class AlBlockManagerFactoryItemTest extends TestCase
         $this->assertEquals('none', $factoryItem->getGroup());
     }
 
-
     public function testFactoryItemObjectHasBeenSetWithGroupOption()
     {
         $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text', 'group' => 'My awesome group'));

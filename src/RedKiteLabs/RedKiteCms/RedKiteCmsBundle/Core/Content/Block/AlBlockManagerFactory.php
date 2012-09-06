@@ -63,14 +63,14 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      * This method is usually called by the AlBlocksCompilerPass object
      *
      * @param AlBlockManagerInterface $blockManager
-     * @param array $attributes
+     * @param array                   $attributes
      */
     public function addBlockManager(AlBlockManagerInterface $blockManager, array $attributes)
     {
         if (empty($attributes['type'])) {
             return;
         }
-        
+
         $blockManager->setFactoryRepository($this->factoryRepository);
         $this->blockManagers[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
     }
@@ -94,7 +94,6 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
                 $blockManager = clone($blockManager);
                 if ($isAlBlock) $blockManager->set($block);
                 if (null !== $this->translator) $blockManager->setTranslator($this->translator);
-
                 return $blockManager;
             }
         }

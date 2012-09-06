@@ -44,7 +44,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
     /**
      * Sets the language model
      *
-     * @param LanguageRepositoryInterface $v
+     * @param  LanguageRepositoryInterface                                                                 $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager
      */
     public function setLanguageRepository(LanguageRepositoryInterface $v)
@@ -77,8 +77,8 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
     /**
      * Checks when the given language name exists
      *
-     * @param string $laguageName
-     * @return  boolean
+     * @param  string  $laguageName
+     * @return boolean
      */
     public function languageExists($laguageName)
     {

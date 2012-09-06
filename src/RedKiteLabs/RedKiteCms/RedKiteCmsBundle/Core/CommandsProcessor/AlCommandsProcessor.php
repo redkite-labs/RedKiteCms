@@ -47,10 +47,9 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
     public function executeCommand($cmd, \Closure $closure = null, Process $process = null)
     {
         $cmd = $this->php.' '.$this->console.' '.$cmd;
-        if (null === $process)  {
+        if (null === $process) {
             $process =  new Process($cmd);
-        }
-        else {
+        } else {
             $process->setCommandLine($cmd);
         }
 

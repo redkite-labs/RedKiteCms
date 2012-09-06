@@ -17,11 +17,9 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\ThemeRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
-
 
 /**
  *  Implements the ThemeRepositoryInterface to work with Propel
@@ -55,13 +53,11 @@ class AlThemeRepositoryPropel extends Base\AlPropelRepository implements ThemeRe
      */
     public function fromName($themeName)
     {
-        if (null === $themeName)
-        {
+        if (null === $themeName) {
             return null;
         }
 
-        if (!is_string($themeName))
-        {
+        if (!is_string($themeName)) {
             throw new \InvalidArgumentException('The name of the theme must be a string. The theme attribute cannot be retrieved');
         }
 

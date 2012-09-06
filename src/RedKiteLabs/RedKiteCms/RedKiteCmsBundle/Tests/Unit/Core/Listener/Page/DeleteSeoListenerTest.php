@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeleteSeoListener;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 

@@ -8,7 +8,6 @@
 namespace AlphaLemon\Block\FileBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
-use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**

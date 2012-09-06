@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
@@ -29,7 +28,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 
 /**
@@ -54,8 +52,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface $dispatcher
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param EventDispatcherInterface       $dispatcher
+     * @param AlFactoryRepositoryInterface   $factoryRepository
      * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
@@ -80,7 +78,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return array
      */
-    abstract function getDefaultValue();
+    abstract public function getDefaultValue();
 
     /**
      * {@inheritdoc}
@@ -107,7 +105,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Sets the factory repository
      *
-     * @param AlFactoryRepositoryInterface $v
+     * @param  AlFactoryRepositoryInterface                                      $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
      */
     public function setFactoryRepository(AlFactoryRepositoryInterface $v)
@@ -201,7 +199,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getHtmlCmsActive()
     {
         $content = $this->getHtml();
-        if ((string)$this->getInternalJavascript() != "") {
+        if ((string) $this->getInternalJavascript() != "") {
             $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
             $internalJavascript = ($this->getExecuteInternalJavascript()) ? $this->getInternalJavascript() : '';
             if ($scriptForHideContents != '' || $internalJavascript != '') {
@@ -272,9 +270,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (null !== $this->alBlock && trim($this->alBlock->getInternalJavascript()) != '') {
             $internalJavascript = $this->alBlock->getInternalJavascript();
             if ($safe) {
-                $safeInternalJavascript = "try{\n";
+                $safeInternalJavascript = "try {\n";
                 $safeInternalJavascript .= $internalJavascript;
-                $safeInternalJavascript .= "\n} catch(e){\n";
+                $safeInternalJavascript .= "\n} catch (e) {\n";
                 $safeInternalJavascript .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports: ' + e);\n", $this->alBlock->getSlotName());
                 $safeInternalJavascript .= "}\n";
 
@@ -302,11 +300,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function save(array $parameters)
     {
         if (null === $this->alBlock || $this->alBlock->getId() == null) {
-
             return $this->add($parameters);
-        }
-        else {
-
+        } else {
             return $this->edit($parameters);
         }
     }
@@ -316,8 +311,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function delete()
     {
-        try
-        {
+        try {
             if (null === $this->alBlock) {
                 throw new General\ParameterIsEmptyException($this->translate("Any valid block has been setted. Nothing to delete", array()));
             }
@@ -345,15 +339,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 }
 
                 return true;
-            }
-            else {
+            } else {
                 $this->blockRepository->rollBack();
 
                 return false;
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }
@@ -386,14 +377,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         return $blockManager;
     }
 
-
     /**
      * Adds a new block to the AlBlock table
      *
      *
-     * @param array  $values      An array where keys are the AlBlockField definition and values are the values to add
-     * @throws \InvalidArgumentException  When the expected parameters are invalid
-     * @throws \RuntimeException  When the action is aborted by a calling event
+     * @param  array                     $values An array where keys are the AlBlockField definition and values are the values to add
+     * @throws \InvalidArgumentException When the expected parameters are invalid
+     * @throws \RuntimeException         When the action is aborted by a calling event
      * @return Boolean
      */
     protected function add(array $values)
@@ -449,14 +439,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                     $event = new  Content\Block\AfterBlockAddedEvent($this);
                     $this->dispatcher->dispatch(BlockEvents::AFTER_ADD_BLOCK, $event);
                 }
-            }
-            else {
+            } else {
                 $this->blockRepository->rollBack();
             }
 
             return $result;
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }
@@ -469,15 +457,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Edits the current block object
      *
      *
-     * @param array  $values  An array where keys are the AlBlockField definition and values are the values to edit
-     * @throws \InvalidArgumentException  When the expected parameters are invalid
-     * @throws \RuntimeException  When the action is aborted by a calling event
+     * @param  array                     $values An array where keys are the AlBlockField definition and values are the values to edit
+     * @throws \InvalidArgumentException When the expected parameters are invalid
+     * @throws \RuntimeException         When the action is aborted by a calling event
      * @return Boolean
      */
     protected function edit(array $values)
     {
-        try
-        {
+        try {
             if (null !== $this->dispatcher) {
                 $event = new  Content\Block\BeforeBlockEditingEvent($this, $values);
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_EDIT_BLOCK, $event);
@@ -504,14 +491,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                     $event = new  Content\Block\AfterBlockEditedEvent($this);
                     $this->dispatcher->dispatch(BlockEvents::AFTER_EDIT_BLOCK, $event);
                 }
-            }
-            else {
+            } else {
                 $this->blockRepository->rollBack();
             }
+
             return $result;
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }

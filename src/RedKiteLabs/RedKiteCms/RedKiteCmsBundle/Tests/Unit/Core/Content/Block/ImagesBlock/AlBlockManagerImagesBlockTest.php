@@ -19,10 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlo
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlBlockManagerJsonBlockTest
@@ -30,9 +26,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
-{   
+{
     private $blockManager;
-    
+
     protected function setUp()
     {
         parent::setUp();
@@ -55,7 +51,6 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
     }
-
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException

@@ -27,7 +27,7 @@ interface AlFactoryRepositoryInterface
     /**
      * Creates the repository
      *
-     * @param string $repository
+     * @param  string                                                                         $repository
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface
      */
     public function createRepository($repository);

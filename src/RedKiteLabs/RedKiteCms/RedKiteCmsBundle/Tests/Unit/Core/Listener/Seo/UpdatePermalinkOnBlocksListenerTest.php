@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Seo;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
@@ -32,7 +31,6 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
     private $testListener;
     private $blockRepository;
     private $blockManagerFactory;
-
 
     protected function setUp()
     {

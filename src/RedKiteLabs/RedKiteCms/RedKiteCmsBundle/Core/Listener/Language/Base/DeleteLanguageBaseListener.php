@@ -17,9 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * Abstract listener to the onBeforeDeleteLanguageCommit event
@@ -42,11 +40,10 @@ abstract class DeleteLanguageBaseListener
      */
     abstract protected function delete($object);
 
-
     /**
      * Listen the onBeforeDeleteLanguageCommit event to delete the source object to the new language
      *
-     * @param BeforeDeleteLanguageCommitEvent $event
+     * @param  BeforeDeleteLanguageCommitEvent $event
      * @throws Exception
      */
     public function onBeforeDeleteLanguageCommit(BeforeDeleteLanguageCommitEvent $event)
@@ -59,7 +56,7 @@ abstract class DeleteLanguageBaseListener
         $languageRepository = $this->languageManager->getLanguageRepository();
 
         $this->sourceObjects = $this->setUpSourceObjects();
-        if(null === $this->sourceObjects) {
+        if (null === $this->sourceObjects) {
             return;
         }
 
@@ -67,24 +64,21 @@ abstract class DeleteLanguageBaseListener
             try {
                 $result = true;
                 $languageRepository->startTransaction();
-                foreach($this->sourceObjects as $sourceObject)
-                {
+                foreach ($this->sourceObjects as $sourceObject) {
                     $result = $this->delete($sourceObject);
-                    if(!$result) {
+                    if (!$result) {
                         break;
                     }
                 }
 
                 if (false !== $result) {
                     $languageRepository->commit();
-                }
-                else {
+                } else {
                     $languageRepository->rollBack();
 
                     $event->abort();
                 }
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $event->abort();
                 if (isset($languageRepository) && $languageRepository !== null) {
                     $languageRepository->rollBack();
@@ -95,4 +89,3 @@ abstract class DeleteLanguageBaseListener
         }
     }
 }
-
