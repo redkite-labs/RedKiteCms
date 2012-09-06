@@ -16,8 +16,7 @@ mysql:
   encoding: utf8
 
 before_script:
-  - "mysql -e 'create database alphalemon_test;'"
-  - "mysql -e 'SET GLOBAL sql_mode="";'"
+  - "mysql -e 'create database alphalemon_test;SET GLOBAL sql_mode="";'"
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
 
