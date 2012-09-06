@@ -18,8 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -61,7 +59,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
     /**
      * {@inheritdoc}
      *
-     * @param array $values
+     * @param  array   $values
      * @return boolean
      */
     protected function copy(array $values)
@@ -84,17 +82,18 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
      * if it is an internal link. When it is an internal link, it is prefixed with the new language as follows:
      * [new_language]-[permalink], otherwise it is left untouched
      *
-     * @param string $content
+     * @param  string $content
      * @return string
      */
     protected function configurePermalinkForNewLanguage($content)
     {
-        if(null === $this->languageManager || null === $this->container) {
+        if (null === $this->languageManager || null === $this->container) {
             return $content;
         }
 
         $urlManager = $this->container->get('alphalemon_cms.urlManager');
         $languageName =  $this->languageManager->get()->getLanguage();
+
         return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager, $languageName) {
             $url = $urlManager
                 ->fromUrl($matches[2])
@@ -106,4 +105,3 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
         return $content;
     }
 }
-

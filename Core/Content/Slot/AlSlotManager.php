@@ -23,7 +23,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockModel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
@@ -46,9 +45,9 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface $dispatcher
-     * @param AlSlot $slot
-     * @param BlockRepositoryInterface $blockRepository
+     * @param EventDispatcherInterface       $dispatcher
+     * @param AlSlot                         $slot
+     * @param BlockRepositoryInterface       $blockRepository
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
@@ -64,7 +63,7 @@ class AlSlotManager extends AlTemplateBase
      * Sets the slot object
      *
      *
-     * @param AlSlot $v
+     * @param  AlSlot                                                          $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
     public function setSlot(AlSlot $v)
@@ -89,7 +88,7 @@ class AlSlotManager extends AlTemplateBase
      * Sets the block model object
      *
      *
-     * @param BlockRepositoryInterface $v
+     * @param  BlockRepositoryInterface                                        $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
     public function setBlockRepository(BlockRepositoryInterface $v)
@@ -236,26 +235,25 @@ class AlSlotManager extends AlTemplateBase
      * the new block is created under the block identified by the given id
      *
      *
-     * @param int $idLanguage
-     * @param type $idPage
-     * @param type $type                The block type. By default a Text block is added
-     * @param type $referenceBlockId    The id of the reference block. When given, the block is placed below this one
+     * @param  int                       $idLanguage
+     * @param  type                      $idPage
+     * @param  type                      $type             The block type. By default a Text block is added
+     * @param  type                      $referenceBlockId The id of the reference block. When given, the block is placed below this one
      * @return null|boolean
      * @throws Exception
      * @throws \InvalidArgumentException
      */
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
     {
-        if ((int)$idLanguage == 0) {
+        if ((int) $idLanguage == 0) {
             throw new InvalidParameterTypeException("idLanguage parameter must be a valid integer");
         }
 
-        if ((int)$idPage == 0) {
+        if ((int) $idPage == 0) {
             throw new InvalidParameterTypeException("idPage parameter must be a valid integer");
         }
 
-        try
-        {
+        try {
             switch ($this->slot->getRepeated()) {
                 case 'site':
                     $idPage = 1;
@@ -276,7 +274,7 @@ class AlSlotManager extends AlTemplateBase
 
             // Make sure that a content repeated at site level is never added twice
             if ($idPage == 1 && $idLanguage == 1) {
-                if(count($this->blockRepository->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
+                if (count($this->blockRepository->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
                     return;
                 }
             }
@@ -335,17 +333,15 @@ class AlSlotManager extends AlTemplateBase
 
             if ($result !== false) {
                 $this->blockRepository->commit();
-            }
-            else {
+            } else {
                 $this->blockRepository->rollBack();
             }
-            
-            if($result) {
+
+            if ($result) {
                 if (!empty($leftArray) || !empty($rightArray)) {
                     $index = $position - 1;
                     $this->blockManagers = array_merge($leftArray, array($index => $alBlockManager), $rightArray);
-                }
-                else {
+                } else {
                     $this->blockManagers[] = $alBlockManager;
                 }
 
@@ -353,8 +349,7 @@ class AlSlotManager extends AlTemplateBase
             }
 
             return $result;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }
@@ -367,10 +362,10 @@ class AlSlotManager extends AlTemplateBase
      * Edits the block
      *
      *
-     * @param   int       $idBlock  The id of the block to edit
-     * @param   array     $values   The new values
+     * @param int   $idBlock The id of the block to edit
+     * @param array $values  The new values
      *
-     * @return  null!Boolean
+     * @return null!Boolean
      */
     public function editBlock($idBlock, array $values)
     {
@@ -382,14 +377,12 @@ class AlSlotManager extends AlTemplateBase
                 $result = $blockManager->save($values);
                 if ($result === false) {
                     $this->blockRepository->rollBack();
-                }
-                else {
+                } else {
                     $this->blockRepository->commit();
                 }
 
                 return $result;
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 if (isset($this->blockRepository) && $this->blockRepository !== null) {
                     $this->blockRepository->rollBack();
                 }
@@ -403,8 +396,8 @@ class AlSlotManager extends AlTemplateBase
      * Deletes the block from the slot
      *
      *
-     * @param   int       $idBlock The id of the block to remove
-     * @return  boolean
+     * @param  int     $idBlock The id of the block to remove
+     * @return boolean
      */
     public function deleteBlock($idBlock)
     {
@@ -416,8 +409,7 @@ class AlSlotManager extends AlTemplateBase
             $leftArray = array_slice($this->blockManagers, 0 , $index);
             $rightArray = array_slice($this->blockManagers, $index + 1, $this->length() - 1);
 
-            try
-            {
+            try {
                 $this->blockRepository->startTransaction();
 
                 // Adjust the blocks position
@@ -430,15 +422,12 @@ class AlSlotManager extends AlTemplateBase
                     $this->blockRepository->commit();
 
                     $this->blockManagers = array_merge($leftArray, $rightArray);
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
                 }
 
                 return $result;
-            }
-            catch(\Exception $e)
-            {
+            } catch (\Exception $e) {
                 if (isset($this->blockRepository) && $this->blockRepository !== null) {
                     $this->blockRepository->rollBack();
                 }
@@ -454,17 +443,16 @@ class AlSlotManager extends AlTemplateBase
      * Deletes all the blocks managed by the slot
      *
      *
-     * @return  boolean
+     * @return boolean
      */
     public function deleteBlocks()
     {
-        try
-        {
-            if(count($this->blockManagers) > 0) {
+        try {
+            if (count($this->blockManagers) > 0) {
                 $result = null;
                 $this->blockRepository->startTransaction();
 
-                foreach($this->blockManagers as $blockManager) {
+                foreach ($this->blockManagers as $blockManager) {
                     $result = $blockManager->delete();
                     if (false === $result) {
                         break;
@@ -476,16 +464,13 @@ class AlSlotManager extends AlTemplateBase
                     $this->blockManagers = array();
 
                     return true;
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
 
                     return false;
                 }
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }
@@ -498,8 +483,8 @@ class AlSlotManager extends AlTemplateBase
      * Retrieves the block manager by the block's id
      *
      *
-     * @param   int  $idBlock The id of the block to retrieve
-     * @return  AlBlockManager|null
+     * @param  int                 $idBlock The id of the block to retrieve
+     * @return AlBlockManager|null
      */
     public function getBlockManager($idBlock)
     {
@@ -512,8 +497,8 @@ class AlSlotManager extends AlTemplateBase
      * Retrieves the block manager index by the block's id
      *
      *
-     * @param   int  $idBlock The id of the block to retrieve
-     * @return  int
+     * @param  int $idBlock The id of the block to retrieve
+     * @return int
      */
     public function getBlockManagerIndex($idBlock)
     {
@@ -555,7 +540,7 @@ class AlSlotManager extends AlTemplateBase
     public function toArray()
     {
         $result = array();
-        foreach($this->blockManagers as $blockManager) {
+        foreach ($this->blockManagers as $blockManager) {
             if (null !== $blockManager) {
                 $result[] = $blockManager->toArray();
             }
@@ -575,8 +560,7 @@ class AlSlotManager extends AlTemplateBase
      */
     public function setUpBlockManagers(array $alBlocks)
     {
-        foreach($alBlocks as $alBlock)
-        {
+        foreach ($alBlocks as $alBlock) {
             $alBlockManager = $this->blockManagerFactory->createBlockManager($alBlock);
             $this->blockManagers[] = $alBlockManager;
         }
@@ -586,12 +570,12 @@ class AlSlotManager extends AlTemplateBase
      * Retrieves the block manager and the index by the block's id
      *
      *
-     * @param   int     $idBlock The id of the block to retrieve
-     * @return  null|array
+     * @param  int        $idBlock The id of the block to retrieve
+     * @return null|array
      */
     protected function getBlockManagerAndIndex($idBlock)
     {
-        foreach($this->blockManagers as $index => $blockManager) {
+        foreach ($this->blockManagers as $index => $blockManager) {
             if ($blockManager->get()->getId() == $idBlock) {
                 return array('index' => $index, 'manager' => $blockManager);
             }
@@ -611,16 +595,15 @@ class AlSlotManager extends AlTemplateBase
      * removing block
      *
      *
-     * @param   string      $op         The operation to do. It accepts add or del as valid values
-     * @param   array       $managers   An array of block managers
-     * @return  boolean
-     * @throws  \InvalidArgumentException    When an invalid option is given to the $op param
+     * @param  string                    $op       The operation to do. It accepts add or del as valid values
+     * @param  array                     $managers An array of block managers
+     * @return boolean
+     * @throws \InvalidArgumentException When an invalid option is given to the $op param
      *
      */
     protected function adjustPosition($op, array $managers)
     {
-        try
-        {
+        try {
             // Checks the $op parameter. If doesn't match, throwns and exception
             $required = array("add", "del");
             if (!in_array($op, $required)) {
@@ -642,16 +625,13 @@ class AlSlotManager extends AlTemplateBase
 
                 if (false !== $result) {
                     $this->blockRepository->commit();
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
                 }
 
                 return $result;
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }

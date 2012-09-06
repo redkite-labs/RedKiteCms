@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 

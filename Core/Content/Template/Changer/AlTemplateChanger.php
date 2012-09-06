@@ -56,7 +56,7 @@ class AlTemplateChanger
      * Sets the current template used by the page
      *
      *
-     * @param AlTemplateManager $templateManager
+     * @param  AlTemplateManager                                                               $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger
      */
     public function setCurrentTemplateManager(AlTemplateManager $templateManager)
@@ -70,7 +70,7 @@ class AlTemplateChanger
      * Sets the new template the page will use
      *
      *
-     * @param AlTemplateManager $templateManager
+     * @param  AlTemplateManager                                                               $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger
      */
     public function setNewTemplateManager(AlTemplateManager $templateManager)
@@ -94,17 +94,16 @@ class AlTemplateChanger
         }
 
         $blockRepository = $this->currentTemplateManager->getBlockRepository();
-        try
-        {
+        try {
             $operations = $this->analyse();//print_r($operations);
 
             $rollBack = false;
             $blockRepository->startTransaction();
-            foreach($operations as $operation => $slots) {
-                switch($operation) {
+            foreach ($operations as $operation => $slots) {
+                switch ($operation) {
                     case 'add':
-                        foreach($slots as $repeated => $slotNames) {
-                            foreach($slotNames as $slotName) {
+                        foreach ($slots as $repeated => $slotNames) {
+                            foreach ($slotNames as $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));
                                 $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockRepository, $this->blockManagerFactory, $this->parametersValidator);
                                 $slotManager->setForceSlotAttributes(true);
@@ -118,10 +117,10 @@ class AlTemplateChanger
                         break;
 
                     case 'change':
-                        foreach($slots as $intersections) {
-                            foreach($intersections as $intersection) {
-                                foreach($intersection as $repeated => $slotNames) {
-                                    foreach($slotNames as $slotName) {
+                        foreach ($slots as $intersections) {
+                            foreach ($intersections as $intersection) {
+                                foreach ($intersection as $repeated => $slotNames) {
+                                    foreach ($slotNames as $slotName) {
                                         $slot = new AlSlot($slotName, array('repeated' => $repeated));
                                         $converter = $this->slotsConverterFactory->createConverter($slot, $repeated);
                                         $rollBack = !$converter->convert();
@@ -134,8 +133,8 @@ class AlTemplateChanger
                         break;
 
                     case 'remove':
-                        foreach($slots as $slotNames) {
-                            foreach($slotNames as $repeated =>  $slotName) {
+                        foreach ($slots as $slotNames) {
+                            foreach ($slotNames as $repeated =>  $slotName) {
                                 $slot = new AlSlot($slotName, array('repeated' => $repeated));
                                 $slotManager = new AlSlotManager($this->currentTemplateManager->getDispatcher(), $slot, $blockRepository, $this->blockManagerFactory, $this->parametersValidator);
                                 $blocks = $this->currentTemplateManager->getPageBlocks()->getSlotBlocks($slotName);
@@ -153,14 +152,12 @@ class AlTemplateChanger
                 $blockRepository->commit();
 
                 return true;
-            }
-            else {
+            } else {
                 $blockRepository->rollBack();
 
                 return false;
             }
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (isset($blockRepository) && $blockRepository !== null) {
                 $blockRepository->rollBack();
             }
@@ -200,7 +197,7 @@ class AlTemplateChanger
     /**
      * Makes sure that the array has all the required keys
      *
-     * @param array $array
+     * @param  array $array
      * @return array
      */
     private function fixArrayKeys($array)
@@ -211,14 +208,14 @@ class AlTemplateChanger
     /**
      * Calculates the differences between two arrays of slots
      *
-     * @param array $first
-     * @param array $second
+     * @param  array $first
+     * @param  array $second
      * @return array
      */
     private function calculateDifferences(array $first, array $second)
     {
         $result = array();
-        foreach($first as $repeated => $slots) {
+        foreach ($first as $repeated => $slots) {
             $diff = array_diff($slots, $second[$repeated]);
             $result[$repeated] = $diff;
         }
@@ -229,28 +226,28 @@ class AlTemplateChanger
     /**
      * Calculates the intersections between the differences found on the arrays of slots
      *
-     * @param array $first
-     * @param array $second
+     * @param  array $first
+     * @param  array $second
      * @return array
      */
     private function calculateIntersections(array $first, array $second)
     {
         $result = array();
-        foreach($first as $aRepeated => $firstSlots) {
+        foreach ($first as $aRepeated => $firstSlots) {
             $intersect = array();
-            foreach($second as $bRepeated => $secondSlots) {
+            foreach ($second as $bRepeated => $secondSlots) {
                 $diff = array_intersect($firstSlots, $secondSlots);
-                if(!empty($diff)) {
+                if (!empty($diff)) {
                     $intersect[$bRepeated][$aRepeated] = $diff;
                     $firstSlots = array_diff($firstSlots, $diff);
                 }
             }
 
-            if(!empty($firstSlots)) {
+            if (!empty($firstSlots)) {
                 $result['found'][$aRepeated] = $firstSlots;
             }
 
-            if(!empty($intersect)) {
+            if (!empty($intersect)) {
                 $result['intersected'][] = $intersect;
             }
         }

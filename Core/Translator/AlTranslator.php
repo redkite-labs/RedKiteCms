@@ -41,7 +41,7 @@ abstract class AlTranslator implements AlTranslatorInterface
     /**
      * Sets the tranlator object
      *
-     * @param TranslatorInterface $translator
+     * @param  TranslatorInterface                                          $translator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
      */
     public function setTranslator(TranslatorInterface $translator)

@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.1
- * 
+ *
  */
 
 namespace AlphaLemonCmsCore\Deploy;
@@ -52,7 +52,7 @@ abstract class AlDeployer
     private $baseDataDir = 'data';
     private $baseTranslationsDir = 'translations';
     private $twigAssetsDir = null;
-    
+
     protected $pageTrees = array();
     protected $container = null;
     protected $resourcesFolder = null;
@@ -63,18 +63,18 @@ abstract class AlDeployer
     protected $cmsBundleFolder;
     protected $cmsUploadFolder;
     protected $deployBundleAssetsFolder;
-                
+
     private $assetsFolder = null;
-    
+
 
     /**
      * Implements the method to save the page
      */
     abstract protected function save(AlPageTree $pageTree);
-    
+
     public function  __construct(ContainerInterface $container)
     {
-        $this->container = $container; 
+        $this->container = $container;
         $this->baseDeployBundle = $this->container->getParameter('al.deploy_bundle');
         $this->baseDeployBundleAssetsFolder = $this->container->getParameter('al.deploy_bundle_assets_base_dir');
     }
@@ -89,61 +89,61 @@ abstract class AlDeployer
         $this->checkFolders();
         $this->run();
     }
-    
+
     public function deployBundle($v)
     {
         $this->baseDeployBundle = $v;
-        
+
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @param type $v
-     * @return AlDeployer 
+     * @return AlDeployer
      */
     public function cmsResourcesDir($v)
     {
         $this->baseCmsResourcesDir = $v;
-        
+
         return $this;
     }
-    
+
     public function targetBundleResourcesDir($v)
     {
         $this->baseTargetResourcesDir = $v;
-        
+
         return $this;
     }
-    
+
     public function dataDir($v)
     {
         $this->baseDataDir = $v;
-        
+
         return $this;
     }
-    
+
     public function translationsDir($v)
     {
         $this->baseTranslationsDir = $v;
-        
+
         return $this;
     }
-    
+
     public function twigAssetsFolder($v)
     {
         $this->twigAssetsDir = $v;
-        
+
         return $this;
     }
-    
+
     public function deployBundleAssetsFolder($v)
     {
         $this->baseDeployBundleAssetsFolder = $v;
-        
+
         return $this;
     }
-    
+
     /**
      * Checks if the publisher folders exist and creates them when required
      */
@@ -158,7 +158,7 @@ abstract class AlDeployer
                 throw new \RuntimeException(sprintf('Cannot create the resources directory. Please check your permissions on %s folder.', $this->dataFolder));
             }
         }
-        
+
         if(is_dir($this->dataFolder))
         {
             $fileSystem->remove($this->dataFolder);
@@ -174,26 +174,26 @@ abstract class AlDeployer
             throw new \RuntimeException(sprintf('Cannot create the publish directory at %s. Please check your permissions on %s folder.', $this->resourcesFolder, $this->translationsFolder));
         }
     }
-    
+
     /**
      * Initializes the parameters to deploy the website
      */
     protected function setup()
-    {    
+    {
         $this->cmsBundleFolder = AlToolkit::locateResource($this->container, '@AlphaLemonCmsBundle');
         $this->deployBundle = $this->baseDeployBundle;
         if(false === $deployBundle = AlToolkit::locateResource($this->container, $this->deployBundle))
         {
             throw new \InvalidArgumentException(sprintf('The %s cannot be located. Check it is correctly enabled in your AppKernel class', $this->deployBundle));
         }
-        
-        $this->resourcesFolder = $deployBundle . $this->baseTargetResourcesDir;        
-        $this->dataFolder = $this->resourcesFolder . "/" . $this->baseDataDir; 
+
+        $this->resourcesFolder = $deployBundle . $this->baseTargetResourcesDir;
+        $this->dataFolder = $this->resourcesFolder . "/" . $this->baseDataDir;
         $this->translationsFolder = $this->resourcesFolder . "/" . $this->baseTranslationsDir;
-        $this->assetsFolder = AlToolkit::retrieveBundleWebFolder($this->container, $this->deployBundle);     
-        
+        $this->assetsFolder = AlToolkit::retrieveBundleWebFolder($this->container, $this->deployBundle);
+
         $this->cmsUploadFolder = $this->cmsBundleFolder . $this->baseCmsResourcesDir . '/public/' . $this->container->getParameter('alcms.upload_assets_dir');
-        $this->deployBundleAssetsFolder = $this->resourcesFolder . '/public/'; 
+        $this->deployBundleAssetsFolder = $this->resourcesFolder . '/public/';
     }
 
     /**
@@ -208,17 +208,17 @@ abstract class AlDeployer
         $this->generateRoutes($this->resourcesFolder . '/config');
         AlToolkit::executeCommand($this->container->get('kernel'), 'cache:clear');
     }
-    
+
     /**
-     * Sets up the PageTree objects from the saved languages and pages  
+     * Sets up the PageTree objects from the saved languages and pages
      */
     protected function setupPageTrees()
     {
         $theme = AlThemeQuery::create()->activeBackend()->findOne();
         $languages = AlLanguageQuery::create()->setContainer($this->container)->activeLanguages()->find();
-        $pages = AlPageQuery::create()->setContainer($this->container)->activePages()->find(); 
+        $pages = AlPageQuery::create()->setContainer($this->container)->activePages()->find();
         $idMainLanguage = AlLanguageQuery::create()->mainLanguage()->findOne()->getId();
-        
+
         // Cycles all the website's languages
         foreach($languages as $language)
         {
@@ -231,20 +231,20 @@ abstract class AlDeployer
                 {
                     $this->savePage($page, $language, $theme, clone($pageTree));
                 }
-                
+
                 $this->pageTrees[] = $pageTree;
             }
         }
     }
-    
+
     /**
      * Copies the assets from the development environment to the production
      */
     protected function copyAssets()
     {
         $fs = new Filesystem();
-        $finder = new Finder();        
-        $folders = $finder->directories()->depth(0)->in($this->cmsUploadFolder); 
+        $finder = new Finder();
+        $folders = $finder->directories()->depth(0)->in($this->cmsUploadFolder);
         foreach($folders as $folder)
         {
             $targetFolder = $this->deployBundleAssetsFolder . '/' . basename($folder->getFileName());
@@ -254,8 +254,8 @@ abstract class AlDeployer
     }
 
     /**
-     * Generates a yml file with the routes defined by the website's pages, in the deploy bundle's resources dir 
-     * 
+     * Generates a yml file with the routes defined by the website's pages, in the deploy bundle's resources dir
+     *
      * @param string    $routesFilePath     The routing file path
      */
     protected function generateRoutes($routesFilePath)
@@ -264,7 +264,7 @@ abstract class AlDeployer
         {
             throw new \InvalidArgumentException(sprintf("The directory %s does not exist. The routes cannot be generated", $routesFilePath));
         }
-        
+
         // The schema pattern
         $schema = "# Route << %1\$s >> generated for language << %2\$s >> and page << %3\$s >>\n";
         $schema .= "_%4\$s:\n";
@@ -284,16 +284,16 @@ abstract class AlDeployer
         foreach($alPageAttributes as $alPageAttribute)
         {
             $permalink = $alPageAttribute->getPermalink();
-            
+
             $pageName = $alPageAttribute->getAlPage()->getPageName();
             if($alPageAttribute->getAlPage()->getIsHome()) $homePage = $pageName;
-            
+
             $language = $alPageAttribute->getAlLanguage()->getLanguage();
             if($alPageAttribute->getAlLanguage()->getMainLanguage()) $mainLanguage = $language;
-            
+
             $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName));
         }
-        
+
         // Defines the main route
         $routes[] = \sprintf($schema, '', $mainLanguage, $homePage, 'home');
 
@@ -310,14 +310,14 @@ abstract class AlDeployer
             foreach($this->pageTrees as $pageTree)
             {
                 $skeletonContents = file_get_contents(AlToolkit::locateResource($this->container, $this->container->getParameter('alcms.deploy.xliff_skeleton'), true));
-                            
+
                 // Writes template section
                 $id = 1;
-                $xml = new \SimpleXMLElement($skeletonContents); 
+                $xml = new \SimpleXMLElement($skeletonContents);
                 foreach($pageTree->getContents() as $slotName => $contents)
                 {
                     $c = 0;
-                    $baseContents = $this->basePages[$pageTree->getAlPage()->getId()]->getContents($slotName); 
+                    $baseContents = $this->basePages[$pageTree->getAlPage()->getId()]->getContents($slotName);
                     foreach($contents as $content)
                     {
                         $unit = $xml->file->body->addChild('trans-unit');
@@ -348,25 +348,25 @@ abstract class AlDeployer
         }
 
         $finder = new Finder();
-        $files = $finder->files()->in($outputFolder); 
-        
+        $files = $finder->files()->in($outputFolder);
+
         $fs = new Filesystem();
         $fs->remove($files);
 
         foreach($this->pageTrees as $pageTree)
         {
             $languageName = $pageTree->getAlLanguage()->getLanguage();
-            $pageName = $pageTree->getAlPage()->getPageName(); 
+            $pageName = $pageTree->getAlPage()->getPageName();
             $themeName = preg_replace('/bundle$/', '', \strtolower($pageTree->getThemeName()));
-            $templateName = \strtolower($pageTree->getTemplateName()); 
-            
+            $templateName = \strtolower($pageTree->getTemplateName());
+
             // Writes the base stylesheets for the current template
             $templateStylesheets = sprintf('themes.%s_%s.stylesheets', $themeName, $templateName);
             $baseCssAssets = ($this->container->hasParameter($templateStylesheets)) ? $this->container->getParameter($templateStylesheets) : array();
             $outputFileName = sprintf('%s_stylesheets.html.twig', $templateName);
             if(!file_exists($outputFileName))
             {
-                $this->writeTwigAssetsFile($outputFileName, 'stylesheets_skeleton', array($baseCssAssets), array('?yui_css', 'cssrewrite'));                
+                $this->writeTwigAssetsFile($outputFileName, 'stylesheets_skeleton', array($baseCssAssets), array('?yui_css', 'cssrewrite'));
             }
 
             // Writes the base javascripts for the current template
@@ -377,7 +377,7 @@ abstract class AlDeployer
             {
                 $this->writeTwigAssetsFile($outputFileName, 'javascripts_skeleton', array($baseJsAssets), array('?yui_js'));
             }
-            
+
             // Writes the stylesheets template for the current language and page when needed
             $customAssets = $pageTree->getExternalStylesheets();
             if(!empty($customAssets))
@@ -385,12 +385,12 @@ abstract class AlDeployer
                 $outputFileName = sprintf('%s_%s_stylesheets.html.twig', $languageName, $pageName);
                 $this->writeTwigAssetsFile($outputFileName, 'stylesheets_skeleton', array($baseCssAssets, $customAssets), array('?yui_css', 'cssrewrite'));
             }
-            
+
             // Writes the javascripts template for the current language and page when needed
-            $customAssets = $pageTree->getExternalJavascripts(); 
+            $customAssets = $pageTree->getExternalJavascripts();
             if(!empty($customAssets))
             {
-                $outputFileName = sprintf('%s_%s_javascripts.html.twig', $languageName, $pageName);            
+                $outputFileName = sprintf('%s_%s_javascripts.html.twig', $languageName, $pageName);
                 $this->writeTwigAssetsFile($outputFileName, 'javascripts_skeleton', array($baseJsAssets, $customAssets), array('?yui_js'));
             }
         }
@@ -398,7 +398,7 @@ abstract class AlDeployer
 
     /**
      * Writes the twig assets file, using a twig skeleton model passed as reference
-     * 
+     *
      * @param string    $outputFileName     The output file name
      * @param string    $skeleton           The skeleton file to use
      * @param array     $assets             The assets to write
@@ -409,7 +409,7 @@ abstract class AlDeployer
         $assetsBuilder = $this->container->get('al_assets_builder');
         $assetsBuilder->setOutputBundle($this->deployBundle);
         if(null !== $this->twigAssetsDir) $assetsBuilder->setOutputFolder($this->twigAssetsDir);
-        
+
         foreach($assets as $asset)
         {
             $assetsBuilder->addAssets($asset);
@@ -420,24 +420,24 @@ abstract class AlDeployer
 
     /**
      * Create the XmlPage object for the given page and language
-     * 
+     *
      * @param AlLanguage    $alLanguage     The AlLanguage object
      * @param AlPage        $alPage         The AlPage object
      * @param AlTheme       $alTheme        The AlTheme object
-     * 
-     * @return AlXmlPage 
+     *
+     * @return AlXmlPage
      */
     protected function createPageTree(AlLanguage $alLanguage, AlPage $alPage)
     {
         $pageTree = new AlPageTree($this->container);
         $pageTree->setup($alLanguage, $alPage);
-        
+
         return $pageTree;
     }
 
     /**
      * Saves the page
-     * 
+     *
      * @param AlPage        $alPage         The AlPage object
      * @param AlLanguage    $alLanguage     The AlLanguage object
      * @param AlTheme       $alTheme        The AlTheme object
@@ -461,9 +461,9 @@ abstract class AlDeployer
             $pageTree->setMetaDescription($attributes->getMetaDescription());
             $pageTree->setMetaKeywords($attributes->getMetaKeywords());
         }
-        
+
         $this->save($pageTree);
-        
-        $this->basePages[$alPage->getId()] = $pageTree;        
+
+        $this->basePages[$alPage->getId()] = $pageTree;
     }
 }

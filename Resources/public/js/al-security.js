@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 (function($){
     $.fn.AddUser = function()
     {
-        this.each(function() 
+        this.each(function()
         {
             $(this).click(function()
             {
@@ -25,10 +25,10 @@
             });
         });
     };
-    
+
     $.fn.EditUser = function()
     {
-        this.each(function() 
+        this.each(function()
         {
             $(this).click(function()
             {
@@ -36,10 +36,10 @@
             });
         });
     };
-    
+
     $.fn.DeleteUser = function()
     {
-        this.each(function() 
+        this.each(function()
         {
             $(this).click(function()
             {
@@ -47,10 +47,10 @@
             });
         });
     };
-    
+
     $.fn.AddRole = function()
     {
-        this.each(function() 
+        this.each(function()
         {
             $(this).click(function()
             {
@@ -58,10 +58,10 @@
             });
         });
     };
-    
+
     $.fn.EditRole = function()
     {
-        this.each(function() 
+        this.each(function()
         {
             $(this).click(function()
             {
@@ -69,10 +69,10 @@
             });
         });
     };
-    
+
     $.fn.DeleteRole = function()
     {
-        this.each(function() 
+        this.each(function()
         {
             $(this).click(function()
             {
@@ -80,25 +80,25 @@
             });
         });
     };
-    
+
     $.fn.ListUsers = function()
     {
         this.List('al_userList');
     }
-    
+
     $.fn.ListRoles = function()
     {
         this.List('al_rolesList');
     }
-    
+
     $.fn.List = function(route)
     {
         var dialogOptions = {
             width: 400
         };
         InitDialog('al_security_dialog', dialogOptions);
-                
-        this.each(function() 
+
+        this.each(function()
         {
             $(this).click(function()
             {
@@ -126,19 +126,19 @@
                         $('body').RemoveAjaxLoader();
                     }
                 });
-                
+
                 return false;
             });
         });
     }
-        
+
 })($);
 
 function showUser(id)
 {
     if(id == null) id = 0;
     show('al_showUser', id);
-    
+
     return false;
 }
 
@@ -146,7 +146,7 @@ function showRole(id)
 {
     if(id == null) id = 0;
     show('al_showRole', id);
-    
+
     return false;
 }
 
@@ -225,11 +225,11 @@ function ObserveSecurity()
 {
     $('.al_list_roles').unbind().ListRoles();
     $('.al_list_users').unbind().ListUsers();
-    
+
     $('.al_add_user').unbind().AddUser();
     $('.al_edit_user').unbind().EditUser();
     $('.al_delete_user').unbind().DeleteUser();
-    
+
     $('.al_add_role').unbind().AddRole();
     $('.al_edit_role').unbind().EditRole();
     $('.al_delete_role').unbind().DeleteRole();

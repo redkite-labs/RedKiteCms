@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base;
@@ -31,8 +31,8 @@ abstract class BaseActionEvent extends Event
 
     /**
      * Constructor
-     * 
-     * @param AlContentManagerInterface $alBlockManager 
+     *
+     * @param AlContentManagerInterface $alBlockManager
      */
     public function __construct(AlContentManagerInterface $alBlockManager)
     {
@@ -41,12 +41,11 @@ abstract class BaseActionEvent extends Event
 
     /**
      * Returns the current AlBlockManager object
-     * 
-     * @return AlBlockManager 
+     *
+     * @return AlBlockManager
      */
     public function getContentManager()
     {
         return $this->alManager;
     }
 }
-

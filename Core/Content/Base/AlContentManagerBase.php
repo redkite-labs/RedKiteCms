@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -49,7 +48,7 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface $dispatcher
+     * @param EventDispatcherInterface       $dispatcher
      * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlParametersValidatorInterface $validator = null)
@@ -61,7 +60,7 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Sets the event dispatcher object
      *
-     * @param EventDispatcherInterface $dispatcher
+     * @param  EventDispatcherInterface                                               $dispatcher
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase (for fluent API)
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
@@ -75,7 +74,7 @@ abstract class AlContentManagerBase extends AlTranslator
      * Sets the parameters validator object
      *
      *
-     * @param AlParametersValidatorInterface $validator
+     * @param  AlParametersValidatorInterface                                         $validator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
      */
     public function setValidator(AlParametersValidatorInterface $validator)
@@ -88,7 +87,7 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Sets the tranlator object
      *
-     * @param TranslatorInterface $translator
+     * @param  TranslatorInterface                                          $translator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
      */
     public function setTranslator(TranslatorInterface $translator)

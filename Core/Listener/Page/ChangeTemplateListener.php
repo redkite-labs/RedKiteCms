@@ -18,13 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactory;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger;
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
@@ -52,7 +48,7 @@ class ChangeTemplateListener
     /**
      * Changes the page's template
      *
-     * @param BeforeAddPageCommitEvent $event
+     * @param  BeforeAddPageCommitEvent $event
      * @throws \Exception
      */
     public function onBeforeEditPageCommit(BeforeEditPageCommitEvent $event)
@@ -86,14 +82,12 @@ class ChangeTemplateListener
 
                 if (false !== $result) {
                     $this->blockRepository->commit();
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
 
                     $event->abort();
                 }
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $event->abort();
 
                 if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -105,4 +99,3 @@ class ChangeTemplateListener
         }
     }
 }
-

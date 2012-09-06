@@ -42,7 +42,7 @@ class UpdatePermalinkOnBlocksListener
     /**
      * Adds the page attributes when a new page is added, for each language of the site
      *
-     * @param BeforeAddPageCommitEvent $event
+     * @param  BeforeAddPageCommitEvent $event
      * @throws \Exception
      */
     public function onBeforeEditSeoCommit(BeforeEditSeoCommitEvent $event)
@@ -63,7 +63,7 @@ class UpdatePermalinkOnBlocksListener
             if (count($alBlocks) > 0) {
                 try {
                     $this->blockRepository->startTransaction();
-                    foreach($alBlocks as $alBlock) {
+                    foreach ($alBlocks as $alBlock) {
                         $htmlContent = preg_replace('/' . $values["oldPermalink"] . '/s', $values["Permalink"], $alBlock->getHtmlContent());
                         $blockManager = $this->blocksFactory->createBlockManager($alBlock);
                         $value = array('HtmlContent' => $htmlContent);
@@ -75,14 +75,12 @@ class UpdatePermalinkOnBlocksListener
 
                     if (false !== $result) {
                         $this->blockRepository->commit();
-                    }
-                    else {
+                    } else {
                         $this->blockRepository->rollBack();
 
                         $event->abort();
                     }
-                }
-                catch(\Exception $e) {
+                } catch (\Exception $e) {
                     $event->abort();
 
                     if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -95,4 +93,3 @@ class UpdatePermalinkOnBlocksListener
         }
     }
 }
-

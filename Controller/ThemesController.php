@@ -33,19 +33,18 @@ class ThemesController extends BaseController
 {
     public function showAction()
     {
-        try
-        {
+        try {
             $values = $this->retrieveThemeValues();
 
             /* TODO
             $stylesheets = array();
-            foreach($this->container->getParameter('althemes.stylesheets') as $stylesheet)
-            {
+            foreach ($this->container->getParameter('althemes.stylesheets') as $stylesheet) {
                 $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
             }*/
 
             $valumOptionsBuilder = $this->setupValumUploader();
             $isWindows = (PHP_OS == "WINNT") ? true : false;
+
             return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
                                                                                              'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
                                                                                              'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
@@ -53,11 +52,10 @@ class ThemesController extends BaseController
                                                                                              'values' => $values,
                                                                                              'is_windows' => $isWindows,
                                                                                              'valum' => $valumOptionsBuilder->getOptions()));
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
@@ -68,6 +66,7 @@ class ThemesController extends BaseController
 
         $valumOptionsBuilder = $this->setupValumUploader();
         $isWindows = (PHP_OS == "WINNT") ? true : false;
+
         return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
                                                                                                         'values' => $this->retrieveThemeValues(),
                                                                                                         'is_windows' => $isWindows,
@@ -76,29 +75,27 @@ class ThemesController extends BaseController
 
     public function removeThemeAction()
     {
-        try
-        {
+        try {
             $this->removeTheme();
 
             $valumOptionsBuilder = $this->setupValumUploader();
             $isWindows = (PHP_OS == "WINNT") ? true : false;
+
             return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
                                                                                                         'values' => $this->retrieveThemeValues(),
                                                                                                         'is_windows' => $isWindows,
                                                                                                         'valum' => $valumOptionsBuilder->getOptions()));
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Pages:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function activateThemeAction($themeName, $activeLanguage = null, $activePage = null)
     {
-        try
-        {
+        try {
             $themeManager = new AlThemeManager($this->container);
             $themeManager->activate($themeName);
 
@@ -109,9 +106,7 @@ class ThemesController extends BaseController
             $pageName = (null !== $page) ? $page->getPageName() : 'index';
 
             return new RedirectResponse($this->generateUrl('_navigation', array('_locale' => $languageName, 'page' => $pageName)));
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
     }
@@ -121,8 +116,7 @@ class ThemesController extends BaseController
         $templates = array();
         $request = $this->getRequest();
         $finder = $this->retrieveTemplatesIterator($request->get('themeName'));
-        foreach($finder as $templateFile)
-        {
+        foreach ($finder as $templateFile) {
             $templates[] = preg_replace_callback('/([\w]+Bundle)([\w]+)(Slots.php)/', function($matches) { return strtolower($matches[2]); }, $templateFile->getFileName());
         }
 
@@ -141,30 +135,30 @@ class ThemesController extends BaseController
 
         $params = array();
         $data = explode('&', $request->get('data'));
-        foreach($data as $value) {
+        foreach ($data as $value) {
             $tmp = preg_split('/=/', $value);
-            if($tmp[0] == 'al_page_to_fix') {
+            if ($tmp[0] == 'al_page_to_fix') {
                 $params[$tmp[0]][] = $tmp[1];
-            }
-            else {
+            } else {
                 $params[$tmp[0]] = $tmp[1];
             }
         }
 
-        if(empty($params['al_page_to_fix'])) {
+        if (empty($params['al_page_to_fix'])) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'Any page has been choosen'), $response);
         }
 
-        foreach($params['al_page_to_fix'] as $pageId) {
+        foreach ($params['al_page_to_fix'] as $pageId) {
             $alPage = AlPageQuery::create()->findPk($pageId);
             $pageManager = $this->container->get('al_page_manager');
             $pageManager->set($alPage);
-            if(!$pageManager->save(array('template' => $params['al_template'])))
-            {
+            if (!$pageManager->save(array('template' => $params['al_template']))) {
                 $response = new Response();
                 $response->setStatusCode('404');
+
                 return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'Err'), $response);
             }
         }
@@ -201,4 +195,3 @@ class ThemesController extends BaseController
         return $finder;
     }
 }
-

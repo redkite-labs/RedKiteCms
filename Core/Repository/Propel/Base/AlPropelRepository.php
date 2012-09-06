@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface;
 
 /**
@@ -32,7 +31,7 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
     /**
      * {@inheritdoc}
      *
-     * @param BaseObject $object
+     * @param  BaseObject                                                                     $object
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
      * @throws General\InvalidParameterTypeException
      */

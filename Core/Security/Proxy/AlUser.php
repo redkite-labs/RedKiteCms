@@ -24,7 +24,7 @@ class AlUser implements UserInterface
      * {@inheritDoc}
      */
     public function getRoles()
-    {   
+    {
         return array($this->getUser()->getAlRole()->getRole());
     }
 
@@ -66,8 +66,8 @@ class AlUser implements UserInterface
     {
         return $this->getUser()->equals($user);
     }
-    
-    public function getPrimaryKey()   
+
+    public function getPrimaryKey()
     {
         return $this->getUser()->getPrimaryKey();
     }

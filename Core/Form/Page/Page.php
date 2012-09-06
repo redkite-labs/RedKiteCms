@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
 
-
 /**
  * Defines the pages form fields
  *

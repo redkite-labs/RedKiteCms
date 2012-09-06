@@ -20,13 +20,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ServiceBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
- * AlBlockManagerService 
- * 
+ * AlBlockManagerService
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerService extends AlBlockManager
 {
-    function getDefaultValue() 
+    public function getDefaultValue()
     {
         return null;
     }

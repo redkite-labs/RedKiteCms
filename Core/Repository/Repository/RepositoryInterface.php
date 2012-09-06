@@ -22,8 +22,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface RepositoryInterface {
-
+interface RepositoryInterface
+{
     /**
      * Sets the repository object
      *

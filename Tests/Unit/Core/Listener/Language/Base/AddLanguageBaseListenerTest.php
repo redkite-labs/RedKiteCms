@@ -294,7 +294,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
         $this->testListener->onBeforeAddLanguageCommit($this->event);
     }
-    
+
     protected function setUpTestToCopyFromRequestLanguage()
     {
         $this->event->expects($this->once())

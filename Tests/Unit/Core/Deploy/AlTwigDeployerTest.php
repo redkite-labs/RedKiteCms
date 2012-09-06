@@ -17,10 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
 /**
  * AlTwigDeployerTest
@@ -121,11 +119,11 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->template->expects($this->exactly(4))
             ->method('getSlots')
             ->will($this->returnValue(array('logo' => array('repeated' => 'site'))));
-        
+
         $this->template->expects($this->exactly(4))
             ->method('getThemeName')
             ->will($this->returnValue('BusinessWebsiteThemeBundle'));
-        
+
         $this->template->expects($this->exactly(4))
             ->method('getTemplateName')
             ->will($this->onConsecutiveCalls('home', 'fullpage', 'home', 'fullpage'));
@@ -148,7 +146,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->templateSlots->expects($this->exactly(4))
             ->method('getSlots')
             ->will($this->returnValue(array()));
-        
+
         $this->deployer = new AlTwigDeployer($this->container);
         $this->assertTrue($this->deployer->deploy());
 
@@ -197,17 +195,17 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->getChild('js')->hasChild('code.js'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('css'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->getChild('css')->hasChild('style.css'));
-        
+
         $this->checkTemplateSection('en', 'index', 'home');
         $this->checkTemplateSection('en', 'page-1', 'fullpage');
         $this->checkTemplateSection('es', 'index', 'home');
-        $this->checkTemplateSection('es', 'page-1', 'fullpage');        
+        $this->checkTemplateSection('es', 'page-1', 'fullpage');
     }
-    
+
     private function checkTemplateSection($language, $page, $template)
     {
         $contents = file_get_contents(vfsStream::url(sprintf('root/AcmeWebSiteBundle/Resources/views/%s/%s.html.twig', $language, $page)));
-        
+
         $this->assertRegExp("/\'BusinessWebsiteThemeBundle\:Theme\:$template\.html\.twig\'/s", $contents);
     }
 }

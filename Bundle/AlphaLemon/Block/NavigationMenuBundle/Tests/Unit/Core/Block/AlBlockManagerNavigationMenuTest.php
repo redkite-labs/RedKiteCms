@@ -39,7 +39,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->languageRepository));
-        
+
         $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->urlManager->expects($this->any())
             ->method('buildInternalUrl')
@@ -154,7 +154,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $pageTree->expects($this->once())
             ->method('getAlPage')
             ->will($this->returnValue($page));
-        
+
         $this->urlManager->expects($this->any())
             ->method('getInternalUrl')
             ->will($this->onConsecutiveCalls('/alcms.php/backend/a-fancy-permalink', '/alcms.php/backend/another-fancy-permalink'));

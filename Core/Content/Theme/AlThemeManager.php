@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Theme;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlTheme;
 use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
-use Symfony\Bundle\FrameworkBundle\Util\Filesystem;
 use Symfony\Component\DependencyInjection\Exception;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\ThemeEngineBundle\Core\Interfaces\AlThemeManagerInterface;
@@ -54,8 +53,7 @@ class AlThemeManager extends AlContentManagerBase //implements AlThemeManagerInt
      */
     public function add($themeName, array $values = array())
     {
-        try
-        {
+        try {
             $rollBack = false;
             $this->connection->beginTransaction();
 
@@ -65,19 +63,16 @@ class AlThemeManager extends AlContentManagerBase //implements AlThemeManagerInt
             $result = $theme->save();
             if ($theme->isModified() && $result == 0) $rollBack = true;
 
-            if (!$rollBack)
-            {
+            if (!$rollBack) {
                 $this->connection->commit();
+
                 return true;
-            }
-            else
-            {
+            } else {
                 $this->connection->rollBack();
+
                 return false;
             }
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             throw $e;
         }
     }
@@ -87,79 +82,65 @@ class AlThemeManager extends AlContentManagerBase //implements AlThemeManagerInt
      */
     public function activate($themeName)
     {
-        try
-        {
+        try {
             // The current theme is already the one active: skip
             $theme = AlThemeQuery::create()->setContainer($this->container)->activeBackend()->findOne();
-            if(null === $theme || $theme->getThemeName() != $themeName)
-            {
+            if (null === $theme || $theme->getThemeName() != $themeName) {
                 $rollBack = false;
                 $this->connection->beginTransaction();
 
                 // Resets the current active theme
-                if(null !== $theme)
-                {
+                if (null !== $theme) {
                     $theme->setActive(0)->save();
                     if ($theme->isModified() && $result == 0) $rollBack = true;
                 }
 
-                if(!$rollBack)
-                {
+                if (!$rollBack) {
                     // Activates the new one
                     $theme = AlThemeQuery::create()->setContainer($this->container)->fromName($themeName)->findOne();
-                    if($theme)
-                    {
+                    if ($theme) {
                         $theme->setActive(1);
                         $result = $theme->save();
                         if ($theme->isModified() && $result == 0) $rollBack = true;
-                    }
-                    else
-                    {
+                    } else {
                         $rollBack = true;
                     }
                 }
 
-                if (!$rollBack)
-                {
+                if (!$rollBack) {
                     $this->connection->commit();
+
                     return true;
-                }
-                else
-                {
+                } else {
                     $this->connection->rollBack();
+
                     return false;
                 }
             }
 
             return null;
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             throw $e;
         }
     }
-
 
     /**
      * {@inheritdoc}
      */
     public function remove($themeName)
     {
-        try
-        {
+        try {
             $this->connection->beginTransaction();
 
             $theme = AlThemeQuery::create()->setContainer($this->container)->fromName($themeName);
-            if (null !== $theme)
-            {
+            if (null !== $theme) {
                 $theme->delete();
             }
 
             $this->connection->commit();
+
             return true;
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             throw $e;
         }
     }

@@ -24,14 +24,14 @@
     <unique name="I_BLOCK">
       <unique-column name="id" />
     </unique>
-    
+
     <vendor type="mysql">
         <parameter name="Engine" value="InnoDB"/>
         <parameter name="Charset" value="utf8"/>
         <parameter name="AutoIncrement" value="1"/>
     </vendor>
   </table>
-  
+
   <table name="al_language" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="language" type="VARCHAR" size="5" required="true" />
@@ -41,7 +41,7 @@
     <unique name="I_LANGUAGE">
       <unique-column name="id" />
     </unique>
-    
+
     <vendor type="mysql">
         <parameter name="Engine" value="InnoDB"/>
         <parameter name="Charset" value="utf8"/>
@@ -66,7 +66,7 @@
     <index name="I_PAGE_NAME">
       <index-column name="page_name" />
     </index>
-    
+
     <vendor type="mysql">
         <parameter name="Engine" value="InnoDB"/>
         <parameter name="Charset" value="utf8"/>
@@ -106,14 +106,14 @@
     <unique name="I_PAGE">
       <unique-column name="id" />
     </unique>
-    
+
     <vendor type="mysql">
         <parameter name="Engine" value="InnoDB"/>
         <parameter name="Charset" value="utf8"/>
         <parameter name="AutoIncrement" value="1"/>
     </vendor>
   </table>
-  
+
   <table name="al_user" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="role_id" type="INTEGER" required="true" />
@@ -135,14 +135,14 @@
     <foreign-key foreignTable="al_role" onDelete="CASCADE">
       <reference local="role_id" foreign="id" />
     </foreign-key>
-    
+
     <vendor type="mysql">
         <parameter name="Engine" value="InnoDB"/>
         <parameter name="Charset" value="utf8"/>
         <parameter name="AutoIncrement" value="1"/>
     </vendor>
   </table>
-  
+
   <table name="al_role" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="role" type="VARCHAR" size="128" required="true" />
@@ -152,7 +152,7 @@
     <unique name="I_ROLENAME">
       <unique-column name="role" />
     </unique>
-    
+
     <vendor type="mysql">
         <parameter name="Engine" value="InnoDB"/>
         <parameter name="Charset" value="utf8"/>

@@ -17,24 +17,9 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
-use Symfony\Component\Filesystem\Filesystem;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\ThemeEngineBundle\Model\AlTheme;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
-
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use Symfony\Component\Finder\Finder;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
@@ -120,12 +105,12 @@ class AlPageTreeCollection implements \Iterator, \Countable
     /**
      * Returns the AlPageTree object stored at the requird key
      *
-     * @param string $key
+     * @param  string                                                        $key
      * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
      */
     public function at($key)
     {
-        if(!array_key_exists($key, $this->pages)) {
+        if (!array_key_exists($key, $this->pages)) {
             return null;
         }
 
@@ -141,11 +126,9 @@ class AlPageTreeCollection implements \Iterator, \Countable
         $pages = $this->pageRepository->activePages();
 
         // Cycles all the website's languages
-        foreach($languages as $language)
-        {
+        foreach ($languages as $language) {
             // Cycles all the website's pages
-            foreach($pages as $page)
-            {
+            foreach ($pages as $page) {
                 // Clones the current TemplateManager object and adds it to a new instance of
                 // AlThemesCollectionWrapper, which will be passed to the new PageTree object
                 $templateManager = clone($this->themesCollectionWrapper->getTemplateManager());

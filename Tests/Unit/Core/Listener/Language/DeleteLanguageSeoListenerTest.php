@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageSeoListener;
 
 /**
@@ -26,26 +25,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageSeoListe
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class DeleteLanguageSeoListenerTest extends Base\DeleteLanguageBaseListenerTest
-{    
+{
     protected function setUp()
     {
         $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $this->manager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        
+
         $this->manager->expects($this->any())
             ->method('getSeoRepository')
             ->will($this->returnValue($this->objectModel));
-        
+
         parent::setUp();
-        
+
         $this->testListener = new DeleteLanguageSeoListener($this->manager);
     }
-    
+
     protected function setUpObject()
     {
         return $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');

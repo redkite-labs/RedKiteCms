@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
-
 class TestRepositoryPropel extends AlBlockRepositoryPropel
 {
 }

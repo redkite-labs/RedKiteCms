@@ -18,8 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -59,7 +57,7 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
     /**
      * { @inheritdoc }
      *
-     * @param array $values
+     * @param  array   $values
      * @return boolean
      */
     protected function copy(array $values)
@@ -77,4 +75,3 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
         return $result;
     }
 }
-

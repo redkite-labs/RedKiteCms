@@ -17,9 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -45,7 +43,6 @@ abstract class AddLanguageBaseListener
      */
     abstract protected function copy(array $values);
 
-
     /**
      * Constructor
      *
@@ -54,7 +51,7 @@ abstract class AddLanguageBaseListener
     public function __construct(ContainerInterface $container = null)
     {
         $this->container = $container;
-        if(null !== $container) {
+        if (null !== $container) {
             $this->request = $container->get('request');
         }
     }
@@ -62,7 +59,7 @@ abstract class AddLanguageBaseListener
     /**
      * Listen the onBeforeAddLanguageCommit event to copy the source object to the new language
      *
-     * @param BeforeAddPageCommitEvent $event
+     * @param  BeforeAddPageCommitEvent $event
      * @throws Exception
      */
     public function onBeforeAddLanguageCommit(BeforeAddLanguageCommitEvent $event)
@@ -75,14 +72,14 @@ abstract class AddLanguageBaseListener
         $languageRepository = $this->languageManager->getLanguageRepository();
 
         $this->mainLanguage = $languageRepository->mainLanguage();
-        if(null === $this->mainLanguage) {
+        if (null === $this->mainLanguage) {
             $event->abort();
 
             return;
         }
 
         $this->sourceObjects = $this->setUpSourceObjects();
-        if(null === $this->sourceObjects) {
+        if (null === $this->sourceObjects) {
             return;
         }
 
@@ -90,25 +87,22 @@ abstract class AddLanguageBaseListener
             try {
                 $result = true;
                 $languageRepository->startTransaction();
-                foreach($this->sourceObjects as $sourceObject)
-                {
+                foreach ($this->sourceObjects as $sourceObject) {
                     $values = $sourceObject->toArray();
                     $result = $this->copy($values);
-                    if(!$result) {
+                    if (!$result) {
                         break;
                     }
                 }
 
                 if (false !== $result) {
                     $languageRepository->commit();
-                }
-                else {
+                } else {
                     $languageRepository->rollBack();
 
                     $event->abort();
                 }
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $event->abort();
                 if (isset($languageRepository) && $languageRepository !== null) {
                     $languageRepository->rollBack();
@@ -129,23 +123,20 @@ abstract class AddLanguageBaseListener
         $languageRepository = $this->languageManager->getLanguageRepository();
 
         // Tries to fetch the current language from the request
-        if(null !== $this->request) {
+        if (null !== $this->request) {
             $languages = $this->request->getLanguages();
 
             $alLanguage = $languageRepository->fromLanguageName($languages[1]);
-            if(null !== $alLanguage) {
-
+            if (null !== $alLanguage) {
                 return $alLanguage;
             }
         }
 
         // Fetches the current language from the main language when the adding one is not the main language
-        if($this->mainLanguage->getId() != $this->languageManager->get()->getId()) {
-
+        if ($this->mainLanguage->getId() != $this->languageManager->get()->getId()) {
             return $this->mainLanguage;
         }
 
         return $languageRepository->firstOne();
     }
 }
-

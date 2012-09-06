@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
@@ -25,7 +25,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 final class BlockEvents
 {
     // alcms.event_listener
-    
+
     const BEFORE_ADD_BLOCK = 'blocks.before_block_adding';
     const AFTER_ADD_BLOCK = 'blocks.after_block_added';
 

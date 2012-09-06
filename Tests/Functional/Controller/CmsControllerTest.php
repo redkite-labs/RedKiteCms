@@ -230,4 +230,3 @@ class CmsControllerTest extends WebTestCaseFunctional
         return false !== strpos($key, 'bundles');
     }
 }
-

@@ -17,12 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner;
 
-use Symfony\Component\Finder\Finder;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidFileNameException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
@@ -46,8 +41,8 @@ class AlRepeatedSlotsAligner
 
     /**
      * Constructor
-     * @param ContainerInterface    $container
-     * @param string                $activeThemeName  The active theme
+     * @param ContainerInterface $container
+     * @param string             $activeThemeName The active theme
      */
     public function __construct(KernelInterface $kernel, AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlFactoryRepositoryInterface $factoryRepository)
     {
@@ -91,22 +86,20 @@ class AlRepeatedSlotsAligner
     /**
      * Compares the slots and updates the contents according the new status
      *
-     * @param   string  $templateName   The current template to check
-     * @param   array   $savedSlots     The saved slots
+     * @param string $templateName The current template to check
+     * @param array  $savedSlots   The saved slots
      *
-     * @return  boolean or null when any update is made
+     * @return boolean or null when any update is made
      */
     public function align($themeName, $templateName, array $templateSlots)
     {
         $result = true;
         $templateName = strtolower($templateName);
         $savedSlots = $this->loadSavedSlots($templateName);
-        if(null !== $savedSlots)
-        {
+        if (null !== $savedSlots) {
             $currentSlots = $this->templateSlotsToArray($templateSlots);
             $diffCurrent = array_diff_assoc($currentSlots, $savedSlots);
-            if(empty($diffCurrent))
-            {
+            if (empty($diffCurrent)) {
                 return null;
             }
 
@@ -125,39 +118,32 @@ class AlRepeatedSlotsAligner
     /**
      * Updates the slot status for the given slots
      *
-     * @param   array   $changedSlots   The slots to update
-     * @return  boolean
+     * @param  array   $changedSlots The slots to update
+     * @return boolean
      */
     protected function updateSlotStatus(array $templateSlots, array $changedSlots)
     {
-        try
-        {
+        try {
             $result = true;
             $this->blockRepository->startTransaction();
-            foreach($changedSlots as $slotName => $repeated)
-            {
+            foreach ($changedSlots as $slotName => $repeated) {
                 $converter = $this->slotsConverterFactory->createConverter($templateSlots[$slotName], $repeated);
                 if (null === $converter) continue;
-                
+
                 $result = $converter->convert();
-                if(!$result) {
+                if (!$result) {
                     break;
                 }
             }
 
-            if ($result)
-            {
+            if ($result) {
                 $this->blockRepository->commit();
-            }
-            else
-            {
+            } else {
                 $this->blockRepository->rollBack();
             }
 
             return $result;
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }
@@ -169,13 +155,13 @@ class AlRepeatedSlotsAligner
     /**
      * Loads the saved slots from the xml file
      *
-     * @param   string  $templateName
-     * @return  array
+     * @param  string $templateName
+     * @return array
      */
     protected function loadSavedSlots($templateName)
     {
         $templateName = strtolower($templateName);
-        if(!is_file($this->cacheFile)) {
+        if (!is_file($this->cacheFile)) {
             return null;
         }
 
@@ -185,14 +171,11 @@ class AlRepeatedSlotsAligner
         }
 
         $result = array();
-        foreach($xml->templates->children() as $template)
-        {
-            if($template["name"] == $templateName)
-            {
-                foreach($template as $slot)
-                {
-                    $slotName = (string)$slot["name"];
-                    $result[$slotName] = (string)$slot;
+        foreach ($xml->templates->children() as $template) {
+            if ($template["name"] == $templateName) {
+                foreach ($template as $slot) {
+                    $slotName = (string) $slot["name"];
+                    $result[$slotName] = (string) $slot;
                 }
             }
         }
@@ -215,14 +198,13 @@ class AlRepeatedSlotsAligner
 
     /**
      * Converts the slots to an array where the key is the slot name and the value is the repeated status
-     * @param type $slots
+     * @param  type $slots
      * @return type
      */
     protected function templateSlotsToArray($slots)
     {
         $result = array();
-        foreach($slots as $slot)
-        {
+        foreach ($slots as $slot) {
             $result[$slot->getSlotName()] = $slot->getRepeated();
         }
 
@@ -232,18 +214,16 @@ class AlRepeatedSlotsAligner
     /**
      * Writes the xml file
      *
-     * @param array     $themeSlots
+     * @param array $themeSlots
      */
     protected function write($themeSlots)
     {
         $skeleton = file_get_contents($this->skeletonFile);
         $xml = new \SimpleXMLElement($skeleton);
-        foreach ($themeSlots as $className => $templateSlots)
-        {
+        foreach ($themeSlots as $className => $templateSlots) {
             $template = $xml->templates->addChild('template');
             $template->addAttribute('name', $className);
-            foreach ($templateSlots as $name => $value)
-            {
+            foreach ($templateSlots as $name => $value) {
                 $slot = $template->addChild('slot', $value);
                 $slot->addAttribute('name', $name);
             }

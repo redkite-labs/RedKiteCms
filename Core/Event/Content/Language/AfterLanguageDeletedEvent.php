@@ -10,11 +10,10 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
-
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language;
 

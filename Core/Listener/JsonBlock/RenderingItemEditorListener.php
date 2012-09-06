@@ -36,11 +36,9 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
             throw new \InvalidArgumentException(sprintf('The form class "%s" defined in "%s" does not exists', $params['formClass'], get_class($this)));
         }
 
-        try
-        {
+        try {
             $alBlockManager = $event->getAlBlockManager();
-            if($alBlockManager instanceof $params['blockClass'])
-            {
+            if ($alBlockManager instanceof $params['blockClass']) {
                 $container = $event->getContainer();
                 $block = $alBlockManager->get();
                 $className = $block->getClassName();
@@ -53,9 +51,7 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
                 $editor = $container->get('templating')->render($template, array("form" => $form->createView()));
                 $event->setEditor($editor);
             }
-        }
-        catch(\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             throw $ex;
         }
     }

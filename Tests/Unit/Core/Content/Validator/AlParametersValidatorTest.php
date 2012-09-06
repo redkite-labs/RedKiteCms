@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Validator;
@@ -25,15 +25,15 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlParametersValidatorTest extends TestCase 
-{    
+class AlParametersValidatorTest extends TestCase
+{
     private $validator;
-    
-    protected function setUp() 
+
+    protected function setUp()
     {
         $this->validator = new AlParametersValidator();
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      * @expectedExceptionMessage Any parameter has been given
@@ -42,7 +42,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkEmptyParams(array());
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      * @expectedExceptionMessage Empty array
@@ -51,12 +51,12 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkEmptyParams(array(), "Empty array");
     }
-    
+
     public function testCheckEmptyParamsPassesWhenParameterIsNotEmpty()
     {
         $this->validator->checkEmptyParams(array('fake'));
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      * @expectedExceptionMessage Checking that at least a valid parameter exist cannot validate nothing when any required parameters has been given
@@ -65,7 +65,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkOnceValidParamExists(array(), array());
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      * @expectedExceptionMessage Checking that at least a valid parameter exist cannot validate nothing when any value has been given
@@ -74,7 +74,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkOnceValidParamExists(array('param' => ''), array());
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
      * @expectedExceptionMessage The following parameters are required: %required%. You must give %diff% which is/are missing
@@ -83,7 +83,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkOnceValidParamExists(array('param' => ''), array('param1' => 'value'));
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
      * @expectedExceptionMessage Any espected parameter has been given
@@ -92,12 +92,12 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkOnceValidParamExists(array('param' => ''), array('param1' => 'value'), 'Any espected parameter has been given');
     }
-   
+
     public function testCheckOnceValidParamExistsPasses()
     {
         $this->validator->checkOnceValidParamExists(array('param' => ''), array('param' => 'value', 'param1' => 'value'));
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      * @expectedExceptionMessage Checking that all the required parameters exist cannot validate nothing when any required parameters has been given
@@ -106,7 +106,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkRequiredParamsExists(array(), array());
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      * @expectedExceptionMessage Checking that all the required parameters exist cannot validate nothing when any value has been given
@@ -115,7 +115,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkRequiredParamsExists(array('param' => ''), array());
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
      * @expectedExceptionMessage The following parameters are required: %required%. The parameters you gave are %values%
@@ -124,7 +124,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkRequiredParamsExists(array('param' => '', 'param1' => 'value'), array('param' => 'value'));
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
      * @expectedExceptionMessage The espected parameters are missing
@@ -133,7 +133,7 @@ class AlParametersValidatorTest extends TestCase
     {
         $this->validator->checkRequiredParamsExists(array('param' => '', 'param1' => 'value'), array('param' => 'value'), 'The espected parameters are missing');
     }
-    
+
     public function testCheckRequiredParamsPasses()
     {
         $this->validator->checkRequiredParamsExists(array('param' => '', 'param1' => 'value'), array('param' => 'value', 'param1' => 'value', 'param2' => 'value'));

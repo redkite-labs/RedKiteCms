@@ -17,8 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Translator;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 /**
  * Defines the base interface to translate a message to another language
  *
@@ -30,7 +28,7 @@ interface AlTranslatorInterface
      * Translates the message when the translator has been set or returns the message when null
      *
      * @param string $message
-     * @param array $parameters
+     * @param array  $parameters
      * @param string $domain
      * @param string $locale
      *

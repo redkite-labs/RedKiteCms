@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection;
 
 /**
  * Inits the object required to setup a pageTreeCollection

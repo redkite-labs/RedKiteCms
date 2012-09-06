@@ -18,10 +18,8 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\SeoEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
@@ -48,8 +46,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface $dispatcher
-     * @param SeoRepositoryInterface $alSeoRepository
+     * @param EventDispatcherInterface       $dispatcher
+     * @param SeoRepositoryInterface         $alSeoRepository
      * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
@@ -63,7 +61,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Sets the seo model object
      *
-     * @param SeoRepositoryInterface $v
+     * @param  SeoRepositoryInterface                                        $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager
      */
     public function setSeoRepository(SeoRepositoryInterface $v)
@@ -112,11 +110,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     public function save(array $values)
     {
         if (null === $this->alSeo || $this->alSeo->getId() == null) {
-
             return $this->add($values);
-        }
-        else {
-
+        } else {
             return $this->edit($values);
         }
     }
@@ -126,17 +121,13 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      */
     public function delete()
     {
-        if (null !== $this->alSeo)
-        {
-            try
-            {
-                if (null !== $this->dispatcher)
-                {
+        if (null !== $this->alSeo) {
+            try {
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Seo\BeforeSeoDeletingEvent($this);
                     $this->dispatcher->dispatch(SeoEvents::BEFORE_DELETE_SEO, $event);
 
-                    if ($event->isAborted())
-                    {
+                    if ($event->isAborted()) {
                         throw new \RuntimeException($this->translate("The page attributes deleting action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
                     }
                 }
@@ -145,8 +136,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $result = $this->seoRepository
                             ->setRepositoryObject($this->alSeo)
                             ->delete();
-                if (false !== $result && null !== $this->dispatcher)
-                {
+                if (false !== $result && null !== $this->dispatcher) {
                     $event = new  Content\Seo\BeforeDeleteSeoCommitEvent($this);
                     $this->dispatcher->dispatch(SeoEvents::BEFORE_DELETE_SEO_COMMIT, $event);
 
@@ -155,42 +145,34 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     }
                 }
 
-                if (false !== $result)
-                {
+                if (false !== $result) {
                     $this->seoRepository->commit();
 
-                    if (null !== $this->dispatcher)
-                    {
+                    if (null !== $this->dispatcher) {
                         $event = new  Content\Seo\AfterSeoDeletedEvent($this);
                         $this->dispatcher->dispatch(SeoEvents::AFTER_DELETE_SEO, $event);
                     }
-                }
-                else
-                {
+                } else {
                     $this->seoRepository->rollBack();
                 }
 
                 return $result;
-            }
-            catch(\Exception $e)
-            {
+            } catch (\Exception $e) {
                 if (isset($this->seoRepository) && $this->seoRepository !== null) {
                     $this->seoRepository->rollBack();
                 }
 
                 throw $e;
             }
-        }
-        else
-        {
+        } else {
             throw new General\ParameterIsEmptyException($this->translate('The seo model object is null'));
         }
     }
 
     /**
      * Deletes the seo attribute identified by the given language and page
-     * @param int $languageId
-     * @param int $pageId
+     * @param  int     $languageId
+     * @param  int     $pageId
      * @return Boolean
      */
     public function deleteSeoAttributesFromLanguage($languageId, $pageId)
@@ -206,7 +188,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Adds a new AlSeo object from the given params
      *
-     * @param array $values
+     * @param  array   $values
      * @return Boolean
      */
     protected function add(array $values)
@@ -251,10 +233,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             $result = $this->seoRepository
                     ->setRepositoryObject($this->alSeo)
                     ->save($values);
-            if (false !== $result)
-            {
-                if (null !== $this->dispatcher)
-                {
+            if (false !== $result) {
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Seo\BeforeAddSeoCommitEvent($this, $values);
                     $this->dispatcher->dispatch(SeoEvents::BEFORE_ADD_SEO_COMMIT, $event);
 
@@ -264,25 +244,19 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 }
             }
 
-            if (false !== $result)
-            {
+            if (false !== $result) {
                 $this->seoRepository->commit();
 
-                if (null !== $this->dispatcher)
-                {
+                if (null !== $this->dispatcher) {
                     $event = new  Content\Seo\AfterSeoAddedEvent($this);
                     $this->dispatcher->dispatch(SeoEvents::AFTER_ADD_SEO, $event);
                 }
-            }
-            else
-            {
+            } else {
                 $this->seoRepository->rollBack();
             }
 
             return $result;
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();
             }
@@ -294,13 +268,12 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Edits the managed page attributes object
      *
-     * @param array $values
+     * @param  array   $values
      * @return Boolean
      */
     protected function edit(array $values = array())
     {
-        try
-        {
+        try {
             if (null !== $this->dispatcher) {
                 $event = new  Content\Seo\BeforeSeoEditingEvent($this, $values);
                 $this->dispatcher->dispatch(SeoEvents::BEFORE_EDIT_SEO, $event);
@@ -322,8 +295,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 if ($values['Permalink'] != $currentPermalink) {
                     $values["oldPermalink"] = $currentPermalink;
                     $values['Permalink'] = AlPageManager::slugify($values["Permalink"]);
-                }
-                else {
+                } else {
                     unset($values['Permalink']);
                 }
             }
@@ -358,13 +330,12 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 }
 
                 return true;
-            }
-            else {
+            } else {
                 $this->seoRepository->rollBack();
+
                 return false;
             }
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();
             }

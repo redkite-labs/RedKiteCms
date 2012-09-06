@@ -36,7 +36,7 @@ class AlThemesCollectionWrapper
      * Constructor
      *
      * @param AlThemesCollection $themes
-     * @param AlTemplateManager $templateManager
+     * @param AlTemplateManager  $templateManager
      */
     public function __construct(AlThemesCollection $themes, AlTemplateManager $templateManager)
     {
@@ -67,7 +67,7 @@ class AlThemesCollectionWrapper
     /**
      * Returns the theme from its name
      *
-     * @param string $themeName
+     * @param  string  $themeName
      * @return AlTheme
      */
     public function getTheme($themeName)
@@ -78,8 +78,8 @@ class AlThemesCollectionWrapper
     /**
      * Returns the template from theme name and the template name
      *
-     * @param string $themeName
-     * @param string $templateName
+     * @param  string     $themeName
+     * @param  string     $templateName
      * @return AlTemplate
      */
     public function getTemplate($themeName, $templateName)
@@ -92,8 +92,8 @@ class AlThemesCollectionWrapper
     /**
      * Assigns the template retrieved from theme name and the template name to the template manager
      *
-     * @param string $themeName
-     * @param string $templateName
+     * @param  string            $themeName
+     * @param  string            $templateName
      * @return AlTemplateManager
      */
     public function assignTemplate($themeName, $templateName)

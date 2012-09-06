@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Command\Update;
@@ -24,20 +24,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 /*
-use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 */
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageAttributeQuery;
 use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockVersion;
-
 
 /**
  * Populates the database after a fresh install
@@ -64,27 +53,25 @@ class UpdateDbTo100PR5Command extends ContainerAwareCommand
 
     /**
      * @see Command
-     * 
+     *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
-        
+
         $sqlPath = AlToolkit::locateResource($this->getContainer(), '@AlphaLemonCmsBundle/Resources/dbupdate');
         $sqlFile = $sqlPath . sprintf('/%s/AlphaLemonCmsPr5.sql', $input->getOption('driver'));
-        if(is_file($sqlFile)) {
+        if (is_file($sqlFile)) {
             $updateQueries = file_get_contents($sqlFile);
 
             $queries = explode(';', $updateQueries);
-            foreach($queries as $query)
-            {
+            foreach ($queries as $query) {
                 $statement = $connection->prepare($query);
                 $statement->execute();
             }
-            
+
             $output->writeln('<info>The database has been updated.</info>');
-        }
-        else {
+        } else {
             throw new \Exception(sprintf('The file %s has not been found. AlphaLemon provides only the mysql queries required to updated the database. To fix this, please create a %s folder under the %s and adjust the provided queries for your database, then launch the command again.', $sqlFile, $input->getOption('driver'), $sqlPath));
         }
     }

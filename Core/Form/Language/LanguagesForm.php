@@ -20,8 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-
 /**
  * Defines the languages form
  *

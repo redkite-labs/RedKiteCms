@@ -17,9 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
@@ -33,9 +30,9 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
     /**
      * Decodes a json content
      *
-     * @param mixed string|AlBlock $block
-     * @param boolean $assoc
-     * @return mixed array|object depends on assoc param     *
+     * @param  mixed string|AlBlock                 $block
+     * @param  boolean                              $assoc
+     * @return mixed                                array|object depends on assoc param     *
      * @throws Exception\InvalidJsonFormatException
      */
     public static function decodeJsonContent($block, $assoc = true)
@@ -86,8 +83,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
             if ($itemId != "") {
                 $this->checkValidItemId($itemId, $content);
                 $content[$itemId] = $item;
-            }
-            else {
+            } else {
                 $content[] = $item;
             }
 

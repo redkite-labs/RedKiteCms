@@ -17,8 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-
 /**
  * BaseTestListener
  *
@@ -32,8 +30,6 @@ abstract class BaseTemplateManagerListenerTest extends BaseListenerTest
     {
         parent::setUp();
 
-
     }
-
 
 }

@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\ChangeTemplateListener;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
@@ -36,7 +35,6 @@ class ChangeTemplateListenerTest extends BaseListenerTest
     private $pageContents;
     private $templateSlotsFactory;
     private $templateChanger;
-
 
     protected function setUp()
     {

@@ -18,8 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
-
 
 /**
  * AlFactoryRepositoryTest

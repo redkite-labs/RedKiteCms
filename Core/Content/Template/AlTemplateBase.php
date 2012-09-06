@@ -18,12 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
@@ -38,7 +35,7 @@ abstract class AlTemplateBase extends AlContentManagerBase
     /**
      * Contructor
      *
-     * @param EventDispatcherInterface $dispatcher
+     * @param EventDispatcherInterface       $dispatcher
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
@@ -52,7 +49,7 @@ abstract class AlTemplateBase extends AlContentManagerBase
     /**
      * Sets the blockManager factory object
      *
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param  AlBlockManagerFactoryInterface                                       $blockManagerFactory
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase (for fluent API)
      */
     public function setBlockManagerFactory(AlBlockManagerFactoryInterface $blockManagerFactory)

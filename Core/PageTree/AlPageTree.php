@@ -20,18 +20,9 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
-use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
-
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\AlRepeatedSlotsManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
@@ -60,9 +51,9 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Constructor
      *
-     * @param ContainerInterface $container
+     * @param ContainerInterface           $container
      * @param AlFactoryRepositoryInterface $factoryRepository
-     * @param AlThemesCollectionWrapper $themesCollectionWrapper
+     * @param AlThemesCollectionWrapper    $themesCollectionWrapper
      */
     public function __construct(ContainerInterface $container,
                                 AlFactoryRepositoryInterface $factoryRepository,
@@ -121,7 +112,7 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Sets the template manager
      *
-     * @param AlTemplateManager $v
+     * @param  AlTemplateManager                                        $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
      */
     public function setTemplateManager(AlTemplateManager $v)
@@ -179,16 +170,14 @@ class AlPageTree extends BaseAlPageTree
      */
     public function setUp()
     {
-        try
-        {
+        try {
             $this->alLanguage = $this->setupLanguageFromSession();
             $this->alPage = $this->setupPageFromRequest();
             if (null === $this->alLanguage || null === $this->alPage) {
                 return null;
             }
 
-            if(null === $this->initTheme())
-            {
+            if (null === $this->initTheme()) {
                 return null;
             }
 
@@ -197,9 +186,7 @@ class AlPageTree extends BaseAlPageTree
             $this->refresh($this->alLanguage->getId(), $this->alPage->getId());
 
             return $this;
-        }
-        catch(\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             throw $ex;
         }
     }
@@ -207,8 +194,8 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Refreshes the page tree object with the given language and page ids
      *
-     * @param int $idLanguage
-     * @param int $idPage
+     * @param  int                                                      $idLanguage
+     * @param  int                                                      $idPage
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
      */
     public function refresh($idLanguage, $idPage)
@@ -217,8 +204,7 @@ class AlPageTree extends BaseAlPageTree
         $this->alPage = $this->pageRepository->fromPK($idPage);
 
         if (null === $this->alTheme) {
-            if(null === $this->initTheme())
-            {
+            if (null === $this->initTheme()) {
                 return null;
             }
         }
@@ -253,7 +239,7 @@ class AlPageTree extends BaseAlPageTree
      * stylesheet that must be loaded only when you are in CMS mode. That task is achieved adding a parameter
      * suffixed with the ".cms" suffix (businesswebsitetheme.home.external_stylesheets.cms)
      *
-     * @param array $value
+     * @param  array                                                    $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
      */
     public function setExtraAssetsSuffixes(array $value = array())
@@ -281,7 +267,6 @@ class AlPageTree extends BaseAlPageTree
         return array();
     }
 
-
     /**
      * {@ inheritdoc}
      */
@@ -291,7 +276,7 @@ class AlPageTree extends BaseAlPageTree
         if(null === $template) return array();
 
         $assetsCollection = $template->$method();
-        if(null !== $assetsCollection) {
+        if (null !== $assetsCollection) {
             // When a block has examined, it is saved in this array to avoid parsing it again
             $appsAssets = array();
             $assetsCollection = clone($assetsCollection);
@@ -320,8 +305,7 @@ class AlPageTree extends BaseAlPageTree
                     $assets = $block->$method();
                     if ($type == "external") {
                         $assetsCollection->addRange(explode(',', $assets));
-                    }
-                    else {
+                    } else {
                         $assetsCollection->add($assets);
                     }
                 }
@@ -345,7 +329,7 @@ class AlPageTree extends BaseAlPageTree
             $language = method_exists ($session, "getLocale") ? $session->getLocale() : $request->getLocale();
         }
 
-        $alLanguage = ((int)$language > 0) ? $this->languageRepository->fromPK($language) : $this->languageRepository->fromLanguageName($language);
+        $alLanguage = ((int) $language > 0) ? $this->languageRepository->fromPK($language) : $this->languageRepository->fromLanguageName($language);
         $this->isValidLanguage = true;
 
         return $alLanguage;
@@ -380,8 +364,7 @@ class AlPageTree extends BaseAlPageTree
                     return null;
                 }
             }
-        }
-        else {
+        } else {
             $alPage = $seo->getAlPage();
             $this->setUpMetaTags($seo);
         }
@@ -398,7 +381,7 @@ class AlPageTree extends BaseAlPageTree
      */
     protected function setUpMetaTags($seo)
     {
-        if(null !== $seo) {
+        if (null !== $seo) {
             $this->metaTitle = $seo->getMetaTitle();
             $this->metaDescription = $seo->getMetaDescription();
             $this->metaKeywords = $seo->getMetaKeywords();
@@ -409,7 +392,7 @@ class AlPageTree extends BaseAlPageTree
      * Adds a range of assets to the assets collection
      *
      * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string $parameter
+     * @param string                                                     $parameter
      */
     protected function addAssetsFromContainer(&$assetsCollection, $parameter)
     {
@@ -420,7 +403,7 @@ class AlPageTree extends BaseAlPageTree
      * Adds to the assets collection the extra parameters defined by extraAssetsSuffixes
      *
      * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string $baseParam
+     * @param string                                                     $baseParam
      */
     protected function addExtraAssets(&$assetsCollection, $baseParam)
     {
