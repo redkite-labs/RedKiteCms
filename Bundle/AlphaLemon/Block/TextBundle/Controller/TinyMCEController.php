@@ -34,7 +34,7 @@ class TinyMCEController extends Controller
     public function createImagesListAction()
     {
         $cmsBundleAsset = new AlAsset($this->container->get('kernel'), 'AlphaLemonCmsBundle');
-        $cmsAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . $cmsBundleAsset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
+        $cmsAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . $cmsBundleAsset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
 
         $mceImages = array();
         $mediaFileTypes = array('*.jpg', '*.jpeg', '*.png', '*.gif', '*.tif');
@@ -60,7 +60,7 @@ class TinyMCEController extends Controller
     {
         $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
         $seoRepository = $factoryRepository->createRepository('Seo');
-        $seoAttributes = $seoRepository->fromLanguageName($this->getRequest()->get('language'));
+        $seoAttributes = $seoRepository->fromLanguageId($this->getRequest()->get('language'));
 
         $mcsLinks = array();
         foreach($seoAttributes as $seoAttribute)
