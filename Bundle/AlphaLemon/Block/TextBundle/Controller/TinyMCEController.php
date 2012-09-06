@@ -20,9 +20,7 @@ namespace AlphaLemon\Block\TextBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Finder\Finder;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;;
-
 
 /**
  * TinyMCEController
@@ -40,14 +38,12 @@ class TinyMCEController extends Controller
         $mediaFileTypes = array('*.jpg', '*.jpeg', '*.png', '*.gif', '*.tif');
         $finder = new Finder();
         $finder = $finder->directories()->files()->exclude('.tmb')->exclude('.thumbnails')->sortByName();
-        foreach($mediaFileTypes as $mediaFileType)
-        {
+        foreach ($mediaFileTypes as $mediaFileType) {
             $finder = $finder->name(trim($mediaFileType));
         }
         $imagesFiles = $finder->in($cmsAssetsFolder . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'));
 
-        foreach($imagesFiles as $imagesFile)
-        {
+        foreach ($imagesFiles as $imagesFile) {
             $absoluteFolderPath = '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . \str_replace($cmsAssetsFolder, '', dirname($imagesFile));
             $mceImages[] = sprintf("[\"%1\$s\", \"%2\$s/%1\$s\"]", basename($imagesFile), $cmsBundleAsset->getAbsolutePath() . $absoluteFolderPath);
         }
@@ -63,8 +59,7 @@ class TinyMCEController extends Controller
         $seoAttributes = $seoRepository->fromLanguageId($this->getRequest()->get('language'));
 
         $mcsLinks = array();
-        foreach($seoAttributes as $seoAttribute)
-        {
+        foreach ($seoAttributes as $seoAttribute) {
             $permalink = $seoAttribute->getPermalink();
             $mcsLinks[] = sprintf("[\"%1\$s\", \"%1\$s\"]",$permalink, $permalink); //%2\$s/ , 'en'
         }
@@ -81,4 +76,3 @@ class TinyMCEController extends Controller
         return $response;
     }
 }
-
