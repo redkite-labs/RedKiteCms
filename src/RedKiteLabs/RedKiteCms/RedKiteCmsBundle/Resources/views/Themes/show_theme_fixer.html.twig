@@ -10,9 +10,9 @@
             {% endfor %}
             </select>
         </div>
-        <div class="al_float_left"><input id="al_template_changer" class="input button" type="submit" value="Change template" /></div>     
+        <div class="al_float_left"><input id="al_template_changer" class="input button" type="submit" value="Change template" /></div>
         <div style="clear:left;"></div>
-      </div>    
+      </div>
 
     {% if pages|length > 0 %}
       <div id="al_pages_to_fix_list" class="al_items_list">
@@ -24,10 +24,10 @@
             <div class="al_float_left">{{ page.pageName }}</div>
             <div class="al_float_right al_assigned_template">{{ page.templateName }}</div>
             <div style="clear:left;"></div>
-        </div>   
-    {% endfor %}    
+        </div>
+    {% endfor %}
       </div>
-    
+
     {% else %}
       <div>Any conflict has been detected. Click the activate button to procede with the theme activation.</div>
     {% endif %}
@@ -65,9 +65,9 @@
             $('body').RemoveAjaxLoader();
           }
       });
-      
+
       return false;
     });
-    
+
     $('#al_activate_theme').activateTheme();
 </script>

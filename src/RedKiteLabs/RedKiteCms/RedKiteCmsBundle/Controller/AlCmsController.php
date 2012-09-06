@@ -18,21 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Finder\Finder;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
-
-use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Assetic\AlAsseticDynamicFileManager\AlAsseticDynamicFileManagerJs;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Assetic\AlAsseticDynamicFileManager\AlAsseticDynamicFileManagerCss;
-
-
-use AlphaLemon\ThemeEngineBundle\Core\Event\PageRenderer\BeforePageRenderingEvent;
-use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
@@ -74,8 +62,7 @@ class AlCmsController extends BaseFrontendController
                         'available_languages' => $this->container->getParameter('alcms.available_languages'),
                         'frontController' => sprintf('/%s.php/', $this->kernel->getEnvironment()),);
 
-        if(null !== $pageTree)
-        {
+        if (null !== $pageTree) {
            $template = $this->findTemplate($pageTree);
 
            $params = array_merge($params, array(
@@ -92,9 +79,7 @@ class AlCmsController extends BaseFrontendController
                                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
                                 ));
-        }
-        else
-        {
+        } else {
             $this->get('session')->setFlash('message', 'The requested page has not been loaded.');
         }
 
@@ -107,22 +92,19 @@ class AlCmsController extends BaseFrontendController
     private function findTemplate(AlPageTree $pageTree)
     {
         $templateTwig = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
-        if(null !== $template = $pageTree->getTemplate())
-        {
+        if (null !== $template = $pageTree->getTemplate()) {
             $themeName = $template->getThemeName();
             $templateName = $template->getTemplateName();
 
             $asset = new AlAsset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
-            if(false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig'))
-            {
+            if (false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig')) {
                 $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
 
                 return $templateTwig;
             }
 
-            if($themeName != "" && $templateName != "")
-            {
+            if ($themeName != "" && $templateName != "") {
                 $this->kernelPath = $this->container->getParameter('kernel.root_dir');
                 $templateTwig = (is_file(sprintf('%s/Resources/views/%s/%s.html.twig', $this->kernelPath, $themeName, $templateName))) ? sprintf('::%s/%s.html.twig', $themeName, $templateName) : sprintf('%s:Theme:%s.html.twig', $themeName, $templateName);
             }
@@ -150,4 +132,3 @@ class AlCmsController extends BaseFrontendController
         return $assets;
     }
 }
-

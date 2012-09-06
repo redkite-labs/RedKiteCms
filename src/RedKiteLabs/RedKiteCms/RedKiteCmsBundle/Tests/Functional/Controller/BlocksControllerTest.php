@@ -568,6 +568,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $params = array("page" => "2",
                         "language" => "2",
                         'slotName' => 'left_sidebar_content');
+
         return $this->browse($route, $params);
     }
 
@@ -577,8 +578,8 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         "language" => "2",
                         'slotName' => 'left_sidebar_content',
                         'idBlock' => 9999);
+
         return $this->browse($route, $params);
     }
-
 
 }

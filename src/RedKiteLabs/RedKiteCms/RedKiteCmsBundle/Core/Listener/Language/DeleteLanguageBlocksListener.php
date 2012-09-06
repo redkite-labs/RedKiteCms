@@ -18,8 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * Listen to the onBeforeDeleteLanguageCommit event to delete the blocks which
@@ -73,4 +71,3 @@ class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
         return $result;
     }
 }
-

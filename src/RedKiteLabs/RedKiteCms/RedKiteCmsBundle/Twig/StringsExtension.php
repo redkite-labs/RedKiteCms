@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
@@ -35,11 +35,10 @@ class StringsExtension extends \Twig_Extension
 
     public function left($text, $length)
     {
-        if($length <= 0)
-        {
+        if ($length <= 0) {
             return $text;
         }
-        
+
         return \substr($text, 0, $length);
     }
 
@@ -47,8 +46,7 @@ class StringsExtension extends \Twig_Extension
     {
         $textLength = strlen($text);
 
-        if($length > $textLength)
-        {
+        if ($length > $textLength) {
             return $text;
         }
 

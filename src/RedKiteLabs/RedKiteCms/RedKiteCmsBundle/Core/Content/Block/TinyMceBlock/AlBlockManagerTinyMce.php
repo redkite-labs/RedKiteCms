@@ -34,11 +34,11 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
 
     /**
      * Constructor
-     * 
-     * @param EventDispatcherInterface $dispatcher
-     * @param AlUrlManagerInterface $urlManager
-     * @param AlFactoryRepositoryInterface $factoryRepository
-     * @param AlParametersValidatorInterface $validator 
+     *
+     * @param EventDispatcherInterface       $dispatcher
+     * @param AlUrlManagerInterface          $urlManager
+     * @param AlFactoryRepositoryInterface   $factoryRepository
+     * @param AlParametersValidatorInterface $validator
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlUrlManagerInterface $urlManager, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
@@ -49,7 +49,7 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * Extends the base edit method to normalize the urls found in the given html code
      */
     protected function edit(array $values)
@@ -61,7 +61,7 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
                 $url = $urlManager
                         ->fromUrl($matches[2])
                         ->getInternalUrl();
-                
+
                 if(null === $url) $url = $matches[2];
 
                 return $matches[1] . $url . $matches[3];

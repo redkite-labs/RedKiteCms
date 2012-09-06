@@ -18,14 +18,14 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddSeoListener;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseTemplateManagerListenerTest;
 
 /**
  * AddSeoListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AddSeoListenerTest extends BaseListenerTest
+class AddSeoListenerTest extends BaseTemplateManagerListenerTest
 {
     protected $event;
     protected $testListener;
@@ -129,6 +129,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
     public function testSaveFailsWhenAttributesAreNotSaved()
     {
+        $this->setUpBlockRepository();
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
@@ -173,6 +174,7 @@ class AddSeoListenerTest extends BaseListenerTest
      */
     public function testSaveFailsBecauseAndUnespectedExceptionIsThrown()
     {
+        $this->setUpBlockRepository();
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
@@ -214,6 +216,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
     public function testSave()
     {
+        $this->setUpBlockRepository();
         $page = $this->setUpPage(2);
         $language = $this->setUpLanguage(2);
 
@@ -255,6 +258,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
     public function testSaveFailsWhenAtLeastAtributeIsNotSaved()
     {
+        $this->setUpBlockRepository();
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
@@ -297,6 +301,7 @@ class AddSeoListenerTest extends BaseListenerTest
 
     public function testSaveWhenSiteHasMoreLanguages()
     {
+        $this->setUpBlockRepository();
         $page = $this->setUpPage(2);
         $language1 = $this->setUpLanguage(2);
         $language2 = $this->setUpLanguage(3);
@@ -335,5 +340,16 @@ class AddSeoListenerTest extends BaseListenerTest
             ->will($this->returnValue(true));
 
         $this->testListener->onBeforeAddPageCommit($this->event);
+    }
+
+    private function setUpBlockRepository()
+    {
+        $blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+
+        $this->seoManager->expects($this->once())
+            ->method('getSeoRepository')
+            ->will($this->returnValue($blockRepository));
     }
 }

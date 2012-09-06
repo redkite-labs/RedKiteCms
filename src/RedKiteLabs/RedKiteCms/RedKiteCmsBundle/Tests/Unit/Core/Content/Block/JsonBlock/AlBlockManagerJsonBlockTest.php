@@ -19,10 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlBlockManagerJsonBlockTest
@@ -32,7 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 class AlBlockManagerJsonBlockTest extends TestCase
 {
     private $dispatcher;
-    private  $blockManager;
+    private $blockManager;
 
     protected function setUp()
     {

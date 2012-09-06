@@ -22,13 +22,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface PageRepositoryInterface {
-
+interface PageRepositoryInterface
+{
     /**
      * Fetches a page record using its primary key
      *
      * @param int       The primary key
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function fromPK($id);
 
@@ -43,14 +43,14 @@ interface PageRepositoryInterface {
      * Fetches a page record from its name
      *
      * @param string    The page name
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function fromPageName($pageName);
 
     /**
      * Fetches the site home page
      *
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function homePage();
 }

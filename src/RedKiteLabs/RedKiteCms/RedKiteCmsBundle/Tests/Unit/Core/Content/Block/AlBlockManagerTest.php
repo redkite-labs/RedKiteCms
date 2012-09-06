@@ -19,9 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
@@ -32,7 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 class AlBlockManagerTest extends TestCase
 {
     private $dispatcher;
-    private  $blockManager;
+    private $blockManager;
 
     protected function setUp()
     {

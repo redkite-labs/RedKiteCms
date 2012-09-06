@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
@@ -32,7 +31,7 @@ class AddPageBlocksListener
 
     /**
      * Constructor
-     * 
+     *
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
@@ -43,7 +42,7 @@ class AddPageBlocksListener
     /**
      * Adds the contents for the page when a new page is added, for each language of the site
      *
-     * @param BeforeAddPageCommitEvent $event
+     * @param  BeforeAddPageCommitEvent $event
      * @throws Exception
      */
     public function onBeforeAddPageCommit(BeforeAddPageCommitEvent $event)
@@ -55,10 +54,12 @@ class AddPageBlocksListener
         $pageManager = $event->getContentManager();
         $templateManager = $pageManager->getTemplateManager();
         $pageRepository = $pageManager->getPageRepository();
+
         try {
             $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {
                 $result = true;
+                $templateManager->getBlockRepository()->setConnection($pageRepository->getConnection());
                 $pageRepository->startTransaction();
                 // The min number of pages is setted to 1 because we are adding a page which has been saved but not
                 // committed so it counts as one
@@ -67,20 +68,18 @@ class AddPageBlocksListener
                 foreach ($languages as $alLanguage) {
                     $result = $templateManager->populate($alLanguage->getId(), $idPage, $ignoreRepeatedSlots);
 
-                    if (!$result) break;
+                    if ($result === false) break;
                 }
 
-                if ($result) {
-                    $pageRepository->commit();
-                }
-                else {
+                if ($result === false) {
                     $pageRepository->rollBack();
 
                     $event->abort();
+                } else {
+                    $pageRepository->commit();
                 }
             }
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             $event->abort();
             if (isset($pageRepository) && $pageRepository !== null) {
                 $pageRepository->rollBack();
@@ -90,4 +89,3 @@ class AddPageBlocksListener
         }
     }
 }
-

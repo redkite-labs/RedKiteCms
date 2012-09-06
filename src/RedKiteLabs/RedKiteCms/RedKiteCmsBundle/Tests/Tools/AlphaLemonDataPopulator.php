@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Tools;
@@ -30,7 +30,7 @@ class AlphaLemonDataPopulator
         );
         $params = array('language' => 'en');
         $alLanguageManager->save($params);
-        
+
         $params = array('language' => 'it');
         $alLanguageManager->set(null);
         $alLanguageManager->save($params);
@@ -39,8 +39,8 @@ class AlphaLemonDataPopulator
         $alPageManager = new AlPageManager(
             $container
         );
-        
-        $params = array('pageName'      => 'fake page 1', 
+
+        $params = array('pageName'      => 'fake page 1',
                         'template'      => 'home',
                         'permalink'     => 'this is a website fake page',
                         'title'         => 'page title',
@@ -48,19 +48,19 @@ class AlphaLemonDataPopulator
                         'keywords'      => '');
         $alPageManager->save($params);
         $alPageManager->set(null);
-        
+
         $params['pageName'] = 'fake page 2';
         $alPageManager->save($params);
         $alPageManager->set(null);
-        
+
         $params['pageName'] = 'fake page 3';
         $alPageManager->save($params);
         $alPageManager->set(null);
-        
+
         $params['pageName'] = 'fake page 4';
         $alPageManager->save($params);
     }
-    
+
     public static function depopulate($con = null)
     {
         /*
@@ -78,24 +78,24 @@ class AlphaLemonDataPopulator
                 }
         }
         // delete records from the database
-        if($con === null) {
+        if ($con === null) {
                 $con = \Propel::getConnection();
         }
         $con->beginTransaction();
         foreach ($peerClasses as $peerClass) {
                 $peerClass::doDeleteAll($con);
         }
-        
+
         $query = 'INSERT INTO al_language (language) VALUES(\'-\')';
         $statement = $con->prepare($query);
         $statement->execute();
-        
+
         $query = 'INSERT INTO al_page (page_name) VALUES(\'-\');';
         $statement = $con->prepare($query);
         $statement->execute();
-        
+
         $con->commit();*/
-        
+
         $connection = \Propel::getConnection();
         $queries = array('TRUNCATE al_block;',
                          'TRUNCATE al_language;',
@@ -105,9 +105,8 @@ class AlphaLemonDataPopulator
                          'INSERT INTO al_language (language) VALUES(\'-\');',
                          'INSERT INTO al_page (page_name) VALUES(\'-\');',
                         );
-        
-        foreach($queries as $query)
-        {
+
+        foreach ($queries as $query) {
             $statement = $connection->prepare($query);
             $statement->execute();
         }

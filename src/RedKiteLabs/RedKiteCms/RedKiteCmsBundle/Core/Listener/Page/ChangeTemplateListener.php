@@ -18,13 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactory;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateAssets;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger;
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
@@ -52,7 +48,7 @@ class ChangeTemplateListener
     /**
      * Changes the page's template
      *
-     * @param BeforeAddPageCommitEvent $event
+     * @param  BeforeAddPageCommitEvent $event
      * @throws \Exception
      */
     public function onBeforeEditPageCommit(BeforeEditPageCommitEvent $event)
@@ -72,10 +68,11 @@ class ChangeTemplateListener
             $result = true;
             $currentTemplateManager = $pageManager->getTemplateManager();
             $this->blockRepository = $currentTemplateManager->getBlockRepository();
+            $this->blockRepository->setConnection($pageManager->getPageRepository()->getConnection());
+            $this->blockRepository->startTransaction();
             try {
                 $themeName = $currentTemplateManager->getTemplate()->getThemeName();
-                $this->blockRepository->startTransaction();
-                
+
                 $template = $this->themesCollectionWrapper->getTemplate($themeName, $values["TemplateName"]);
                 $newTemplateManager = new AlTemplateManager($currentTemplateManager->getDispatcher(), $this->factoryRepository, $template, $currentTemplateManager->getPageBlocks());
 
@@ -83,16 +80,14 @@ class ChangeTemplateListener
                             ->setNewTemplateManager($newTemplateManager)
                             ->change();
 
-                if ($result) {
+                if (false !== $result) {
                     $this->blockRepository->commit();
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
 
                     $event->abort();
                 }
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $event->abort();
 
                 if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -104,4 +99,3 @@ class ChangeTemplateListener
         }
     }
 }
-

@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo;
 
-
 /**
  * Defines the page attributes form fields
  *

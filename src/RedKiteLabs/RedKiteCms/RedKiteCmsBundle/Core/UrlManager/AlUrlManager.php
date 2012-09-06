@@ -41,7 +41,7 @@ class AlUrlManager implements AlUrlManagerInterface
     /**
      * Constructor
      *
-     * @param KernelInterface $kernel
+     * @param KernelInterface              $kernel
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(KernelInterface $kernel, AlFactoryRepositoryInterface $factoryRepository)
@@ -98,8 +98,7 @@ class AlUrlManager implements AlUrlManagerInterface
                 $this->internalUrl = $this->generateDefaultUrlTokens() . $this->permalink;
                 $this->productionRoute = $this->generateRoute($language, $page);
             }
-        }
-        catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->error = $ex->getMessage();
         }
 
@@ -156,7 +155,6 @@ class AlUrlManager implements AlUrlManagerInterface
     private function fetchAlLanguage($language)
     {
         if ($language instanceof AlLanguage) {
-
             return $language;
         }
 
@@ -181,8 +179,7 @@ class AlUrlManager implements AlUrlManagerInterface
 
     private function fetchAlPage($page)
     {
-        if($page instanceof AlPage) {
-
+        if ($page instanceof AlPage) {
             return $page;
         }
 
@@ -195,7 +192,7 @@ class AlUrlManager implements AlUrlManagerInterface
             return $page;
         }
 
-        if(is_numeric($page)) {
+        if (is_numeric($page)) {
             $page = $pageRepository->fromPK($page);
             $this->checkNull($page, 'The requested page has not been found');
 

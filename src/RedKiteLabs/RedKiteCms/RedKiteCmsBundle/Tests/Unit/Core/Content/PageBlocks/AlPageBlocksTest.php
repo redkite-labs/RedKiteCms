@@ -83,7 +83,6 @@ class AlPageBlocksTest extends TestCase
             ->method('retrieveContents')
             ->will($this->returnValue(array()));
 
-
         $this->pageContentsContainer
                 ->setIdLanguage(2)
                 ->setIdPage(2)
@@ -103,7 +102,6 @@ class AlPageBlocksTest extends TestCase
         $this->blockRepository->expects($this->once())
             ->method('retrieveContents')
             ->will($this->returnValue($blocks));
-
 
         $this->pageContentsContainer
                 ->setIdLanguage(2)

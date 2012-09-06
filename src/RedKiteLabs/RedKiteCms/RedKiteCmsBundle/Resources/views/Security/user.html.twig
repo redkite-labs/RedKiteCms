@@ -37,8 +37,8 @@
                     {{ form_widget(form.AlRole) }}
                 </td>
             </tr>
-        </table>    
-            
+        </table>
+
         {{ form_rest(form) }}
     </div>
 </form>
@@ -57,7 +57,7 @@
 </div>
 
 <script>
-    $('#al_save_user').click(function() { 
+    $('#al_save_user').click(function() {
       $.ajax({
           type: 'POST',
           url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/al_showUser',
@@ -85,9 +85,9 @@
             $('body').RemoveAjaxLoader();
           }
       });
-      
+
       return false;
     });
-    
+
     $('.al_list_users').ListUsers();
 </script>

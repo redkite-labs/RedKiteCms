@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
@@ -25,7 +25,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 final class SeoEvents
 {
     // alcms.event_listener
-    
+
     const BEFORE_ADD_SEO = 'seo.before_seo_adding';
     const BEFORE_ADD_SEO_COMMIT = 'seo.before_add_seo_commit';
     const AFTER_ADD_SEO = 'seo.after_seo_added';

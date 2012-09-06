@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.1
- * 
+ *
  */
 
 namespace AlphaLemonCmsCore\Bundles\AlScriptBundle\src\AlScript\Content;
@@ -32,7 +32,7 @@ class AlBlockManagerScript extends AlBlockManager
                      'InternalJavascript' => '',
                      'ExternalJavascript' => '');
     }
-    
+
     /**
      * @see AlBlockManager::getHtmlContentCMSMode()
      *
@@ -41,7 +41,7 @@ class AlBlockManagerScript extends AlBlockManager
     {
         $content = $this->alContent->getHtmlContent();
         if(strpos($content, '<script') !== false) return "A script content is not rendered in editor mode";
-        
+
         return $content;
     }
 

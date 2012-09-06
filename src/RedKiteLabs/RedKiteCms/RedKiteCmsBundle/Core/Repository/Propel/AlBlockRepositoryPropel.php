@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\ContentsEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery;
@@ -120,7 +119,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->filterByToDelete(0)
                 ->find();
     }
-    
+
     /**
      * {@inheritdoc}
      */

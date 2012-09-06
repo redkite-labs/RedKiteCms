@@ -10,24 +10,24 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 
 /**
- * Used by the Slots converter to convert a slot from its current repeated status 
+ * Used by the Slots converter to convert a slot from its current repeated status
  * to the new one
- * 
+ *
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface AlSlotConverterInterface 
+interface AlSlotConverterInterface
 {
     /**
-     * Converts the slot's repeated status 
+     * Converts the slot's repeated status
      */
     public function convert();
 }

@@ -27,7 +27,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
@@ -53,10 +52,10 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface $dispatcher
-     * @param AlFactoryRepositoryInterface $factoryRepository
-     * @param AlTemplate $template
-     * @param AlPageBlocksInterface $pageBlocks
+     * @param EventDispatcherInterface       $dispatcher
+     * @param AlFactoryRepositoryInterface   $factoryRepository
+     * @param AlTemplate                     $template
+     * @param AlPageBlocksInterface          $pageBlocks
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
@@ -74,7 +73,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Clones the holden objects, when the object is cloned
      */
-    function __clone()
+    public function __clone()
     {
         if (null !== $this->template) $this->template = clone($this->template);
         if (null !== $this->blockRepository) $this->blockRepository = clone($this->blockRepository);
@@ -84,7 +83,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the current AlTemplate object
      *
-     * @param AlTemplate $templateSlots
+     * @param  AlTemplate                                                              $templateSlots
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      *
      */
@@ -110,7 +109,7 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the current AlTemplateSlots object
      *
      *
-     * @param AlTemplateSlotsInterface $templateSlots
+     * @param  AlTemplateSlotsInterface                                                $templateSlots
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function setTemplateSlots(AlTemplateSlotsInterface $templateSlots)
@@ -135,7 +134,7 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the page contents container object
      *
      *
-     * @param AlPageBlocksInterface $pageBlocks
+     * @param  AlPageBlocksInterface                                                   $pageBlocks
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function setPageBlocks(AlPageBlocksInterface $pageBlocks)
@@ -160,7 +159,7 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the block model interface
      *
      *
-     * @param BlockRepositoryInterface $v
+     * @param  BlockRepositoryInterface                                                $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function setBlockRepository(BlockRepositoryInterface $v)
@@ -195,13 +194,12 @@ class AlTemplateManager extends AlTemplateBase
      * Returns the slot manager that matches the given parameter
      *
      *
-     * @param string $slotName
+     * @param  string             $slotName
      * @return null|AlSlotManager
      */
     public function getSlotManager($slotName)
     {
-        if (!is_string($slotName))
-        {
+        if (!is_string($slotName)) {
             return null;
         }
 
@@ -212,7 +210,7 @@ class AlTemplateManager extends AlTemplateBase
      * Returns the slot manager as an array
      *
      *
-     * @param string $slotName
+     * @param  string                    $slotName
      * @return array
      * @throws \InvalidArgumentException
      */
@@ -240,8 +238,7 @@ class AlTemplateManager extends AlTemplateBase
     public function slotsToArray()
     {
         $slotContents = array();
-        foreach ($this->slotManagers as $slotName => $slot)
-        {
+        foreach ($this->slotManagers as $slotName => $slot) {
             $slotContents[$slotName] = $slot->toArray();
         }
 
@@ -264,9 +261,9 @@ class AlTemplateManager extends AlTemplateBase
      * are filled up using the dafault values provided by each single slot.
      *
      *
-     * @param int $idLanguage           The id that identified the language to add
-     * @param int $idPage               The id that identified the page to add
-     * @param Boolean $ignoreRepeated   True skips the slots that are repeated on page
+     * @param  int       $idLanguage     The id that identified the language to add
+     * @param  int       $idPage         The id that identified the page to add
+     * @param  Boolean   $ignoreRepeated True skips the slots that are repeated on page
      * @return Boolean
      * @throws Exception
      */
@@ -285,22 +282,17 @@ class AlTemplateManager extends AlTemplateBase
 
                     $slotManager->setForceSlotAttributes(true);
                     $result = $slotManager->addBlock($idLanguage, $idPage);
-                    if (null !== $result) {
-                        if (!$result) break;
-                    }
+                    if(false === $result) break;
                 }
 
-                if ($result) {
+                if ($result !== false) {
                     $this->blockRepository->commit();
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
                 }
 
                 return $result;
-            }
-            catch(\Exception $e)
-            {
+            } catch (\Exception $e) {
                 if (isset($this->blockRepository) && $this->blockRepository !== null) {
                     $this->blockRepository->rollBack();
                 }
@@ -314,7 +306,7 @@ class AlTemplateManager extends AlTemplateBase
      * Removes the blocks from the whole slot managers managed by the template manager
      *
      *
-     * @param Boolean $ignoreRepeated
+     * @param  Boolean   $ignoreRepeated
      * @return type
      * @throws Exception
      */
@@ -330,24 +322,17 @@ class AlTemplateManager extends AlTemplateBase
                     }
                     $result = $slotManager->deleteBlocks();
 
-                    if (!$result) {
-                        break;
-                    }
+                    if(false === $result) break;
                 }
 
-                if(null === $result) return;
-
-                if ($result) {
+                if ($result !== false) {
                     $this->blockRepository->commit();
-                }
-                else {
+                } else {
                     $this->blockRepository->rollBack();
                 }
 
                 return $result;
-            }
-            catch(\Exception $e)
-            {
+            } catch (\Exception $e) {
                 if (isset($this->blockRepository) && $this->blockRepository !== null) {
                     $this->blockRepository->rollBack();
                 }
@@ -363,9 +348,9 @@ class AlTemplateManager extends AlTemplateBase
      * for a page identified by the required parameters
      *
      *
-     * @param type $languageId
-     * @param type $pageId
-     * @param type $ignoreRepeated
+     * @param  type      $languageId
+     * @param  type      $pageId
+     * @param  type      $ignoreRepeated
      * @return type
      * @throws Exception
      */
@@ -381,17 +366,14 @@ class AlTemplateManager extends AlTemplateBase
             $this->pageBlocks = $pageBlocks;
             $this->setUpSlotManagers();
 
-            if ($result) {
+            if ($result !== false) {
                 $this->blockRepository->commit();
-            }
-            else {
+            } else {
                 $this->blockRepository->rollBack();
             }
 
             return $result;
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
             }
@@ -436,7 +418,7 @@ class AlTemplateManager extends AlTemplateBase
      * Create the slot manager for the given slot
      *
      *
-     * @param AlSlot $slot
+     * @param  AlSlot                                                          $slot
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
     protected function createSlotManager(AlSlot $slot)
@@ -457,7 +439,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     private function refreshPageBlocks($idLanguage, $idPage)
     {
-        if($idLanguage != $this->pageBlocks->getIdLanguage() || $idPage != $this->pageBlocks->getIdPage()) {
+        if ($idLanguage != $this->pageBlocks->getIdLanguage() || $idPage != $this->pageBlocks->getIdPage()) {
             $this->pageBlocks
                 ->setIdLanguage($idLanguage)
                 ->setIdPage($idPage)

@@ -18,18 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
 use Symfony\Component\Filesystem\Filesystem;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\ThemeEngineBundle\Model\AlTheme;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\ThemeEngineBundle\Core\Repository\AlThemeQuery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use Symfony\Component\Finder\Finder;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
@@ -55,7 +46,7 @@ abstract class AlDeployer
     /**
      * Save the page from an AlPageTree object
      *
-     * @param AlPageTree $pageTree
+     * @param  AlPageTree $pageTree
      * @return boolean
      */
     abstract protected function save(AlPageTree $pageTree);
@@ -63,7 +54,7 @@ abstract class AlDeployer
     /**
      * Constructor
      *
-     * @param ContainerInterface $container
+     * @param  ContainerInterface        $container
      * @throws InvalidParameterException
      */
     public function  __construct(ContainerInterface $container)
@@ -74,8 +65,7 @@ abstract class AlDeployer
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
-        if(null === $this->deployBundleAsset->getWebFolderRealPath())
-        {
+        if (null === $this->deployBundleAsset->getWebFolderRealPath()) {
             throw new InvalidParameterException(sprintf('The %s cannot be located. Check it is correctly enabled in your AppKernel class', $this->deployBundle));
         }
         $this->alphaLemonCmsBundleAsset = new AlAsset($this->kernel, 'AlphaLemonCmsBundle');
@@ -94,7 +84,7 @@ abstract class AlDeployer
     {
         $this->checkTargetFolders();
         $this->copyAssets();
-        
+
         return ($this->generateRoutes() && $this->savePages()) ? true :false;
     }
 
@@ -110,7 +100,7 @@ abstract class AlDeployer
     /**
      * Checks that the given folder exists and creates it when it doesn't
      *
-     * @param string $folder
+     * @param  string            $folder
      * @throws \RuntimeException
      */
     protected function checkFolder($folder)
@@ -149,8 +139,7 @@ abstract class AlDeployer
         $fs = new Filesystem();
         $finder = new Finder();
         $folders = $finder->directories()->depth(0)->in($sourceDir);
-        foreach($folders as $folder)
-        {
+        foreach ($folders as $folder) {
             $targetFolder = $this->assetsDir . '/' . basename($folder->getFileName());
             $fs->remove($targetFolder);
             $fs->mirror($folder , $targetFolder, null, array('override' => true));
@@ -174,8 +163,7 @@ abstract class AlDeployer
         $mainLanguage = "";
         $routes = array();
         $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages();
-        foreach($seoAttributes as $seoAttribute)
-        {
+        foreach ($seoAttributes as $seoAttribute) {
             $permalink = $seoAttribute->getPermalink();
 
             $pageName = $seoAttribute->getAlPage()->getPageName();

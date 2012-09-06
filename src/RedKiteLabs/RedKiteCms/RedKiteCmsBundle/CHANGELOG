@@ -3,7 +3,7 @@ Renamed AlContent table to AlBlock table
 Website javascripts are now rendered when in cms navigation mode
 Themes import and activation has been fixed
 Fixed the regex that locates assets when the cms is loading
-Implemented workaround to avoid loading duplicated assets 
+Implemented workaround to avoid loading duplicated assets
 
 Preview Release 5
 Implemented security for AlphaLemon CMS

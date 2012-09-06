@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Security;
@@ -38,7 +38,7 @@ class AccessDeniedListener
         $this->context = $context;
         $this->authenticationTrustResolver = $trustResolver;
     }
-    
+
     /**
     * Returns a response when is an ajax request and an AccessDeniedException has been thrown
     *
@@ -48,15 +48,14 @@ class AccessDeniedListener
     {
         $request = $event->getRequest();
         $exception = $event->getException();
-        
-        if ($request->isXmlHttpRequest()) { 
+
+        if ($request->isXmlHttpRequest()) {
             if ($exception instanceof AccessDeniedException) {
                 $token = $this->context->getToken();
                 if (!$this->authenticationTrustResolver->isAnonymous($token)) {
-                    $event->setResponse(new Response('You haven\'t enough privileges to perform the required action', 403)); 
+                    $event->setResponse(new Response('You haven\'t enough privileges to perform the required action', 403));
                 }
             }
         }
     }
 }
-

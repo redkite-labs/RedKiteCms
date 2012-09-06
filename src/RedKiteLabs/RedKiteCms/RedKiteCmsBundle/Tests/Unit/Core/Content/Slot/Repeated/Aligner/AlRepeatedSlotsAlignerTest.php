@@ -18,11 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Slot;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Alaligner;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
 use org\bovigo\vfs\vfsStream;
@@ -260,7 +255,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
 
     private function setUpTheme($templateSlots = null)
     {
-        if(null === $templateSlots) {
+        if (null === $templateSlots) {
             $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
             $templateSlots->expects($this->once())
                 ->method('getSlots')

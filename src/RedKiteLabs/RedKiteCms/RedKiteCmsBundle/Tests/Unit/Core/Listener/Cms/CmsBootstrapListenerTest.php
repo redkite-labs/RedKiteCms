@@ -58,7 +58,7 @@ class CmsBootstrapListenerTest extends TestCase
         $this->setUpEnvironment('dev');
         $this->assertNull($this->testListener->onKernelRequest($this->event));
     }
-    
+
     public function testCmsHasBeenBootstrapped()
     {
         $this->setUpEnvironment('alcms');
@@ -99,7 +99,7 @@ class CmsBootstrapListenerTest extends TestCase
 
         $expectedResult = array('root' =>
                                     array('frontend-assets' =>
-                                        array('asset-base-dir' => 
+                                        array('asset-base-dir' =>
                                             array(
                                                 'media' => array(),
                                                 'js' => array(),

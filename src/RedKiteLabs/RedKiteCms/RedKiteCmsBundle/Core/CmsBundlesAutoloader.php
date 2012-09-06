@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core;
@@ -25,7 +25,7 @@ final class CmsBundlesAutoloader
     {
         $bundles = self::findBundles(__DIR__ . '/../../Themes', 'AlphaLemon\AlphaLemonCmsBundle\Themes');
         if($loadInternalBundles) $bundles = array_merge($bundles, self::findBundles(__DIR__ . '/../../Bundles', 'AlphaLemon\AlphaLemonCmsBundle\Bundles'));
-        
+
         return $bundles;
     }
 
@@ -34,8 +34,7 @@ final class CmsBundlesAutoloader
         $bundles = array();
         $finder = new Finder();
         $internalByndles = $finder->directories()->depth(0)->directories()->in($pathToSeek);
-        foreach($internalByndles as $internalBundle)
-        {
+        foreach ($internalByndles as $internalBundle) {
             $internalBundle = basename($internalBundle);
             $className = $nameSpace . "\\" . $internalBundle. "\\" . $internalBundle;
             $bundles[] = new $className();

@@ -32,7 +32,7 @@ abstract class DeleteLanguageBaseListenerTest extends BaseListenerTest
     protected $languageRepository;
     protected $manager;
     protected $objectModel;
-    
+
     abstract protected function setUpObject();
 
     protected function setUp()
@@ -223,5 +223,4 @@ abstract class DeleteLanguageBaseListenerTest extends BaseListenerTest
         $this->testListener->onBeforeDeleteLanguageCommit($this->event);
     }
 
-    
 }

@@ -18,8 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
@@ -46,7 +44,7 @@ class DeletePageBlocksListener
     /**
      * Deletes the page's contents, for all the languages of the site
      *
-     * @param BeforeDeletePageCommitEvent $event
+     * @param  BeforeDeletePageCommitEvent $event
      * @throws Exception
      */
     public function onBeforeDeletePageCommit(BeforeDeletePageCommitEvent $event)
@@ -66,19 +64,17 @@ class DeletePageBlocksListener
                 $pageRepository->startTransaction();
                 foreach ($languages as $alLanguage) {
                     $result = $pageManager->getTemplateManager()->clearPageBlocks($alLanguage->getId(), $idPage);
-                    if (!$result) break;
+                    if (false === $result) break;
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $pageRepository->commit();
-                }
-                else {
+                } else {
                     $pageRepository->rollBack();
                     $event->abort();
                 }
             }
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             $event->abort();
             if (isset($pageRepository) && $pageRepository !== null) {
                 $pageRepository->rollBack();

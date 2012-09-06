@@ -20,8 +20,7 @@ class AlUserRoleType extends AbstractType
             'allow_delete'  => true,
             'by_reference'  => false,
         ));
-        
-        
+
         $builder->add('al_user', 'collection', array(
             'type'          => new \AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType(),
             'allow_add'     => true,
@@ -43,5 +42,3 @@ class AlUserRoleType extends AbstractType
         return 'al_user_role';
     }
 }
-
-

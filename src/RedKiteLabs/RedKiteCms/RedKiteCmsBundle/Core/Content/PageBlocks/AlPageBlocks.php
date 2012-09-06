@@ -38,7 +38,7 @@ class AlPageBlocks extends AlPageBlocksBase
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface $dispatcher
+     * @param EventDispatcherInterface     $dispatcher
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository)
@@ -51,7 +51,7 @@ class AlPageBlocks extends AlPageBlocksBase
     /**
      * The id of the page to retrieve
      *
-     * @param int $v
+     * @param  int                                                                  $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      * @throws General\InvalidParameterTypeException
      */
@@ -69,7 +69,7 @@ class AlPageBlocks extends AlPageBlocksBase
     /**
      * The id of the language to retrieve
      *
-     * @param type $v
+     * @param  type                                                                 $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      * @throws General\InvalidParameterTypeException
      */

@@ -21,7 +21,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
 
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Compiler\AlBlocksCompilerPass;
 
 /**

@@ -16,18 +16,8 @@
  */
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
 
-
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-
-
-
-
-class TestCase extends \PHPUnit_Framework_TestCase {
-
+class TestCase extends \PHPUnit_Framework_TestCase
+{
     protected $connection = null;
 
     protected function setUp()

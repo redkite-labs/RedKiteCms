@@ -18,9 +18,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
 

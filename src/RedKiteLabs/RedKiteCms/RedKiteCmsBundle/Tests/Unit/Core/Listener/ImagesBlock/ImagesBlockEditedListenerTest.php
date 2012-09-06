@@ -20,7 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\ImagesBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener;
 
-
 /**
  * ImagesBlockEditedListenerTest
  *

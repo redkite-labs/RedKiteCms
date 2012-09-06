@@ -10,19 +10,13 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues;
 
-use Symfony\Component\Finder\Finder;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlThemeQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
-
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
-use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\ThemeRepositoryInterface;
@@ -39,8 +33,7 @@ class ChoiceValues
         $result = array();
         if($withNoneOption) $pages["none"] = " ";
         $pages = $pageRepository->activePages();
-        foreach($pages as $page)
-        {
+        foreach ($pages as $page) {
             $result[$page->getId()] = $page->getPageName();
         }
 
@@ -52,8 +45,7 @@ class ChoiceValues
         $result = array();
         if($withNoneOption) $languages["none"] = " ";
         $languages = $languageRepository->activeLanguages();
-        foreach($languages as $language)
-        {
+        foreach ($languages as $language) {
             $result[$language->getId()] = $language->getLanguage();
         }
 
@@ -64,14 +56,13 @@ class ChoiceValues
     {
         $alTheme = $themeRepository->activeBackend();
         $theme = $themes->getTheme($alTheme->getThemeName());
-        
+
         $templates = array("none" => " ");
-        foreach($theme as $template)
-        {
+        foreach ($theme as $template) {
             $templateName = $template->getTemplateName();
             $templates[$templateName] = $templateName;
         }
-        
+
         return $templates;
     }
 }

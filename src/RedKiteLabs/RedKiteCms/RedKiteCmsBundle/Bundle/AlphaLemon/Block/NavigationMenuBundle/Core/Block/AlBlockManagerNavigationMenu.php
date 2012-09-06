@@ -18,8 +18,6 @@
 namespace AlphaLemon\Block\NavigationMenuBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
@@ -55,16 +53,12 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();
         $router = $this->container->get('router');
         $languages = $this->languageRepository->activeLanguages();
-        foreach($languages as $language)
-        {
-            try
-            {
+        foreach ($languages as $language) {
+            try {
                 $languageName = $language->getLanguage();
                 $route = sprintf('_%s_%s', $language, str_replace('-', '_', $pageName));
                 $url = $router->generate($route);
-            }
-            catch(RouteNotFoundException $ex)
-            {
+            } catch (RouteNotFoundException $ex) {
                 $url = "#";
                 $languageName .= "[Error]";
             }
@@ -85,8 +79,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         $urlManager = $this->container->get('alphalemon_cms.url_manager');
 
         $languages = $this->languageRepository->activeLanguages();
-        foreach($languages as $language)
-        {
+        foreach ($languages as $language) {
             $languageName = $language->getLanguage();
             $url = $urlManager
                     ->buildInternalUrl($languageName, $pageName)

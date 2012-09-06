@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.1
- * 
+ *
  */
 
 namespace AlphaLemonCmsCore\Bundles\AlMenuBundle\src\AlMenu\Content;
@@ -24,7 +24,7 @@ use PageTreeCore\Tools\AlToolkit;
 
 class AlBlockManagerMenu extends AlBlockManager
 {
- 
+
     /**
      * @see AlBlockManager::getDefaultValue()
      *
@@ -41,7 +41,7 @@ class AlBlockManagerMenu extends AlBlockManager
         $menu->addChild('Home', 'aa');
         $menu->addChild('Comments', 'bb');
         $menu->addChild('Symfony2', 'http://symfony-reloaded.org/');
-        
+
         return $menu->render();
     }*/
 

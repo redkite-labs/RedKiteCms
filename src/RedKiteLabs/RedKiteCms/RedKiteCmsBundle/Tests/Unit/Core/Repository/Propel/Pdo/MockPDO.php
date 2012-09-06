@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo;
 
-
 /**
  * Wraps PropelPDO class to make it mockable
  *

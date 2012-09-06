@@ -20,7 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Translator;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
 
-
 class ObjectTranslatable extends AlTranslator
 {
 }
