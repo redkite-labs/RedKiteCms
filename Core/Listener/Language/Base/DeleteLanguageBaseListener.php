@@ -33,10 +33,10 @@ abstract class DeleteLanguageBaseListener
     protected $languageManager = null;
 
     /**
-     * Implement this method to set up the source objects  
+     * Implement this method to set up the source objects
      */
     abstract protected function setUpSourceObjects();
-    
+
     /**
      * Implement this method to delete the source objects to the new ones
      */
@@ -62,7 +62,7 @@ abstract class DeleteLanguageBaseListener
         if(null === $this->sourceObjects) {
             return;
         }
-        
+
         if (count($this->sourceObjects) > 0) {
             try {
                 $result = true;
@@ -75,7 +75,7 @@ abstract class DeleteLanguageBaseListener
                     }
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $languageRepository->commit();
                 }
                 else {

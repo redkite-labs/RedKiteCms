@@ -73,7 +73,7 @@ class UpdatePermalinkOnBlocksListener
                         }
                     }
 
-                    if ($result) {
+                    if (false !== $result) {
                         $this->blockRepository->commit();
                     }
                     else {
