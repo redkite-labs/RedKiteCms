@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor;
 
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\PhpExecutableFinder;
 
 /**
  * Defines the methods to execute one or more console commands
@@ -30,8 +29,8 @@ interface AlCommandsProcessorInterface
     /**
      * Executes a console command
      *
-     * @param string $cmd
-     * @param \Closure $closure
+     * @param  string   $cmd
+     * @param  \Closure $closure
      * @return int
      */
     public function executeCommand($cmd, \Closure $closure = null);
@@ -39,8 +38,8 @@ interface AlCommandsProcessorInterface
     /**
      * Executes the console commands defined in the $commands array
      *
-     * @param array $commands
-     * @param \Closure $closure A global closure used when the specific one has not been defined
+     * @param  array             $commands
+     * @param  \Closure          $closure  A global closure used when the specific one has not been defined
      * @throws \RuntimeException
      */
     public function executeCommands(array $commands, \Closure $closure = null);

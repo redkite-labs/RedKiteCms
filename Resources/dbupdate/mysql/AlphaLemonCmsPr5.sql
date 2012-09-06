@@ -29,4 +29,4 @@ CREATE TABLE IF NOT EXISTS `al_user` (
 ) ENGINE=innoDb  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 INSERT INTO `al_user` (`id`, `role_id`, `username`, `password`, `salt`, `email`, `ip`, `created_at`) VALUES
-(1, 2, 'admin', 'e+bya4WFVA1Wh+KK98MxsltYfdoFar8Br2L+TZkHjCbJyxSw3+FmjEAbtOFg+kjw+1fqCV3rz4T3+xz9IRmnyQ==', '5k89t44zr5wkccccws44k0w8cwg0s8o', '', NULL, '0000-00-00');     
+(1, 2, 'admin', 'e+bya4WFVA1Wh+KK98MxsltYfdoFar8Br2L+TZkHjCbJyxSw3+FmjEAbtOFg+kjw+1fqCV3rz4T3+xz9IRmnyQ==', '5k89t44zr5wkccccws44k0w8cwg0s8o', '', NULL, '0000-00-00');

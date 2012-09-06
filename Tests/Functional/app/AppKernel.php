@@ -43,7 +43,7 @@ class AppKernel extends Kernel
         $finder = new \Symfony\Component\Finder\Finder();
         $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
         foreach ($configFiles as $config) {
-            $loader->load((string)$config);
+            $loader->load((string) $config);
         };
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
@@ -60,6 +60,7 @@ class AppKernel extends Kernel
 
         if (strpos($this->getEnvironment(), 'test') === false) {
             parent::initializeContainer();
+
             return;
         }
 

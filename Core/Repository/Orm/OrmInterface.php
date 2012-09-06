@@ -22,7 +22,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface OrmInterface {
+interface OrmInterface
+{
     /**
      * Sets the current connection
      *
@@ -77,7 +78,6 @@ interface OrmInterface {
      * @returns int
      */
     public function getAffectedRecords();
-
 
     /**
      * Executes a raw query

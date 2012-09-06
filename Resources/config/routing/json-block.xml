@@ -3,8 +3,8 @@
 <routes xmlns="http://symfony.com/schema/routing"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
-    
-    
+
+
     <route id="_list_carousel_items" pattern="/backend/{_locale}/al_listJsonItems">
         <default key="_controller">AlphaLemonCmsBundle:JsonBlock:listJsonItems</default>
         <default key="_locale">en</default>
@@ -14,7 +14,7 @@
         <default key="_controller">AlphaLemonCmsBundle:JsonBlock:showJsonItem</default>
         <default key="_locale">en</default>
     </route>
-    
+
     <route id="_delete_carousel_item" pattern="/backend/{_locale}/al_deleteJsonItem">
         <default key="_controller">AlphaLemonCmsBundle:JsonBlock:deleteJsonItem</default>
         <default key="_locale">en</default>

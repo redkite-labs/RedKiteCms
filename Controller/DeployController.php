@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
 
@@ -25,8 +24,7 @@ class DeployController extends Controller
 {
     public function localAction()
     {
-        try
-        {
+        try {
             $deployer = $this->container->get('alphalemon_cms.local_deployer');
             $deployer->deploy();
 
@@ -44,9 +42,7 @@ class DeployController extends Controller
             ));
 
             return $response;
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             echo $ex->getMessage();
         }
     }

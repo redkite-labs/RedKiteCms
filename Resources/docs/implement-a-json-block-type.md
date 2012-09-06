@@ -2,14 +2,14 @@
 When you need to add a block made by items and each items has two or more properties, you might be tempted to add a new table to the database. This will
 work for sure but a better solution could take place: using a json content to achieve that task.
 
-AlphaLemon provides an abstract block manager that manages that special content and an editor that can be used to add, edit and remove the items for that 
+AlphaLemon provides an abstract block manager that manages that special content and an editor that can be used to add, edit and remove the items for that
 block.
 
 > This chapter implements a custom block, so you should refere the add-custom-block.md chapter for more details on how implement a custom app-block
 before go over with this one.
 
 ## A real example
-The BusinessCarousel, that comes with the BusinessWebsiteTheme is based on the JsonBlock type, in fact it manages a serie of items and each item 
+The BusinessCarousel, that comes with the BusinessWebsiteTheme is based on the JsonBlock type, in fact it manages a serie of items and each item
 has several properties:
 
     {
@@ -54,7 +54,7 @@ The Block Manager object will inherit from the AlBlockManagerJsonBlock, as follo
         }
     }
 
-The default value will add only an item. To have your block returning the desidered output, the **getHtml** method has been 
+The default value will add only an item. To have your block returning the desidered output, the **getHtml** method has been
 redefined as follows:
 
     AlphaLemon/Block/BusinessCarouselBundle/Core/Block/AlBlockManagerBusinessCarousel.php
@@ -100,7 +100,7 @@ The code is quite simple and self explained in the code, however it fetches the 
 prepares the html output as the carousel wants.
 
 ## The editor
-AlphaLemon CMS provides a base editor to mananage that kind of content, which is made by two twig templates, called **list** and **item**. 
+AlphaLemon CMS provides a base editor to mananage that kind of content, which is made by two twig templates, called **list** and **item**.
 
 The names are quite esplicative, however the **list** displays the content items as a list and the **item** represent a single item and
 can be used to add and edit an item.
@@ -117,7 +117,7 @@ The name is mandatory and must be made as follows: **[bundle name in lower case]
 
 ## Display the editor
 AlphaLemon CMS looks for a **[app_block_name_in_lower_case]_editor.html.twig** as default template when a content must be edited but in this case
-we need to open a different editor instead of the default one. This task is achieved implementing a listener that listen to the 
+we need to open a different editor instead of the default one. This task is achieved implementing a listener that listen to the
 **actions.block_editor_rendering** event.
 
 AlphaLemon provides two pre-configured listeners: the **RenderingListEditorListener** to render the editor which displays the items list and the
@@ -138,8 +138,8 @@ This block requires to display the items as a list so the following class has be
         }
     }
 
-The listenr implements the required method **configure** which returns an array where is defined the Block Manager class, identified by 
-the **blockClass** option. 
+The listenr implements the required method **configure** which returns an array where is defined the Block Manager class, identified by
+the **blockClass** option.
 
 ### Render the editor for the item as base editor
 If you need to render the **RenderingItemEditorListener** you must specify the form class as follows:
@@ -152,7 +152,7 @@ If you need to render the **RenderingItemEditorListener** you must specify the f
         );
     }
 
-### Adding the listener to the Dependency Injector Container    
+### Adding the listener to the Dependency Injector Container
 To have the listener working, it must be declared in the DIC:
 
     <parameter key="businesscarouseleditor_rendering.class">AlphaLemon\Block\BusinessCarouselBundle\Core\Listener\RenderingEditorListener</parameter>
@@ -190,7 +190,7 @@ As you see, the only required thing is to instantiate the form's fields extendin
 method where a required field is instantiated.
 
 ### The item's editor
-As we did for the list editor, we have to implement an editor for the item, so a new twig template called **businesscarousel_item.html.twig** 
+As we did for the list editor, we have to implement an editor for the item, so a new twig template called **businesscarousel_item.html.twig**
 has been created under the **views/Block** bundle's folder, then the following code has been added:
 
     {% extends "AlphaLemonCmsBundle:Block:Json/item_and_list.html.twig" %}

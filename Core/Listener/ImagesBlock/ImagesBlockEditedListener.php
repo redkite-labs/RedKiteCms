@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
 
-
 /**
  * Renders the ediotr to manage a serie of images
  *
@@ -50,8 +49,7 @@ class ImagesBlockEditedListener
     public function onBlockEdited(BlockEditedEvent $event)
     {
         $blockManager = $event->getBlockManager();
-        if($blockManager instanceof AlBlockManagerImages)
-        {
+        if ($blockManager instanceof AlBlockManagerImages) {
             $template = $this->templateEngine->render('AlphaLemonCmsBundle:Block:images_list.html.twig', array("alContent" => $blockManager));
             $values = array(
                 array("key" => "images-list", "value" => $template),
@@ -68,4 +66,3 @@ class ImagesBlockEditedListener
         }
     }
 }
-

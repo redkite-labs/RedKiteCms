@@ -5,14 +5,14 @@
             <td width="100%">{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td>
-            
+
             <td>
                 {% if(user.id != app.security.getToken().getUser().getPrimaryKey()) %}
                 <a href="#" class="al_delete_user" rel="{{ user.id }}">Delete</a>
                 {% else %}
                 -
                 {% endif %}
-            </td>            
+            </td>
         </tr>
     {% endfor %}
     </table>

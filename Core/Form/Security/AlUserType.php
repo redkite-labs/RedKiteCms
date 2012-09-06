@@ -6,8 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\MinLength;
-use Symfony\Component\Validator\Constraints\Collection;
 
 class AlUserType extends AbstractType
 {
@@ -16,8 +14,8 @@ class AlUserType extends AbstractType
         $builder->add('id', 'hidden');
         $builder->add('username');
         $builder->add('password');
-        $builder->add('email');  
-        
+        $builder->add('email');
+
         $builder->add('AlRole', 'model', array(
             'class'     => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlRole',
             'property'  => 'Role',

@@ -3,6 +3,6 @@ routing:
 
 _al_text_bundle:
     resource: "@TextBundle/Resources/config/routing/routing.xml"
-    
+
 _alphalemoncms:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing.yml"

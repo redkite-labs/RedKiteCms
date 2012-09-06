@@ -35,7 +35,7 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * Constructor
      *
-     * @param AlPageBlocksInterface $pageContentsContainer
+     * @param AlPageBlocksInterface        $pageContentsContainer
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
@@ -47,8 +47,8 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * Create the slot converter
      *
-     * @param AlSlot $slot
-     * @param string $newRepeatedStatus
+     * @param  AlSlot                                                                                 $slot
+     * @param  string                                                                                 $newRepeatedStatus
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
      * @throws ClassNotFoundException
      */
@@ -57,7 +57,7 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
         if ($slot->getRepeated() == $newRepeatedStatus) return;
 
         $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
-        if(!class_exists($className)) {
+        if (!class_exists($className)) {
             throw new ClassNotFoundException(sprintf("The class %s that shoud define a new Slot Converter does not exist", $className));
         }
 

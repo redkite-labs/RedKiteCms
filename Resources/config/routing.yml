@@ -1,6 +1,6 @@
 _security:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/security.xml"
-    
+
 _pages:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/pages.xml"
 
@@ -15,7 +15,7 @@ _blocks:
 
 _json_block:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/json-block.xml"
-    
+
 _deploy:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/deploy.xml"
 
@@ -24,7 +24,7 @@ _valum_uploader:
 
 _al_elfinder:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
-    
+
 _navigation1:
   pattern:  /backend/{page}
   defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, page: index }

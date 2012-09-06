@@ -28,8 +28,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
 {
     protected function renderEditor(BlockEditorRenderingEvent $event, array $params)
     {
-        try
-        {
+        try {
             $alBlockManager = $event->getAlBlockManager();
             if ($alBlockManager instanceof $params['blockClass']) {
                 $block = $alBlockManager->get();
@@ -39,9 +38,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
                 $editor = $event->getContainer()->get('templating')->render($template, array("items" => $items, "block_id" => $block->getId()));
                 $event->setEditor($editor);
             }
-        }
-        catch(\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             throw $ex;
         }
     }

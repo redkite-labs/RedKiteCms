@@ -18,8 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * Listen to the onBeforeDeleteLanguageCommit event to delete the seo attributes which
@@ -73,4 +71,3 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
         return $result;
     }
 }
-

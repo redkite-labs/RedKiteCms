@@ -17,18 +17,17 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\RenderingItemEditorListener;
 
 class TestRenderingItemEditorListener extends RenderingItemEditorListener
 {
     protected $configureParams = null;
-    
+
     public function setConfigureParams($configureParams)
     {
         $this->configureParams = $configureParams;
     }
-    
+
     protected function configure()
     {
         return $this->configureParams;
@@ -39,22 +38,20 @@ class TestForm extends \AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonB
 {
 }
 
-
-
 /**
  * RenderingListEditorListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
-{    
+{
     protected function setUp()
-    {   
+    {
         parent::setUp();
-        
+
         $this->testListener = new TestRenderingItemEditorListener();
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The "configure" method for class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" must return an array
@@ -65,7 +62,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         $this->testListener->setConfigureParams('Fake');
         $this->testListener->onBlockEditorRendering($this->event, array());
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The array returned by the "configure" method of the class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" method must contain the "blockClass" option
@@ -76,7 +73,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         $this->testListener->setConfigureParams(array('Fake'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The array returned by the "configure" method of the class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" method must contain the "blockClass" option
@@ -87,7 +84,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         $this->testListener->setConfigureParams(array('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The array returned by the "configure" method of the class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" method must contain the "formClass" option
@@ -98,11 +95,11 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         $this->testListener->setConfigureParams(array('blockClass' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The form class "Fake" defined in "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" does not exists
-     */    
+     */
     public function testAnExceptionIsThrownWhenTheFormClassOptionDoesNotExist1()
     {
         $this->setUpEvents(0);
@@ -114,7 +111,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         );
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     public function testTheEditorHasBeenRendered()
     {
         $this->setUpEvents();
@@ -128,25 +125,25 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         );
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     protected function setUpContainer()
     {
         $this->engine->expects($this->once())
             ->method('render')
             ->will($this->returnValue('<p>rendered template</p>'));
-        
+
         $form = $this->getMockBuilder('Symfony\Component\Form\Form')
                             ->disableOriginalConstructor()
                             ->getMock();
         $form->expects($this->once())
             ->method('createView')
             ->will($this->returnValue('rendered form'));
-        
+
         $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $formFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($form));
-        
+
         $this->container->expects($this->exactly(2))
             ->method('get')
             ->will($this->onConsecutiveCalls($formFactory, $this->engine));

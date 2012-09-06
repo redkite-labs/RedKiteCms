@@ -20,10 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\MinLength;
-use Symfony\Component\Validator\Constraints\Collection;
-
 abstract class JsonBlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

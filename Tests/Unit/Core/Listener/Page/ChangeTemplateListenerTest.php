@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\ChangeTemplateListener;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
@@ -36,7 +35,6 @@ class ChangeTemplateListenerTest extends BaseListenerTest
     private $pageContents;
     private $templateSlotsFactory;
     private $templateChanger;
-
 
     protected function setUp()
     {
@@ -254,5 +252,18 @@ class ChangeTemplateListenerTest extends BaseListenerTest
         $this->templateChanger->expects($this->once())
             ->method('setNewTemplateManager')
             ->will($this->returnSelf());
+
+        $this->setUpPageRepository();
+    }
+
+    private function setUpPageRepository()
+    {
+        $pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+
+        $this->pageManager->expects($this->once())
+            ->method('getPageRepository')
+            ->will($this->returnValue($pageRepository));
     }
 }

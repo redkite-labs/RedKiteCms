@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm\OrmInterface;
 
 /**
@@ -100,23 +99,20 @@ class AlPropelOrm implements OrmInterface
             $this->modelObject->fromArray($values);
             $this->affectedRecords = $this->modelObject->save();
 
-            if($this->affectedRecords == 0) {
+            if ($this->affectedRecords == 0) {
                 $success = ($this->modelObject->isModified()) ? false : null;
-            }
-            else {
+            } else {
                 $success = true;
             }
 
-            if ($success) {
+            if (false !== $success) {
                 $this->commit();
-            }
-            else {
+            } else {
                 $this->rollBack();
             }
 
             return $success;
-        }
-        catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->rollBack();
 
             throw $ex;
@@ -132,8 +128,7 @@ class AlPropelOrm implements OrmInterface
             $values = array('ToDelete' => 1);
 
             return $this->save($values, $modelObject);
-        }
-        catch(\Exception $ex) {
+        } catch (\Exception $ex) {
 
             throw $ex;
         }

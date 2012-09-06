@@ -17,19 +17,9 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\PageAttributes\PageAttributesForm;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use Symfony\Component\Finder\Finder;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
-use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,25 +33,21 @@ class BlocksController extends Controller
 {
     public function showBlocksEditorAction()
     {
-        try
-        {
+        try {
             $request = $this->getRequest();
             $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
             $blockRepository = $factoryRepository->createRepository('Block');
             $block = $blockRepository->fromPK($request->get('idBlock'));
-            if ($block != null)
-            {
+            if ($block != null) {
                 $alBlockManager = $this->container->get('alphalemon_cms.block_manager_factory')->createBlockManager($block);
                 $dispatcher = $this->container->get('event_dispatcher');
-                if(null !== $dispatcher)
-                {
+                if (null !== $dispatcher) {
                     $event = new Block\BlockEditorRenderingEvent($this->container, $request, $alBlockManager);
                     $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERING, $event);
                     $editor = $event->getEditor();
                 }
 
-                if(null === $editor)
-                {
+                if (null === $editor) {
                     $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getClassName()));
                     $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
                     $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
@@ -77,32 +63,27 @@ class BlocksController extends Controller
                 $values[] = array("key" => "editor",
                                   "value" => $editor);
                 $response = $this->buildJSonResponse($values);
-                if(null !== $dispatcher)
-                {
+                if (null !== $dispatcher) {
                     $event = new Block\BlockEditorRenderedEvent($response, $alBlockManager);
                     $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERED, $event);
                     $response = $event->getResponse();
                 }
 
                 return $response;
-            }
-            else
-            {
+            } else {
                 throw new \RuntimeException($this->container->get('translator')->trans('The content does not exist anymore or the slot has any content inside'));
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function addBlockAction()
     {
-        try
-        {
+        try {
             $this->checkPageIsValid();
 
             $request = $this->get('request');
@@ -132,19 +113,17 @@ class BlocksController extends Controller
                 );
 
             return $this->buildJSonResponse($values);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function editBlockAction()
     {
-        try
-        {
+        try {
             $this->checkPageIsValid();
 
             $request = $this->get('request');
@@ -166,15 +145,14 @@ class BlocksController extends Controller
 
             $response = null;
             $dispatcher = $this->container->get('event_dispatcher');
-            if(null !== $dispatcher)
-            {
+            if (null !== $dispatcher) {
                 $event = new Block\BlockEditedEvent($request, $blockManager);
                 $dispatcher->dispatch(BlockEvents::BLOCK_EDITED, $event);
                 $response = $event->getResponse();
                 $blockManager = $event->getBlockManager();
             }
 
-            if(null === $response) {
+            if (null === $response) {
                 $values = array(
                     array("key" => "message", "value" => "The content has been successfully edited"),
                     array("key" => "edit-block",
@@ -185,91 +163,79 @@ class BlocksController extends Controller
             }
 
             return $response;
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function deleteBlockAction()
     {
-        try
-        {
+        try {
             $this->checkPageIsValid();
 
             $request = $this->get('request');
             $slotManager = $this->fetchSlotManager($request);
 
             $res = $slotManager->deleteBlock($request->get('idBlock'));
-            if(null !== $res)
-            {
+            if (null !== $res) {
                 $message = ($res) ? $this->get('translator')->trans('The content has been successfully removed') : $this->get('translator')->trans('The content has not been removed');
 
                 $values = array();
                 if($message != null) $values[] = array("key" => "message", "value" => $message);
 
-                if($slotManager->length() > 0) {
+                if ($slotManager->length() > 0) {
                     $values[] = array("key" => "remove-block",
                                   "blockName" => "block_" . $request->get('idBlock'));
-                }
-                else {
+                } else {
                     $values[] = array("key" => "redraw-slot",
                           "slotName" => 'al_' . $request->get('slotName'),
                           "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'))));
                 }
 
                 return $this->buildJSonResponse($values);
-            }
-            else
-            {
+            } else {
                 throw new \RuntimeException('The content you tried to remove does not exist anymore in the website');
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function showExternalFilesManagerAction()
     {
-        try
-        {
+        try {
             $key = $this->getRequest()->get('key');
             if (empty($key)) {
                 throw new \RuntimeException($this->container->get('translator')->trans('The key param is mandatory to open the right file manager'));
             }
 
             return $this->render(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key));
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function addExternalFileAction()
     {
-        try
-        {
+        try {
             $request = $this->get('request');
 
             $file = urldecode($request->get('file'));
-            if(null === $file || $file == '')
-            {
+            if (null === $file || $file == '') {
                 throw new \Exception("External file cannot be added because any file has been given");
             }
 
             $field = urldecode($request->get('field'));
-            if(null === $field || $field == '')
-            {
+            if (null === $field || $field == '') {
                 throw new \Exception("External file cannot be added because any valid field name has been given");
             }
 
@@ -283,10 +249,9 @@ class BlocksController extends Controller
 
                 $files = array();
                 $externalFiles =  $alBlock->{'get' . $field}();
-                if(!empty($externalFiles)) {
+                if (!empty($externalFiles)) {
                     $externalFiles = explode(',', $externalFiles);
-                    if(in_array($file, $externalFiles))
-                    {
+                    if (in_array($file, $externalFiles)) {
                         throw new \Exception("The block has already assigned the external file you are trying to add");
                     }
                     $files = $externalFiles;
@@ -300,38 +265,32 @@ class BlocksController extends Controller
                     $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $file, "files" => $files, 'section' => $section));
 
                     return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, "section" => $section));
-                }
-                else {
+                } else {
                     throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
                 }
-            }
-            else {
+            } else {
                 throw new \RuntimeException('You are trying to add an external file on a content that doesn\'t exist anymore');
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function removeExternalFileAction()
     {
-        try
-        {
+        try {
             $request = $this->get('request');
 
             $file = urldecode($request->get('file'));
-            if(null === $file || $file == '')
-            {
+            if (null === $file || $file == '') {
                 throw new \Exception("External file cannot be removed because any file has been given");
             }
 
             $field = urldecode($request->get('field'));
-            if(null === $field || $field == '')
-            {
+            if (null === $field || $field == '') {
                 throw new \Exception("External file cannot be removed because any valid field name has been given");
             }
 
@@ -348,10 +307,9 @@ class BlocksController extends Controller
                     $file = $filePath . $request->get('file');
                     @unlink($file);
 
-                    if(!empty($externalFiles))
-                    {
+                    if (!empty($externalFiles)) {
                         $files = array_flip(explode(",", $externalFiles));
-                        if(array_key_exists($request->get('file'), $files)) {
+                        if (array_key_exists($request->get('file'), $files)) {
                             unset($files[$request->get('file')]);
                             $files = array_flip($files);
                             $value = implode(",", $files);
@@ -363,28 +321,23 @@ class BlocksController extends Controller
                                 $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $section));
 
                                 return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, 'section' => $section));
-                            }
-                            else {
+                            } else {
                                 throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
                             }
                         }
                     }
 
                     return $this->buildJSonResponse(array("key" => "message", "value" => "The file has been removed"));
-                }
-                else {
+                } else {
                     return $this->buildJSonResponse(array("key" => "message", "value" => "Any file has been selected"));
                 }
-            }
-            else
-            {
+            } else {
                 throw new \RuntimeException('You are trying to delete an external file from a content that doesn\'t exist anymore');
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
@@ -410,7 +363,7 @@ class BlocksController extends Controller
         if(null === $request) $request = $this->container->get('request');
 
         $slotManager = $this->container->get('template_manager')->getSlotManager($request->get('slotName'));
-        if(null === $slotManager) {
+        if (null === $slotManager) {
             throw new \RuntimeException('You are trying to add a new block on a slot that does not exist on this page, or the slot name is empty');
         }
 
@@ -422,4 +375,3 @@ class BlocksController extends Controller
         return str_replace('External', '', $this->get('request')->get('field'));
     }
 }
-

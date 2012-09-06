@@ -242,9 +242,9 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $jsCode = 'doSomething({
                                 images:[
-				 "/bundles/alphalemoncms/uploads/assets/media/screenshots/img01.png",
-				 ],
-			});';
+                 "/bundles/alphalemoncms/uploads/assets/media/screenshots/img01.png",
+                 ],
+            });';
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
@@ -352,7 +352,6 @@ class AlTwigTemplateWriterTest extends TestCase
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
-
 
     public function testContentsSectionWithOneBlockAndLinkNotReplaceBecauseNotRecognizedAsInternalRouteHaveBeenCreated()
     {

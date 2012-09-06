@@ -12,9 +12,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 /**
@@ -43,7 +43,6 @@ $deps = array(
     //array('AlphaLemonCmsBundle', 'http://github.com/alphalemon/AlphaLemonCmsBundle.git', 'origin/master', 'AlphaLemon'),
     array('FrontendBundle', 'http://github.com/alphalemon/FrontendBundle.git', 'origin/master', 'AlphaLemon'),
 );
-    
 
 foreach ($deps as $dep) {
     list($name, $url, $rev, $extraPath) = $dep;

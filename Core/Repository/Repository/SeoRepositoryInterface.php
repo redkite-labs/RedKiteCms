@@ -22,13 +22,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface SeoRepositoryInterface {
-
+interface SeoRepositoryInterface
+{
     /**
      * Fetches a seo record using its primary key
      *
      * @param int       The primary key
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function fromPK($id);
 
@@ -37,7 +37,7 @@ interface SeoRepositoryInterface {
      *
      * @param int       The id of the language
      * @param int       The id of the page
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function fromPageAndLanguage($languageId, $pageId);
 
@@ -45,7 +45,7 @@ interface SeoRepositoryInterface {
      * Fetches the seo record found by its permalink
      *
      * @param string    The permalink
-     * @return object   The fetched object
+     * @return object The fetched object
      */
     public function fromPermalink($permalink);
 

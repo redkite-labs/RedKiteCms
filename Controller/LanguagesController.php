@@ -17,15 +17,11 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AlphaLemon\AlphaLemonCmsBundle\Controller\CmsController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Language\AlLanguageManager;
 
 class LanguagesController extends Controller
 {
@@ -44,13 +40,13 @@ class LanguagesController extends Controller
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
                         'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
                         'form' => $form->createView());
+
         return $this->render('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
     }
 
     public function saveLanguageAction()
     {
-        try
-        {
+        try {
             $request = $this->get('request');
             $languageManager = $this->container->get('al_language_manager');
             $languageManager->setTranslator($this->container->get('translator'));
@@ -61,55 +57,43 @@ class LanguagesController extends Controller
                                 'Language' => $request->get('newLanguage'));
             if ($languageManager->save($parameters)) {
                 return $this->buildJSonHeader('The language has been successfully saved');
-            }
-            else {
+            } else {
                 throw new \RuntimeException('An error has been occoured, so the language has not been saved');
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function deleteLanguageAction()
     {
-        try
-        {
+        try {
             $request = $this->get('request');
             $languageManager = $this->container->get('al_language_manager');
             $alLanguage = $this->fetchLanguage($request->get('idLanguage'), $languageManager);
-            if($alLanguage != null)
-            {
+            if ($alLanguage != null) {
                 $result = $languageManager
                             ->set($alLanguage)
                             ->delete();
-                if($result)
-                {
+                if ($result) {
                     $message = $this->get('translator')->trans('The language has been successfully removed');
-                }
-                else if(null === $result)
-                {
+                } elseif (null === $result) {
                     throw new \RuntimeException($this->container->get('translator')->trans('The main language could not be deleted'));
-                }
-                else
-                {
+                } else {
                     throw new \RuntimeException($this->container->get('translator')->trans('Nothing to delete with the given parameters'));
                 }
-            }
-            else
-            {
+            } else {
                 throw new \RuntimeException($this->container->get('translator')->trans('Any language has been choosen for removing'));
             }
 
             return $this->buildJSonHeader($message);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
+
             return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
@@ -119,8 +103,7 @@ class LanguagesController extends Controller
         $values = array();
         $request = $this->get('request');
         $language = $request->get('language');
-        if($language != 'none')
-        {
+        if ($language != 'none') {
             $alLanguage = AlLanguageQuery::create()
                             ->filterByToDelete(0)
                             ->findPK($language);

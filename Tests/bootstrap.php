@@ -50,11 +50,9 @@ if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) 
     $queries = explode(";", file_get_contents(__DIR__ . '/Functional/app/Resources/sql/database.sql'));
     mysql_connect('localhost', 'root', '');
     mysql_select_db('alphalemon_test');
-    foreach($queries as $query)
-    {
+    foreach ($queries as $query) {
         $query = trim($query);
         if(!empty($query) != "") mysql_query($query);
     }
     mysql_close();
 }
-

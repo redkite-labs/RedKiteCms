@@ -17,16 +17,11 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms;
 
-use Symfony\Component\HttpFoundation\Request;
-use AlRequestCore\Listener\AlRequestListener;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
-
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
 
 /**
  * Bootstraps AlphaLemon CMS
@@ -58,8 +53,7 @@ class CmsBootstrapListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if(strpos($this->kernel->getEnvironment(), 'alcms') === false)
-        {
+        if (strpos($this->kernel->getEnvironment(), 'alcms') === false) {
             return;
         }
 
@@ -70,7 +64,7 @@ class CmsBootstrapListener
 
     private function setUpRequiredFolders()
     {
-        $folders = array(); 
+        $folders = array();
         $basePath = $this->locate($this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'));
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
@@ -81,22 +75,21 @@ class CmsBootstrapListener
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
         $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
-        
+
         $fs = new Filesystem();
         $fs->mkdir($folders);
     }
-    
+
     private function locate($asset, $message = null)
     {
         $asset = new AlAsset($this->kernel, $asset);
-        $assetPath = $asset->getRealPath(); 
-        if(null === $assetPath)
-        {
+        $assetPath = $asset->getRealPath();
+        if (null === $assetPath) {
             $message = (null === $message) ? sprintf('It seems that the asset %s does not exist', $asset) : $message;
-            
+
             throw new InvalidParameterException($message);
         }
-        
+
         return $assetPath;
     }
 
@@ -108,7 +101,7 @@ class CmsBootstrapListener
     private function checkTemplatesSlots()
     {
         $template = $this->pageTree->getTemplate();
-        if(null === $template) {
+        if (null === $template) {
             return;
         }
 
@@ -116,4 +109,3 @@ class CmsBootstrapListener
         $slotsAligner->align($template->getThemeName(), $template->getTemplateName(), $template->getSlots());
     }
 }
-

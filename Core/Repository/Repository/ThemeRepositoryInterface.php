@@ -10,19 +10,20 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
 
 /**
  * RepositoryInterface
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-interface ThemeRepositoryInterface {
+interface ThemeRepositoryInterface
+{
     public function fromName($themeName);
     public function activeBackend();
 }

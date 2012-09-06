@@ -44,7 +44,6 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-
         $this->pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
                                     ->getMock();

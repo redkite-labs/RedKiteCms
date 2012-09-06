@@ -57,4 +57,3 @@ propel:
         options:              {}
         attributes:           {}
         default_connection:   default
-

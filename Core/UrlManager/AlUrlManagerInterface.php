@@ -17,11 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager;
 
-use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
 
 /**
  * Defines the methods to manages an url to be used when in CMS mode and for production mode
@@ -62,8 +58,8 @@ interface AlUrlManagerInterface
      * Builds and internal url to be used when in CMS mode and fetches the information about the
      * url itself
      *
-     * @param mixed $language | int, string, \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage
-     * @param mixed $page | int, string, \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage
+     * @param  mixed                                                        $language | int, string, \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage
+     * @param  mixed                                                        $page     | int, string, \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager
      */
     public function buildInternalUrl($language, $page);
@@ -71,7 +67,7 @@ interface AlUrlManagerInterface
     /**
      * Fetches information from the given url
      *
-     * @param string $url
+     * @param  string                                                       $url
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager
      */
     public function fromUrl($url);

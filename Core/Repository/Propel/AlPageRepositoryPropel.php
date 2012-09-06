@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Page;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\PagesEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
@@ -77,13 +76,11 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function fromPageName($pageName)
     {
-        if (null === $pageName)
-        {
+        if (null === $pageName) {
             return null;
         }
 
-        if (!is_string($pageName))
-        {
+        if (!is_string($pageName)) {
           throw new \InvalidArgumentException('The name of the page must be a string. The page cannot be retrieved');
         }
 

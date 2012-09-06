@@ -18,11 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlBlockManagerContainerBase instantiates a test for a block manager that injects the Contaione
@@ -35,7 +30,7 @@ class AlBlockManagerContainerBase extends TestCase
     protected $kernel;
     protected $validator;
     protected $blockRepository;
-    protected $factoryRepository;    
+    protected $factoryRepository;
     protected $container;
 
     protected function setUp()

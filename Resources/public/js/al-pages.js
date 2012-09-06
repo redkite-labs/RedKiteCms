@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 
 (function($){
     $.fn.SelectPage =function()
     {
-        this.each(function() 
+        this.each(function()
         {
             $(this).click(function()
             {
-                // Deselects the current selected page and selects the new one                
+                // Deselects the current selected page and selects the new one
                 ResetWholeForm();
                 if(!$(this).hasClass('al_element_selected'))
                 {
@@ -62,7 +62,7 @@ function InitPagesCommands()
 {
     $("#al_page_saver").click(function()
     {
-        var isHome = ($('#pages_isHome').is(':checked')) ? 1 : 0;        
+        var isHome = ($('#pages_isHome').is(':checked')) ? 1 : 0;
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_savePage',
@@ -172,7 +172,7 @@ function UpdatePagesJSon(response)
                 $('#al_dialog').html(item.value);
                 break;
             case "pages":
-                var idSelectedPage = $('#al_pages_list .al_element_selected').attr('ref'); 
+                var idSelectedPage = $('#al_pages_list .al_element_selected').attr('ref');
                 $('#al_pages_list').html(item.value);
                 $('#al_pages_list .al_element_selector').each(function(key, item)
                 {

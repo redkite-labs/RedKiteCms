@@ -6,9 +6,9 @@
    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
 
    For the full copyright and license information, please view the LICENSE
-   file that was distributed with this source code. 
+   file that was distributed with this source code.
 
-   For extra documentation and help please visit http://www.alphalemon.com 
+   For extra documentation and help please visit http://www.alphalemon.com
 
    @license    GPL LICENSE Version 2.0
 #}
@@ -53,7 +53,7 @@
           <td>{{ form_label(pagesForm.pageName, "Page name" | trans([], domain)) }}</td>
           <td>{{ form_errors(pagesForm.pageName) }} {{ form_widget(pagesForm.pageName, { 'attr': {'class' : 'input panel_input', 'title': "The name of the page. It must be unique" | trans([], domain)}}) }} </td>
         </tr>
-        
+
         <tr>
           <td>{{ form_label(pagesForm.template, "Template" | trans([], domain)) }}</td>
           <td>
@@ -66,7 +66,7 @@
                   <tr>
                       <td width="40%">{{ form_label(pagesForm.isHome, "Home page" | trans([], domain)) }}</td>
                       <td width="10%">{{ form_errors(pagesForm.isHome) }} {{ form_widget(pagesForm.isHome, { 'attr': {'class' : 'input panel_input', 'title': "Set the page as the home page of your website. This is the page displayed when any specific page has been requested" | trans([], domain)}}) }}</td>
-                    
+
                       <td width="40%">{{ form_label(pagesForm.isPublished, "Published" | trans([], domain)) }}</td>
                       <td width="10%">{{ form_errors(pagesForm.isPublished) }} {{ form_widget(pagesForm.isPublished, { 'attr': {'class' : 'input panel_input', 'title': "When checked the page will be published" | trans([], domain)}}) }}</td>
                     </tr>
@@ -128,4 +128,3 @@
 
     <div id="al_select_languages_reminder">{{ "And now select the language or remove the page!" | trans([], domain) }}</div>
 {% endblock %}
-
