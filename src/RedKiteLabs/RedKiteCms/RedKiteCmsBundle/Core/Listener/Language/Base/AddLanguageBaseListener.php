@@ -99,7 +99,7 @@ abstract class AddLanguageBaseListener
                     }
                 }
 
-                if ($result) {
+                if (false !== $result) {
                     $languageRepository->commit();
                 }
                 else {
