@@ -375,10 +375,10 @@ class AlSlotManager extends AlTemplateBase
                 $this->blockRepository->startTransaction();
 
                 $result = $blockManager->save($values);
-                if ($result === false) {
-                    $this->blockRepository->rollBack();
-                } else {
+                if ($result !== false) {
                     $this->blockRepository->commit();
+                } else {
+                    $this->blockRepository->rollBack();
                 }
 
                 return $result;
