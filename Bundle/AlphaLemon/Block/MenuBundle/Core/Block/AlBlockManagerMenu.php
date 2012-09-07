@@ -17,14 +17,14 @@
 
 namespace AlphaLemon\Block\MenuBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\TinyMceBlock\AlBlockManagerTinyMce;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * AlBlockManagerMenu
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerMenu extends AlBlockManagerTinyMce
+class AlBlockManagerMenu extends AlBlockManager
 {
     /**
      * @see AlBlockManager::getDefaultValue()
