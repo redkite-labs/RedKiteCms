@@ -62,7 +62,7 @@ class EditSeoListener
                     ->getIdLanguage();
             $seoRepository = $this->seoManager->getSeoRepository();
             $seo = $seoRepository->fromPageAndLanguage($idLanguage, $idPage);
-            if (null !== $seo) {
+            if (!empty($values)) {
                 $seoRepository->setConnection($pageRepository->getConnection());
                 $pageRepository->startTransaction();
                 $this->seoManager->set($seo);
