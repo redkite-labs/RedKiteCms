@@ -296,6 +296,10 @@ class AlTwigTemplateWriterTest extends TestCase
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
         $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
+        $section .= "" . PHP_EOL;
+        $section .= "<!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "" . PHP_EOL;
+        $section .= "<!-- END LOGO BLOCK -->" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
@@ -426,6 +430,10 @@ class AlTwigTemplateWriterTest extends TestCase
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block fake_slot %}" . PHP_EOL;
         $section .= "  {% if(slots.fake_slot is not defined) %}" . PHP_EOL;
+        $section .= "" . PHP_EOL;
+        $section .= "<!-- BEGIN FAKE_SLOT BLOCK -->" . PHP_EOL;
+        $section .= "" . PHP_EOL;
+        $section .= "<!-- END FAKE_SLOT BLOCK -->" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
