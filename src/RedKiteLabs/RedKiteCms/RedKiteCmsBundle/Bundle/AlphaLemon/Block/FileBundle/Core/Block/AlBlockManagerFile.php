@@ -38,12 +38,22 @@ class AlBlockManagerFile extends AlBlockManagerContainer
             $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alphalemon_cms.upload_assets_dir');
             $asset = new AlAsset($container->get('kernel'),  $assetPath);
 
-            $content = str_replace('{{', '{ {' , $content);
-            $content = str_replace('}}', '} }' , $content);
-            $content = str_replace('{%', '{ %' , $content);
-            $content = str_replace('%}', '% }' , $content);
+            return sprintf("{{ file_open('%s') }}", $asset->getRealPath() . '/' . $content);
+        }
 
-            return file_get_contents($asset->getRealPath() . '/' . $content);
+        return $content;
+    }
+
+    protected function formatHtmlCmsActive()
+    {
+        $container = $this->container;
+        $content = $this->alBlock->getHtmlContent();
+        $defaultValue = $this->getDefaultValue();
+        if ($content != $defaultValue["HtmlContent"]) {
+            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alphalemon_cms.upload_assets_dir');
+            $asset = new AlAsset($container->get('kernel'),  $assetPath);
+
+            return @file_get_contents($asset->getRealPath() . '/' . $content);
 
             /* TODO
             $assetPath = $asset->getAbsolutePath() . '/' . $content;
