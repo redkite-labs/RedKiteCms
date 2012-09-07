@@ -72,7 +72,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     /**
      *  {@inheritdoc}
      */
-    public function getHtmlCmsActive()
+    protected function formatHtmlCmsActive()
     {
         $content = '';
         $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();

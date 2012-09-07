@@ -191,20 +191,21 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Returns the html content when AlphaLemon CMS is active.
      *
      * By default the internal javascript is concatenated to the block's html content: this behavior
-     * can be changed overriding the getExecuteInternalJavascript() method
+     * can be changed overriding the getExecuteInternalJavascript() method.
      *
      *
      * @return string
      */
-    public function getHtmlCmsActive()
+    public final function getHtmlCmsActive()
     {
-        $content = $this->getHtml();
-        if ((string) $this->getInternalJavascript() != "") {
-            $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
-            $internalJavascript = ($this->getExecuteInternalJavascript()) ? $this->getInternalJavascript() : '';
-            if ($scriptForHideContents != '' || $internalJavascript != '') {
-                $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s%s});</script>', $scriptForHideContents, $internalJavascript);
-            }
+        $content = $this->formatHtmlCmsActive();
+        if(null === $content) $content = $this->getHtml();
+
+        // Attaches the content a javascript code that saves the block's content to restore it when block must be hid
+        $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
+        $internalJavascript = ((string) $this->getInternalJavascript() != "" && $this->getExecuteInternalJavascript()) ? $this->getInternalJavascript() : '';
+        if ($scriptForHideContents != '' || $internalJavascript != '') {
+            $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s%s});</script>', $scriptForHideContents, $internalJavascript);
         }
 
         return $content;
@@ -378,6 +379,18 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
+     * Implements a method to let the devived class override it to format the content
+     * to display when the Cms is active
+     *
+     * @return null
+     */
+    protected function formatHtmlCmsActive()
+    {
+        return null;
+    }
+
+
+    /**
      * Adds a new block to the AlBlock table
      *
      *
@@ -432,7 +445,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $result = $this->blockRepository
                     ->setRepositoryObject($this->alBlock)
                     ->save($values);
-            if ($result) {
+            if (false !== $result) {
                 $this->blockRepository->commit();
 
                 if (null !== $this->dispatcher) {
