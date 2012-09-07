@@ -29,7 +29,7 @@ class DeployController extends Controller
             $deployer->deploy();
 
             $response = $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
-return $response;
+            
             $appDir = $this->container->get('kernel')->getRootDir();
             $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
             $command = sprintf('assets:install %s %s', $this->container->getParameter('alphalemon_cms.web_folder'), $symlink);
