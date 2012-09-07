@@ -140,9 +140,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     $event = new  Content\Seo\BeforeDeleteSeoCommitEvent($this);
                     $this->dispatcher->dispatch(SeoEvents::BEFORE_DELETE_SEO_COMMIT, $event);
 
-                    if ($event->isAborted()) {
-                        $result = false;
-                    }
+                    $result = ($event->isAborted()) ? false : true;
                 }
 
                 if (false !== $result) {
@@ -178,6 +176,9 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     public function deleteSeoAttributesFromLanguage($languageId, $pageId)
     {
         $alSeo = $this->seoRepository->fromPageAndLanguage($languageId, $pageId);
+        // Occours when the attributes has been already removed
+        if (null === $alSeo) return true;
+
         $this->set($alSeo);
         $result = $this->delete();
         $this->set(null);
@@ -238,9 +239,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     $event = new  Content\Seo\BeforeAddSeoCommitEvent($this, $values);
                     $this->dispatcher->dispatch(SeoEvents::BEFORE_ADD_SEO_COMMIT, $event);
 
-                    if ($event->isAborted()) {
-                        $result = false;
-                    }
+                    $result = ($event->isAborted()) ? false : true;
                 }
             }
 

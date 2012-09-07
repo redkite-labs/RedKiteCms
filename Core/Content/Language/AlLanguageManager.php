@@ -149,9 +149,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                     $event = new  Content\Language\BeforeDeleteLanguageCommitEvent($this);
                     $this->dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE_COMMIT, $event);
 
-                    if ($event->isAborted()) {
-                        $result = false;
-                    }
+                    $result = ($event->isAborted()) ? false : true;
                 }
             }
 
