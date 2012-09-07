@@ -174,9 +174,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                             $event = new  Content\Page\BeforeDeletePageCommitEvent($this);
                             $this->dispatcher->dispatch(PageEvents::BEFORE_DELETE_PAGE_COMMIT, $event);
 
-                            if ($event->isAborted()) {
-                                $result = false;
-                            }
+                            $result = ($event->isAborted()) ? false : true;
                         }
                     }
 
@@ -306,9 +304,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                         $event = new  Content\Page\BeforeAddPageCommitEvent($this, $values);
                         $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE_COMMIT, $event);
 
-                        if ($event->isAborted()) {
-                            $result = false;
-                        }
+                        $result = ($event->isAborted()) ? false : true;
                     }
                 }
             }
@@ -394,9 +390,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     $event = new  Content\Page\BeforeEditPageCommitEvent($this, $values);
                     $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE_COMMIT, $event);
 
-                    if ($event->isAborted()) {
-                        $result = false;
-                    }
+                    $result = ($event->isAborted()) ? false : true;
                 }
             }
 
@@ -407,13 +401,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     $event = new  Content\Page\AfterPageEditedEvent($this);
                     $this->dispatcher->dispatch(PageEvents::AFTER_EDIT_PAGE, $event);
                 }
-
-                return true;
             } else {
                 $this->pageRepository->rollBack();
-
-                return false;
             }
+
+            return $result;
         } catch (\Exception $e) {
             if (isset($this->pageRepository) && $this->pageRepository !== null) {
                 $this->pageRepository->rollBack();

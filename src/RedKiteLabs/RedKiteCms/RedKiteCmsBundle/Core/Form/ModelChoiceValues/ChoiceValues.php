@@ -31,7 +31,7 @@ class ChoiceValues
     public static function getPages(PageRepositoryInterface $pageRepository, $withNoneOption = true)
     {
         $result = array();
-        if($withNoneOption) $pages["none"] = " ";
+        if ($withNoneOption) $result["none"] = " ";
         $pages = $pageRepository->activePages();
         foreach ($pages as $page) {
             $result[$page->getId()] = $page->getPageName();
@@ -43,7 +43,7 @@ class ChoiceValues
     public static function getLanguages(LanguageRepositoryInterface $languageRepository, $withNoneOption = true)
     {
         $result = array();
-        if($withNoneOption) $languages["none"] = " ";
+        if($withNoneOption) $result["none"] = " ";
         $languages = $languageRepository->activeLanguages();
         foreach ($languages as $language) {
             $result[$language->getId()] = $language->getLanguage();
