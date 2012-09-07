@@ -17,8 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor;
 
-use Symfony\Component\Process\Process;
-
 /**
  * Defines the methods to execute one or more console commands
  *

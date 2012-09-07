@@ -123,7 +123,6 @@ class AlUrlManager implements AlUrlManagerInterface
         $defaultUrlTokens = $this->generateDefaultUrlTokens();
         if (strpos($url, ':') === false && $url != '#') {
 
-
             // It's just the permalink
             if (strpos($url, $defaultUrlTokens) === false) {
                 $permalink = $url;

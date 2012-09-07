@@ -43,7 +43,6 @@ class AlBlockManagerScript extends AlBlockManager
     {
         $content = $this->alBlock->getHtmlContent();
         if (strpos($content, '<script') !== false) return "A script content is not rendered in editor mode";
-        
         return $content;
     }
 
