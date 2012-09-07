@@ -63,7 +63,11 @@
                 $.ajax({
                     type: 'GET',
                     url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_listJsonItems',
-                    data: {'blockId' : blockId},
+                    data: {
+                        'page' :  $('#al_pages_navigator option:selected').text(),
+                        'language' : $('#al_languages_navigator option:selected').text(),
+                        'blockId' : blockId
+                    },
                     beforeSend: function()
                     {
                         $('body').AddAjaxLoader();
@@ -97,7 +101,12 @@ function showItemForm(blockId, id)
     $.ajax({
       type: 'GET',
       url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showJsonItem',
-      data: {'blockId' : blockId, 'itemId' : id },
+      data: {
+        'page' :  $('#al_pages_navigator option:selected').text(),
+        'language' : $('#al_languages_navigator option:selected').text(),
+        'blockId' : blockId,
+        'itemId' : id
+      },
       beforeSend: function()
       {
         $('body').AddAjaxLoader();
@@ -126,8 +135,12 @@ function deleteItem(blockId, id)
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deleteJsonItem',
-            data: {'blockId' : blockId,
-                   'RemoveItem'      : id },
+            data: {
+                'page' :  $('#al_pages_navigator option:selected').text(),
+                'language' : $('#al_languages_navigator option:selected').text(),
+                'blockId' : blockId,
+                'RemoveItem' : id
+            },
             beforeSend: function()
             {
                 $('body').AddAjaxLoader();

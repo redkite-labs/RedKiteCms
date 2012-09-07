@@ -97,8 +97,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testAddNewBlock()
     {
         $referenceBlockId = $this->getLastBlock("left_sidebar_content")->getId();
-        $params = array('page' => '2',
-                        'language' => '2',
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
                         'idBlock' => $referenceBlockId);
 
@@ -132,8 +134,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $blocks = $this->getSlotBlocks("left_sidebar_content");
         $blocks->delete();
 
-        $params = array('page' => '2',
-                        'language' => '2',
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
                         'slotName' => 'left_sidebar_content');
 
         $crawler = $this->client->request('POST', 'backend/en/addBlock', $params);
@@ -194,8 +198,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testEditBlockDoesNothingWhenKeyDoesNotMatchAnyBlockFieldName()
     {
         $blockId = $this->getLastBlock("left_sidebar_content")->getId();
-        $params = array("page" => "2",
-                        "language" => "2",
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
                         "key" => "fake",
                         "value" => "new content",
@@ -210,8 +216,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testEditBlockDoesNothingWhenTheSameSavedValueIsGiven()
     {
         $blockId = $this->getLastBlock("left_sidebar_content")->getId();
-        $params = array("page" => "2",
-                        "language" => "2",
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
                         "key" => "HtmlContent",
                         "value" => "This is the default text for a new text content",
@@ -226,8 +234,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testEditBlock()
     {
         $blockId = $this->getLastBlock("left_sidebar_content")->getId();
-        $params = array("page" => "2",
-                        "language" => "2",
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
                         "key" => "HtmlContent",
                         "value" => "New content",
@@ -288,8 +298,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testDeleteBlock()
     {
         $blockId = $this->getLastBlock("left_sidebar_content")->getId();
-        $params = array("page" => "2",
-                        "language" => "2",
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
                         "key" => "fake",
                         "value" => "new content",
@@ -362,20 +374,35 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testExternalFileIsNotAddedWhenFieldParameterMissing()
     {
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile");
+        $params = array('page' => 'index', 'language' => 'en', "file" => "myfile");
         $crawler = $this->browse('backend/en/addExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("External file cannot be added because any valid field name has been given")')->count() > 0);
     }
 
     public function testExternalFileIsNotAddedWhenAnyValidSlotNameHasBeenGiven()
     {
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript");
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "myfile",
+            'field' => "ExternalJavascript"
+        );
         $this->slotNameIsInvalid('backend/en/addExternalFile', $params);
     }
 
     public function testExternalFileIsNotAddedWhenAnyValidBlockIdHasBeenGiven()
     {
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "left_sidebar_content");
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "myfile",
+            'field' => "ExternalJavascript",
+            "slotName" => "left_sidebar_content"
+        );
         $crawler = $this->browse('backend/en/addExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("You are trying to add an external file on a content that doesn\'t exist anymore")')->count() > 0);
     }
@@ -383,7 +410,16 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testExternalFileIsAdded()
     {
         $blockId = $this->getLastBlock("right_sidebar_content")->getId();
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "myfile",
+            'field' => "ExternalJavascript",
+            "slotName" => "right_sidebar_content",
+            "idBlock" => $blockId
+        );
         $crawler = $this->client->request('POST', 'backend/en/addExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -404,7 +440,16 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testAnotherExternalFileIsAdded()
     {
         $blockId = $this->getLastBlock("right_sidebar_content")->getId();
-        $params = array('page' => '2', 'language' => '2', "file" => "another-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "another-file",
+            'field' => "ExternalJavascript",
+            "slotName" => "right_sidebar_content",
+            "idBlock" => $blockId
+        );
         $crawler = $this->client->request('POST', 'backend/en/addExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -425,7 +470,16 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testAnExternalFileCannotBeAddedMoreThanOnce()
     {
         $blockId = $this->getLastBlock("right_sidebar_content")->getId();
-        $params = array('page' => '2', 'language' => '2', "file" => "another-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "another-file",
+            'field' => "ExternalJavascript",
+            "slotName" => "right_sidebar_content",
+            "idBlock" => $blockId
+        );
         $crawler = $this->browse('backend/en/addExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("The block has already assigned the external file you are trying to add")')->count() > 0);
     }
@@ -438,20 +492,41 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testExternalFileIsNotDeletedWhenFieldParameterMissing()
     {
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile");
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "myfile"
+        );
         $crawler = $this->browse('backend/en/removeExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("External file cannot be removed because any valid field name has been given")')->count() > 0);
     }
-/**/
+
     public function testExternalFileIsNotDeletedWhenAnyValidSlotNameHasBeenGiven()
     {
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript");
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "myfile",
+            'field' => "ExternalJavascript"
+        );
         $this->slotNameIsInvalid('backend/en/removeExternalFile', $params);
     }
 
     public function testExternalFileIsNotDeletedWhenAnyValidBlockIdHasBeenGiven()
     {
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content");
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "myfile",
+            'field' => "ExternalJavascript",
+            "slotName" => "right_sidebar_content"
+        );
         $crawler = $this->browse('backend/en/removeExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("You are trying to delete an external file from a content that doesn\'t exist anymore")')->count() > 0);
     }
@@ -459,7 +534,16 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testExternalFileIsDeletedButNotRemovedFromTheDbBecauseItIsNotSavedIn()
     {
         $blockId = $this->getLastBlock("right_sidebar_content")->getId();
-        $params = array('page' => '2', 'language' => '2', "file" => "not-saved-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "not-saved-file",
+            'field' => "ExternalJavascript",
+            "slotName" => "right_sidebar_content",
+            "idBlock" => $blockId
+        );
         $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -479,7 +563,16 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $block->setExternalJavascript($block->getExternalJavascript() . ',fake-file');
         $block->save();
         $blockId = $block->getId();
-        $params = array('page' => '2', 'language' => '2', "file" => "myfile", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "myfile",
+            'field' => "ExternalJavascript",
+            "slotName" => "right_sidebar_content",
+            "idBlock" => $blockId
+        );
         $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -501,7 +594,16 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testDeletesAnotherExternalFile()
     {
         $blockId = $this->getLastBlock("right_sidebar_content")->getId();
-        $params = array('page' => '2', 'language' => '2', "file" => "fake-file", 'field' => "ExternalJavascript", "slotName" => "right_sidebar_content", "idBlock" => $blockId);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            "file" => "fake-file",
+            'field' => "ExternalJavascript",
+            "slotName" => "right_sidebar_content",
+            "idBlock" => $blockId
+        );
         $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -549,15 +651,15 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     private function anyValidPageIsRetrievedWithGivenParameters($route)
     {
-        $params = array('page' => '4',
-                        'language' => '2');
+        $params = array('pageId' => '4',
+                        'language' => 'en');
         $crawler = $this->browse($route, $params);
         $this->assertTrue($crawler->filter('html:contains("The page you are trying to edit does not exist")')->count() > 0);
     }
 
     private function slotNameIsInvalid($route, $params = null)
     {
-        $params = (null === $params) ? array('page' => '2', 'language' => '2', 'slotName' => 'fake') : $params;
+        $params = (null === $params) ? array('page' => 'index', 'language' => 'en', 'slotName' => 'fake') : $params;
 
         $crawler = $this->browse($route, $params);
         $this->assertTrue($crawler->filter('html:contains("You are trying to add a new block on a slot that does not exist on this page, or the slot name is empty")')->count() > 0);

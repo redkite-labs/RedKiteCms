@@ -50,7 +50,7 @@ class LanguagesController extends Controller
             $request = $this->get('request');
             $languageManager = $this->container->get('al_language_manager');
             $languageManager->setTranslator($this->container->get('translator'));
-            $alLanguage = $this->fetchLanguage($request->get('idLanguage'), $languageManager);
+            $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
             $languageManager->set($alLanguage);
 
             $parameters = array('MainLanguage' => $request->get('isMain'),
@@ -73,7 +73,7 @@ class LanguagesController extends Controller
         try {
             $request = $this->get('request');
             $languageManager = $this->container->get('al_language_manager');
-            $alLanguage = $this->fetchLanguage($request->get('idLanguage'), $languageManager);
+            $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
             if ($alLanguage != null) {
                 $result = $languageManager
                             ->set($alLanguage)
@@ -102,7 +102,7 @@ class LanguagesController extends Controller
     {
         $values = array();
         $request = $this->get('request');
-        $language = $request->get('language');
+        $language = $request->get('languageId');
         if ($language != 'none') {
             $alLanguage = AlLanguageQuery::create()
                             ->filterByToDelete(0)

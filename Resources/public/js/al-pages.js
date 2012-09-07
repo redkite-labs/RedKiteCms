@@ -28,7 +28,7 @@
                     $('#al_pages_list .al_element_selected').removeClass('al_element_selected');
                     $(this).addClass('al_element_selected');
 
-                    if($('#seo_attributes_idLanguage').val() != 'none')
+                    if($('#seo_attributes_idLanguage option:selected').val() != 'none')
                     {
                         LoadSeoAttributes($(this).attr('ref'));
                     }
@@ -66,10 +66,10 @@ function InitPagesCommands()
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_savePage',
-            data: {'language' : $('#al_languages_navigator option:selected').val(),
-                   'page' : $('#al_pages_navigator option:selected').val(),
+            data: {'language' : $('#al_languages_navigator option:selected').text(),
+                   'page' : $('#al_pages_navigator option:selected').text(),
                    'pageId' : $('#seo_attributes_idPage').val(),
-                   'languageId' : $('#seo_attributes_idLanguage').val(),
+                   'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
                    'pageName' : $('#pages_pageName').val(),
                    'templateName' : $('#pages_template').val(),
                    'permalink' : $('#seo_attributes_permalink').val(),
@@ -106,9 +106,9 @@ function InitPagesCommands()
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deletePage',
-                data: {'language' : $('#al_languages_navigator option:selected').val(),
-                       'page' : $('#al_pages_navigator option:selected').val(),
-                       'languageId' : $('#seo_attributes_idLanguage').val(),
+                data: {'language' : $('#al_languages_navigator option:selected').text(),
+                       'page' : $('#al_pages_navigator option:selected').text(),
+                       'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
                        'pageId' : $('#seo_attributes_idPage').val()
                    },
                 beforeSend: function()
@@ -118,7 +118,7 @@ function InitPagesCommands()
                 success: function(response)
                 {
                     UpdatePagesJSon(response);
-                    if($('#seo_attributes_idLanguage').val() != 'none')
+                    if($('#seo_attributes_idLanguage option:selected').val() != 'none')
                     {
                         $("#al_attributes_form").ResetFormElements();
                     }
@@ -144,7 +144,7 @@ function InitPagesCommands()
 
     $("#seo_attributes_idLanguage").change(function()
     {
-        if($("#seo_attributes_idLanguage").val() != 'none')
+        if($("#seo_attributes_idLanguage option:selected").val() != 'none')
         {
             var idPage = $('#al_pages_list .al_element_selected').attr('ref');
             if(idPage)
@@ -211,9 +211,9 @@ function LoadSeoAttributes(idPage)
     $.ajax({
         type: 'POST',
         url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadSeoAttributes',
-        data: {'language' : $('#al_languages_navigator option:selected').val(),
-               'page' : $('#al_pages_navigator option:selected').val(),
-               'languageId' : $('#seo_attributes_idLanguage').val(),
+        data: {'language' : $('#al_languages_navigator option:selected').text(),
+               'page' : $('#al_pages_navigator option:selected').text(),
+               'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
                'pageId' : idPage},
         beforeSend: function()
         {

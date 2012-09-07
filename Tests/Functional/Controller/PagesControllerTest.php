@@ -58,7 +58,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#seo_attributes_idLanguage')->count());
         $this->assertEquals(1, $crawler->filter('#al_page_saver')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_list')->count());
-        $this->assertEquals(1, $crawler->filter('#al_pages_list .al_element_selector')->count());
+        $this->assertEquals(2, $crawler->filter('#al_pages_list .al_element_selector')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_remover')->count());
     }
 
@@ -249,6 +249,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => 4,
+                        'languageId' => 2,
                         'pageName' => "page2 edited",
                         'permalink' => "page-2 edited",);
 
@@ -270,7 +271,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
 
         $link = $crawler->selectLink('Go to page 2')->link();
-        $this->assertEquals('http://localhost/alcms_test.php/backend/page-2-edited', $link->getUri());
+        $this->assertEquals('http://localhost/backend/en/page-2-edited', $link->getUri());
     }
 
     public function testChangeThePageTemplate()
@@ -284,6 +285,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => 4,
+                        'languageId' => 2,
                         'templateName' => 'fullpage',);
 
         $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
@@ -305,6 +307,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => 'none',
+                        'languageId' => 2,
                         'languageId' => 'none');
 
         $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
@@ -318,6 +321,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => 999,
+                        'languageId' => 2,
                         'languageId' => 'none');
 
         $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
@@ -332,6 +336,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => $page->getId(),
+                        'languageId' => 2,
                         'languageId' => 'none');
 
         $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);

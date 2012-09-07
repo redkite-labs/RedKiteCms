@@ -82,7 +82,7 @@ class PagesController extends Controller
                 // Refreshes the page manager using the given page to update
                 $pageContentsContainer = $pageManager->getTemplateManager()->getPageBlocks();
                 if ($request->get('pageId') != "" && $request->get('pageId') != $pageContentsContainer->getIdPage()) {
-                    $this->container->get('al_page_tree')->refresh($pageContentsContainer->getIdLanguage(), $request->get('pageId'));
+                    $this->container->get('al_page_tree')->refresh($request->get('languageId'), $request->get('pageId'));
                     $pageManager->setTemplateManager($this->container->get('al_page_tree')->getTemplateManager());
                 }
             } else {
@@ -129,21 +129,24 @@ class PagesController extends Controller
                         if ($result) {
                             $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
                         }
-                        if ($result) {
+                        if (false !== $result) {
                             $pageManager->getPageRepository()->commit();
+                            $message = $this->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
                         } else {
                             $pageManager->getPageRepository()->rollBack();
+                            throw new \RuntimeException($this->container->get('translator')->trans('Nothig to delete with the given parameters'));
                         }
                     } catch (\Exception $ex) {
                         throw $ex;
                         $pageManager->getPageRepository()->rollBack();
                     }
 
+                    /*
                     if ($result) {
                         $message = $this->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
                     } else {
                         throw new \RuntimeException($this->container->get('translator')->trans('Nothig to delete with the given parameters'));
-                    }
+                    }*/
                 } elseif ($request->get('pageId')) {
                     $result = $pageManager->delete();
                     if ($result) {
