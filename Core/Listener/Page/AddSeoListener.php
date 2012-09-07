@@ -71,7 +71,7 @@ class AddSeoListener
                 $this->seoManager->getSeoRepository()->setConnection($pageRepository->getConnection());
                 $pageRepository->startTransaction();
                 foreach ($languages as $alLanguage) {
-                    $seoManagerValues = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $alLanguage->getId()));
+                    $seoManagerValues = array_merge($values, array('PageId' => $idPage, 'LanguageId' => $alLanguage->getId(), 'CreatedAt'       => date("Y-m-d H:i:s")));
                     if (!$alLanguage->getMainLanguage() && array_key_exists('Permalink', $seoManagerValues)) $seoManagerValues['Permalink'] = $alLanguage->getLanguage() . '-' . $seoManagerValues['Permalink'];
                     $this->seoManager->set(null);
                     $result = $this->seoManager->save($seoManagerValues);
