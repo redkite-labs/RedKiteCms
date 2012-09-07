@@ -319,7 +319,8 @@ class AlSlotManager extends AlTemplateBase
                   "LanguageId"      => $idLanguage,
                   "SlotName"        => $this->slot->getSlotName(),
                   "ClassName"       => $type,
-                  "ContentPosition" => $position
+                  "ContentPosition" => $position,
+                  'CreatedAt'       => date("Y-m-d H:i:s")
                 );
 
                 if ($this->forceSlotAttributes) {

@@ -42,15 +42,26 @@ class WebTestCaseFunctional extends WebTestCase
 
     public static function setUpBeforeClass()
     {
-        self::$languages = array(array('Language'      => 'en',));
+        self::$languages = array(
+            array(
+                'Language'      => 'en',
+                'CreatedAt'       => date("Y-m-d H:i:s")
+            )
+        );
 
-        self::$pages = array(array('PageName'    => 'index',
-                                    'TemplateName'      => 'home',
-                                    'IsHome'            => '1',
-                                    'Permalink'         => 'this is a website fake page',
-                                    'MetaTitle'         => 'page title',
-                                    'MetaDescription'   => 'page description',
-                                    'MetaKeywords'      => ''));
+        self::$pages = array(
+            array(
+                'PageName'          => 'index',
+                'TemplateName'      => 'home',
+                'IsHome'            => '1',
+                'Permalink'         => 'this is a website fake page',
+                'MetaTitle'         => 'page title',
+                'MetaDescription'   => 'page description',
+                'MetaKeywords'      => '',
+                'CreatedAt'       => date("Y-m-d H:i:s")
+            )
+        );
+
         self::populateDb();
     }
 
