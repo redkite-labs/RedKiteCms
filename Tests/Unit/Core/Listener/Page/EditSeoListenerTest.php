@@ -126,6 +126,45 @@ class EditSeoListenerTest extends BaseListenerTest
         $this->testListener->onBeforeEditPageCommit($this->event);
     }
 
+    public function testANewSeoIsAddedWhenItDoesNotExist()
+    {
+        $this->setUpPageRepository();
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->once())
+            ->method('rollBack');
+
+        $this->event->expects($this->once())
+            ->method('getContentManager')
+            ->will($this->returnValue($this->pageManager));
+
+        $this->event->expects($this->once())
+            ->method('getValues')
+            ->will($this->returnValue(array('permalink' => 'fake')));
+
+        $this->event->expects($this->once())
+            ->method('abort');
+
+        $this->setUpCommonObjects();
+
+        $this->seoManager->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(false));
+
+        $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $this->seoRepository->expects($this->once())
+            ->method('fromPageAndLanguage')
+            ->will($this->returnValue(null));
+
+        $this->seoManager->expects($this->once())
+            ->method('getSeoRepository')
+            ->will($this->returnValue($this->seoRepository));
+
+        $this->testListener->onBeforeEditPageCommit($this->event);
+    }
+
     public function testSaveFailsWhenAttributesAreNotSaved()
     {
         $this->setUpPageRepository();
@@ -142,7 +181,7 @@ class EditSeoListenerTest extends BaseListenerTest
 
         $this->event->expects($this->once())
             ->method('getValues')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue(array('permalink' => 'fake')));
 
         $this->event->expects($this->once())
             ->method('abort');
@@ -184,7 +223,7 @@ class EditSeoListenerTest extends BaseListenerTest
 
         $this->event->expects($this->once())
             ->method('getValues')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue(array('permalink' => 'fake')));
 
         $this->event->expects($this->once())
             ->method('abort');
@@ -226,7 +265,7 @@ class EditSeoListenerTest extends BaseListenerTest
 
         $this->event->expects($this->once())
             ->method('getValues')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue(array('permalink' => 'fake')));
 
         $this->event->expects($this->never())
             ->method('abort');
