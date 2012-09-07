@@ -342,16 +342,16 @@ class AlTwigTemplateWriter
      */
     protected function writeContent($slotName, $content)
     {
-        if (!empty($content)) {
-            $content = $this->MarkSlotContents($slotName, $content);
+        $formattedContent = $this->MarkSlotContents($slotName, $content);
 
-            $content = $this->identateContent($content) . PHP_EOL;
-            $content .= "  {% else %}" . PHP_EOL;
-            $content .= "    {{ parent() }}" . PHP_EOL;
+        if (!empty($content)) {
+            $formattedContent = $this->identateContent($formattedContent) . PHP_EOL;
+            $formattedContent .= "  {% else %}" . PHP_EOL;
+            $formattedContent .= "    {{ parent() }}" . PHP_EOL;
         }
 
         $block = "  {% if(slots.$slotName is not defined) %}" . PHP_EOL;
-        $block .= $content;
+        $block .= $formattedContent;
         $block .= "  {% endif %}";
 
         return $block;
