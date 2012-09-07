@@ -116,8 +116,14 @@ class AlUrlManager implements AlUrlManagerInterface
             return $this;
         }
 
+        $this->permalink = null;
+        $this->internalUrl = null;
+        $this->productionRoute = null;
+
         $defaultUrlTokens = $this->generateDefaultUrlTokens();
         if (strpos($url, ':') === false && $url != '#') {
+
+
             // It's just the permalink
             if (strpos($url, $defaultUrlTokens) === false) {
                 $permalink = $url;
