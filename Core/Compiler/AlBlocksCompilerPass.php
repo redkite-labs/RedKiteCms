@@ -36,7 +36,7 @@ class AlBlocksCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition('alphalemon_cms.block_manager_factory');
         foreach ($container->findTaggedServiceIds('alphalemon_cms.blocks_factory.block') as $id => $attributes) {
             foreach ($attributes as $tagAttributes) {
-                $tagAttributes['id'] = $id; 
+                $tagAttributes['id'] = $id;
                 $definition->addMethodCall('addBlockManager', array(new Reference($id), $tagAttributes));
             }
         }

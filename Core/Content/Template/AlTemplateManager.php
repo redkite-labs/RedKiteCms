@@ -390,7 +390,7 @@ class AlTemplateManager extends AlTemplateBase
     protected function setUpSlotManagers()
     {
         if (null === $this->template) return;
-        
+
         $templateSlots = $this->template->getTemplateSlots();
 
         if (null === $templateSlots) {

@@ -196,7 +196,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return string
      */
-    public final function getHtmlCmsActive()
+    final public function getHtmlCmsActive()
     {
         $content = $this->formatHtmlCmsActive();
         if(null === $content) $content = $this->getHtml();
