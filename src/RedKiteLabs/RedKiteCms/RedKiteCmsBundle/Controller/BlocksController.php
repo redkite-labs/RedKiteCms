@@ -55,8 +55,8 @@ class BlocksController extends Controller
                     $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
                                                                                            "jsFiles" => explode(",", $block->getExternalJavascript()),
                                                                                            "cssFiles" => explode(",", $block->getExternalStylesheet()),
-                                                                                           "language" => $request->get('language'),
-                                                                                           "page" => $request->get('page'),
+                                                                                           "language" => $request->get('languageId'),
+                                                                                           "page" => $request->get('pageId'),
                                                                                            "editor_settings" => $editorSettings));
                 }
 
@@ -90,7 +90,7 @@ class BlocksController extends Controller
             $slotManager = $this->fetchSlotManager($request);
 
             $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
-            $res = $slotManager->addBlock($request->get('language'), $request->get('page'), $contentType, $request->get('idBlock'));
+            $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
             if (!$res) {
                 throw new \RuntimeException('The content has not been added because something goes wrong during the operation');
             }

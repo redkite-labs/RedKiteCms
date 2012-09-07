@@ -155,7 +155,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         $params = array('page' => 'index',
                         'language' => 'en',
-                        'idLanguage' => 3,
+                        'languageId' => 3,
                         'newLanguage' => "it",);
 
         $crawler = $this->client->request('POST', 'backend/en/al_saveLanguage', $params);
@@ -170,7 +170,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         $params = array('page' => 'index',
                         'language' => 'en',
-                        'idLanguage' => 'none');
+                        'languageId' => 'none');
 
         $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
@@ -182,7 +182,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         $params = array('page' => 'index',
                         'language' => 'en',
-                        'idLanguage' => 999);
+                        'languageId' => 999);
 
         $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
@@ -195,7 +195,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $language = $this->languageRepository->mainLanguage();
         $params = array('page' => 'index',
                         'language' => 'en',
-                        'idLanguage' => $language->getId());
+                        'languageId' => $language->getId());
 
         $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
@@ -207,7 +207,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         $params = array('page' => 'index',
                         'language' => 'en',
-                        'idLanguage' => 2);
+                        'languageId' => 2);
 
         $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
