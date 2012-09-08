@@ -20,7 +20,7 @@
     <column name="external_stylesheet" type="LONGVARCHAR" required="true" />
     <column name="to_delete" type="INTEGER" required="true" default="0" />
     <column name="content_position" type="INTEGER" required="true" default="1" />
-    <column name="created_at" type="timestamp" />
+    <column name="created_at" type="timestamp" default="CURRENT_TIMESTAMP" />
     <unique name="I_BLOCK">
       <unique-column name="id" />
     </unique>
@@ -37,7 +37,7 @@
     <column name="language" type="VARCHAR" size="5" required="true" />
     <column name="main_language" type="CHAR" required="true" default="0" />
     <column name="to_delete" type="INTEGER" required="true" default="0" />
-    <column name="created_at" type="timestamp" />
+    <column name="created_at" type="timestamp" default="CURRENT_TIMESTAMP" />
     <unique name="I_LANGUAGE">
       <unique-column name="id" />
     </unique>
@@ -56,7 +56,7 @@
     <column name="is_home" type="INTEGER" required="true" />
     <column name="is_published" type="INTEGER" required="true" />
     <column name="to_delete" type="INTEGER" required="true" />
-    <column name="created_at" type="timestamp" />
+    <column name="created_at" type="timestamp" default="CURRENT_TIMESTAMP" />
     <unique name="I_PAGE">
       <unique-column name="id" />
     </unique>
@@ -95,7 +95,7 @@
     <column name="sitemap_lastmod" type="LONGVARCHAR" required="true" />
     <column name="sitemap_priority" type="LONGVARCHAR" required="true" />
     <column name="to_delete" type="INTEGER" required="true" />
-    <column name="created_at" type="timestamp" />
+    <column name="created_at" type="timestamp" default="CURRENT_TIMESTAMP" />
     <index name="I_LANGUAGE">
       <index-column name="page_id" />
     </index>
@@ -122,7 +122,7 @@
     <column name="salt" type="VARCHAR" size="128" required="true" />
     <column name="email" type="VARCHAR" size="255" />
     <column name="ip" type="VARCHAR" size="15" />
-    <column name="created_at" type="DATE" required="true" />
+    <column name="created_at" type="timestamp" default="CURRENT_TIMESTAMP" required="true" />
     <unique name="I_USER">
       <unique-column name="id" />
     </unique>
