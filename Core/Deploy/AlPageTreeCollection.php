@@ -33,7 +33,6 @@ class AlPageTreeCollection implements \Iterator, \Countable
     private $container = null;
     private $pages = array();
     private $factoryRepository = null;
-    private $themeRepository = null;
     private $languageRepository = null;
     private $pageRepository = null;
     private $themesCollectionWrapper = null;
@@ -49,7 +48,6 @@ class AlPageTreeCollection implements \Iterator, \Countable
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
-        $this->themeRepository = $this->factoryRepository->createRepository('Theme');
 
         $this->setUp();
     }
@@ -124,7 +122,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
     {
         $languages = $this->languageRepository->activeLanguages();
         $pages = $this->pageRepository->activePages();
-
+        
         // Cycles all the website's languages
         foreach ($languages as $language) {
             // Cycles all the website's pages

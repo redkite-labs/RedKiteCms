@@ -31,71 +31,14 @@ use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
 
 class ThemesController extends BaseController
 {
-    public function showAction()
+    public function activateThemeAction($themeName, $languageName = null, $pageName = null)
     {
         try {
-            $values = $this->retrieveThemeValues();
+            $this->getActiveTheme()->writeActiveTheme($themeName);
+            $url = $this->container->get('router')->generate('_navigation', array('_locale' => $languageName, 'page' => $pageName));
 
-            /* TODO
-            $stylesheets = array();
-            foreach ($this->container->getParameter('althemes.stylesheets') as $stylesheet) {
-                $stylesheets[] = AlToolkit::retrieveBundleWebFolder($this->container->get('kernel'), 'AlphaLemonThemeEngineBundle') . '/' . $stylesheet;
-            }*/
-
-            $valumOptionsBuilder = $this->setupValumUploader();
-            $isWindows = (PHP_OS == "WINNT") ? true : false;
-
-            return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
-                                                                                             'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
-                                                                                             'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
-                                                                                             //'stylesheets' => $stylesheets,
-                                                                                             'values' => $values,
-                                                                                             'is_windows' => $isWindows,
-                                                                                             'valum' => $valumOptionsBuilder->getOptions()));
-        } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
-        }
-    }
-
-    public function extractThemesAction()
-    {
-        $this->extractTheme();
-
-        $valumOptionsBuilder = $this->setupValumUploader();
-        $isWindows = (PHP_OS == "WINNT") ? true : false;
-
-        return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
-                                                                                                        'values' => $this->retrieveThemeValues(),
-                                                                                                        'is_windows' => $isWindows,
-                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
-    }
-
-    public function removeThemeAction()
-    {
-        try {
-            $this->removeTheme();
-
-            $valumOptionsBuilder = $this->setupValumUploader();
-            $isWindows = (PHP_OS == "WINNT") ? true : false;
-
-            return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
-                                                                                                        'values' => $this->retrieveThemeValues(),
-                                                                                                        'is_windows' => $isWindows,
-                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
-        } catch (Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->render('AlphaLemonCmsBundle:Pages:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
-        }
-    }
-
-    public function activateThemeAction($themeName, $activeLanguage = null, $activePage = null)
-    {
-        try {
+            return new RedirectResponse($url);
+            /*
             $themeManager = new AlThemeManager($this->container);
             $themeManager->activate($themeName);
 
@@ -106,6 +49,7 @@ class ThemesController extends BaseController
             $pageName = (null !== $page) ? $page->getPageName() : 'index';
 
             return new RedirectResponse($this->generateUrl('_navigation', array('_locale' => $languageName, 'page' => $pageName)));
+             */
         } catch (Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
@@ -169,6 +113,63 @@ class ThemesController extends BaseController
         return $response;
     }
 
+    /*
+    public function showAction()
+    {
+        try {
+            $values = $this->retrieveThemeValues();
+
+            $valumOptionsBuilder = $this->setupValumUploader();
+            $isWindows = (PHP_OS == "WINNT") ? true : false;
+
+            return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
+                                                                                             'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
+                                                                                             'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
+                                                                                             //'stylesheets' => $stylesheets,
+                                                                                             'values' => $values,
+                                                                                             'is_windows' => $isWindows,
+                                                                                             'valum' => $valumOptionsBuilder->getOptions()));
+        } catch (\Exception $e) {
+            $response = new Response();
+            $response->setStatusCode('404');
+
+            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+        }
+    }
+
+    public function extractThemesAction()
+    {
+        $this->extractTheme();
+
+        $valumOptionsBuilder = $this->setupValumUploader();
+        $isWindows = (PHP_OS == "WINNT") ? true : false;
+
+        return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
+                                                                                                        'values' => $this->retrieveThemeValues(),
+                                                                                                        'is_windows' => $isWindows,
+                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
+    }
+
+    public function removeThemeAction()
+    {
+        try {
+            $this->removeTheme();
+
+            $valumOptionsBuilder = $this->setupValumUploader();
+            $isWindows = (PHP_OS == "WINNT") ? true : false;
+
+            return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
+                                                                                                        'values' => $this->retrieveThemeValues(),
+                                                                                                        'is_windows' => $isWindows,
+                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
+        } catch (Exception $e) {
+            $response = new Response();
+            $response->setStatusCode('404');
+
+            return $this->render('AlphaLemonCmsBundle:Pages:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
+        }
+    }
+
     protected function setupValumUploader()
     {
         $frontcontroller = $this->container->get('kernel')->getEnvironment() . '.php';
@@ -193,5 +194,5 @@ class ThemesController extends BaseController
         $finder->files()->depth(0)->name('*Slots.php')->in($themeFolder . '/Core/Slots');
 
         return $finder;
-    }
+    }*/
 }

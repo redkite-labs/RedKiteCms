@@ -28,7 +28,7 @@ class PagesController extends Controller
 {
     public function indexAction()
     {
-        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->createRepository('Theme'), $this->container->get('alphalemon_theme_engine.themes')));
+        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('alphalemon_theme_engine.themes')));
         $seoForm = $this->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),

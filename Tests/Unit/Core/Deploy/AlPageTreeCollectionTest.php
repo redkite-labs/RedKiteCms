@@ -40,15 +40,20 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
-            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository));
+            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository));
 
-        $this->container->expects($this->any())
+        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme->expects($this->any())
+            ->method('retriveActiveTheme')
+            ->will($this->returnValue('BusinessWebsiteTheme'));
+        
+        $this->container->expects($this->exactly(5))
             ->method('get')
-            ->will($this->returnValue($this->themesCollectionWrapper));
+            ->will($this->onConsecutiveCalls($this->themesCollectionWrapper, $activeTheme, $activeTheme, $activeTheme, $activeTheme));
 
         $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
         $this->assertEquals(4, count($pageTreeCollection));
