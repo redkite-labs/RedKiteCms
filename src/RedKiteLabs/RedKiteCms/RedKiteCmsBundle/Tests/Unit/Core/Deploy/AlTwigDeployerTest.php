@@ -102,11 +102,11 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
-            ->will($this->onConsecutiveCalls($this->seoRepository, $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository));
+            ->will($this->onConsecutiveCalls($this->seoRepository, $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository));
 
         $seo1 = $this->setUpSeo('homepage', $this->page1, $this->language1);
         $seo2 = $this->setUpSeo('my-awesome-page', $this->page2, $this->language1);
@@ -139,9 +139,14 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
         $urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        
+        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme->expects($this->any())
+            ->method('retriveActiveTheme')
+            ->will($this->returnValue('BusinessWebsiteTheme'));
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $urlManager, $blockManagerFactory, $this->themesCollectionWrapper));
+            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $urlManager, $blockManagerFactory, $this->themesCollectionWrapper, $activeTheme, $activeTheme, $activeTheme, $activeTheme));
 
         $this->templateSlots->expects($this->exactly(4))
             ->method('getSlots')

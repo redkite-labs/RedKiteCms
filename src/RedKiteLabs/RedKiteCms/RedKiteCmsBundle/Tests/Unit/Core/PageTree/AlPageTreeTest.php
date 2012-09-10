@@ -28,8 +28,6 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  */
 class AlPageTreeTest extends TestCase
 {
-    private $pageTree;
-
     protected function setUp()
     {
         parent::setUp();
@@ -68,14 +66,12 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->themeRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlThemeRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
+        $this->activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
-            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository, $this->themeRepository));
+            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository));
 
         $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
@@ -85,7 +81,7 @@ class AlPageTreeTest extends TestCase
             ->method('assignTemplate')
             ->will($this->returnValue($this->templateManager));
 
-        $this->pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        //$pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
     }
 
     public function testLanguageIsFetchedFromLanguageParam()
@@ -97,9 +93,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', false));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $alLanguage = $this->setUpLanguage(2);
         $this->languageRepository->expects($this->once())
@@ -109,10 +105,11 @@ class AlPageTreeTest extends TestCase
         $this->languageRepository->expects($this->never())
             ->method('fromPK');
 
-        $this->assertNull($this->pageTree->setup());
-        $this->assertEquals($alLanguage, $this->pageTree->getAlLanguage());
-        $this->assertNull($this->pageTree->getAlPage());
-        $this->assertFalse($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->setup());
+        $this->assertEquals($alLanguage, $pageTree->getAlLanguage());
+        $this->assertNull($pageTree->getAlPage());
+        $this->assertFalse($pageTree->isValid());
     }
 
     public function testLanguageIsFetchedFromPrimaryKeyLanguageParam()
@@ -124,9 +121,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls(2, false));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $alLanguage = $this->setUpLanguage(2);
         $this->languageRepository->expects($this->never())
@@ -136,10 +133,11 @@ class AlPageTreeTest extends TestCase
             ->method('fromPK')
             ->will($this->returnValue($alLanguage));
 
-        $this->assertNull($this->pageTree->setup());
-        $this->assertEquals($alLanguage, $this->pageTree->getAlLanguage());
-        $this->assertNull($this->pageTree->getAlPage());
-        $this->assertFalse($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->setup());
+        $this->assertEquals($alLanguage, $pageTree->getAlLanguage());
+        $this->assertNull($pageTree->getAlPage());
+        $this->assertFalse($pageTree->isValid());
     }
 
     public function testLanguageIsFetchedFromRequest()
@@ -163,9 +161,9 @@ class AlPageTreeTest extends TestCase
             ->method('getLocale')
             ->will($this->returnValue('en'));
 
-        $this->container->expects($this->exactly(3))
+        $this->container->expects($this->exactly(4))
             ->method('get')
-            ->will($this->onConsecutiveCalls($request, $session, $request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $session, $request));
 
         $alLanguage = $this->setUpLanguage(2);
         $this->languageRepository->expects($this->once())
@@ -175,10 +173,11 @@ class AlPageTreeTest extends TestCase
         $this->languageRepository->expects($this->never())
             ->method('fromPK');
 
-        $this->assertNull($this->pageTree->setup());
-        $this->assertEquals($alLanguage, $this->pageTree->getAlLanguage());
-        $this->assertNull($this->pageTree->getAlPage());
-        $this->assertFalse($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->setup());
+        $this->assertEquals($alLanguage, $pageTree->getAlLanguage());
+        $this->assertNull($pageTree->getAlPage());
+        $this->assertFalse($pageTree->isValid());
     }
 
     public function testPageIsNotFetchedWhenLanguageIsNull()
@@ -190,9 +189,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->returnValue('en'));
 
-        $this->container->expects($this->once())
+        $this->container->expects($this->exactly(2))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request));
 
         $this->seoRepository->expects($this->never())
             ->method('fromPermalink')
@@ -206,9 +205,10 @@ class AlPageTreeTest extends TestCase
             ->method('fromPK')
             ->will($this->returnValue(null));
 
-        $this->assertNull($this->pageTree->setup());
-        $this->assertNull($this->pageTree->getAlPage());
-        $this->assertFalse($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->setup());
+        $this->assertNull($pageTree->getAlPage());
+        $this->assertFalse($pageTree->isValid());
     }
 
     public function testPageIsNotFetched()
@@ -220,9 +220,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $this->configureLanguage();
 
@@ -238,9 +238,10 @@ class AlPageTreeTest extends TestCase
             ->method('fromPK')
             ->will($this->returnValue(null));
 
-        $this->assertNull($this->pageTree->setup());
-        $this->assertNull($this->pageTree->getAlPage());
-        $this->assertFalse($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->setup());
+        $this->assertNull($pageTree->getAlPage());
+        $this->assertFalse($pageTree->isValid());
     }
 
     public function testPageIsFetchedFromPrimaryKey()
@@ -252,9 +253,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 2));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $this->configureLanguage();
 
@@ -271,9 +272,10 @@ class AlPageTreeTest extends TestCase
             ->method('fromPK')
             ->will($this->returnValue($alPage));
 
-        $this->pageTree->setup();
-        $this->assertEquals($alPage, $this->pageTree->getAlPage());
-        $this->assertTrue($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($alPage, $pageTree->getAlPage());
+        $this->assertTrue($pageTree->isValid());
     }
 
     public function testPageIsFetchedFromPageName()
@@ -285,9 +287,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $this->configureLanguage();
 
@@ -303,9 +305,10 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
-        $this->pageTree->setup();
-        $this->assertEquals($alPage, $this->pageTree->getAlPage());
-        $this->assertTrue($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($alPage, $pageTree->getAlPage());
+        $this->assertTrue($pageTree->isValid());
     }
 
     public function testPageIsFetchedFromPermalink()
@@ -317,9 +320,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $this->configureLanguage();
 
@@ -339,9 +342,10 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
-        $this->pageTree->setup();
-        $this->assertEquals($alPage, $this->pageTree->getAlPage());
-        $this->assertTrue($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($alPage, $pageTree->getAlPage());
+        $this->assertTrue($pageTree->isValid());
     }
 
     public function testPageIsFetchedFromSeo()
@@ -353,9 +357,9 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $this->configureLanguage();
 
@@ -388,9 +392,10 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
-        $this->pageTree->setup();
-        $this->assertEquals($alPage, $this->pageTree->getAlPage());
-        $this->assertTrue($this->pageTree->isValid());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($alPage, $pageTree->getAlPage());
+        $this->assertTrue($pageTree->isValid());
     }
 
     public function testPageTreeHasNotBeenSetBecauseAnyThemeHasBeenFetched()
@@ -402,29 +407,30 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $this->configureLanguage();
         $this->configurePage();
 
-        $this->themeRepository->expects($this->once())
-            ->method('activeBackend')
+        $this->activeTheme->expects($this->any())
+            ->method('retriveActiveTheme')
             ->will($this->returnValue(null));
 
-        $this->assertNull($this->pageTree->setup());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->setup());
     }
 
     public function testPageTreeHasBeenSet()
     {
         $this->initValidPageTree();
-        $this->pageTree->setup();
-        $this->assertEquals($this->language, $this->pageTree->getAlLanguage());
-        $this->assertEquals($this->page, $this->pageTree->getAlPage());
-        $this->assertEquals($this->theme, $this->pageTree->getAlTheme());
-        $this->assertTrue($this->pageTree->isValid());
-        $this->assertTrue($this->pageTree->isCmsMode());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($this->language, $pageTree->getAlLanguage());
+        $this->assertEquals($this->page, $pageTree->getAlPage());
+        $this->assertTrue($pageTree->isValid());
+        $this->assertTrue($pageTree->isCmsMode());
     }
 
     public function testPageTreeSetsUpExternalAssetsFromABlock()
@@ -447,8 +453,9 @@ class AlPageTreeTest extends TestCase
         $this->setUpAssetsCollection($themeAssets);
 
         $this->initValidPageTree();
-        $this->pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, explode(",", $externalStylesheet)), $this->pageTree->getExternalStylesheets());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals(array_merge($themeAssets, explode(",", $externalStylesheet)), $pageTree->getExternalStylesheets());
     }
 
     public function testPageTreeSetsUpInternalAssetsFromABlock()
@@ -471,8 +478,9 @@ class AlPageTreeTest extends TestCase
         $this->setUpAssetsCollection($themeAssets);
 
         $this->initValidPageTree();
-        $this->pageTree->setup();
-        $this->assertEquals($themeAssets[0] . $internalStylesheet, $this->pageTree->getInternalStylesheets());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($themeAssets[0] . $internalStylesheet, $pageTree->getInternalStylesheets());
     }
 
     public function testPageTreeSetsUpExtraAssetsForCurrentTemplate()
@@ -502,8 +510,9 @@ class AlPageTreeTest extends TestCase
         $this->setUpAssetsCollection($themeAssets);
 
         $this->initValidPageTree();
-        $this->pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
     }
 
     public function testPageTreeSetsUpExternalAssetsForCurrentAppBlock()
@@ -533,8 +542,9 @@ class AlPageTreeTest extends TestCase
         $this->setUpAssetsCollection($themeAssets);
 
         $this->initValidPageTree();
-        $this->pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
     }
 
     public function testPageTreeSetsUpExternalAssetsUsedByTheCmsFromTheParameterDeclaredOnTheBlockConfiguration()
@@ -564,8 +574,9 @@ class AlPageTreeTest extends TestCase
         $this->setUpAssetsCollection($themeAssets);
 
         $this->initValidPageTree();
-        $this->pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, $appAssets), $this->pageTree->getExternalStylesheets());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
     }
 
     public function testPageTreeHasBeenRefreshed()
@@ -596,15 +607,15 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
-/*
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->template->expects($this->any())
-            ->method('getTemplateSlots')
-            ->will($this->returnValue($templateSlots));*/
+        
+        $this->container->expects($this->once())
+            ->method('get')
+            ->will($this->onConsecutiveCalls($this->activeTheme));
 
-        $this->pageTree->refresh(2, 2);
-        $this->assertEquals($this->language, $this->pageTree->getAlLanguage());
-        $this->assertEquals($this->page, $this->pageTree->getAlPage());
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->refresh(2, 2);
+        $this->assertEquals($this->language, $pageTree->getAlLanguage());
+        $this->assertEquals($this->page, $pageTree->getAlPage());
     }
 
     private function setUpAssetsCollection(array $storedAssets)
@@ -625,13 +636,13 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls('en', 'index'));
 
-        $this->container->expects($this->any())
+        $this->container->expects($this->exactly(3))
             ->method('get')
-            ->will($this->returnValue($request));
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request, $request));
 
         $this->language = $this->configureLanguage(2);
         $this->page = $this->setUpPage(2);
-        $this->theme = $this->configureTheme();
+        $this->configureTheme();
         $alSeo = $this->setUpSeo(2);
         $this->setUpPageBlocks();
 
@@ -661,11 +672,6 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
-/*
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->template->expects($this->any())
-            ->method('getTemplateSlots')
-            ->will($this->returnValue($templateSlots));*/
     }
 
     private function configureLanguage()
@@ -690,12 +696,9 @@ class AlPageTreeTest extends TestCase
 
     private function configureTheme()
     {
-        $theme = $this->setUpTheme();
-        $this->themeRepository->expects($this->once())
-            ->method('activeBackend')
-            ->will($this->returnValue($theme));
-
-        return $theme;
+        $this->activeTheme->expects($this->once())
+            ->method('retriveActiveTheme')
+            ->will($this->returnValue('BusinessWebsiteTheme'));
     }
 
     protected function setUpLanguage($returnId)
@@ -716,16 +719,6 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue($returnId));
 
         return $page;
-    }
-
-    protected function setUpTheme()
-    {
-        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Model\AlTheme');
-        $theme->expects($this->any())
-            ->method('getThemeName')
-            ->will($this->returnValue('FakeTheme'));
-
-        return $theme;
     }
 
     protected function setUpSeo($returnId)

@@ -19,7 +19,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\ThemeRepositoryInterface;
+use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
+use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
  * Retrieves form the database the values used in the forms
@@ -52,10 +53,9 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getTemplates(ThemeRepositoryInterface $themeRepository, \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes)
+    public static function getTemplates(AlActiveTheme $activeTheme, AlThemesCollection $themes)
     {
-        $alTheme = $themeRepository->activeBackend();
-        $theme = $themes->getTheme($alTheme->getThemeName());
+        $theme = $themes->getTheme($activeTheme->retriveActiveTheme());
 
         $templates = array("none" => " ");
         foreach ($theme as $template) {

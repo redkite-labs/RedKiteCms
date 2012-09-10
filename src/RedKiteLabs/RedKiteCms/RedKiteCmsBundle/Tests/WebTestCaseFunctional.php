@@ -75,13 +75,6 @@ class WebTestCaseFunctional extends WebTestCase
 
     protected static function populateDb()
     {
-        /*
-        if (!\Propel::isInit()) {
-            include __DIR__ . '/Functional/app/Resources/config/propelConfiguration.php';
-            \Propel::setConfiguration($config);
-            \Propel::initialize();
-        }*/
-
         $dispatcher = new EventDispatcher();
         $factoryRepository = new AlFactoryRepository('Propel');
         $client = static::createClient(array(
@@ -117,10 +110,11 @@ class WebTestCaseFunctional extends WebTestCase
         }
 
         // Temporary
+        /*
         $theme = new \AlphaLemon\ThemeEngineBundle\Model\AlTheme();
         $theme->setThemeName('BusinessWebsiteThemeBundle');
         $theme->setActive(1);
-        $theme->save();
+        $theme->save();*/
 
         $alLanguageManager = new AlLanguageManager($dispatcher, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {
