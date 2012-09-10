@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://alphalemon.com
- * 
+ *
  * @license    MIT License
  */
 
@@ -47,9 +47,10 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('theme_skeleton_template')->end()
                 ->scalarNode('base_dir')->end()
                 ->scalarNode('render_slot_class')->end()
+                ->scalarNode('active_theme_file')->end()
             ->end()
         ;
-        
+
         return $treeBuilder;
     }
 }

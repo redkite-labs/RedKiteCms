@@ -37,12 +37,7 @@
         <table>
             <tr>
               {% if theme_values.buttons is defined %}
-                  {% if theme_values.buttons == 3 %}
-                    <td><a href="{{ path('_activate_theme', { 'themeName': theme_values.theme_title }) }}">{{ "Activate" | trans([], domain) }}</a></td>
-                    <td><a href="{{ path('_remove_theme', { 'themeName': theme_values.theme_title }) }}">{{ "Remove" | trans([], domain) }}</a></td>
-                  {% elseif theme_values.buttons == 2  %}
-                    <td colspan="2"><a href="{{ path('_import_theme', { 'themeName': theme_values.theme_title }) }}">{{ "Import" | trans([], domain) }}</a></td>
-                  {% endif %}
+                  <td><a href="{{ path('_activate_theme', { 'themeName': theme_values.theme_title }) }}">{{ "Activate" | trans([], domain) }}</a></td>
               {% endif %}
             </tr>
         </table>

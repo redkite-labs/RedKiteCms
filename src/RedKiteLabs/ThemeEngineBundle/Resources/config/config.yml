@@ -1,6 +1,6 @@
 alpha_lemon_theme_engine:
     base_template: AlphaLemonThemeEngineBundle:Frontend:base.html.twig
-     
+
 assetic:
     filters:
         cssrewrite: ~

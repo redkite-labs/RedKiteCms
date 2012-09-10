@@ -19,6 +19,7 @@ namespace AlphaLemon\ThemeEngineBundle\Core\Theme;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemeCollectionBase;
 use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
+use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
  * AlTheme represents a theme and it is a collection of AlTemplate objects
@@ -29,6 +30,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 {
     private $templates = array();
     private $themeName = null;
+    private $asset = null;
 
     /**
      * Constructor

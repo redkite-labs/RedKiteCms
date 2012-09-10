@@ -54,6 +54,7 @@ class AlPageTree
     protected $metaDescription = "";
     protected $metaKeywords = "";
     protected $parameterSchema = array('%s.%s_%s');
+    protected $activeTheme;
 
     /**
      * Constructor
@@ -66,6 +67,7 @@ class AlPageTree
     {
         $this->container = $container;
         $this->pageBlocks = $pageBlocks;
+        $this->activeTheme = $this->container->get('alphalemon_theme_engine.active_theme');
     }
 
     /**

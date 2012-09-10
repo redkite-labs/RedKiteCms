@@ -22,7 +22,7 @@
             <parameter>version</parameter>
         </parameter>
 
-
+        <parameter key="alphalemon_theme_engine.active_theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme</parameter>
         <parameter key="alphalemon_theme_engine.theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
         <parameter key="alphalemon_theme_engine.themes.class">AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
         <parameter key="alphalemon_theme_engine.slot.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot</parameter>
@@ -33,6 +33,10 @@
 
     <services>
         <service id="alphalemon_theme_engine.themes" class="%alphalemon_theme_engine.themes.class%">
+        </service>
+
+        <service id="alphalemon_theme_engine.active_theme" class="%alphalemon_theme_engine.active_theme.class%">
+            <argument type="service" id="service_container"></argument>
         </service>
     </services>
 </container>
