@@ -4,52 +4,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <!--Overrides the valum's upload routing to work with _locale -->
-    <route id="_activate_theme" pattern="/backend/{_locale}/al_activateTheme/{themeName}/{activeLanguage}/{activePage}">
-        <default key="_controller">AlphaLemonCmsBundle:Themes:activateTheme</default>
+    <route id="_activate_cms_theme" pattern="/backend/{_locale}/al_activateCmsTheme/{themeName}/{languageName}/{pageName}">
+        <default key="_controller">AlphaLemonCmsBundle:Themes:activateCmsTheme</default>
         <default key="_locale">en</default>
-        <default key="activeLanguage">en</default>
-        <default key="activePage">index</default>
+        <default key="languageName">en</default>
+        <default key="pageName">index</default>
     </route>
 
-    <route id="_show_theme_fixer" pattern="/{_locale}/al_showThemeFixer">
+    <route id="_show_theme_fixer" pattern="/backend/{_locale}/al_showThemeFixer">
         <default key="_controller">AlphaLemonCmsBundle:Themes:showThemeFixer</default>
         <default key="_locale">en</default>
-    </route>
-
-    <route id="_fix_theme" pattern="/{_locale}/al_fixTheme">
-        <default key="_controller">AlphaLemonCmsBundle:Themes:fixTheme</default>
-        <default key="_locale">en</default>
-    </route>
-
-    <!--
-    <route id="_themes_upload_file" pattern="/backend/{_locale}/al_uploadFile">
-        <default key="_controller">AlValumUploaderBundle:ValumUploader:upload</default>
         <requirement key="_method">POST</requirement>
     </route>
 
-    <route id="_themes" pattern="/backend/{_locale}/al_showThemes">
-        <default key="_controller">AlphaLemonCmsBundle:Themes:show</default>
+    <route id="_fix_theme" pattern="/backend/{_locale}/al_fixTheme">
+        <default key="_controller">AlphaLemonCmsBundle:Themes:fixTheme</default>
         <default key="_locale">en</default>
+        <requirement key="_method">POST</requirement>
     </route>
-
-    <route id="_import_theme" pattern="/backend/{_locale}/al_importTheme">
-        <default key="_controller">AlphaLemonCmsBundle:Themes:importTheme</default>
-        <default key="_locale">en</default>
-    </route>
-
-    <route id="_extract_themes" pattern="/backend/{_locale}/al_extractTheme">
-        <default key="_controller">AlphaLemonCmsBundle:Themes:extractThemes</default>
-        <default key="_locale">en</default>
-    </route>
-
-    <route id="_remove_theme" pattern="/backend/{_locale}/al_removeTheme">
-        <default key="_controller">AlphaLemonCmsBundle:Themes:removeTheme</default>
-        <default key="_locale">en</default>
-    </route>
-
-    <route id="_install_assets" pattern="/backend/{_locale}/al_installAssets">
-        <default key="_controller">AlphaLemonCmsBundle:Themes:installAssets</default>
-    </route>-->
-
 </routes>
