@@ -28,6 +28,6 @@ propel:
         default_connection:   default
 
 alpha_lemon_theme_engine:
-    base_theme_manager_template: AlphaLemonCmsBundle:Themes:index.html.twig
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
     theme_skeleton_template: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
+    active_theme_file: %kernel.root_dir%/Resources/.tests_active_theme
