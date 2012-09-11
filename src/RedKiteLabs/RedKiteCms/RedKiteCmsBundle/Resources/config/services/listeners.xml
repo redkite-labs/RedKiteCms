@@ -14,7 +14,6 @@
         <parameter key="al_remove_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeleteSeoListener</parameter>
         <parameter key="al_remove_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
         <parameter key="al_update_permalink_on_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener</parameter>
-        <parameter key="al_change_template_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\ChangeTemplateListener</parameter>
         <parameter key="al_language_add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageSeoListener</parameter>
         <parameter key="al_language_add_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageBlocksListener</parameter>
         <parameter key="al_language_remove_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageSeoListener</parameter>
@@ -56,14 +55,6 @@
 
         <service id="al_add_page_blocks_listener" class="%al_add_page_blocks_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-        </service>
-
-        <service id="al_change_template_listener" class="%al_change_template_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_edit_page_commit" method="onBeforeEditPageCommit" priority="0" />
-            <argument type="service" id="kernel" />
-            <argument type="service" id="template_changer" />
-            <argument type="service" id="alphalemon_cms.themes_collection_wrapper" />
             <argument type="service" id="alphalemon_cms.factory_repository" />
         </service>
 
