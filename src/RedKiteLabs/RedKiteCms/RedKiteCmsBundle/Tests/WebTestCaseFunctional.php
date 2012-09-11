@@ -71,6 +71,9 @@ class WebTestCaseFunctional extends WebTestCase
             'environment' => 'alcms_test',
             'debug'       => true,
             ));
+
+        $activeThemeManager = $this->client->getContainer()->get('alphalemon_theme_engine.active_theme');
+        $activeThemeManager->writeActiveTheme('BusinessWebsiteThemeBundle');
     }
 
     protected static function populateDb()
@@ -108,13 +111,6 @@ class WebTestCaseFunctional extends WebTestCase
             $statement = $connection->prepare($query);
             $statement->execute();
         }
-
-        // Temporary
-        /*
-        $theme = new \AlphaLemon\ThemeEngineBundle\Model\AlTheme();
-        $theme->setThemeName('BusinessWebsiteThemeBundle');
-        $theme->setActive(1);
-        $theme->save();*/
 
         $alLanguageManager = new AlLanguageManager($dispatcher, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {

@@ -415,7 +415,7 @@ class AlPageTreeTest extends TestCase
         $this->configurePage();
 
         $this->activeTheme->expects($this->any())
-            ->method('retriveActiveTheme')
+            ->method('getActiveTheme')
             ->will($this->returnValue(null));
 
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
@@ -697,7 +697,7 @@ class AlPageTreeTest extends TestCase
     private function configureTheme()
     {
         $this->activeTheme->expects($this->once())
-            ->method('retriveActiveTheme')
+            ->method('getActiveTheme')
             ->will($this->returnValue('BusinessWebsiteTheme'));
     }
 
