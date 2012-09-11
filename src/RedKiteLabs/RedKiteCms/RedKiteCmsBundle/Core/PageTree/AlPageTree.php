@@ -420,7 +420,7 @@ class AlPageTree extends BaseAlPageTree
 
     private function initTheme()
     {
-        $themeName = $this->activeTheme->retriveActiveTheme();
+        $themeName = $this->activeTheme->getActiveTheme();
         if (null === $themeName) {
             return $themeName;
         }
