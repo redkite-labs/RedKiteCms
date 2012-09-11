@@ -92,7 +92,7 @@ class ThemesController extends ContainerAware
     {
         $values = array();
 
-        $activeTheme = $this->getActiveTheme()->retriveActiveTheme();
+        $activeTheme = $this->getActiveTheme()->getActiveTheme();
         $themes = $this->container->get('alphalemon_theme_engine.themes');
         foreach($themes as $theme)
         {

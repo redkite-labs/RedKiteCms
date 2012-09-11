@@ -71,8 +71,6 @@ class AlphaLemonThemeEngineExtension extends Extension
         $container->setParameter('alpha_lemon_theme_engine.deploy_bundle', $config['deploy_bundle']);
         $container->setParameter('alpha_lemon_theme_engine.active_theme_file', $activeThemeFile);
         $container->setParameter('althemes.app_themes_dir', $container->getParameter('kernel.root_dir') . '/../src/AlphaLemon/Theme');
-
-
     }
 
     public function getAlias()

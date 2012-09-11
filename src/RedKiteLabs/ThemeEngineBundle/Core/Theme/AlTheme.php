@@ -59,6 +59,14 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     /**
      * {@inheritdoc}
      */
+    public function getTemplates()
+    {
+        return $this->templates;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getTemplate($name)
     {
         $key = $this->normalizeKey($name);

@@ -29,7 +29,7 @@ interface AlActiveThemeInterface
      * Returns the active theme
      * @return null|string
      */
-    public function retriveActiveTheme();
+    public function getActiveTheme();
 
     /**
      * Writes the active theme

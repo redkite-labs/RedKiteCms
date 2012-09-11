@@ -35,21 +35,20 @@ class AlActiveTheme implements AlActiveThemeInterface
     /**
      * {@inheritdoc}
      */
-    public function retriveActiveTheme()
+    public function getActiveTheme()
     {
         if (!file_exists($this->getActiveThemeFile()))
         {
             $themes = $this->container->get('alphalemon_theme_engine.themes');
             foreach ($themes as $theme) break;
-            
+
             $themeName = $theme->getThemeName();
             $this->writeActiveTheme($themeName);
-            
+
             return $themeName;
         }
-        
+
         return file_get_contents($this->getActiveThemeFile());
-        //return (file_exists($this->getActiveThemeFile())) ? file_get_contents($this->getActiveThemeFile()) : null;
     }
 
     /**
