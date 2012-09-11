@@ -276,12 +276,6 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testChangeThePageTemplate()
     {
-        $blocks = $this->blockRepository->retrieveContents(2, 4);
-        $this->assertEquals(11, count($blocks));
-
-        $blocks = $this->blockRepository->retrieveContents(2, 4, 'page_content');
-        $this->assertEquals(0, count($blocks));
-
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => 4,
@@ -294,12 +288,6 @@ class PagesControllerTest extends WebTestCaseFunctional
 
         $page = $this->pageRepository->fromPK(4);
         $this->assertEquals('fullpage', $page->getTemplateName());
-
-        $blocks = $this->blockRepository->retrieveContents(2, 4);
-        $this->assertEquals(1, count($blocks));
-
-        $blocks = $this->blockRepository->retrieveContents(2, 4, 'page_content');
-        $this->assertEquals(1, count($blocks));
     }
 
     public function testDeletePageFailsBecauseAnyPageIdIsGiven()
