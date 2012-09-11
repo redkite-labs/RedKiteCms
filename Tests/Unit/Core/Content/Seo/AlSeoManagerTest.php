@@ -81,10 +81,7 @@ class AlSeoManagerTest extends TestCase
         $this->assertEquals($seo, $this->seoManager->get());
     }
 
-    /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
-     */
-    public function testAddFailsWhenAnyParamIsGiven()
+    public function testAddIsSkippedWhenAnyParameterIsGiven()
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -94,13 +91,10 @@ class AlSeoManagerTest extends TestCase
             ->will($this->throwException(new General\EmptyParametersException()));
 
         $values = array();
-        $this->seoManager->save($values);
+        $this->assertNull($this->seoManager->save($values));
     }
 
-    /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
-     */
-    public function testAddFailsWhenAnyExpectedParamIsGiven()
+    public function testAddIsSkippedWhenAnyExpectedParamIsGiven()
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -111,13 +105,10 @@ class AlSeoManagerTest extends TestCase
 
         $values = array('fake' => 'value');
 
-        $this->seoManager->save($values);
+        $this->assertNull($this->seoManager->save($values));
     }
 
-    /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
-     */
-    public function testAddFailsWhenExpectedPageNameParamIsMissing()
+    public function testAddIsSkippedWhenExpectedPageNameParamIsMissing()
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -125,13 +116,10 @@ class AlSeoManagerTest extends TestCase
         $params = array('LanguageId' => '',
                         'Permalink' => '');
 
-        $this->seoManager->save($params);
+        $this->assertNull($this->seoManager->save($params));
     }
 
-    /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
-     */
-    public function testAddFailsWhenExpectedLanguageIdParamIsMissing()
+    public function testAddIsSkippedWhenExpectedLanguageIdParamIsMissing()
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -139,13 +127,10 @@ class AlSeoManagerTest extends TestCase
         $params = array('PageId' => '',
                         'Permalink' => '');
 
-        $this->seoManager->save($params);
+        $this->assertNull($this->seoManager->save($params));
     }
 
-    /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
-     */
-    public function testAddFailsWhenExpectedPermalinkParamIsMissing()
+    public function testAddIsSkippedWhenExpectedPermalinkParamIsMissing()
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -153,7 +138,7 @@ class AlSeoManagerTest extends TestCase
         $params = array('PageId' => '',
                         'LanguageId' => '');
 
-        $this->seoManager->save($params);
+        $this->assertNull($this->seoManager->save($params));
     }
 
     /**
@@ -246,10 +231,7 @@ class AlSeoManagerTest extends TestCase
         $this->assertTrue($this->seoManager->save($params));
     }
 
-    /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
-     */
-    public function testEditFailsWhenAnyParamIsGiven()
+    public function testEditIsSkippedWhenAnyParamIsGiven()
     {
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -262,13 +244,10 @@ class AlSeoManagerTest extends TestCase
             ->method('save');
 
         $params = array();
-        $this->seoManager->save($params);
+        $this->assertNull($this->seoManager->save($params));
     }
 
-    /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
-     */
-    public function testEditFailsWhenAnyoneOfTheExpectedParamIsGiven()
+    public function testEditIsSkippedWhenAnyoneOfTheExpectedParamIsGiven()
     {
         $seo = $this->setUpSeoObject();
 
@@ -284,7 +263,7 @@ class AlSeoManagerTest extends TestCase
 
         $params = array('Keywords' => 'test');
         $this->seoManager->set($seo);
-        $this->seoManager->save($params);
+        $this->assertNull($this->seoManager->save($params));
     }
 
     /**

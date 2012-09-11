@@ -33,7 +33,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInter
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 
 /**
- * AlBlockManager is the object responsible to manage an AlSeo object.
+ * AlSeoManager is the object responsible to manage an AlSeo object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -255,6 +255,9 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             }
 
             return $result;
+        } catch (General\ParameterIsEmptyException $ex) {
+        } catch (General\EmptyParametersException $ex) {
+        } catch (General\ParameterExpectedException $ex) {
         } catch (\Exception $e) {
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();
@@ -334,6 +337,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
                 return false;
             }
+        } catch (General\EmptyParametersException $ex) {
+        } catch (General\ParameterExpectedException $ex) {
         } catch (\Exception $e) {
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();

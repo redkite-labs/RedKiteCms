@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
+use \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
  * Listen to the onBeforeEditPageCommit event to edit the seo attributes when a new page is edited
@@ -54,7 +55,7 @@ class EditSeoListener
         if (!is_array($values)) {
             throw new \InvalidArgumentException("The values param is expected to be an array");
         }
-
+        
         try {
             $idPage = $pageManager->get()->getId();
             $idLanguage = $pageManager->getTemplateManager()
@@ -77,6 +78,8 @@ class EditSeoListener
                     $event->abort();
                 }
             }
+        } catch (General\EmptyParametersException $ex) {
+        } catch (General\ParameterExpectedException $ex) {
         } catch (\Exception $e) {
             $event->abort();
 
