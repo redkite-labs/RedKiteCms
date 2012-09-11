@@ -133,7 +133,6 @@ var isEditorOpened = false;
             });
 
             return false;
-
         });
     };
 
