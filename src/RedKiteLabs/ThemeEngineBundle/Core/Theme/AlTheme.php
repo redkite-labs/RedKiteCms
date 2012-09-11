@@ -47,9 +47,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     }
 
     /**
-     * Returns the current theme name
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getThemeName()
     {

@@ -24,6 +24,13 @@ namespace AlphaLemon\ThemeEngineBundle\Core\Theme;
 interface AlThemeInterface
 {
     /**
+     * Returns the current theme name
+     *
+     * @return string
+     */
+    public function getThemeName();
+
+    /**
      *  Returns the templates added to the theme
      *
      *  @return array
