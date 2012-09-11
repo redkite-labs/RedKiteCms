@@ -16,6 +16,7 @@
         <parameter key="alphalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
         <parameter key="page_contents_container.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
         <parameter key="template_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
+        <parameter key="alphalemon_cms.parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator</parameter>
         <parameter key="language_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
         <parameter key="page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
         <parameter key="template_changer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger</parameter>
@@ -46,13 +47,19 @@
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="translator" />
         </service>
+        
+        <service id="alphalemon_cms.parameters_validator" class="%alphalemon_cms.parameters_validator.class%">
+            <argument type="service" id="translator" />
+        </service>
 
         <service id="language_manager_parameters_validator" class="%language_manager_parameters_validator.class%">
             <argument type="service" id="alphalemon_cms.factory_repository" />
+            <argument type="service" id="translator" />
         </service>
 
         <service id="page_manager_parameters_validator" class="%page_manager_parameters_validator.class%">
             <argument type="service" id="alphalemon_cms.factory_repository" />
+            <argument type="service" id="translator" />
         </service>
 
         <service id="page_contents_container" class="%page_contents_container.class%">
@@ -76,6 +83,7 @@
         <service id="al_block_manager" class="%al_block_manager_service%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="alphalemon_cms.factory_repository" />
+            <argument type="service" id="alphalemon_cms.parameters_validator" />   
         </service>
 
         <service id="al_page_tree" class="%alphalemon.page_tree%">
@@ -94,6 +102,7 @@
         <service id="al_seo_manager" class="%al_cms_seo_manager%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="alphalemon_cms.factory_repository" />
+            <argument type="service" id="alphalemon_cms.parameters_validator" />            
         </service>
 
         <service id="al_language_manager" class="%al_cms_languages_manager%">
