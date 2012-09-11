@@ -91,7 +91,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Sets the template manager object
      *
      *
-     * @param  AlTemplateManager                                               $templateManager
+     * @param  AlTemplateManager $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
      */
     public function setTemplateManager(AlTemplateManager $templateManager)
