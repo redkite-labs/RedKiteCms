@@ -1,10 +1,9 @@
-
 <div id="al_theme_fixer">
     <form id="al_theme_fixer_form">
       <div>
         <div class="al_float_left al_label">Available templates</div>
         <div class="al_float_left">
-            <select name="al_template" class="input">
+            <select id="al_template" name="al_template" class="input">
             {% for template in templates %}
                <option value="{{ template }}">{{ template }}</option>
             {% endfor %}
@@ -33,7 +32,7 @@
     {% endif %}
     </form>
     <div id="al_activate_button_container"><input id="al_activate_theme" type="submit" value="Activate" class="input button al_large {themeName: '{{ themeName }}'}" /></div>
-    <div id="al_error"></div>
+    <div id="al_error">{{ error }}</div>
 </div>
 
 
@@ -42,18 +41,23 @@
     $('#al_theme_fixer_form').submit(function() {
       $.ajax({
           type: 'POST',
-          url: frontController + $('#al_available_languages').val() + '/al_fixTheme',
-          data: {'data' : $(this).serialize()},
+          url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_fixTheme',
+          data: {
+              'themeName': '{{ themeName }}',
+              'data' : $(this).serialize()
+          },
           beforeSend: function()
           {
             $('body').AddAjaxLoader();
           },
-          success: function(response)
+          success: function(html)
           {
+            $('#al_dialog').html(html);
+              /*
             $(response).each(function(key, item)
             {
                 $('#row_' + item).remove();
-            });
+            });*/
             ObserveThemeCommands();
           },
           error: function(err)

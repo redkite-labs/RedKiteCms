@@ -31,25 +31,13 @@ use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
 
 class ThemesController extends BaseController
 {
-    public function activateThemeAction($themeName, $languageName = null, $pageName = null)
+    public function activateCmsThemeAction($themeName, $languageName, $pageName)
     {
         try {
             $this->getActiveTheme()->writeActiveTheme($themeName);
             $url = $this->container->get('router')->generate('_navigation', array('_locale' => $languageName, 'page' => $pageName));
 
             return new RedirectResponse($url);
-            /*
-            $themeManager = new AlThemeManager($this->container);
-            $themeManager->activate($themeName);
-
-            $language = AlLanguageQuery::create()->findPk($activeLanguage);
-            $languageName = (null !== $language) ? $language->getLanguage() : 'en';
-
-            $page = AlPageQuery::create()->findPk($activePage);
-            $pageName = (null !== $page) ? $page->getPageName() : 'index';
-
-            return new RedirectResponse($this->generateUrl('_navigation', array('_locale' => $languageName, 'page' => $pageName)));
-             */
         } catch (Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
         }
@@ -57,142 +45,66 @@ class ThemesController extends BaseController
 
     public function showThemeFixerAction()
     {
-        $templates = array();
-        $request = $this->getRequest();
-        $finder = $this->retrieveTemplatesIterator($request->get('themeName'));
-        foreach ($finder as $templateFile) {
-            $templates[] = preg_replace_callback('/([\w]+Bundle)([\w]+)(Slots.php)/', function($matches) { return strtolower($matches[2]); }, $templateFile->getFileName());
-        }
-
-        $pages = AlPageQuery::create('a')->
-                    where('a.Id > 1') ->
-                    filterByToDelete(0)->
-                    orderByPageName()->
-                    find();
-
-        return $this->render('AlphaLemonCmsBundle:Themes:show_theme_fixer.html.twig', array('templates' => $templates, 'pages' => $pages, 'themeName' => $request->get('themeName')));
+        return $this->renderThemeFixer();
     }
 
     public function fixThemeAction()
     {
-        $request = $this->getRequest();
-
-        $params = array();
-        $data = explode('&', $request->get('data'));
-        foreach ($data as $value) {
-            $tmp = preg_split('/=/', $value);
-            if ($tmp[0] == 'al_page_to_fix') {
-                $params[$tmp[0]][] = $tmp[1];
-            } else {
-                $params[$tmp[0]] = $tmp[1];
+        try {
+            $error = null;
+            $request = $this->container->get('request');
+            
+            $params = array();
+            $data = explode('&', $request->get('data'));
+            foreach ($data as $value) {
+                $tmp = preg_split('/=/', $value);
+                if ($tmp[0] == 'al_page_to_fix') {
+                    $params[$tmp[0]][] = $tmp[1];
+                } else {
+                    $params[$tmp[0]] = $tmp[1];
+                }
             }
-        }
 
-        if (empty($params['al_page_to_fix'])) {
-            $response = new Response();
-            $response->setStatusCode('404');
+            if (empty($params['al_page_to_fix'])) {
+                $error = 'Any page has been selected';
+                
+                return $this->renderThemeFixer($error);
+            }
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'Any page has been choosen'), $response);
-        }
-
-        foreach ($params['al_page_to_fix'] as $pageId) {
-            $alPage = AlPageQuery::create()->findPk($pageId);
             $pageManager = $this->container->get('al_page_manager');
-            $pageManager->set($alPage);
-            if (!$pageManager->save(array('template' => $params['al_template']))) {
-                $response = new Response();
-                $response->setStatusCode('404');
-
-                return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'Err'), $response);
+            $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+            $pagesRepository = $factoryRepository->createRepository('Page');
+            foreach ($params['al_page_to_fix'] as $pageId) {
+                $alPage = $pagesRepository->fromPK($pageId);
+                $pageManager->set($alPage);
+                if (false === $pageManager->save(array('TemplateName' => $params['al_template']))) {
+                    $error = sprintf('An error occoured when saving the new template for the page %s. Operation aborted', $alPage->getPageName());
+                
+                    return $this->renderThemeFixer($error);
+                }
             }
-        }
 
-        $response = new Response(json_encode($params['al_page_to_fix']));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-    }
-
-    /*
-    public function showAction()
-    {
-        try {
-            $values = $this->retrieveThemeValues();
-
-            $valumOptionsBuilder = $this->setupValumUploader();
-            $isWindows = (PHP_OS == "WINNT") ? true : false;
-
-            return $this->render($this->container->getParameter('althemes.base_theme_manager_template'), array('base_template' => $this->container->getParameter('althemes.base_template'),
-                                                                                             'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
-                                                                                             'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
-                                                                                             //'stylesheets' => $stylesheets,
-                                                                                             'values' => $values,
-                                                                                             'is_windows' => $isWindows,
-                                                                                             'valum' => $valumOptionsBuilder->getOptions()));
+            return $this->renderThemeFixer($error);
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            $error = 'An error occourced: ' . $e->getMessage();
+                
+            return $this->renderThemeFixer($error);
         }
     }
 
-    public function extractThemesAction()
+    protected function renderThemeFixer($error = null)
     {
-        $this->extractTheme();
+        $request = $this->container->get('request');
+        $themeName = $request->get('themeName');
 
-        $valumOptionsBuilder = $this->setupValumUploader();
-        $isWindows = (PHP_OS == "WINNT") ? true : false;
+        $themes = $this->container->get('alphalemon_theme_engine.themes');
+        $theme = $themes->getTheme($themeName);
+        $templates = array_keys($theme->getTemplates());
 
-        return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
-                                                                                                        'values' => $this->retrieveThemeValues(),
-                                                                                                        'is_windows' => $isWindows,
-                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
+        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $pagesRepository = $factoryRepository->createRepository('Page');
+        $pages = $pagesRepository->activePages();
+
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_fixer.html.twig', array('templates' => $templates, 'pages' => $pages, 'themeName' => $themeName, 'error' => $error));
     }
-
-    public function removeThemeAction()
-    {
-        try {
-            $this->removeTheme();
-
-            $valumOptionsBuilder = $this->setupValumUploader();
-            $isWindows = (PHP_OS == "WINNT") ? true : false;
-
-            return $this->render('AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig', array('theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
-                                                                                                        'values' => $this->retrieveThemeValues(),
-                                                                                                        'is_windows' => $isWindows,
-                                                                                                        'valum' => $valumOptionsBuilder->getOptions()));
-        } catch (Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->render('AlphaLemonCmsBundle:Pages:ajax_error.html.twig', array('message' => $e->getMessage()), $response);
-        }
-    }
-
-    protected function setupValumUploader()
-    {
-        $frontcontroller = $this->container->get('kernel')->getEnvironment() . '.php';
-        $customOptions = array("panel_title" => "Themes uploader",
-                               "panel_info" => "",
-                               "allowed_extensions" => "'zip'",
-                               "upload_action" => '/' . $frontcontroller . "/al_uploadFile",
-                               "folder" => $this->container->getParameter('althemes.app_themes_dir'),
-                               "onComplete" => "extractTheme()");
-        $valumOptionsBuilder = new AlValumUploaderOptionsBuilder($this->container);
-        $valumOptionsBuilder->build($customOptions);
-
-        return $valumOptionsBuilder;
-    }
-
-    private function retrieveTemplatesIterator($themeName)
-    {
-        $themeFolder = $this->retrieveThemeFolder($themeName);
-        if(null === $themeFolder) return null;
-
-        $finder = new Finder();
-        $finder->files()->depth(0)->name('*Slots.php')->in($themeFolder . '/Core/Slots');
-
-        return $finder;
-    }*/
 }
