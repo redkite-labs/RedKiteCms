@@ -48,7 +48,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
 
         $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())
-            ->method('retriveActiveTheme')
+            ->method('getActiveTheme')
             ->will($this->returnValue('BusinessWebsiteTheme'));
         
         $this->container->expects($this->exactly(5))
