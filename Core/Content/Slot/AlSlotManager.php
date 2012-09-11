@@ -246,11 +246,11 @@ class AlSlotManager extends AlTemplateBase
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
     {
         if ((int) $idLanguage == 0) {
-            throw new InvalidParameterTypeException("idLanguage parameter must be a valid integer");
+            throw new InvalidParameterTypeException(get_class($this) . ' reports: "idLanguage parameter must be a valid integer"');
         }
 
         if ((int) $idPage == 0) {
-            throw new InvalidParameterTypeException("idPage parameter must be a valid integer");
+            throw new InvalidParameterTypeException(get_class($this) . ' reports: "idPage parameter must be a valid integer"');
         }
 
         try {
