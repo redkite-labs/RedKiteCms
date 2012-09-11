@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * AlParametersValidatorPageManager adds specific validations for pages
@@ -39,9 +40,9 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      * @param LanguageRepositoryInterface  $languageRepository
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(AlFactoryRepositoryInterface $factoryRepository, TranslatorInterface $translator = null)
     {
-        parent::__construct($factoryRepository);
+        parent::__construct($factoryRepository, $translator);
 
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
     }
