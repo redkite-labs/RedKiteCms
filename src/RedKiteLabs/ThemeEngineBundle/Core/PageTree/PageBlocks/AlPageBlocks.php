@@ -55,6 +55,8 @@ class AlPageBlocks implements AlPageBlocksInterface
         {
             $this->blocks[$slotName][] = $value;
         }
+        
+        return $this;
     }
 
     /**
@@ -80,6 +82,8 @@ class AlPageBlocks implements AlPageBlocksInterface
                 $this->blocks[$slotName] = null;
             }
         }
+        
+        return $this;
     }
 
     /**
@@ -90,6 +94,8 @@ class AlPageBlocks implements AlPageBlocksInterface
         $this->checkSlotExists($slotName);
 
         $this->blocks[$slotName] = array();
+        
+        return $this;
     }
 
     /**
@@ -100,6 +106,8 @@ class AlPageBlocks implements AlPageBlocksInterface
         foreach ($this->blocks as $slotName => $block) {
             $this->clearSlotBlocks($slotName);
         }
+        
+        return $this;
     }
 
     /**
@@ -110,6 +118,8 @@ class AlPageBlocks implements AlPageBlocksInterface
         $this->checkSlotExists($slotName);
 
         unset($this->blocks[$slotName]);
+        
+        return $this;
     }
 
     /**
@@ -118,6 +128,8 @@ class AlPageBlocks implements AlPageBlocksInterface
     public function removeSlots()
     {
         $this->blocks = array();
+        
+        return $this;
     }
 
     /**
