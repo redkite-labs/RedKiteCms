@@ -23,26 +23,39 @@ use AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * BasePageRenderingListener
+ * Implements a basec listener to replace a content when the page is rendered and ready
+ * to be returned with the response.
  *
- * @author AlphaLemon
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 abstract class BasePageRenderingListener
 {
     protected $container;
 
+    /**
+     * Returns an array of \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
+     * objects.
+     * 
+     * @return array
+     */
     abstract protected function renderSlotContents();
 
+    /**
+     * Constructor
+     * 
+     * @param ContainerInterface $container 
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
     /**
-    * Handles the event when notified or filtered.
-    *
-    * @param Event $event
-    */
+     * Handles the event when notified or filtered.
+     * 
+     * @param BeforePageRenderingEvent $event
+     * @throws \InvalidArgumentException 
+     */
     public function onPageRendering(BeforePageRenderingEvent $event)
     {
         $response = $event->getResponse();
@@ -59,18 +72,23 @@ abstract class BasePageRenderingListener
         $event->setResponse($response);
     }
 
+    /**
+     * Renders the current slot
+     * 
+     * @param Response $response
+     * @param AlSlotContent $slotContent
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \RuntimeException 
+     */
     protected function renderSlot(Response $response, AlSlotContent $slotContent)
     {
-        if (!$slotContent instanceof AlSlotContent) {
-           throw new \RuntimeException('"renderSlotContent" method must return a "AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent" object');
-        }
-
         if (null === $slotContent->getSlotName()) {
-           throw new \RuntimeException('Any slot defined for the event ' . class_name($this));
+           throw new \RuntimeException('Any slot defined for the event ' . get_class($this));
         }
 
-        if (null === $slotContent->isReplacing()) {
-           throw new \RuntimeException('Any action has been specified for the event ' . class_name($this));
+        $isReplacing = $slotContent->isReplacing();
+        if (null === $isReplacing) {
+           throw new \RuntimeException('Any action has been specified for the event ' . get_class($this));
         }
 
         if (null === $slotContent->getContent()) {
@@ -78,7 +96,7 @@ abstract class BasePageRenderingListener
         }
 
         $content = $response->getContent();
-        $content = ($slotContent->isReplacing()) ? $this->replaceContent($slotContent, $content) : $this->injectContent($slotContent, $content);
+        $content = ($isReplacing) ? $this->replaceContent($slotContent, $content) : $this->injectContent($slotContent, $content);
         if (null !== $content) {
             $response->setContent($content);
         }
@@ -86,25 +104,42 @@ abstract class BasePageRenderingListener
         return $response;
     }
 
+    /**
+     * Replaces rhe content on the current slot with the new one
+     * 
+     * @param AlSlotContent $slotContent
+     * @param string $content The content to replace
+     * @return string 
+     */
     protected function replaceContent(AlSlotContent $slotContent, $content)
     {
-        $regex = $this->fetchPattern($slotContent->getSlotName());
+        $regex = $this->getPattern($slotContent->getSlotName());
 
         return preg_replace($regex, $slotContent->getContent(), $content);
     }
 
+    /**
+     * Injects the content at the end of the fiven content
+     * 
+     * @param AlSlotContent $slotContent
+     * @param string $content The content to inject
+     * @return string 
+     */
     protected function injectContent(AlSlotContent $slotContent, $content)
     {
-        $regex = $this->fetchPattern($slotContent->getSlotName());
-        preg_match($regex, $content, $match);
-        if (empty($match)) return;
-
+        $regex = $this->getPattern($slotContent->getSlotName());
+        if (false === preg_match($regex, $content, $match)) {
+            return;
+        }
         $newContent = $match[1] . PHP_EOL . $slotContent->getContent();
-
+        
         return preg_replace($regex, $newContent, $content);
     }
 
-    private function fetchPattern($slotName)
+    /**
+     * Defines the pattern to use for contents replacement
+     */
+    protected function getPattern($slotName)
     {
         return sprintf('/\<!-- BEGIN %s BLOCK --\>(.*?)\<!-- END %s BLOCK --\>/s', strtoupper($slotName), strtoupper($slotName));
     }
