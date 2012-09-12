@@ -66,15 +66,15 @@ class CmsBootstrapListener
     {
         $folders = array();
         $basePath = $this->locate($this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir'));
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
 
         $basePath = $this->locate('@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'));
         $folders[] = $basePath;
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
 
         $fs = new Filesystem();
         $fs->mkdir($folders);

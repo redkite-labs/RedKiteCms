@@ -41,7 +41,7 @@ class TinyMCEController extends Controller
         foreach ($mediaFileTypes as $mediaFileType) {
             $finder = $finder->name(trim($mediaFileType));
         }
-        $imagesFiles = $finder->in($cmsAssetsFolder . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_folder'));
+        $imagesFiles = $finder->in($cmsAssetsFolder . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir'));
 
         foreach ($imagesFiles as $imagesFile) {
             $absoluteFolderPath = '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . \str_replace($cmsAssetsFolder, '', dirname($imagesFile));

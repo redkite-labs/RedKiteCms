@@ -17,8 +17,8 @@
         <parameter key="alpha_lemon_cms.deploy_bundle.assets_base_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/public</parameter>
         <parameter key="alpha_lemon_cms.deploy_bundle.config_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/config</parameter>
         <parameter key="alpha_lemon_cms.deploy_bundle.views_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/views</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.media_folder">media</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.js_folder">js</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.css_folder">css</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.media_dir">media</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.js_dir">js</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.css_dir">css</parameter>
     </parameters>
 </container>
