@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
 
 /**

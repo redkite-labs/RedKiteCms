@@ -17,60 +17,70 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
 /**
- * AlBlockManagerFactoryItemTest
+ * AlActiveThemeTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class AlActiveThemeTest extends TestCase
 {
     private $container;
-
+    private $activeThemePath;
+    
     protected function setUp()
     {
         $this->root = vfsStream::setup('root');
+        $this->activeThemePath = vfsStream::url('root/.active_theme');
+        
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->container->expects($this->any())
+            ->method('getParameter')
+            ->will($this->returnValue($this->activeThemePath));
     }
 
     public function testCurrentActiveThemeIsRetrieved()
     {
-        $path = vfsStream::url('root/.active_theme');
-        file_put_contents($path, 'BusinessWebsiteThemeBundle');
+        file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
         $this->container->expects($this->any())
             ->method('getParameter')
-            ->will($this->returnValue($path));
+            ->will($this->returnValue($this->activeThemePath));
         $activeTheme = new AlActiveTheme($this->container);
         $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
     }
 
     public function testWhenActiveThemFileDoesNotExistTheFirstThemeIsChoosen()
     {
-        $this->markTestSkipped(
-            'Non works'
-        );
-
-        $path = vfsStream::url('root/.active_theme');
-
-        $theme = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
         $theme->expects($this->once())
             ->method('getThemeName')
-            ->will($this->returnValue($path, 'BusinessWebsiteThemeBundle'));
+            ->will($this->returnValue('BusinessWebsiteThemeBundle'));
 
         $themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
-        $themes->expects($this->once())
-            ->method('getTheme')
-            ->will($this->returnValue($theme));
-
+        $themes->expects($this->at(1))
+             ->method('valid')
+             ->will($this->returnValue(true));        
+        $themes->expects($this->at(2))
+             ->method('current')
+             ->will($this->returnValue($theme));
+        
         $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls($path, $themes));
+            ->method('get')
+            ->will($this->returnValue($themes));
 
         $activeTheme = new AlActiveTheme($this->container);
         $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
+    }
+    
+    public function testWriteActiveTheme()
+    {
+        $activeTheme = new AlActiveTheme($this->container);
+        $activeTheme->writeActiveTheme('FakeThemeBundle');
+        $bundle = file_get_contents(vfsStream::url('root/.active_theme'));
+        $this->assertEquals('FakeThemeBundle', $bundle);
     }
 }

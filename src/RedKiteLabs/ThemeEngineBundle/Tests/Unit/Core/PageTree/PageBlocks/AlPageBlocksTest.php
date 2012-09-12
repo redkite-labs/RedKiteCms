@@ -46,7 +46,7 @@ class AlPageBlocksTest extends TestCase
 
     public function testBlockIsAdded()
     {
-        $this->pageBlocks->add("logo", array('HtmlContent' => 'My value'));
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->add("logo", array('HtmlContent' => 'My value')));
 
         $this->assertTrue(count($this->pageBlocks->getBlocks()) == 1);
         $this->checkOneBlock('logo', 'My value');
@@ -76,7 +76,7 @@ class AlPageBlocksTest extends TestCase
      */
     public function testOneBlockIsNotAddedWhenBecauseItContainsAnInvalidOptionParam()
     {
-        $this->pageBlocks->addRange(array("logo" => array(array('HtmlContent' => 'My value'), array('Fake' => 'My value'))));
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->addRange(array("logo" => array(array('HtmlContent' => 'My value'), array('Fake' => 'My value')))));
         $this->checkOneBlock('logo', 'My value');
     }
 
@@ -104,7 +104,7 @@ class AlPageBlocksTest extends TestCase
      */
     public function testAnExeptionIsThrowsWhenTryingToClearANonExistentSlot()
     {
-        $this->pageBlocks->clearSlotBlocks('logo');
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlotBlocks('logo'));
     }
 
     public function testASlotIsCleared()
@@ -112,7 +112,7 @@ class AlPageBlocksTest extends TestCase
         $this->pageBlocks->addRange(array("logo" => array(array('HtmlContent' => 'My value'))));
         $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 1);
 
-        $this->pageBlocks->clearSlotBlocks('logo');
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlotBlocks('logo'));
         $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 0);
     }
 
@@ -123,7 +123,7 @@ class AlPageBlocksTest extends TestCase
         $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 1);
         $this->assertTrue(count($this->pageBlocks->getSlotBlocks('nav-menu')) == 1);
 
-        $this->pageBlocks->clearSlots();
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlots());
         $this->assertTrue(count($this->pageBlocks->getBlocks()) == 2);
         $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 0);
         $this->assertTrue(count($this->pageBlocks->getSlotBlocks('nav-menu')) == 0);
@@ -134,7 +134,7 @@ class AlPageBlocksTest extends TestCase
      */
     public function testAnExeptionIsThrowsWhenTryingToRemoveANonExistentSlot()
     {
-        $this->pageBlocks->removeSlot('logo');
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlot('logo'));
     }
 
     public function testASlotIsRemoved()
@@ -142,7 +142,7 @@ class AlPageBlocksTest extends TestCase
         $this->pageBlocks->addRange(array("logo" => array(array('HtmlContent' => 'My value'))));
         $this->assertTrue(count($this->pageBlocks->getBlocks()) == 1);
 
-        $this->pageBlocks->removeSlot('logo');
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlot('logo'));
         $this->assertTrue(count($this->pageBlocks->getBlocks()) == 0);
     }
 
@@ -151,7 +151,7 @@ class AlPageBlocksTest extends TestCase
         $this->pageBlocks->addRange(array("logo" => array(array('HtmlContent' => 'My value')), "nav-menu" => array(array('HtmlContent' => 'My value'))));
         $this->assertTrue(count($this->pageBlocks->getBlocks()) == 2);
 
-        $this->pageBlocks->removeSlots();
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlots());
         $this->assertTrue(count($this->pageBlocks->getBlocks()) == 0);
     }
 
