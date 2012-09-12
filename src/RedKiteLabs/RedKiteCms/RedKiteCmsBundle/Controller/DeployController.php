@@ -17,10 +17,10 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAware;
 use AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
 
-class DeployController extends Controller
+class DeployController extends ContainerAware
 {
     public function localAction()
     {
@@ -28,8 +28,8 @@ class DeployController extends Controller
             $deployer = $this->container->get('alpha_lemon_cms.local_deployer');
             $deployer->deploy();
 
-            $response = $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
-return $response;
+            $response = $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
+
             $appDir = $this->container->get('kernel')->getRootDir();
             $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
             $command = sprintf('assets:install %s %s', $this->container->getParameter('alpha_lemon_cms.web_folder'), $symlink);
@@ -43,7 +43,10 @@ return $response;
 
             return $response;
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            $response = new Response();
+            $response->setStatusCode('404');
+
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 }

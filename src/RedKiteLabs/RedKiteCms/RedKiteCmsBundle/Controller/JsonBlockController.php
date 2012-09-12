@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAware;;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class JsonBlockController extends Controller
+class JsonBlockController extends ContainerAware
 {
     /**
      * Lists the elements of a json object
@@ -36,18 +36,18 @@ class JsonBlockController extends Controller
     public function listJsonItemsAction()
     {
         try {
-            $request = $this->getRequest();
+            $request = $this->container->get('request');
             $block = $this->fetchBlock($request->get('blockId'));
 
             $items = json_decode($block->getHtmlContent(), true);
             $template = sprintf('%sBundle:Block:%s_list.html.twig', $block->getClassName(), strtolower($block->getClassName()));
 
-            return $this->render($template, array("items" => $items, "block_id" => $block->getId()));
+            return $this->container->get('templating')->renderResponse($template, array("items" => $items, "block_id" => $block->getId()));
         } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -59,7 +59,7 @@ class JsonBlockController extends Controller
     public function showJsonItemAction()
     {
         try {
-            $request = $this->getRequest();
+            $request = $this->container->get('request');
             $form = $this->setUpForm($request->get('blockId'), $request->get('itemId'));
             $formView = array('key' => 'editor', 'value' => $this->renderForm($request->get('blockId'), $form));
 
@@ -68,7 +68,7 @@ class JsonBlockController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -80,7 +80,7 @@ class JsonBlockController extends Controller
     public function deleteJsonItemAction()
     {
         try {
-            $request = $this->getRequest();
+            $request = $this->container->get('request');
             $block = $this->fetchBlock($request->get('blockId'));
 
             $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
@@ -103,7 +103,7 @@ class JsonBlockController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -151,7 +151,7 @@ class JsonBlockController extends Controller
         $formName = sprintf('%s.form', strtolower($block->getClassName()));
         $formClass = $this->container->get($formName);
 
-        return $this->createForm($formClass, $item);
+        return $this->container->get('form.factory')->create($formClass, $item);
     }
 
     /**

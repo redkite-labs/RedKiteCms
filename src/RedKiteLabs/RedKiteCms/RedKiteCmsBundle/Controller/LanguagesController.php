@@ -17,13 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 
-class LanguagesController extends Controller
+class LanguagesController extends ContainerAware
 {
     public function indexAction()
     {
@@ -31,23 +31,23 @@ class LanguagesController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
         }
 
         $languagesForm = new LanguagesForm($this->container);
-        $form = $this->get('form.factory')->create($languagesForm);
+        $form = $this->container->get('form.factory')->create($languagesForm);
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
                         'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
                         'form' => $form->createView());
 
-        return $this->render('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
     }
 
     public function saveLanguageAction()
     {
         try {
-            $request = $this->get('request');
+            $request = $this->container->get('request');
             $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
             $languageManager->setTranslator($this->container->get('translator'));
             $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
@@ -64,14 +64,14 @@ class LanguagesController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function deleteLanguageAction()
     {
         try {
-            $request = $this->get('request');
+            $request = $this->container->get('request');
             $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
             $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
             if ($alLanguage != null) {
@@ -79,7 +79,7 @@ class LanguagesController extends Controller
                             ->set($alLanguage)
                             ->delete();
                 if ($result) {
-                    $message = $this->get('translator')->trans('The language has been successfully removed');
+                    $message = $this->container->get('translator')->trans('The language has been successfully removed');
                 } elseif (null === $result) {
                     throw new \RuntimeException($this->container->get('translator')->trans('The main language could not be deleted'));
                 } else {
@@ -94,14 +94,14 @@ class LanguagesController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function loadLanguageAttributesAction()
     {
         $values = array();
-        $request = $this->get('request');
+        $request = $this->container->get('request');
         $language = $request->get('languageId');
         if ($language != 'none') {
             $alLanguage = AlLanguageQuery::create()
@@ -124,7 +124,7 @@ class LanguagesController extends Controller
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Languages:languages_list.html.twig', array('languages' => $languages)));
-        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_combo.html.twig', array('id' => 'al_languages_navigator', 'selected' => $this->getRequest()->get('language'), 'items' => $languages)));
+        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_combo.html.twig', array('id' => 'al_languages_navigator', 'selected' => $this->container->get('request')->get('language'), 'items' => $languages)));
 
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
