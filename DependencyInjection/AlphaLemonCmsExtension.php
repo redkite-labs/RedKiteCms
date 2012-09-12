@@ -45,42 +45,16 @@ class AlphaLemonCmsExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         if (isset($config['skin'])) {
-            $container->setParameter('alcms.skin', $config['skin']);
+            $container->setParameter('alpha_lemon_cms.skin', $config['skin']);
         }
 
         if (isset($config['web_folder_name'])) {
-            $container->setParameter('alphalemon_cms.web_folder', $config['web_folder_name']);
-        }
-
-        if (isset($config['page_blocks'])) {
-            $this->mergeArrayParameter($container, $config, 'al_cms.page_blocks', 'page_blocks');
-        }
-
-        if (isset($config['stylesheets'])) {
-            $this->mergeArrayParameter($container, $config, 'alcms.stylesheets', 'stylesheets');
-        }
-
-        if (isset($config['javascripts'])) {
-            $this->mergeArrayParameter($container, $config, 'alcms.javascripts', 'javascripts');
+            $container->setParameter('alpha_lemon_cms.web_folder', $config['web_folder_name']);
         }
 
         if (isset($config['deploy'])) {
-            if (isset($config['deploy']['xliff_skeleton'])) {
-                $container->setParameter('alcms.deploy.xliff_skeleton', $config['deploy']['xliff_skeleton']);
-            }
-
             if (isset($config['deploy']['xml_skeleton'])) {
                 $container->setParameter('alcms.deploy.xml_skeleton', $config['deploy']['xml_skeleton']);
-            }
-        }
-
-        if (isset($config['assets'])) {
-            if (isset($config['assets']['skeletons_folder'])) {
-                $container->setParameter('alcms.assets.skeletons_folder', $config['assets']['skeletons_folder']);
-            }
-
-            if (isset($config['assets']['output_folder'])) {
-                $container->setParameter('alcms.assets.output_folder', $config['assets']['output_folder']);
             }
         }
     }

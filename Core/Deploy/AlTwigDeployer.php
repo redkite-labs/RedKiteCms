@@ -41,9 +41,9 @@ class AlTwigDeployer extends AlDeployer
     {
         parent::__construct($container);
 
-        $this->urlManager = $container->get('alphalemon_cms.url_manager');
-        $this->blockManagerFactory = $this->container->get('alphalemon_cms.block_manager_factory');
-        $this->viewsDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.views_dir');
+        $this->urlManager = $container->get('alpha_lemon_cms.url_manager');
+        $this->blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+        $this->viewsDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.views_dir');
     }
 
     /**

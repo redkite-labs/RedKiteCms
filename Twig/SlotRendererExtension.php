@@ -35,14 +35,14 @@ class SlotRendererExtension extends BaseSlotRendererExtension
 
         try {
             $result = array();
-            $blockManagers = $this->container->get('al_page_tree')->getBlockManagers($slotName);
+            $blockManagers = $this->container->get('alpha_lemon_cms.page_tree')->getBlockManagers($slotName);
             if (count($blockManagers) > 0) {
                 foreach ($blockManagers as $blockManager) {
                     if(null === $blockManager) continue;
                     $result[] = $this->doRender($blockManager->toArray(), true);
                 }
             } else {
-                if ($this->container->get('al_page_tree')->isCmsMode()) {
+                if ($this->container->get('alpha_lemon_cms.page_tree')->isCmsMode()) {
                     $result[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
                 }
             }

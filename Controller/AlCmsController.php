@@ -39,11 +39,11 @@ class AlCmsController extends BaseFrontendController
     {
         $request = $this->container->get('request');
         $this->kernel = $this->container->get('kernel');
-        $pageTree = $this->container->get('al_page_tree');
+        $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
         $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle');
-        $skin = $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alcms.skin');
-        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $skin = $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alpha_lemon_cms.skin');
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $languageRepository = $factoryRepository->createRepository('Language');
         $pageRepository = $factoryRepository->createRepository('Page');
 
@@ -59,7 +59,7 @@ class AlCmsController extends BaseFrontendController
                         'languages' => ChoiceValues::getLanguages($languageRepository),
                         'page' => 0,
                         'language' => 0,
-                        'available_languages' => $this->container->getParameter('alcms.available_languages'),
+                        'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
                         'frontController' => sprintf('/%s.php/', $this->kernel->getEnvironment()),);
 
         if (null !== $pageTree) {
@@ -74,7 +74,7 @@ class AlCmsController extends BaseFrontendController
                                 'template' => $template,
                                 'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
                                 'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
-                                'available_blocks' => $this->container->get('alphalemon_cms.block_manager_factory')->getBlocks(),
+                                'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks(),
                                 'base_template' => $this->container->getParameter('althemes.base_template'),
                                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),

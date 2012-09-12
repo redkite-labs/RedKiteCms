@@ -25,14 +25,14 @@ class DeployController extends Controller
     public function localAction()
     {
         try {
-            $deployer = $this->container->get('alphalemon_cms.local_deployer');
+            $deployer = $this->container->get('alpha_lemon_cms.local_deployer');
             $deployer->deploy();
 
             $response = $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
-
+return $response;
             $appDir = $this->container->get('kernel')->getRootDir();
             $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
-            $command = sprintf('assets:install %s %s', $this->container->getParameter('alphalemon_cms.web_folder'), $symlink);
+            $command = sprintf('assets:install %s %s', $this->container->getParameter('alpha_lemon_cms.web_folder'), $symlink);
 
             $commandProcessor = new AlCommandsProcessor($appDir);
             $commandProcessor->executeCommands(array(

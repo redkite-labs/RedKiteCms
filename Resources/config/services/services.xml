@@ -4,121 +4,109 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory_OLD</parameter>
-        <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="alpha_lemon_cms.slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="alpha_lemon_cms.block_manager_service.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService</parameter>
+        <parameter key="alpha_lemon_cms.page_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager</parameter>
+        <parameter key="alpha_lemon_cms.seo_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager</parameter>
+        <parameter key="alpha_lemon_cms.language_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
+        <parameter key="alpha_lemon_cms.page_tree.class">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
+        <parameter key="alpha_lemon_cms.page_blocks.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
+        <parameter key="alpha_lemon_cms.template_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
+        <parameter key="alpha_lemon_cms.parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator</parameter>
+        <parameter key="alpha_lemon_cms.language_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
+        <parameter key="alpha_lemon_cms.page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
+        <parameter key="alpha_lemon_cms.repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
+        <parameter key="alpha_lemon_cms.slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="alpha_lemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
+        <parameter key="alpha_lemon_cms.block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+        <parameter key="alpha_lemon_cms.themes_collection_wrapper.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
+        <parameter key="alpha_lemon_cms.factory_repository.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
+        <parameter key="alpha_lemon_cms.url_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager</parameter>
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
-        <parameter key="al_block_manager_service">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService</parameter>
-        <parameter key="al_cms_pages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager</parameter>
-        <parameter key="al_cms_seo_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager</parameter>
-        <parameter key="al_cms_languages_manager">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
-        <parameter key="alphalemon.page_tree">AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree</parameter>
-        <parameter key="page_contents_container.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
-        <parameter key="template_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
-        <parameter key="alphalemon_cms.parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator</parameter>
-        <parameter key="language_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
-        <parameter key="page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
-        <parameter key="template_changer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Changer\AlTemplateChanger</parameter>
-        <parameter key="repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
-        <parameter key="slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
-        <parameter key="alphalemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
-        <parameter key="alphalemon_cms.block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
-        <parameter key="alphalemon_cms.themes_collection_wrapper.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
-        <parameter key="alphalemon_cms.factory_repository.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
-        <parameter key="alphalemon_cms.url_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager</parameter>
     </parameters>
 
     <services>
-        <service id="alphalemon_cms.factory_repository" class="%alphalemon_cms.factory_repository.class%">
-            <argument type="string">%alphalemon_cms.orm%</argument>
+        <service id="alpha_lemon_cms.factory_repository" class="%alpha_lemon_cms.factory_repository.class%">
+            <argument type="string">%alpha_lemon_cms.orm%</argument>
         </service>
 
-        <service id="alphalemon_cms.block_manager_factory" class="%alphalemon_cms.block_manager_factory.class%">
-            <argument type="service" id="alphalemon_cms.factory_repository" />
+        <service id="alpha_lemon_cms.block_manager_factory" class="%alpha_lemon_cms.block_manager_factory.class%">
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
-        <service id="alphalemon_cms.url_manager" class="%alphalemon_cms.url_manager.class%">
+        <service id="alpha_lemon_cms.url_manager" class="%alpha_lemon_cms.url_manager.class%">
             <argument type="service" id="kernel" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
-        <service id="block_manager_factory" class="%block_manager_factory.class%">
+        <service id="alpha_lemon_cms.parameters_validator" class="%alpha_lemon_cms.parameters_validator.class%">
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="alpha_lemon_cms.language_manager_parameters_validator" class="%alpha_lemon_cms.language_manager_parameters_validator.class%">
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="alpha_lemon_cms.page_manager_parameters_validator" class="%alpha_lemon_cms.page_manager_parameters_validator.class%">
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="alpha_lemon_cms.page_blocks" class="%alpha_lemon_cms.page_blocks.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="translator" />
-        </service>
-        
-        <service id="alphalemon_cms.parameters_validator" class="%alphalemon_cms.parameters_validator.class%">
-            <argument type="service" id="translator" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
-        <service id="language_manager_parameters_validator" class="%language_manager_parameters_validator.class%">
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <argument type="service" id="translator" />
-        </service>
-
-        <service id="page_manager_parameters_validator" class="%page_manager_parameters_validator.class%">
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <argument type="service" id="translator" />
-        </service>
-
-        <service id="page_contents_container" class="%page_contents_container.class%">
+        <service id="alpha_lemon_cms.template_manager" class="%alpha_lemon_cms.template_manager.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-        </service>
-
-        <service id="template_manager" class="%template_manager.class%">
-            <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
             <argument>null</argument>
-            <argument type="service" id="page_contents_container" />
-            <argument type="service" id="alphalemon_cms.block_manager_factory" />
+            <argument type="service" id="alpha_lemon_cms.page_blocks" />
+            <argument type="service" id="alpha_lemon_cms.block_manager_factory" />
         </service>
 
-        <service id="alphalemon_cms.themes_collection_wrapper" class="%alphalemon_cms.themes_collection_wrapper.class%">
+        <service id="alpha_lemon_cms.themes_collection_wrapper" class="%alpha_lemon_cms.themes_collection_wrapper.class%">
             <argument type="service" id="alphalemon_theme_engine.themes" />
-            <argument type="service" id="template_manager" />
+            <argument type="service" id="alpha_lemon_cms.template_manager" />
         </service>
 
-        <service id="al_block_manager" class="%al_block_manager_service%">
+        <service id="alpha_lemon_cms.block_manager" class="%alpha_lemon_cms.block_manager_service.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <argument type="service" id="alphalemon_cms.parameters_validator" />   
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.parameters_validator" />
         </service>
 
-        <service id="al_page_tree" class="%alphalemon.page_tree%">
+        <service id="alpha_lemon_cms.page_tree" class="%alpha_lemon_cms.page_tree.class%">
             <argument type="service" id="service_container" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <argument type="service" id="alphalemon_cms.themes_collection_wrapper" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.themes_collection_wrapper" />
         </service>
 
-        <service id="al_page_manager" class="%al_cms_pages_manager%">
+        <service id="alpha_lemon_cms.page_manager" class="%alpha_lemon_cms.page_manager.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="template_manager" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <argument type="service" id="page_manager_parameters_validator" />
+            <argument type="service" id="alpha_lemon_cms.template_manager" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.page_manager_parameters_validator" />
         </service>
 
-        <service id="al_seo_manager" class="%al_cms_seo_manager%">
+        <service id="alpha_lemon_cms.seo_manager" class="%alpha_lemon_cms.seo_manager.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <argument type="service" id="alphalemon_cms.parameters_validator" />            
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.parameters_validator" />
         </service>
 
-        <service id="al_language_manager" class="%al_cms_languages_manager%">
+        <service id="alpha_lemon_cms.language_manager" class="%alpha_lemon_cms.language_manager.class%">
             <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-            <argument type="service" id="language_manager_parameters_validator" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.language_manager_parameters_validator" />
         </service>
 
-        <service id="slots_converter_factory" class="%slots_converter_factory.class%">
-            <argument type="service" id="page_contents_container" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
-        </service>
-
-        <service id="template_changer" class="%template_changer.class%">
-            <argument type="service" id="alphalemon_cms.block_manager_factory" />
-            <argument type="service" id="slots_converter_factory" />
+        <service id="alpha_lemon_cms.slots_converter_factory" class="%alpha_lemon_cms.slots_converter_factory.class%">
+            <argument type="service" id="alpha_lemon_cms.page_blocks" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
         <service id="el_finder_media_connector" class="%el_finder.media_connector%" >
@@ -133,25 +121,14 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="repeated_slots_aligner" class="%repeated_slots_aligner.class%">
+        <service id="alpha_lemon_cms.repeated_slots_aligner" class="%alpha_lemon_cms.repeated_slots_aligner.class%">
             <argument type="service" id="kernel" />
             <argument type="service" id="alphalemon_theme_engine.themes" />
-            <argument type="service" id="slots_converter_factory" />
-            <argument type="service" id="alphalemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.slots_converter_factory" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
-        <!--
-        <service id="template_assets" class="%template_assets.class%">
-            <argument type="service" id="service_container" />
-        </service>
-
-        <service id="template" class="%template.class%">
-            <argument type="service" id="template_assets" />
-            <argument type="service" id="kernel" />
-            <argument type="service" id="template_slots_factory" />
-        </service>-->
-
-        <service id="alphalemon_cms.local_deployer" class="%alphalemon_cms.local_deployer.class%">
+        <service id="alpha_lemon_cms.local_deployer" class="%alpha_lemon_cms.local_deployer.class%">
             <argument type="service" id="service_container" />
         </service>
     </services>

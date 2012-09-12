@@ -35,10 +35,15 @@ class AlBlockManagerFile extends AlBlockManagerContainer
         $content = $this->alBlock->getHtmlContent();
         $defaultValue = $this->getDefaultValue();
         if ($content != $defaultValue["HtmlContent"]) {
-            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alphalemon_cms.upload_assets_dir');
+            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
             $asset = new AlAsset($container->get('kernel'),  $assetPath);
 
-            return sprintf("{{ file_open('%s') }}", $asset->getRealPath() . '/' . $content);
+            return sprintf("{%% set file = kernel_root_dir ~ '/../web/bundles/alphalemonwebsite/%s' %%} {{ file_open(file) }}", $content);
+            /*
+            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
+            $asset = new AlAsset($container->get('kernel'),  $assetPath);
+
+            return sprintf("{{ file_open('%s') }}", $asset->getRealPath() . '/' . $content);*/
         }
 
         return $content;
@@ -50,7 +55,7 @@ class AlBlockManagerFile extends AlBlockManagerContainer
         $content = $this->alBlock->getHtmlContent();
         $defaultValue = $this->getDefaultValue();
         if ($content != $defaultValue["HtmlContent"]) {
-            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alphalemon_cms.upload_assets_dir');
+            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
             $asset = new AlAsset($container->get('kernel'),  $assetPath);
 
             return @file_get_contents($asset->getRealPath() . '/' . $content);
