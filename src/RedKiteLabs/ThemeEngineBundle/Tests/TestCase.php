@@ -10,56 +10,14 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- * 
+ *
  * @license    GPL LICENSE Version 2.0
- * 
+ *
  */
 namespace AlphaLemon\ThemeEngineBundle\Tests;
-
-
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 { 
-    /*
-    protected $connection = null;
-    
-    protected function setUp()
-    {
-        $this->connection = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Pdo\MockPDO');
-    }
-
-    public static function setUpBeforeClass()
-    {
-        $config = array("datasources" => array (
-            "default" => array (
-                "adapter" => "mysql",
-                "connection" => array
-                (
-                    "dsn" => "mysql:host=localhost;dbname=alphaLemonDevTest",
-                    "user" => "root",
-                    "password" => "passera73",
-                    "classname" => "DebugPDO",
-                    "options" => array(),
-                    "attributes" => array (),
-                    "settings" => array (),
-                )
-            )
-        ));
-        
-        if (!\Propel::isInit()) {
-            \Propel::setConfiguration($config);
-            \Propel::initialize();
-        }
-    }
-    
-    protected static function callMethod($obj, $name, array $args = array())
-    {
-        $object = new \ReflectionClass($obj);
-        $method = $object->getMethod($name);
-        $method->setAccesible(true);
-        
-        return $method->invokeArgs($obj, $args);
-    }*/
 }
