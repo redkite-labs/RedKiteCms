@@ -41,7 +41,7 @@ class AlActiveTheme implements AlActiveThemeInterface
         {
             $themes = $this->container->get('alphalemon_theme_engine.themes');
             foreach ($themes as $theme) break;
-
+            
             $themeName = $theme->getThemeName();
             $this->writeActiveTheme($themeName);
 
