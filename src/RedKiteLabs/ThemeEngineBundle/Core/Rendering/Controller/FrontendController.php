@@ -43,7 +43,7 @@ abstract class FrontendController extends BaseFrontendController
         try {
             $request = $this->container->get('request');
 
-            $template = sprintf('%s:%s:%s.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle'), $request->attributes->get('_locale'), $request->get('page'));
+            $template = sprintf('%s:%s:%s.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle'), $request->getLocale(), $request->get('page'));
             $response = $this->render($template, array('base_template' => $this->container->getParameter('althemes.base_template')));
 
             // Dispatches the pre rendering events for current language and page
@@ -51,8 +51,9 @@ abstract class FrontendController extends BaseFrontendController
 
             return $response;
         }
-        catch(\Exception $ex) {echo $ex->getMessage();
+        catch(\Exception $ex) {
             $response = new Response();
+            $response->setStatusCode(404);
             $response->setContent("CUSTOM ERROR PAGE");
 
             return $response;

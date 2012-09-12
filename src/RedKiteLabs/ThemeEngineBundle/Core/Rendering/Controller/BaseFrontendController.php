@@ -43,7 +43,7 @@ abstract class BaseFrontendController extends Controller
         $dispatcher->dispatch(PageRendererEvents::BEFORE_RENDER_PAGE, $event);
         $response = $event->getResponse();
 
-        $eventName = sprintf('page_renderer.before_%s_rendering', $request->attributes->get('_locale'));
+        $eventName = sprintf('page_renderer.before_%s_rendering', $request->getLocale());
         $dispatcher->dispatch($eventName, $event);
         $response = $event->getResponse();
 
