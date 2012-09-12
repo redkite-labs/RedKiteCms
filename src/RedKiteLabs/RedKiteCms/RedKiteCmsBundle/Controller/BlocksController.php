@@ -35,11 +35,11 @@ class BlocksController extends Controller
     {
         try {
             $request = $this->getRequest();
-            $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
             $blockRepository = $factoryRepository->createRepository('Block');
             $block = $blockRepository->fromPK($request->get('idBlock'));
             if ($block != null) {
-                $alBlockManager = $this->container->get('alphalemon_cms.block_manager_factory')->createBlockManager($block);
+                $alBlockManager = $this->container->get('alpha_lemon_cms.block_manager_factory')->createBlockManager($block);
                 $dispatcher = $this->container->get('event_dispatcher');
                 if (null !== $dispatcher) {
                     $event = new Block\BlockEditorRenderingEvent($this->container, $request, $alBlockManager);
@@ -303,7 +303,7 @@ class BlocksController extends Controller
                 if ($request->get('file') != null) {
                     $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
                     $bundleFolder = $asset->getAbsolutePath();
-                    $filePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . $bundleFolder . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder') . '/';
+                    $filePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alpha_lemon_cms.web_folder') . '/' . $bundleFolder . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_folder') . '/';
                     $file = $filePath . $request->get('file');
                     @unlink($file);
 
@@ -352,7 +352,7 @@ class BlocksController extends Controller
 
     private function checkPageIsValid()
     {
-        $pageTree = $this->container->get('al_page_tree');
+        $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         if (!$pageTree->isValid()) {
             throw new \RuntimeException('The page you are trying to edit does not exist');
         }
@@ -362,7 +362,7 @@ class BlocksController extends Controller
     {
         if(null === $request) $request = $this->container->get('request');
 
-        $slotManager = $this->container->get('template_manager')->getSlotManager($request->get('slotName'));
+        $slotManager = $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));
         if (null === $slotManager) {
             throw new \RuntimeException('You are trying to add a new block on a slot that does not exist on this page, or the slot name is empty');
         }

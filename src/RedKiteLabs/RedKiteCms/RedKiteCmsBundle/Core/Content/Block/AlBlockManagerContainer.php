@@ -33,7 +33,7 @@ abstract class AlBlockManagerContainer extends AlBlockManager
     {
         $this->container = $container;
         $dispatcher = $container->get('event_dispatcher');
-        $factoryRepository = $container->get('alphalemon_cms.factory_repository');
+        $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
 
         parent::__construct($dispatcher, $factoryRepository, $validator);
     }

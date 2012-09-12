@@ -43,7 +43,7 @@ class CmsBootstrapListener
     {
         $this->container = $container;
         $this->kernel = $container->get('kernel');
-        $this->pageTree = $this->container->get('al_page_tree');
+        $this->pageTree = $this->container->get('alpha_lemon_cms.page_tree');
     }
 
     /**
@@ -65,16 +65,16 @@ class CmsBootstrapListener
     private function setUpRequiredFolders()
     {
         $folders = array();
-        $basePath = $this->locate($this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir'));
-        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
+        $basePath = $this->locate($this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir'));
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_folder');
 
-        $basePath = $this->locate('@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir'));
+        $basePath = $this->locate('@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'));
         $folders[] = $basePath;
-        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.js_folder');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.css_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_folder');
+        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_folder');
 
         $fs = new Filesystem();
         $fs->mkdir($folders);
@@ -105,7 +105,7 @@ class CmsBootstrapListener
             return;
         }
 
-        $slotsAligner = $this->container->get('repeated_slots_aligner');
+        $slotsAligner = $this->container->get('alpha_lemon_cms.repeated_slots_aligner');
         $slotsAligner->align($template->getThemeName(), $template->getTemplateName(), $template->getSlots());
     }
 }

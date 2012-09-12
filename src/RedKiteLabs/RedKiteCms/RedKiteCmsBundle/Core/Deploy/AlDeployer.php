@@ -61,7 +61,7 @@ abstract class AlDeployer
     {
         $this->container = $container;
         $this->kernel = $this->container->get('kernel');
-        $this->factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
@@ -70,11 +70,11 @@ abstract class AlDeployer
         }
         $this->alphaLemonCmsBundleAsset = new AlAsset($this->kernel, 'AlphaLemonCmsBundle');
 
-        $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.config_dir');
-        $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.assets_base_dir');
+        $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.config_dir');
+        $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir');
 
-        $this->uploadAssetsDir = $this->container->getParameter('alphalemon_cms.upload_assets_dir');
-        $this->cmsWebFolder = $this->container->getParameter('alphalemon_cms.web_folder');
+        $this->uploadAssetsDir = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
+        $this->cmsWebFolder = $this->container->getParameter('alpha_lemon_cms.web_folder');
     }
 
     /**

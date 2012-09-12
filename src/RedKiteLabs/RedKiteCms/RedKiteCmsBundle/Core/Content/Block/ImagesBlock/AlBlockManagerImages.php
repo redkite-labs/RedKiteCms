@@ -22,7 +22,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
             $file = $values["AddFile"];
 
             $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
-            $absolutePath = $asset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
+            $absolutePath = $asset->getAbsolutePath() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
 
             $imageFile = "/" . $absolutePath . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
             if (in_array($imageFile, $savedImages)) {
@@ -34,7 +34,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
 
         if (array_key_exists('RemoveFile', $values)) {
             $fileToRemove = $values["RemoveFile"];
-            $file = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . $fileToRemove;
+            $file = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alpha_lemon_cms.web_folder') . $fileToRemove;
 
             $key = array_search($fileToRemove, $savedImages);
             if (false !== $key)  unset($images[$key]);

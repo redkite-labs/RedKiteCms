@@ -48,7 +48,7 @@ class LanguagesController extends Controller
     {
         try {
             $request = $this->get('request');
-            $languageManager = $this->container->get('al_language_manager');
+            $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
             $languageManager->setTranslator($this->container->get('translator'));
             $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
             $languageManager->set($alLanguage);
@@ -72,7 +72,7 @@ class LanguagesController extends Controller
     {
         try {
             $request = $this->get('request');
-            $languageManager = $this->container->get('al_language_manager');
+            $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
             $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
             if ($alLanguage != null) {
                 $result = $languageManager
@@ -134,14 +134,14 @@ class LanguagesController extends Controller
 
     private function createLanguageRepository()
     {
-        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
 
         return $factoryRepository->createRepository('Language');
     }
 
     private function fetchLanguage($id, $languageManager = null)
     {
-        $languageManager = (null === $languageManager) ? $this->container->get('al_language_manager') : $languageManager;
+        $languageManager = (null === $languageManager) ? $this->container->get('alpha_lemon_cms.language_manager') : $languageManager;
         $languageRepository = $languageManager->getLanguageRepository();
 
         return ($id != 'none') ? $languageRepository->fromPk($id) : null;

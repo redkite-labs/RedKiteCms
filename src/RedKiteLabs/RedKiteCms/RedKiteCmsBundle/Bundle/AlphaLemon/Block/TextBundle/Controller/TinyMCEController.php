@@ -32,7 +32,7 @@ class TinyMCEController extends Controller
     public function createImagesListAction()
     {
         $cmsBundleAsset = new AlAsset($this->container->get('kernel'), 'AlphaLemonCmsBundle');
-        $cmsAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alphalemon_cms.web_folder') . '/' . $cmsBundleAsset->getAbsolutePath() . '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir');
+        $cmsAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alpha_lemon_cms.web_folder') . '/' . $cmsBundleAsset->getAbsolutePath() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
 
         $mceImages = array();
         $mediaFileTypes = array('*.jpg', '*.jpeg', '*.png', '*.gif', '*.tif');
@@ -41,10 +41,10 @@ class TinyMCEController extends Controller
         foreach ($mediaFileTypes as $mediaFileType) {
             $finder = $finder->name(trim($mediaFileType));
         }
-        $imagesFiles = $finder->in($cmsAssetsFolder . '/' . $this->container->getParameter('alphalemon_cms.deploy_bundle.media_folder'));
+        $imagesFiles = $finder->in($cmsAssetsFolder . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_folder'));
 
         foreach ($imagesFiles as $imagesFile) {
-            $absoluteFolderPath = '/' . $this->container->getParameter('alphalemon_cms.upload_assets_dir') . \str_replace($cmsAssetsFolder, '', dirname($imagesFile));
+            $absoluteFolderPath = '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . \str_replace($cmsAssetsFolder, '', dirname($imagesFile));
             $mceImages[] = sprintf("[\"%1\$s\", \"%2\$s/%1\$s\"]", basename($imagesFile), $cmsBundleAsset->getAbsolutePath() . $absoluteFolderPath);
         }
         sort($mceImages);
@@ -55,7 +55,7 @@ class TinyMCEController extends Controller
 
     public function createLinksListAction()
     {
-        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $seoRepository = $factoryRepository->createRepository('Seo');
         $seoAttributes = $seoRepository->fromLanguageId($this->getRequest()->get('language'));
 

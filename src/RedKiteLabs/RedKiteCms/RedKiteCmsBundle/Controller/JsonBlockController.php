@@ -83,7 +83,7 @@ class JsonBlockController extends Controller
             $request = $this->getRequest();
             $block = $this->fetchBlock($request->get('blockId'));
 
-            $blockManagerFactory = $this->container->get('alphalemon_cms.block_manager_factory');
+            $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
             $blockManager = $blockManagerFactory->createBlockManager($block);
             $blockManager->save(array('RemoveItem' => $request->get('RemoveItem')));
 
@@ -115,7 +115,7 @@ class JsonBlockController extends Controller
      */
     protected function fetchBlock($blockId)
     {
-        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $repository = $factoryRepository->createRepository('Block');
         $block = $repository->fromPk($blockId);
 

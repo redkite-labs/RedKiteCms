@@ -4,49 +4,21 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="alphalemon_cms.orm">Propel</parameter>
-        <parameter key="alcms.skin">alphaLemon</parameter>
-        <parameter key="alphalemon_cms.web_folder">web</parameter>
+        <parameter key="alpha_lemon_cms.orm">Propel</parameter>
+        <parameter key="alpha_lemon_cms.skin">alphaLemon</parameter>
+        <parameter key="alpha_lemon_cms.web_folder">web</parameter>
 
-        <!-- Hardcoded in twig template until assetic could load assets dinamically -->
-        <parameter key="alcms.stylesheets" type="collection">
-            <parameter>@AlphaLemonCmsBundle/Resources/public/css/skins/%alcms.skin%/*</parameter>
-            <parameter>@AlphaLemonCmsBundle/Resources/public/css/skins/%alcms.skin%/vendor/smoothness/*</parameter>
-            <parameter>@AlphaLemonCmsBundle/Resources/public/css/skins/%alcms.skin%/vendor/medialize/*</parameter>
-            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/css/*</parameter>
-        </parameter>
-
-        <!-- Hardcoded in twig template until assetic could load assets dinamically -->
-        <parameter key="alcms.javascripts" type="collection">
-            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>
-            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/*</parameter>
-            <parameter>@AlphaLemonCmsBundle/Resources/public/js/vendor/medialize/*</parameter>
-            <parameter>@AlphaLemonCmsBundle/Resources/public/js/*</parameter>
-        </parameter>
-
-        <parameter key="alcms.available_languages" type="collection">
+        <parameter key="alpha_lemon_cms.available_languages" type="collection">
             <parameter key="en">English</parameter>
         </parameter>
 
-        <parameter key="al_cms.page_blocks" type="collection">
-            <parameter key="Text">Text Content</parameter>
-            <parameter key="Media">Media Content</parameter>
-            <parameter key="Menu">Simple Menu Content</parameter>
-            <parameter key="Script">Javascript Content</parameter>
-            <parameter key="NavigationMenu">Navigation Menu</parameter>
-        </parameter>
-
-        <parameter key="alcms.deploy.xliff_skeleton">@AlphaLemonCmsBundle/Resources/data/xml/xliff-skeleton.xml</parameter>
-
-        <parameter key="alcms.assets.output_folder">Resources/views/Assets</parameter>
-        <parameter key="alphalemon_cms.upload_assets_dir">uploads/assets</parameter>
-
-        <parameter key="alphalemon_cms.deploy_bundle.resources_dir">Resources</parameter>
-        <parameter key="alphalemon_cms.deploy_bundle.assets_base_dir">%alphalemon_cms.deploy_bundle.resources_dir%/public</parameter>
-        <parameter key="alphalemon_cms.deploy_bundle.config_dir">%alphalemon_cms.deploy_bundle.resources_dir%/config</parameter>
-        <parameter key="alphalemon_cms.deploy_bundle.views_dir">%alphalemon_cms.deploy_bundle.resources_dir%/views</parameter>
-        <parameter key="alphalemon_cms.deploy_bundle.media_folder">media</parameter>
-        <parameter key="alphalemon_cms.deploy_bundle.js_folder">js</parameter>
-        <parameter key="alphalemon_cms.deploy_bundle.css_folder">css</parameter>
+        <parameter key="alpha_lemon_cms.upload_assets_dir">uploads/assets</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.resources_dir">Resources</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.assets_base_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/public</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.config_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/config</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.views_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/views</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.media_folder">media</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.js_folder">js</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.css_folder">css</parameter>
     </parameters>
 </container>

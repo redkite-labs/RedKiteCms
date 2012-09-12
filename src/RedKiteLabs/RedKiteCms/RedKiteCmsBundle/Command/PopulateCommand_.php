@@ -79,7 +79,7 @@ class PopulateCommand_ extends ContainerAwareCommand
         }
 
         $themeName = "BusinessWebsiteThemeBundle";
-        $this->getContainer()->get('al_page_tree')->setThemeName($themeName);
+        $this->getContainer()->get('alpha_lemon_cms.page_tree')->setThemeName($themeName);
 
         $adminRoleId = 0;
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
@@ -118,7 +118,7 @@ class PopulateCommand_ extends ContainerAwareCommand
                                  'keywords' => '',
                               ));
 
-        $this->getContainer()->get('al_page_tree')->setup($languageManager->get(), $pageManager->get());
+        $this->getContainer()->get('alpha_lemon_cms.page_tree')->setup($languageManager->get(), $pageManager->get());
         try {
             $deployer = new \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlXmlDeployer($this->getContainer());
             $deployer->deploy();

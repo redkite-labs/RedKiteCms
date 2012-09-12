@@ -59,7 +59,7 @@ class AlPageTree extends BaseAlPageTree
                                 AlFactoryRepositoryInterface $factoryRepository,
                                 AlThemesCollectionWrapper $themesCollectionWrapper = null)
     {
-        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('alphalemon_cms.themes_collection_wrapper') : $themesCollectionWrapper;
+        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('alpha_lemon_cms.themes_collection_wrapper') : $themesCollectionWrapper;
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');

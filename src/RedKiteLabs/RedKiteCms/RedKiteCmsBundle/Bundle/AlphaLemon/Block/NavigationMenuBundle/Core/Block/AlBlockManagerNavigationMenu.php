@@ -50,7 +50,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     public function getHtml()
     {
         $content = '';
-        $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();
+        $pageName = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage()->getPageName();
         $router = $this->container->get('router');
         $languages = $this->languageRepository->activeLanguages();
         foreach ($languages as $language) {
@@ -75,8 +75,8 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     protected function formatHtmlCmsActive()
     {
         $content = '';
-        $pageName = $this->container->get('al_page_tree')->getAlPage()->getPageName();
-        $urlManager = $this->container->get('alphalemon_cms.url_manager');
+        $pageName = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage()->getPageName();
+        $urlManager = $this->container->get('alpha_lemon_cms.url_manager');
 
         $languages = $this->languageRepository->activeLanguages();
         foreach ($languages as $language) {

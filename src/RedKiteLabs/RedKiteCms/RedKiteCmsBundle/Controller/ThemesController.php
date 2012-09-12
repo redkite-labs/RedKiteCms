@@ -71,8 +71,8 @@ class ThemesController extends BaseController
                 return $this->renderThemeFixer($error);
             }
 
-            $pageManager = $this->container->get('al_page_manager');
-            $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+            $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
+            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
             $pagesRepository = $factoryRepository->createRepository('Page');
             foreach ($params['al_page_to_fix'] as $pageId) {
                 $alPage = $pagesRepository->fromPK($pageId);
@@ -101,7 +101,7 @@ class ThemesController extends BaseController
         $theme = $themes->getTheme($themeName);
         $templates = array_keys($theme->getTemplates());
 
-        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $pagesRepository = $factoryRepository->createRepository('Page');
         $pages = $pagesRepository->activePages();
 

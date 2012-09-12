@@ -122,11 +122,11 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     public function delete()
     {
         if (null === $this->alLanguage) {
-            throw new General\ParameterIsEmptyException($this->translate("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'al_language_manager_exceptions'));
+            throw new General\ParameterIsEmptyException($this->translate("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
         }
 
         if ($this->alLanguage->getMainLanguage() == 1) {
-            throw new Language\RemoveMainLanguageException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'al_language_manager_exceptions'));
+            throw new Language\RemoveMainLanguageException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'alpha_lemon_cms.language_manager_exceptions'));
         }
 
         try {
@@ -135,7 +135,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE, $event);
 
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The language deleting action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language deleting action has been aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
                 }
             }
 
@@ -191,7 +191,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE, $event);
 
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The language adding action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language adding action has been aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {
@@ -275,7 +275,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE, $event);
 
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The language editing action has been aborted", array(), 'al_language_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The language editing action has been aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {

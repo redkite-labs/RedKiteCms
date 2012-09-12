@@ -162,7 +162,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                         $this->dispatcher->dispatch(PageEvents::BEFORE_DELETE_PAGE, $event);
 
                         if ($event->isAborted()) {
-                            throw new \RuntimeException($this->translate("The page deleting action has been aborted", array(), 'al_page_manager_exceptions'));
+                            throw new \RuntimeException($this->translate("The page deleting action has been aborted", array(), 'alpha_lemon_cms.page_manager_exceptions'));
                         }
                     }
 
@@ -252,7 +252,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE, $event);
 
                 if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translate("The page adding action has been aborted", array(), 'al_page_manager_exceptions'));
+                    throw new Event\EventAbortedException($this->translate("The page adding action has been aborted", array(), 'alpha_lemon_cms.page_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {
@@ -345,7 +345,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE, $event);
 
                 if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The page editing action has been aborted", array(), 'al_page_manager_exceptions'));
+                    throw new \RuntimeException($this->translate("The page editing action has been aborted", array(), 'alpha_lemon_cms.page_manager_exceptions'));
                 }
 
                 if ($values !== $event->getValues()) {

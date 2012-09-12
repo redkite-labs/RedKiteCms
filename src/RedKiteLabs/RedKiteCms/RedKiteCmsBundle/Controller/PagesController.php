@@ -74,7 +74,7 @@ class PagesController extends Controller
                 throw new \InvalidArgumentException("The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes");
             }
 
-            $pageManager = $this->container->get('al_page_manager');
+            $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
             if ($request->get('pageId') != 'none') {
                 $pageRepository = $this->createRepository('Page');
                 $alPage = $pageRepository->fromPk($request->get('pageId'));
@@ -82,8 +82,8 @@ class PagesController extends Controller
                 // Refreshes the page manager using the given page to update
                 $pageContentsContainer = $pageManager->getTemplateManager()->getPageBlocks();
                 if ($request->get('pageId') != "" && $request->get('pageId') != $pageContentsContainer->getIdPage()) {
-                    $this->container->get('al_page_tree')->refresh($request->get('languageId'), $request->get('pageId'));
-                    $pageManager->setTemplateManager($this->container->get('al_page_tree')->getTemplateManager());
+                    $this->container->get('alpha_lemon_cms.page_tree')->refresh($request->get('languageId'), $request->get('pageId'));
+                    $pageManager->setTemplateManager($this->container->get('alpha_lemon_cms.page_tree')->getTemplateManager());
                 }
             } else {
                 $alPage = null;
@@ -118,14 +118,14 @@ class PagesController extends Controller
     {
         try {
             $request = $this->get('request');
-            $pageManager = $this->container->get('al_page_manager');
+            $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
             $alPage = ($request->get('pageId') != 'none') ? $pageManager->getPageRepository()->fromPK($request->get('pageId')) : null;
             if ($alPage != null) {
                 $pageManager->set($alPage);
                 if ($request->get('pageId') != "none" && $request->get('languageId') != "none") {
                     $pageManager->getPageRepository()->startTransaction();
                     try {
-                        $result = $this->container->get('al_seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
+                        $result = $this->container->get('alpha_lemon_cms.seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
                         if ($result) {
                             $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
                         }
@@ -193,7 +193,7 @@ class PagesController extends Controller
 
     private function createRepository($repository)
     {
-        $factoryRepository = $this->container->get('alphalemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
 
         return $factoryRepository->createRepository($repository);
     }
