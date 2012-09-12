@@ -17,32 +17,32 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAware;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\SeoForm;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
-class PagesController extends Controller
+class PagesController extends ContainerAware
 {
     public function indexAction()
     {
-        $pagesForm = $this->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('alphalemon_theme_engine.themes')));
-        $seoForm = $this->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
+        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('alphalemon_theme_engine.themes')));
+        $seoForm = $this->container->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
         $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
                         'pages' => $this->getPages(),
                         'pagesForm' => $pagesForm->createView(),
                         'pageAttributesForm' => $seoForm->createView());
 
-        return $this->render('AlphaLemonCmsBundle:Pages:index.html.twig', $params);
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Pages:index.html.twig', $params);
     }
 
     public function loadSeoAttributesAction()
     {
         $values = array();
-        $request = $this->get('request');
+        $request = $this->container->get('request');
         $pageId = $request->get('pageId');
         $languageId = $request->get('languageId');
         if ($pageId != 'none' && $languageId != 'none') {
@@ -69,7 +69,7 @@ class PagesController extends Controller
     public function savePageAction()
     {
         try {
-            $request = $this->get('request');
+            $request = $this->container->get('request');
             if ('al_' === substr($request->get('pageName'), 0, 3)) {
                 throw new \InvalidArgumentException("The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes");
             }
@@ -110,14 +110,14 @@ class PagesController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
     public function deletePageAction()
     {
         try {
-            $request = $this->get('request');
+            $request = $this->container->get('request');
             $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
             $alPage = ($request->get('pageId') != 'none') ? $pageManager->getPageRepository()->fromPK($request->get('pageId')) : null;
             if ($alPage != null) {
@@ -131,7 +131,7 @@ class PagesController extends Controller
                         }
                         if (false !== $result) {
                             $pageManager->getPageRepository()->commit();
-                            $message = $this->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
+                            $message = $this->container->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
                         } else {
                             $pageManager->getPageRepository()->rollBack();
                             throw new \RuntimeException($this->container->get('translator')->trans('Nothig to delete with the given parameters'));
@@ -143,14 +143,14 @@ class PagesController extends Controller
 
                     /*
                     if ($result) {
-                        $message = $this->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
+                        $message = $this->container->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
                     } else {
                         throw new \RuntimeException($this->container->get('translator')->trans('Nothig to delete with the given parameters'));
                     }*/
                 } elseif ($request->get('pageId')) {
                     $result = $pageManager->delete();
                     if ($result) {
-                        $message = $this->get('translator')->trans('The page has been successfully removed');
+                        $message = $this->container->get('translator')->trans('The page has been successfully removed');
                     } else {
                         throw new \RuntimeException($this->container->get('translator')->trans('Nothing to delete with the given parameters'));
                     }
@@ -166,7 +166,7 @@ class PagesController extends Controller
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->render('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
     }
 
@@ -174,7 +174,7 @@ class PagesController extends Controller
     {
         $pages = $this->getPages();
 
-        $request = $this->getRequest();
+        $request = $this->container->get('request');
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "pages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Pages:pages_list.html.twig', array('pages' => $pages)));

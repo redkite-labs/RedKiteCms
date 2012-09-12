@@ -17,18 +17,18 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
  * Implements the actions for the ElFinder bundle
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlCmsElFinderController extends Controller
+class AlCmsElFinderController extends ContainerAware
 {
     public function showFilesManagerAction()
     {
-        return $this->render('AlphaLemonCmsBundle:Elfinder:file_manager.html.twig');
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Elfinder:file_manager.html.twig');
     }
 
     public function connectMediaAction()
