@@ -41,7 +41,7 @@ class ThemesController extends ContainerAware
 {
     public function showAction()
     {
-        return $this->renderThemes();
+        return $this->renderThemesPanel();
     }
 
     public function activateThemeAction($themeName)
@@ -50,7 +50,7 @@ class ThemesController extends ContainerAware
         {
             $this->getActiveTheme()->writeActiveTheme($themeName);
 
-            return $this->renderThemes();
+            return $this->renderThemesPanel();
         }
         catch(Exception $e)
         {
@@ -88,7 +88,7 @@ class ThemesController extends ContainerAware
         return '/' . $screenShotAsset->getAbsolutePath();
     }
 
-    protected function renderThemes()
+    protected function renderThemesPanel()
     {
         $values = array();
 
