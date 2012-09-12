@@ -18,7 +18,8 @@
 namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent;
 
 /**
- * AlSlotContent
+ * AlSlotContent stores the information related to the content to replace
+ * ona slot
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -28,26 +29,46 @@ class AlSlotContent
     private $content = null;
     private $replace = null;
     
+    /**
+     * Returns the name of the slot
+     * 
+     * @return string 
+     */
     public function getSlotName()
     {
         return $this->slotName;
     }
     
+    /**
+     * Sets the name of the slot
+     * 
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     */
     public function setSlotName($slotName)
     {
         if (!is_string($slotName)) {
-            throw new \InvalidArgumentException('The slot name passed to "AlphaLemon\FrontendBundle\Core\SlotContent\AlSlotContent" must be a string');
+            throw new \InvalidArgumentException(sprintf('The slot name passed to "%s" must be a string', get_class($this)));
         }        
         $this->slotName = $slotName;
         
         return $this;
     }
     
+    /**
+     * Returns the content to replace
+     * 
+     * @return string 
+     */
     public function getContent()
     {
         return $this->content;
     }
     
+    /**
+     * Sets the content to replace
+     * 
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     */
     public function setContent($content)
     {
         if (!is_string($content)) {
@@ -58,11 +79,21 @@ class AlSlotContent
         return $this;
     }
     
+    /**
+     * When true the content of the slot must be replaced, false injected
+     * 
+     * @return Boolean 
+     */
     public function isReplacing()
     {
         return $this->replace;
     }
     
+    /**
+     * The slotContent is configured to replace the content on the slot
+     * 
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     */
     public function replace()
     {
         $this->replace = true;
@@ -70,7 +101,11 @@ class AlSlotContent
         return $this;
     }
     
-    
+    /**
+     * The slotContent is configured to inject the content into the slot
+     * 
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     */
     public function inject()
     {
         $this->replace = false;
