@@ -53,14 +53,12 @@ class AlPageTree
     protected $metaTitle = "";
     protected $metaDescription = "";
     protected $metaKeywords = "";
-    protected $parameterSchema = array('%s.%s_%s');
     protected $activeTheme;
 
     /**
      * Constructor
      *
      * @param ContainerInterface $container
-     * @param AlTemplate $template
      * @param AlPageBlocksInterface $pageBlocks
      */
     public function __construct(ContainerInterface $container, AlPageBlocksInterface $pageBlocks = null)
@@ -134,6 +132,8 @@ class AlPageTree
         if(array_key_exists('title', $metatags)) $this->metaTitle = $metatags['title'];
         if(array_key_exists('description', $metatags)) $this->metaDescription = $metatags['description'];
         if(array_key_exists('keywords', $metatags)) $this->metaKeywords = $metatags['keywords'];
+
+        return $this;
     }
 
     /**
@@ -141,7 +141,6 @@ class AlPageTree
      *
      * @param string $name the method name
      * @param mixed $params the values to pass to the called method
-     *
      * @return mixed Depends on method called
      */
     public function __call($name, $params)
@@ -183,20 +182,20 @@ class AlPageTree
      */
     protected function mergeAssets($method, $assetType, $type)
     {
-        $templateAssets = $this->getTemplate()->$method();
-        if(null !== $templateAssets) {
+        $assetsCollection = $this->getTemplate()->$method();
+        if(null !== $assetsCollection) {
             // Collects the blocks when parsed
-            $templateAssets = clone($templateAssets);
+            $assetsCollection = clone($assetsCollection);
             $blocks = $this->pageBlocks->getBlocks();
             foreach ($blocks as $slotBlocks) {
                 foreach ($slotBlocks as $block) {
                     $method = 'get'. ucfirst($type) . ucfirst($assetType);
                     $method = substr($method, 0, strlen($method) - 1);
-                    $templateAssets->addRange(explode(',', $block->$method()));
+                    $assetsCollection->addRange(explode(',', $block->$method()));
                 }
             }
 
-            return $templateAssets;
+            return $assetsCollection;
         }
     }
 
@@ -210,13 +209,13 @@ class AlPageTree
      */
     protected function getAssets($method, $assetType, $type)
     {
-        $templateAssets = $this->mergeAssets($method, $assetType, $type);
-        if(null === $templateAssets) {
+        $assetsCollection = $this->mergeAssets($method, $assetType, $type);
+        if(null === $assetsCollection) {
             return array();
         }
 
         $assets = array();
-        foreach($templateAssets as $asset)
+        foreach($assetsCollection as $asset)
         {
             $absolutePath = $asset->getAbsolutePath();
             $originalAsset = $asset->getAsset();
