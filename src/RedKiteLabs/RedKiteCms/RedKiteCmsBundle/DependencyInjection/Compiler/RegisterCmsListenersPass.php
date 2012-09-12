@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use AlphaLemon\ThemeEngineBundle\Core\Compiler\EventListenersRegistrator;
+use AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler\EventListenersRegistrator;
 
 /**
  * Registers the CMS events
