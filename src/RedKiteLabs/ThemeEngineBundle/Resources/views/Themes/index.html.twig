@@ -20,14 +20,6 @@
 {% block body %}
 <div id="al_themes">
     <table width=100% id="al_themes_table">
-        <tr>
-        {% if values.active_theme.theme_section_title is defined %}
-          <td><h1>{{ values.active_theme.theme_section_title }}</h1></td>
-        {% endif %}
-        {% if values.available_themes.theme_section_title is defined %}
-          <td><h1>{{ values.available_themes.theme_section_title }}</h1></td>
-        {% endif %}
-        </tr>
       <tr id="al_themes_sections">
         {% include panel_sections with {'values': values} %}
       </tr>
