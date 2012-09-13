@@ -44,7 +44,7 @@ class FrontendControllerTest extends TestCase
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
         $this->container->expects($this->exactly(2))
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'AlphaLemonThemeEngineBundle:Fake:template.html.twig'));
+            ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'ThemeEngineBundle:Fake:template.html.twig'));
         
         $this->controller = new FrontendControllerTester();
         $this->controller->setContainer($this->container);

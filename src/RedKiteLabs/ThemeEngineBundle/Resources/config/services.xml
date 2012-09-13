@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="alpha_lemon_theme_engine.base_template">AlphaLemonThemeEngineBundle:Theme:base.html.twig</parameter>
+        <parameter key="alpha_lemon_theme_engine.active_theme_file">%kernel.root_dir%/Resources/.active_theme</parameter>
         <parameter key="alpha_lemon_theme_engine.themes_panel.base_theme">AlphaLemonThemeEngineBundle:Themes:index.html.twig</parameter>
         <parameter key="alpha_lemon_theme_engine.themes_panel.theme_section">AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig</parameter>
         <parameter key="alpha_lemon_theme_engine.themes_panel.theme_skeleton">AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig</parameter>

@@ -40,7 +40,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('deploy_bundle')->isRequired()->end()
-                ->scalarNode('base_template')->isRequired()->end()
+                ->scalarNode('base_template')->end()
                 ->arrayNode('themes_panel')
                     ->children()
                         ->scalarNode('base_theme')->end()

@@ -46,6 +46,10 @@ class AlphaLemonThemeEngineExtension extends Extension
         if (isset($config['base_template'])) {
             $container->setParameter('alpha_lemon_theme_engine.base_template', $config['base_template']);
         }
+        
+        if (isset($config['active_theme_file'])) {
+            $container->setParameter('alpha_lemon_theme_engine.active_theme_file', $config['active_theme_file']);
+        }
 
         if (isset($config['themes_panel']['base_theme'])) {
             $container->setParameter('alpha_lemon_theme_engine.themes_panel.base_theme', $config['themes_panel']['base_theme']);
@@ -58,16 +62,12 @@ class AlphaLemonThemeEngineExtension extends Extension
         if (isset($config['themes_panel']['theme_skeleton'])) {
             $container->setParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton', $config['themes_panel']['theme_skeleton']);
         }
-
+        
         if (isset($config['render_slot_class'])) {
             $container->setParameter('twig.extension.render_slot.class', $config['render_slot_class']);
         }
-
-        $activeThemeFile = (isset($config['active_theme_file'])) ? $config['active_theme_file'] : $container->getParameter('kernel.root_dir') .  '/Resources/.active_theme';
-
+        
         $container->setParameter('alpha_lemon_theme_engine.deploy_bundle', $config['deploy_bundle']);
-        $container->setParameter('alpha_lemon_theme_engine.active_theme_file', $activeThemeFile);
-        $container->setParameter('althemes.app_themes_dir', $container->getParameter('kernel.root_dir') . '/../src/AlphaLemon/Theme');
     }
 
     public function getAlias()
