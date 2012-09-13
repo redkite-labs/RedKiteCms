@@ -59,16 +59,7 @@ class AlphaLemonCmsExtension extends Extension
         if (isset($config['upload_assets_dir'])) {
             $container->setParameter('alpha_lemon_cms.upload_assets_dir', $config['upload_assets_dir']);
         }
-
-        /*
-        <parameter key="alpha_lemon_cms.deploy_bundle.resources_dir">Resources</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.assets_base_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/public</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.config_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/config</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.views_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/views</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.media_dir">media</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.js_dir">js</parameter>
-        <parameter key="alpha_lemon_cms.deploy_bundle.css_dir">css</parameter>*/
-
+        
         if (isset($config['deploy_bundle'])) {
             if (isset($config['deploy_bundle']['resources_dir'])) {
                 $container->setParameter('alpha_lemon_cms.deploy_bundle.resources_dir', $config['deploy_bundle']['resources_dir']);
