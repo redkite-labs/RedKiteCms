@@ -85,7 +85,7 @@ class WebTestCaseFunctional extends WebTestCase
             'debug'       => true,
             ));
 
-        $themes = $client->getContainer()->get('alphalemon_theme_engine.themes');
+        $themes = $client->getContainer()->get('alpha_lemon_theme_engine.themes');
         $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
         $template = $theme->getTemplate('home');
 

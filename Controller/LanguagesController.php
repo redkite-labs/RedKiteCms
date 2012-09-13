@@ -37,7 +37,7 @@ class LanguagesController extends ContainerAware
         $languagesForm = new LanguagesForm($this->container);
         $form = $this->container->get('form.factory')->create($languagesForm);
 
-        $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
+        $params = array('base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
                         'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
                         'form' => $form->createView());
 

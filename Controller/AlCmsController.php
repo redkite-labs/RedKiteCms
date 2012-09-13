@@ -75,7 +75,7 @@ class AlCmsController extends BaseFrontendController
                                 'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
                                 'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
                                 'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks(),
-                                'base_template' => $this->container->getParameter('althemes.base_template'),
+                                'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
                                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
                                 ));

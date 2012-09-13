@@ -69,7 +69,7 @@
         </service>
 
         <service id="alpha_lemon_cms.themes_collection_wrapper" class="%alpha_lemon_cms.themes_collection_wrapper.class%">
-            <argument type="service" id="alphalemon_theme_engine.themes" />
+            <argument type="service" id="alpha_lemon_theme_engine.themes" />
             <argument type="service" id="alpha_lemon_cms.template_manager" />
         </service>
 
@@ -123,7 +123,7 @@
 
         <service id="alpha_lemon_cms.repeated_slots_aligner" class="%alpha_lemon_cms.repeated_slots_aligner.class%">
             <argument type="service" id="kernel" />
-            <argument type="service" id="alphalemon_theme_engine.themes" />
+            <argument type="service" id="alpha_lemon_theme_engine.themes" />
             <argument type="service" id="alpha_lemon_cms.slots_converter_factory" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>

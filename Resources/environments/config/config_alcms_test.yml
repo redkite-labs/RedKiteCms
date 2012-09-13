@@ -29,5 +29,6 @@ propel:
 
 alpha_lemon_theme_engine:
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
-    theme_skeleton_template: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
     active_theme_file: %kernel.root_dir%/Resources/.tests_active_theme
+    themes_panel:
+      theme_skeleton: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
