@@ -44,7 +44,7 @@ abstract class FrontendController extends BaseFrontendController
             $request = $this->container->get('request');
 
             $template = sprintf('%s:%s:%s.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle'), $request->getLocale(), $request->get('page'));
-            $response = $this->render($template, array('base_template' => $this->container->getParameter('althemes.base_template')));
+            $response = $this->render($template, array('base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template')));
 
             // Dispatches the pre rendering events for current language and page
             $response = $this->dispatchEvents($request, $response);

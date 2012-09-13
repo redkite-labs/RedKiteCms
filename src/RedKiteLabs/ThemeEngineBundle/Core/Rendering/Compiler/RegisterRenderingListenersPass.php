@@ -25,7 +25,7 @@ class RegisterRenderingListenersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        EventListenersRegistrator::registerByTaggedServiceId($container, 'alphalemon_theme_engine.event_listener');
+        EventListenersRegistrator::registerByTaggedServiceId($container, 'alpha_lemon_theme_engine.event_listener');
     }
 }
 

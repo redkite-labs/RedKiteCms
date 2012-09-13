@@ -5,14 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="althemes.stylesheets" type="collection">
-            <parameter>css/al_themes.css</parameter>
-        </parameter>
-        <parameter key="althemes.base_template">AlphaLemonThemeEngineBundle:Theme:base.html.twig</parameter>
-        <parameter key="althemes.base_theme_manager_template">AlphaLemonThemeEngineBundle:Themes:index.html.twig</parameter>
-        <parameter key="althemes.panel_sections_template">AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig</parameter>
-        <parameter key="althemes.theme_skeleton_template">AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig</parameter>
-        <parameter key="althemes.info_valid_entries" type="collection">
+        <parameter key="alpha_lemon_theme_engine.base_template">AlphaLemonThemeEngineBundle:Theme:base.html.twig</parameter>
+        <parameter key="alpha_lemon_theme_engine.themes_panel.base_theme">AlphaLemonThemeEngineBundle:Themes:index.html.twig</parameter>
+        <parameter key="alpha_lemon_theme_engine.themes_panel.theme_section">AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig</parameter>
+        <parameter key="alpha_lemon_theme_engine.themes_panel.theme_skeleton">AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig</parameter>
+        <parameter key="alpha_lemon_theme_engine.info_valid_entries" type="collection">
             <parameter>title</parameter>
             <parameter>description</parameter>
             <parameter>author</parameter>
@@ -22,20 +19,20 @@
             <parameter>version</parameter>
         </parameter>
 
-        <parameter key="alphalemon_theme_engine.active_theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme</parameter>
-        <parameter key="alphalemon_theme_engine.theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
-        <parameter key="alphalemon_theme_engine.themes.class">AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
-        <parameter key="alphalemon_theme_engine.slot.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot</parameter>
-        <parameter key="alphalemon_theme_engine.template.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate</parameter>
-        <parameter key="alphalemon_theme_engine.template_assets.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets</parameter>
-        <parameter key="alphalemon_theme_engine.template_slots.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots</parameter>
+        <parameter key="alpha_lemon_theme_engine.active_theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme</parameter>
+        <parameter key="alpha_lemon_theme_engine.themes.class">AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
+        <parameter key="alpha_lemon_theme_engine.theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
+        <parameter key="alpha_lemon_theme_engine.slot.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot</parameter>
+        <parameter key="alpha_lemon_theme_engine.template.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate</parameter>
+        <parameter key="alpha_lemon_theme_engine.template_assets.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets</parameter>
+        <parameter key="alpha_lemon_theme_engine.template_slots.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots</parameter>
     </parameters>
 
     <services>
-        <service id="alphalemon_theme_engine.themes" class="%alphalemon_theme_engine.themes.class%">
+        <service id="alpha_lemon_theme_engine.themes" class="%alpha_lemon_theme_engine.themes.class%">
         </service>
 
-        <service id="alphalemon_theme_engine.active_theme" class="%alphalemon_theme_engine.active_theme.class%">
+        <service id="alphalemon_theme_engine.active_theme" class="%alpha_lemon_theme_engine.active_theme.class%">
             <argument type="service" id="service_container"></argument>
         </service>
     </services>

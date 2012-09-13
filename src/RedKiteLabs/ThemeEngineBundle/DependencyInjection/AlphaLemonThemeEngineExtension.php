@@ -42,24 +42,21 @@ class AlphaLemonThemeEngineExtension extends Extension
         $configuration = new Configuration();
         $config = $processor->processConfiguration($configuration, $configs);
 
-        if (isset($config['slot_contents_dir'])) {
-            $container->setParameter('althemes.slot_contents_dir', $config['slot_contents_dir']);
-        }
 
         if (isset($config['base_template'])) {
-            $container->setParameter('althemes.base_template', $config['base_template']);
+            $container->setParameter('alpha_lemon_theme_engine.base_template', $config['base_template']);
         }
 
-        if (isset($config['base_theme_manager_template'])) {
-            $container->setParameter('althemes.base_theme_manager_template', $config['base_theme_manager_template']);
+        if (isset($config['themes_panel']['base_theme'])) {
+            $container->setParameter('alpha_lemon_theme_engine.themes_panel.base_theme', $config['themes_panel']['base_theme']);
         }
 
-        if (isset($config['panel_sections_template'])) {
-            $container->setParameter('althemes.panel_sections_template', $config['panel_sections_template']);
+        if (isset($config['themes_panel']['theme_section'])) {
+            $container->setParameter('alpha_lemon_theme_engine.themes_panel.theme_section', $config['themes_panel']['theme_section']);
         }
 
-        if (isset($config['theme_skeleton_template'])) {
-            $container->setParameter('althemes.theme_skeleton_template', $config['theme_skeleton_template']);
+        if (isset($config['themes_panel']['theme_skeleton'])) {
+            $container->setParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton', $config['themes_panel']['theme_skeleton']);
         }
 
         if (isset($config['render_slot_class'])) {

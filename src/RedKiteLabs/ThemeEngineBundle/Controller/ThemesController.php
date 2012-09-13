@@ -68,7 +68,7 @@ class ThemesController extends ContainerAware
         if(file_exists($fileName))
         {
             $t = Yaml::parse($fileName);
-            $info["info"] = \array_intersect_key($t["info"], \array_flip($this->container->getParameter('althemes.info_valid_entries')));
+            $info["info"] = \array_intersect_key($t["info"], \array_flip($this->container->getParameter('alpha_lemon_theme_engine.info_valid_entries')));
         }
 
         $screenshotPath = 'images/screenshot.png';
@@ -93,7 +93,7 @@ class ThemesController extends ContainerAware
         $values = array();
 
         $activeTheme = $this->getActiveTheme()->getActiveTheme();
-        $themes = $this->container->get('alphalemon_theme_engine.themes');
+        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
         foreach($themes as $theme)
         {
             if ($activeTheme !== null && $activeTheme == $theme->getThemeName()) {
@@ -105,10 +105,10 @@ class ThemesController extends ContainerAware
             $values['available_themes']["themes"][] = $this->retrieveThemeInfo($theme);
         }
 
-        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('althemes.base_theme_manager_template'), array(
-            'base_template' => $this->container->getParameter('althemes.base_template'),
-            'panel_sections' => $this->container->getParameter('althemes.panel_sections_template'),
-            'theme_skeleton' => $this->container->getParameter('althemes.theme_skeleton_template'),
+        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'), array(
+            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+            'panel_sections' => $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_section'),
+            'theme_skeleton' => $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton'),
             'stylesheets' => array(),
             'values' => $values,
             'valum' => array()

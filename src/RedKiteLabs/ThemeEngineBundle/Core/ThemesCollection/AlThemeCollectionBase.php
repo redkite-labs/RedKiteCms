@@ -34,6 +34,6 @@ abstract class AlThemeCollectionBase implements \Iterator, \Countable
      */
     protected function normalizeKey($key)
     {
-        return strtolower($key);
+        return strtolower(trim($key));
     }
 }

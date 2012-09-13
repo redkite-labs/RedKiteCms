@@ -29,12 +29,12 @@ class AlThemesCollectionCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('alphalemon_theme_engine.themes')) {
+        if (false === $container->hasDefinition('alpha_lemon_theme_engine.themes')) {
             return;
         }
 
-        $definition = $container->getDefinition('alphalemon_theme_engine.themes');
-        foreach ($container->findTaggedServiceIds('alphalemon_theme_engine.themes.theme') as $id => $attributes) {
+        $definition = $container->getDefinition('alpha_lemon_theme_engine.themes');
+        foreach ($container->findTaggedServiceIds('alpha_lemon_theme_engine.themes.theme') as $id => $attributes) {
             foreach($attributes as $tagAttributes) {
                 $definition->addMethodCall('addTheme', array(new Reference($id)));
             }

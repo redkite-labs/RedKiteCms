@@ -48,7 +48,7 @@ class AlThemesCollection extends AlThemeCollectionBase
     public function getTheme($name)
     {
         $key = $this->normalizeKey($name);
-
+        
         return (array_key_exists($key, $this->themes)) ? $this->themes[$key] : null;
     }
 

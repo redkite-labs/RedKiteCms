@@ -39,16 +39,16 @@ class AlActiveTheme implements AlActiveThemeInterface
     {
         if (!file_exists($this->getActiveThemeFile()))
         {
-            $themes = $this->container->get('alphalemon_theme_engine.themes');
+            $themes = $this->container->get('alpha_lemon_theme_engine.themes');
             foreach ($themes as $theme) break;
-            
+
             $themeName = $theme->getThemeName();
             $this->writeActiveTheme($themeName);
 
             return $themeName;
         }
 
-        return file_get_contents($this->getActiveThemeFile());
+        return trim(file_get_contents($this->getActiveThemeFile()));
     }
 
     /**
@@ -56,7 +56,7 @@ class AlActiveTheme implements AlActiveThemeInterface
      */
     public function writeActiveTheme($themeName)
     {
-        file_put_contents($this->getActiveThemeFile(), $themeName);
+        file_put_contents($this->getActiveThemeFile(), trim($themeName));
     }
 
     /**
