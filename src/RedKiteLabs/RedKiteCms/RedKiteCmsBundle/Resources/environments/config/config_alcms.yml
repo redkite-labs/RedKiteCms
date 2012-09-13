@@ -42,4 +42,5 @@ framework:
 
 alpha_lemon_theme_engine:
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
-    theme_skeleton_template: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
+    themes_panel:
+      theme_skeleton: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig

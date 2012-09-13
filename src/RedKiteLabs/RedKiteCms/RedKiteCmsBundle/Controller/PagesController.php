@@ -28,10 +28,10 @@ class PagesController extends ContainerAware
 {
     public function indexAction()
     {
-        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('alphalemon_theme_engine.themes')));
+        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('alpha_lemon_theme_engine.themes')));
         $seoForm = $this->container->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
-        $params = array('base_template' => $this->container->getParameter('althemes.base_template'),
+        $params = array('base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
                         'pages' => $this->getPages(),
                         'pagesForm' => $pagesForm->createView(),
                         'pageAttributesForm' => $seoForm->createView());

@@ -97,7 +97,7 @@ class ThemesController extends BaseController
         $request = $this->container->get('request');
         $themeName = $request->get('themeName');
 
-        $themes = $this->container->get('alphalemon_theme_engine.themes');
+        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
         $theme = $themes->getTheme($themeName);
         $templates = array_keys($theme->getTemplates());
 
