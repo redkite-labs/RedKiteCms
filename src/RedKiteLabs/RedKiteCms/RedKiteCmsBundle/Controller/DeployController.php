@@ -18,23 +18,20 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
 
 class DeployController extends ContainerAware
 {
     public function localAction()
     {
+        $templating = $this->container->get('templating');
         try {
             $deployer = $this->container->get('alpha_lemon_cms.local_deployer');
             $deployer->deploy();
+            $response = $templating->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
 
-            $response = $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
-
-            $appDir = $this->container->get('kernel')->getRootDir();
             $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
             $command = sprintf('assets:install %s %s', $this->container->getParameter('alpha_lemon_cms.web_folder'), $symlink);
-
-            $commandProcessor = new AlCommandsProcessor($appDir);
+            $commandProcessor = $this->container->get('alpha_lemon_cms.commands_processor');
             $commandProcessor->executeCommands(array(
                 $command => null,
                 'assetic:dump' => null,
@@ -42,11 +39,11 @@ class DeployController extends ContainerAware
             ));
 
             return $response;
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $response = new Response();
             $response->setStatusCode('404');
 
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $templating->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $ex->getMessage()), $response);
         }
     }
 }
