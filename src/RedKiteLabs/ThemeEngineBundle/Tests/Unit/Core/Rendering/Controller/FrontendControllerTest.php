@@ -32,20 +32,19 @@ class FrontendControllerTester extends FrontendController
  */
 class FrontendControllerTest extends TestCase
 {
-    private $event;
     private $response;
-    
+
     protected function setUp()
     {
         $this->response = $this->getMock('Symfony\Component\HttpFoundation\Response');
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');        
-        $this->request = $this->getMock('Symfony\Component\HttpFoundation\Request');      
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
+        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->container->expects($this->exactly(2))
             ->method('getParameter')
             ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'ThemeEngineBundle:Fake:template.html.twig'));
-        
+
         $this->controller = new FrontendControllerTester();
         $this->controller->setContainer($this->container);
     }
@@ -53,66 +52,66 @@ class FrontendControllerTest extends TestCase
     public function testCustomErrorPageIsReturnedWhenAnExceptionIsThrownRenderingTheRequestedTemplate()
     {
         $this->setUpRequest();
-        
+
         $this->templating->expects($this->once())
             ->method('renderResponse')
             ->will($this->throwException(new \RuntimeException));
-        
+
         $this->dispatcher->expects($this->never())
             ->method('dispatch');
-        
+
         $this->container->expects($this->exactly(2))
             ->method('get')
             ->will($this->onConsecutiveCalls($this->request, $this->templating));
-        
+
         $response = $this->controller->showAction();
         $this->assertEquals(404, $response->getStatusCode());
     }
-    
+
     public function testCustomErrorPageIsReturnedWhenAnExceptionIsThrownRenderingAListener()
     {
         $this->setUpRequest();
-        
+
         $this->templating->expects($this->once())
             ->method('renderResponse')
             ->will($this->returnValue($this->response));
-        
+
         $this->dispatcher->expects($this->once())
             ->method('dispatch')
             ->will($this->throwException(new \RuntimeException));
-        
+
         $this->container->expects($this->exactly(3))
             ->method('get')
             ->will($this->onConsecutiveCalls($this->request, $this->templating, $this->dispatcher));
-        
+
         $response = $this->controller->showAction();
         $this->assertEquals(404, $response->getStatusCode());
     }
-    
+
     public function testAnExceptionIsThrownWhenRenderSlotContentsMethodDoesNotReturnAnArray()
     {
         $this->setUpRequest(2);
-        
+
         $this->templating->expects($this->once())
             ->method('renderResponse')
             ->will($this->returnValue($this->response));
-        
+
         $this->dispatcher->expects($this->exactly(3))
             ->method('dispatch');
-        
+
         $this->container->expects($this->exactly(3))
             ->method('get')
             ->will($this->onConsecutiveCalls($this->request, $this->templating, $this->dispatcher));
-        
+
         $this->controller->showAction();
     }
-    
+
     private function setUpRequest($times = 1)
     {
         $this->request->expects($this->exactly($times))
             ->method('getLocale')
             ->will($this->returnValue('en'));
-        
+
         $this->request->expects($this->exactly($times))
             ->method('get')
             ->will($this->returnValue('index'));
