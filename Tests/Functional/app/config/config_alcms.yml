@@ -43,7 +43,8 @@ framework:
 alpha_lemon_theme_engine:
     #base_theme_manager_template: AlphaLemonCmsBundle:Themes:index.html.twig
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
-    theme_skeleton_template: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
+    themes_panel:
+      theme_skeleton: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
 
 propel:
     path:       "%kernel.root_dir%/../vendor/propel/propel1"
