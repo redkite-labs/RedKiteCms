@@ -102,7 +102,6 @@ class WebTestCaseFunctional extends WebTestCase
                          'TRUNCATE al_language;',
                          'TRUNCATE al_page;',
                          'TRUNCATE al_seo;',
-                         'TRUNCATE al_theme;',
                          'INSERT INTO al_language (language) VALUES(\'-\');',
                          'INSERT INTO al_page (page_name) VALUES(\'-\');',
                         );

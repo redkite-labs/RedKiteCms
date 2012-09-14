@@ -61,13 +61,3 @@ CREATE TABLE IF NOT EXISTS `al_seo` (
   `created_at` date NOT NULL default '1975-08-17 12:30:12',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-DROP TABLE IF EXISTS `al_theme`;
-CREATE TABLE IF NOT EXISTS `al_theme` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `theme_name` varchar(255) NOT NULL,
-  `active` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_progetto` (`id`),
-  KEY `id_progetto_2` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
