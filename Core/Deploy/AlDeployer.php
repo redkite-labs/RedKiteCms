@@ -18,11 +18,8 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
 use Symfony\Component\Filesystem\Filesystem;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Symfony\Component\Finder\Finder;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
@@ -32,7 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-abstract class AlDeployer
+abstract class AlDeployer implements AlDeployerInterface
 {
     protected $container = null;
     protected $kernel = null;
