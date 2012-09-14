@@ -42,11 +42,6 @@ if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) 
     $builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/schema.xml'));
     $builder->buildClasses();
 
-    $builder = new \PropelQuickBuilder();
-    $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
-    $builder->setSchema(file_get_contents(__DIR__.'/../vendor/alphalemon/theme-engine-bundle/AlphaLemon/ThemeEngineBundle/Resources/config/schema.xml'));
-    $builder->buildClasses();
-
     $queries = explode(";", file_get_contents(__DIR__ . '/Functional/app/Resources/sql/database.sql'));
     mysql_connect('localhost', 'root', '');
     mysql_select_db('alphalemon_test');
