@@ -27,6 +27,10 @@ use Symfony\Component\Process\PhpExecutableFinder;
  */
 class AlCommandsProcessor implements AlCommandsProcessorInterface
 {
+    protected $php;
+    protected $consoleDir;
+    protected $console;
+
     /**
      * Constructor
      *
@@ -39,6 +43,19 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
         $this->php = escapeshellarg($phpFinder->find());
         $this->console = realpath($this->consoleDir . '/console');
         if(empty($this->console)) $this->console = $this->consoleDir . '/console';
+    }
+
+    /**
+     * Sets the console dir path
+     *
+     * @param type $consoleDir
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor
+     */
+    public function setConsoleDir($consoleDir)
+    {
+        $this->consoleDir = $consoleDir;
+
+        return $this;
     }
 
     /**
@@ -63,7 +80,8 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
     {
         foreach ($commands as $command => $commandClosure) {
             $currentClosure = (null !== $commandClosure) ? $commandClosure : $closure;
-            if (-1 === $this->executeCommand($command, $currentClosure, $process)) {
+            $processResult = $this->executeCommand($command, $currentClosure, $process);
+            if (-1 === $processResult) {
                 throw new \RuntimeException(sprintf('An error has occoured executing the "%s" command', $command));
             }
         }
