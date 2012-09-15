@@ -19,6 +19,7 @@ class AlImageThumbnailer
     private $thumbnailsFolder = '.thumbnails';
     private $thumbnailPath = null;
     private $thumbnailImage = null;
+    private $imageSize = null;
 
     /**
      * Constructor
@@ -54,6 +55,21 @@ class AlImageThumbnailer
         return $this->thumbnailImage;
     }
 
+    public function getThumbnailImageName()
+    {
+        return (null !== $this->thumbnailImage) ? basename($this->thumbnailImage) : '';
+    }
+
+    public function getThumbnailWidth()
+    {
+        return $this->imageSize[0];
+    }
+
+    public function getThumbnailHeight()
+    {
+        return $this->imageSize[1];
+    }
+
     /**
      * Creates the thumbnail
      *
@@ -69,6 +85,8 @@ class AlImageThumbnailer
         $this->transformation->thumbnail(new Image\Box($thumbnailWidth, $thumbnailHeight))
                              ->apply($this->imagine->open($image))
                              ->save($this->thumbnailImage);
+
+        $this->imageSize = getimagesize($this->thumbnailImage);
     }
 
     /**

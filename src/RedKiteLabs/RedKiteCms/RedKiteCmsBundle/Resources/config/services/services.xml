@@ -23,6 +23,7 @@
         <parameter key="alpha_lemon_cms.factory_repository.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
         <parameter key="alpha_lemon_cms.url_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager</parameter>
         <parameter key="alpha_lemon_cms.commands_processor.class">AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor</parameter>
+        <parameter key="alpha_lemon_cms.images_thumbnailer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
@@ -135,6 +136,9 @@
 
         <service id="alpha_lemon_cms.commands_processor" class="%alpha_lemon_cms.commands_processor.class%">
             <argument type="string">%kernel.root_dir</argument>
+        </service>
+
+        <service id="alpha_lemon_cms.images_thumbnailer" class="%alpha_lemon_cms.images_thumbnailer.class%">
         </service>
     </services>
 </container>
