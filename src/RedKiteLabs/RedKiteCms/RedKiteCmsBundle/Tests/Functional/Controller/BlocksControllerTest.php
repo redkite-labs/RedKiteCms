@@ -63,6 +63,24 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testShowContentsEditor()
     {
+        $params = array("idBlock" => 3);
+        $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(1, count($json));
+        $this->assertTrue(array_key_exists("key", $json[0]));
+        $this->assertEquals("editor", $json[0]["key"]);
+        $this->assertTrue(array_key_exists("value", $json[0]));
+        $this->assertRegExp('/id="al_editor_tabs"/s', $json[0]["value"]);
+        $this->assertRegExp('/id="al_html_editor"/s', $json[0]["value"]);
+        $this->assertRegExp("/tinyMCE.init/s", $json[0]["value"]);
+    }
+
+    public function testShowContentsEditorRenderedFromAListener()
+    {
         $params = array("idBlock" => 2);
         $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
