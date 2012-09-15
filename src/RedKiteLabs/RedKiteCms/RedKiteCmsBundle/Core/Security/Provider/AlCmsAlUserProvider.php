@@ -2,9 +2,9 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Security\Provider;
 
-use Propel\PropelBundle\Security\User\ModelUserProvider;
+//use Propel\PropelBundle\Security\User\ModelUserProvider;
 
-class AlCmsAlUserProvider extends ModelUserProvider
+class AlCmsAlUserProvider //extends ModelUserProvider
 {
     public function __construct()
     {
