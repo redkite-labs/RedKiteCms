@@ -37,6 +37,11 @@ class ThemesController extends BaseController
             $this->getActiveTheme()->writeActiveTheme($themeName);
             $url = $this->container->get('router')->generate('_navigation', array('_locale' => $languageName, 'page' => $pageName));
 
+            // Url must contain all parts otherwise errors could occour
+            if (!preg_match('/backend\/[\w]+\/[\w]+/', $url)) {
+                $url .= sprintf('/%s/%s', $languageName, $pageName);
+            }
+
             return new RedirectResponse($url);
         } catch (Exception $e) {
             throw new NotFoundHttpException($e->getMessage());
@@ -53,7 +58,7 @@ class ThemesController extends BaseController
         try {
             $error = null;
             $request = $this->container->get('request');
-            
+
             $params = array();
             $data = explode('&', $request->get('data'));
             foreach ($data as $value) {
@@ -67,7 +72,7 @@ class ThemesController extends BaseController
 
             if (empty($params['al_page_to_fix'])) {
                 $error = 'Any page has been selected';
-                
+
                 return $this->renderThemeFixer($error);
             }
 
@@ -79,7 +84,7 @@ class ThemesController extends BaseController
                 $pageManager->set($alPage);
                 if (false === $pageManager->save(array('TemplateName' => $params['al_template']))) {
                     $error = sprintf('An error occoured when saving the new template for the page %s. Operation aborted', $alPage->getPageName());
-                
+
                     return $this->renderThemeFixer($error);
                 }
             }
@@ -87,7 +92,7 @@ class ThemesController extends BaseController
             return $this->renderThemeFixer($error);
         } catch (\Exception $e) {
             $error = 'An error occourced: ' . $e->getMessage();
-                
+
             return $this->renderThemeFixer($error);
         }
     }
