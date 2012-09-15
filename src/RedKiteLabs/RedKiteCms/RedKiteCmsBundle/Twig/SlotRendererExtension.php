@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
 
 /**
  * Adds the renderSlot function to Twig engine
@@ -27,73 +27,58 @@ use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererE
  */
 class SlotRendererExtension extends BaseSlotRendererExtension
 {
+    /**
+     * Overrides the base renderSlot method
+     */
     public function renderSlot($slotName = null)
     {
-        if (null === $slotName) {
-            throw new InvalidArgumentException("renderSlot function requires a valid slot name to render the contents");
-        }
+        $this->checkSlotName($slotName);
 
+        $content = "";
         try {
-            $result = array();
-            $blockManagers = $this->container->get('alpha_lemon_cms.page_tree')->getBlockManagers($slotName);
-            if (count($blockManagers) > 0) {
-                foreach ($blockManagers as $blockManager) {
-                    if(null === $blockManager) continue;
-                    $result[] = $this->doRender($blockManager->toArray(), true);
-                }
-            } else {
-                if ($this->container->get('alpha_lemon_cms.page_tree')->isCmsMode()) {
-                    $result[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
-                }
+            $slotContents = array();
+            $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+            $blockManagers = $pageTree->getBlockManagers($slotName);
+
+            foreach ($blockManagers as $blockManager) {
+                if (null === $blockManager) continue;
+
+                $slotContents[] = $this->doRender($blockManager->toArray(), true);
             }
 
-            $content = implode("\n", $result);
-            $content = \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter::MarkSlotContents($slotName, $content);
+            if (count($slotContents) == 0 && $pageTree->isCmsMode()) {
+                $slotContents[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
+            }
 
-            return sprintf('<div class="al_%s">%s</div>', $slotName, $content);
+            $content = implode(PHP_EOL, $slotContents);
+            $content = AlTwigTemplateWriter::MarkSlotContents($slotName, $content);
+
         } catch (\Exception $ex) {
-            throw $ex;
+            $content = sprintf("Something was wrong rendering the %s slot. This is the returned error: %s", $slotName, $ex->getMessage());
         }
+
+        return sprintf('<div class="al_%s">%s</div>', $slotName, $content);
     }
 
+    /**
+     * Renders a block
+     *
+     * @param array $block
+     * @param Boolean $add Returns the slot as new editable block
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     public function renderBlock(array $block = null, $add = false)
     {
         if (null === $block) {
-            throw new InvalidArgumentException("renderBlock function requires an array to render its contents. A null block parameter has given");
+            throw new \InvalidArgumentException("renderBlock function requires an array to render its contents. A null block parameter has given");
         }
 
         return $this->doRender($block, $add);
     }
 
-    protected function doRender(array $block = null, $add = false)
-    {
-        try {
-            $result = "";
-            if(null === $block || empty($block)) return $result;
-
-            $slotName = $block["Block"]["SlotName"];
-            if (\array_key_exists('Id', $block)) {
-                $result = $block['HtmlContent'];
-            } else {
-                if (\array_key_exists('RenderView', $block)) {
-                    $result = $this->container->get('templating')->render($block['RenderView']['view'], $block['RenderView']['params']);
-                } elseif (\array_key_exists('HtmlContent', $block)) {
-                    $result = $block['HtmlContent'];
-                }
-            }
-
-            $hideInEditMode = ($block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-            $content = sprintf('<div>%s</div>', $result);
-            if($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['ClassName']), $content);
-
-            return $content;
-        } catch (\Exception $ex) {
-            throw $ex;
-        }
-    }
-
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getFunctions()
     {
@@ -108,10 +93,32 @@ class SlotRendererExtension extends BaseSlotRendererExtension
     }
 
     /**
+     * Renders the slot
+     *
+     * @param array $block
+     * @param Boolean $add
      * @return string
+     * @throws Exception
      */
-    public function getName()
+    protected function doRender(array $block = null, $add = false)
     {
-        return 'slotRenderer';
+        try {
+            $content = "";
+            if(null === $block || empty($block)) return $content;
+
+            $slotName = $block["Block"]["SlotName"];
+            $content = $block['HtmlContent'];
+            if (\array_key_exists('RenderView', $block)) {
+                $content = $this->container->get('templating')->render($block['RenderView']['view'], $block['RenderView']['params']);
+            }
+
+            $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
+            $content = sprintf('<div>%s</div>', $content);
+            if ($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['ClassName']), $content);
+
+            return $content;
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
     }
 }
