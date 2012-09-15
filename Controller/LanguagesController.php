@@ -57,9 +57,9 @@ class LanguagesController extends ContainerAware
                                 'Language' => $request->get('newLanguage'));
             if ($languageManager->save($parameters)) {
                 return $this->buildJSonHeader('The language has been successfully saved');
-            } else {
-                throw new \RuntimeException('An error has been occoured, so the language has not been saved');
             }
+
+            throw new \RuntimeException('An error has been occoured, so the language has not been saved');
         } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
@@ -80,41 +80,24 @@ class LanguagesController extends ContainerAware
                             ->delete();
                 if ($result) {
                     $message = $this->container->get('translator')->trans('The language has been successfully removed');
-                } elseif (null === $result) {
-                    throw new \RuntimeException($this->container->get('translator')->trans('The main language could not be deleted'));
-                } else {
-                    throw new \RuntimeException($this->container->get('translator')->trans('Nothing to delete with the given parameters'));
+
+                    return $this->buildJSonHeader($message);
                 }
-            } else {
-                throw new \RuntimeException($this->container->get('translator')->trans('Any language has been choosen for removing'));
+
+                if (null === $result) {
+                    throw new \RuntimeException($this->container->get('translator')->trans('The main language could not be deleted'));
+                }
+
+                throw new \RuntimeException($this->container->get('translator')->trans('Nothing to delete with the given parameters'));
             }
 
-            return $this->buildJSonHeader($message);
+            throw new \RuntimeException($this->container->get('translator')->trans('Any language has been choosen for removing'));
         } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
 
             return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
-    }
-
-    public function loadLanguageAttributesAction()
-    {
-        $values = array();
-        $request = $this->container->get('request');
-        $language = $request->get('languageId');
-        if ($language != 'none') {
-            $alLanguage = AlLanguageQuery::create()
-                            ->filterByToDelete(0)
-                            ->findPK($language);
-            $values[] = array("name" => "#languages_language", "value" => $alLanguage->getLanguage());
-            $values[] = array("name" => "#languages_isMain", "value" => $alLanguage->getMainLanguage());
-        }
-
-        $response = new Response(json_encode($values));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
     }
 
     protected function buildJSonHeader($message)
