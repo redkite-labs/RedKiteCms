@@ -31,6 +31,7 @@
                 <directory>./vendor</directory>
                 <directory>./Propel/map</directory>
                 <directory>./Propel/om</directory>
+                <directory>./Core/vendor</directory>
             </exclude>
         </whitelist>
     </filter>
