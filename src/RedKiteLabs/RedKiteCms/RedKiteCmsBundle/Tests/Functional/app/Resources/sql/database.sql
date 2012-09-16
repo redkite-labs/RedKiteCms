@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `al_seo` (
   `meta_title_frontend` text,
   `meta_description_frontend` text,
   `meta_keywords_frontend` text,
-  `sitemap_changefreq` text NOT NULL DEFAULT '0',
+  `sitemap_changefreq` text NOT NULL,
   `sitemap_lastmod` text NOT NULL,
   `sitemap_priority` text NOT NULL,
   `to_delete` int(1) NOT NULL,
