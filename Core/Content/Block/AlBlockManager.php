@@ -439,7 +439,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
             // Saves the content
             if (null === $this->alBlock) {
-                //$this->alBlock = new AlBlock();
                 $className = $this->blockRepository->getRepositoryObjectClassName();
                 $this->alBlock = new $className();
             }
