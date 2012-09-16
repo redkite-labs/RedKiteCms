@@ -71,7 +71,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
     public function renderBlock(array $block = null, $add = false)
     {
         if (null === $block) {
-            throw new \InvalidArgumentException("renderBlock function requires an array to render its contents. A null block parameter has given");
+            throw new \InvalidArgumentException("renderBlock function requires an array to render its contents. A null block argument has given");
         }
 
         return $this->doRender($block, $add);
