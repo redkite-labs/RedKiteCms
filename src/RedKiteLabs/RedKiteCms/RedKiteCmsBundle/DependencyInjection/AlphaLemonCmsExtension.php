@@ -59,7 +59,7 @@ class AlphaLemonCmsExtension extends Extension
         if (isset($config['upload_assets_dir'])) {
             $container->setParameter('alpha_lemon_cms.upload_assets_dir', $config['upload_assets_dir']);
         }
-        
+
         if (isset($config['deploy_bundle'])) {
             if (isset($config['deploy_bundle']['resources_dir'])) {
                 $container->setParameter('alpha_lemon_cms.deploy_bundle.resources_dir', $config['deploy_bundle']['resources_dir']);
@@ -94,16 +94,5 @@ class AlphaLemonCmsExtension extends Extension
     public function getAlias()
     {
         return 'alpha_lemon_cms';
-    }
-
-    private function mergeArrayParameter(ContainerBuilder $container, $config, $parameterName, $configName)
-    {
-        if (!is_array($config[$configName])) {
-            throw new \Symfony\Component\Form\Exception\InvalidConfigurationException(sprintf('%s param must be an array', $configName));
-        }
-
-        $param = $container->getParameter($parameterName);
-        $param = array_merge($param, $config[$configName]);
-        $container->setParameter($parameterName, $param);
     }
 }

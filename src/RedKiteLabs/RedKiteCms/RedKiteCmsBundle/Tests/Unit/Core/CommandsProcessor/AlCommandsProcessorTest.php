@@ -90,4 +90,11 @@ class AlCommandsProcessorTest extends TestCase
         );
         $this->assertTrue($this->commandsProcessor->executeCommands($commands, null, $process));
     }
+
+    public function testChangeConsoleDir()
+    {
+        $consoleDir = '/new/console/dir';
+        $this->assertEquals($this->commandsProcessor, $this->commandsProcessor->setConsoleDir($consoleDir));
+        $this->assertEquals($consoleDir, $this->commandsProcessor->getConsoleDir());
+    }
 }
