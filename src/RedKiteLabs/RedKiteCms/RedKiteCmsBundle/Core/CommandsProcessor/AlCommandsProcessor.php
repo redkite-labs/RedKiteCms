@@ -59,6 +59,16 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
     }
 
     /**
+     * Returns the console directory
+     *
+     * @return string
+     */
+    public function getConsoleDir()
+    {
+        return $this->consoleDir;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function executeCommand($cmd, \Closure $closure = null, Process $process = null)
