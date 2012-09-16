@@ -449,6 +449,42 @@ class AlBlockManagerTest extends TestCase
         $this->assertEquals(true, $result);
     }
 
+    public function testAddInstantiatesAnEmptyBlockObject()
+    {
+        $params = array("PageId" => 2,
+                        "LanguageId" => 2,
+                        "SlotName" => 'test',
+                        "ClassName" => "Text");
+
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+
+        $this->blockRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->blockRepository->expects($this->once())
+            ->method('commit');
+
+        $this->blockRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->blockRepository->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+
+        $this->blockRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->blockRepository->expects($this->once())
+                ->method('getRepositoryObjectClassName')
+                ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'));
+
+        $this->blockManager->set(null);
+        $result = $this->blockManager->save($params);
+        $this->assertEquals(true, $result);
+    }
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      */
