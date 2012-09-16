@@ -203,7 +203,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         // Attaches the content a javascript code that saves the block's content to restore it when block must be hid
         $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
-        $internalJavascript = ((string) $this->getInternalJavascript() != "" && $this->getExecuteInternalJavascript()) ? $this->getInternalJavascript() : '';
+        $internalJavascript = (string)$this->getInternalJavascript();
+        $internalJavascript = ($internalJavascript  != "" && $this->getExecuteInternalJavascript()) ? $internalJavascript : '';
         if ($scriptForHideContents != '' || $internalJavascript != '') {
             $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s%s});</script>', $scriptForHideContents, $internalJavascript);
         }
@@ -268,11 +269,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getInternalJavascript($safe = true)
     {
         $internalJavascript = '';
-        if (null !== $this->alBlock && trim($this->alBlock->getInternalJavascript()) != '') {
-            $internalJavascript = $this->alBlock->getInternalJavascript();
+        $savedJavascript = $this->alBlock->getInternalJavascript();
+        if (null !== $this->alBlock && trim($savedJavascript) != '') {
+            $internalJavascript = $savedJavascript;
             if ($safe) {
                 $safeInternalJavascript = "try {\n";
-                $safeInternalJavascript .= $internalJavascript;
+                $safeInternalJavascript .= $savedJavascript;
                 $safeInternalJavascript .= "\n} catch (e) {\n";
                 $safeInternalJavascript .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports: ' + e);\n", $this->alBlock->getSlotName());
                 $safeInternalJavascript .= "}\n";
@@ -379,7 +381,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Implements a method to let the devived class override it to format the content
+     * Implements a method to let the derived class override it to format the content
      * to display when the Cms is active
      *
      * @return null
