@@ -280,7 +280,8 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'pageId' => 4,
                         'languageId' => 2,
-                        'templateName' => 'fullpage',);
+                        'templateName' => 'fullpage',
+                        'permalink' => "page-2 edited",);
 
         $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
