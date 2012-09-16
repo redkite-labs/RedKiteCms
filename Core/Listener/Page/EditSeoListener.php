@@ -55,7 +55,7 @@ class EditSeoListener
         if (!is_array($values)) {
             throw new \InvalidArgumentException("The values param is expected to be an array");
         }
-        
+
         try {
             $idPage = $pageManager->get()->getId();
             $idLanguage = $pageManager->getTemplateManager()
