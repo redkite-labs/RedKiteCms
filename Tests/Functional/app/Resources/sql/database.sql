@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS `al_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `page_name` varchar(255) NOT NULL,
   `template_name` varchar(255) NOT NULL DEFAULT '',
-  `is_home` int(1) NOT NULL,
-  `is_published` tinyint(1) NOT NULL,
-  `to_delete` int(11) NOT NULL,
+  `is_home` int(1) NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) NOT NULL DEFAULT '0',
+  `to_delete` int(11) NOT NULL DEFAULT '0',
   `created_at` date NOT NULL default '1975-08-17 12:30:12',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
