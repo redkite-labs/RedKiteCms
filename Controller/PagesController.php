@@ -74,6 +74,7 @@ class PagesController extends ContainerAware
                 throw new \InvalidArgumentException("The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes");
             }
 
+            $alPage = null;
             $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
             if ($request->get('pageId') != 'none') {
                 $pageRepository = $this->createRepository('Page');
@@ -85,8 +86,6 @@ class PagesController extends ContainerAware
                     $this->container->get('alpha_lemon_cms.page_tree')->refresh($request->get('languageId'), $request->get('pageId'));
                     $pageManager->setTemplateManager($this->container->get('alpha_lemon_cms.page_tree')->getTemplateManager());
                 }
-            } else {
-                $alPage = null;
             }
 
             $pageManager->set($alPage);
@@ -137,16 +136,9 @@ class PagesController extends ContainerAware
                             throw new \RuntimeException($this->container->get('translator')->trans('Nothig to delete with the given parameters'));
                         }
                     } catch (\Exception $ex) {
-                        throw $ex;
                         $pageManager->getPageRepository()->rollBack();
+                        throw $ex;
                     }
-
-                    /*
-                    if ($result) {
-                        $message = $this->container->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
-                    } else {
-                        throw new \RuntimeException($this->container->get('translator')->trans('Nothig to delete with the given parameters'));
-                    }*/
                 } elseif ($request->get('pageId')) {
                     $result = $pageManager->delete();
                     if ($result) {

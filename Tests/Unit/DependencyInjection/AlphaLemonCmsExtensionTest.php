@@ -20,6 +20,12 @@ class AlphaLemonCmsExtensionTest extends TestCase
         $this->container = new ContainerBuilder();
     }
 
+    public function testAlias()
+    {
+        $extension = new AlphaLemonCmsExtension();
+        $this->assertEquals('alpha_lemon_cms', $extension->getAlias());
+    }
+
     public function testDefaultConfiguration()
     {
         $extension = new AlphaLemonCmsExtension();
@@ -63,6 +69,14 @@ class AlphaLemonCmsExtensionTest extends TestCase
         $extension = new AlphaLemonCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('resources_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('alpha_lemon_cms.deploy_bundle.resources_dir'));
+    }
+
+    public function testDeployAssetsBaseDir()
+    {
+        $value = 'Assets/pub';
+        $extension = new AlphaLemonCmsExtension();
+        $extension->load(array(array('deploy_bundle' => array('assets_base_dir' => $value))), $this->container);
+        $this->assertEquals($value, $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir'));
     }
 
     public function testDeployConfigDir()

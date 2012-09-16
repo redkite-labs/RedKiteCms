@@ -21,6 +21,43 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+class AlBlockManagerUnitTester extends AlBlockManager
+{
+    private $defaultValue = null;
+    private $hideInEditMode = null;
+    private $executeInternalJavascript = null;
+
+    public function setDefaultValue($value)
+    {
+        $this->defaultValue = $value;
+    }
+
+    public function getDefaultValue()
+    {
+        return $this->defaultValue;
+    }
+
+    public function setHideInEditMode($value)
+    {
+        $this->hideInEditMode = $value;
+    }
+
+    public function getHideInEditMode()
+    {
+        return (null === $this->hideInEditMode) ? parent::getHideInEditMode() : $this->hideInEditMode;
+    }
+
+    public function setExecuteInternalJavascript($value)
+    {
+        $this->executeInternalJavascript = $value;
+    }
+
+    public function getExecuteInternalJavascript()
+    {
+        return (null === $this->executeInternalJavascript) ? parent::getExecuteInternalJavascript() :$this->executeInternalJavascript;
+    }
+}
+
 /**
  * AlBlockManagerTest
  *
@@ -50,7 +87,146 @@ class AlBlockManagerTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->blockManager = new AlBlockManagerUnitTest($this->dispatcher, $this->factoryRepository, $this->validator);
+        $this->blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $this->blockManager->setDefaultValue(array("HtmlContent" => "Test value"));
+    }
+
+    public function testFactoryRepositoryInjectedBySetters()
+    {
+        $factoryRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->assertEquals($this->blockManager, $this->blockManager->setFactoryRepository($factoryRepository));
+        $this->assertEquals($factoryRepository, $this->blockManager->getFactoryRepository());
+        $this->assertNotEquals($this->dispatcher, $this->blockManager->getFactoryRepository());
+    }
+
+    public function testGetBlockRepository()
+    {
+        $this->assertEquals($this->blockRepository, $this->blockManager->getBlockRepository());
+    }
+
+    public function testReloadSuggested()
+    {
+        $this->assertFalse($this->blockManager->getReloadSuggested());
+    }
+
+    public function testExecuteInternalJavascript()
+    {
+        $this->assertTrue($this->blockManager->getExecuteInternalJavascript());
+    }
+
+    public function testGetHideInEditMode()
+    {
+        $this->assertFalse($this->blockManager->getHideInEditMode());
+    }
+
+    public function testGetHtmlContentForEditor()
+    {
+        $this->assertEmpty($this->blockManager->getHtmlContentForEditor());
+    }
+
+    public function testHtmlCmsActiveReturnsTheBlockContentWhenTheInternalJavascriptIsNotSetAndTheContentIsNotHideInEditMode()
+    {
+        $htmlContent = '<p>A great App-Bundle</p>';
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getHtmlContent')
+            ->will($this->returnValue($htmlContent));
+        $this->blockManager->set($block);
+
+        $this->assertEquals($htmlContent, $this->blockManager->getHtmlCmsActive());
+    }
+
+    public function testHtmlCmsActiveReturnsTheBlockContentAndAnExtraJavascriptWhenTheContentIsHideInEditMode()
+    {
+        $htmlContent = '<p>A great App-Bundle</p>';
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(2));
+
+        $block->expects($this->once())
+            ->method('getHtmlContent')
+            ->will($this->returnValue($htmlContent));
+        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager->setHideInEditMode(true);
+        $blockManager->set($block);
+
+        $extraJavascript = '<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>';
+        $this->assertEquals($htmlContent . $extraJavascript, $blockManager->getHtmlCmsActive());
+    }
+
+    public function testHtmlCmsActiveReturnsTheBlockContentAndTheInternalJavascript()
+    {
+        $htmlContent = '<p>A great App-Bundle</p>';
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+
+        $block->expects($this->once())
+            ->method('getHtmlContent')
+            ->will($this->returnValue($htmlContent));
+
+        $block->expects($this->once())
+            ->method('getInternalJavascript')
+            ->will($this->returnValue('a great javascript'));
+        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager->set($block);
+
+        $extraJavascript = '<script type="text/javascript">$(document).ready(function(){try {' . PHP_EOL;
+        $extraJavascript .= 'a great javascript' . PHP_EOL;
+        $extraJavascript .= '} catch (e) {' . PHP_EOL;
+        $extraJavascript .= 'alert(\'The javascript added to the slot  has been generated an error, which reports: \' + e);' . PHP_EOL;
+        $extraJavascript .= '}' . PHP_EOL;
+        $extraJavascript .= '});</script>';
+        $this->assertEquals($htmlContent . $extraJavascript, $blockManager->getHtmlCmsActive());
+    }
+
+    public function testHtmlCmsActiveReturnsJustTheBlockContentBecauseExecuteInternalJavascriptIsFalse()
+    {
+        $htmlContent = '<p>A great App-Bundle</p>';
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+
+        $block->expects($this->once())
+            ->method('getHtmlContent')
+            ->will($this->returnValue($htmlContent));
+
+        $block->expects($this->once())
+            ->method('getInternalJavascript')
+            ->will($this->returnValue('a great javascript'));
+        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager->set($block);
+        $blockManager->setExecuteInternalJavascript(false);
+
+        $this->assertEquals($htmlContent, $blockManager->getHtmlCmsActive());
+    }
+
+    public function testGetInternalJavascriptSafeMode()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+
+        $block->expects($this->once())
+            ->method('getInternalJavascript')
+            ->will($this->returnValue('a great javascript'));
+        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager->set($block);
+        $expectedJavascript = 'try {' . PHP_EOL;
+        $expectedJavascript .= 'a great javascript' . PHP_EOL;
+        $expectedJavascript .= '} catch (e) {' . PHP_EOL;
+        $expectedJavascript .= 'alert(\'The javascript added to the slot  has been generated an error, which reports: \' + e);' . PHP_EOL;
+        $expectedJavascript .= '}' . PHP_EOL;
+        $this->assertEquals($expectedJavascript, $blockManager->getInternalJavascript());
+    }
+
+    public function testGetInternalJavascriptUnsafeMode()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+
+        $block->expects($this->once())
+            ->method('getInternalJavascript')
+            ->will($this->returnValue('a great javascript'));
+        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager->set($block);
+        $this->assertEquals('a great javascript', $blockManager->getInternalJavascript(false));
     }
 
     /**
@@ -136,7 +312,7 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueDoesNotReturnAnArray()
     {
-        $blockManager = new AlBlockManagerFake($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
 
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -154,7 +330,8 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueHasAnyOfTheRequiredOptions()
     {
-        $blockManager = new AlBlockManagerFake1($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager->setDefaultValue(array("Fake" => "Test value"));
 
         $this->dispatcher->expects($this->once())
             ->method('dispatch');
@@ -578,31 +755,5 @@ class AlBlockManagerTest extends TestCase
         $this->blockRepository->expects($this->any())
             ->method('getModelObject')
             ->will($this->returnValue($block));
-    }
-}
-
-class AlBlockManagerUnitTest extends AlBlockManager
-{
-    public function getDefaultValue()
-    {
-        return array("HtmlContent" => "Test value");
-    }
-}
-
-// This class has default value not valid because an array is required
-class AlBlockManagerFake extends AlBlockManager
-{
-    public function getDefaultValue()
-    {
-        return "Test value";
-    }
-}
-
-// This class has a valid default value but any of the available options is defined
-class AlBlockManagerFake1 extends AlBlockManager
-{
-    public function getDefaultValue()
-    {
-        return array("Fake" => "Test value");
     }
 }
