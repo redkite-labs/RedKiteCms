@@ -45,7 +45,7 @@ class TinyMCEController extends Controller
 
         foreach ($imagesFiles as $imagesFile) {
             $absoluteFolderPath = '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . \str_replace($cmsAssetsFolder, '', dirname($imagesFile));
-            $mceImages[] = sprintf("[\"%1\$s\", \"%2\$s/%1\$s\"]", basename($imagesFile), $cmsBundleAsset->getAbsolutePath() . $absoluteFolderPath);
+            $mceImages[] = sprintf("[\"%1\$s\", \"/%2\$s/%1\$s\"]", basename($imagesFile), $cmsBundleAsset->getAbsolutePath() . $absoluteFolderPath);
         }
         sort($mceImages);
         $list = 'var tinyMCEImageList = new Array(' . implode(",", $mceImages) . ');';

@@ -24,6 +24,17 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
  */
 class StringsExtension extends \Twig_Extension
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'strings';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions()
     {
         return array(
@@ -33,33 +44,59 @@ class StringsExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * Returns the left part of a string according the given length
+     *
+     * @param string $text
+     * @param int $length
+     * @return string
+     */
     public function left($text, $length)
     {
-        if ($length <= 0) {
-            return $text;
-        }
+        if (!$this->isValidLength($text, $length)) return $text;
 
         return \substr($text, 0, $length);
     }
 
+    /**
+     * Returns the right part of a string according the given length
+     *
+     * @param string $text
+     * @param int $length
+     * @return string
+     */
     public function right($text, $length)
     {
-        $textLength = strlen($text);
+        if (!$this->isValidLength($text, $length)) return $text;
 
-        if ($length > $textLength) {
-            return $text;
-        }
+        $textLength = strlen($text);
 
         return \substr($text, $textLength - $length, $textLength);
     }
 
+    /**
+     * Truncates the string at the given length
+     *
+     * @param string $text
+     * @param int $length
+     * @return string
+     */
     public function truncate($text, $length = 15)
     {
+        if (!$this->isValidLength($text, $length)) return $text;
+
         return (\strlen($text) > $length) ? $this->left($text, $length) . '...' : $text;
     }
 
-    public function getName()
+    /**
+     * Checks if given length is valid
+     *
+     * @param string $text
+     * @param int $length
+     * @return Boolean
+     */
+    protected function isValidLength($text, $length)
     {
-        return 'strings';
+        return ($length <= 0 || $length > strlen($text)) ? false : true;
     }
 }
