@@ -42,7 +42,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
  */
 class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 {
-    private $blockManagers = array();
+    private $blockManagersItems = array();
     private $translator = null;
     private $factoryRepository;
 
@@ -72,7 +72,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         }
 
         $blockManager->setFactoryRepository($this->factoryRepository);
-        $this->blockManagers[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
+        $this->blockManagersItems[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
     }
 
     /**
@@ -83,17 +83,18 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         $isAlBlock = $block instanceof AlBlock;
         $blockType = $isAlBlock ? $block->getClassName() : $block;
 
-        $items = count($this->blockManagers);
+        $items = count($this->blockManagersItems);
         if ($items == 0) {
             return null;
         }
 
-        foreach ($this->blockManagers as $blockManagerItem) {
+        foreach ($this->blockManagersItems as $blockManagerItem) {
             if ($blockManagerItem->getType() == $blockType) {
                 $blockManager = $blockManagerItem->getBlockManager();
                 $blockManager = clone($blockManager);
                 if ($isAlBlock) $blockManager->set($block);
                 if (null !== $this->translator) $blockManager->setTranslator($this->translator);
+
                 return $blockManager;
             }
         }
@@ -114,7 +115,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     public function getBlocks()
     {
         $blockGroups = array();
-        foreach ($this->blockManagers as $blockManager) {
+        foreach ($this->blockManagersItems as $blockManager) {
             $blockGroups[$blockManager->getGroup()][$blockManager->getType()] = $blockManager->getDescription();
         }
 
@@ -137,11 +138,11 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      */
     protected function removeBlock(AlBlock $block)
     {
-        if (empty($this->blockManagers)) {
+        if (empty($this->blockManagersItems)) {
             return;
         }
 
-        $blockManagerItem = $this->blockManagers[0];
+        $blockManagerItem = $this->blockManagersItems[0];
         $repository = clone($blockManagerItem->getBlockManager()->getBlockRepository());
         $repository->setRepositoryObject($block);
         $repository->delete();
