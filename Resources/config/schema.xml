@@ -11,13 +11,13 @@
     <foreign-key foreignTable="al_language" onDelete="CASCADE">
       <reference local="language_id" foreign="id" />
     </foreign-key>
-    <column name="slot_name" type="VARCHAR" size="255" required="true" />
+    <column name="slot_name" type="VARCHAR" size="255" required="true" default="" />
     <column name="class_name" type="VARCHAR" size="255" required="true" default="Text" />
     <column name="html_content" type="LONGVARCHAR" required="true" />
-    <column name="internal_javascript" type="LONGVARCHAR" required="true" />
-    <column name="external_javascript" type="LONGVARCHAR" required="true" />
-    <column name="internal_stylesheet" type="LONGVARCHAR" required="true" />
-    <column name="external_stylesheet" type="LONGVARCHAR" required="true" />
+    <column name="internal_javascript" type="LONGVARCHAR" />
+    <column name="external_javascript" type="LONGVARCHAR" />
+    <column name="internal_stylesheet" type="LONGVARCHAR" />
+    <column name="external_stylesheet" type="LONGVARCHAR" />
     <column name="to_delete" type="INTEGER" required="true" default="0" />
     <column name="content_position" type="INTEGER" required="true" default="1" />
     <column name="created_at" type="timestamp" default="1975-08-17 12:30:12" />
@@ -51,8 +51,8 @@
 
   <table name="al_page" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
-    <column name="page_name" type="VARCHAR" size="255" required="true" />
-    <column name="template_name" type="VARCHAR" size="255" />
+    <column name="page_name" type="VARCHAR" size="255" required="true" default="" />
+    <column name="template_name" type="VARCHAR" size="255" default="" />
     <column name="is_home" type="INTEGER" required="true" default="0" />
     <column name="is_published" type="INTEGER" required="true" default="0" />
     <column name="to_delete" type="INTEGER" required="true" default="0" />
@@ -85,16 +85,16 @@
       <reference local="page_id" foreign="id" />
     </foreign-key>
     <column name="permalink" type="VARCHAR" size="255" />
-    <column name="meta_title" type="LONGVARCHAR" />
+    <column name="meta_title" type="VARCHAR" size="255" default="" />
     <column name="meta_description" type="LONGVARCHAR" />
     <column name="meta_keywords" type="LONGVARCHAR" />
     <column name="meta_title_frontend" type="LONGVARCHAR" />
     <column name="meta_description_frontend" type="LONGVARCHAR" />
     <column name="meta_keywords_frontend" type="LONGVARCHAR" />
-    <column name="sitemap_changefreq" type="LONGVARCHAR" required="true" />
-    <column name="sitemap_lastmod" type="LONGVARCHAR" required="true" />
-    <column name="sitemap_priority" type="LONGVARCHAR" required="true" />
-    <column name="to_delete" type="INTEGER" required="true" />
+    <column name="sitemap_changefreq" type="VARCHAR" size="255" default="" />
+    <column name="sitemap_lastmod" type="VARCHAR" size="255" default="" />
+    <column name="sitemap_priority" type="VARCHAR" size="255" default="" />
+    <column name="to_delete" type="INTEGER" required="true" default="0" />
     <column name="created_at" type="timestamp" default="1975-08-17 12:30:12" />
     <index name="I_LANGUAGE">
       <index-column name="page_id" />
