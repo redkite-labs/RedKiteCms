@@ -53,9 +53,9 @@
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
     <column name="page_name" type="VARCHAR" size="255" required="true" />
     <column name="template_name" type="VARCHAR" size="255" />
-    <column name="is_home" type="INTEGER" required="true" />
-    <column name="is_published" type="INTEGER" required="true" />
-    <column name="to_delete" type="INTEGER" required="true" />
+    <column name="is_home" type="INTEGER" required="true" default="0" />
+    <column name="is_published" type="INTEGER" required="true" default="0" />
+    <column name="to_delete" type="INTEGER" required="true" default="0" />
     <column name="created_at" type="timestamp" default="1975-08-17 12:30:12" />
     <unique name="I_PAGE">
       <unique-column name="id" />
