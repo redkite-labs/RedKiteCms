@@ -205,6 +205,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 throw new LanguageExistsException($this->translate("The language you are trying to add, already exists in the website"));
             }
 
+            if (empty($values['Language'])) {
+                throw new General\ParameterIsEmptyException($this->translate("A language cannot be null. Please provide a valid language name to add the language"));
+            }
+
             $result = true;
             $this->languageRepository->startTransaction();
 
