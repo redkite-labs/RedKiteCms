@@ -85,9 +85,9 @@
       <reference local="page_id" foreign="id" />
     </foreign-key>
     <column name="permalink" type="VARCHAR" size="255" />
-    <column name="meta_title" type="LONGVARCHAR" required="true" />
-    <column name="meta_description" type="LONGVARCHAR" required="true" />
-    <column name="meta_keywords" type="LONGVARCHAR" required="true" />
+    <column name="meta_title" type="LONGVARCHAR" />
+    <column name="meta_description" type="LONGVARCHAR" />
+    <column name="meta_keywords" type="LONGVARCHAR" />
     <column name="meta_title_frontend" type="LONGVARCHAR" />
     <column name="meta_description_frontend" type="LONGVARCHAR" />
     <column name="meta_keywords_frontend" type="LONGVARCHAR" />
