@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `al_seo` (
   `sitemap_changefreq` text NOT NULL DEFAULT '',
   `sitemap_lastmod` text NOT NULL DEFAULT '',
   `sitemap_priority` text NOT NULL DEFAULT '',
-  `to_delete` int(1) NOT NULL DEFAULT '0',
+  `to_delete` int(1) NOT NULL,
   `created_at` date NOT NULL default '1975-08-17 12:30:12',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
