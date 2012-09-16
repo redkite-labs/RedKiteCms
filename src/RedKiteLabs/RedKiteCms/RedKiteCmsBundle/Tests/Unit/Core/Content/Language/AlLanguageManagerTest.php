@@ -59,6 +59,16 @@ class AlLanguageManagerTest extends TestCase
         $this->languageManager = new AlLanguageManager($this->dispatcher, $this->factoryRepository, $this->validator);
     }
 
+    public function testLanguageRepositoryInjectedBySetters()
+    {
+        $languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->assertEquals($this->languageManager, $this->languageManager->setLanguageRepository($languageRepository));
+        $this->assertEquals($languageRepository, $this->languageManager->getLanguageRepository());
+        $this->assertNotSame($this->languageRepository, $this->languageManager->getLanguageRepository());
+    }
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      */

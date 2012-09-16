@@ -205,10 +205,6 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 throw new LanguageExistsException($this->translate("The language you are trying to add, already exists in the website"));
             }
 
-            if (empty($values['Language'])) {
-                throw new General\ParameterIsEmptyException($this->translate("A language cannot be null. Please provide a valid language name to add the language"));
-            }
-
             $result = true;
             $this->languageRepository->startTransaction();
 
@@ -338,58 +334,6 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->languageRepository->rollBack();
             }
 
-            throw $e;
-        }
-    }
-
-    /**
-     * Deletes the blocks and page attributes for the current language
-     *
-     * @return type
-     */
-    protected function deleteBlocksAndPageAttributes()
-    {
-        try {
-            $rollBack = false;
-            $this->connection->beginTransaction();
-
-            $contents = AlBlockQuery::create()
-                        ->setContainer($this->container)
-                        ->fromLanguageId($this->alLanguage->getId())
-                        ->find();
-            foreach ($contents as $content) {
-                $content->setToDelete(1);
-                $result = $content->save();
-                if ($content->isModified() && $result == 0) {
-                    $rollBack = true;
-                    break;
-                }
-            }
-
-            $pageAttributes = AlPageAttributeQuery::create()
-                                ->setContainer($this->container)
-                                ->fromLanguageId($this->alLanguage->getId())
-                                ->find();
-            foreach ($pageAttributes as $pageAttribute) {
-                $pageAttribute->setToDelete(1);
-                $result = $pageAttribute->save();
-                if ($pageAttribute->isModified() && $result == 0) {
-                    $rollBack = true;
-                    break;
-                }
-            }
-
-            if (!$rollBack) {
-                $this->connection->commit();
-
-                return true;
-            } else {
-                $this->connection->rollBack();
-
-                return false;
-            }
-        } catch (\Exception $e) {
-            if (isset($this->connection) && $this->connection !== null) $this->connection->rollBack();
             throw $e;
         }
     }
