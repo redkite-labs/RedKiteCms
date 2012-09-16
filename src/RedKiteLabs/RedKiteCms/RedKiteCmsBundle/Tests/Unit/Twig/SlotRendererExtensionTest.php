@@ -174,7 +174,7 @@ class SlotRendererExtensionTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage renderSlot function requires a valid slot name to render the contents
+     * @expectedExceptionMessage renderBlock function requires an array to render its contents. A null block argument has given
      */
     public function testAnExceptionIsThrownWhenBlockArgumentIsNull()
     {
