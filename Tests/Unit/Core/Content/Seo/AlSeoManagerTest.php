@@ -58,6 +58,16 @@ class AlSeoManagerTest extends TestCase
         $this->seoManager = new AlSeoManager($this->dispatcher, $this->factoryRepository, $this->validator);
     }
 
+    public function testSeoRepositoryInjectedBySetters()
+    {
+        $seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
+                              ->disableOriginalConstructor()
+                              ->getMock();
+        $this->assertEquals($this->seoManager, $this->seoManager->setSeoRepository($seoRepository));
+        $this->assertEquals($seoRepository, $this->seoManager->getSeoRepository());
+        $this->assertNotSame($this->seoManager, $this->seoManager->getSeoRepository());
+    }
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      */
@@ -137,6 +147,36 @@ class AlSeoManagerTest extends TestCase
 
         $params = array('PageId' => '',
                         'LanguageId' => '');
+
+        $this->assertNull($this->seoManager->save($params));
+    }
+
+    public function testAddIsSkippedWhenExpectedLanguageIdParamIsEmpty()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+
+        $params = array('PageId'      => '2',
+                        'LanguageId'  => '',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => '');
+
+        $this->assertNull($this->seoManager->save($params));
+    }
+
+    public function testAddIsSkippedWhenExpectedPermalinkParamIsEmpty()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+
+        $params = array('PageId'      => '2',
+                        'LanguageId'  => '2',
+                        'Permalink'     => '',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => '');
 
         $this->assertNull($this->seoManager->save($params));
     }
@@ -366,6 +406,59 @@ class AlSeoManagerTest extends TestCase
         $this->assertEquals('fake-page-has-been-renamed', $this->seoManager->get()->getPermalink());
     }
 
+    public function testWhenAParameterHasTHeSameValueOfTheOneSaveIsremovedFromTheValuesArray()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+
+        $seo = $this->setUpSeoObject();
+        $seo->expects($this->once())
+            ->method('getMetaTitle')
+            ->will($this->returnValue('page-title'));
+
+        $seo->expects($this->once())
+            ->method('getMetaDescription')
+            ->will($this->returnValue('page-description'));
+
+        $seo->expects($this->once())
+            ->method('getMetaKeywords')
+            ->will($this->returnValue('page-keywords'));
+
+        $seo->expects($this->once())
+            ->method('getPermalink')
+            ->will($this->returnValue('this-is-a-website-fake-page'));
+
+        $this->validator->expects($this->once())
+            ->method('checkEmptyParams')
+            ->will($this->throwException(new General\EmptyParametersException()));
+
+        $this->seoRepository->expects($this->never())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->seoRepository->expects($this->never())
+            ->method('save');
+
+        $this->seoRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->never())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $params = array(
+            'Permalink' => 'this-is-a-website-fake-page',
+            'MetaTitle' => 'page-title',
+            'MetaDescription' => 'page-description',
+            'MetaKeywords' => 'page-keywords',
+        );
+        $this->seoManager->set($seo);
+        $res = $this->seoManager->save($params);
+        $this->assertNull($res);
+    }
+
     public function testEditOthersThanPermalink()
     {
         $seo = $this->setUpSeoObject();
@@ -505,6 +598,45 @@ class AlSeoManagerTest extends TestCase
 
         $this->seoManager->set($seo);
         $res = $this->seoManager->delete();
+        $this->assertTrue($res);
+    }
+
+    public function testDeleteSeoAttributesFromLanguageReturnsTrueWhenSeoHaNotBeenFound()
+    {
+        $this->seoRepository->expects($this->once())
+                ->method('fromPageAndLanguage')
+                ->will($this->returnValue(null));
+
+        $res = $this->seoManager->deleteSeoAttributesFromLanguage(2, 9999);
+        $this->assertTrue($res);
+    }
+
+
+    public function testDeleteSeoAttributesFromLanguage()
+    {
+        $seo = $this->setUpSeoObject();
+        $this->seoRepository->expects($this->once())
+                ->method('fromPageAndLanguage')
+                ->will($this->returnValue($seo));
+
+        $this->seoRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->seoRepository->expects($this->once())
+                ->method('delete')
+                ->will($this->returnValue(true));
+
+        $this->seoRepository->expects($this->once())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $res = $this->seoManager->deleteSeoAttributesFromLanguage(2, 2);
         $this->assertTrue($res);
     }
 

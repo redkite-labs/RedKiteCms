@@ -58,6 +58,24 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException The language id must be a numeric value
+     */
+    public function testLanguageIdMustBeAnInteger()
+    {
+        $this->pageContentsContainer->setIdLanguage('fake');
+    }
+
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException The page id must be a numeric value
+     */
+    public function testPageIdMustBeAnInteger()
+    {
+        $this->pageContentsContainer->setIdPage('fake');
+    }
+
+    /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
      */
     public function testRefreshThrownAnExceptionWhenPageHaveNotBeenSet()
@@ -89,6 +107,8 @@ class AlPageBlocksTest extends TestCase
                 ->refresh();
 
         $this->assertEquals(0, count($this->pageContentsContainer->getBlocks()));
+        $this->assertEquals(2, $this->pageContentsContainer->getIdLanguage());
+        $this->assertEquals(2, $this->pageContentsContainer->getIdPage());
     }
 
     public function testContentsAreRetrieved()

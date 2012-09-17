@@ -145,6 +145,25 @@ class AlLanguageManagerTest extends TestCase
     }
 
     /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     */
+    public function testAddThrownAnExceptionWhenTheLanguageAIsEmpty()
+    {
+        $this->dispatcher->expects($this->once())
+            ->method('dispatch');
+
+        $this->validator->expects($this->once())
+            ->method('languageExists')
+            ->will($this->returnValue(false));
+
+        $this->languageRepository->expects($this->never())
+                ->method('save');
+
+        $params = array('Language'  => '');
+        $this->languageManager->save($params);
+    }
+
+    /**
      * @expectedException \RuntimeException
      */
     public function testAddThrownAnUnespectedException()

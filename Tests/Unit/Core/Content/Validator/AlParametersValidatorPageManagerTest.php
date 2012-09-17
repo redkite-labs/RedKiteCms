@@ -44,6 +44,16 @@ class AlParametersValidatorPagesManager extends TestCase
         $this->validator = new AlParametersValidatorPageManager($this->factoryRepository);
     }
 
+    public function testPageRepositoryInjectedBySetters()
+    {
+        $pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->assertEquals($this->validator, $this->validator->setPageRepository($pageRepository));
+        $this->assertEquals($pageRepository, $this->validator->getPageRepository());
+        $this->assertNotSame($this->validator, $this->validator->getPageRepository());
+    }
+
     public function testHasPagesReturnsFalseWhenAnyLanguageExist()
     {
         $this->pageRepository->expects($this->once())
