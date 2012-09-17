@@ -15,7 +15,7 @@
 
 <select id="{{ id }}" class="input select">
     {% for id, name in items %}
-    <option value="{{ id }}" rel="{{ name }}" {% if(selected is defined and selected == id) %} selected="selected" {% endif %}>{{ truncate(name) }}</option>
+    <option value="{{ id }}" rel="{{ name }}" {% if(selected is defined and selected == id) %} selected="selected" {% endif %}>{{ name }}</option>
     {% endfor %}
 </select>
 {#
