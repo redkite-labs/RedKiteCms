@@ -51,14 +51,6 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageManager->expects($this->any())
-            ->method('getLanguageRepository')
-            ->will($this->returnValue($this->languageRepository));
-
-        $this->languageManager->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($this->setUpLanguage(2)));
-
         $this->manager->expects($this->any())
             ->method('set')
             ->will($this->returnSelf());
@@ -75,6 +67,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
     public function testEventIsAbortetWhenMainLanguageDoesNotExist()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -100,6 +93,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
     public function testNothingIsAddedWhenAnyLanguageExists()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -129,6 +123,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
     public function testSaveFailsWhenDbRecorsAreNotSaved()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -162,6 +157,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
      */
     public function testSaveFailsBecauseAndUnespectedExceptionIsThrown()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -192,6 +188,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
     public function testDbRecorsHaveBeenCopied()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -225,6 +222,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
     public function testDbRecorsHaveBeenCopiedFromMainLanguage()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -259,6 +257,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
     public function testDbRecorsHaveBeenCopiedFromTheFirstAvailableLanguage()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -297,6 +296,7 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
 
     protected function setUpTestToCopyFromRequestLanguage()
     {
+        $this->setUpLanguageManager();
         $this->event->expects($this->once())
             ->method('getContentManager')
             ->will($this->returnValue($this->languageManager));
@@ -329,5 +329,17 @@ abstract class AddLanguageBaseListenerTest extends BaseListenerTest
         $this->manager->expects($this->any())
             ->method('save')
             ->will($this->returnValue(true));
+    }
+
+    protected function setUpLanguageManager()
+    {
+        $this->languageManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($this->setUpLanguage(2)));
+
+        $this->languageManager->expects($this->any())
+            ->method('getLanguageRepository')
+            ->will($this->returnValue($this->languageRepository));
+
     }
 }

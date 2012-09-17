@@ -52,6 +52,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 
     public function testDbRecorsHaveBeenCopiedFromRequestLanguageAndAnyLinkHasBeenRecognizedAsInternal()
     {
+        $this->setUpLanguageManager();
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $request->expects($this->once())
             ->method('getLanguages')
@@ -73,6 +74,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 
     public function testDbRecorsHaveBeenCopiedFromRequestLanguageAndALinkHasBeenConvertedBecauseItHasBeenRecognizedHasInternal()
     {
+        $this->setUpLanguageManager();
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $request->expects($this->once())
             ->method('getLanguages')

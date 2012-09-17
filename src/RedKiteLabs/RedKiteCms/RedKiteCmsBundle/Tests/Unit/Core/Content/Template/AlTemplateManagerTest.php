@@ -73,6 +73,43 @@ class AlTemplateManagerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->returnValue($this->blockManager));
     }
+    
+    public function testBlockManagerFactoryInjectedBySetters()
+    {        
+        $blockManagerFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');        
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        
+        $this->assertEquals($templateManager, $templateManager->setBlockManagerFactory($blockManagerFactory));
+        $this->assertEquals($blockManagerFactory, $templateManager->getBlockManagerFactory());
+        $this->assertNotSame($templateManager, $templateManager->getBlockManagerFactory());
+    }
+    
+    public function testBlockRepositoryInjectedBySetters()
+    {
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        $blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+        $this->assertEquals($templateManager, $templateManager->setBlockRepository($blockRepository));
+        $this->assertEquals($blockRepository, $templateManager->getBlockRepository());
+        $this->assertNotSame($templateManager, $templateManager->getBlockRepository());
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage slotToArray accepts only strings
+     */
+    public function testSlotsToArrayAcceptsOnlyStrings()
+    {
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        $templateManager->slotToArray(array());
+    }
+    
+    public function testSlotsToArrayReturnsAnEmptyArrayWhenSlotDoesNotExist()
+    {
+        $templateManager = new AlTemplateManager($this->dispatcher, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        $this->assertEmpty($templateManager->slotToArray('fake'));
+    }
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException

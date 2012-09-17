@@ -73,5 +73,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         $pageTree = $pageTreeCollection->at(3);
         $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguage());
         $this->assertEquals('page-1', $pageTree->getAlPage()->getPageName());
+        
+        $this->assertNull($pageTreeCollection->at(4));
     }
 }

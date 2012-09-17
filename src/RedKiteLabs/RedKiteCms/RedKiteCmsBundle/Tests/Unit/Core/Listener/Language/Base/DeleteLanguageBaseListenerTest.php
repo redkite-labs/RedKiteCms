@@ -55,9 +55,7 @@ abstract class DeleteLanguageBaseListenerTest extends BaseListenerTest
             ->method('getLanguageRepository')
             ->will($this->returnValue($this->languageRepository));
 
-        $this->languageManager->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($this->setUpLanguage(2)));
+
 
         $this->manager->expects($this->any())
             ->method('set')
@@ -222,5 +220,4 @@ abstract class DeleteLanguageBaseListenerTest extends BaseListenerTest
 
         $this->testListener->onBeforeDeleteLanguageCommit($this->event);
     }
-
 }
