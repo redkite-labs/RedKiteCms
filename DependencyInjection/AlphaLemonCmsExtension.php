@@ -59,6 +59,8 @@ class AlphaLemonCmsExtension extends Extension
         if (isset($config['upload_assets_dir'])) {
             $container->setParameter('alpha_lemon_cms.upload_assets_dir', $config['upload_assets_dir']);
         }
+        
+        $container->setParameter('alpha_lemon_cms.enable_yui_compressor', $config['enable_yui_compressor']);
 
         if (isset($config['deploy_bundle'])) {
             if (isset($config['deploy_bundle']['resources_dir'])) {
