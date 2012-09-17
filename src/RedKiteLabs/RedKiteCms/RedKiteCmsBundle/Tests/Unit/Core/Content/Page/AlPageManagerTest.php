@@ -62,6 +62,26 @@ class AlPageManagerTest extends TestCase
         $this->pageManager = new AlPageManager($this->dispatcher, $this->templateManager, $this->factoryRepository, $this->validator);
     }
 
+    public function testPageRepositoryInjectedBySetters()
+    {
+        $pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->assertEquals($this->pageManager, $this->pageManager->setPageRepository($pageRepository));
+        $this->assertEquals($pageRepository, $this->pageManager->getPageRepository());
+        $this->assertNotSame($this->pageRepository, $this->pageManager->getPageRepository());
+    }
+
+    public function testTemplateManagerInjectedBySetters()
+    {
+        $templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->assertEquals($this->pageManager, $this->pageManager->setTemplateManager($templateManager));
+        $this->assertEquals($templateManager, $this->pageManager->getTemplateManager());
+        $this->assertNotSame($this->templateManager, $this->pageManager->getTemplateManager());
+    }
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      */

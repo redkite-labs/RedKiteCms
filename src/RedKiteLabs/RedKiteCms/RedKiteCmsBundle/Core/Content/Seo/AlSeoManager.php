@@ -289,9 +289,6 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 }
             }
 
-            $this->validator->checkEmptyParams($values);
-            $this->validator->checkOnceValidParamExists(array('Permalink' => '', 'MetaTitle' => '', 'MetaDescription' => '', 'MetaKeywords' => ''), $values);
-
             if (isset($values['Permalink'])) {
                 $currentPermalink = $this->alSeo->getPermalink();
                 if ($values['Permalink'] != $currentPermalink) {
@@ -313,6 +310,9 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (isset($values['MetaKeywords']) && $values['MetaKeywords'] == $this->alSeo->getMetaKeywords()) {
                 unset($values['MetaKeywords']);
             }
+            
+            $this->validator->checkEmptyParams($values);
+            $this->validator->checkOnceValidParamExists(array('Permalink' => '', 'MetaTitle' => '', 'MetaDescription' => '', 'MetaKeywords' => ''), $values);
 
             $this->seoRepository->startTransaction();
             $this->seoRepository->setRepositoryObject($this->alSeo);
