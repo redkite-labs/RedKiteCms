@@ -158,7 +158,12 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('config')->hasChild('site_routing.yml'));
 
-        $siteRouting = "# Route << my-awesome-page >> generated for language << en >> and page << page-1 >>\n";
+         $siteRouting = "# Route <<  >> generated for language << en >> and page << index >>\n";
+        $siteRouting .= "_en_index:\n";
+        $siteRouting .= "  pattern: /\n";
+        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: en, page: index }\n";
+        $siteRouting .= "\n";
+        $siteRouting .= "# Route << my-awesome-page >> generated for language << en >> and page << page-1 >>\n";
         $siteRouting .= "_en_page_1:\n";
         $siteRouting .= "  pattern: /my-awesome-page\n";
         $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: en, page: page-1 }\n";
