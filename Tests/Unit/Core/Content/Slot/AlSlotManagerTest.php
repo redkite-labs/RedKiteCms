@@ -31,14 +31,6 @@ class AlSlotManagerTest extends TestCase
 {
     private $dispatcher;
 
-    /*
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-
-        AlphaLemonDataPopulator::depopulate();
-    }*/
-
     protected function setUp()
     {
         parent::setUp();
@@ -56,6 +48,46 @@ class AlSlotManagerTest extends TestCase
         $slot = new AlSlot('test', array('repeated' => 'page'));
         $this->slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockRepository, $factory, $this->validator);
     }
+    
+    public function testAlSlotInjectedBySetters()
+    {
+        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+                     ->disableOriginalConstructor()
+                     ->getMock();        
+        $slot->expects($this->once())
+             ->method('getSlotName')
+             ->will($this->returnValue('logo'));
+        
+        $this->assertEquals($this->slotManager, $this->slotManager->setSlot($slot));
+        $this->assertEquals($slot, $this->slotManager->getSlot());
+        $this->assertEquals('logo', $this->slotManager->getSlotName());
+    }
+    
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage setForceSlotAttributes accepts only boolean values
+     */
+    public function testSetForceSlotAttributesWantsABooleanAsArgument()
+    {
+        $this->slotManager->setForceSlotAttributes('fake');
+    }
+    
+    public function testGetForceSlotAttributes()
+    {
+        $this->assertFalse($this->slotManager->getForceSlotAttributes());
+        $this->slotManager->setForceSlotAttributes(true);
+        $this->assertTrue($this->slotManager->getForceSlotAttributes());
+    }
+    
+    public function testBlockRepositoryInjectedBySetters()
+    {
+        $blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+        $this->assertEquals($this->slotManager, $this->slotManager->setBlockRepository($blockRepository));
+        $this->assertEquals($blockRepository, $this->slotManager->getBlockRepository());
+        $this->assertNotSame($this->slotManager, $this->slotManager->getBlockRepository());
+    }
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
@@ -67,8 +99,8 @@ class AlSlotManagerTest extends TestCase
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
-            ->method('createBlockManager')
-            ->will($this->throwException(new \InvalidArgumentException));
+                ->method('createBlockManager')
+                ->will($this->throwException(new \InvalidArgumentException));
 
         $this->slotManager->addBlock('fake', 2);
     }

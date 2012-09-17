@@ -79,10 +79,6 @@ abstract class AddLanguageBaseListener
         }
 
         $this->sourceObjects = $this->setUpSourceObjects();
-        if (null === $this->sourceObjects) {
-            return;
-        }
-
         if (count($this->sourceObjects) > 0) {
             try {
                 $result = true;

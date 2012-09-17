@@ -71,7 +71,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
                         );
         $this->root = vfsStream::setup('root', null, $folders);
     }
-
+    
     /**
      * @expectedException \RuntimeException
      */
@@ -94,7 +94,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->deployer = new AlTwigDeployer($this->container);
         $this->deployer->deploy();
     }
-
+    
     public function testDeploy()
     {
         $this->initSomeLangugesAndPages();

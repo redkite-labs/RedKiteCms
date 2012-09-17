@@ -77,6 +77,18 @@ class AlRepeatedSlotsAlignerTest extends TestCase
              ->setSkeletonFile(vfsStream::url('root/xml/repeated-slots-skeleton.xml'))
              ->setCacheFile($this->cacheFile);
     }
+    
+    public function testGetCacheFile()
+    {
+        $this->assertEquals('vfs://root/cache.xml', $this->aligner->getCacheFile());
+    }
+    
+    public function testGetCacheFileIsRereatedWhenItIsMalformed()
+    {
+        $this->setUpTheme();
+        file_put_contents(vfsStream::url('root/cache.xml'), 'no xml data');
+        $this->assertTrue($this->aligner->align("BusinessWebsiteThemeBundle", "Home", array()));
+    }
 
     public function testSkeletonFileIsNotAssignedWhenTheGivenFileDoesNotExist()
     {
@@ -124,11 +136,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             ->will($this->returnValue(vfsStream::url('root/FakeTheme')));
 
         $this->setUpTheme();
-/*
-        $this->templateSlotsFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($templateSlots));*/
-
+        
         $this->assertFalse(file_exists($this->cacheFile));
         $this->aligner->align("BusinessWebsiteThemeBundle", "Home", array());
         $this->assertTrue(file_exists($this->cacheFile));
