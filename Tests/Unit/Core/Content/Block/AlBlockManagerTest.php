@@ -98,7 +98,7 @@ class AlBlockManagerTest extends TestCase
                                     ->getMock();
         $this->assertEquals($this->blockManager, $this->blockManager->setFactoryRepository($factoryRepository));
         $this->assertEquals($factoryRepository, $this->blockManager->getFactoryRepository());
-        $this->assertNotEquals($this->dispatcher, $this->blockManager->getFactoryRepository());
+        $this->assertNotSame($this->dispatcher, $this->blockManager->getFactoryRepository());
     }
 
     public function testGetBlockRepository()

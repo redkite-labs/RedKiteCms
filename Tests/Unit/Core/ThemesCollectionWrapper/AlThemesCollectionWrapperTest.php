@@ -63,7 +63,7 @@ class AlThemesCollectionWrapperTest extends TestCase
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException
      */
-    public function testFetchAThemeFromTheThemesCollection1()
+    public function testAnExceptionIsThrownWhenTheRequiredTemplateDoesNotExist()
     {
         $this->setUpTheme();
 
@@ -79,6 +79,8 @@ class AlThemesCollectionWrapperTest extends TestCase
             ->with($template);
 
         $this->assertEquals($this->templateManager, $this->themesCollectionWrapper->assignTemplate('fakeTheme', 'fakeTemplate'));
+        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', ($this->themesCollectionWrapper->getThemesCollection()));
+        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager', ($this->themesCollectionWrapper->getTemplateManager()));
     }
 
     private function setUpTheme()

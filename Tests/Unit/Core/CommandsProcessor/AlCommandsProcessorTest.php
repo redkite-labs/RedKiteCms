@@ -53,6 +53,11 @@ class AlCommandsProcessorTest extends TestCase
                 ->will($this->returnValue(1));
         $this->assertEquals(1, $this->commandsProcessor->executeCommand('my:command', null, $process));
     }
+    
+    public function testANewProcessObjectIsInstantiate()
+    {
+        $this->assertEquals(1, $this->commandsProcessor->executeCommand('my:command'));
+    }
 
     /**
      * @expectedException \RuntimeException
