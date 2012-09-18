@@ -195,6 +195,36 @@ class SlotRendererExtensionTest extends TestCase
         $expectedValue = '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\'}"><div>my awesome content</div></div>';
         $this->assertEquals($expectedValue, $this->slotRenderer->renderBlock($value, true));
     }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testAnExceptionHasThrownBackWhenSomethingThrowsAnException()
+    {
+        $value = array(
+            "Block" => array(
+                "Id" => "10",
+                "SlotName" => "logo",
+                "ClassName" => "Text",
+            ),
+            "HtmlContent" => "my awesome replaced content",
+            "RenderView" => array(
+                "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
+                "params" => array(),
+            )
+        );
+        
+        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating->expects($this->once())
+                        ->method('render')
+                        ->will($this->throwException(new \RuntimeException()));
+        
+        $this->container->expects($this->once())
+                        ->method('get')
+                        ->will($this->returnValue($templating));
+        
+        $this->slotRenderer->renderBlock($value);
+    }
 
     private function setUpBlockManager(array $value)
     {
