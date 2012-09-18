@@ -21,7 +21,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
 
 /**
  * Bootstraps AlphaLemon CMS
@@ -84,11 +83,6 @@ class CmsBootstrapListener
     {
         $asset = new AlAsset($this->kernel, $asset);
         $assetPath = $asset->getRealPath();
-        if (null === $assetPath) {
-            $message = (null === $message) ? sprintf('It seems that the asset %s does not exist', $asset) : $message;
-
-            throw new InvalidParameterException($message);
-        }
 
         return $assetPath;
     }
