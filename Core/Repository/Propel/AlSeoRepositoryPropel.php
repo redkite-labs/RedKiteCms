@@ -44,7 +44,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
-            throw new InvalidParameterTypeException('AlSeoRepository accepts only AlSeo propel objects.');
+            throw new InvalidParameterTypeException('AlSeoRepositoryPropel accepts only AlSeo propel objects.');
         }
 
         return parent::setRepositoryObject($object);
