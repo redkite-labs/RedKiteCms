@@ -17,9 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Integrated\Model\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-
-
 /**
  * AlSeoRepositoryPropelTest
  *
@@ -36,6 +33,15 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
         $container = $this->client->getContainer();
         $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
         $this->seoRepository = $factoryRepository->createRepository('Seo');
+    }
+
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedExceptionMessage AlSeoRepositoryPropel accepts only AlSeo propel objects
+     */
+    public function testRepositoryAcceptsOnlyAlSeoObjects()
+    {
+        $this->seoRepository->setRepositoryObject(new \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage());
     }
 
     public function testASeoObjectIsRetrievedFromItsPrimaryKey()

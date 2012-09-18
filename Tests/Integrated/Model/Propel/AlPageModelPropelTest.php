@@ -17,9 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Integrated\Model\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-
-
 /**
  * AlPageRepositoryPropelTest
  *
@@ -36,6 +33,15 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
         $container = $this->client->getContainer();
         $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
         $this->pageRepository = $factoryRepository->createRepository('Page');
+    }
+
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedExceptionMessage AlPageRepositoryPropel accepts only AlPage propel objects
+     */
+    public function testRepositoryAcceptsOnlyAlPageObjects()
+    {
+        $this->pageRepository->setRepositoryObject(new \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage());
     }
 
     public function testAPageIsRetrievedFromItsPrimaryKey()

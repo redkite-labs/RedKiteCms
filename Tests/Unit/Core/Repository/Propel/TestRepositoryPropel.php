@@ -17,8 +17,12 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelRepository;
 
-class TestRepositoryPropel extends AlBlockRepositoryPropel
+class TestRepositoryPropel extends AlPropelRepository
 {
+    public function getRepositoryObjectClassName()
+    {
+        return 'fake';
+    }
 }
