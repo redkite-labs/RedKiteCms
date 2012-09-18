@@ -167,12 +167,8 @@ abstract class AlDeployer implements AlDeployerInterface
             $language = $seoAttribute->getAlLanguage()->getLanguage();
             if ($seoAttribute->getAlLanguage()->getMainLanguage()) $mainLanguage = $language;
 
-            // Avoid the generate two routes that responds to website's home page
-            if ($homePage == $pageName && $mainLanguage == $language) {
-                continue;
-            }
-
-            $permalink = $seoAttribute->getPermalink();
+            // Generate only a route for the home page
+            $permalink = ($homePage != $pageName || $mainLanguage != $language) ? $seoAttribute->getPermalink() : "";
             $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName));
         }
         // Defines the main route
