@@ -317,10 +317,6 @@ class AlTwigTemplateWriter
      */
     protected function writeAssetic($sectionName, $assetsSection, $sectionContent, $filter = null, $output = null)
     {
-        if (empty($sectionContent)) {
-            return "";
-        }
-
         $section = $sectionName . " " . $assetsSection;
         if (null !== $filter)
             $section .= " filter=\"$filter\"";
