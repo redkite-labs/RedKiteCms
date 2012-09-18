@@ -320,7 +320,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             }
 
             if (null !== $this->dispatcher) {
-                $event = new  Content\Block\BeforeBlockDeletingEvent($this);
+                $event = new Content\Block\BeforeBlockDeletingEvent($this);
                 $this->dispatcher->dispatch(BlockEvents::BEFORE_DELETE_BLOCK, $event);
 
                 if ($event->isAborted()) {
@@ -404,7 +404,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected function add(array $values)
     {
         if (null !== $this->dispatcher) {
-            $event = new Content\Block\BeforeBlockAddingEvent($this, $values);
+            $event =  new Content\Block\BeforeBlockAddingEvent($this, $values);
             $this->dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
 
             if ($event->isAborted()) {
@@ -417,7 +417,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         }
 
         $this->validator->checkEmptyParams($values);
-
         $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => "");
         $this->validator->checkRequiredParamsExists($requiredParameters, $values);
 
