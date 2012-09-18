@@ -18,6 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
  *  Implements the RepositoryInterface to define the base class any propel model must inherit
@@ -38,7 +39,7 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof \BaseObject) {
-            throw new General\InvalidParameterTypeException('AlPropelRepository accepts only objects derived from propel \BaseObject');
+            throw new InvalidParameterTypeException ('AlPropelRepository accepts only objects derived from propel \BaseObject');
         }
 
         $this->modelObject = $object;
