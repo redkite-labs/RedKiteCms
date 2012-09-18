@@ -80,8 +80,67 @@ class AlPageTreeTest extends TestCase
         $this->themesCollectionWrapper->expects($this->any())
             ->method('assignTemplate')
             ->will($this->returnValue($this->templateManager));
+    }
 
-        //$pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+    public function testTemplateManagerInjectedBySetters()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->assertEquals($pageTree, $pageTree->setTemplateManager($templateManager));
+        $this->assertEquals($templateManager, $pageTree->getTemplateManager());
+        $this->assertNotSame($this->templateManager, $pageTree->getTemplateManager());
+    }
+    
+    public function testGetBlockManagerReturnsAnEmptyArrayWhenTemplateManagerIsNull()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        
+        $this->templateManager->expects($this->never())
+            ->method('getSlotmanager');
+        
+        $this->assertEquals(array(), $pageTree->getBlockManagers('logo'));
+    }
+    
+    public function testGetBlockManagerReturnsAnEmptyArrayWhenSlotHasNotBeenFound()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        
+        $this->themesCollectionWrapper->expects($this->once())
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
+        
+        $this->templateManager->expects($this->once())
+            ->method('getSlotmanager')
+            ->will($this->returnValue(null));
+        
+        $this->assertEquals(array(), $pageTree->getBlockManagers('logo'));
+    }
+    
+    public function testGetBlockManagersReturnsTheBlockManagerSavedOnTheRequiredSlot()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        
+        $this->themesCollectionWrapper->expects($this->once())
+            ->method('getTemplateManager')
+            ->will($this->returnValue($this->templateManager));
+        
+        $blockManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\BlockManagerInterface');       
+        
+        $slotManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();        
+        $slotManager->expects($this->once())
+            ->method('getBlockManagers')
+            ->will($this->returnValue(array($blockManager)));  
+        
+        $this->templateManager->expects($this->once())
+            ->method('getSlotmanager')
+            ->will($this->returnValue($slotManager));
+        
+        $blockManagers = $pageTree->getBlockManagers('logo');
+        $this->assertEquals($blockManager, $blockManagers[0]);
     }
 
     public function testLanguageIsFetchedFromLanguageParam()
@@ -421,6 +480,27 @@ class AlPageTreeTest extends TestCase
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
     }
+    
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMEssage Something goes wrong retrieving a routing parameter
+     */
+    public function testAnUnespectedExceptionHasBeenThown()
+    {
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $request->expects($this->once())
+            ->method('get')
+            ->will($this->throwException(new \RuntimeException('Something goes wrong retrieving a routing parameter')));
+
+        $this->container->expects($this->exactly(2))
+            ->method('get')
+            ->will($this->onConsecutiveCalls($this->activeTheme, $request));
+
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->setup());
+    }
 
     public function testPageTreeHasBeenSet()
     {
@@ -431,6 +511,8 @@ class AlPageTreeTest extends TestCase
         $this->assertEquals($this->page, $pageTree->getAlPage());
         $this->assertTrue($pageTree->isValid());
         $this->assertTrue($pageTree->isCmsMode());
+        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme', $pageTree->getTheme());
+        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo', $pageTree->getAlSeo());
     }
 
     public function testPageTreeSetsUpExternalAssetsFromABlock()
@@ -578,6 +660,37 @@ class AlPageTreeTest extends TestCase
         $pageTree->setup();
         $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
     }
+    
+    public function testPageTreeHasNotBeenRefreshedBecauseThemeIsNull()
+    {
+        $this->activeTheme->expects($this->once())
+            ->method('getActiveTheme')
+            ->will($this->returnValue(null));
+        
+        $this->language = $this->setUpLanguage(2);
+        $this->page = $this->setUpPage(2);
+
+        $this->themesCollectionWrapper->expects($this->never())
+            ->method('assignTemplate');
+        
+        $this->seoRepository->expects($this->never())
+            ->method('fromPageAndLanguage');
+
+        $this->languageRepository->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->language));
+
+        $this->pageRepository->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->page));
+
+        $this->container->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($this->activeTheme));
+
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertNull($pageTree->refresh(2, 2));
+    }
 
     public function testPageTreeHasBeenRefreshed()
     {
@@ -607,10 +720,10 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
-        
+
         $this->container->expects($this->once())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->activeTheme));
+            ->will($this->returnValue($this->activeTheme));
 
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->refresh(2, 2);

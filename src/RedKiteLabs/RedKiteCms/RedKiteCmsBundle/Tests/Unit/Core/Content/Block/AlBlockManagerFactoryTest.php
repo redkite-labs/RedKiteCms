@@ -79,7 +79,7 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
         $this->assertNotSame($this->blockManager, $blockManager);
     }
-
+    
     public function testFactoryRemovesABlockThatDoesNotExist()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
@@ -88,16 +88,15 @@ class AlBlockManagerFactoryTest extends TestCase
               ->will($this->returnValue('Removed'));
         $this->initBlockManager();
 
-
         $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                       ->disableOriginalConstructor()
                                       ->getMock();
         $this->blockRepository->expects($this->once())
-                           ->method('setRepositoryObject')
-                           ->with($block);
+                              ->method('setRepositoryObject')
+                              ->with($block);
 
-         $this->blockRepository->expects($this->once())
-                           ->method('delete');
+        $this->blockRepository->expects($this->once())
+                              ->method('delete');
 
         $this->blockManager->expects($this->once())
                            ->method('getBlockRepository')
