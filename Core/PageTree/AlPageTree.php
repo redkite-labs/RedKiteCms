@@ -105,7 +105,7 @@ class AlPageTree extends BaseAlPageTree
      */
     public function getTheme()
     {
-        return $this->alTheme;
+        return $this->theme;
     }
 
     /**
@@ -182,7 +182,7 @@ class AlPageTree extends BaseAlPageTree
 
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
             $this->doRefresh();
-            
+
             return $this;
         } catch (\Exception $ex) {
             throw $ex;
@@ -212,12 +212,12 @@ class AlPageTree extends BaseAlPageTree
 
         return $this;
     }
-    
+
     private function doRefresh()
     {
         $idLanguage = $this->alLanguage->getId();
         $idPage = $this->alPage->getId();
-        
+
         $this->pageBlocks = $this->templateManager
                     ->getPageBlocks()
                     ->setIdLanguage($idLanguage)
