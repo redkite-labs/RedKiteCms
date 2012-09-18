@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ServiceBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
- * AlBlockManagerService
+ * AlBlockManagerService represent an empty BlockManager
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
