@@ -45,6 +45,8 @@ class AlPropelOrm implements OrmInterface
     public function setConnection($connection)
     {
         self::$connection = $connection;
+
+        return $this;
     }
 
     /**
@@ -61,6 +63,8 @@ class AlPropelOrm implements OrmInterface
     public function startTransaction()
     {
         self::$connection->beginTransaction();
+
+        return $this;
     }
 
     /**
@@ -69,6 +73,8 @@ class AlPropelOrm implements OrmInterface
     public function commit()
     {
         self::$connection->commit();
+
+        return $this;
     }
 
     /**
@@ -77,6 +83,8 @@ class AlPropelOrm implements OrmInterface
     public function rollBack()
     {
         self::$connection->rollBack();
+
+        return $this;
     }
 
     /**
