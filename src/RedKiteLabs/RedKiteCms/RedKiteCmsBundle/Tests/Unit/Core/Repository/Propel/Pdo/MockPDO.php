@@ -27,3 +27,9 @@ class MockPDO extends \PropelPDO
     public function __construct ()
     {}
 }
+
+class MockPDOStatement extends \PDOStatement
+{
+    public function __construct ()
+    {}
+}

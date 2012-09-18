@@ -33,9 +33,34 @@ class AlPropelRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->pdo = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $this->pdo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->propelRepository = new TestRepositoryPropel($this->pdo);
         $this->modelObject = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+    }
+
+    public function testPdoConnectionInjectedBySetters()
+    {
+        $pdo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $this->assertEquals($this->propelRepository, $this->propelRepository->setConnection($pdo));
+        $this->assertEquals($pdo, $this->propelRepository->getConnection());
+        $this->assertNotSame($this->pdo, $this->propelRepository->getConnection());
+    }
+
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedExceptionMessage AlPropelRepository accepts only objects derived from propel \BaseObject
+     */
+    public function testModelObjectRequiresABaseObject()
+    {
+        $this->propelRepository->setRepositoryObject($this->pdo);
+    }
+
+    public function testModelObjectInjectedBySetters()
+    {
+        $modelObject = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $this->assertEquals($this->propelRepository, $this->propelRepository->setRepositoryObject($modelObject));
+        $this->assertEquals($modelObject, $this->propelRepository->getModelObject());
+        $this->assertNotSame($this->modelObject, $this->propelRepository->getModelObject());
     }
 
     public function testSaveOperationFails()
@@ -135,6 +160,59 @@ class AlPropelRepositoryTest extends TestCase
                           ->will($this->returnValue(1));
 
         $this->assertTrue($this->propelRepository->save($values, $this->modelObject));
+        $this->assertEquals(1, $this->propelRepository->getAffectedRecords());
+    }
+
+    /**
+     * @expectedException \PropelException
+     */
+    public function testAnUnexpectedExceptionIsThrownDeletingARecord()
+    {
+        $this->pdo->expects($this->once())
+                         ->method('beginTransaction');
+
+        $this->pdo->expects($this->never())
+                         ->method('commit');
+
+        $this->pdo->expects($this->once())
+                         ->method('rollback');
+
+        $this->modelObject->expects($this->once())
+                          ->method('save')
+                          ->will($this->throwException(new \PropelException()));
+
+        $this->assertTrue($this->propelRepository->delete($this->modelObject));
+    }
+
+    public function testDeleteARecord()
+    {
+        $this->pdo->expects($this->once())
+                         ->method('beginTransaction');
+
+        $this->pdo->expects($this->once())
+                         ->method('commit');
+
+        $this->pdo->expects($this->never())
+                         ->method('rollback');
+
+        $this->modelObject->expects($this->once())
+                          ->method('save')
+                          ->will($this->returnValue(1));
+
+        $this->assertTrue($this->propelRepository->delete($this->modelObject));
+    }
+
+    public function testExecuteRawQuery()
+    {
+        $this->pdoStatement = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDOStatement');
+        $this->pdoStatement->expects($this->once())
+                  ->method('execute')
+                  ->will($this->returnValue(1));
+
+        $this->pdo->expects($this->once())
+                  ->method('prepare')
+                  ->will($this->returnValue($this->pdoStatement));
+        $this->assertEquals(1, $this->propelRepository->executeQuery('query'));
     }
 
     private function setFromArrayExpectation($values)

@@ -17,9 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Integrated\Model\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-
-
 /**
  * AlBlockRepositoryPropelTest
  *
@@ -36,6 +33,15 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
         $container = $this->client->getContainer();
         $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
         $this->blockRepository = $factoryRepository->createRepository('Block');
+    }
+
+    /**
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedExceptionMessage AlBlockRepositoryPropel accepts only AlBlock propel objects
+     */
+    public function testRepositoryAcceptsOnlyAlBlockObjects()
+    {
+        $this->blockRepository->setRepositoryObject(new \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage());
     }
 
     public function testABlockIsRetrievedFromItsPrimaryKey()
@@ -116,5 +122,17 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     {
         $blocks = $this->blockRepository->fromHtmlContent('Progress Business Company');
         $this->assertEquals(2, count($blocks));
+    }
+
+    public function testRetrieveContentsByClassName()
+    {
+        $blocks = $this->blockRepository->fromClassName('Text');
+        $this->assertCount(38, $blocks);
+    }
+
+    public function testRetrieveNumberOfContentsByClassName()
+    {
+        $blocks = $this->blockRepository->fromClassName('Text', 'count');
+        $this->assertEquals(38, $blocks);
     }
 }
