@@ -89,13 +89,19 @@ class SlotRendererExtension extends \Twig_Extension
     public function getName() {
         return 'slotRenderer';
     }
-    
+
+    /**
+     * Validates the slot name
+     *
+     * @param string $slotName
+     * @throws \InvalidArgumentException
+     */
     protected function checkSlotName($slotName)
     {
         if (null === $slotName) {
             throw new \InvalidArgumentException("renderSlot function requires a valid slot name to render the contents");
         }
-        
+
         if (!is_string($slotName)) {
             throw new \InvalidArgumentException("renderSlot function requires a string as argument to identify the slot name");
         }
