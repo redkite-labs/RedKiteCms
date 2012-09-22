@@ -33,17 +33,14 @@ class AlPageBlocks extends AlPageBlocksBase
     protected $idLanguage = null;
     protected $factoryRepository = null;
     protected $blockRepository;
-    protected $dispatcher;
 
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface     $dispatcher
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
-        $this->dispatcher = $dispatcher;
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }

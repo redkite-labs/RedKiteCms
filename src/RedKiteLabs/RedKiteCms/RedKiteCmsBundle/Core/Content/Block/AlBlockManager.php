@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
@@ -52,13 +52,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface       $dispatcher
+     * @param AlEventsHandlerInterface       $eventsHandler
      * @param AlFactoryRepositoryInterface   $factoryRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $validator);
+        parent::__construct($eventsHandler, $validator);
 
         $this->doSetFactoryRepository($factoryRepository);
     }
@@ -314,20 +314,18 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function delete()
     {
+        if (null === $this->alBlock) {
+            throw new General\ParameterIsEmptyException($this->translate("Any valid block has been setted. Nothing to delete", array()));
+        }
+
+        $this->dispatchBeforeOperationEvent(
+                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
+                BlockEvents::BEFORE_DELETE_BLOCK,
+                array(),
+                "The content deleting action has been aborted"
+        );
+
         try {
-            if (null === $this->alBlock) {
-                throw new General\ParameterIsEmptyException($this->translate("Any valid block has been setted. Nothing to delete", array()));
-            }
-
-            if (null !== $this->dispatcher) {
-                $event = new Content\Block\BeforeBlockDeletingEvent($this);
-                $this->dispatcher->dispatch(BlockEvents::BEFORE_DELETE_BLOCK, $event);
-
-                if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translate("The content deleting action has been aborted", array()));
-                }
-            }
-
             $this->blockRepository->startTransaction();
 
             $result = $this->blockRepository
@@ -335,11 +333,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                         ->delete();
             if ($result) {
                 $this->blockRepository->commit();
-
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Block\AfterBlockDeletedEvent($this);
-                    $this->dispatcher->dispatch(BlockEvents::AFTER_DELETE_BLOCK, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(BlockEvents::AFTER_DELETE_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockDeletedEvent', array($this))
+                     ->dispatch();
 
                 return true;
             } else {
@@ -403,18 +399,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     protected function add(array $values)
     {
-        if (null !== $this->dispatcher) {
-            $event =  new Content\Block\BeforeBlockAddingEvent($this, $values);
-            $this->dispatcher->dispatch(BlockEvents::BEFORE_ADD_BLOCK, $event);
-
-            if ($event->isAborted()) {
-                throw new Event\EventAbortedException($this->translate("The current block adding action has been aborted", array(), 'exceptions'));
-            }
-
-            if ($values !== $event->getValues()) {
-                $values = $event->getValues();
-            }
-        }
+        $values =
+            $this->dispatchBeforeOperationEvent(
+                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
+                    BlockEvents::BEFORE_ADD_BLOCK,
+                    $values,
+                    "The current block adding action has been aborted"
+            );
 
         $this->validator->checkEmptyParams($values);
         $requiredParameters = array("PageId" => "", "LanguageId" => "", "SlotName" => "");
@@ -447,11 +438,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                     ->save($values);
             if (false !== $result) {
                 $this->blockRepository->commit();
+                $this->eventsHandler
+                     ->createEvent(BlockEvents::AFTER_ADD_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockAddedEvent', array($this))
+                     ->dispatch();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Block\AfterBlockAddedEvent($this);
-                    $this->dispatcher->dispatch(BlockEvents::AFTER_ADD_BLOCK, $event);
-                }
             } else {
                 $this->blockRepository->rollBack();
             }
@@ -477,20 +467,15 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     protected function edit(array $values)
     {
+         $values =
+                $this->dispatchBeforeOperationEvent(
+                        '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
+                        BlockEvents::BEFORE_EDIT_BLOCK,
+                        $values,
+                        "The content editing action has been aborted"
+                );
+
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Block\BeforeBlockEditingEvent($this, $values);
-                $this->dispatcher->dispatch(BlockEvents::BEFORE_EDIT_BLOCK, $event);
-
-                if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translate("The content editing action has been aborted", array(), 'al_content_manager_exceptions'));
-                }
-
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
-            }
-
             $this->validator->checkEmptyParams($values);
 
             // Edits the source content
@@ -500,10 +485,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if (false !== $result) {
                 $this->blockRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Block\AfterBlockEditedEvent($this);
-                    $this->dispatcher->dispatch(BlockEvents::AFTER_EDIT_BLOCK, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(BlockEvents::AFTER_EDIT_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockEditedEvent', array($this))
+                     ->dispatch();
             } else {
                 $this->blockRepository->rollBack();
             }

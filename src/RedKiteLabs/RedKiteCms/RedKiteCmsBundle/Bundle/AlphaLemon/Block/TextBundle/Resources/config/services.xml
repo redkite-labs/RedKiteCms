@@ -13,7 +13,7 @@
 
     <services>
         <service id="app_text.block" class="%app_text.block.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <tag name="alphalemon_cms.blocks_factory.block" description="Hypertext block" type="Text" group="alphalemon_internals" />
         </service>
     </services>

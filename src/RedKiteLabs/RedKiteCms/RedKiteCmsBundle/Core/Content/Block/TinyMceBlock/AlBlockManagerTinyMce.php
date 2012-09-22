@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\TinyMceBlock;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
@@ -40,9 +40,9 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
      * @param AlFactoryRepositoryInterface   $factoryRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlUrlManagerInterface $urlManager, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlUrlManagerInterface $urlManager, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $factoryRepository, $validator);
+        parent::__construct($eventsHandler, $factoryRepository, $validator);
 
         $this->urlManager = $urlManager;
     }

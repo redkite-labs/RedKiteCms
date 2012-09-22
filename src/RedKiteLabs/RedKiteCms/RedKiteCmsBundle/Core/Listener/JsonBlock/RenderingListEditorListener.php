@@ -29,7 +29,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
     protected function renderEditor(BlockEditorRenderingEvent $event, array $params)
     {
         try {
-            $alBlockManager = $event->getAlBlockManager();
+            $alBlockManager = $event->getBlockManager();
             if ($alBlockManager instanceof $params['blockClass']) {
                 $block = $alBlockManager->get();
                 $className = $block->getClassName();

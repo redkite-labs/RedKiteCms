@@ -13,7 +13,7 @@
 
     <services>
         <service id="app_menu.block" class="%app_menu.block.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <tag name="alphalemon_cms.blocks_factory.block" description="Menu block" type="Menu" group="alphalemon_internals" />
         </service>
     </services>

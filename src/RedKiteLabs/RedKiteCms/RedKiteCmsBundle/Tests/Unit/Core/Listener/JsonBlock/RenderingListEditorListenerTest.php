@@ -99,7 +99,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
     public function testAnExceptionIsThrownBackWhenSomethingGoesWrong()
     {
         $this->event->expects($this->once())
-            ->method('getAlBlockManager')
+            ->method('getBlockManager')
             ->will($this->throwException(new \RuntimeException('Something goes wrong retrieving the block manager')));
         
         $this->testListener->setConfigureParams(

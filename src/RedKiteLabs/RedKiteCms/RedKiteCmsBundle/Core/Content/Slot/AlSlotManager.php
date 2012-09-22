@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInter
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
@@ -45,15 +45,15 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface       $dispatcher
+     * @param AlEventsHandlerInterface       $eventsHandler
      * @param AlSlot                         $slot
      * @param BlockRepositoryInterface       $blockRepository
      * @param AlBlockManagerFactoryInterface $blockManagerFactory
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $blockManagerFactory, $validator);
+        parent::__construct($eventsHandler, $blockManagerFactory, $validator);
 
         $this->slot = $slot;
         $this->blockRepository = $blockRepository;

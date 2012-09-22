@@ -27,30 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManager
  */
 class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
 {
-    private $blockManager;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-
-        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $this->factoryRepository->expects($this->any())
-            ->method('createRepository')
-            ->will($this->returnValue($this->blockRepository));
-
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-    }
+    protected $blockManager;
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException
@@ -75,7 +52,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
     {
         $this->container->expects($this->exactly(3))
                         ->method('get')
-                        ->will($this->onConsecutiveCalls($this->dispatcher,$this->factoryRepository, $this->kernel));
+                        ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $this->kernel));
 
         $this->container->expects($this->exactly(1))
                         ->method('getParameter');
@@ -119,11 +96,11 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
 
         return $block;
     }
-
+/*
     private function doSave($block, array $params)
     {
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -145,7 +122,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         $result = $this->blockManager->set($block)
                                      ->save($params);
         $this->assertEquals(true, $result);
-    }
+    }*/
 }
 
 class AlBlockManagerImagesBlockTester extends AlBlockManagerImages

@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
@@ -27,17 +27,13 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlLanguageManagerTest extends TestCase
+class AlLanguageManagerTest extends AlContentManagerBase
 {
-    private $dispatcher;
     private $languageManager;
-    private $templateManager;
 
     protected function setUp()
     {
         parent::setUp();
-
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager')
                                     ->disableOriginalConstructor()
@@ -56,7 +52,7 @@ class AlLanguageManagerTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->languageRepository));
 
-        $this->languageManager = new AlLanguageManager($this->dispatcher, $this->factoryRepository, $this->validator);
+        $this->languageManager = new AlLanguageManager($this->eventsHandler, $this->factoryRepository, $this->validator);
     }
 
     public function testLanguageRepositoryInjectedBySetters()
@@ -97,8 +93,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -113,8 +109,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
@@ -130,8 +126,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testAddThrownAnExceptionWhenTheLanguageAlreadyExists()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('languageExists')
@@ -149,8 +145,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testAddThrownAnExceptionWhenTheLanguageAIsEmpty()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('languageExists')
@@ -168,8 +164,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testAddThrownAnUnespectedException()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -191,8 +187,8 @@ class AlLanguageManagerTest extends TestCase
 
     public function testAddNewLanguageFailsBecauseSaveFailsAtLast()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -214,8 +210,123 @@ class AlLanguageManagerTest extends TestCase
 
     public function testAddLanguage()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->languageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->once())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->languageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $params = array('Language'  => 'en');
+        $expectedParams = $params;
+        $expectedParams["MainLanguage"] = 1;
+        $this->languageRepository->expects($this->once())
+                ->method('save')
+                ->with($expectedParams)
+                ->will($this->returnValue(true));
+
+        $this->assertTrue($this->languageManager->save($params));
+    }
+    
+    public function testResetMainIsSkippedBecauseAnyMainLanguageHasBeenDefined()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->languageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->once())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->never())
+            ->method('rollback');
+        
+        $this->validator->expects($this->once())
+                ->method('hasLanguages')
+                ->will($this->returnValue(true));
+
+        $this->languageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+        
+        $this->languageRepository->expects($this->once())
+                ->method('mainLanguage')
+                ->will($this->returnValue(null));
+        
+        $params = array('Language'  => 'en', 'MainLanguage' => 1);
+        $expectedParams = $params;
+        $expectedParams["MainLanguage"] = 1;
+        $this->languageRepository->expects($this->once())
+                ->method('save')
+                ->with($expectedParams)
+                ->will($this->returnValue(true));
+
+        $this->assertTrue($this->languageManager->save($params));
+    }
+
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The language adding action has been aborted
+     */
+    public function testAddActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $this->languageRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->languageRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->languageRepository->expects($this->never())
+                ->method('save');
+
+        $params = array('Language'  => 'en');
+        $this->languageManager->save($params);
+    }
+
+    public function testAddParametersHaveBeenChangedByAnEvent()
+    {
+        $changedParams = array('Language'  => 'es');
+
+        $event1 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event1->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+        $this->setUpEventsHandler(null, 3);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -238,10 +349,45 @@ class AlLanguageManagerTest extends TestCase
         $this->assertTrue($this->languageManager->save($params));
     }
 
+    public function testAListenerHasAbortedTheAddAction()
+    {
+        $event1 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->languageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->once())
+            ->method('rollback');
+
+        $this->languageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->languageRepository->expects($this->once())
+                ->method('save')
+                ->will($this->returnValue(true));
+
+        $params = array('Language'  => 'en');
+        $res = $this->languageManager->save($params);
+        $this->assertFalse($res);
+    }
+
     public function testAddMainLanguageFailsBecauseMainLanguageHasNotBeenResetted()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -274,8 +420,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testAddMainLanguageFailsBecauseAnUnexpectedExceptionIsThrownWhenTheMainLanguageIsResetted()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -306,8 +452,8 @@ class AlLanguageManagerTest extends TestCase
 
     public function testAddMainLanguageFailsBecauseMainLanguageHasBeenResettedButSaveFailsAtLast()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -337,8 +483,13 @@ class AlLanguageManagerTest extends TestCase
 
     public function testAddMainLanguage()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -361,11 +512,14 @@ class AlLanguageManagerTest extends TestCase
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
+        $params = array(
+            'Language'  => 'en', 
+            'MainLanguage' => 1
+        );
         $this->languageRepository->expects($this->exactly(2))
                 ->method('save')
                 ->will($this->returnValue(true));
-
-        $params = array('Language'  => 'en', 'MainLanguage' => 1);
+        
         $this->assertTrue($this->languageManager->save($params));
     }
 
@@ -374,8 +528,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -395,8 +549,8 @@ class AlLanguageManagerTest extends TestCase
     {
         $language = $this->setUpLanguageObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkOnceValidParamExists')
@@ -417,8 +571,8 @@ class AlLanguageManagerTest extends TestCase
     {
         $language =$this->setUpLanguageObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -443,8 +597,8 @@ class AlLanguageManagerTest extends TestCase
     {
         $language =$this->setUpLanguageObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -467,8 +621,8 @@ class AlLanguageManagerTest extends TestCase
 
     public function testEditDoesNothingWhenTheSameParameterIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
@@ -495,8 +649,12 @@ class AlLanguageManagerTest extends TestCase
 
     public function testEdit()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
@@ -508,7 +666,89 @@ class AlLanguageManagerTest extends TestCase
                 ->will($this->returnSelf());
 
         $this->languageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->once())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->never())
+            ->method('rollback');
+
+        $params = array('Language' => 'fr');
+        $this->languageRepository->expects($this->once())
             ->method('save')
+            ->with($params)
+            ->will($this->returnValue(true));
+
+        $this->languageManager->set($language);
+        $res = $this->languageManager->save($params);
+        $this->assertTrue($res);
+    }
+
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The language editing action has been aborted
+     */
+    public function testEditActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $language =$this->setUpLanguageObject();
+        $language->expects($this->any())
+            ->method('getLanguage')
+            ->will($this->returnValue('en'));
+
+        $this->languageRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->languageRepository->expects($this->never())
+            ->method('save');
+
+        $this->languageRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->never())
+            ->method('rollback');
+
+        $params = array('Language' => 'fr');
+        $this->languageManager->set($language);
+        $this->languageManager->save($params);
+    }
+
+    public function testEditParametersHaveBeenChangedByAnEvent()
+    {
+        $changedParams = array('Language'  => 'es');
+
+        $event1 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
+        $event1->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+        $this->setUpEventsHandler(null, 3);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $language =$this->setUpLanguageObject();
+        $language->expects($this->once())
+            ->method('getLanguage')
+            ->will($this->returnValue('en'));
+
+        $this->languageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->languageRepository->expects($this->once())
+            ->method('save')
+            ->with($changedParams)
             ->will($this->returnValue(true));
 
         $this->languageRepository->expects($this->once())
@@ -526,10 +766,51 @@ class AlLanguageManagerTest extends TestCase
         $this->assertTrue($res);
     }
 
+    public function testAListenerHasAbortedTheEditAction()
+    {
+        $event1 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $language =$this->setUpLanguageObject();
+        $language->expects($this->any())
+            ->method('getLanguage')
+            ->will($this->returnValue('en'));
+
+        $this->languageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->languageRepository->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+
+        $this->languageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->once())
+            ->method('rollback');
+
+        $params = array('Language' => 'fr');
+        $this->languageManager->set($language);
+        $res = $this->languageManager->save($params);
+        $this->assertFalse($res);
+    }
+
     public function testEditMainLanguageFailsWhenResetMainLanguageFails()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
@@ -565,8 +846,8 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testEditMainLanguageFailsWhenResetMainLanguageThrowsAnUnexpectedException()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
@@ -599,8 +880,8 @@ class AlLanguageManagerTest extends TestCase
 
     public function testEditMainLanguageFails()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
@@ -633,8 +914,13 @@ class AlLanguageManagerTest extends TestCase
 
     public function testEditMainLanguage()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
@@ -673,7 +959,7 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testDeleteFailsWhenTheManagedLanguageIsNull()
     {
-        $this->dispatcher->expects($this->never())
+        $this->eventsHandler->expects($this->never())
             ->method('dispatch');
 
         $this->languageManager->set(null);
@@ -685,7 +971,10 @@ class AlLanguageManagerTest extends TestCase
      */
     public function testTryingToDeleteTheMainLanguageThrowsAnException()
     {
-        $language =$this->setUpLanguageObject();
+        $language = $this->setUpLanguageObject();
+
+        $this->eventsHandler->expects($this->never())
+            ->method('dispatch');
 
         $this->languageRepository->expects($this->never())
                 ->method('delete');
@@ -705,8 +994,8 @@ class AlLanguageManagerTest extends TestCase
     {
         $language =$this->setUpLanguageObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -730,8 +1019,8 @@ class AlLanguageManagerTest extends TestCase
     {
         $language =$this->setUpLanguageObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -754,10 +1043,14 @@ class AlLanguageManagerTest extends TestCase
 
     public function testDelete()
     {
-        $language =$this->setUpLanguageObject();
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
 
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $language =$this->setUpLanguageObject();
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->languageRepository->expects($this->once())
             ->method('startTransaction');
@@ -781,7 +1074,78 @@ class AlLanguageManagerTest extends TestCase
         $this->assertTrue($res);
     }
 
-    /**/
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The language deleting action has been aborted
+     */
+    public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $language =$this->setUpLanguageObject();
+        $this->languageRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->languageRepository->expects($this->never())
+                ->method('delete');
+
+        $this->languageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->languageManager->set($language);
+        $this->languageManager->delete();
+    }
+
+    public function testAListenerHasAbortedTheDeleteAction()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $language =$this->setUpLanguageObject();
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->languageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->languageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->languageRepository->expects($this->once())
+                ->method('delete')
+                ->will($this->returnValue(true));
+
+        $this->languageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->languageRepository->expects($this->once())
+            ->method('rollback');
+
+        $this->languageManager->set($language);
+        $res = $this->languageManager->delete();
+        $this->assertFalse($res);
+    }
+
     private function setUpLanguageObject()
     {
         $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');

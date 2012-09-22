@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Defines the BlockEditorRenderedEvent event
@@ -29,12 +29,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 class BlockEditorRenderedEvent extends Event
 {
     private $response = null;
-    private $alBlockManager = null;
+    private $blockManager = null;
 
-    public function __construct(Response $response, AlContentManagerBase $alBlockManager)
+    public function __construct(Response $response, AlBlockManagerInterface $blockManager)
     {
         $this->response = $response;
-        $this->alBlockManager = $alBlockManager;
+        $this->blockManager = $blockManager;
     }
 
     public function getResponse()
@@ -47,8 +47,13 @@ class BlockEditorRenderedEvent extends Event
         $this->response = $v;
     }
 
-    public function getAlBlockManager()
+    public function getBlockManager()
     {
-        return $this->alBlockManager;
+        return $this->blockManager;
+    }
+
+    public function setBlockManager(AlBlockManagerInterface $v)
+    {
+        $this->blockManager = $v;
     }
 }

@@ -41,6 +41,14 @@ class AlParametersValidatorLanguagesManager extends TestCase
 
         $this->validator = new AlParametersValidatorLanguageManager($this->factoryRepository);
     }
+    
+    public function testLanguageRepositoryInjectedBySetters()
+    {
+        $languageRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
+        $this->assertEquals($this->validator, $this->validator->setLanguageRepository($languageRepository));
+        $this->assertEquals($languageRepository, $this->validator->getLanguageRepository());
+        $this->assertNotSame($this->validator, $this->validator->getLanguageRepository());
+    }
 
     public function testHasLanguagesReturnsFalseWhenAnyLanguageExist()
     {

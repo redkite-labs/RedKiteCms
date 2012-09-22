@@ -19,22 +19,20 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 
 /**
  * AlBlockManagerJsonBlockTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerJsonBlockTest extends TestCase
+class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
 {
-    private $dispatcher;
-    private $blockManager;
+    protected $blockManager;
 
     protected function setUp()
     {
         parent::setUp();
-
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -49,7 +47,7 @@ class AlBlockManagerJsonBlockTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->blockManager = new AlBlockManagerJsonBlockTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $this->blockManager = new AlBlockManagerJsonBlockTester($this->eventsHandler, $this->factoryRepository, $this->validator);
     }
 
     /**
@@ -62,7 +60,7 @@ class AlBlockManagerJsonBlockTest extends TestCase
         $value ="wrong_form_name[id]=0&wrong_form_name[title]=Home&wrong_form_name[subtitle]=Welcome!&wrong_form_name[link]=my-link";
         $params = array('HtmlContent' => $value);
         $this->blockManager->set($block);
-        $result = $this->blockManager->save($params);
+        $this->blockManager->save($params);
     }
 
     /**
@@ -75,7 +73,7 @@ class AlBlockManagerJsonBlockTest extends TestCase
         $value ="al_json_block[title]=Home&al_json_block[subtitle]=Welcome!&al_json_block[link]=my-link";
         $params = array('HtmlContent' => $value);
         $this->blockManager->set($block);
-        $result = $this->blockManager->save($params);
+        $this->blockManager->save($params);
     }
 
     /**
@@ -170,10 +168,11 @@ class AlBlockManagerJsonBlockTest extends TestCase
         return $block;
     }
 
+    /*
     private function doSave($block, array $params)
     {
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -195,7 +194,7 @@ class AlBlockManagerJsonBlockTest extends TestCase
         $this->blockManager->set($block);
         $result = $this->blockManager->save($params);
         $this->assertEquals(true, $result);
-    }
+    }*/
 }
 
 class AlBlockManagerJsonBlockTester extends AlBlockManagerJsonBlock

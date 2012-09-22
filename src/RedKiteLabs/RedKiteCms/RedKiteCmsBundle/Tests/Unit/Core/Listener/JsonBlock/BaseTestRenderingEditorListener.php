@@ -51,7 +51,7 @@ class BaseTestRenderingEditorListener extends TestCase
     protected function setUpEvents($expectedCalls = 1)
     {
         $this->event->expects($this->exactly($expectedCalls))
-            ->method('getAlBlockManager')
+            ->method('getBlockManager')
             ->will($this->returnValue($this->blockManager));
 
         $this->event->expects($this->exactly($expectedCalls))

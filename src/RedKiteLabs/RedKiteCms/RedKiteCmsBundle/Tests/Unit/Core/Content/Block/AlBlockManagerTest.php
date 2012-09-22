@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
@@ -63,16 +63,13 @@ class AlBlockManagerUnitTester extends AlBlockManager
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerTest extends TestCase
+class AlBlockManagerTest extends AlContentManagerBase
 {
-    private $dispatcher;
     private $blockManager;
 
     protected function setUp()
     {
         parent::setUp();
-
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -87,7 +84,7 @@ class AlBlockManagerTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $this->blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $this->blockManager->setDefaultValue(array("HtmlContent" => "Test value"));
     }
 
@@ -96,9 +93,9 @@ class AlBlockManagerTest extends TestCase
         $factoryRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->assertEquals($this->blockManager, $this->blockManager->setFactoryRepository($factoryRepository));
-        $this->assertEquals($factoryRepository, $this->blockManager->getFactoryRepository());
-        $this->assertNotSame($this->dispatcher, $this->blockManager->getFactoryRepository());
+        $this->assertSame($this->blockManager, $this->blockManager->setFactoryRepository($factoryRepository));
+        $this->assertSame($factoryRepository, $this->blockManager->getFactoryRepository());
+        $this->assertNotSame($this->factoryRepository, $this->blockManager->getFactoryRepository());
     }
 
     public function testGetBlockRepository()
@@ -149,7 +146,7 @@ class AlBlockManagerTest extends TestCase
         $block->expects($this->once())
             ->method('getHtmlContent')
             ->will($this->returnValue($htmlContent));
-        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->setHideInEditMode(true);
         $blockManager->set($block);
 
@@ -169,7 +166,7 @@ class AlBlockManagerTest extends TestCase
         $block->expects($this->once())
             ->method('getInternalJavascript')
             ->will($this->returnValue('a great javascript'));
-        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->set($block);
 
         $extraJavascript = '<script type="text/javascript">$(document).ready(function(){try {' . PHP_EOL;
@@ -193,7 +190,7 @@ class AlBlockManagerTest extends TestCase
         $block->expects($this->once())
             ->method('getInternalJavascript')
             ->will($this->returnValue('a great javascript'));
-        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->set($block);
         $blockManager->setExecuteInternalJavascript(false);
 
@@ -207,7 +204,7 @@ class AlBlockManagerTest extends TestCase
         $block->expects($this->once())
             ->method('getInternalJavascript')
             ->will($this->returnValue('a great javascript'));
-        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->set($block);
         $expectedJavascript = 'try {' . PHP_EOL;
         $expectedJavascript .= 'a great javascript' . PHP_EOL;
@@ -224,7 +221,7 @@ class AlBlockManagerTest extends TestCase
         $block->expects($this->once())
             ->method('getInternalJavascript')
             ->will($this->returnValue('a great javascript'));
-        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('a great javascript', $blockManager->getInternalJavascript(false));
     }
@@ -257,8 +254,8 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -273,10 +270,10 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event);
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
@@ -292,8 +289,8 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenOneExpectedParamIsMissing()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
@@ -312,11 +309,10 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueDoesNotReturnAnArray()
     {
-        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event);
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
-
+        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
@@ -330,11 +326,11 @@ class AlBlockManagerTest extends TestCase
      */
     public function testAddFailsWhenTheDefaultValueHasAnyOfTheRequiredOptions()
     {
-        $blockManager = new AlBlockManagerUnitTester($this->dispatcher, $this->factoryRepository, $this->validator);
-        $blockManager->setDefaultValue(array("Fake" => "Test value"));
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event);
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
+        $blockManager->setDefaultValue(array("Fake" => "Test value"));
 
         $this->validator->expects($this->once())
             ->method('checkOnceValidParamExists')
@@ -358,10 +354,10 @@ class AlBlockManagerTest extends TestCase
                         "SlotName" => 'test',
                         "ClassName" => "Text");
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event);
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -389,10 +385,10 @@ class AlBlockManagerTest extends TestCase
                         "SlotName" => 'test',
                         "ClassName" => "Text");
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event);
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -421,10 +417,10 @@ class AlBlockManagerTest extends TestCase
                         "SlotName" => 'test',
                         "ClassName" => "Text");
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event, 2);
 
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -456,8 +452,8 @@ class AlBlockManagerTest extends TestCase
                         "SlotName" => 'test',
                         "ClassName" => "Text");
 
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -486,6 +482,96 @@ class AlBlockManagerTest extends TestCase
     }
 
     /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The current block adding action has been aborted
+     */
+    public function testAddActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $params = array("PageId" => 2,
+                        "LanguageId" => 2,
+                        "SlotName" => 'test',
+                        "ClassName" => "Text");
+
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+
+        $this->blockRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->blockRepository->expects($this->never())
+            ->method('commit');
+
+        $this->blockRepository->expects($this->never())
+            ->method('rollBack');
+
+        $this->blockRepository->expects($this->never())
+            ->method('save');
+
+        $this->blockRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->blockManager->set($block);
+        $result = $this->blockManager->save($params);
+        $this->assertEquals(false, $result);
+    }
+
+    public function testAddParametersHaveBeenChangedByAnEvent()
+    {
+        $changedParams = array(
+            "PageId" => 2,
+            "LanguageId" => 2,
+            "SlotName" => 'test',
+            "ClassName" => "Text",
+            "HtmlContent" => "My new content"
+        );
+
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
+        $event->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+
+        $this->setUpEventsHandler($event, 2);
+
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+
+        $this->blockRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->blockRepository->expects($this->once())
+            ->method('commit');
+
+        $this->blockRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->blockRepository->expects($this->once())
+            ->method('save')
+            ->with($changedParams)
+            ->will($this->returnValue(true));
+
+        $this->blockRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->with($block)
+                ->will($this->returnSelf());
+
+        $params = array(
+            "PageId" => 2,
+            "LanguageId" => 2,
+            "SlotName" => 'test',
+            "ClassName" => "Text",
+            "HtmlContent" => "My content"
+        );
+
+        $this->blockManager->set($block);
+        $result = $this->blockManager->save($params);
+        $this->assertEquals(true, $result);
+    }
+
+    /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      */
     public function testEditFailsWhenAnyParamIsGiven()
@@ -495,8 +581,8 @@ class AlBlockManagerTest extends TestCase
                 ->method('getId')
                 ->will($this->returnValue(2));
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -517,8 +603,8 @@ class AlBlockManagerTest extends TestCase
                 ->method('getId')
                 ->will($this->returnValue(2));
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -554,8 +640,8 @@ class AlBlockManagerTest extends TestCase
 
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -603,8 +689,8 @@ class AlBlockManagerTest extends TestCase
                 ->method('getExternalStylesheet')
                 ->will($this->returnValue('changed external stylesheet content'));
 
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -640,11 +726,96 @@ class AlBlockManagerTest extends TestCase
     }
 
     /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The content editing action has been aborted
+     */
+    public function testEditActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
+
+        $this->blockRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->blockRepository->expects($this->never())
+            ->method('commit');
+
+        $this->blockRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->blockRepository->expects($this->never())
+                ->method('save');
+
+        $this->blockRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $params = array('HtmlContent' => 'changed html content',
+            );
+        $this->blockManager->set($block);
+        $this->blockManager->save($params);
+    }
+
+    public function testEditParametersHaveBeenChangedByAnEvent()
+    {
+        $changedParams = array(
+            "HtmlContent" => "My new content"
+        );
+
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
+        $event->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+        $this->setUpEventsHandler($event, 2);
+
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
+
+        $block->expects($this->once())
+                ->method('getHtmlContent')
+                ->will($this->returnValue('My new content'));
+
+        $this->blockRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->blockRepository->expects($this->once())
+            ->method('commit');
+
+        $this->blockRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->blockRepository->expects($this->once())
+                ->method('save')
+                ->with($changedParams)
+                ->will($this->returnValue(true));
+
+         $this->blockRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->with($block);
+
+        $params = array('HtmlContent' => 'changed html content',
+            );
+        $this->blockManager->set($block);
+        $result = $this->blockManager->save($params);
+        $this->assertEquals(true, $result);
+        $this->assertEquals('My new content', $this->blockManager->get()->getHtmlContent());
+    }
+
+    /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
      */
     public function testDeleteBlockFailsWhenAnyBlockIsSet()
     {
-        $this->dispatcher->expects($this->never())
+        $this->eventsHandler->expects($this->never())
             ->method('dispatch');
 
         $this->blockManager->set(null);
@@ -658,8 +829,8 @@ class AlBlockManagerTest extends TestCase
                 ->method('getId')
                 ->will($this->returnValue(2));
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -693,8 +864,8 @@ class AlBlockManagerTest extends TestCase
 
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -726,8 +897,8 @@ class AlBlockManagerTest extends TestCase
                 ->method('getToDelete')
                 ->will($this->returnValue(1));
 
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
                 ->method('setRepositoryObject')
@@ -742,6 +913,33 @@ class AlBlockManagerTest extends TestCase
         $result = $this->blockManager->delete();
         $this->assertEquals(true, $result);
         $this->assertEquals(1, $this->blockManager->get()->getToDelete());
+    }
+
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The content deleting action has been aborted
+     */
+    public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->any())
+                ->method('getId')
+                ->will($this->returnValue(2));
+
+        $this->blockRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->blockRepository->expects($this->never())
+                ->method('delete');
+
+        $this->blockManager->set($block);
+        $this->blockManager->delete();
     }
 
     public function testToArrayReturnsAnEmptyArrayWhenAnyBlockHasBeenSet()
@@ -779,17 +977,5 @@ class AlBlockManagerTest extends TestCase
         $this->assertTrue(array_key_exists('Block', $array));
 
         $this->assertEquals('my fancy content', $array['HtmlContent']);
-    }
-
-    private function setRepositoryObjectMethods($block)
-    {
-        $this->blockRepository->expects($this->any())
-            ->method('setRepositoryObject')
-            ->with($block)
-            ->will($this->returnSelf());
-
-        $this->blockRepository->expects($this->any())
-            ->method('getModelObject')
-            ->will($this->returnValue($block));
     }
 }

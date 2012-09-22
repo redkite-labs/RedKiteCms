@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\PageEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
@@ -51,14 +51,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface       $dispatcher
+     * @param AlEventsHandlerInterface       $eventsHandler
      * @param AlTemplateManager              $templateManager
      * @param PageRepositoryInterface        $pageRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $validator);
+        parent::__construct($eventsHandler, $validator);
 
         $this->templateManager = $templateManager;
         $this->factoryRepository = $factoryRepository;
@@ -156,35 +156,33 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     {
         if (null !== $this->alPage) {
             if (0 === $this->alPage->getIsHome()) {
+
+                $this->dispatchBeforeOperationEvent(
+                        '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent',
+                        PageEvents::BEFORE_DELETE_PAGE,
+                        array(),
+                        "The page deleting action has been aborted"
+                );
+
                 try {
-                    if (null !== $this->dispatcher) {
-                        $event = new  Content\Page\BeforePageDeletingEvent($this);
-                        $this->dispatcher->dispatch(PageEvents::BEFORE_DELETE_PAGE, $event);
-
-                        if ($event->isAborted()) {
-                            throw new \RuntimeException($this->translate("The page deleting action has been aborted", array(), 'alpha_lemon_cms.page_manager_exceptions'));
-                        }
-                    }
-
                     $this->pageRepository->startTransaction();
                     $this->pageRepository->setRepositoryObject($this->alPage);
                     $result = $this->pageRepository->delete();
                     if ($result) {
-                        if (null !== $this->dispatcher) {
-                            $event = new  Content\Page\BeforeDeletePageCommitEvent($this);
-                            $this->dispatcher->dispatch(PageEvents::BEFORE_DELETE_PAGE_COMMIT, $event);
-
-                            $result = ($event->isAborted()) ? false : true;
-                        }
+                        $eventName = PageEvents::BEFORE_DELETE_PAGE_COMMIT;
+                        $result = !$this->eventsHandler
+                                        ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent', array($this, array()))
+                                        ->dispatch()
+                                        ->getEvent($eventName)
+                                        ->isAborted();
                     }
 
                     if ($result) {
                         $this->pageRepository->commit();
 
-                        if (null !== $this->dispatcher) {
-                            $event = new  Content\Page\AfterPageDeletedEvent($this);
-                            $this->dispatcher->dispatch(PageEvents::AFTER_DELETE_PAGE, $event);
-                        }
+                        $this->eventsHandler
+                             ->createEvent(PageEvents::AFTER_DELETE_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageDeletedEvent', array($this))
+                             ->dispatch();
                     } else {
                         $this->pageRepository->rollBack();
                     }
@@ -246,20 +244,15 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      */
     protected function add(array $values)
     {
+        $values =
+            $this->dispatchBeforeOperationEvent(
+                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent',
+                    PageEvents::BEFORE_ADD_PAGE,
+                    $values,
+                    "The page adding action has been aborted"
+            );
+
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Page\BeforePageAddingEvent($this, $values);
-                $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE, $event);
-
-                if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translate("The page adding action has been aborted", array(), 'alpha_lemon_cms.page_manager_exceptions'));
-                }
-
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
-            }
-
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('PageName' => '', 'TemplateName' => ''), $values);
 
@@ -294,28 +287,27 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
             if (false !== $result) {
                 $values['PageName'] = $this->slugify($values['PageName']);
-
+                
                 // Saves the page
                 $result = $this->pageRepository
-                            ->setRepositoryObject($this->alPage)
-                            ->save($values);
+                               ->setRepositoryObject($this->alPage)
+                               ->save($values);
                 if (false !== $result) {
-                    if (null !== $this->dispatcher) {
-                        $event = new  Content\Page\BeforeAddPageCommitEvent($this, $values);
-                        $this->dispatcher->dispatch(PageEvents::BEFORE_ADD_PAGE_COMMIT, $event);
-
-                        $result = ($event->isAborted()) ? false : true;
-                    }
+                    $eventName = PageEvents::BEFORE_ADD_PAGE_COMMIT;
+                    $result = !$this->eventsHandler
+                                    ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent', array($this, $values))
+                                    ->dispatch()
+                                    ->getEvent($eventName)
+                                    ->isAborted();
                 }
             }
 
             if (false !== $result) {
                 $this->pageRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Page\AfterPageAddedEvent($this);
-                    $this->dispatcher->dispatch(PageEvents::AFTER_ADD_PAGE, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(PageEvents::AFTER_ADD_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageAddedEvent', array($this))
+                     ->dispatch();
             } else {
                 $this->pageRepository->rollBack();
             }
@@ -339,20 +331,15 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      */
     protected function edit(array $values)
     {
+        $values =
+            $this->dispatchBeforeOperationEvent(
+                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent',
+                    PageEvents::BEFORE_EDIT_PAGE,
+                    $values,
+                    "The page editing action has been aborted"
+            );
+
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Page\BeforePageEditingEvent($this, $values);
-                $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE, $event);
-
-                if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The page editing action has been aborted", array(), 'alpha_lemon_cms.page_manager_exceptions'));
-                }
-
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
-            }
-
             $this->validator->checkEmptyParams($values);
             $this->pageRepository->startTransaction();
 
@@ -386,21 +373,22 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                                 ->save($values);
                 }
 
-                if (false !== $result && null !== $this->dispatcher) {
-                    $event = new  Content\Page\BeforeEditPageCommitEvent($this, $values);
-                    $this->dispatcher->dispatch(PageEvents::BEFORE_EDIT_PAGE_COMMIT, $event);
-
-                    $result = ($event->isAborted()) ? false : true;
+                if (false !== $result) {
+                    $eventName = PageEvents::BEFORE_EDIT_PAGE_COMMIT;
+                    $result = !$this->eventsHandler
+                                        ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent', array($this, $values))
+                                        ->dispatch()
+                                        ->getEvent($eventName)
+                                        ->isAborted();
                 }
             }
 
             if (false !== $result) {
                 $this->pageRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Page\AfterPageEditedEvent($this);
-                    $this->dispatcher->dispatch(PageEvents::AFTER_EDIT_PAGE, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(PageEvents::AFTER_EDIT_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageEditedEvent', array($this))
+                     ->dispatch();
             } else {
                 $this->pageRepository->rollBack();
             }
@@ -426,11 +414,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
         try {
             $page = $this->pageRepository->homePage();
             if (null !== $page) {
-                $result = $this->pageRepository
+                return $this->pageRepository
                             ->setRepositoryObject($page)
                             ->save(array('IsHome' => 0));
-
-                return $result;
             }
 
             return true;

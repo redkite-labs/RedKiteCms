@@ -75,5 +75,6 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         $this->assertEquals('page-1', $pageTree->getAlPage()->getPageName());
         
         $this->assertNull($pageTreeCollection->at(4));
+        $this->assertEquals(0, $pageTreeCollection->key(0));
     }
 }

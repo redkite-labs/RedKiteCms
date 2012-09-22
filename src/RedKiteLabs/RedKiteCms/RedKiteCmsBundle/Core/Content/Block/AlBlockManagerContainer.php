@@ -32,9 +32,9 @@ abstract class AlBlockManagerContainer extends AlBlockManager
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         $this->container = $container;
-        $dispatcher = $container->get('event_dispatcher');
+        $eventsHandler = $container->get('alpha_lemon_cms.events_handler');
         $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
 
-        parent::__construct($dispatcher, $factoryRepository, $validator);
+        parent::__construct($eventsHandler, $factoryRepository, $validator);
     }
 }

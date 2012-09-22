@@ -34,7 +34,7 @@ abstract class BaseActionEvent extends Event
      *
      * @param AlContentManagerInterface $alBlockManager
      */
-    public function __construct(AlContentManagerInterface $alBlockManager)
+    public function __construct(AlContentManagerInterface $alBlockManager = null)
     {
         $this->alManager = $alBlockManager;
     }
@@ -47,5 +47,15 @@ abstract class BaseActionEvent extends Event
     public function getContentManager()
     {
         return $this->alManager;
+    }
+    
+    /**
+     * Returns the current AlBlockManager object
+     *
+     * @return AlBlockManager
+     */
+    public function setContentManager(AlContentManagerInterface $value)
+    {
+        $this->alManager = $value;
     }
 }
