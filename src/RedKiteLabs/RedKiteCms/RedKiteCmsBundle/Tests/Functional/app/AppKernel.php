@@ -39,13 +39,13 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $configFolder = __DIR__ . '/config/bundles/config';
+        $configFolder = __DIR__ . '/config/bundles/config/' . $this->getEnvironment();
         $finder = new \Symfony\Component\Finder\Finder();
         $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
         foreach ($configFiles as $config) {
             $loader->load((string) $config);
         };
-
+        
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 
