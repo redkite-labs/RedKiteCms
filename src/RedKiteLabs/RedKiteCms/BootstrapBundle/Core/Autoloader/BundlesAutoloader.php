@@ -251,7 +251,7 @@ class BundlesAutoloader
             $sourceFolder = $sourceFolder . '/Resources/config';
             $filename = $bundleName . '.yml';
             $this->copyConfigurationFile('config', $filename, $sourceFolder, $this->configPath);
-            $this->copyConfigurationFile('routing', $filename, $sourceFolder, $this->routingPath);
+            $this->copy($sourceFolder . '/routing.yml', $this->routingPath . '/' . $filename);
         }
     }
 
