@@ -37,7 +37,7 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
         }
 
         try {
-            $alBlockManager = $event->getAlBlockManager();
+            $alBlockManager = $event->getBlockManager();
             if ($alBlockManager instanceof $params['blockClass']) {
                 $container = $event->getContainer();
                 $block = $alBlockManager->get();

@@ -28,7 +28,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  */
 class AlPageBlocksTest extends TestCase
 {
-    private $dispatcher;
     private $blockRepository;
     private $pageContentsContainer;
 
@@ -36,7 +35,6 @@ class AlPageBlocksTest extends TestCase
     {
         parent::setUp();
 
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
@@ -46,7 +44,7 @@ class AlPageBlocksTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->pageContentsContainer = new AlPageBlocks($this->dispatcher, $this->factoryRepository);
+        $this->pageContentsContainer = new AlPageBlocks($this->factoryRepository);
     }
 
     /**

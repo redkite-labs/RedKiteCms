@@ -17,7 +17,7 @@
 
     <services>
         <service id="app_script.block" class="%app_script.block.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <tag name="alphalemon_cms.blocks_factory.block" description="Script block" type="Script" group="alphalemon_internals" />
         </service>
     </services>

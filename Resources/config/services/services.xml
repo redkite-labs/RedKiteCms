@@ -24,12 +24,17 @@
         <parameter key="alpha_lemon_cms.url_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager</parameter>
         <parameter key="alpha_lemon_cms.commands_processor.class">AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor</parameter>
         <parameter key="alpha_lemon_cms.images_thumbnailer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
+        <parameter key="alpha_lemon_cms.events_handler.class">AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler</parameter>
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
     </parameters>
 
     <services>
+        <service id="alpha_lemon_cms.events_handler" class="%alpha_lemon_cms.events_handler.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        
         <service id="alpha_lemon_cms.factory_repository" class="%alpha_lemon_cms.factory_repository.class%">
             <argument type="string">%alpha_lemon_cms.orm%</argument>
         </service>
@@ -58,12 +63,11 @@
         </service>
 
         <service id="alpha_lemon_cms.page_blocks" class="%alpha_lemon_cms.page_blocks.class%">
-            <argument type="service" id="event_dispatcher" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
         <service id="alpha_lemon_cms.template_manager" class="%alpha_lemon_cms.template_manager.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
             <argument>null</argument>
             <argument type="service" id="alpha_lemon_cms.page_blocks" />
@@ -76,7 +80,7 @@
         </service>
 
         <service id="alpha_lemon_cms.block_manager" class="%alpha_lemon_cms.block_manager_service.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
             <argument type="service" id="alpha_lemon_cms.parameters_validator" />
         </service>
@@ -88,20 +92,20 @@
         </service>
 
         <service id="alpha_lemon_cms.page_manager" class="%alpha_lemon_cms.page_manager.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <argument type="service" id="alpha_lemon_cms.template_manager" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
             <argument type="service" id="alpha_lemon_cms.page_manager_parameters_validator" />
         </service>
 
         <service id="alpha_lemon_cms.seo_manager" class="%alpha_lemon_cms.seo_manager.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
             <argument type="service" id="alpha_lemon_cms.parameters_validator" />
         </service>
 
         <service id="alpha_lemon_cms.language_manager" class="%alpha_lemon_cms.language_manager.class%">
-            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
             <argument type="service" id="alpha_lemon_cms.language_manager_parameters_validator" />
         </service>

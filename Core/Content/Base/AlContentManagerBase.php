@@ -17,11 +17,12 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException;
 
 /**
  * The base class that defines a content manager object
@@ -42,30 +43,30 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 abstract class AlContentManagerBase extends AlTranslator
 {
-    protected $dispatcher;
+    protected $eventsHandler;
     protected $validator;
 
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface       $dispatcher
+     * @param AlEventsHandlerInterface       $dispatcher
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlParametersValidatorInterface $validator = null)
     {
-        $this->dispatcher = $dispatcher;
+        $this->eventsHandler = $eventsHandler;
         $this->validator = (null === $validator) ? new AlParametersValidator() : $validator;
     }
 
     /**
      * Sets the event dispatcher object
      *
-     * @param  EventDispatcherInterface                                               $dispatcher
+     * @param  EventDispatcherInterface $eventsHandler
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase (for fluent API)
      */
-    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    public function setEventsHandler(AlEventsHandlerInterface $eventsHandler)
     {
-        $this->dispatcher = $dispatcher;
+        $this->eventsHandler = $eventsHandler;
 
         return $this;
     }
@@ -104,9 +105,9 @@ abstract class AlContentManagerBase extends AlTranslator
      *
      * @return EventDispatcherInterface
      */
-    public function getDispatcher()
+    public function getEventsHandler()
     {
-        return $this->dispatcher;
+        return $this->eventsHandler;
     }
 
     /**
@@ -118,5 +119,35 @@ abstract class AlContentManagerBase extends AlTranslator
     public function getValidator()
     {
         return $this->validator;
+    }
+
+    /**
+     * Dispatches a BeforeAction* event type
+     *
+     * @param string $eventClass
+     * @param string $eventName
+     * @param array $values
+     * @param string $exceptionMessage
+     * @return array
+     * @throws EventAbortedException
+     */
+    protected function dispatchBeforeOperationEvent($eventClass, $eventName, array $values, $exceptionMessage)
+    {
+        $event = $this->eventsHandler->createEvent($eventName, $eventClass, array($this, $values))
+                                     ->dispatch()
+                                     ->getEvent($eventName);
+
+        if ($event->isAborted()) {
+            throw new EventAbortedException($this->translate($exceptionMessage, array(), 'al_content_manager_exceptions'));
+        }
+
+        if (empty($values)) return $values;
+
+        $changedValues = $event->getValues();
+        if (null !== $changedValues) { //
+            $values = $changedValues;
+        }
+
+        return $values;
     }
 }

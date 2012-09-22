@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\LanguageEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
@@ -46,13 +46,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface             $dispatcher
+     * @param AlEventsHandlerInterface             $eventsHandler
      * @param AlFactoryRepositoryInterface         $factoryRepository
      * @param AlParametersValidatorLanguageManager $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorLanguageManager $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorLanguageManager $validator = null)
     {
-        parent::__construct($dispatcher, $validator);
+        parent::__construct($eventsHandler, $validator);
 
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
@@ -129,37 +129,34 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             throw new Language\RemoveMainLanguageException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'alpha_lemon_cms.language_manager_exceptions'));
         }
 
+        $this->dispatchBeforeOperationEvent(
+                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent',
+                LanguageEvents::BEFORE_DELETE_LANGUAGE,
+                array(),
+                "The language deleting action has been aborted"
+        );
+
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Language\BeforeLanguageDeletingEvent($this);
-                $this->dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE, $event);
-
-                if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The language deleting action has been aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
-                }
-            }
-
             $this->languageRepository->startTransaction();
             $result = $this->languageRepository
                             ->setRepositoryObject($this->alLanguage)
                             ->delete();
 
             if ($result) {
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Language\BeforeDeleteLanguageCommitEvent($this);
-                    $this->dispatcher->dispatch(LanguageEvents::BEFORE_DELETE_LANGUAGE_COMMIT, $event);
-
-                    $result = ($event->isAborted()) ? false : true;
-                }
+                $eventName = LanguageEvents::BEFORE_DELETE_LANGUAGE_COMMIT;
+                $result = !$this->eventsHandler
+                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent', array($this, array()))
+                                ->dispatch()
+                                ->getEvent($eventName)
+                                ->isAborted();
             }
 
             if ($result) {
                 $this->languageRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Language\AfterLanguageDeletedEvent($this);
-                    $this->dispatcher->dispatch(LanguageEvents::AFTER_DELETE_LANGUAGE, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(LanguageEvents::AFTER_DELETE_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageDeletedEvent', array($this))
+                     ->dispatch();
             } else {
                 $this->languageRepository->rollBack();
             }
@@ -185,20 +182,15 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     protected function add(array $values)
     {
+        $values =
+                $this->dispatchBeforeOperationEvent(
+                        '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent',
+                        LanguageEvents::BEFORE_ADD_LANGUAGE,
+                        $values,
+                        "The language adding action has been aborted"
+                );
+
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Language\BeforeLanguageAddingEvent($this, $values);
-                $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE, $event);
-
-                if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The language adding action has been aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
-                }
-
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
-            }
-
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('Language' => ''), $values);
             if ($this->validator->languageExists($values["Language"])) {
@@ -226,25 +218,22 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $result = $this->languageRepository
                             ->setRepositoryObject($this->alLanguage)
                             ->save($values);
-                if ($result) {
-                    if (null !== $this->dispatcher) {
-                        $event = new Content\Language\BeforeAddLanguageCommitEvent($this, $values);
-                        $this->dispatcher->dispatch(LanguageEvents::BEFORE_ADD_LANGUAGE_COMMIT, $event);
-
-                        if ($event->isAborted()) {
-                            $result = false;
-                        }
-                    }
+                if (false !== $result) {
+                    $eventName = LanguageEvents::BEFORE_ADD_LANGUAGE_COMMIT;
+                    $result = !$this->eventsHandler
+                                    ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent', array($this, $values))
+                                    ->dispatch()
+                                    ->getEvent($eventName)
+                                    ->isAborted();
                 }
             }
 
             if ($result) {
                 $this->languageRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Language\AfterLanguageAddedEvent($this);
-                    $this->dispatcher->dispatch(LanguageEvents::AFTER_ADD_LANGUAGE, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(LanguageEvents::AFTER_ADD_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageAddedEvent', array($this))
+                     ->dispatch();
             } else {
                 $this->languageRepository->rollBack();
             }
@@ -269,20 +258,15 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     protected function edit(array $values)
     {
+        $values =
+            $this->dispatchBeforeOperationEvent(
+                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent',
+                    LanguageEvents::BEFORE_EDIT_LANGUAGE,
+                    $values,
+                    "The language editing action has been aborted"
+            );
+        
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Language\BeforeLanguageEditingEvent($this, $values);
-                $this->dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE, $event);
-
-                if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The language editing action has been aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
-                }
-
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
-            }
-
             $this->validator->checkEmptyParams($values);
             $this->validator->checkOnceValidParamExists(array('Language' => '', 'MainLanguage' => ''), $values);
 
@@ -311,23 +295,22 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                     $result = false;
                 }
 
-                if ($result && null !== $this->dispatcher) {
-                    $event = new  Content\Language\BeforeEditLanguageCommitEvent($this, $values);
-                    $this->dispatcher->dispatch(LanguageEvents::BEFORE_EDIT_LANGUAGE_COMMIT, $event);
-
-                    if ($event->isAborted()) {
-                        $result = false;
-                    }
+                if ($result) {
+                    $eventName = LanguageEvents::BEFORE_EDIT_LANGUAGE_COMMIT;
+                    $result = !$this->eventsHandler
+                                    ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent', array($this, $values))
+                                    ->dispatch()
+                                    ->getEvent($eventName)
+                                    ->isAborted();
                 }
             }
 
             if ($result) {
                 $this->languageRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Language\AfterLanguageEditedEvent($this);
-                    $this->dispatcher->dispatch(LanguageEvents::AFTER_EDIT_LANGUAGE, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(LanguageEvents::AFTER_EDIT_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageEditedEvent', array($this))
+                     ->dispatch();
             } else {
                 $this->languageRepository->rollBack();
             }

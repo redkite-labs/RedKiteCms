@@ -17,16 +17,15 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 
 /**
  * AlBlockManagerContainerBase instantiates a test for a block manager that injects the Contaione
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerContainerBase extends TestCase
+class AlBlockManagerContainerBase extends AlContentManagerBase
 {
-    protected $dispatcher;
     protected $kernel;
     protected $validator;
     protected $blockRepository;
@@ -38,7 +37,6 @@ class AlBlockManagerContainerBase extends TestCase
         parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -60,6 +58,33 @@ class AlBlockManagerContainerBase extends TestCase
     {
         $this->container->expects($this->exactly(2))
                         ->method('get')
-                        ->will($this->onConsecutiveCalls($this->dispatcher,$this->factoryRepository));
+                        ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository));
+    }
+
+    protected function doSave($block, array $params)
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event, 2);
+
+        $this->blockRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->blockRepository->expects($this->once())
+            ->method('commit');
+
+        $this->blockRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->blockRepository->expects($this->once())
+                ->method('save')
+                ->will($this->returnValue(true));
+
+         $this->blockRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->with($block);
+
+        $result = $this->blockManager->set($block)
+                                     ->save($params);
+        $this->assertEquals(true, $result);
     }
 }

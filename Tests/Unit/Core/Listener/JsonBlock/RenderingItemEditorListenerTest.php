@@ -84,7 +84,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         $this->testListener->setConfigureParams(array('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The block class "Fake" defined in "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" does not exists
@@ -100,7 +100,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The array returned by the "configure" method of the class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" method must contain the "formClass" option
      */
-    public function testAnExceptionIsThrownWhenTheFormClassOptionDoesNotExist()
+    public function testAnExceptionIsThrownWhenTheFormClassOptionHasNOtBeenDefined()
     {
         $this->setUpEvents(0);
         $this->testListener->setConfigureParams(array('blockClass' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager'));
@@ -111,7 +111,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The form class "Fake" defined in "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingItemEditorListener" does not exists
      */
-    public function testAnExceptionIsThrownWhenTheFormClassOptionDoesNotExist1()
+    public function testAnExceptionIsThrownWhenTheFormClassOptionDoesNotExist()
     {
         $this->setUpEvents(0);
         $this->testListener->setConfigureParams(
@@ -122,7 +122,7 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
         );
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Something goes wrong retrieving the block manager
@@ -130,9 +130,9 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
     public function testAnExceptionIsThrownBackWhenSomethingGoesWrong()
     {
         $this->event->expects($this->once())
-            ->method('getAlBlockManager')
+            ->method('getBlockManager')
             ->will($this->throwException(new \RuntimeException('Something goes wrong retrieving the block manager')));
-        
+
         $this->testListener->setConfigureParams(
             array(
                 'blockClass' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager',

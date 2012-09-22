@@ -30,7 +30,7 @@ abstract class BaseBeforeActionEvent extends BaseActionEvent
     protected $values;
     protected $abort = false;
 
-    public function __construct(AlContentManagerBase $contentManager, array $values = null)
+    public function __construct(AlContentManagerBase $contentManager = null, array $values = null)
     {
         parent::__construct($contentManager);
 
@@ -42,9 +42,9 @@ abstract class BaseBeforeActionEvent extends BaseActionEvent
         return $this->values;
     }
 
-    public function setValues($v)
+    public function setValues(array $v)
     {
-        if($this->values != null) $this->values = $v;
+        $this->values = $v;
     }
 
     /**

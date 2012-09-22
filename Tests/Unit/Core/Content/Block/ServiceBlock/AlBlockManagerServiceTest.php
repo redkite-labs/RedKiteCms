@@ -29,10 +29,10 @@ class AlBlockManagerServiceBlockTest extends TestCase
 {
     public function testServiceBlockDefaultValueReturnsNull()
     {
-        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
         $factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
 
-        $blockManager = new AlBlockManagerService($dispatcher, $factoryRepository);
+        $blockManager = new AlBlockManagerService($eventsHandler, $factoryRepository);
         $this->assertNull($blockManager->getDefaultValue());
     }
 }

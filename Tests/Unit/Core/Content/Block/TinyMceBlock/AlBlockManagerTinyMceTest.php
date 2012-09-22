@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\TinyMceBlock\AlBlockManagerTinyMce;
 
 /**
@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\TinyMceBlock\AlBlockManage
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerTinyMceTest extends TestCase
+class AlBlockManagerTinyMceTest extends AlContentManagerBase
 {
     private $dispatcher;
     private $blockManager;
@@ -51,7 +51,7 @@ class AlBlockManagerTinyMceTest extends TestCase
 
         $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
 
-        $this->blockManager = new AlBlockManagerTinyMceTester($this->dispatcher, $this->urlManager, $this->factoryRepository, $this->validator);
+        $this->blockManager = new AlBlockManagerTinyMceTester($this->eventsHandler, $this->urlManager, $this->factoryRepository, $this->validator);
     }
 
     public function testUrlManagerIsNotCalledWhenHtmlContentKeyDeosNotExist()
@@ -65,8 +65,8 @@ class AlBlockManagerTinyMceTest extends TestCase
                 ->method('getExternalJavascript')
                 ->will($this->returnValue('changed external javascript content'));
 
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -108,8 +108,8 @@ class AlBlockManagerTinyMceTest extends TestCase
                 ->method('getHtmlContent')
                 ->will($this->returnValue('saved html content <a href="http://example.com">page</a>'));
 
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -155,8 +155,8 @@ class AlBlockManagerTinyMceTest extends TestCase
                 ->method('getHtmlContent')
                 ->will($this->returnValue('saved html content <a href="/alcms.php/backend/my-awesome-permalink">page</a>'));
 
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');

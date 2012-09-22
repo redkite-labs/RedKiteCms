@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Seo;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
@@ -26,17 +26,13 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlSeoManagerTest extends TestCase
+class AlSeoManagerTest extends AlContentManagerBase
 {
-    private $dispatcher;
     private $seoManager;
-    private $templateManager;
 
     protected function setUp()
     {
         parent::setUp();
-
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -55,7 +51,7 @@ class AlSeoManagerTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->seoRepository));
 
-        $this->seoManager = new AlSeoManager($this->dispatcher, $this->factoryRepository, $this->validator);
+        $this->seoManager = new AlSeoManager($this->eventsHandler, $this->factoryRepository, $this->validator);
     }
 
     public function testSeoRepositoryInjectedBySetters()
@@ -93,8 +89,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddIsSkippedWhenAnyParameterIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -106,8 +102,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddIsSkippedWhenAnyExpectedParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
@@ -120,8 +116,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddIsSkippedWhenExpectedPageNameParamIsMissing()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $params = array('LanguageId' => '',
                         'Permalink' => '');
@@ -131,8 +127,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddIsSkippedWhenExpectedLanguageIdParamIsMissing()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $params = array('PageId' => '',
                         'Permalink' => '');
@@ -142,8 +138,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddIsSkippedWhenExpectedPermalinkParamIsMissing()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $params = array('PageId' => '',
                         'LanguageId' => '');
@@ -153,8 +149,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddIsSkippedWhenExpectedLanguageIdParamIsEmpty()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $params = array('PageId'      => '2',
                         'LanguageId'  => '',
@@ -168,8 +164,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddIsSkippedWhenExpectedPermalinkParamIsEmpty()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $params = array('PageId'      => '2',
                         'LanguageId'  => '2',
@@ -186,8 +182,8 @@ class AlSeoManagerTest extends TestCase
      */
     public function testAddThrownAnUnespectedException()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
@@ -214,8 +210,8 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddNewSeoFailsBecauseSaveFailsAtLast()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
@@ -242,8 +238,12 @@ class AlSeoManagerTest extends TestCase
 
     public function testAddSeo()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeAddSeoCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
@@ -252,6 +252,133 @@ class AlSeoManagerTest extends TestCase
             ->method('commit');
 
         $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->seoRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $params = array('PageId'      => '2',
+                        'LanguageId'  => '2',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => '');
+        $expectedParams = $params;
+        $expectedParams['Permalink'] = 'this-is-a-website-fake-page';
+        $this->seoRepository->expects($this->once())
+                ->method('save')
+                ->with($expectedParams)
+                ->will($this->returnValue(true));
+        
+        $this->assertTrue($this->seoManager->save($params));
+    }
+    
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The seo adding action has been aborted
+     */
+    public function testAddActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $this->seoRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->never())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->seoRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->seoRepository->expects($this->never())
+                ->method('save');
+
+        $params = array('PageId'      => '2',
+                        'LanguageId'  => '2',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => '');
+        $this->seoManager->save($params);
+    }
+
+    public function testAddParametersHaveBeenChangedByAnEvent()
+    {
+        $changedParams = array(
+            'PageId'      => '2',
+            'LanguageId'  => '2',
+            'Permalink'     => 'permalink is changed by event',
+            'Title'         => 'page title',
+            'Description'   => 'page description',
+            'Keywords'      => ''
+        );
+
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event1->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->seoRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->once())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->seoRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $changedParams['Permalink'] = 'permalink-is-changed-by-event';
+        $this->seoRepository->expects($this->once())
+                ->method('save')
+                ->with($changedParams)
+                ->will($this->returnValue(true));
+
+        $params = array('PageId'      => '2',
+                        'LanguageId'  => '2',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => '');
+        $this->assertTrue($this->seoManager->save($params));
+    }
+    
+    public function testAListenerHasAbortedTheAddAction()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->seoRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->never())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->once())
             ->method('rollback');
 
         $this->seoRepository->expects($this->once())
@@ -268,13 +395,13 @@ class AlSeoManagerTest extends TestCase
                         'Title'         => 'page title',
                         'Description'   => 'page description',
                         'Keywords'      => '');
-        $this->assertTrue($this->seoManager->save($params));
+        $this->assertFalse($this->seoManager->save($params));
     }
 
     public function testEditIsSkippedWhenAnyParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -291,8 +418,8 @@ class AlSeoManagerTest extends TestCase
     {
         $seo = $this->setUpSeoObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkOnceValidParamExists')
@@ -313,8 +440,8 @@ class AlSeoManagerTest extends TestCase
     {
         $seo = $this->setUpSeoObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
@@ -344,8 +471,8 @@ class AlSeoManagerTest extends TestCase
     {
         $seo = $this->setUpSeoObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
@@ -373,21 +500,30 @@ class AlSeoManagerTest extends TestCase
 
     public function testEditPermalink()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $seo = $this->setUpSeoObject();
 
         $seo->expects($this->any())
             ->method('getPermalink')
-            ->will($this->onConsecutiveCalls('this-is-a-website-fake-page', 'fake-page-has-been-renamed'));
+            ->will($this->returnValue('saved-permalink'));
 
         $this->seoRepository->expects($this->once())
                 ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
+        $expectedParams = array(
+            'Permalink' => 'fake-page-has-been-renamed',
+            'oldPermalink' => 'saved-permalink',
+        );
         $this->seoRepository->expects($this->once())
             ->method('save')
+            ->with($expectedParams)
             ->will($this->returnValue(true));
 
         $this->seoRepository->expects($this->once())
@@ -403,13 +539,142 @@ class AlSeoManagerTest extends TestCase
         $this->seoManager->set($seo);
         $res = $this->seoManager->save($params);
         $this->assertTrue($res);
-        $this->assertEquals('fake-page-has-been-renamed', $this->seoManager->get()->getPermalink());
+    }
+    
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The seo editing action has been aborted
+     */
+    public function testEditActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $seo = $this->setUpSeoObject();
+
+        $this->seoRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->seoRepository->expects($this->never())
+            ->method('save');
+        
+        $this->seoRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->never())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $params = array('Permalink' => 'fake page has been renamed');
+        $this->seoManager->set($seo);
+        $this->seoManager->save($params);
     }
 
-    public function testWhenAParameterHasTHeSameValueOfTheOneSaveIsremovedFromTheValuesArray()
+    public function testEditParametersHaveBeenChangedByAnEvent()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $changedParams = array(
+            'Permalink' => 'permalink changed by event',
+        );
+
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $event1->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+        $this->setUpEventsHandler(null, 3);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $seo = $this->setUpSeoObject();
+        $seo->expects($this->once())
+            ->method('getPermalink')
+            ->will($this->returnValue('this-is-a-website-fake-page'));
+
+        $this->seoRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $expectedParams = array(
+            'Permalink' => 'permalink-changed-by-event',
+            'oldPermalink' => 'this-is-a-website-fake-page',
+        );
+        $this->seoRepository->expects($this->once())
+            ->method('save')
+            ->with($expectedParams)
+            ->will($this->returnValue(true));
+
+        $this->seoRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->once())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $params = array('Permalink' => 'fake page has been renamed');
+        $this->seoManager->set($seo);
+        $res = $this->seoManager->save($params);
+        $this->assertTrue($res);
+    }
+
+    public function testAListenerHasAbortedTheEditAction()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $seo = $this->setUpSeoObject();
+        $seo->expects($this->once())
+            ->method('getPermalink')
+            ->will($this->returnValue('this-is-a-website-fake-page'));
+
+        $this->seoRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $expectedParams = array(
+            'Permalink' => 'fake-page-has-been-renamed',
+            'oldPermalink' => 'this-is-a-website-fake-page',
+        );
+        $this->seoRepository->expects($this->once())
+            ->method('save')
+            ->with($expectedParams)
+            ->will($this->returnValue(true));
+
+        $this->seoRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->never())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->once())
+            ->method('rollback');
+
+        $params = array('Permalink' => 'fake page has been renamed');
+        $this->seoManager->set($seo);
+        $res = $this->seoManager->save($params);
+        $this->assertFalse($res);
+    }
+
+    public function testWhenAParameterHasTheSameValueOfTheOneSaveIsremovedFromTheValuesArray()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $seo = $this->setUpSeoObject();
         $seo->expects($this->once())
@@ -465,25 +730,33 @@ class AlSeoManagerTest extends TestCase
 
         $seo->expects($this->any())
             ->method('getMetaTitle')
-            ->will($this->onConsecutiveCalls('title', 'new title'));
+            ->will($this->returnValue('title'));
 
         $seo->expects($this->any())
             ->method('getMetaDescription')
-            ->will($this->onConsecutiveCalls('decription', 'new decription'));
+            ->will($this->returnValue('decription'));
 
         $seo->expects($this->any())
             ->method('getMetaKeywords')
-            ->will($this->onConsecutiveCalls('some keywords', 'new keywords'));
+            ->will($this->returnValue('some keywords'));
 
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->seoRepository->expects($this->once())
                 ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
+        $params = array('MetaTitle' => 'new title',
+                        'MetaDescription' => 'new decription',
+                        'MetaKeywords' => 'new some keywords',);        
         $this->seoRepository->expects($this->once())
             ->method('save')
+            ->with($params)
             ->will($this->returnValue(true));
 
         $this->seoRepository->expects($this->once())
@@ -495,15 +768,9 @@ class AlSeoManagerTest extends TestCase
         $this->seoRepository->expects($this->never())
             ->method('rollback');
 
-        $params = array('MetaTitle' => 'new title',
-                        'MetaDescription' => 'new decription',
-                        'MetaKeywords' => 'new some keywords',);
         $this->seoManager->set($seo);
         $res = $this->seoManager->save($params);
         $this->assertTrue($res);
-        $this->assertEquals('new title', $this->seoManager->get()->getMetaTitle());
-        $this->assertEquals('new decription', $this->seoManager->get()->getMetaDescription());
-        $this->assertEquals('new keywords', $this->seoManager->get()->getMetaKeywords());
     }
 
     /**
@@ -511,8 +778,8 @@ class AlSeoManagerTest extends TestCase
      */
     public function testDeleteFailsWhenTheManagedSeoIsNull()
     {
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->eventsHandler->expects($this->never())
+            ->method('createEvent');
 
         $this->seoManager->set(null);
         $this->seoManager->delete();
@@ -525,8 +792,8 @@ class AlSeoManagerTest extends TestCase
     {
         $seo = $this->setUpSeoObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
@@ -550,8 +817,8 @@ class AlSeoManagerTest extends TestCase
     {
         $seo = $this->setUpSeoObject();
 
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
@@ -574,11 +841,14 @@ class AlSeoManagerTest extends TestCase
 
     public function testDelete()
     {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
         $seo = $this->setUpSeoObject();
-
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
-
         $this->seoRepository->expects($this->once())
             ->method('startTransaction');
 
@@ -600,9 +870,76 @@ class AlSeoManagerTest extends TestCase
         $res = $this->seoManager->delete();
         $this->assertTrue($res);
     }
+    
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The seo deleting action has been aborted
+     */
+    public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $seo = $this->setUpSeoObject();
+        $this->seoRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->seoRepository->expects($this->never())
+                ->method('delete');
+
+        $this->seoRepository->expects($this->never())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->seoManager->set($seo);
+        $this->seoManager->delete();
+    }
+
+    public function testAListenerHasAbortedTheDeleteAction()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $seo = $this->setUpSeoObject();
+        $this->seoRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->seoRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $this->seoRepository->expects($this->once())
+                ->method('delete')
+                ->will($this->returnValue(true));
+
+        $this->seoRepository->expects($this->never())
+            ->method('commit');
+
+        $this->seoRepository->expects($this->once())
+            ->method('rollback');
+
+        $this->seoManager->set($seo);
+        $this->assertFalse($this->seoManager->delete());
+    }
 
     public function testDeleteSeoAttributesFromLanguageReturnsTrueWhenSeoHaNotBeenFound()
-    {
+    {        
         $this->seoRepository->expects($this->once())
                 ->method('fromPageAndLanguage')
                 ->will($this->returnValue(null));
@@ -614,6 +951,13 @@ class AlSeoManagerTest extends TestCase
 
     public function testDeleteSeoAttributesFromLanguage()
     {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+        
         $seo = $this->setUpSeoObject();
         $this->seoRepository->expects($this->once())
                 ->method('fromPageAndLanguage')

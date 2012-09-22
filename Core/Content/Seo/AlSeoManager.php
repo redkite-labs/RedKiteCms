@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
@@ -46,13 +46,13 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Constructor
      *
-     * @param EventDispatcherInterface       $dispatcher
+     * @param AlEventsHandlerInterface       $eventsHandler
      * @param SeoRepositoryInterface         $alSeoRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(EventDispatcherInterface $dispatcher, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
-        parent::__construct($dispatcher, $validator);
+        parent::__construct($eventsHandler, $validator);
 
         $this->factoryRepository = $factoryRepository;
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
@@ -122,34 +122,33 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     public function delete()
     {
         if (null !== $this->alSeo) {
+            $this->dispatchBeforeOperationEvent(
+                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent',
+                    SeoEvents::BEFORE_DELETE_SEO,
+                    array(),
+                    "The seo deleting action has been aborted"
+            );
+            
             try {
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Seo\BeforeSeoDeletingEvent($this);
-                    $this->dispatcher->dispatch(SeoEvents::BEFORE_DELETE_SEO, $event);
-
-                    if ($event->isAborted()) {
-                        throw new \RuntimeException($this->translate("The page attributes deleting action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
-                    }
-                }
-
                 $this->seoRepository->startTransaction();
                 $result = $this->seoRepository
                             ->setRepositoryObject($this->alSeo)
                             ->delete();
-                if (false !== $result && null !== $this->dispatcher) {
-                    $event = new  Content\Seo\BeforeDeleteSeoCommitEvent($this);
-                    $this->dispatcher->dispatch(SeoEvents::BEFORE_DELETE_SEO_COMMIT, $event);
-
-                    $result = ($event->isAborted()) ? false : true;
+                if (false !== $result) {
+                    $eventName = SeoEvents::BEFORE_DELETE_SEO_COMMIT;
+                    $result = !$this->eventsHandler
+                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent', array($this, array()))
+                                ->dispatch()
+                                ->getEvent($eventName)
+                                ->isAborted();
                 }
 
                 if (false !== $result) {
                     $this->seoRepository->commit();
 
-                    if (null !== $this->dispatcher) {
-                        $event = new  Content\Seo\AfterSeoDeletedEvent($this);
-                        $this->dispatcher->dispatch(SeoEvents::AFTER_DELETE_SEO, $event);
-                    }
+                    $this->eventsHandler
+                         ->createEvent(SeoEvents::AFTER_DELETE_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoDeletedEvent', array($this))
+                         ->dispatch();
                 } else {
                     $this->seoRepository->rollBack();
                 }
@@ -194,20 +193,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      */
     protected function add(array $values)
     {
+        $values =
+            $this->dispatchBeforeOperationEvent(
+                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent',
+                    SeoEvents::BEFORE_ADD_SEO,
+                    $values,
+                    "The seo adding action has been aborted"
+            );
+        
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Seo\BeforeSeoAddingEvent($this, $values);
-                $this->dispatcher->dispatch(SeoEvents::BEFORE_ADD_SEO, $event);
-
-                if ($event->isAborted()) {
-                    throw new Event\EventAbortedException($this->translate("The seo adding action has been aborted"));
-                }
-
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
-            }
-
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('PageId' => '', 'LanguageId' => '', 'Permalink' => ''), $values);
 
@@ -235,21 +229,20 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     ->setRepositoryObject($this->alSeo)
                     ->save($values);
             if (false !== $result) {
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Seo\BeforeAddSeoCommitEvent($this, $values);
-                    $this->dispatcher->dispatch(SeoEvents::BEFORE_ADD_SEO_COMMIT, $event);
-
-                    $result = ($event->isAborted()) ? false : true;
-                }
+                $eventName = SeoEvents::BEFORE_ADD_SEO_COMMIT;
+                $result = !$this->eventsHandler
+                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeAddSeoCommitEvent', array($this, $values))
+                                ->dispatch()
+                                ->getEvent($eventName)
+                                ->isAborted();
             }
 
             if (false !== $result) {
                 $this->seoRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new  Content\Seo\AfterSeoAddedEvent($this);
-                    $this->dispatcher->dispatch(SeoEvents::AFTER_ADD_SEO, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(SeoEvents::AFTER_ADD_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoAddedEvent', array($this))
+                     ->dispatch();
             } else {
                 $this->seoRepository->rollBack();
             }
@@ -275,20 +268,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      */
     protected function edit(array $values = array())
     {
+        $values =
+            $this->dispatchBeforeOperationEvent(
+                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent',
+                    SeoEvents::BEFORE_EDIT_SEO,
+                    $values,
+                    "The seo editing action has been aborted"
+            );
+        
         try {
-            if (null !== $this->dispatcher) {
-                $event = new  Content\Seo\BeforeSeoEditingEvent($this, $values);
-                $this->dispatcher->dispatch(SeoEvents::BEFORE_EDIT_SEO, $event);
-
-                if ($event->isAborted()) {
-                    throw new \RuntimeException($this->translate("The page attributes editing action has been aborted", array(), 'al_page_attributes_manager_exceptions'));
-                }
-
-                if ($values !== $event->getValues()) {
-                    $values = $event->getValues();
-                }
-            }
-
             if (isset($values['Permalink'])) {
                 $currentPermalink = $this->alSeo->getPermalink();
                 if ($values['Permalink'] != $currentPermalink) {
@@ -310,7 +298,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (isset($values['MetaKeywords']) && $values['MetaKeywords'] == $this->alSeo->getMetaKeywords()) {
                 unset($values['MetaKeywords']);
             }
-            
+
             $this->validator->checkEmptyParams($values);
             $this->validator->checkOnceValidParamExists(array('Permalink' => '', 'MetaTitle' => '', 'MetaDescription' => '', 'MetaKeywords' => ''), $values);
 
@@ -318,18 +306,21 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             $this->seoRepository->setRepositoryObject($this->alSeo);
             $result = (!empty($values)) ? $this->seoRepository->save($values) : true;
 
-            if (false !== $result && null !== $this->dispatcher) {
-                $event = new Content\Seo\BeforeEditSeoCommitEvent($this, $values);
-                $this->dispatcher->dispatch(SeoEvents::BEFORE_EDIT_SEO_COMMIT, $event);
+            if (false !== $result) {
+                $eventName = SeoEvents::BEFORE_EDIT_SEO_COMMIT;
+                $result = !$this->eventsHandler
+                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent', array($this, $values))
+                                ->dispatch()
+                                ->getEvent($eventName)
+                                ->isAborted();
             }
 
             if (false !== $result) {
                 $this->seoRepository->commit();
 
-                if (null !== $this->dispatcher) {
-                    $event = new Content\Seo\AfterSeoEditedEvent($this);
-                    $this->dispatcher->dispatch(SeoEvents::AFTER_EDIT_SEO, $event);
-                }
+                $this->eventsHandler
+                     ->createEvent(SeoEvents::AFTER_EDIT_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoEditedEvent', array($this))
+                     ->dispatch();
 
                 return true;
             } else {

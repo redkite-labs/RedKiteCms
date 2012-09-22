@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Slot;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
@@ -27,15 +27,12 @@ use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlSlotManagerTest extends TestCase
+class AlSlotManagerTest extends AlContentManagerBase
 {
-    private $dispatcher;
-
     protected function setUp()
     {
         parent::setUp();
 
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
@@ -46,7 +43,7 @@ class AlSlotManagerTest extends TestCase
                                     ->getMock();
 
         $slot = new AlSlot('test', array('repeated' => 'page'));
-        $this->slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockRepository, $factory, $this->validator);
+        $this->slotManager = new AlSlotManager($this->eventsHandler, $slot, $this->blockRepository, $factory, $this->validator);
     }
     
     public function testAlSlotInjectedBySetters()
@@ -94,8 +91,8 @@ class AlSlotManagerTest extends TestCase
      */
     public function testAddBlockFailsWhenReceivesAnInvalidLanguageId()
     {
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->eventsHandler->expects($this->never())
+            ->method('createEvent');
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
@@ -110,8 +107,8 @@ class AlSlotManagerTest extends TestCase
      */
     public function testAddBlockThrowsAnExceptionWhenReceivesAnInvalidPageId()
     {
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->eventsHandler->expects($this->never())
+            ->method('createEvent');
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
@@ -126,8 +123,8 @@ class AlSlotManagerTest extends TestCase
      */
     public function testAddBlockThrowsAnExceptionWhenReceivesAnInvalidType()
     {
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->eventsHandler->expects($this->never())
+            ->method('createEvent');
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
@@ -408,7 +405,7 @@ class AlSlotManagerTest extends TestCase
                 ->method('set')
                 ->with(null);
 
-        $slotManager = new AlSlotManager($this->dispatcher, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $this->assertTrue($slotManager->addBlock(2, 2, "Text"));
 
         $this->assertEquals(2, $slotManager->first()->get()->getLanguageId());
@@ -444,7 +441,7 @@ class AlSlotManagerTest extends TestCase
                 ->will($this->returnValue(1));
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
-        $slotManager = new AlSlotManager($this->dispatcher, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
 
         $this->blockManager->expects($this->once())
                 ->method('set')
@@ -497,7 +494,7 @@ class AlSlotManagerTest extends TestCase
             ->method('rollback');
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
-        $slotManager = new AlSlotManager($this->dispatcher, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
 
         $this->blockManager->expects($this->once())
             ->method('save')
@@ -529,7 +526,7 @@ class AlSlotManagerTest extends TestCase
                 ->will($this->returnValue('fake'));
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
-        $slotManager = new AlSlotManager($this->dispatcher, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block));
         $res = $slotManager->editBlock(1, array('HtmlContent' => 'fake'));
         $this->assertTrue($res);
@@ -569,7 +566,7 @@ class AlSlotManagerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
 
-        $slotManager = new AlSlotManager($this->dispatcher, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block));
         $slotManager->deleteBlock(1);
     }
@@ -645,7 +642,7 @@ class AlSlotManagerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->onConsecutiveCalls($blockManager1, $blockManager2));
 
-        $slotManager = new AlSlotManager($this->dispatcher, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block1, $block2));
 
         $this->assertEquals(2, $slotManager->length());
@@ -724,7 +721,7 @@ class AlSlotManagerTest extends TestCase
             ->method('createBlockManager')
             ->will($this->onConsecutiveCalls($blockManager1, $blockManager2));
 
-        $slotManager = new AlSlotManager($this->dispatcher, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository,  $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository,  $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block1, $block2));
 
         $slotManager->deleteBlocks();
@@ -933,7 +930,7 @@ class AlSlotManagerTest extends TestCase
         $slot->expects($this->once())
                 ->method('getHtmlContent');
 
-        $slotManager = new AlSlotManager($this->dispatcher, $slot, $this->blockRepository,  $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, $slot, $this->blockRepository,  $factory, $this->validator);
         $slotManager->setBlockManagerFactory($factory);
         $slotManager->setForceSlotAttributes(true);
         $slotManager->addBlock(2, 2);

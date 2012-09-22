@@ -33,7 +33,7 @@ class AlContentManagerTester extends AlContentManagerBase
  */
 class AlContentManagerBaseTest extends TestCase
 {
-    protected $dispatcher;
+    protected $eventsHandler;
     protected $validator;
     protected $contentManager;
 
@@ -41,27 +41,25 @@ class AlContentManagerBaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->contentManager = new AlContentManagerTester($this->dispatcher, $this->validator);
+        $this->contentManager = new AlContentManagerTester($this->eventsHandler, $this->validator);
     }
 
-    public function testDispatcherInjectedByContructor()
+    public function testEventsHandlerByContructor()
     {
-        $this->assertEquals($this->dispatcher, $this->contentManager->getDispatcher());
+        $this->assertEquals($this->eventsHandler, $this->contentManager->getEventsHandler());
     }
 
-    public function testDispatcherInjectedBySetters()
+    public function testEventsHandlerBySetters()
     {
-        $dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcher')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $this->assertEquals($this->contentManager, $this->contentManager->setDispatcher($dispatcher));
-        $this->assertEquals($dispatcher, $this->contentManager->getDispatcher());
-        $this->assertNotEquals($this->dispatcher, $this->contentManager->getDispatcher());
+        $eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->assertSame($this->contentManager, $this->contentManager->setEventsHandler($eventsHandler));
+        $this->assertSame($eventsHandler, $this->contentManager->getEventsHandler());
+        $this->assertNotSame($this->eventsHandler, $this->contentManager->getEventsHandler());
     }
 
     public function testValidatorInjectedByContructor()
@@ -74,9 +72,9 @@ class AlContentManagerBaseTest extends TestCase
         $validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->assertEquals($this->contentManager, $this->contentManager->setValidator($validator));
-        $this->assertEquals($validator, $this->contentManager->getValidator());
-        $this->assertNotEquals($this->dispatcher, $this->contentManager->getValidator());
+        $this->assertSame($this->contentManager, $this->contentManager->setValidator($validator));
+        $this->assertSame($validator, $this->contentManager->getValidator());
+        $this->assertNotSame($this->validator, $this->contentManager->getValidator());
     }
 
     public function testTranslator()

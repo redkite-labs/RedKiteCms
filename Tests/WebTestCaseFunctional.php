@@ -78,7 +78,6 @@ class WebTestCaseFunctional extends WebTestCase
 
     protected static function populateDb()
     {
-        $dispatcher = new EventDispatcher();
         $factoryRepository = new AlFactoryRepository('Propel');
         $client = static::createClient(array(
             'environment' => 'alcms_test',
@@ -89,13 +88,10 @@ class WebTestCaseFunctional extends WebTestCase
         $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
         $template = $theme->getTemplate('home');
 
-        $pageContentsContainer = new AlPageBlocks($dispatcher, $factoryRepository);
-        $templateManager = new AlTemplateManager($dispatcher, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('alpha_lemon_cms.block_manager_factory'));
+        $eventsHandler = $client->getContainer()->get('alpha_lemon_cms.events_handler');
+        $pageContentsContainer = new AlPageBlocks($factoryRepository);
+        $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('alpha_lemon_cms.block_manager_factory'));
         $templateManager->refresh();
-        $seoManager = new AlSeoManager($dispatcher, $factoryRepository);
-
-        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddSeoListener($seoManager, $factoryRepository), 'onBeforeAddPageCommit'));
-        $dispatcher->addListener('pages.before_add_page_commit', array(new Listener\AddPageBlocksListener($factoryRepository), 'onBeforeAddPageCommit'));
 
         $connection = \Propel::getConnection();
         $queries = array('TRUNCATE al_block;',
@@ -111,12 +107,12 @@ class WebTestCaseFunctional extends WebTestCase
             $statement->execute();
         }
 
-        $alLanguageManager = new AlLanguageManager($dispatcher, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
+        $alLanguageManager = new AlLanguageManager($eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {
             $alLanguageManager->set(null)->save($language);
         }
 
-        $alPageManager = new AlPageManager($dispatcher, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
+        $alPageManager = new AlPageManager($eventsHandler, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
         foreach (self::$pages as $page) {
             $alPageManager->set(null)->save($page);
         }

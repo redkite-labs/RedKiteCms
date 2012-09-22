@@ -17,9 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
@@ -27,17 +26,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlPageManagerTest extends TestCase
+class AlPageManagerTest extends AlContentManagerBase
 {
-    private $dispatcher;
     private $pageManager;
     private $templateManager;
 
     protected function setUp()
     {
         parent::setUp();
-
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
@@ -59,9 +55,9 @@ class AlPageManagerTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->pageRepository));
 
-        $this->pageManager = new AlPageManager($this->dispatcher, $this->templateManager, $this->factoryRepository, $this->validator);
+        $this->pageManager = new AlPageManager($this->eventsHandler, $this->templateManager, $this->factoryRepository, $this->validator);
     }
-
+    
     public function testPageRepositoryInjectedBySetters()
     {
         $pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface')
@@ -110,8 +106,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -126,8 +122,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
@@ -143,8 +139,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testAddFailsWhenExpectedPageNameParamIsMissing()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $params = array('TemplateName'      => 'home',
                         'Permalink'     => 'this is a website fake page',
@@ -160,8 +156,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testAddFailsWhenExpectedTemplateParamIsMissing()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $params = array('PageName'      => 'fake page',
                         'Permalink'     => 'this is a website fake page',
@@ -177,8 +173,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testAddFailsWhenTryingToAddPageThatAlreadyExists()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('pageExists')
@@ -199,8 +195,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testAddFailsWhenAnyLanguageHasBeenAddedAndTryingToAddPage()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('hasLanguages')
@@ -221,8 +217,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testAddBlockThrownAnUnespectedException()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
             ->method('startTransaction');
@@ -256,8 +252,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testResetHomeThrownAnUnespectedExceptionWhenAdding()
     {
-        $this->dispatcher->expects($this->once(1))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('hasPages')
@@ -299,8 +295,8 @@ class AlPageManagerTest extends TestCase
 
     public function testAddNewPageFailsBecauseSaveFailsAtLast()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
             ->method('startTransaction');
@@ -333,8 +329,8 @@ class AlPageManagerTest extends TestCase
 
     public function testAddNewPageFailsBecauseResetHomeFails()
     {
-        $this->dispatcher->expects($this->once(1))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('hasPages')
@@ -377,8 +373,12 @@ class AlPageManagerTest extends TestCase
 
     public function testAddNewHomePage()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->validator->expects($this->once())
             ->method('hasPages')
@@ -388,6 +388,13 @@ class AlPageManagerTest extends TestCase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
 
+        $params = array('PageName'      => 'fake page',
+                        'TemplateName'  => 'home',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => 'some,keywords',
+                        'IsHome'        => '1');
         $this->pageRepository->expects($this->exactly(2))
             ->method('save')
             ->will($this->returnValue(true));
@@ -410,8 +417,137 @@ class AlPageManagerTest extends TestCase
                 ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
+        $res = $this->pageManager->save($params);
+        $this->assertTrue($res);
+    }
+
+    public function testAddNewPage()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(true));
+
         $params = array('PageName'      => 'fake page',
-                        'IsHome'        => '1',
+                        'TemplateName'  => 'home',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => 'some,keywords',
+                        'IsHome'        => '1');
+        $expectedParams = $params;
+        $expectedParams['PageName'] = 'fake-page';
+        $this->pageRepository->expects($this->once())
+            ->method('save')
+            ->with($expectedParams)
+            ->will($this->returnValue(true));
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->once())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->pageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $res = $this->pageManager->save($params);
+        $this->assertTrue($res);
+    }
+    
+    public function testResetHomeIsSkippedBecauseAnyHomePageHasBeenDefined()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(true));
+        
+        $this->validator->expects($this->once())
+            ->method('hasPages')
+            ->will($this->returnValue(true));
+        
+        $this->pageRepository->expects($this->once())
+            ->method('homePage')
+            ->will($this->returnValue(null));
+
+        $params = array('PageName'      => 'fake page',
+                        'TemplateName'  => 'home',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => 'some,keywords',
+                        'IsHome'        => '1');
+        $expectedParams = $params;
+        $expectedParams['PageName'] = 'fake-page';
+        $this->pageRepository->expects($this->once())
+            ->method('save')
+            ->with($expectedParams)
+            ->will($this->returnValue(true));
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->once())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->pageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $res = $this->pageManager->save($params);
+        $this->assertTrue($res);
+    }
+
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The page adding action has been aborted
+     */
+    public function testAddActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $this->validator->expects($this->never())
+            ->method('hasLanguages');
+
+        $this->pageRepository->expects($this->never())
+            ->method('save');
+
+        $this->pageRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->never())
+            ->method('rollback');
+
+        $this->pageRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $params = array('PageName'      => 'fake page',
                         'TemplateName'  => 'home',
                         'Permalink'     => 'this is a website fake page',
                         'Title'         => 'page title',
@@ -422,10 +558,27 @@ class AlPageManagerTest extends TestCase
         $this->assertTrue($res);
     }
 
-    public function testAddNewPage()
+    public function testAddParametersHaveBeenChangedByAnEvent()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $changedParams = array(
+            'PageName'      => 'fake page',
+            'TemplateName'  => 'home',
+            'Permalink'     => 'permalink changed by event',
+            'Title'         => 'page title',
+            'Description'   => 'page description',
+            'Keywords'      => ''
+        );
+
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+        $this->setUpEventsHandler(null, 3);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->validator->expects($this->once())
             ->method('hasLanguages')
@@ -459,13 +612,58 @@ class AlPageManagerTest extends TestCase
         $this->assertTrue($res);
     }
 
+    public function testAListenerHasAbortedTheAddAction()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->validator->expects($this->once())
+            ->method('hasLanguages')
+            ->will($this->returnValue(true));
+
+        $this->pageRepository->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true));
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->once())
+            ->method('rollback');
+
+        $this->pageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $params = array('PageName'      => 'fake page',
+                        'TemplateName'  => 'home',
+                        'Permalink'     => 'this is a website fake page',
+                        'Title'         => 'page title',
+                        'Description'   => 'page description',
+                        'Keywords'      => '');
+
+        $res = $this->pageManager->save($params);
+        $this->assertFalse($res);
+    }
+
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
@@ -480,14 +678,10 @@ class AlPageManagerTest extends TestCase
 
     public function testEditFailsBecauseSaveFailsAtLast()
     {
-        $this->dispatcher->expects($this->once(1))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $this->setUpEventsHandler($event);
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
-
+        $page = $this->setUpPage();
         $page->expects($this->any())
             ->method('getPageName')
             ->will($this->returnValue('fake-page'));
@@ -517,8 +711,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testEditBlockThrownAnUnespectedException()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
             ->method('startTransaction');
@@ -534,11 +728,7 @@ class AlPageManagerTest extends TestCase
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(2));
-
+        $page = $this->setUpPage();
         $params = array('PageName' => 'fake page');
         $this->pageManager->set($page);
         $this->pageManager->save($params);
@@ -546,17 +736,131 @@ class AlPageManagerTest extends TestCase
 
     public function testEditPageName()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
+        $this->pageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
 
-        $page->expects($this->any())
-            ->method('getPageName')
-            ->will($this->returnValue('fake-page'));
+        $expectedParams = array(
+            'PageName'      => 'fake-page',
+        );
+        $this->pageRepository->expects($this->once())
+            ->method('save')
+            ->with($expectedParams)
+            ->will($this->returnValue(true));
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->once())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->never())
+            ->method('rollback');
+
+        $page = $this->setUpPage();
+        $params = array('PageName' => 'fake page');
+        $this->pageManager->set($page);
+        $res = $this->pageManager->save($params);
+        $this->assertTrue($res);
+    }
+    
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The page editing action has been aborted
+     */
+    public function testEditActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $this->pageRepository->expects($this->never())
+                ->method('setRepositoryObject');
+
+        $this->pageRepository->expects($this->never())
+            ->method('save');
+
+        $this->pageRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->never())
+            ->method('rollback');
+
+        $page = $this->setUpPage();
+        $params = array('PageName' => 'fake page');
+        $this->pageManager->set($page);
+        $this->pageManager->save($params);
+    }
+
+    public function testEditParametersHaveBeenChangedByAnEvent()
+    {
+        $changedParams = array(
+            'PageName'      => 'page name changed by event',
+        );
+
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1->expects($this->once())
+                ->method('getValues')
+                ->will($this->returnValue($changedParams));
+        $this->setUpEventsHandler(null, 3);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->pageRepository->expects($this->once())
+                ->method('setRepositoryObject')
+                ->will($this->returnSelf());
+
+        $expectedParams = array(
+            'PageName'      => 'page-name-changed-by-event',
+        );
+        $this->pageRepository->expects($this->once())
+            ->method('save')
+            ->with($expectedParams)
+            ->will($this->returnValue(true));
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->once())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->never())
+            ->method('rollback');
+        
+        $page = $this->setUpPage();
+        $params = array('PageName' => 'fake page');
+        $this->pageManager->set($page);
+        $res = $this->pageManager->save($params);
+        $this->assertTrue($res);
+    }
+
+    public function testAListenerHasAbortedTheEditAction()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->pageRepository->expects($this->once())
                 ->method('setRepositoryObject')
@@ -569,23 +873,23 @@ class AlPageManagerTest extends TestCase
         $this->pageRepository->expects($this->once())
             ->method('startTransaction');
 
-        $this->pageRepository->expects($this->once())
+        $this->pageRepository->expects($this->never())
             ->method('commit');
 
-        $this->pageRepository->expects($this->never())
+        $this->pageRepository->expects($this->once())
             ->method('rollback');
 
+        $page = $this->setUpPage();
         $params = array('PageName' => 'fake page');
         $this->pageManager->set($page);
         $res = $this->pageManager->save($params);
-        $this->assertTrue($res);
-        $this->assertEquals('fake-page', $this->pageManager->get()->getPageName());
+        $this->assertFalse($res);
     }
 
     public function testEditHomePageBecauseResetHomeFails()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('hasPages')
@@ -611,11 +915,7 @@ class AlPageManagerTest extends TestCase
         $this->pageRepository->expects($this->once())
             ->method('rollBack');
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
-
+        $page = $this->setUpPage();
         $params = array('IsHome' => 1);
         $this->pageManager->set($page);
         $res = $this->pageManager->save($params);
@@ -627,8 +927,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testResetHomeThrownAnUnespectedExceptionWhenEditing()
     {
-        $this->dispatcher->expects($this->once(1))
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('hasPages')
@@ -653,11 +953,7 @@ class AlPageManagerTest extends TestCase
         $this->pageRepository->expects($this->once())
             ->method('rollBack');
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
-
+        $page = $this->setUpPage();
         $params = array('IsHome' => 1);
         $this->pageManager->set($page);
         $this->pageManager->save($params);
@@ -665,8 +961,12 @@ class AlPageManagerTest extends TestCase
 
     public function testEditHomePage()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->validator->expects($this->once())
             ->method('hasPages')
@@ -694,11 +994,7 @@ class AlPageManagerTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('rollback');
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
-
+        $page = $this->setUpPage();
         $params = array('IsHome' => 1);
         $this->pageManager->set($page);
         $res = $this->pageManager->save($params);
@@ -707,11 +1003,20 @@ class AlPageManagerTest extends TestCase
 
     public function testEditTemplate()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
+        $params = array(
+            'TemplateName' => 'new',
+            'oldTemplateName' => ''
+        );
         $this->pageRepository->expects($this->once())
             ->method('save')
+            ->with($params)
             ->will($this->returnValue(true));
 
         $this->pageRepository->expects($this->once(2))
@@ -727,15 +1032,10 @@ class AlPageManagerTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('rollback');
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
-
+        $page = $this->setUpPage();
         $page->expects($this->once())
             ->method('getTemplateName');
 
-        $params = array('TemplateName' => 'new');
         $this->pageManager->set($page);
         $res = $this->pageManager->save($params);
         $this->assertTrue($res);
@@ -746,8 +1046,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testDeleteFailsWhenTheManagedPageIsNull()
     {
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->eventsHandler->expects($this->never())
+                            ->method('createEvent');
 
         $this->pageManager->set(null);
         $this->pageManager->delete();
@@ -758,22 +1058,18 @@ class AlPageManagerTest extends TestCase
      */
     public function testDeleteFailsWhenTryingToRemoveTheHomePage()
     {
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->eventsHandler->expects($this->never())
+                            ->method('createEvent');
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-                ->method('getIsHome')
-                ->will($this->returnValue(1));
-
+        $page = $this->setUpPage(null, 1);
         $this->pageManager->set($page);
         $this->pageManager->delete();
     }
 
     public function testDeleteFailsBecauseSaveFailsAtLast()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
             ->method('startTransaction');
@@ -785,11 +1081,7 @@ class AlPageManagerTest extends TestCase
         $this->pageRepository->expects($this->once())
             ->method('rollBack');
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-                ->method('getIsHome')
-                ->will($this->returnValue(0));
-
+        $page = $this->setUpPage(null, 0);
         $this->pageManager->set($page);
         $res = $this->pageManager->delete();
         $this->assertFalse($res);
@@ -800,8 +1092,8 @@ class AlPageManagerTest extends TestCase
      */
     public function testDeleteBlockThrownAnUnespectedException()
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
+        $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
             ->method('startTransaction');
@@ -813,19 +1105,19 @@ class AlPageManagerTest extends TestCase
                 ->method('delete')
                 ->will($this->throwException(new \RuntimeException()));
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-                ->method('getIsHome')
-                ->will($this->returnValue(0));
-
+        $page = $this->setUpPage(null, 0);
         $this->pageManager->set($page);
         $this->pageManager->delete();
     }
 
     public function testDelete()
     {
-        $this->dispatcher->expects($this->exactly(3))
-            ->method('dispatch');
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
+        $event2 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent');
+        $this->setUpEventsHandler(null, 3);
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
 
         $this->pageRepository->expects($this->once())
             ->method('startTransaction');
@@ -840,13 +1132,104 @@ class AlPageManagerTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('rollback');
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-                ->method('getIsHome')
-                ->will($this->returnValue(0));
-
+        $page = $this->setUpPage(null, 0);
         $this->pageManager->set($page);
         $res = $this->pageManager->delete();
         $this->assertTrue($res);
+    }
+    
+    /**
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedExceptionMessage The page deleting action has been aborted
+     */
+    public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
+    {
+        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event->expects($this->once())
+            ->method('isAborted')
+            ->will($this->returnValue(true));
+        $this->setUpEventsHandler($event);
+
+        $this->pageRepository->expects($this->never())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->never())
+                ->method('delete');
+
+        $this->pageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->never())
+            ->method('rollback');
+
+        $page = $this->setUpPage(null, 0);
+        $this->pageManager->set($page);
+        $this->pageManager->delete();
+    }
+
+    public function testAListenerHasAbortedTheDeleteAction()
+    {
+        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
+        $event2->expects($this->once())
+                ->method('isAborted')
+                ->will($this->returnValue(true));
+        $this->setUpEventsHandler(null, 2);
+
+        $this->eventsHandler->expects($this->exactly(2))
+                        ->method('getEvent')
+                        ->will($this->onConsecutiveCalls($event1, $event2));
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->once())
+                ->method('delete')
+                ->will($this->returnValue(true));
+
+        $this->pageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->once())
+            ->method('rollback');
+
+        $page = $this->setUpPage(null, 0);
+        $this->pageManager->set($page);
+        $res = $this->pageManager->delete();
+        $this->assertFalse($res);
+    }
+    
+    /**
+     * This test is a porting of the one proposed by Symfony1 Joobet tutorial 
+     */
+    public function testSlugify()
+    {
+        $this->assertEquals('alphalemon', AlPageManager::slugify('AlphaLemon'));
+        $this->assertEquals('alpha-lemon', AlPageManager::slugify('alpha lemon'));        
+        $this->assertEquals('alpha-lemon', AlPageManager::slugify('alpha    lemon'));                
+        $this->assertEquals('alphalemon', AlPageManager::slugify('    alphalemon'));                        
+        $this->assertEquals('alphalemon', AlPageManager::slugify('alphalemon    '));                               
+        $this->assertEquals('alpha-lemon', AlPageManager::slugify('alpha,lemon'));                             
+        $this->assertEquals('n-a', AlPageManager::slugify(''));                                    
+        $this->assertEquals('n-a', AlPageManager::slugify(' - '));
+        $this->assertEquals('developpeur-web', AlPageManager::slugify('Développeur Web'));
+    }
+    
+    private function setUpPage($id = 2, $isHome = null)
+    {
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        if (null !== $id) {
+            $page->expects($this->once())
+                ->method('getId')
+                ->will($this->returnValue(2));
+        }
+        
+        if (null !== $isHome) {
+            $page->expects($this->once())
+                    ->method('getIsHome')
+                    ->will($this->returnValue($isHome));
+        }
+        
+        return $page;
     }
 }
