@@ -250,9 +250,16 @@ class BundlesAutoloader
 
             $sourceFolder = $sourceFolder . '/Resources/config';
             $filename = $bundleName . '.yml';
-            $this->copy($sourceFolder . '/config.yml', $this->configPath . '/' . $this->environment . '/' . $filename);
-            $this->copy($sourceFolder . '/routing.yml', $this->routingPath . '/' . $filename);
+            $this->copyConfigurationFile('config', $filename, $sourceFolder, $this->configPath);
+            $this->copyConfigurationFile('routing', $filename, $sourceFolder, $this->routingPath);
         }
+    }
+
+    protected function copyConfigurationFile($section, $filename, $sourceFolder, $targetFolder)
+    {
+        $envConfigFile = sprintf('%s/%s_%s.yml', $sourceFolder, $section, $this->environment);
+        $sourceFile = (file_exists($envConfigFile)) ? $envConfigFile : $sourceFolder . '/' . $section . '.yml';
+        $this->copy($sourceFile, $targetFolder . '/' . $this->environment . '/' . $filename);
     }
 
     /**
