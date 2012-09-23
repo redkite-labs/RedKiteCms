@@ -33,6 +33,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
         $this->assertEquals('Propel', $this->container->getParameter('alpha_lemon_cms.orm'));
         $this->assertEquals('alphaLemon', $this->container->getParameter('alpha_lemon_cms.skin'));
         $this->assertEquals('web', $this->container->getParameter('alpha_lemon_cms.web_folder'));
+        $this->assertEquals('%kernel.root_dir%/../%alpha_lemon_cms.web_folder%', $this->container->getParameter('alpha_lemon_cms.web_folder_full_path'));
         $this->assertEquals(array('en' => 'English'), $this->container->getParameter('alpha_lemon_cms.available_languages'));
         $this->assertEquals('uploads/assets', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'));
         $this->assertFalse($this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'));
@@ -57,6 +58,11 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testWebFolder()
     {
         $this->scalarNodeParameter('alpha_lemon_cms.web_folder', 'web_folder_dir', 'content');
+    }
+
+    public function testWebFolderFullPath()
+    {
+        $this->scalarNodeParameter('alpha_lemon_cms.web_folder_full_path', 'web_folder_dir_full_path', '/app/full/path/content');
     }
 
     public function testUploadAssetsDir()
