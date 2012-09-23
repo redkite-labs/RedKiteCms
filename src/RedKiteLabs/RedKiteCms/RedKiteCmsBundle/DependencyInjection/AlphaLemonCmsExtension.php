@@ -44,52 +44,20 @@ class AlphaLemonCmsExtension extends Extension
         $configuration = new Configuration();
         $config = $processor->processConfiguration($configuration, $configs);
 
-        if (isset($config['orm'])) {
-            $container->setParameter('alpha_lemon_cms.orm', $config['orm']);
-        }
-
-        if (isset($config['skin'])) {
-            $container->setParameter('alpha_lemon_cms.skin', $config['skin']);
-        }
-
-        if (isset($config['web_folder_dir'])) {
-            $container->setParameter('alpha_lemon_cms.web_folder', $config['web_folder_dir']);
-        }
-
-        if (isset($config['upload_assets_dir'])) {
-            $container->setParameter('alpha_lemon_cms.upload_assets_dir', $config['upload_assets_dir']);
-        }
-        
+        $container->setParameter('alpha_lemon_cms.orm', $config['orm']);
+        $container->setParameter('alpha_lemon_cms.skin', $config['skin']);
+        $container->setParameter('alpha_lemon_cms.web_folder', $config['web_folder_dir']);
+        $container->setParameter('alpha_lemon_cms.upload_assets_dir', $config['upload_assets_dir']);
         $container->setParameter('alpha_lemon_cms.enable_yui_compressor', $config['enable_yui_compressor']);
 
         if (isset($config['deploy_bundle'])) {
-            if (isset($config['deploy_bundle']['resources_dir'])) {
-                $container->setParameter('alpha_lemon_cms.deploy_bundle.resources_dir', $config['deploy_bundle']['resources_dir']);
-            }
-
-            if (isset($config['deploy_bundle']['assets_base_dir'])) {
-                $container->setParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir', $config['deploy_bundle']['assets_base_dir']);
-            }
-
-            if (isset($config['deploy_bundle']['config_dir'])) {
-                $container->setParameter('alpha_lemon_cms.deploy_bundle.config_dir', $config['deploy_bundle']['config_dir']);
-            }
-
-            if (isset($config['deploy_bundle']['views_dir'])) {
-                $container->setParameter('alpha_lemon_cms.deploy_bundle.views_dir', $config['deploy_bundle']['views_dir']);
-            }
-
-            if (isset($config['deploy_bundle']['media_dir'])) {
-                $container->setParameter('alpha_lemon_cms.deploy_bundle.media_dir', $config['deploy_bundle']['media_dir']);
-            }
-
-            if (isset($config['deploy_bundle']['js_dir'])) {
-                $container->setParameter('alpha_lemon_cms.deploy_bundle.js_dir', $config['deploy_bundle']['js_dir']);
-            }
-
-            if (isset($config['deploy_bundle']['css_dir'])) {
-                $container->setParameter('alpha_lemon_cms.deploy_bundle.css_dir', $config['deploy_bundle']['css_dir']);
-            }
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.resources_dir', $config['deploy_bundle']['resources_dir']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir', $config['deploy_bundle']['assets_base_dir']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.config_dir', $config['deploy_bundle']['config_dir']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.views_dir', $config['deploy_bundle']['views_dir']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.media_dir', $config['deploy_bundle']['media_dir']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.js_dir', $config['deploy_bundle']['js_dir']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.css_dir', $config['deploy_bundle']['css_dir']);
         }
     }
 
