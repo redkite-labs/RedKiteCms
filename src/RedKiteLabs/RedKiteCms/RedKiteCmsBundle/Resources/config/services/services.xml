@@ -34,7 +34,7 @@
         <service id="alpha_lemon_cms.events_handler" class="%alpha_lemon_cms.events_handler.class%">
             <argument type="service" id="event_dispatcher" />
         </service>
-        
+
         <service id="alpha_lemon_cms.factory_repository" class="%alpha_lemon_cms.factory_repository.class%">
             <argument type="string">%alpha_lemon_cms.orm%</argument>
         </service>
@@ -139,7 +139,7 @@
         </service>
 
         <service id="alpha_lemon_cms.commands_processor" class="%alpha_lemon_cms.commands_processor.class%">
-            <argument type="string">%kernel.root_dir</argument>
+            <argument type="string">%kernel.root_dir%</argument>
         </service>
 
         <service id="alpha_lemon_cms.images_thumbnailer" class="%alpha_lemon_cms.images_thumbnailer.class%">
