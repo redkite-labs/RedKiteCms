@@ -7,6 +7,7 @@
         <parameter key="alpha_lemon_cms.orm">Propel</parameter>
         <parameter key="alpha_lemon_cms.skin">alphaLemon</parameter>
         <parameter key="alpha_lemon_cms.web_folder">web</parameter>
+        <parameter key="alpha_lemon_cms.web_folder_full_path">%kernel.root_dir%/../%alpha_lemon_cms.web_folder%</parameter>
 
         <parameter key="alpha_lemon_cms.available_languages" type="collection">
             <parameter key="en">English</parameter>

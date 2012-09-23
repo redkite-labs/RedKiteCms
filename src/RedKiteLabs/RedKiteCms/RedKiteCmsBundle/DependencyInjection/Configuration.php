@@ -44,6 +44,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('orm')->defaultValue('Propel')->end()
                 ->scalarNode('skin')->defaultValue('alphaLemon')->end()
                 ->scalarNode('web_folder_dir')->defaultValue('web')->end()
+                ->scalarNode('web_folder_dir_full_path')->defaultValue('%kernel.root_dir%/../%alpha_lemon_cms.web_folder%')->end()
                 ->scalarNode('upload_assets_dir')->defaultValue('uploads/assets')->end()
                 ->booleanNode('enable_yui_compressor')->defaultFalse()->end()
                 ->arrayNode('deploy_bundle')
