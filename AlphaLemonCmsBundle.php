@@ -38,6 +38,5 @@ class AlphaLemonCmsBundle extends Bundle
         $container->addCompilerPass(new RegisterCmsListenersPass());
 
         $container->addCompilerPass(new AlBlocksCompilerPass());
-
     }
 }
