@@ -27,6 +27,9 @@ propel:
         attributes:           {}
         default_connection:   default
 
+alpha_lemon_cms:
+    enable_yui_compressor: true
+
 alpha_lemon_theme_engine:
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
     active_theme_file: %kernel.root_dir%/Resources/.tests_active_theme
