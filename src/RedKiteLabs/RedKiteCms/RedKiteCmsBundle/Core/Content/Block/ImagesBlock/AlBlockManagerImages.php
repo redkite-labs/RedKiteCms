@@ -34,7 +34,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
 
         if (array_key_exists('RemoveFile', $values)) {
             $fileToRemove = $values["RemoveFile"];
-            $file = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alpha_lemon_cms.web_folder') . $fileToRemove;
+            $file = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . $fileToRemove;
 
             $key = array_search($fileToRemove, $savedImages);
             if (false !== $key)  unset($images[$key]);

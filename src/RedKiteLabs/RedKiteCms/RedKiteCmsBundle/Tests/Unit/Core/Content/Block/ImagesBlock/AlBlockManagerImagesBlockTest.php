@@ -54,7 +54,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
                         ->method('get')
                         ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $this->kernel));
 
-        $this->container->expects($this->exactly(1))
+        $this->container->expects($this->once())
                         ->method('getParameter');
 
         $block = $this->initBlock();
@@ -67,7 +67,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
     {
         $this->initContainer();
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->once())
                         ->method('getParameter');
 
         $block = $this->initBlock();

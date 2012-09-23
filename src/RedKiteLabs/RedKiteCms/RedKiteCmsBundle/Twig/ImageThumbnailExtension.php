@@ -48,7 +48,7 @@ class ImageThumbnailExtension extends \Twig_Extension
      */
     public function thumbnail($image, $targetWidth = 100, $targetHeight = 100)
     {
-        $imagePath = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alpha_lemon_cms.web_folder') . $image;
+        $imagePath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . $image;
         if (is_file($imagePath)) {
             $thumbnailer = $this->container->get('alpha_lemon_cms.images_thumbnailer');
             $thumbnailer->create($imagePath, $targetWidth, $targetHeight);

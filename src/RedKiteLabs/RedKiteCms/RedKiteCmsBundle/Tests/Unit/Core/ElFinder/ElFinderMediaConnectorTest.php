@@ -61,9 +61,9 @@ class ElFinderMediaConnectorTest extends TestCase
             ->method('get')
             ->will($this->onConsecutiveCalls($request, $kernel));
 
-        $container->expects($this->exactly(4))
+        $container->expects($this->exactly(3))
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls('upload', 'deploy', '/base/path', 'web'));
+            ->will($this->onConsecutiveCalls('upload', 'deploy', '/full/base/path/to/web'));
 
         $espected = array
         (
@@ -73,7 +73,7 @@ class ElFinderMediaConnectorTest extends TestCase
                     array
                         (
                             "driver" => "LocalFileSystem",
-                            "path" => "/base/path/../web/bundles/alphalemoncms/upload/deploy/",
+                            "path" => "/full/base/path/to/web/bundles/alphalemoncms/upload/deploy/",
                             "URL" => "http://example.com/bundles/alphalemoncms/upload/deploy/",
                             "accessControl" => "access",
                             "rootAlias" => "Media"
