@@ -21,30 +21,37 @@
         if(callback == null) callback = function(){};
         this.each(function()
         {
-            var panel = this;
-            var panelBody = document.createElement("DIV");
-			panelBody.id = "al_panel_body";
-			panel.appendChild(panelBody);
-
-            var panelContents = document.createElement("DIV");
-			panelContents.id = "al_panel_contents";
-			panelBody.appendChild(panelContents);
-            $(panelContents).html(html);
-
-            var panelCloser = document.createElement("DIV");
-			panelCloser.id = "al_panel_closer";
-			panel.appendChild(panelCloser);
-
-            $(panelCloser).html("Click me to close the panel").click(function()
+            if($('#al_panel_contents').length == 0)
             {
-                $(panel).animate({
-                  height: "hide"
-                }, 1000, 'easeInOutCirc', function(){$(this).empty();});
-            });
+                var panel = this;
+                var panelBody = document.createElement("DIV");
+                            panelBody.id = "al_panel_body";
+                            panel.appendChild(panelBody);
 
-            $(panel).animate({
-              height: 'show'
-            }, 1000, 'easeInExpo', callback);
+                var panelContents = document.createElement("DIV");
+                            panelContents.id = "al_panel_contents";
+                            panelBody.appendChild(panelContents);
+                $(panelContents).html(html);
+
+                var panelCloser = document.createElement("DIV");
+                            panelCloser.id = "al_panel_closer";
+                            panel.appendChild(panelCloser);
+
+                $(panelCloser).html("Click me to close the panel").click(function()
+                {
+                    $(panel).animate({
+                    height: "hide"
+                    }, 1000, 'easeInOutCirc', function(){$(this).empty();});
+                });
+
+                $(panel).animate({
+                height: 'show'
+                }, 750, 'easeInExpo', callback);
+            }
+            else {
+                panel = $('#al_panel_contents');
+                panel.hide().html(html);
+            }
         });
     };
 })($);
