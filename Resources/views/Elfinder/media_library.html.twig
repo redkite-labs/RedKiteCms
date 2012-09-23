@@ -16,7 +16,7 @@
 {% extends 'AlphaLemonElFinderBundle:ElFinder:show.html.twig' %}
 
 {% block javascript_files %}
-{% if enable_yui_compressor %}
+{% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts filter='?yui_js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.version.js'
