@@ -149,7 +149,7 @@ $(document).ready(function(){
         $('#al_open_pages_panel').click(function()
         {
             if($('#al_panel_contents').length == 0)
-            {
+            {}
                 $.ajax({
                     type: 'POST',
                     url: frontController + 'backend/' + $('#al_available_languages option:selected').text() + '/al_showPages',
@@ -172,69 +172,63 @@ $(document).ready(function(){
                         $('body').RemoveAjaxLoader();
                     }
                 });
-            }
+
 
             return false;
         });
 
         $('#al_open_languages_panel').click(function()
         {
-            if($('#al_panel_contents').length == 0)
-            {
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showLanguages',
-                    data: {},
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(html)
-                    {
-                        $('#al_panel').OpenPanel(html, function(){InitLanguagesCommands();ObserveLanguages();});
-                    },
-                    error: function(err)
-                    {
-                        $('#al_dialog').html(err.responseText);
-                        $('#al_dialog').dialog('open');
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
-            }
+            $.ajax({
+                type: 'POST',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showLanguages',
+                data: {},
+                beforeSend: function()
+                {
+                    $('body').AddAjaxLoader();
+                },
+                success: function(html)
+                {
+                    $('#al_panel').OpenPanel(html, function(){InitLanguagesCommands();ObserveLanguages();});
+                },
+                error: function(err)
+                {
+                    $('#al_dialog').html(err.responseText);
+                    $('#al_dialog').dialog('open');
+                },
+                complete: function()
+                {
+                    $('body').RemoveAjaxLoader();
+                }
+            });
 
             return false;
         });
 
         $('#al_open_themes_panel').click(function()
         {
-            if($('#al_panel_contents').length == 0)
-            {
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showThemes',
-                    data: {},
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(html)
-                    {
-                        $('#al_panel').OpenPanel(html, function(){ObserveThemeCommands();});
-                    },
-                    error: function(err)
-                    {
-                        $('#al_dialog').html(err.responseText);
-                        $('#al_dialog').dialog('open');
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
-            }
+            $.ajax({
+                type: 'POST',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showThemes',
+                data: {},
+                beforeSend: function()
+                {
+                    $('body').AddAjaxLoader();
+                },
+                success: function(html)
+                {
+                    $('#al_panel').OpenPanel(html, function(){ObserveThemeCommands();});
+                },
+                error: function(err)
+                {
+                    $('#al_dialog').html(err.responseText);
+                    $('#al_dialog').dialog('open');
+                },
+                complete: function()
+                {
+                    $('body').RemoveAjaxLoader();
+                }
+            });
 
             return false;
         });
