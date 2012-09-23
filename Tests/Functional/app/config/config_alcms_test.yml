@@ -30,6 +30,9 @@ propel:
 alpha_lemon_bootstrap:
     vendor_dir: "%kernel.root_dir%/../../../vendor"
 
+alpha_lemon_cms:
+    enable_yui_compressor: true
+    
 alpha_lemon_theme_engine:
     #base_theme_manager_template: AlphaLemonCmsBundle:Themes:index.html.twig
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
