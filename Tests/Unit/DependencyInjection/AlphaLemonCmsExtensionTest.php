@@ -35,6 +35,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
         $this->assertEquals('web', $this->container->getParameter('alpha_lemon_cms.web_folder'));
         $this->assertEquals(array('en' => 'English'), $this->container->getParameter('alpha_lemon_cms.available_languages'));
         $this->assertEquals('uploads/assets', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'));
+        $this->assertFalse($this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'));
         $this->assertEquals('Resources', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.resources_dir'));
         $this->assertEquals('%alpha_lemon_cms.deploy_bundle.resources_dir%/config', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.config_dir'));
         $this->assertEquals('%alpha_lemon_cms.deploy_bundle.resources_dir%/views', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.views_dir'));
@@ -61,6 +62,11 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testUploadAssetsDir()
     {
         $this->scalarNodeParameter('alpha_lemon_cms.upload_assets_dir', 'upload_assets_dir', 'new/upload/path');
+    }
+
+    public function testEnableYuiCompressor()
+    {
+        $this->scalarNodeParameter('alpha_lemon_cms.enable_yui_compressor', 'enable_yui_compressor', true);
     }
 
     public function testDeployResourcesDir()
