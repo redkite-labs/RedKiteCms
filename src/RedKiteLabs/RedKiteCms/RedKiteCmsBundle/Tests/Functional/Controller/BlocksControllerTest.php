@@ -362,7 +362,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/showExternalFilesManager', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-
+        
         $this->assertTrue($crawler->filter('html:contains("Unable to find template")')->count() > 0);
     }
 
