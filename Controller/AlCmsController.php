@@ -48,6 +48,7 @@ class AlCmsController extends BaseFrontendController
         $pageRepository = $factoryRepository->createRepository('Page');
 
         $params = array('template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
+                        'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
                         'templateStylesheets' => null,
                         'templateJavascripts' => null,
                         'available_blocks' => null,

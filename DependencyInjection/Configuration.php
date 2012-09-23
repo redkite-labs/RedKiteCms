@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('skin')->end()
                 ->scalarNode('web_folder_dir')->end()
                 ->scalarNode('upload_assets_dir')->end()
+                ->booleanNode('enable_yui_compressor')->defaultFalse()->end()
                 ->arrayNode('deploy_bundle')
                     ->children()
                         ->scalarNode('resources_dir')->end()
