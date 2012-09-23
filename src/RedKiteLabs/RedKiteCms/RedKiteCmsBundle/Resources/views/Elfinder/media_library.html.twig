@@ -16,6 +16,25 @@
 {% extends 'AlphaLemonElFinderBundle:ElFinder:show.html.twig' %}
 
 {% block javascript_files %}
+{% if enable_yui_compressor %}
+    {% javascripts filter='?yui_js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.version.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.elfinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.resources.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.options.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.history.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.command.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/ui/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/commands/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/i18n/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/proxy/elFinderSupportVer1.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% else %}
     {% javascripts
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.version.js'
@@ -33,6 +52,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+{% endif %}
 {% endblock %}
 
 {% block elfinder_html %}

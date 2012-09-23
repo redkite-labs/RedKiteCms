@@ -28,7 +28,9 @@ class AlCmsElFinderController extends ContainerAware
 {
     public function showFilesManagerAction()
     {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Elfinder:file_manager.html.twig');
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Elfinder:file_manager.html.twig', array(
+            'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
+        ));
     }
 
     public function connectMediaAction()
