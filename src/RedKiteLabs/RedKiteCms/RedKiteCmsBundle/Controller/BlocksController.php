@@ -215,7 +215,7 @@ class BlocksController extends ContainerAware
                 throw new \RuntimeException($this->container->get('translator')->trans('The key param is mandatory to open the right file manager'));
             }
 
-            return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key));
+            return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), array('enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor')));
         } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
