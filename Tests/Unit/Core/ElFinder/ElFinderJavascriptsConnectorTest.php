@@ -57,13 +57,13 @@ class ElFinderJavascriptsConnectorTest extends TestCase
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->exactly(2))
+        $container->expects($this->once())
             ->method('get')
-            ->will($this->onConsecutiveCalls($request, $kernel));
+            ->will($this->returnValue($request));
 
         $container->expects($this->exactly(3))
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls('upload', 'deploy', '/full/base/path/to/web'));
+            ->will($this->onConsecutiveCalls('js', 'uploads/assets', '/full/base/path/to/web/uploads/assets'));
 
         $espected = array
         (
@@ -73,8 +73,8 @@ class ElFinderJavascriptsConnectorTest extends TestCase
                     array
                         (
                             "driver" => "LocalFileSystem",
-                            "path" => "/full/base/path/to/web/bundles/alphalemoncms/upload/deploy/",
-                            "URL" => "http://example.com/bundles/alphalemoncms/upload/deploy/",
+                            "path" => "/full/base/path/to/web/uploads/assets/js",
+                            "URL" => "http://example.com/uploads/assets/js/",
                             "accessControl" => "access",
                             "rootAlias" => "Javascripts"
                         )

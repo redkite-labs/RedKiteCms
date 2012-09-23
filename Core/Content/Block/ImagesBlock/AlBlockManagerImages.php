@@ -21,10 +21,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
         if (array_key_exists('AddFile', $values)) {
             $file = $values["AddFile"];
 
-            $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
-            $absolutePath = $asset->getAbsolutePath() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
-
-            $imageFile = "/" . $absolutePath . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
+            $imageFile = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
             if (in_array($imageFile, $savedImages)) {
                 throw new \Exception("The image file has already been added");
             }

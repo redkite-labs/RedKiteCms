@@ -49,29 +49,25 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->will($this->onConsecutiveCalls('AcmeWebSiteBundle',
                     'Resources/config',
                     'Resources/public/',
-                    'uploads/assets',
-                    'web',
+                    vfsStream::url('root/web/uploads/assets'),
+                    '/web/uploads/assets',
                     'Resources/views'));
 
         $folders = array('app' => array(),
-                         'web' => array('bundles'
-                                => array('alphalemoncms'
-                                    => array('uploads'
-                                        => array('assets'
-                                            => array('media' => array('image1.png' => '', 'image2.png' => ''),
-                                                    'js' => array('code.js' => ''),
-                                                    'css' => array('style.css' => ''),
+                         'web' => array('uploads'
+                                    => array('assets'
+                                        => array('media' => array('image1.png' => '', 'image2.png' => ''),
+                                                'js' => array('code.js' => ''),
+                                                'css' => array('style.css' => ''),
+                                                )
                                             )
-                                        )
-                                    )
-                                )
-                             ),
+                                        ),
                          'AcmeWebSiteBundle' => array('Resources' => array()),
                          'AlphaLemonCmsBundle' => array(),
                         );
         $this->root = vfsStream::setup('root', null, $folders);
     }
-    
+
     /**
      * @expectedException \RuntimeException
      */
@@ -94,7 +90,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->deployer = new AlTwigDeployer($this->container);
         $this->deployer->deploy();
     }
-    
+
     public function testDeploy()
     {
         $this->initSomeLangugesAndPages();
@@ -158,7 +154,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('config')->hasChild('site_routing.yml'));
 
-         $siteRouting = "# Route <<  >> generated for language << en >> and page << index >>\n";
+        $siteRouting = "# Route <<  >> generated for language << en >> and page << index >>\n";
         $siteRouting .= "_en_index:\n";
         $siteRouting .= "  pattern: /\n";
         $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: en, page: index }\n";

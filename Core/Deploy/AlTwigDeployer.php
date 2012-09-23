@@ -62,7 +62,7 @@ class AlTwigDeployer extends AlDeployer
     protected function save(AlPageTree $pageTree)
     {
         $imagesPath = array(
-            'backendPath' => $this->alphaLemonCmsBundleAsset->getAbsolutePath() . '/' . $this->uploadAssetsDir,
+            'backendPath' => $this->uploadAssetsAbsolutePath,
             'prodPath' => $this->deployBundleAsset->getAbsolutePath()
         );
         $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);

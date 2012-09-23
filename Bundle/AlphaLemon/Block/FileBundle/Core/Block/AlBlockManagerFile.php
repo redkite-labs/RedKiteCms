@@ -55,10 +55,7 @@ class AlBlockManagerFile extends AlBlockManagerContainer
         $content = $this->alBlock->getHtmlContent();
         $defaultValue = $this->getDefaultValue();
         if ($content != $defaultValue["HtmlContent"]) {
-            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
-            $asset = new AlAsset($container->get('kernel'),  $assetPath);
-
-            return @file_get_contents($asset->getRealPath() . '/' . $content);
+            return @file_get_contents($container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $content);
 
             /* TODO
             $assetPath = $asset->getAbsolutePath() . '/' . $content;
