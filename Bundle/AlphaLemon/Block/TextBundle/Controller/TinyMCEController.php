@@ -32,7 +32,7 @@ class TinyMCEController extends Controller
     public function createImagesListAction()
     {
         $cmsBundleAsset = new AlAsset($this->container->get('kernel'), 'AlphaLemonCmsBundle');
-        $cmsAssetsFolder = $this->container->getParameter('kernel.root_dir') . '/../' . $this->container->getParameter('alpha_lemon_cms.web_folder') . '/' . $cmsBundleAsset->getAbsolutePath() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
+        $cmsAssetsFolder = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/' . $cmsBundleAsset->getAbsolutePath() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
 
         $mceImages = array();
         $mediaFileTypes = array('*.jpg', '*.jpeg', '*.png', '*.gif', '*.tif');
