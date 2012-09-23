@@ -75,8 +75,6 @@ class ImageThumbnailExtensionTest extends TestCase
         $this->container->expects($this->once())
                         ->method('getParameter')
                         ->will($this->onConsecutiveCalls(vfsStream::url('root/web')));
-
-
     }
 
     private function setUpThumbnailer($width = 100, $height = 100)
