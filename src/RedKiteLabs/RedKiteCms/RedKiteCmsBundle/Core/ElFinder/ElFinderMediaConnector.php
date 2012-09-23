@@ -32,9 +32,9 @@ class ElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
     {
         $request = $this->container->get('request');
 
-        $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
-        $absolutePath = $asset->getAbsolutePath() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir') . '/';
-        $filesPath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/' . $absolutePath;
+        $folder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir') ;
+        $absolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . '/' . $folder . '/';
+        $filesPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $folder;
         if (!is_dir($filesPath)) @mkdir($filesPath);
 
         $options = array(

@@ -64,13 +64,18 @@ class CmsBootstrapListenerTest extends TestCase
         $this->setUpEnvironment('alcms');
         $this->setupFolders();
 
+        /*
         $this->kernel->expects($this->exactly(2))
             ->method('locateResource')
             ->will($this->onConsecutiveCalls(vfsStream::url('root/frontend-assets'), vfsStream::url('root/cms-assets/')));
+        */
+        $this->kernel->expects($this->once())
+            ->method('locateResource')
+            ->will($this->returnValue(vfsStream::url('root/frontend-assets')));
 
         $this->container->expects($this->any())
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls('@AcmeWebSiteBundle', 'asset-base-dir', 'media', 'js', 'css', 'uploades-base-dir', 'media', 'js', 'css'));
+            ->will($this->onConsecutiveCalls('@AcmeWebSiteBundle', 'asset-base-dir', 'media', 'js', 'css', vfsStream::url('root/cms-assets/uploades-base-dir'), 'media', 'js', 'css'));
 
         $this->pageTree->expects($this->once())
             ->method('setup');
@@ -108,8 +113,6 @@ class CmsBootstrapListenerTest extends TestCase
                                         ),
 
                                         'cms-assets' =>
-                                            array('Resources' =>
-                                                array('public' =>
                                                     array('uploades-base-dir' =>
                                                         array(
                                                             'media' => array(),
@@ -117,8 +120,6 @@ class CmsBootstrapListenerTest extends TestCase
                                                             'css' => array()
                                                         ),
                                                     ),
-                                                ),
-                                            ),
                                         ),
                                     );
 

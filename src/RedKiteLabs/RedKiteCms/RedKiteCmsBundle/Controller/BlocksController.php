@@ -301,9 +301,11 @@ class BlocksController extends ContainerAware
                 $externalFiles =  $blockManager->get()->{'get' . $field}();
 
                 if ($request->get('file') != null) {
-                    $asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
+                    /*$asset = new AlAsset($this->container->get('kernel'), '@AlphaLemonCmsBundle');
                     $bundleFolder = $asset->getAbsolutePath();
                     $filePath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/' . $bundleFolder . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir') . '/';
+                     */
+                    $filePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
                     $file = $filePath . $request->get('file');
                     @unlink($file);
 

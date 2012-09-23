@@ -35,7 +35,6 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $kernel = null;
     protected $deployBundle = null;
     protected $deployBundleAsset = null;
-    protected $alphaLemonCmsBundleAsset = null;
     protected $configDir = null;
     protected $assetsDir = null;
     protected $factoryRepository;
@@ -65,13 +64,12 @@ abstract class AlDeployer implements AlDeployerInterface
         if (null === $this->deployBundleAsset->getWebFolderRealPath()) {
             throw new InvalidParameterException(sprintf('The %s cannot be located. Check it is correctly enabled in your AppKernel class', $this->deployBundle));
         }
-        $this->alphaLemonCmsBundleAsset = new AlAsset($this->kernel, 'AlphaLemonCmsBundle');
 
         $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.config_dir');
         $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir');
 
-        $this->uploadAssetsDir = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
-        $this->cmsWebFolder = $this->container->getParameter('alpha_lemon_cms.web_folder');
+        $this->uploadAssetsFullPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
+        $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
     }
 
     /**
@@ -131,11 +129,9 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     protected function copyAssets()
     {
-        $sourceDir = $this->alphaLemonCmsBundleAsset->getWebFolderRealPath($this->cmsWebFolder)  . '/' . $this->uploadAssetsDir;
-
         $fs = new Filesystem();
         $finder = new Finder();
-        $folders = $finder->directories()->depth(0)->in($sourceDir);
+        $folders = $finder->directories()->depth(0)->in($this->uploadAssetsFullPath);
         foreach ($folders as $folder) {
             $targetFolder = $this->assetsDir . '/' . basename($folder->getFileName());
             $fs->remove($targetFolder);
