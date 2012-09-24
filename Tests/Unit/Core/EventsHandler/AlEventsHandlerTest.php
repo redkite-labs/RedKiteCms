@@ -51,7 +51,7 @@ class AlEventsHandlerTest extends TestCase
 
     public function testGetEventDispatcher()
     {
-        //$this->assertSame($this->dispatcher, $this->eventsHandler->getEventDispatcher());
+        $this->assertSame($this->dispatcher, $this->eventsHandler->getEventDispatcher());
     }
 
     /**
