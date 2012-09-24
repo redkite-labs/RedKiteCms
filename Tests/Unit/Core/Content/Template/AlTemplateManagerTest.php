@@ -305,7 +305,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->refresh();
         $templateManager->populate(2, 2);
     }
-
+    
     public function testPopulate()
     {
         $this->blockRepository->expects($this->exactly(2))
