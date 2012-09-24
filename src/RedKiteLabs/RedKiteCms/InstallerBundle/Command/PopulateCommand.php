@@ -72,14 +72,10 @@ class PopulateCommand extends ContainerAwareCommand
             'TRUNCATE al_language;',
             'TRUNCATE al_page;',
             'TRUNCATE al_page_attribute;',
-            'TRUNCATE al_theme;',
             'TRUNCATE al_user;',
             'TRUNCATE al_role;',
             'INSERT INTO al_language (language) VALUES(\'-\');',
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
-
-            // This query will be removed when themes management would be setted up
-            'INSERT INTO al_theme (theme_name, active) VALUES(\'BusinessWebsiteThemeBundle\', 1);',
         );
 
         foreach($queries as $query)
@@ -114,7 +110,7 @@ class PopulateCommand extends ContainerAwareCommand
         */
 
         $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
-        $languageManager = new AlLanguageManager($this->getContainer()->get('event_dispatcher'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
+        $languageManager = new AlLanguageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         $languageManager->set(null)->save(
             array(
                 'Language'      => 'en',
@@ -124,11 +120,11 @@ class PopulateCommand extends ContainerAwareCommand
         $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
         $template = $theme->getTemplate('home');
 
-        $pageContentsContainer = new AlPageBlocks($this->getContainer()->get('event_dispatcher'), $factoryRepository);
-        $templateManager = new AlTemplateManager($this->getContainer()->get('event_dispatcher'), $factoryRepository, $template, $pageContentsContainer, $this->getContainer()->get('alphalemon_cms.block_manager_factory'));
+        $pageContentsContainer = new AlPageBlocks($factoryRepository);
+        $templateManager = new AlTemplateManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, $template, $pageContentsContainer, $this->getContainer()->get('alphalemon_cms.block_manager_factory'));
         $templateManager->refresh();
 
-        $pageManager = new AlPageManager($this->getContainer()->get('event_dispatcher'), $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
+        $pageManager = new AlPageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
         $pageManager->set(null)->save(
             array(
                 'PageName' => 'index',
