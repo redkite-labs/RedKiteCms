@@ -75,20 +75,35 @@ class PagesController extends ContainerAware
             }
 
             $alPage = null;
+            $pageBlocks = null;
             $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
+            $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
             if ($request->get('pageId') != 'none') {
                 $pageRepository = $this->createRepository('Page');
                 $alPage = $pageRepository->fromPk($request->get('pageId'));
 
                 // Refreshes the page manager using the given page to update
-                $pageContentsContainer = $pageManager->getTemplateManager()->getPageBlocks();
-                if ($request->get('pageId') != "" && $request->get('pageId') != $pageContentsContainer->getIdPage()) {
-                    $this->container->get('alpha_lemon_cms.page_tree')->refresh($request->get('languageId'), $request->get('pageId'));
-                    $pageManager->setTemplateManager($this->container->get('alpha_lemon_cms.page_tree')->getTemplateManager());
+                $pageBlocks = $pageManager->getTemplateManager()->getPageBlocks();
+                if ($request->get('pageId') != "" && $request->get('pageId') != $pageBlocks->getIdPage()) {
+                    $pageTree->refresh($request->get('languageId'), $request->get('pageId'));
                 }
             }
 
+            $template = $this->container->get('alpha_lemon_cms.themes_collection_wrapper')->getTemplate(
+                $pageTree->getTheme()->getThemeName(),
+                $request->get('templateName')
+            );
+
+            $templateManager = new \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager(
+                $this->container->get('alpha_lemon_cms.events_handler'),
+                $this->container->get('alpha_lemon_cms.factory_repository'),
+                $template,
+                $pageBlocks,
+                $this->container->get('alpha_lemon_cms.block_manager_factory')
+            );
+
             $pageManager->set($alPage);
+            $pageManager->setTemplateManager($templateManager);
             $template = ($request->get('templateName') != "none") ? $request->get('templateName') : '';
             $permalink = ($request->get('permalink') == "") ? $request->get('pageName') : $request->get('permalink');
 

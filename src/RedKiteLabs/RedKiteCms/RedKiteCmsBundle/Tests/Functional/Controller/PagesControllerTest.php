@@ -156,11 +156,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
         $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 3, $pagesSlots)));
-    }
 
-    public function testPageJustAdded()
-    {
-        $crawler = $this->client->request('GET', 'backend/en/page1');
+        $crawler = $this->client->request('GET', '/backend/en/page1');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#block_1')->count());
@@ -237,6 +234,28 @@ class PagesControllerTest extends WebTestCaseFunctional
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
         $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 4, $pagesSlots)));
+    }
+
+    public function testAddNewPageWithATemplateDifferentThanTheOneOfCurrentPage()
+    {
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageName' => "another-page",
+                        'templateName' => "fullpage",
+                        'permalink' => "another-page",
+                        'title' => 'A title',
+                        'description' => 'A description',
+                        'keywords' => 'Some keywords');
+        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $crawler = $this->client->request('GET', '/backend/en/another-page');
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('.al_page_content')->count()); //
+        $this->assertTrue($crawler->filter('html:contains("2806Lorem ipsum dolor")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("2506Duis aute irure")')->count() > 0);
     }
 
     public function testEditPage()
@@ -344,7 +363,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(3, count($this->pageRepository->activePages()));
+        $this->assertEquals(4, count($this->pageRepository->activePages()));
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
         $seo = $this->seoRepository->fromPageAndLanguage(2, 3);
@@ -387,7 +406,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(2, count($this->pageRepository->activePages()));
+        $this->assertEquals(3, count($this->pageRepository->activePages()));
 
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
