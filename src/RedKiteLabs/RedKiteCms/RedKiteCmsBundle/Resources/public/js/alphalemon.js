@@ -148,30 +148,28 @@ $(document).ready(function(){
 
         $('#al_open_pages_panel').click(function()
         {
-            if($('#al_panel_contents').length == 0)
-            {}
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages option:selected').text() + '/al_showPages',
-                    data: {},
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(html)
-                    {
-                        $('#al_panel').OpenPanel(html, function(){InitPagesCommands();ObservePages();});
-                    },
-                    error: function(err)
-                    {
-                        $('#al_dialog').html(err.responseText);
-                        $('#al_dialog').dialog('open');
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
+            $.ajax({
+                type: 'POST',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').text() + '/al_showPages',
+                data: {},
+                beforeSend: function()
+                {
+                    $('body').AddAjaxLoader();
+                },
+                success: function(html)
+                {
+                    $('#al_panel').OpenPanel(html, function(){InitPagesCommands();ObservePages();});
+                },
+                error: function(err)
+                {
+                    $('#al_dialog').html(err.responseText);
+                    $('#al_dialog').dialog('open');
+                },
+                complete: function()
+                {
+                    $('body').RemoveAjaxLoader();
+                }
+            });
 
 
             return false;

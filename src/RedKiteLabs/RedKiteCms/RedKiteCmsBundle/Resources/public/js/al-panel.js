@@ -50,7 +50,7 @@
             }
             else {
                 panel = $('#al_panel_contents');
-                panel.hide().html(html);
+                panel.html(html);
             }
         });
     };
