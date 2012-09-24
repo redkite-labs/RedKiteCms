@@ -43,15 +43,15 @@
                     height: "hide"
                     }, 1000, 'easeInOutCirc', function(){$(this).empty();});
                 });
-
-                $(panel).animate({
-                height: 'show'
-                }, 750, 'easeInExpo', callback);
             }
             else {
                 panel = $('#al_panel_contents');
-                panel.html(html);
+                panel.hide().html(html);
             }
+
+            $(panel).animate({
+                height: 'show'
+                }, 750, 'easeInExpo', callback);
         });
     };
 })($);
