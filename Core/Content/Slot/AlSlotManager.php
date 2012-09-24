@@ -324,7 +324,7 @@ class AlSlotManager extends AlTemplateBase
                 );
 
                 if ($this->forceSlotAttributes) {
-                    $content = $this->slot->getHtmlContent();
+                    $content = $this->slot->getHtmlContent(); 
                     if (null !== $content) $values["HtmlContent"] = $content;
                 }
 
