@@ -83,13 +83,13 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the current AlTemplate object
      *
-     * @param  AlTemplate                                                              $templateSlots
+     * @param  AlTemplate $template
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      *
      */
-    public function setTemplate(AlTemplate $templateSlots)
+    public function setTemplate(AlTemplate $template)
     {
-        $this->template = $templateSlots;
+        $this->template = $template;
 
         return $this;
     }
