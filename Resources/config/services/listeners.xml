@@ -6,7 +6,6 @@
     <parameters>
         <parameter key="alpha_lemon_cms.images_block_edited.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener</parameter>
         <parameter key="alpha_lemon_cms.cms_bootstrap_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
-        <parameter key="alpha_lemon_cms.cms_finalize_content_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\FinalizeContentsListener</parameter>
         <parameter key="alpha_lemon_cms.access_deniend_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
         <parameter key="alpha_lemon_cms.add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddSeoListener</parameter>
         <parameter key="alpha_lemon_cms.add_page_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
@@ -28,11 +27,6 @@
 
         <service id="alpha_lemon_cms.cms_bootstrap_listener" class="%alpha_lemon_cms.cms_bootstrap_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
-            <argument type="service" id="service_container" />
-        </service>
-
-        <service id="alpha_lemon_cms.cms_finalize_content_listener" class="%alpha_lemon_cms.cms_finalize_content_listener.class%">
-            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0" />
             <argument type="service" id="service_container" />
         </service>
 
