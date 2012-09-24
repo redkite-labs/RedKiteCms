@@ -269,36 +269,34 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function populate($idLanguage, $idPage, $ignoreRepeated = false)
     {
-        if (count($this->slotManagers) > 0) {
-            try {
-                $this->refreshPageBlocks($idLanguage, $idPage);
+        try {
+            $this->refreshPageBlocks($idLanguage, $idPage);
 
-                $result = false;
-                $this->blockRepository->startTransaction();
-                foreach ($this->slotManagers as $slotManager) {
-                    if ($ignoreRepeated && $slotManager->getRepeated() != 'page') {
-                        continue;
-                    }
-
-                    $slotManager->setForceSlotAttributes(true);
-                    $result = $slotManager->addBlock($idLanguage, $idPage);
-                    if(false === $result) break;
+            $result = false;
+            $this->blockRepository->startTransaction();
+            foreach ($this->slotManagers as $slotManager) {
+                if ($ignoreRepeated && $slotManager->getRepeated() != 'page') {
+                    continue;
                 }
 
-                if ($result !== false) {
-                    $this->blockRepository->commit();
-                } else {
-                    $this->blockRepository->rollBack();
-                }
-
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                    $this->blockRepository->rollBack();
-                }
-
-                throw $e;
+                $slotManager->setForceSlotAttributes(true);
+                $result = $slotManager->addBlock($idLanguage, $idPage);
+                if(false === $result) break;
             }
+
+            if ($result !== false) {
+                $this->blockRepository->commit();
+            } else {
+                $this->blockRepository->rollBack();
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
+            throw $e;
         }
     }
 
@@ -312,35 +310,32 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function clearBlocks($ignoreRepeated = true)
     {
-        if (count($this->slotManagers) > 0) {
-            try {
-                $result = null;
-                $this->blockRepository->startTransaction();
-                foreach ($this->slotManagers as $slotManager) {
-                    if ($ignoreRepeated && $slotManager->getSlot()->getRepeated() != 'page') {
-                        continue;
-                    }
-                    $result = $slotManager->deleteBlocks();
-
-                    if(false === $result) break;
+        try {
+            $result = null;
+            $this->blockRepository->startTransaction();
+            foreach ($this->slotManagers as $slotManager) {
+                if ($ignoreRepeated && $slotManager->getSlot()->getRepeated() != 'page') {
+                    continue;
                 }
+                $result = $slotManager->deleteBlocks();
 
-                if ($result !== false) {
-                    $this->blockRepository->commit();
-                } else {
-                    $this->blockRepository->rollBack();
-                }
-
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                    $this->blockRepository->rollBack();
-                }
-
-                throw $e;
+                if(false === $result) break;
             }
-        }
 
+            if ($result !== false) {
+                $this->blockRepository->commit();
+            } else {
+                $this->blockRepository->rollBack();
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
+            throw $e;
+        }
     }
 
     /**
