@@ -49,7 +49,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
      */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->eventsDispatcher = $eventDispatcher;
+        $this->eventDispatcher = $eventDispatcher;
         $this->methods = $this->configureMethods();
     }
 
@@ -142,7 +142,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
             throw(new \RuntimeException('Any event has been found to be dispatched'));
         }
 
-        $this->eventsDispatcher->dispatch($eventName, $event);
+        $this->eventDispatcher->dispatch($eventName, $event);
 
         return $this;
     }
