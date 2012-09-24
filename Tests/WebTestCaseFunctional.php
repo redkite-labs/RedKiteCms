@@ -94,13 +94,15 @@ class WebTestCaseFunctional extends WebTestCase
         $templateManager->refresh();
 
         $connection = \Propel::getConnection();
-        $queries = array('TRUNCATE al_block;',
-                         'TRUNCATE al_language;',
-                         'TRUNCATE al_page;',
-                         'TRUNCATE al_seo;',
-                         'INSERT INTO al_language (language) VALUES(\'-\');',
-                         'INSERT INTO al_page (page_name) VALUES(\'-\');',
-                        );
+        $queries = array(
+            'SET foreign_key_checks = 0',
+            'TRUNCATE al_block;',
+            'TRUNCATE al_language;',
+            'TRUNCATE al_page;',
+            'TRUNCATE al_seo;',
+            'INSERT INTO al_language (language) VALUES(\'-\');',
+            'INSERT INTO al_page (page_name) VALUES(\'-\');',
+        );
 
         foreach ($queries as $query) {
             $statement = $connection->prepare($query);
@@ -116,5 +118,8 @@ class WebTestCaseFunctional extends WebTestCase
         foreach (self::$pages as $page) {
             $alPageManager->set(null)->save($page);
         }
+
+        $statement = $connection->prepare('SET foreign_key_checks = 1');
+        $statement->execute();
     }
 }
