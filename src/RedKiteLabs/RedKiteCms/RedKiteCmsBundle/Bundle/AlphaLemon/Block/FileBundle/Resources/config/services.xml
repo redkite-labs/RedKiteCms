@@ -11,8 +11,10 @@
 
         <parameter key="markdowngeshi.stylesheets" type="collection">
             <parameter>@FileBundle/Resources/public/css/markdown.css</parameter>
-            <parameter>@HighlightBundle/Resources/public/geshi.css</parameter>
         </parameter>
+
+        <parameter key="al_file_rendering.class">AlphaLemon\Block\FileBundle\Core\Listener\RenderingEditorListener</parameter>
+        <parameter key="al_file.form.class">AlphaLemon\Block\FileBundle\Core\Form\AlFileType</parameter>
     </parameters>
 
     <services>
@@ -23,6 +25,12 @@
         <service id="app_file.block" class="%app_file.block.class%">
             <argument type="service" id="service_container" />
             <tag name="alphalemon_cms.blocks_factory.block" description="File block" type="File" group="alphalemon_internals" />
+        </service>
+
+        <service id="al_file_rendering" class="%al_file_rendering.class%">
+            <tag name="alcms.event_listener" event="actions.block_editor_rendering" method="onBlockEditorRendering" priority="0" />
+        </service>
+        <service id="al_file.form" class="%al_file.form.class%">
         </service>
     </services>
 </container>
