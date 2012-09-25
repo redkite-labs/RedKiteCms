@@ -42,10 +42,11 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
                 $container = $event->getContainer();
                 $block = $alBlockManager->get();
                 $className = $block->getClassName();
-                $content = json_decode($block->getHtmlContent(), true);
+                $content = json_decode($block->getHtmlContent(), true);        
                 $content = $content[0];
+                $content = $this->formatContent($content);
                 $content['id'] = 0;
-
+                
                 $form = $container->get('form.factory')->create(new $params['formClass'](), $content);
                 $template = sprintf('%sBundle:Block:%s_item.html.twig', $className, strtolower($className));
                 $editor = $container->get('templating')->render($template, array("form" => $form->createView()));
@@ -54,5 +55,16 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
         } catch (\Exception $ex) {
             throw $ex;
         }
+    }
+    
+    /**
+     * Override this function to format the content in a different way than the saved one
+     * 
+     * @param type AlBlock $block
+     * @return type 
+     */
+    protected function formatContent($content)
+    {
+        return $content;
     }
 }
