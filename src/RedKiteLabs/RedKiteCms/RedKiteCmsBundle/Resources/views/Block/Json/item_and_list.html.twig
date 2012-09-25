@@ -13,26 +13,4 @@
     @license    GPL LICENSE Version 2.0
 #}
 
-{% extends "AlphaLemonCmsBundle:Block:Json/item.html.twig" %}
-
-{% block commands %}
-<table>
-    <tr>
-        <td>
-            <input type="submit" value="Save" class="al_save_item input button al_large" />
-        </td>
-        <td colspan="2">
-            <input type="submit" value="List" class="al_list_items input button al_large" />
-        </td>
-    </tr>
-</table>
-{% endblock %}
-
-{% block script %}
-
-{{ parent() }}
-
-<script>
-    $('.al_list_items').ListItems({{ block_id }});
-</script>
-{% endblock %}
+{% include('AlphaLemonCmsBundle:Block:Json/_item_and_list.html.twig') %}
