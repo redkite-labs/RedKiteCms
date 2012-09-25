@@ -8,6 +8,7 @@
 namespace AlphaLemon\Block\FileBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
@@ -15,13 +16,23 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerFile extends AlBlockManagerContainer
+class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 {
     protected $renderFile = false;
 
     public function getDefaultValue()
     {
-        return array("HtmlContent" => 'Click to load a file');
+        $value =
+        '{
+            "0" : {
+                "file" : "Click to load a file",
+                "opened" : "0"
+            }
+        }';
+
+        return array(
+            'HtmlContent' => $value,
+        );
     }
 
     public function getHideInEditMode()
@@ -31,39 +42,38 @@ class AlBlockManagerFile extends AlBlockManagerContainer
 
     public function getHtml()
     {
-        $container = $this->container;
-        $content = $this->alBlock->getHtmlContent();
-        $defaultValue = $this->getDefaultValue();
-        if ($content != $defaultValue["HtmlContent"]) {
-            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
-            $asset = new AlAsset($container->get('kernel'),  $assetPath);
+        $items = $this->decode();
+        $file = $items['file'];
 
-            return sprintf("{%% set file = kernel_root_dir ~ '/../web/bundles/alphalemonwebsite/%s' %%} {{ file_open(file) }}", $content);
-            /*
-            $assetPath = '@AlphaLemonCmsBundle/Resources/public/' . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
-            $asset = new AlAsset($container->get('kernel'),  $assetPath);
+        $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
+        $deployBundleAsset = new AlAsset($this->container->get('kernel'), $deployBundle);
 
-            return sprintf("{{ file_open('%s') }}", $asset->getRealPath() . '/' . $content);*/
-        }
-
-        return $content;
+        return ($items['opened'])
+            ? sprintf("{%% set file = kernel_root_dir ~ '/../web/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
+            : $this->formatLink($file);
     }
 
     protected function formatHtmlCmsActive()
     {
-        $container = $this->container;
-        $content = $this->alBlock->getHtmlContent();
-        $defaultValue = $this->getDefaultValue();
-        if ($content != $defaultValue["HtmlContent"]) {
-            return @file_get_contents($container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $content);
+        $item = $this->decode();
+        $file = $item['file'];
 
-            /* TODO
-            $assetPath = $asset->getAbsolutePath() . '/' . $content;
+        return ($item['opened'])
+            ? file_get_contents($this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $file)
+            : $this->formatLink($file);
+    }
 
-            return sprintf('<a href="/%s" />%s</a>', $assetPath, basename($assetPath));
-             */
-        }
+    private function formatLink($file)
+    {
+        $uploadsPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
 
-        return $content;
+        return sprintf('<a href="/%s/%s" />%s</a>', $uploadsPath, $file, basename($file));
+    }
+
+    private function decode()
+    {
+        $items = json_decode($this->alBlock->getHtmlContent(), true);
+
+        return $items[0];
     }
 }

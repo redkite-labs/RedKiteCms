@@ -1,0 +1,47 @@
+{#
+ This file is part of the BusinessCarouselBundle and it is distributed
+ under the GPL LICENSE Version 2.0. To use this application you must leave
+ intact this copyright notice.
+
+    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+ For the full copyright and license information, please view the LICENSE
+ file that was distributed with this source code.
+
+ For extra documentation and help please visit http://www.alphalemon.com
+
+    @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonCmsBundle:Elfinder:media_library.html.twig' %}
+
+{% block init_script %}
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        $('#al_json_block_file').click(function()
+        {
+            $('<div/>').dialogelfinder({
+                    url : frontController + $('#al_available_languages').val() + '/al_elFinderFileConnect',
+                    lang : 'en',
+                    width : 840,
+                    destroyOnClose : true,
+                    commandsOptions : {
+                        getfile : {
+                            onlyURL  : false,
+                        }
+                    },
+                    getFileCallback : function(file, fm) {
+                        $('#al_json_block_file').val(file.path);
+                        alert('File has been added');
+                    }
+            }).dialogelfinder('instance')
+        });
+    });
+</script>
+{% endblock %}
+
+{% block elfinder_html %}
+<div id="elfinder"></div>
+
+{% include('AlphaLemonCmsBundle:Block:Json/_item.html.twig') %}
+{% endblock %}
