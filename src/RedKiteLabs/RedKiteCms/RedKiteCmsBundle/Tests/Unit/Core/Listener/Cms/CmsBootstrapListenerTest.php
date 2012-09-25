@@ -64,11 +64,6 @@ class CmsBootstrapListenerTest extends TestCase
         $this->setUpEnvironment('alcms');
         $this->setupFolders();
 
-        /*
-        $this->kernel->expects($this->exactly(2))
-            ->method('locateResource')
-            ->will($this->onConsecutiveCalls(vfsStream::url('root/frontend-assets'), vfsStream::url('root/cms-assets/')));
-        */
         $this->kernel->expects($this->once())
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root/frontend-assets')));
