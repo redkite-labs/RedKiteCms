@@ -204,7 +204,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         // Attaches the content a javascript code that saves the block's content to restore it when block must be hid
         $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
         $internalJavascript = (string)$this->getInternalJavascript();
-        $internalJavascript = ($internalJavascript  != "" && $this->getExecuteInternalJavascript()) ? $internalJavascript : '';
+        $internalJavascript = ($internalJavascript != "" && $this->getExecuteInternalJavascript()) ? $internalJavascript : '';
         if ($scriptForHideContents != '' || $internalJavascript != '') {
             $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s%s});</script>', $scriptForHideContents, $internalJavascript);
         }
