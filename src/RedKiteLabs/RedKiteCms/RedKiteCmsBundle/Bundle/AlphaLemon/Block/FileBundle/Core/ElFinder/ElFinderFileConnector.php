@@ -32,7 +32,7 @@ class ElFinderFileConnector extends AlphaLemonElFinderBaseConnector
                     'path'          => $filesPath,         // path to files (REQUIRED)
                     'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $absolutePath, // URL to files (REQUIRED)
                     'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
-                    'rootAlias'     => 'Javascripts',
+                    'rootAlias'     => 'File',
                 )
             )
         );
