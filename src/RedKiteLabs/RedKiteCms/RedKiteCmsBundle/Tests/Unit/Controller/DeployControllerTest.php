@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Controller;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Controller\DeployController;
