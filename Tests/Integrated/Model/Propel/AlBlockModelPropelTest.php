@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
- *
+ *testRetrieveContentsByStrictContent
  * @license    GPL LICENSE Version 2.0
  *
  */
@@ -120,8 +120,8 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
 
     public function testRetrieveContentsByStrictContent()
     {
-        $blocks = $this->blockRepository->fromHtmlContent('Progress Business Company');
-        $this->assertEquals(2, count($blocks));
+        $blocks = $this->blockRepository->fromHtmlContent('logo.png');
+        $this->assertEquals(1, count($blocks));
     }
 
     public function testRetrieveContentsByClassName()
