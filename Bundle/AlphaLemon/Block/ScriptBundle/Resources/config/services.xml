@@ -4,9 +4,9 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="app_script.block.class">AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript</parameter>
+        <parameter key="script.block.class">AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript</parameter>
 
-        <parameter key="script_editor_settings" type="collection">
+        <parameter key="script.editor_settings" type="collection">
             <parameter key="html_editor">true</parameter>
             <parameter key="internal_js">true</parameter>
             <parameter key="external_js">true</parameter>
@@ -16,7 +16,7 @@
     </parameters>
 
     <services>
-        <service id="app_script.block" class="%app_script.block.class%">
+        <service id="script.block" class="%script.block.class%">
             <argument type="service" id="alpha_lemon_cms.events_handler" />
             <tag name="alphalemon_cms.blocks_factory.block" description="Script block" type="Script" group="alphalemon_internals" />
         </service>
