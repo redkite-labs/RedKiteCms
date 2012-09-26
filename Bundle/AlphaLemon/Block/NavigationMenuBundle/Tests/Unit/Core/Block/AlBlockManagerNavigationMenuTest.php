@@ -29,7 +29,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
 {
     protected function setUp()
     {
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
         $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
@@ -51,7 +51,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->dispatcher, $this->factoryRepository));
+            ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository));
 
         $blockManager = new AlBlockManagerNavigationMenu($container);
 
@@ -85,7 +85,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->dispatcher, $this->factoryRepository, $pageTree, $this->urlManager));
+            ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $pageTree, $this->urlManager));
 
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
@@ -121,7 +121,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->dispatcher, $this->factoryRepository, $pageTree, $this->urlManager));
+            ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $pageTree, $this->urlManager));
 
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
@@ -162,7 +162,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->any())
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->dispatcher, $this->factoryRepository, $pageTree, $this->urlManager));
+            ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $pageTree, $this->urlManager));
 
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
