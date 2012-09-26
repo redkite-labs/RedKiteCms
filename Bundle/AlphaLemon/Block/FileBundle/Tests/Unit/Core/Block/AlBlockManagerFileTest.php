@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\Block\FileBundle\Tests\Unit\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\Block\FileBundle\Core\Block\AlBlockManagerFile;
 use org\bovigo\vfs\vfsStream;
@@ -47,14 +46,14 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
-    
+
     public function testGetHideInEditMode()
     {
         $this->initContainer();
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);      
+        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $this->assertTrue($blockManager->getHideInEditMode());
     }
-    
+
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException
      * @expectedExceptionMessage The content format is wrong. You should remove that block and add it again.
@@ -68,14 +67,14 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 "opened" : "1",
             }
         }';
-        
+
         $block = $this->initBlock($value);
         $this->initContainer();
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);        
+        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->getHtml();
     }
-    
+
     public function testGetHtmlWhenOpenedIsFalse()
     {
         $value =
@@ -85,18 +84,18 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 "opened" : "0"
             }
         }';
-        
+
         $block = $this->initBlock($value);
         $this->initContainerWithKernel();
         $this->container->expects($this->exactly(2))
                         ->method('getParameter')
                         ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'uploads/assets'));
-                   
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);        
+
+        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('<a href="/uploads/assets/files/my-file" />my-file</a>', $blockManager->getHtml());
     }
-    
+
     public function testGetHtmlWhenOpenedIsTrue()
     {
         $value =
@@ -106,18 +105,18 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 "opened" : "1"
             }
         }';
-        
+
         $block = $this->initBlock($value);
         $this->initContainerWithKernel();
         $this->container->expects($this->once())
                         ->method('getParameter')
                         ->will($this->returnValue('AcmeWebsiteBundle'));
-                   
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);        
+
+        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('{% set file = kernel_root_dir ~ \'/../web/bundles/acmewebsite/files/my-file\' %} {{ file_open(file) }}', $blockManager->getHtml());
     }
-    
+
     public function testGetHtmlCmsActiveWhenOpenedIsFalse()
     {
         $value =
@@ -127,18 +126,18 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 "opened" : "0"
             }
         }';
-        
+
         $block = $this->initBlock($value);
         $this->initContainer();
         $this->container->expects($this->once())
                         ->method('getParameter')
                         ->will($this->returnValue(vfsStream::url('uploads/assets')));
-                   
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);        
+
+        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('<a href="/vfs://uploads/assets/files/my-file" />my-file</a><script type="text/javascript">$(document).ready(function(){$(\'#block_\').data(\'block\', $(\'#block_\').html());});</script>', $blockManager->getHtmlCmsActive());
     }
-    
+
     public function testGetHtmlCmsActiveWhenOpenedIsTrue()
     {
         $value =
@@ -148,9 +147,9 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 "opened" : "1"
             }
         }';
-        
+
         $root = vfsStream::setup('root', null, array('assets' => array('files' => array('my-file' => '<p>some html content</p>'))));
-        
+
         $block = $this->initBlock($value);
         $block->expects($this->once())
               ->method('getId')
@@ -159,22 +158,22 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->container->expects($this->once())
                         ->method('getParameter')
                         ->will($this->returnValue(vfsStream::url('root/assets')));
-                   
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);        
+
+        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('<p>some html content</p><script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>', $blockManager->getHtmlCmsActive());
     }
-    
+
     private function initBlock($value)
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getHtmlContent')
               ->will($this->returnValue($value));
-        
+
         return $block;
     }
-    
+
     private function initContainerWithKernel()
     {
         $this->container->expects($this->exactly(3))
