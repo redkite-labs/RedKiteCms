@@ -34,7 +34,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class WebTestCaseFunctional extends WebTestCase
+abstract class WebTestCaseFunctional extends WebTestCase
 {
     protected $client;
     protected static $languages;
