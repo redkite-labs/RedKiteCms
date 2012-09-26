@@ -269,6 +269,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getInternalJavascript($safe = true)
     {
         $internalJavascript = '';
+        if (null === $this->alBlock) return $internalJavascript;
+        
         $savedJavascript = $this->alBlock->getInternalJavascript();
         if (null !== $this->alBlock && trim($savedJavascript) != '') {
             $internalJavascript = $savedJavascript;
