@@ -16,7 +16,7 @@
  */
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     protected $connection = null;
 
