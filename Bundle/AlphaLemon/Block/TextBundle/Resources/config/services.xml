@@ -4,15 +4,15 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="app_text.block.class">AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText</parameter>
+        <parameter key="text.block.class">AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText</parameter>
 
-        <parameter key="text_editor_settings" type="collection">
+        <parameter key="text.editor_settings" type="collection">
             <parameter key="rich_editor">true</parameter>
         </parameter>
     </parameters>
 
     <services>
-        <service id="app_text.block" class="%app_text.block.class%">
+        <service id="text.block" class="%text.block.class%">
             <argument type="service" id="alpha_lemon_cms.events_handler" />
             <tag name="alphalemon_cms.blocks_factory.block" description="Hypertext block" type="Text" group="alphalemon_internals" />
         </service>
