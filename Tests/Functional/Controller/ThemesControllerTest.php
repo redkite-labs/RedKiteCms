@@ -74,7 +74,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#al_theme_fixer')->count());
         $this->assertEquals(1, $crawler->filter('#al_theme_fixer_form')->count());
         $this->assertEquals(1, $crawler->filter('#al_template')->count());
-        $this->assertEquals(2, $crawler->filter('#al_template option')->count());
+        $this->assertEquals(4, $crawler->filter('#al_template option')->count());
         $this->assertEquals(1, $crawler->filter('#al_template_changer')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_to_fix_list')->count());
         $this->assertEquals(1, $crawler->filter('#row_2')->count());
