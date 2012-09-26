@@ -5,16 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="el_finder.file_connector">AlphaLemon\Block\FileBundle\Core\ElFinder\ElFinderFileConnector</parameter>
-        <parameter key="app_file.base_folder">files</parameter>
-        <parameter key="app_file.block.class">AlphaLemon\Block\FileBundle\Core\Block\AlBlockManagerFile</parameter>
-
-        <parameter key="markdowngeshi.stylesheets" type="collection">
-            <parameter>@FileBundle/Resources/public/css/markdown.css</parameter>
-        </parameter>
-
-        <parameter key="al_file_rendering.class">AlphaLemon\Block\FileBundle\Core\Listener\RenderingEditorListener</parameter>
-        <parameter key="al_file.form.class">AlphaLemon\Block\FileBundle\Core\Form\AlFileType</parameter>
+        <parameter key="file.base_folder">files</parameter>
+        <parameter key="el_finder.file_connector">AlphaLemon\Block\FileBundle\Core\ElFinder\ElFinderFileConnector</parameter>        
+        <parameter key="file.block.class">AlphaLemon\Block\FileBundle\Core\Block\AlBlockManagerFile</parameter>
+        <parameter key="file.rendering.class">AlphaLemon\Block\FileBundle\Core\Listener\RenderingEditorListener</parameter>
+        <parameter key="file.form.class">AlphaLemon\Block\FileBundle\Core\Form\AlFileType</parameter>
     </parameters>
 
     <services>
@@ -22,15 +17,15 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="app_file.block" class="%app_file.block.class%">
+        <service id="file.block" class="%file.block.class%">
             <argument type="service" id="service_container" />
             <tag name="alphalemon_cms.blocks_factory.block" description="File block" type="File" group="alphalemon_internals" />
         </service>
 
-        <service id="al_file_rendering" class="%al_file_rendering.class%">
+        <service id="file.rendering" class="%file.rendering.class%">
             <tag name="alcms.event_listener" event="actions.block_editor_rendering" method="onBlockEditorRendering" priority="0" />
         </service>
-        <service id="al_file.form" class="%al_file.form.class%">
+        <service id="file.form" class="%file.form.class%">
         </service>
     </services>
 </container>

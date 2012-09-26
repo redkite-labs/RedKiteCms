@@ -19,7 +19,7 @@ class ElFinderFileConnector extends AlphaLemonElFinderBaseConnector
     protected function configure()
     {
         $request = $this->container->get('request');
-        $folder = $this->container->getParameter('app_file.base_folder') ;
+        $folder = $this->container->getParameter('file.base_folder') ;
         $absolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . '/' . $folder . '/';
         $filesPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $folder;
         if (!is_dir($filesPath)) @mkdir($filesPath);
