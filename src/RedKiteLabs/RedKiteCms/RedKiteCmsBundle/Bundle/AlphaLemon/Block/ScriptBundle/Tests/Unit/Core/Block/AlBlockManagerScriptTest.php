@@ -30,36 +30,32 @@ class AlBlockManagerScriptTest extends TestCase
     protected function setUp()
     {
         $factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->blockManager = new AlBlockManagerScript($dispatcher, $factoryRepository);
+        $eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->blockManager = new AlBlockManagerScript($eventsHandler, $factoryRepository);
     }
 
     public function testDefaultValue()
     {
-        $expectedValue = array('HtmlContent' => '',
-                            'InternalJavascript' => '',
-                            'ExternalJavascript' => '');
+        $expectedValue = array(
+            'HtmlContent' => '',
+            'InternalJavascript' => '',
+            'ExternalJavascript' => ''
+        );
         $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
     }
 
     public function testHtmlContentDisplaysTheContentWhenAnyJavascriptTagExists()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getHtmlContent')
-            ->will($this->returnValue('A fancy javascript'));
+        $block = $this->initBlock('A fancy javascript');
         $this->blockManager->set($block);
-        $this->assertEquals('A fancy javascript', $this->blockManager->getHtmlCmsActive());
+        $this->assertEquals('A fancy javascript<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>', $this->blockManager->getHtmlCmsActive());
     }
 
     public function testHtmlContentDisplaysAWarningWhenAtLeastOneJavascriptTagExists()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getHtmlContent')
-            ->will($this->returnValue('<script>A fancy javascript</script>'));
+        $block = $this->initBlock('<script>A fancy javascript</script>');
         $this->blockManager->set($block);
-        $this->assertEquals('A script content is not rendered in editor mode', $this->blockManager->getHtmlCmsActive());
+        $this->assertEquals('A script content is not rendered in editor mode<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>', $this->blockManager->getHtmlCmsActive());
     }
 
     public function testHideInEditMode()
@@ -71,4 +67,19 @@ class AlBlockManagerScriptTest extends TestCase
     {
         $this->assertTrue($this->blockManager->getReloadSuggested());
     }
+    
+    private function initBlock($htmlContent)
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getHtmlContent')
+            ->will($this->returnValue($htmlContent));
+        
+        $block->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(2));
+        
+        return $block;
+    }
+            
 }
