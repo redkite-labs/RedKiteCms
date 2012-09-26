@@ -31,7 +31,7 @@ class TinyMCEControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/al_createImagesList');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp('/var tinyMCEImageList = new Array\(([\[\",\.\]\/\\\-\_\w\s]+)\)/', $crawler->text());
+        $this->assertRegExp('/var tinyMCEImageList = new Array\(([\[\",\.\]\/\_\-\w\s\\\]+)\)/', $crawler->text());
     }
 
     public function testCreatePermalinkList()
@@ -39,6 +39,6 @@ class TinyMCEControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/al_createPermalinksList/2');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp('/var tinyMCELinkList = new Array\([\[\",\.\]\/\-\_\w\s]+\)/', $crawler->text());
+        $this->assertRegExp('/var tinyMCELinkList = new Array\(([\[\",\.\]\/\_\-\w\s\\\]+)\)/', $crawler->text());
     }
 }
