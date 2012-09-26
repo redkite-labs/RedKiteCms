@@ -1,0 +1,50 @@
+<?php
+/*
+ * This file is part of the AlphaLemon CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.alphalemon.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
+namespace AlphaLemon\Block\FileBundle\Tests\DependencyInjection;
+
+use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\Block\FileBundle\DependencyInjection\FileExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+/**
+ * FileExtensionTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
+class FileExtensionTest extends TestCase
+{
+    private $container;
+
+    protected function setUp()
+    {
+        $this->container = new ContainerBuilder();
+    }
+
+    public function testAlias()
+    {
+        $extension = new FileExtension();
+        $this->assertEquals('file', $extension->getAlias());
+    }
+    
+    public function testDefaultConfiguration()
+    {
+        $extension = new FileExtension();
+        $extension->load(array(array()), $this->container);
+        $this->assertEquals('files', $this->container->getParameter('file.base_folder'));
+    }
+}
