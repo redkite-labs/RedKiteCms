@@ -59,33 +59,65 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
-    public function testHtmlContent()
+    public function testHtml()
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
-        $language->expects($this->once())
-            ->method('getLanguage')
-            ->will($this->returnValue('en'));
+        $language = $this->initLanguage();
+        $pageTree = $this->initPageTree();
+        $this->initUrlManager('/alcms.php/backend/a-fancy-permalink');
+        $container = $this->initContainer($pageTree);
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getPageName')
-            ->will($this->returnValue('index'));
+        $this->languageRepository->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($language)));
 
-        $pageTree = $this->getMockBuilder('\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $pageTree->expects($this->once())
-            ->method('getAlPage')
-            ->will($this->returnValue($page));
+        $blockManager = new AlBlockManagerNavigationMenu($container);
+        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li></ul>', $blockManager->getHtml());
+    }
 
-        $this->urlManager->expects($this->any())
+    public function testHtmlWhenRouteDoesNotExist()
+    {
+        $language = $this->initLanguage();
+        $pageTree = $this->initPageTree();
+        $this->initUrlManager(null);
+        $container = $this->initContainer($pageTree);
+
+        $this->languageRepository->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($language)));
+
+        $blockManager = new AlBlockManagerNavigationMenu($container);
+        $this->assertEquals('<ul><li><a href="#">en</a></li></ul>', $blockManager->getHtml());
+    }
+
+    public function testHtmlWithMoreLanguages()
+    {
+        $language1 = $this->initLanguage();
+        $language2 = $this->initLanguage('es');
+        $pageTree = $this->initPageTree();
+        $container = $this->initContainer($pageTree);
+        
+        $this->urlManager->expects($this->exactly(2))
+            ->method('buildInternalUrl')
+            ->will($this->returnSelf());
+        
+        $this->urlManager->expects($this->exactly(2))
             ->method('getInternalUrl')
-            ->will($this->returnValue('/alcms.php/backend/a-fancy-permalink'));
+            ->will($this->onConsecutiveCalls('/alcms.php/backend/a-fancy-permalink', '/alcms.php/backend/another-fancy-permalink'));
+        
+        $this->languageRepository->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($language1, $language2)));
 
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->any())
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $pageTree, $this->urlManager));
+        $blockManager = new AlBlockManagerNavigationMenu($container);
+        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li><li><a href="/alcms.php/backend/another-fancy-permalink">es</a></li></ul>', $blockManager->getHtml());
+    }
+    
+    public function testHtmlCmsActive()
+    {
+        $language = $this->initLanguage();
+        $pageTree = $this->initPageTree();
+        $this->initUrlManager('/alcms.php/backend/a-fancy-permalink');
+        $container = $this->initContainer($pageTree);
 
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
@@ -95,80 +127,101 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li></ul>', $blockManager->getHtmlCmsActive());
     }
 
-    public function testHtmlContentWhenRouteDoesNotExist()
+    public function testHtmlCmsActiveWhenRouteDoesNotExist()
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
-        $language->expects($this->once())
-            ->method('getLanguage')
-            ->will($this->returnValue('en'));
-
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getPageName')
-            ->will($this->returnValue('index'));
-
-        $pageTree = $this->getMockBuilder('\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $pageTree->expects($this->once())
-            ->method('getAlPage')
-            ->will($this->returnValue($page));
-
-        $this->urlManager->expects($this->any())
-            ->method('getInternalUrl')
-            ->will($this->returnValue(null));
-
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->any())
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $pageTree, $this->urlManager));
+        $language = $this->initLanguage();
+        $pageTree = $this->initPageTree();
+        $this->initUrlManager(null);
+        $container = $this->initContainer($pageTree);
 
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
         $blockManager = new AlBlockManagerNavigationMenu($container);
-        $this->assertEquals('<ul><li><a href="#">en</a></li></ul>', $blockManager->getHtmlCmsActive());
+        $this->assertEquals('<ul><li><a href="#">en [Er]</a></li></ul>', $blockManager->getHtmlCmsActive());
     }
 
-    public function testHtmlContentWithMoreLanguages()
+    public function testHtmlCmsActiveWithMoreLanguages()
     {
-        $language1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
-        $language1->expects($this->once())
-            ->method('getLanguage')
-            ->will($this->returnValue('en'));
-
-        $language2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
-        $language2->expects($this->once())
-            ->method('getLanguage')
-            ->will($this->returnValue('es'));
-
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->once())
-            ->method('getPageName')
-            ->will($this->returnValue('index'));
-
-        $pageTree = $this->getMockBuilder('\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $pageTree->expects($this->once())
-            ->method('getAlPage')
-            ->will($this->returnValue($page));
-
-        $this->urlManager->expects($this->any())
+        $language1 = $this->initLanguage();
+        $language2 = $this->initLanguage('es');
+        $pageTree = $this->initPageTree();
+        $container = $this->initContainer($pageTree);
+        
+        $this->urlManager->expects($this->exactly(2))
+            ->method('buildInternalUrl')
+            ->will($this->returnSelf());
+        
+        $this->urlManager->expects($this->exactly(2))
             ->method('getInternalUrl')
             ->will($this->onConsecutiveCalls('/alcms.php/backend/a-fancy-permalink', '/alcms.php/backend/another-fancy-permalink'));
-
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->any())
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $pageTree, $this->urlManager));
-
+        
         $this->languageRepository->expects($this->once())
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
 
         $blockManager = new AlBlockManagerNavigationMenu($container);
         $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li><li><a href="/alcms.php/backend/another-fancy-permalink">es</a></li></ul>', $blockManager->getHtmlCmsActive());
+    }
+    
+    private function initUrlManager($value)
+    {
+        $this->urlManager->expects($this->once())
+            ->method('buildInternalUrl')
+            ->will($this->returnSelf());
+        
+        $this->urlManager->expects($this->once())
+            ->method('getInternalUrl')
+            ->will($this->returnValue($value));
+    }
+    
+    private function initPageTree()
+    {
+        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $pageTree = $this->getMockBuilder('\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $pageTree->expects($this->once())
+            ->method('getAlPage')
+            ->will($this->returnValue($page));
+        
+        return $pageTree;
+    }
+    
+    private function initLanguage($value = 'en')
+    {
+        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language->expects($this->once())
+            ->method('getLanguage')
+            ->will($this->returnValue($value));
+        
+        return $language;
+    }
+    
+    private function initContainer($pageTree)
+    {
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->at(0))
+            ->method('get')
+            ->with('alpha_lemon_cms.events_handler')   
+            ->will($this->returnValue($this->eventsHandler));
+        
+        $container->expects($this->at(1))
+            ->method('get')
+            ->with('alpha_lemon_cms.factory_repository')   
+            ->will($this->returnValue($this->factoryRepository));
+        
+        $container->expects($this->at(2))
+            ->method('get')
+            ->with('alpha_lemon_cms.url_manager')   
+            ->will($this->returnValue($this->urlManager));
+        
+        $container->expects($this->at(3))
+            ->method('get')
+            ->with('alpha_lemon_cms.page_tree')   
+            ->will($this->returnValue($pageTree));
+        
+        return $container;
     }
 }

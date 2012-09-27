@@ -23,17 +23,20 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
- * AlBlockManagerMenu
+ * AlBlockManagerNavigationMenu
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
 {
+    private $urlManager = null;
+
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
 
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->urlManager = $this->container->get('alpha_lemon_cms.url_manager');
     }
 
     /**
@@ -50,20 +53,15 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     public function getHtml()
     {
         $content = '';
-        $pageName = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage()->getPageName();
-        $router = $this->container->get('router');
+        $page = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage();
         $languages = $this->languageRepository->activeLanguages();
         foreach ($languages as $language) {
-            try {
-                $languageName = $language->getLanguage();
-                $route = sprintf('_%s_%s', $language, str_replace('-', '_', $pageName));
-                $url = $router->generate($route);
-            } catch (RouteNotFoundException $ex) {
-                $url = "#";
-                $languageName .= "[Error]";
-            }
+            $url = $this->urlManager
+                        ->buildInternalUrl($language, $page)
+                        ->getInternalUrl();
+            if (null === $url)  $url = '#';
 
-            $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $languageName);
+            $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $language->getLanguage());
         }
 
         return sprintf('<ul>%s</ul>', $content);
@@ -75,17 +73,16 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     protected function formatHtmlCmsActive()
     {
         $content = '';
-        $pageName = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage()->getPageName();
-        $urlManager = $this->container->get('alpha_lemon_cms.url_manager');
-
+        $page = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage();
         $languages = $this->languageRepository->activeLanguages();
         foreach ($languages as $language) {
             $languageName = $language->getLanguage();
-            $url = $urlManager
-                    ->buildInternalUrl($languageName, $pageName)
-                    ->getInternalUrl();
-            if (null === $url) {
+            $url = $this->urlManager
+                        ->buildInternalUrl($language, $page)
+                        ->getInternalUrl();
+            if (null === $url)  {
                 $url = '#';
+                $languageName .= " [Er]";
             }
 
             $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $languageName);
