@@ -69,7 +69,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir');
 
         $this->uploadAssetsFullPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
-        $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
+        $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path');
     }
 
     /**
