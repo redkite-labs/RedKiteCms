@@ -55,6 +55,7 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->once())
             ->method('get')
+            ->with('request')
             ->will($this->returnValue($request));
 
         $this->setUpTestToCopyFromRequestLanguage();

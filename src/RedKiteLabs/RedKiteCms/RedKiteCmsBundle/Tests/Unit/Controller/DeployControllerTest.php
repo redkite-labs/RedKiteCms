@@ -46,9 +46,7 @@ class DeployControllerTest extends TestCase
 
     public function testAWarningMessageIsDisplayedWhenDeployThrowsAnException()
     {
-        $this->container->expects($this->exactly(2))
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->templating, $this->deployer));
+        $this->initContainer();
 
         $this->container->expects($this->never())
             ->method('getParameter');
@@ -69,9 +67,7 @@ class DeployControllerTest extends TestCase
 
     public function testAWarningMessageIsDisplayedWhenRenderingTheResponseThrowsAnException()
     {
-        $this->container->expects($this->exactly(2))
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->templating, $this->deployer));
+        $this->initContainer();
 
         $this->container->expects($this->never())
             ->method('getParameter');
@@ -96,13 +92,16 @@ class DeployControllerTest extends TestCase
 
     public function testSiteHasBeenDeployed()
     {
-        $this->container->expects($this->exactly(3))
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->templating, $this->deployer, $this->comandsProcessor));
+        $this->initContainer();
 
-        $this->container->expects($this->once())
+        $this->container->expects($this->at(2))
             ->method('getParameter')
             ->will($this->returnValue('/path/to/app'));
+
+        $this->container->expects($this->at(3))
+            ->method('get')
+            ->with('alpha_lemon_cms.commands_processor')
+            ->will($this->returnValue($this->comandsProcessor));
 
         $this->comandsProcessor->expects($this->once())
             ->method('executeCommands');
@@ -116,5 +115,18 @@ class DeployControllerTest extends TestCase
             ->will($this->returnValue($this->response));
 
         $this->assertEquals($this->response, $this->controller->localAction());
+    }
+
+    private function initContainer()
+    {
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($this->templating));
+
+        $this->container->expects($this->at(1))
+            ->method('get')
+            ->with('alpha_lemon_cms.local_deployer')
+            ->will($this->returnValue($this->deployer));
     }
 }

@@ -51,10 +51,18 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
             ->method('getActiveTheme')
             ->will($this->returnValue('BusinessWebsiteTheme'));
         
-        $this->container->expects($this->exactly(5))
+        $this->container->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->themesCollectionWrapper, $activeTheme, $activeTheme, $activeTheme, $activeTheme));
-
+            ->with('alpha_lemon_cms.themes_collection_wrapper')
+            ->will($this->returnValue($this->themesCollectionWrapper));
+        
+        for ($i = 1; $i < 5; $i++) {
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('alphalemon_theme_engine.active_theme')
+                ->will($this->returnValue($activeTheme));   
+        }
+        
         $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
         $this->assertEquals(4, count($pageTreeCollection));
 
@@ -76,5 +84,14 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         
         $this->assertNull($pageTreeCollection->at(4));
         $this->assertEquals(0, $pageTreeCollection->key(0));
+    }
+    
+    protected function initContainer()
+    {
+        
+        
+         //   , , $activeTheme, $activeTheme, $activeTheme));
+        
+        //    ->will($this->onConsecutiveCalls($this->themesCollectionWrapper, $activeTheme, $activeTheme, $activeTheme, $activeTheme));
     }
 }

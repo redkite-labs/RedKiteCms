@@ -174,8 +174,14 @@ class RenderingItemEditorListenerTest extends BaseTestRenderingEditorListener
             ->method('create')
             ->will($this->returnValue($form));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls($formFactory, $this->engine));
+            ->with('form.factory')
+            ->will($this->onConsecutiveCalls($formFactory));
+
+        $this->container->expects($this->at(1))
+            ->method('get')
+            ->with('templating')
+            ->will($this->onConsecutiveCalls($this->engine));
     }
 }

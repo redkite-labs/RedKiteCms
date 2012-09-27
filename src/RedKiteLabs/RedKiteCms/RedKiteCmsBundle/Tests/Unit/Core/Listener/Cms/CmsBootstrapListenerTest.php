@@ -43,24 +43,76 @@ class CmsBootstrapListenerTest extends TestCase
                             ->getMock();
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->any())
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->pageTree, $this->aligner));
+
 
         $this->event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
                             ->disableOriginalConstructor()
                             ->getMock();
-        $this->testListener = new CmsBootstrapListener($this->container);
     }
 
     public function testConfigurationIsSkippedWhenTheEnvironmentIsNotAlCms()
     {
+        $this->initContainer();
+
         $this->setUpEnvironment('dev');
-        $this->assertNull($this->testListener->onKernelRequest($this->event));
+        $testListener = new CmsBootstrapListener($this->container);
+        $this->assertNull($testListener->onKernelRequest($this->event));
     }
 
     public function testCmsHasBeenBootstrapped()
     {
+        $this->initContainer();
+        
+        $this->container->expects($this->at(2))
+            ->method('getParameter')
+            ->with('alpha_lemon_theme_engine.deploy_bundle')
+            ->will($this->returnValue('@AcmeWebSiteBundle'));
+
+        $this->container->expects($this->at(3))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.assets_base_dir')
+            ->will($this->returnValue('asset-base-dir'));
+
+        $this->container->expects($this->at(4))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.media_dir')
+            ->will($this->returnValue('media'));
+
+        $this->container->expects($this->at(5))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
+            ->will($this->returnValue('js'));
+
+        $this->container->expects($this->at(6))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.css_dir')
+            ->will($this->returnValue('css'));
+
+        $this->container->expects($this->at(7))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.upload_assets_full_path')
+            ->will($this->returnValue(vfsStream::url('root/cms-assets/uploades-base-dir')));
+
+        $this->container->expects($this->at(8))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.media_dir')
+            ->will($this->returnValue('media'));
+
+        $this->container->expects($this->at(9))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
+            ->will($this->returnValue('js'));
+
+        $this->container->expects($this->at(10))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.css_dir')
+            ->will($this->returnValue('css'));
+
+        $this->container->expects($this->at(11))
+            ->method('get')
+            ->with('alpha_lemon_cms.repeated_slots_aligner')
+            ->will($this->returnValue($this->aligner));
+
         $this->setUpEnvironment('alcms');
         $this->setupFolders();
 
@@ -68,10 +120,11 @@ class CmsBootstrapListenerTest extends TestCase
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root/frontend-assets')));
 
+        /*
         $this->container->expects($this->any())
             ->method('getParameter')
             ->will($this->onConsecutiveCalls('@AcmeWebSiteBundle', 'asset-base-dir', 'media', 'js', 'css', vfsStream::url('root/cms-assets/uploades-base-dir'), 'media', 'js', 'css'));
-
+*/
         $this->pageTree->expects($this->once())
             ->method('setup');
 
@@ -118,7 +171,8 @@ class CmsBootstrapListenerTest extends TestCase
                                         ),
                                     );
 
-        $this->testListener->onKernelRequest($this->event);
+        $testListener = new CmsBootstrapListener($this->container);
+        $testListener->onKernelRequest($this->event);
         $this->assertEquals($expectedResult, vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());
     }
 
@@ -134,5 +188,18 @@ class CmsBootstrapListenerTest extends TestCase
         $this->kernel->expects($this->once())
             ->method('getEnvironment')
             ->will($this->returnValue($environment));
+    }
+
+    private function initContainer()
+    {
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('kernel')
+            ->will($this->returnValue($this->kernel));
+
+         $this->container->expects($this->at(1))
+            ->method('get')
+            ->with('alpha_lemon_cms.page_tree')
+            ->will($this->returnValue($this->pageTree));
     }
 }

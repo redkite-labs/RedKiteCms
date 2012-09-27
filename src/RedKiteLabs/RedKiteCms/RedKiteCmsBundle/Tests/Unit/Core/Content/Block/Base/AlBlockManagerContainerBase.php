@@ -56,9 +56,15 @@ class AlBlockManagerContainerBase extends AlContentManagerBase
 
     protected function initContainer()
     {
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->at(0))
                         ->method('get')
-                        ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository));
+                        ->with('alpha_lemon_cms.events_handler')
+                        ->will($this->returnValue($this->eventsHandler));
+        
+        $this->container->expects($this->at(1))
+                        ->method('get')
+                        ->with('alpha_lemon_cms.factory_repository')
+                        ->will($this->returnValue($this->factoryRepository));
     }
 
     protected function doSave($block, array $params)

@@ -74,6 +74,7 @@ class ImageThumbnailExtensionTest extends TestCase
     {
         $this->container->expects($this->once())
                         ->method('getParameter')
+                        ->with('alpha_lemon_cms.web_folder_full_path')
                         ->will($this->onConsecutiveCalls(vfsStream::url('root/web')));
     }
 
@@ -100,6 +101,7 @@ class ImageThumbnailExtensionTest extends TestCase
 
         $this->container->expects($this->once())
                         ->method('get')
+                        ->with('alpha_lemon_cms.images_thumbnailer')
                         ->will($this->returnValue($this->thumbnailer));
     }
 }
