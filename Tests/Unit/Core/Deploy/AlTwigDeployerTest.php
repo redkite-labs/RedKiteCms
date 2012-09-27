@@ -42,8 +42,10 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->method('getRootDir')
             ->will($this->returnValue(vfsStream::url('app')));
 
+        $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-
+/*
         $this->container->expects($this->any())
             ->method('getParameter')
             ->will($this->onConsecutiveCalls('AcmeWebSiteBundle',
@@ -51,7 +53,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
                     'Resources/public/',
                     vfsStream::url('root/web/uploads/assets'),
                     '/web/uploads/assets',
-                    'Resources/views'));
+                    'Resources/views'));*/
 
         $folders = array('app' => array(),
                          'web' => array('uploads'
@@ -78,9 +80,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->method('createRepository')
             ->will($this->returnValue($this->seoRepository));
 
-        $this->container->expects($this->any())
-            ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository));
+        $this->initContainer();
 
         $folders = array('AcmeWebSiteBundle' => array(), 'AlphaLemonCmsBundle' => array('Resources'));
         $this->root = vfsStream::setup('root', null, $folders);
@@ -130,19 +130,29 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $blockManager->expects($this->exactly(4))
             ->method('getHtml')
             ->will($this->returnValue('Formatted content for deploying'));
-        $blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $blockManagerFactory->expects($this->exactly(4))
+
+        $this->blockManagerFactory->expects($this->exactly(4))
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
-        $urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
 
         $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())
             ->method('getActiveTheme')
             ->will($this->returnValue('BusinessWebsiteTheme'));
-        $this->container->expects($this->any())
+
+        $this->initContainer();
+
+        $this->container->expects($this->at(10))
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->kernel, $this->factoryRepository, $urlManager, $blockManagerFactory, $this->themesCollectionWrapper, $activeTheme, $activeTheme, $activeTheme, $activeTheme));
+            ->with('alpha_lemon_cms.themes_collection_wrapper')
+            ->will($this->returnValue($this->themesCollectionWrapper));
+
+        for($i = 11; $i < 15; $i++) {
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('alphalemon_theme_engine.active_theme')
+                ->will($this->returnValue($activeTheme));
+        }
 
         $this->templateSlots->expects($this->exactly(4))
             ->method('getSlots')
@@ -208,5 +218,58 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $contents = file_get_contents(vfsStream::url(sprintf('root/AcmeWebSiteBundle/Resources/views/%s/%s.html.twig', $language, $page)));
 
         $this->assertRegExp("/\'BusinessWebsiteThemeBundle\:Theme\:$template\.html\.twig\'/s", $contents);
+    }
+
+    private function initContainer()
+    {
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('kernel')
+            ->will($this->returnValue($this->kernel));
+
+        $this->container->expects($this->at(1))
+            ->method('get')
+            ->with('alpha_lemon_cms.factory_repository')
+            ->will($this->returnValue($this->factoryRepository));
+
+        $this->container->expects($this->at(2))
+            ->method('getParameter')
+            ->with('alpha_lemon_theme_engine.deploy_bundle')
+            ->will($this->returnValue('AcmeWebSiteBundle'));
+
+        $this->container->expects($this->at(3))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.config_dir')
+            ->will($this->returnValue('Resources/config'));
+
+        $this->container->expects($this->at(4))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.assets_base_dir')
+            ->will($this->returnValue('Resources/public/'));
+
+        $this->container->expects($this->at(5))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.upload_assets_full_path')
+            ->will($this->returnValue(vfsStream::url('root/web/uploads/assets')));
+
+        $this->container->expects($this->at(6))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.upload_assets_absolute_path')
+            ->will($this->returnValue('/web/uploads/assets'));
+
+        $this->container->expects($this->at(7))
+            ->method('get')
+            ->with('alpha_lemon_cms.url_manager')
+            ->will($this->returnValue($this->urlManager));
+
+        $this->container->expects($this->at(8))
+            ->method('get')
+            ->with('alpha_lemon_cms.block_manager_factory')
+            ->will($this->returnValue($this->blockManagerFactory));
+
+        $this->container->expects($this->at(9))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.views_dir')
+            ->will($this->returnValue('Resources/views'));
     }
 }

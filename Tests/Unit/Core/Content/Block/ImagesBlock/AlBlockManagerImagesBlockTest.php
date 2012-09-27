@@ -50,10 +50,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
 
     public function testANewImageHasBeenAddedToImagesBlock()
     {
-        $this->container->expects($this->exactly(2))
-                        ->method('get')
-                        ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository));
-
+        $this->initContainer();
         $this->container->expects($this->once())
                         ->method('getParameter');
 
@@ -66,7 +63,6 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
     public function testAnImageHasBeenRemovedFromImagesBlock()
     {
         $this->initContainer();
-
         $this->container->expects($this->once())
                         ->method('getParameter');
 

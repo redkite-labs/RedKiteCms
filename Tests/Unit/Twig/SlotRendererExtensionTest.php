@@ -160,9 +160,15 @@ class SlotRendererExtensionTest extends TestCase
                         ->method('render')
                         ->will($this->returnValue('<p>This content has been rendered from a twig template</p>'));
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->at(0))
                         ->method('get')
-                        ->will($this->onConsecutiveCalls($this->pageTree, $templating));
+                        ->with('alpha_lemon_cms.page_tree')
+                        ->will($this->returnValue($this->pageTree));
+
+        $this->container->expects($this->at(1))
+                        ->method('get')
+                        ->with('templating')
+                        ->will($this->returnValue($templating));
 
         $expectedValue = '<div class="al_logo">' . PHP_EOL;
         $expectedValue .= '<!-- BEGIN LOGO BLOCK -->' . PHP_EOL;
@@ -195,7 +201,7 @@ class SlotRendererExtensionTest extends TestCase
         $expectedValue = '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\'}"><div>my awesome content</div></div>';
         $this->assertEquals($expectedValue, $this->slotRenderer->renderBlock($value, true));
     }
-    
+
     /**
      * @expectedException \RuntimeException
      */
@@ -213,16 +219,17 @@ class SlotRendererExtensionTest extends TestCase
                 "params" => array(),
             )
         );
-        
+
         $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $templating->expects($this->once())
                         ->method('render')
                         ->will($this->throwException(new \RuntimeException()));
-        
+
         $this->container->expects($this->once())
                         ->method('get')
+                        ->with('templating')
                         ->will($this->returnValue($templating));
-        
+
         $this->slotRenderer->renderBlock($value);
     }
 
@@ -247,6 +254,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $this->container->expects($this->once())
                         ->method('get')
+                        ->with('alpha_lemon_cms.page_tree')
                         ->will($this->returnValue($this->pageTree));
     }
 

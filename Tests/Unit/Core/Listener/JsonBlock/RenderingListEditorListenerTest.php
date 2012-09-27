@@ -80,7 +80,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
         $this->testListener->setConfigureParams(array('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The block class "Fake" defined in "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" does not exists
@@ -91,7 +91,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
         $this->testListener->setConfigureParams(array('blockClass' => 'Fake'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
-    
+
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Something goes wrong retrieving the block manager
@@ -101,7 +101,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
         $this->event->expects($this->once())
             ->method('getBlockManager')
             ->will($this->throwException(new \RuntimeException('Something goes wrong retrieving the block manager')));
-        
+
         $this->testListener->setConfigureParams(
             array(
                 'blockClass' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager',
@@ -133,6 +133,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
 
         $this->container->expects($this->once())
             ->method('get')
+            ->with('templating')
             ->will($this->returnValue($this->engine));
     }
 }

@@ -52,20 +52,11 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 
     public function testDbRecorsHaveBeenCopiedFromRequestLanguageAndAnyLinkHasBeenRecognizedAsInternal()
     {
-        $this->setUpLanguageManager();
-        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-        $request->expects($this->once())
-            ->method('getLanguages')
-            ->will($this->returnValue(array('en-gb', 'en')));
-
+        $this->setUpLanguageManager();        
+        $container = $this->initContainer();
         $this->urlManager->expects($this->any())
             ->method('getInternalUrl')
             ->will($this->returnValue(null));
-
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->exactly(2))
-            ->method('get')
-            ->will($this->onConsecutiveCalls($request, $this->urlManager));
 
         $this->setUpTestToCopyFromRequestLanguage();
         $testListener = new AddLanguageBlocksListener($this->manager, $container);
@@ -75,19 +66,10 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
     public function testDbRecorsHaveBeenCopiedFromRequestLanguageAndALinkHasBeenConvertedBecauseItHasBeenRecognizedHasInternal()
     {
         $this->setUpLanguageManager();
-        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-        $request->expects($this->once())
-            ->method('getLanguages')
-            ->will($this->returnValue(array('en-gb', 'en')));
-
+        $container = $this->initContainer();
         $this->urlManager->expects($this->any())
             ->method('getInternalUrl')
             ->will($this->returnValue('/alcms.php/backend/my-permalink'));
-
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->exactly(2))
-            ->method('get')
-            ->will($this->onConsecutiveCalls($request, $this->urlManager));
 
         $this->setUpTestToCopyFromRequestLanguage();
         $testListener = new AddLanguageBlocksListener($this->manager, $container);
@@ -102,5 +84,26 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
             ->will($this->returnValue(array('Id' => 2, 'CreatedAt' => 'fake', "HtmlContent" => '<a href="my-awesome-homepage" >aaa</a>')));
 
         return $block;
+    }
+    
+    private function initContainer()
+    {
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request->expects($this->once())
+            ->method('getLanguages')
+            ->will($this->returnValue(array('en-gb', 'en')));
+        
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->expects($this->at(0))
+            ->method('get')
+            ->with('request')
+            ->will($this->returnValue($request));
+        
+        $container->expects($this->at(1))
+            ->method('get')
+            ->with('alphalemon_cms.urlManager')
+            ->will($this->returnValue($this->urlManager));
+        
+        return $container;
     }
 }
