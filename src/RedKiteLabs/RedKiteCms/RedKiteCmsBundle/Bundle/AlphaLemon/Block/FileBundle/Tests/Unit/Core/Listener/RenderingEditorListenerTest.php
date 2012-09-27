@@ -29,6 +29,11 @@ class TestFileEditoristener extends RenderingEditorListener
     {
         return parent::configure();
     }
+    
+    public function formatContent($content)
+    {
+        return parent::formatContent($content);
+    }
 }
 
 /**
@@ -38,7 +43,7 @@ class TestFileEditoristener extends RenderingEditorListener
  */
 class RenderingEditorListenerTest extends TestCase
 {
-    public function testTheEditorHasBeenRendered()
+    public function testConfigure()
     {
         $expectedResult = array(
             'blockClass' => '\AlphaLemon\Block\FileBundle\Core\Block\AlBlockManagerFile',
@@ -46,5 +51,14 @@ class RenderingEditorListenerTest extends TestCase
         );
         $listener = new TestFileEditoristener();
         $this->assertEquals($expectedResult, $listener->configure());
+    }
+    
+    public function testFormatContent()
+    {
+        $listener = new TestFileEditoristener();
+        $content = $listener->formatContent(array('opened' => '0'));
+        $this->assertFalse($content['opened']);
+        $content = $listener->formatContent(array('opened' => '1'));
+        $this->assertTrue($content['opened']);
     }
 }
