@@ -29,7 +29,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         }';
 
         return array(
-            'HtmlContent' => $value,
+            'Content' => $value,
         );
     }
 

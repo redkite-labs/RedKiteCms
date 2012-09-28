@@ -32,8 +32,8 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
             $alBlockManager = $event->getBlockManager();
             if ($alBlockManager instanceof $params['blockClass']) {
                 $block = $alBlockManager->get();
-                $className = $block->getClassName();
-                $items = json_decode($block->getHtmlContent(), true);
+                $className = $block->getType();
+                $items = json_decode($block->getContent(), true);
                 $template = sprintf('%sBundle:Block:%s_list.html.twig', $className, strtolower($className));
                 $editor = $event->getContainer()->get('templating')->render($template, array("items" => $items, "block_id" => $block->getId()));
                 $event->setEditor($editor);

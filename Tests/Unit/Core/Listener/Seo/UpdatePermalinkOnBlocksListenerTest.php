@@ -118,7 +118,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue(array('oldPermalink' => 'the-old-permalink', 'Permalink' => 'a new permalink')));
 
         $this->blockRepository->expects($this->once())
-            ->method('fromHtmlContent')
+            ->method('fromContent')
             ->will($this->returnValue(array()));
 
         $this->blockRepository->expects($this->never())
@@ -139,7 +139,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('abort');
 
         $this->blockRepository->expects($this->once())
-            ->method('fromHtmlContent')
+            ->method('fromContent')
             ->will($this->returnValue(array($this->setUpBlock())));
 
         $this->blockManager->expects($this->once())
@@ -172,7 +172,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('abort');
 
         $this->blockRepository->expects($this->once())
-            ->method('fromHtmlContent')
+            ->method('fromContent')
             ->will($this->returnValue(array($this->setUpBlock(), $this->setUpBlock(), $this->setUpBlock())));
 
         $this->blockManager->expects($this->exactly(2))
@@ -208,7 +208,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('abort');
 
         $this->blockRepository->expects($this->once())
-            ->method('fromHtmlContent')
+            ->method('fromContent')
             ->will($this->returnValue(array($this->setUpBlock())));
 
         $this->blockManager->expects($this->once())
@@ -241,7 +241,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('abort');
 
         $this->blockRepository->expects($this->once())
-            ->method('fromHtmlContent')
+            ->method('fromContent')
             ->will($this->returnValue(array($this->setUpBlock())));
 
         $this->blockRepository->expects($this->once())
@@ -274,7 +274,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
             ->method('abort');
 
         $this->blockRepository->expects($this->once())
-            ->method('fromHtmlContent')
+            ->method('fromContent')
             ->will($this->returnValue(array($this->setUpBlock(), $this->setUpBlock(), $this->setUpBlock())));
 
         $this->blockManager->expects($this->exactly(3))
@@ -306,7 +306,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
             ->method('toArray')
-            ->will($this->returnValue(array("Id" => 2, "ClassName" => "Text")));
+            ->will($this->returnValue(array("Id" => 2, "Type" => "Text")));
 
         return $block;
     }

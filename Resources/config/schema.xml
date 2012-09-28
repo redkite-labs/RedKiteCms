@@ -12,8 +12,8 @@
       <reference local="language_id" foreign="id" />
     </foreign-key>
     <column name="slot_name" type="VARCHAR" size="255" required="true" default="" />
-    <column name="class_name" type="VARCHAR" size="255" required="true" default="Text" />
-    <column name="html_content" type="LONGVARCHAR" required="true" />
+    <column name="type" type="VARCHAR" size="255" required="true" default="Text" />
+    <column name="content" type="LONGVARCHAR" required="true" />
     <column name="internal_javascript" type="LONGVARCHAR" />
     <column name="external_javascript" type="LONGVARCHAR" />
     <column name="internal_stylesheet" type="LONGVARCHAR" />
@@ -34,8 +34,8 @@
 
   <table name="al_language" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
-    <column name="language" type="VARCHAR" size="5" required="true" />
-    <column name="main_language" type="CHAR" required="true" default="0" />
+    <column name="language_name" type="VARCHAR" size="5" required="true" />
+    <column name="main_language" type="INTEGER" required="true" default="0" />
     <column name="to_delete" type="INTEGER" required="true" default="0" />
     <column name="created_at" type="timestamp" default="1975-08-17 12:30:12" />
     <unique name="I_LANGUAGE">

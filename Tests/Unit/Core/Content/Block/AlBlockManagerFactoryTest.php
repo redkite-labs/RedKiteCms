@@ -72,7 +72,7 @@ class AlBlockManagerFactoryTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-              ->method('getClassName')
+              ->method('getType')
               ->will($this->returnValue('Text'));
         $this->initBlockManager();
         $blockManager = $this->blockManagerFactory->createBlockManager($block);
@@ -84,7 +84,7 @@ class AlBlockManagerFactoryTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-              ->method('getClassName')
+              ->method('getType')
               ->will($this->returnValue('Removed'));
         $this->initBlockManager();
 

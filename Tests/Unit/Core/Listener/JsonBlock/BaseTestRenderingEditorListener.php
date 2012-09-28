@@ -71,11 +71,11 @@ class BaseTestRenderingEditorListener extends TestCase
         $this->block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $this->block->expects($this->once())
-            ->method('getClassName')
+            ->method('getType')
             ->will($this->returnValue('Class'));
 
         $this->block->expects($this->once())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue($value));
 
         $this->blockManager->expects($this->once())

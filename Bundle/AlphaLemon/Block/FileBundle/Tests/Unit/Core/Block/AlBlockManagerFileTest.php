@@ -39,7 +39,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         }';
 
         $expectedValue = array(
-            'HtmlContent' => $value,
+            'Content' => $value,
         );
 
         $this->initContainer();
@@ -168,7 +168,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-              ->method('getHtmlContent')
+              ->method('getContent')
               ->will($this->returnValue($value));
 
         return $block;

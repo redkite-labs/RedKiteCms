@@ -58,7 +58,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
         $block = $this->initBlock();
 
         $value ="wrong_form_name[id]=0&wrong_form_name[title]=Home&wrong_form_name[subtitle]=Welcome!&wrong_form_name[link]=my-link";
-        $params = array('HtmlContent' => $value);
+        $params = array('Content' => $value);
         $this->blockManager->set($block);
         $this->blockManager->save($params);
     }
@@ -71,7 +71,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
         $block = $this->initBlock();
 
         $value ="al_json_block[title]=Home&al_json_block[subtitle]=Welcome!&al_json_block[link]=my-link";
-        $params = array('HtmlContent' => $value);
+        $params = array('Content' => $value);
         $this->blockManager->set($block);
         $this->blockManager->save($params);
     }
@@ -91,7 +91,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
         $block = $this->initBlock(2, $htmlContent);
 
         $value ="al_json_block[id]=0&al_json_block[title]=Home&al_json_block[subtitle]=Welcome!&al_json_block[link]=my-link";
-        $params = array('HtmlContent' => $value);
+        $params = array('Content' => $value);
         $this->blockManager->set($block);
         $this->blockManager->save($params);
     }
@@ -104,7 +104,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
         $block = $this->initBlock();
 
         $value ="al_json_block[id]=1&al_json_block[title]=Home&al_json_block[subtitle]=Welcome!&al_json_block[link]=my-link";
-        $params = array('HtmlContent' => $value);
+        $params = array('Content' => $value);
         $this->blockManager->set($block);
         $this->blockManager->save($params);
     }
@@ -113,7 +113,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
     {
         $block = $this->initBlock();
         $value ="al_json_block[id]=&al_json_block[title]=Home&al_json_block[subtitle]=Welcome!&al_json_block[link]=my-link";
-        $params = array('HtmlContent' => $value);
+        $params = array('Content' => $value);
         $this->doSave($block, $params);
     }
 
@@ -121,7 +121,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
     {
         $block = $this->initBlock();
         $value ="al_json_block[id]=0&al_json_block[title]=Home&al_json_block[subtitle]=Welcome!&al_json_block[link]=my-link";
-        $params = array('HtmlContent' => $value);
+        $params = array('Content' => $value);
         $this->doSave($block, $params);
     }
 
@@ -162,7 +162,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
                 ->will($this->returnValue($id));
 
         $block->expects($this->any())
-                ->method('getHtmlContent')
+                ->method('getContent')
                 ->will($this->returnValue($htmlContent));
 
         return $block;
@@ -210,6 +210,6 @@ class AlBlockManagerJsonBlockTester extends AlBlockManagerJsonBlock
             }
         }';
 
-        return array("HtmlContent" => $defaultContent);
+        return array("Content" => $defaultContent);
     }
 }

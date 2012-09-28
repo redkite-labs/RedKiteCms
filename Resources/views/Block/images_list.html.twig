@@ -14,7 +14,7 @@
 #}
 
 {% set i = 0 %}
-{% for image in alContent.getHtmlContentForEditor %}
+{% for image in alContent.getContentForEditor %}
    <div class="al_image">{{ thumbnail(image) }}</div>
    {% set i = i + 1 %}
    {% if i == 6 %}

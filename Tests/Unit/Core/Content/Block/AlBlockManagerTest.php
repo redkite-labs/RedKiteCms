@@ -85,7 +85,7 @@ class AlBlockManagerTest extends AlContentManagerBase
             ->will($this->returnValue($this->blockRepository));
 
         $this->blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
-        $this->blockManager->setDefaultValue(array("HtmlContent" => "Test value"));
+        $this->blockManager->setDefaultValue(array("Content" => "Test value"));
     }
 
     public function testFactoryRepositoryInjectedBySetters()
@@ -118,9 +118,9 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->assertFalse($this->blockManager->getHideInEditMode());
     }
 
-    public function testGetHtmlContentForEditor()
+    public function testGetContentForEditor()
     {
-        $this->assertEmpty($this->blockManager->getHtmlContentForEditor());
+        $this->assertEmpty($this->blockManager->getContentForEditor());
     }
 
     public function testHtmlCmsActiveReturnsTheBlockContentWhenTheInternalJavascriptIsNotSetAndTheContentIsNotHideInEditMode()
@@ -128,7 +128,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $htmlContent = '<p>A great App-Bundle</p>';
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue($htmlContent));
         $this->blockManager->set($block);
 
@@ -144,7 +144,7 @@ class AlBlockManagerTest extends AlContentManagerBase
             ->will($this->returnValue(2));
 
         $block->expects($this->once())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue($htmlContent));
         $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->setHideInEditMode(true);
@@ -160,7 +160,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $block->expects($this->once())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue($htmlContent));
 
         $block->expects($this->once())
@@ -184,7 +184,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $block->expects($this->once())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue($htmlContent));
 
         $block->expects($this->once())
@@ -298,8 +298,8 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
-                        "HtmlContent" => 'Fake content',
-                        "ClassName" => "Text");
+                        "Content" => 'Fake content',
+                        "Type" => "Text");
 
         $this->blockManager->save($params);
     }
@@ -316,7 +316,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
-                        "ClassName" => "Text");
+                        "Type" => "Text");
 
         $blockManager->save($params);
     }
@@ -339,7 +339,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
-                        "ClassName" => "Text");
+                        "Type" => "Text");
 
         $blockManager->save($params);
     }
@@ -352,7 +352,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
-                        "ClassName" => "Text");
+                        "Type" => "Text");
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event);
@@ -383,7 +383,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
-                        "ClassName" => "Text");
+                        "Type" => "Text");
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event);
@@ -415,7 +415,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
-                        "ClassName" => "Text");
+                        "Type" => "Text");
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event, 2);
@@ -450,7 +450,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
-                        "ClassName" => "Text");
+                        "Type" => "Text");
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event, 2);
@@ -490,7 +490,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
-                        "ClassName" => "Text");
+                        "Type" => "Text");
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $event->expects($this->once())
@@ -526,8 +526,8 @@ class AlBlockManagerTest extends AlContentManagerBase
             "PageId" => 2,
             "LanguageId" => 2,
             "SlotName" => 'test',
-            "ClassName" => "Text",
-            "HtmlContent" => "My new content"
+            "Type" => "Text",
+            "Content" => "My new content"
         );
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
@@ -562,8 +562,8 @@ class AlBlockManagerTest extends AlContentManagerBase
             "PageId" => 2,
             "LanguageId" => 2,
             "SlotName" => 'test',
-            "ClassName" => "Text",
-            "HtmlContent" => "My content"
+            "Type" => "Text",
+            "Content" => "My content"
         );
 
         $this->blockManager->set($block);
@@ -620,7 +620,7 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->method('setRepositoryObject')
                 ->with($block);
 
-        $params = array('HtmlContent' => 'changed html content' );
+        $params = array('Content' => 'changed html content' );
         $this->blockManager->set($block);
         $result = $this->blockManager->save($params);
         $this->assertEquals(false, $result);
@@ -636,7 +636,7 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(2));
 
-        $params = array('HtmlContent' => 'changed html content' );
+        $params = array('Content' => 'changed html content' );
 
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
@@ -670,7 +670,7 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->will($this->returnValue(2));
 
         $block->expects($this->once())
-                ->method('getHtmlContent')
+                ->method('getContent')
                 ->will($this->returnValue('changed html content'));
 
         $block->expects($this->once())
@@ -709,7 +709,7 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->method('setRepositoryObject')
                 ->with($block);
 
-        $params = array('HtmlContent' => 'changed html content',
+        $params = array('Content' => 'changed html content',
             'InternalJavascript' => 'changed internal javascript content',
             'ExternalJavascript' => 'changed external javascript content',
             'InternalJavascript' => 'changed internal stylesheet content',
@@ -718,7 +718,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->blockManager->set($block);
         $result = $this->blockManager->save($params);
         $this->assertEquals(true, $result);
-        $this->assertEquals('changed html content', $this->blockManager->get()->getHtmlContent());
+        $this->assertEquals('changed html content', $this->blockManager->get()->getContent());
         $this->assertEquals('changed internal javascript content', $this->blockManager->get()->getInternalJavascript());
         $this->assertEquals('changed external javascript content', $this->blockManager->get()->getExternalJavascript());
         $this->assertEquals('changed internal stylesheet content', $this->blockManager->get()->getInternalStylesheet());
@@ -757,7 +757,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->never())
                 ->method('setRepositoryObject');
 
-        $params = array('HtmlContent' => 'changed html content',
+        $params = array('Content' => 'changed html content',
             );
         $this->blockManager->set($block);
         $this->blockManager->save($params);
@@ -766,7 +766,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     public function testEditParametersHaveBeenChangedByAnEvent()
     {
         $changedParams = array(
-            "HtmlContent" => "My new content"
+            "Content" => "My new content"
         );
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
@@ -781,7 +781,7 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->will($this->returnValue(2));
 
         $block->expects($this->once())
-                ->method('getHtmlContent')
+                ->method('getContent')
                 ->will($this->returnValue('My new content'));
 
         $this->blockRepository->expects($this->once())
@@ -802,12 +802,12 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->method('setRepositoryObject')
                 ->with($block);
 
-        $params = array('HtmlContent' => 'changed html content',
+        $params = array('Content' => 'changed html content',
             );
         $this->blockManager->set($block);
         $result = $this->blockManager->save($params);
         $this->assertEquals(true, $result);
-        $this->assertEquals('My new content', $this->blockManager->get()->getHtmlContent());
+        $this->assertEquals('My new content', $this->blockManager->get()->getContent());
     }
 
     /**
@@ -962,20 +962,20 @@ class AlBlockManagerTest extends AlContentManagerBase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
-                ->method('getHtmlContent')
+                ->method('getContent')
                 ->will($this->returnValue('my fancy content'));
 
         $this->blockManager->set($block);
         $array = $this->blockManager->toArray();
 
         $this->assertTrue(array_key_exists('HideInEditMode', $array));
-        $this->assertTrue(array_key_exists('HtmlContent', $array));
+        $this->assertTrue(array_key_exists('Content', $array));
         $this->assertTrue(array_key_exists('ExternalJavascript', $array));
         $this->assertTrue(array_key_exists('InternalJavascript', $array));
         $this->assertTrue(array_key_exists('ExternalStylesheet', $array));
         $this->assertTrue(array_key_exists('InternalStylesheet', $array));
         $this->assertTrue(array_key_exists('Block', $array));
 
-        $this->assertEquals('my fancy content', $array['HtmlContent']);
+        $this->assertEquals('my fancy content', $array['Content']);
     }
 }

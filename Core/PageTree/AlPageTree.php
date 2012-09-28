@@ -295,7 +295,7 @@ class AlPageTree extends BaseAlPageTree
             $blocks = $this->pageBlocks->getBlocks();
             foreach ($blocks as $slotBlocks) {
                 foreach ($slotBlocks as $block) {
-                    $className = $block->getClassName();
+                    $className = $block->getType();
                     if (!in_array($className, $appsAssets)) {
                         $parameterSchema = '%s.%s_%s';
                         $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);

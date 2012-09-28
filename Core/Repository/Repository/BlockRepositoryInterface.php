@@ -73,7 +73,7 @@ interface BlockRepositoryInterface
      * @param string    The search key
      * @return object A collection of objects
      */
-    public function fromHtmlContent($search);
+    public function fromContent($search);
 
     /**
      * Fetches the block records from the class name
@@ -82,5 +82,5 @@ interface BlockRepositoryInterface
      * @param string    The operation to execute
      * @return object A collection of objects
      */
-    public function fromClassName($className, $operation = 'find');
+    public function fromType($className, $operation = 'find');
 }

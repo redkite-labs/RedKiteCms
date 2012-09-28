@@ -262,7 +262,7 @@ class PagesControllerTest extends WebTestCaseFunctional
     {
         // Saves a link that contains the permalink we are going to change
         $block = $this->blockRepository->fromPK(14);
-        $block->setHtmlContent('<a href="page-2">Go to page 2</a>');
+        $block->setContent('<a href="page-2">Go to page 2</a>');
         $block->save();
 
         $params = array('page' => 'index',

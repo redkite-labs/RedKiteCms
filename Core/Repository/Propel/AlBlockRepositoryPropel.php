@@ -112,10 +112,10 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     /**
      * {@inheritdoc}
      */
-    public function fromHtmlContent($search)
+    public function fromContent($search)
     {
         return AlBlockQuery::create()
-                ->filterByHtmlContent('%' . $search . '%')
+                ->filterByContent('%' . $search . '%')
                 ->filterByToDelete(0)
                 ->find();
     }
@@ -123,10 +123,10 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     /**
      * {@inheritdoc}
      */
-    public function fromClassName($className, $operation = 'find')
+    public function fromType($className, $operation = 'find')
     {
         return AlBlockQuery::create()
-                ->filterByClassName($className)
+                ->filterByType($className)
                 ->filterByToDelete(0)
                 ->$operation();
     }
