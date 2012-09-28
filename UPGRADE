@@ -1,23 +1,21 @@
-UPGRADE FROM AlphaLemon CMS PR5
-The AlContent table has been renamed to AlBlock. To port this change to your database, open the console and launch the following command:
+UPGRADE FROM AlphaLemon CMS PR6
+This document explains how to upgrade your AlphaLemon CMS project from AlphaLemon PR6 or higher.
 
-    app/console --env=alcms alphalemon:update-db-to-PR6 [dsn]
+Backup
+Before starting this operation, be sure to backup your database.
 
+Upgrading
+There are three tasks to run to upgrade your project, it depends on the version you are running out. it is not important
+to know which version you are using, so, if you don't know, you may run all the tasks as follow:
 
-UPGRADE FROM AlphaLemon CMS PR4 or less
-This new version has two more tables which must be added to your database. AlphaLemon provides a command that does this job for you.
-
-Open the console and launch the following command:
-
-    app/console --env=alcms alphalemon:update-db-to-PR5 [dsn]
-
-Don't forget to provide the right [dns] for your environment
-
+    app/console --env=alcms alphalemon:update-to-pre-alpha [dsn]
+    app/console --env=alcms alphalemon:update-to-pre-alpha-1 [dsn]
+    app/console --env=alcms alphalemon:update-to-alpha [dsn]
 
 Upgrade a database which is not mysql
 AlphaLemon just provides the queries for mysql database, so if you are using another one you must adapt the queries on your own:
 
     1. Move to /vendor/bundles/AlphaLemon/AlphaLemonCms/Resources/dbupdate
     2. Copy the mysql folder and name it as the driver you are using
-    3. Enter that folder and fix the queries contained in the AlphaLemonCmsPr5.sql
+    3. Enter that folder and fix the queries for your database
     4. Launch the command providing the driver option. This one must be the same of the folder created at step2
