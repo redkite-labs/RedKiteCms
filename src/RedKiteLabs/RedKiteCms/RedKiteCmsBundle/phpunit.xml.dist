@@ -33,6 +33,8 @@
                 <directory>./Propel/map</directory>
                 <directory>./Propel/om</directory>
                 <directory>./Core/vendor</directory>
+                <directory>./Core/Exception</directory>
+                <directory>./Bundle/AlphaLemon/Block/*/Tests</directory>
             </exclude>
         </whitelist>
     </filter>
