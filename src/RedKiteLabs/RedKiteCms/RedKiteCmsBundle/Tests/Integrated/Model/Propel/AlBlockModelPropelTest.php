@@ -112,27 +112,27 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
         $this->assertEquals(42, count($blocks));
     }
 
-    public function testRetrieveContentsByHtmlContent()
+    public function testRetrieveContentsByContent()
     {
-        $blocks = $this->blockRepository->fromHtmlContent('<h4>');
+        $blocks = $this->blockRepository->fromContent('<h4>');
         $this->assertEquals(8, count($blocks));
     }
 
     public function testRetrieveContentsByStrictContent()
     {
-        $blocks = $this->blockRepository->fromHtmlContent('logo.png');
+        $blocks = $this->blockRepository->fromContent('logo.png');
         $this->assertEquals(1, count($blocks));
     }
 
-    public function testRetrieveContentsByClassName()
+    public function testRetrieveContentsByType()
     {
-        $blocks = $this->blockRepository->fromClassName('Text');
+        $blocks = $this->blockRepository->fromType('Text');
         $this->assertCount(38, $blocks);
     }
 
-    public function testRetrieveNumberOfContentsByClassName()
+    public function testRetrieveNumberOfContentsByType()
     {
-        $blocks = $this->blockRepository->fromClassName('Text', 'count');
+        $blocks = $this->blockRepository->fromType('Text', 'count');
         $this->assertEquals(38, $blocks);
     }
 }

@@ -107,14 +107,14 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             if(null === $block || empty($block)) return $content;
 
             $slotName = $block["Block"]["SlotName"];
-            $content = $block['HtmlContent'];
+            $content = $block['Content'];
             if (\array_key_exists('RenderView', $block)) {
                 $content = $this->container->get('templating')->render($block['RenderView']['view'], $block['RenderView']['params']);
             }
 
             $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
             $content = sprintf('<div>%s</div>', $content);
-            if ($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['ClassName']), $content);
+            if ($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['Type']), $content);
 
             return $content;
         } catch (\Exception $ex) {

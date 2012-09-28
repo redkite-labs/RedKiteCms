@@ -33,7 +33,7 @@ class AlBlockManagerTextTest extends TestCase
         $factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $blockManager = new AlBlockManagerText($eventsHandler, $factoryRepository);
 
-        $expectedValue = array("HtmlContent" => 'This is the default text for a new text content');
+        $expectedValue = array("Content" => 'This is the default text for a new text content');
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 }

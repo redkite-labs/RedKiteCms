@@ -227,7 +227,7 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
             ->method('toArray')
-            ->will($this->returnValue(array("Id" => 2, "ClassName" => "Text")));
+            ->will($this->returnValue(array("Id" => 2, "Type" => "Text")));
 
         return $block;
     }

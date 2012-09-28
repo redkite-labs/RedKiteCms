@@ -318,14 +318,14 @@ class AlSlotManager extends AlTemplateBase
                   "PageId"          => $idPage,
                   "LanguageId"      => $idLanguage,
                   "SlotName"        => $this->slot->getSlotName(),
-                  "ClassName"       => $type,
+                  "Type"       => $type,
                   "ContentPosition" => $position,
                   'CreatedAt'       => date("Y-m-d H:i:s")
                 );
 
                 if ($this->forceSlotAttributes) {
-                    $content = $this->slot->getHtmlContent(); 
-                    if (null !== $content) $values["HtmlContent"] = $content;
+                    $content = $this->slot->getContent(); 
+                    if (null !== $content) $values["Content"] = $content;
                 }
 
                 $alBlockManager->set(null);

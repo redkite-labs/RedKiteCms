@@ -24,13 +24,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
+use Propel\PropelBundle\Command\ModelBuildCommand;
 
 /**
- * Upgrades to pre-alpha1
+ * Upgrades to alpha
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class UpdateToPreAlpha1Command extends ContainerAwareCommand
+class UpdateToAlphaCommand extends ContainerAwareCommand
 {
     /**
      * @see Command
@@ -38,14 +39,14 @@ class UpdateToPreAlpha1Command extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setDescription('Updates the database to AlphaLemon CMS Pre-Alpha 1')
+            ->setDescription('Updates the database to AlphaLemon CMS Alpha')
             ->setDefinition(array(
                 new InputArgument('dsn', InputArgument::REQUIRED, 'The dsn to connect the database'),
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
                 new InputOption('driver', null, InputOption::VALUE_OPTIONAL, 'The database driver', 'mysql'),
             ))
-            ->setName('alphalemon:update-to-pre-alpha-1');
+            ->setName('alphalemon:update-to-alpha');
     }
 
     /**
@@ -56,8 +57,8 @@ class UpdateToPreAlpha1Command extends ContainerAwareCommand
     {
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
         $orm = new AlPropelOrm($connection);
-        
-        $sqlFile = sprintf(__DIR__ . '/../../Resources/dbupdate/%s/AlphaLemonCmsPreAlpha1.sql', $input->getOption('driver'));
+
+        $sqlFile = sprintf(__DIR__ . '/../../Resources/dbupdate/%s/AlphaLemonCmsAlpha.sql', $input->getOption('driver'));
         if (is_file($sqlFile)) {
             $updateQueries = file_get_contents($sqlFile);
 
@@ -65,11 +66,10 @@ class UpdateToPreAlpha1Command extends ContainerAwareCommand
             foreach ($queries as $query) {
                 $orm->executeQuery($query);
             }
-            
-            $sourcePath = $this->getContainer()->getParameter('kernel.root_dir') . '/../web/bundles/alphalemoncms/uploads';
-            $targetPath = $this->getContainer()->getParameter('kernel.root_dir') . '/../web/uploads';
-            $fs = new \Symfony\Component\Filesystem\Filesystem();
-            $fs->mirror($sourcePath, $targetPath);
+
+            $modelCommand = new ModelBuildCommand();
+            $modelCommand->setApplication($this->getApplication());
+            $modelCommand->execute($input, $output);
 
             $output->writeln('<info>The database has been updated.</info>');
         } else {

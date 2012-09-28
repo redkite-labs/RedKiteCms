@@ -192,12 +192,12 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
         try {
             $this->validator->checkEmptyParams($values);
-            $this->validator->checkRequiredParamsExists(array('Language' => ''), $values);
-            if ($this->validator->languageExists($values["Language"])) {
+            $this->validator->checkRequiredParamsExists(array('LanguageName' => ''), $values);
+            if ($this->validator->languageExists($values['LanguageName'])) {
                 throw new LanguageExistsException($this->translate("The language you are trying to add, already exists in the website"));
             }
 
-            if (empty($values['Language'])) {
+            if (empty($values['LanguageName'])) {
                 throw new General\ParameterIsEmptyException($this->translate("A language cannot be null. Please provide a valid language name to add the language"));
             }
 
@@ -268,7 +268,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         
         try {
             $this->validator->checkEmptyParams($values);
-            $this->validator->checkOnceValidParamExists(array('Language' => '', 'MainLanguage' => ''), $values);
+            $this->validator->checkOnceValidParamExists(array('LanguageName' => '', 'MainLanguage' => ''), $values);
 
             $result = true;
             $this->languageRepository->startTransaction();
@@ -283,8 +283,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             }
 
             if ($result) {
-                if (!empty($values["Language"]) && $this->alLanguage->getLanguage() == $values["Language"]) {
-                    unset($values["Language"]);
+                if (!empty($values['LanguageName']) && $this->alLanguage->getLanguageName() == $values['LanguageName']) {
+                    unset($values['LanguageName']);
                 }
 
                 if (!empty($values)) {

@@ -59,14 +59,14 @@ class UpdatePermalinkOnBlocksListener
 
         if (array_key_exists("oldPermalink", $values)) {
             $result = true;
-            $alBlocks = $this->blockRepository->fromHtmlContent($values["oldPermalink"]);
+            $alBlocks = $this->blockRepository->fromContent($values["oldPermalink"]);
             if (count($alBlocks) > 0) {
                 try {
                     $this->blockRepository->startTransaction();
                     foreach ($alBlocks as $alBlock) {
-                        $htmlContent = preg_replace('/' . $values["oldPermalink"] . '/s', $values["Permalink"], $alBlock->getHtmlContent());
+                        $htmlContent = preg_replace('/' . $values["oldPermalink"] . '/s', $values["Permalink"], $alBlock->getContent());
                         $blockManager = $this->blocksFactory->createBlockManager($alBlock);
-                        $value = array('HtmlContent' => $htmlContent);
+                        $value = array('Content' => $htmlContent);
                         $result = $blockManager->save($value);
                         if (!$result) {
                             break;

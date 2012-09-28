@@ -67,7 +67,7 @@ class AlEventsHandlerTest extends TestCase
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException
      * @expectedExceptionMessage The class "fake" passed as argument for the "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTester
      */
-    public function testCreateEventThrowsAnExceptionWhenClassNameDoesNotExist()
+    public function testCreateEventThrowsAnExceptionWhenTypeDoesNotExist()
     {
         $this->eventsHandler->createEvent('an.awesome.event', 'fake', array());
     }

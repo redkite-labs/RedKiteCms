@@ -66,7 +66,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
     {
         unset($values['Id']);
         unset($values['CreatedAt']);
-        $values['HtmlContent'] = $this->configurePermalinkForNewLanguage($values['HtmlContent']);
+        $values['Content'] = $this->configurePermalinkForNewLanguage($values['Content']);
         $values['LanguageId'] = $this->languageManager->get()->getId();
         $result = $this->blockManager
                     ->set(null)
@@ -92,7 +92,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
         }
 
         $urlManager = $this->container->get('alphalemon_cms.urlManager');
-        $languageName =  $this->languageManager->get()->getLanguage();
+        $languageName =  $this->languageManager->get()->getLanguageName();
 
         return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager, $languageName) {
             $url = $urlManager

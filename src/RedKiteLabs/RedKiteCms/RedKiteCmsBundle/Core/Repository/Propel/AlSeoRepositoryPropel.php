@@ -147,7 +147,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
     {
         return AlSeoQuery::create('a')
                     ->joinWith('a.AlLanguage')
-                    ->where('AlLanguage.language = ?', $languageName)
+                    ->where('AlLanguage.languageName = ?', $languageName)
                     ->filterByToDelete(0)
                     ->find();
     }

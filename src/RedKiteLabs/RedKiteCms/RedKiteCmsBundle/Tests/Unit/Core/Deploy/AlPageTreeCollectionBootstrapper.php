@@ -190,7 +190,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->will($this->returnValue(2));
 
         $language->expects($this->any())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue($languageName));
 
         $language->expects($this->any())
@@ -232,7 +232,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue($content));
 
         return $block;

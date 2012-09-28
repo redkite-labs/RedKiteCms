@@ -96,7 +96,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
         $language = $this->languageRepository->fromPk(3);
         $this->assertNotNull($language);
-        $this->assertEquals('fr', $language->getLanguage());
+        $this->assertEquals('fr', $language->getLanguageName());
         $this->assertEquals(0, $language->getMainLanguage());
 
         $seo = $this->seoRepository->fromPageAndLanguage(3, 2);
@@ -163,7 +163,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
 
         $language = $this->languageRepository->fromPk(3);
-        $this->assertEquals('it', $language->getLanguage());
+        $this->assertEquals('it', $language->getLanguageName());
     }
 
     public function testDeleteLanguageFailsBecauseAnyLanguageIdIsGiven()

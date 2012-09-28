@@ -44,7 +44,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
     {
         self::$languages = array(
             array(
-                'Language'      => 'en',
+                'LanguageName'      => 'en',
                 'CreatedAt'       => date("Y-m-d H:i:s")
             )
         );
@@ -100,7 +100,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
             'TRUNCATE al_language;',
             'TRUNCATE al_page;',
             'TRUNCATE al_seo;',
-            'INSERT INTO al_language (language) VALUES(\'-\');',
+            'INSERT INTO al_language (language_name) VALUES(\'-\');',
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
         );
 
