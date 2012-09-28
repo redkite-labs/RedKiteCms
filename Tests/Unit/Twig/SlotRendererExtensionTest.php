@@ -91,9 +91,9 @@ class SlotRendererExtensionTest extends TestCase
             "Block" => array(
                 "Id" => "10",
                 "SlotName" => "logo",
-                "ClassName" => "Text",
+                "Type" => "Text",
             ),
-            "HtmlContent" => "my awesome content",
+            "Content" => "my awesome content",
         );
 
         $blockManagers = array($this->setUpBlockManager($value));
@@ -116,9 +116,9 @@ class SlotRendererExtensionTest extends TestCase
             "Block" => array(
                 "Id" => "10",
                 "SlotName" => "logo",
-                "ClassName" => "Text",
+                "Type" => "Text",
             ),
-            "HtmlContent" => "my awesome content",
+            "Content" => "my awesome content",
             "HideInEditMode" => "true",
         );
 
@@ -141,9 +141,9 @@ class SlotRendererExtensionTest extends TestCase
             "Block" => array(
                 "Id" => "10",
                 "SlotName" => "logo",
-                "ClassName" => "Text",
+                "Type" => "Text",
             ),
-            "HtmlContent" => "my awesome replaced content",
+            "Content" => "my awesome replaced content",
             "RenderView" => array(
                 "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
                 "params" => array(),
@@ -193,9 +193,9 @@ class SlotRendererExtensionTest extends TestCase
             "Block" => array(
                 "Id" => "10",
                 "SlotName" => "logo",
-                "ClassName" => "Text",
+                "Type" => "Text",
             ),
-            "HtmlContent" => "my awesome content",
+            "Content" => "my awesome content",
         );
 
         $expectedValue = '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\'}"><div>my awesome content</div></div>';
@@ -211,9 +211,9 @@ class SlotRendererExtensionTest extends TestCase
             "Block" => array(
                 "Id" => "10",
                 "SlotName" => "logo",
-                "ClassName" => "Text",
+                "Type" => "Text",
             ),
-            "HtmlContent" => "my awesome replaced content",
+            "Content" => "my awesome replaced content",
             "RenderView" => array(
                 "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
                 "params" => array(),

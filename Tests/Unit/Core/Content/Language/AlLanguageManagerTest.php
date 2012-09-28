@@ -136,7 +136,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->never())
                 ->method('save');
 
-        $params = array('Language'  => 'en');
+        $params = array('LanguageName'  => 'en');
         $this->languageManager->save($params);
     }
 
@@ -155,7 +155,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->never())
                 ->method('save');
 
-        $params = array('Language'  => '');
+        $params = array('LanguageName'  => '');
         $this->languageManager->save($params);
     }
 
@@ -181,7 +181,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
-        $params = array('Language'  => 'en');
+        $params = array('LanguageName'  => 'en');
         $this->languageManager->save($params);
     }
 
@@ -204,7 +204,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->returnValue(false));
 
-        $params = array('Language'  => 'en');
+        $params = array('LanguageName'  => 'en');
         $this->assertFalse($this->languageManager->save($params));
     }
 
@@ -230,7 +230,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
-        $params = array('Language'  => 'en');
+        $params = array('LanguageName'  => 'en');
         $expectedParams = $params;
         $expectedParams["MainLanguage"] = 1;
         $this->languageRepository->expects($this->once())
@@ -271,7 +271,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('mainLanguage')
                 ->will($this->returnValue(null));
         
-        $params = array('Language'  => 'en', 'MainLanguage' => 1);
+        $params = array('LanguageName'  => 'en', 'MainLanguage' => 1);
         $expectedParams = $params;
         $expectedParams["MainLanguage"] = 1;
         $this->languageRepository->expects($this->once())
@@ -309,13 +309,13 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->never())
                 ->method('save');
 
-        $params = array('Language'  => 'en');
+        $params = array('LanguageName'  => 'en');
         $this->languageManager->save($params);
     }
 
     public function testAddParametersHaveBeenChangedByAnEvent()
     {
-        $changedParams = array('Language'  => 'es');
+        $changedParams = array('LanguageName'  => 'es');
 
         $event1 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
@@ -345,7 +345,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->returnValue(true));
 
-        $params = array('Language'  => 'en');
+        $params = array('LanguageName'  => 'en');
         $this->assertTrue($this->languageManager->save($params));
     }
 
@@ -379,7 +379,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->returnValue(true));
 
-        $params = array('Language'  => 'en');
+        $params = array('LanguageName'  => 'en');
         $res = $this->languageManager->save($params);
         $this->assertFalse($res);
     }
@@ -411,7 +411,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $params = array('Language'  => 'en', 'MainLanguage' => 1);
+        $params = array('LanguageName'  => 'en', 'MainLanguage' => 1);
         $this->assertFalse($this->languageManager->save($params));
     }
 
@@ -445,7 +445,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('mainLanguage')
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
-        $params = array('Language'  => 'en',
+        $params = array('LanguageName'  => 'en',
                         'MainLanguage' => 1);
         $this->assertFalse($this->languageManager->save($params));
     }
@@ -477,7 +477,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->onConsecutiveCalls(true, false));
 
-        $params = array('Language'  => 'en', 'MainLanguage' => 1);
+        $params = array('LanguageName'  => 'en', 'MainLanguage' => 1);
         $this->assertFalse($this->languageManager->save($params));
     }
 
@@ -513,7 +513,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->will($this->returnValue($this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage')));
 
         $params = array(
-            'Language'  => 'en', 
+            'LanguageName'  => 'en', 
             'MainLanguage' => 1
         );
         $this->languageRepository->expects($this->exactly(2))
@@ -588,7 +588,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->throwException(new \RuntimeException()));
 
-        $params = array('Language'  => 'fr');
+        $params = array('LanguageName'  => 'fr');
         $this->languageManager->set($language);
         $this->languageManager->save($params);
     }
@@ -614,7 +614,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->returnValue(false));
 
-        $params = array('Language'  => 'fr');
+        $params = array('LanguageName'  => 'fr');
         $this->languageManager->set($language);
         $this->assertFalse($this->languageManager->save($params));
     }
@@ -626,7 +626,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue('en'));
 
         $this->languageRepository->expects($this->never())
@@ -641,7 +641,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $params = array('Language' => 'en');
+        $params = array('LanguageName' => 'en');
         $this->languageManager->set($language);
         $res = $this->languageManager->save($params);
         $this->assertFalse($res);
@@ -658,7 +658,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue('en'));
 
         $this->languageRepository->expects($this->once())
@@ -674,7 +674,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->never())
             ->method('rollback');
 
-        $params = array('Language' => 'fr');
+        $params = array('LanguageName' => 'fr');
         $this->languageRepository->expects($this->once())
             ->method('save')
             ->with($params)
@@ -699,7 +699,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue('en'));
 
         $this->languageRepository->expects($this->never())
@@ -717,14 +717,14 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->never())
             ->method('rollback');
 
-        $params = array('Language' => 'fr');
+        $params = array('LanguageName' => 'fr');
         $this->languageManager->set($language);
         $this->languageManager->save($params);
     }
 
     public function testEditParametersHaveBeenChangedByAnEvent()
     {
-        $changedParams = array('Language'  => 'es');
+        $changedParams = array('LanguageName'  => 'es');
 
         $event1 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
@@ -739,7 +739,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->once())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue('en'));
 
         $this->languageRepository->expects($this->once())
@@ -760,7 +760,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->never())
             ->method('rollback');
 
-        $params = array('Language' => 'fr');
+        $params = array('LanguageName' => 'fr');
         $this->languageManager->set($language);
         $res = $this->languageManager->save($params);
         $this->assertTrue($res);
@@ -781,7 +781,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $language =$this->setUpLanguageObject();
         $language->expects($this->any())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue('en'));
 
         $this->languageRepository->expects($this->once())
@@ -801,7 +801,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
         $this->languageRepository->expects($this->once())
             ->method('rollback');
 
-        $params = array('Language' => 'fr');
+        $params = array('LanguageName' => 'fr');
         $this->languageManager->set($language);
         $res = $this->languageManager->save($params);
         $this->assertFalse($res);

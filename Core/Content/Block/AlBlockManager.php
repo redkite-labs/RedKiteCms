@@ -69,7 +69,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * Returns an array which may contain one or more of these keys:
      *
-     *   - *HtmlContent*            The html content displayed on the page
+     *   - *Content*            The html content displayed on the page
      *   - *ExternalJavascript*     A comma separated external javascripts files
      *   - *InternalJavascript*     A javascript code
      *   - *ExternalStylesheet*     A comma separated external stylesheets files
@@ -184,7 +184,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtml()
     {
-        return (null !== $this->alBlock) ? $this->alBlock->getHtmlContent() : "";
+        return (null !== $this->alBlock) ? $this->alBlock->getContent() : "";
     }
 
     /**
@@ -221,7 +221,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return string
      */
-    public function getHtmlContentForEditor()
+    public function getContentForEditor()
     {
         return $this->getHtml();
     }
@@ -368,7 +368,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         $blockManager = array();
         $blockManager["HideInEditMode"] = $this->getHideInEditMode();
-        $blockManager["HtmlContent"] = $this->getHtmlCmsActive();
+        $blockManager["Content"] = $this->getHtmlCmsActive();
         $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
@@ -414,14 +414,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $this->validator->checkRequiredParamsExists($requiredParameters, $values);
 
         // When the Content is null the dafault text is inserted
-        if (!array_key_exists('HtmlContent', $values)) {
+        if (!array_key_exists('Content', $values)) {
             $defaults = $this->getDefaultValue();
             if (!is_array($defaults)) {
                 throw new General\InvalidParameterTypeException($this->translate('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
             }
 
             $mergedValues = array_merge($values, $defaults);
-            $availableOptions = array('HtmlContent' => '', 'InternalJavascript' => '', 'ExternalJavascript' => '', 'InternalStylesheet' => '', 'ExternalStylesheet' => '');
+            $availableOptions = array('Content' => '', 'InternalJavascript' => '', 'ExternalJavascript' => '', 'InternalStylesheet' => '', 'ExternalStylesheet' => '');
             $this->validator->checkOnceValidParamExists($availableOptions, $mergedValues);
             $values = $mergedValues;
         }

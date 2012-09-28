@@ -29,7 +29,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
 {
     public static function setUpBeforeClass()
     {
-        self::$languages = array(array('Language'      => 'en',));
+        self::$languages = array(array('LanguageName'      => 'en',));
 
         self::$pages = array(array('PageName'      => 'index',
                                     'TemplateName'  => 'home',

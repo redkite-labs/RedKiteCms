@@ -32,6 +32,6 @@ class AlBlockManagerMenu extends AlBlockManager
      */
     public function getDefaultValue()
     {
-        return array("HtmlContent" => "<ul><li>Link 1</li><li>Link 2</li><li>Link 3</li></ul>");
+        return array("Content" => "<ul><li>Link 1</li><li>Link 2</li><li>Link 3</li></ul>");
     }
 }

@@ -54,9 +54,9 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
      */
     protected function edit(array $values)
     {
-        if (array_key_exists('HtmlContent', $values)) {
+        if (array_key_exists('Content', $values)) {
             $urlManager = $this->urlManager;
-            $values['HtmlContent'] = preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager) {
+            $values['Content'] = preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager) {
 
                 $url = $urlManager
                         ->fromUrl($matches[2])
@@ -65,7 +65,7 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
                 if(null === $url) $url = $matches[2];
 
                 return $matches[1] . $url . $matches[3];
-            }, $values['HtmlContent']);
+            }, $values['Content']);
         }
 
         return parent::edit($values);

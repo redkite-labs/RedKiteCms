@@ -87,7 +87,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
                 ->will($this->returnValue($id));
 
         $block->expects($this->any())
-                ->method('getHtmlContent')
+                ->method('getContent')
                 ->will($this->returnValue($htmlContent));
 
         return $block;
@@ -132,6 +132,6 @@ class AlBlockManagerImagesBlockTester extends AlBlockManagerImages
             }
         }';
 
-        return array("HtmlContent" => $defaultContent);
+        return array("Content" => $defaultContent);
     }
 }

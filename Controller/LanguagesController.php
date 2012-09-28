@@ -54,7 +54,7 @@ class LanguagesController extends ContainerAware
             $languageManager->set($alLanguage);
 
             $parameters = array('MainLanguage' => $request->get('isMain'),
-                                'Language' => $request->get('newLanguage'));
+                                'LanguageName' => $request->get('newLanguage'));
             if ($languageManager->save($parameters)) {
                 return $this->buildJSonHeader('The language has been successfully saved');
             }

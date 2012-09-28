@@ -37,7 +37,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
             if (false !== $key)  unset($images[$key]);
         }
 
-        $values["HtmlContent"] = json_encode($images);
+        $values["Content"] = json_encode($images);
 
         return parent::edit($values);
     }

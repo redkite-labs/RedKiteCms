@@ -84,7 +84,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
 
         return AlLanguageQuery::create()
                     ->filterByToDelete(0)
-                    ->filterByLanguage($languageName)
+                    ->filterByLanguageName($languageName)
                     ->findOne();
     }
 

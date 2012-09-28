@@ -81,7 +81,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('toArray')
-            ->will($this->returnValue(array('Id' => 2, 'CreatedAt' => 'fake', "HtmlContent" => '<a href="my-awesome-homepage" >aaa</a>')));
+            ->will($this->returnValue(array('Id' => 2, 'CreatedAt' => 'fake', "Content" => '<a href="my-awesome-homepage" >aaa</a>')));
 
         return $block;
     }

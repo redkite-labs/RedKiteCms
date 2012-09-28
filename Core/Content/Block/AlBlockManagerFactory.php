@@ -81,7 +81,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     public function createBlockManager($block)
     {
         $isAlBlock = $block instanceof AlBlock;
-        $blockType = $isAlBlock ? $block->getClassName() : $block;
+        $blockType = $isAlBlock ? $block->getType() : $block;
 
         $items = count($this->blockManagersItems);
         if ($items == 0) {

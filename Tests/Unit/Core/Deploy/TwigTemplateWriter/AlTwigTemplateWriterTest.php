@@ -610,7 +610,7 @@ class AlTwigTemplateWriterTest extends TestCase
     {
         $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue($languageName));
 
         return $language;

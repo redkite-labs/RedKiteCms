@@ -47,7 +47,7 @@ class ChoiceValues
         if($withNoneOption) $result["none"] = " ";
         $languages = $languageRepository->activeLanguages();
         foreach ($languages as $language) {
-            $result[$language->getId()] = $language->getLanguage();
+            $result[$language->getId()] = $language->getLanguageName();
         }
 
         return $result;

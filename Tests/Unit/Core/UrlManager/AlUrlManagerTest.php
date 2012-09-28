@@ -454,7 +454,7 @@ class AlUrlManagerTest extends TestCase
 
         if (null !== $languageName) {
             $language->expects($this->once())
-                ->method('getLanguage')
+                ->method('getLanguageName')
                 ->will($this->returnValue($languageName));
         }
 
