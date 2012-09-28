@@ -47,7 +47,7 @@ class AlSlotTest extends TestCase
     {
         $slot = new AlSlot('logo');
         $this->assertEquals('logo', $slot->getSlotName());
-        $this->assertNull($slot->getHtmlContent());
+        $this->assertNull($slot->getContent());
         $this->assertEquals('Text', $slot->getBlockType());
         $this->assertEquals('page', $slot->getRepeated());
     }
@@ -58,7 +58,7 @@ class AlSlotTest extends TestCase
                                         'blockType' => 'script',
                                         'htmlContent' => 'my fancy content'));
         $this->assertEquals('nav-menu', $slot->getSlotName());
-        $this->assertEquals('my fancy content', $slot->getHtmlContent());
+        $this->assertEquals('my fancy content', $slot->getContent());
         $this->assertEquals('Script', $slot->getBlockType());
         $this->assertEquals('site', $slot->getRepeated());
     }

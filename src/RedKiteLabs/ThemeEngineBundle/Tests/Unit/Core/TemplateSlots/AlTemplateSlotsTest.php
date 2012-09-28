@@ -133,16 +133,16 @@ class AlTemplateSlotsTest extends TestCase
     }
     
     
-    public function testRetrivesTheSlotsHtmlContentStatus()
+    public function testRetrivesTheSlotsContentStatus()
     {       
         $slot = $this->setUpSlot();
         $slot->expects($this->once())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue('fake'));
                 
         $this->templateSlots->addSlot($slot);
-        $this->assertEquals('fake', $this->templateSlots->getHtmlContentFromSlot('logo'));
-        $this->assertNull($this->templateSlots->getHtmlContentFromSlot('nav-menu'));
+        $this->assertEquals('fake', $this->templateSlots->getContentFromSlot('logo'));
+        $this->assertNull($this->templateSlots->getContentFromSlot('nav-menu'));
     }
     
     private function setUpSlot($slotName = 'logo', $numberOfTimes = 1)

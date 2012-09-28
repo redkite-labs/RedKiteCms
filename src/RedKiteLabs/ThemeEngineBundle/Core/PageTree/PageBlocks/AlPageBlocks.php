@@ -35,7 +35,7 @@ use AlphaLemon\ThemeEngineBundle\Core\PageTree\Exception\AnyValidArgumentGivenEx
 class AlPageBlocks implements AlPageBlocksInterface
 {
     protected $blocks = array();
-    protected $requiredParamsOptions = array('HtmlContent' => '');
+    protected $requiredParamsOptions = array('Content' => '');
 
     /**
      * {@inheritdoc}

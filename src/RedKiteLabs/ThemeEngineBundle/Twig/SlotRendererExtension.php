@@ -56,9 +56,9 @@ class SlotRendererExtension extends \Twig_Extension
                         $params = (isset($contents['RenderView']['params'])) ? $contents['RenderView']['params'] : array();
                         $result .= $this->container->get('templating')->render($contents['RenderView']['view'], $params);
                     }
-                    else if(\array_key_exists('HtmlContent', $contents))
+                    else if(\array_key_exists('Content', $contents))
                     {
-                        $result .= $contents['HtmlContent'];
+                        $result .= $contents['Content'];
                     }
                 }
             }

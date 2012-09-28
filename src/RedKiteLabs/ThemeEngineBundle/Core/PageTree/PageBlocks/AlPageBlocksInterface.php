@@ -45,10 +45,10 @@ interface AlPageBlocksInterface
      * The values array must be structured as follows:
      *    array('slotname' =>
      *              array(
-     *                  array([HtmlContent] => 'content1'),
-     *                  array([HtmlContent] => 'content2'),
+     *                  array([Content] => 'content1'),
+     *                  array([Content] => 'content2'),
      *                  ...,
-     *                  array([HtmlContent] => 'content[n]'),
+     *                  array([Content] => 'content[n]'),
      *                  ),
      *          'slotname1' => ...
      *         )

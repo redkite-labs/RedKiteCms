@@ -89,11 +89,11 @@ class AlTemplateSlots implements AlTemplateSlotsInterface
      * @param   string   $slotName The slot name to retrieve
      * @return  string   The default text
      */
-    public function getHtmlContentFromSlot($slotName)
+    public function getContentFromSlot($slotName)
     {
         if(!$this->checkSlotExists($slotName)) return null;
 
-        return $this->slots[$slotName]->getHtmlContent();
+        return $this->slots[$slotName]->getContent();
     }
 
     /**

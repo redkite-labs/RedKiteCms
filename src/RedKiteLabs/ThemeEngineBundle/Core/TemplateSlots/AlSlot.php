@@ -78,12 +78,12 @@ class AlSlot
         return $this->blockType;
     }
 
-    public function setHtmlContent($v)
+    public function setContent($v)
     {
         $this->htmlContent = $v;
     }
 
-    public function getHtmlContent()
+    public function getContent()
     {
         return $this->htmlContent;
     }
@@ -110,6 +110,6 @@ class AlSlot
         $blockType = (array_key_exists('blockType', $options)) ? ucfirst($options['blockType']) : 'Text';
         $this->blockType = $blockType;
 
-        if(array_key_exists('htmlContent', $options)) $this->setHtmlContent($options['htmlContent']);
+        if(array_key_exists('htmlContent', $options)) $this->setContent($options['htmlContent']);
     }
 }
