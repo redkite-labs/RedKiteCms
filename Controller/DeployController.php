@@ -28,7 +28,7 @@ class DeployController extends ContainerAware
             $deployer = $this->container->get('alpha_lemon_cms.local_deployer');
             $deployer->deploy();
             $response = $templating->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
-
+            
             $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
             $command = sprintf('assets:install %s %s', $this->container->getParameter('alpha_lemon_cms.web_folder_full_path'), $symlink);
             $commandProcessor = $this->container->get('alpha_lemon_cms.commands_processor');
