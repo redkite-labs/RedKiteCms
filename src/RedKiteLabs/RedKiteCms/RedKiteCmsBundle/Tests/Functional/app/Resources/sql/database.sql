@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS `al_block` (
   `page_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `slot_name` varchar(255) NOT NULL,
-  `class_name` varchar(255) NOT NULL DEFAULT 'Text',
-  `html_content` text NOT NULL,
+  `type` varchar(255) NOT NULL DEFAULT 'Text',
+  `content` text NOT NULL,
   `internal_javascript` text,
   `external_javascript` text,
   `internal_stylesheet` text,
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS `al_block` (
 DROP TABLE IF EXISTS `al_language`;
 CREATE TABLE IF NOT EXISTS `al_language` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `language` varchar(10) NOT NULL,
-  `main_language` char(1) NOT NULL DEFAULT '0',
+  `language_name` varchar(10) NOT NULL,
+  `main_language` INT(11) NOT NULL DEFAULT '0',
   `to_delete` int(11) NOT NULL DEFAULT '0',
   `created_at` date NOT NULL default '1975-08-17 12:30:12',
   PRIMARY KEY (`id`),
