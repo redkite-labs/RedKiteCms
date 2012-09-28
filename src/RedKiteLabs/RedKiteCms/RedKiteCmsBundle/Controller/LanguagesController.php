@@ -27,12 +27,14 @@ class LanguagesController extends ContainerAware
 {
     public function indexAction()
     {
+        // @codeCoverageIgnoreStart
         if (!extension_loaded('intl')) {
             $response = new Response();
             $response->setStatusCode('404');
 
             return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
         }
+        // @codeCoverageIgnoreEnd
 
         $languagesForm = new LanguagesForm($this->container);
         $form = $this->container->get('form.factory')->create($languagesForm);
