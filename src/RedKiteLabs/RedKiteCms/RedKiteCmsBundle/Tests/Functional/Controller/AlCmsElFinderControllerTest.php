@@ -29,7 +29,7 @@ class AlCmsElFinderControllerTest extends WebTestCaseFunctional
     public function testShowFilesManager()
     {
         $crawler = $this->client->request('GET', '/backend/en/al_showFilesManager');
-        $response = $this->client->getResponse();
+        $response = $this->client->getResponse();echo $crawler->text();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#elfinder')->count());
     }
