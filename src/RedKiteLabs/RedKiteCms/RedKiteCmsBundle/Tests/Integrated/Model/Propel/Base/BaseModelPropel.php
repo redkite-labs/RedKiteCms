@@ -28,8 +28,8 @@ abstract class BaseModelPropel extends WebTestCaseFunctional
     public static function setUpBeforeClass()
     {
         self::$languages = array(
-            array('Language'      => 'en'),
-            array('Language'      => 'es',)
+            array('LanguageName'      => 'en'),
+            array('LanguageName'      => 'es',)
         );
 
         self::$pages = array(

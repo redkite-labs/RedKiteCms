@@ -62,13 +62,13 @@
     <div id="al-editor-tab-1">
         {% block html_editor %}
         {% if showRichEditor  %}
-        <form onsubmit="saveHtmlContent(); return false;">
+        <form onsubmit="saveContent(); return false;">
             <textarea id="al_html_editor" name="al_html_editor" class="input editor_inputs">
-                {{ alContent.getHtmlContentForEditor }}
+                {{ alContent.getContentForEditor }}
             </textarea>
         </form>
         {% elseif showHtmlEditor %}
-        <textarea id="al_html_editor" name="al_html_editor" class="input editor_inputs">{{ alContent.getHtmlContentForEditor }}</textarea>
+        <textarea id="al_html_editor" name="al_html_editor" class="input editor_inputs">{{ alContent.getContentForEditor }}</textarea>
         <input id="al_html_saver" type="submit" value = "Save" class="input button" />
         {% endif %}
         {% endblock %}
@@ -164,16 +164,16 @@
     $('#al_editor_tabs').tabs();
 
     {% if showRichEditor  %}
-    function saveHtmlContent()
+    function saveContent()
     {
-        $('#al_html_editor').EditBlock('HtmlContent');
+        $('#al_html_editor').EditBlock('Content');
     };
     {% endif %}
 
     {% if showRichEditor == false or showHtmlEditor  %}
     $('#al_html_saver').click(function()
     {
-        $('#al_html_editor').EditBlock('HtmlContent');
+        $('#al_html_editor').EditBlock('Content');
     });
     {% endif %}
 

@@ -48,13 +48,13 @@ class BlocksController extends ContainerAware
                 }
 
                 if (null === $editor) {
-                    $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getClassName()));
+                    $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getType()));
                     $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : null;                    
                     if (null === $editorSettings) {
-                        $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getClassName()));
+                        $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getType()));
                         $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
                     }
-                    $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getClassName(), strtolower($block->getClassName()));
+                    $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getType(), strtolower($block->getType()));
 
                     $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
                                                                                            "jsFiles" => explode(",", $block->getExternalJavascript()),

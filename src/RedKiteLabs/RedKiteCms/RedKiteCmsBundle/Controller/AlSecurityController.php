@@ -72,7 +72,7 @@ class AlSecurityController extends Controller
         return $this->render($template, array(
             'last_username' => $lastUsername,
             'error'         => $error,
-            'language_name'     => $alLanguage->getLanguage(),
+            'language_name'     => $alLanguage->getLanguageName(),
             'page_name'     => $alPage->getPageName(),
         ), $response);
     }

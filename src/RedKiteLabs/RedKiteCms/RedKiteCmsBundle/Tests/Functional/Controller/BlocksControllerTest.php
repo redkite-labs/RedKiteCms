@@ -239,7 +239,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         'pageId' => '2',
                         'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
-                        "key" => "HtmlContent",
+                        "key" => "Content",
                         "value" => "This is the default text for a new text content",
                         "idBlock" => $blockId);
 
@@ -257,7 +257,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         'pageId' => '2',
                         'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
-                        "key" => "HtmlContent",
+                        "key" => "Content",
                         "value" => "New content",
                         "idBlock" => $blockId);
 

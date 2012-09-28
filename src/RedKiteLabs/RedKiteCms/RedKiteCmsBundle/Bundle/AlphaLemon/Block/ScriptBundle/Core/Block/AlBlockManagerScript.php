@@ -31,7 +31,7 @@ class AlBlockManagerScript extends AlBlockManager
      */
     public function getDefaultValue()
     {
-        return array('HtmlContent' => '',
+        return array('Content' => '',
                      'InternalJavascript' => '',
                      'ExternalJavascript' => '');
     }
@@ -41,7 +41,7 @@ class AlBlockManagerScript extends AlBlockManager
      */
     protected function formatHtmlCmsActive()
     {
-        $content = $this->alBlock->getHtmlContent();
+        $content = $this->alBlock->getContent();
         if (strpos($content, '<script') !== false) return "A script content is not rendered in editor mode";
         
         return $content;

@@ -64,7 +64,7 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
     {
         unset($values['Id']);
         $language = $this->languageManager->get();
-        $languageName = $language->getLanguage();
+        $languageName = $language->getLanguageName();
         $values['LanguageId'] = $language->getId();
         $values['LanguageName'] = $languageName;
         $values['Permalink'] = $languageName . '-' . $values['Permalink'];

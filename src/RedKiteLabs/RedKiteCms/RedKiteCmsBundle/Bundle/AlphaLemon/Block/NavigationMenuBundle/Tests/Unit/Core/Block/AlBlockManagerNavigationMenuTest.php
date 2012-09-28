@@ -55,7 +55,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
 
         $blockManager = new AlBlockManagerNavigationMenu($container);
 
-        $expectedValue = array("HtmlContent" => "<ul><li>En</li></ul>");
+        $expectedValue = array("Content" => "<ul><li>En</li></ul>");
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
@@ -193,7 +193,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
     {
         $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
         $language->expects($this->once())
-            ->method('getLanguage')
+            ->method('getLanguageName')
             ->will($this->returnValue($value));
         
         return $language;

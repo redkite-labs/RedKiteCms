@@ -54,7 +54,7 @@ class AlBlockManagerTinyMceTest extends AlContentManagerBase
         $this->blockManager = new AlBlockManagerTinyMceTester($this->eventsHandler, $this->urlManager, $this->factoryRepository, $this->validator);
     }
 
-    public function testUrlManagerIsNotCalledWhenHtmlContentKeyDeosNotExist()
+    public function testUrlManagerIsNotCalledWhenContentKeyDeosNotExist()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->any())
@@ -105,7 +105,7 @@ class AlBlockManagerTinyMceTest extends AlContentManagerBase
                 ->will($this->returnValue(2));
 
         $block->expects($this->once())
-                ->method('getHtmlContent')
+                ->method('getContent')
                 ->will($this->returnValue('saved html content <a href="http://example.com">page</a>'));
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
@@ -137,11 +137,11 @@ class AlBlockManagerTinyMceTest extends AlContentManagerBase
             ->method('getInternalUrl')
             ->will($this->returnValue(null));
 
-        $params = array('HtmlContent' => 'saved html content <a href="http://example.com">page</a>');
+        $params = array('Content' => 'saved html content <a href="http://example.com">page</a>');
         $this->blockManager->set($block);
         $result = $this->blockManager->save($params);
         $this->assertEquals(true, $result);
-        $this->assertEquals('saved html content <a href="http://example.com">page</a>', $this->blockManager->get()->getHtmlContent());
+        $this->assertEquals('saved html content <a href="http://example.com">page</a>', $this->blockManager->get()->getContent());
     }
 
     public function testTheLinkHasBeenConverted()
@@ -152,7 +152,7 @@ class AlBlockManagerTinyMceTest extends AlContentManagerBase
                 ->will($this->returnValue(2));
 
         $block->expects($this->once())
-                ->method('getHtmlContent')
+                ->method('getContent')
                 ->will($this->returnValue('saved html content <a href="/alcms.php/backend/my-awesome-permalink">page</a>'));
 
         $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
@@ -184,11 +184,11 @@ class AlBlockManagerTinyMceTest extends AlContentManagerBase
             ->method('getInternalUrl')
             ->will($this->returnValue('/alcms.php/backend/my-awesome-permalink'));
 
-        $params = array('HtmlContent' => 'saved html content <a href="my-awesome-permalink">page</a>');
+        $params = array('Content' => 'saved html content <a href="my-awesome-permalink">page</a>');
         $this->blockManager->set($block);
         $result = $this->blockManager->save($params);
         $this->assertEquals(true, $result);
-        $this->assertEquals('saved html content <a href="/alcms.php/backend/my-awesome-permalink">page</a>', $this->blockManager->get()->getHtmlContent());
+        $this->assertEquals('saved html content <a href="/alcms.php/backend/my-awesome-permalink">page</a>', $this->blockManager->get()->getContent());
     }
 }
 
@@ -196,6 +196,6 @@ class AlBlockManagerTinyMceTester extends AlBlockManagerTinyMce
 {
     public function getDefaultValue()
     {
-        return array("HtmlContent" => "Test value");
+        return array("Content" => "Test value");
     }
 }

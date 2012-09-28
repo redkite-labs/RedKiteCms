@@ -47,7 +47,7 @@
 <script>
     $('.al_save_item').click(function()
     {
-        $('#al_item_form').EditBlock('HtmlContent', $('#al_item_form').serialize());
+        $('#al_item_form').EditBlock('Content', $('#al_item_form').serialize());
         if ( $("#al_json_block_id").val() == "") $('#al_item_form').ResetFormElements();
 
         return false;

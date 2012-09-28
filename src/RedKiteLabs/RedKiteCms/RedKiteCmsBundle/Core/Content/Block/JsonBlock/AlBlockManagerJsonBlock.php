@@ -40,8 +40,8 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
         $content = $block;
         $blockType = null;
         if (is_object($block)) {
-            $content = $block->getHtmlContent();
-            $blockType = $block->getClassName();
+            $content = $block->getContent();
+            $blockType = $block->getType();
         }
 
         $content = json_decode($content, $assoc);
@@ -61,9 +61,9 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
      */
     protected function edit(array $values)
     {
-        if (array_key_exists('HtmlContent', $values)) {
+        if (array_key_exists('Content', $values)) {
             $unserializedData = array();
-            $serializedData = $values['HtmlContent'];
+            $serializedData = $values['Content'];
             parse_str($serializedData, $unserializedData);
 
             $commonMessageText = 'The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you';
@@ -87,7 +87,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
                 $content[] = $item;
             }
 
-            $values['HtmlContent'] = json_encode($content);
+            $values['Content'] = json_encode($content);
         }
 
         if (array_key_exists('RemoveItem', $values)) {
@@ -97,7 +97,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
             unset($content[$itemId]);
             $content = array_values($content);
 
-            $values['HtmlContent'] = json_encode($content);
+            $values['Content'] = json_encode($content);
         }
 
         return parent::edit($values);

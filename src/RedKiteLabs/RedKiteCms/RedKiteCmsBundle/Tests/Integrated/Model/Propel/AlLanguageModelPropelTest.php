@@ -75,18 +75,18 @@ class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
     {
         $languageName = 'es';
         $language = $this->languageRepository->fromLanguageName($languageName);
-        $this->assertEquals($languageName, $language->getLanguage());
+        $this->assertEquals($languageName, $language->getLanguageName());
     }
 
     public function testTheMainLanguageIsRetrieved()
     {
         $language = $this->languageRepository->mainLanguage();
-        $this->assertEquals('en', $language->getLanguage());
+        $this->assertEquals('en', $language->getLanguageName());
     }
 
     public function testTheFirstLanguageIsRetrieved()
     {
         $language = $this->languageRepository->firstOne();
-        $this->assertEquals('en', $language->getLanguage());
+        $this->assertEquals('en', $language->getLanguageName());
     }
 }

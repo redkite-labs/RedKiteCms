@@ -39,8 +39,8 @@ class JsonBlockController extends ContainerAware
             $request = $this->container->get('request');
             $block = $this->fetchBlock($request->get('blockId'));
 
-            $items = json_decode($block->getHtmlContent(), true);
-            $template = sprintf('%sBundle:Block:%s_list.html.twig', $block->getClassName(), strtolower($block->getClassName()));
+            $items = json_decode($block->getContent(), true);
+            $template = sprintf('%sBundle:Block:%s_list.html.twig', $block->getType(), strtolower($block->getType()));
 
             return $this->container->get('templating')->renderResponse($template, array("items" => $items, "block_id" => $block->getId()));
         } catch (\Exception $e) {
@@ -87,8 +87,8 @@ class JsonBlockController extends ContainerAware
             $blockManager = $blockManagerFactory->createBlockManager($block);
             $blockManager->save(array('RemoveItem' => $request->get('RemoveItem')));
 
-            $items = json_decode($block->getHtmlContent(), true);
-            $template = sprintf('%sBundle:Block:%s_list.html.twig', $block->getClassName(), strtolower($block->getClassName()));
+            $items = json_decode($block->getContent(), true);
+            $template = sprintf('%sBundle:Block:%s_list.html.twig', $block->getType(), strtolower($block->getType()));
 
             $responseValues = array(
                 array('key' => 'content',
@@ -138,7 +138,7 @@ class JsonBlockController extends ContainerAware
         $item = null;
         $block = $this->fetchBlock($blockId);
         if ($itemId != -1) {
-            $content = json_decode($block->getHtmlContent(), true);
+            $content = json_decode($block->getContent(), true);
 
             if (!array_key_exists($itemId, $content)) {
                 throw new \InvalidArgumentException('It seems that the item requested does not exist anymore');
@@ -148,7 +148,7 @@ class JsonBlockController extends ContainerAware
             $item['id'] = $itemId;
         }
 
-        $formName = sprintf('%s.form', strtolower($block->getClassName()));
+        $formName = sprintf('%s.form', strtolower($block->getType()));
         $formClass = $this->container->get($formName);
 
         return $this->container->get('form.factory')->create($formClass, $item);
@@ -165,7 +165,7 @@ class JsonBlockController extends ContainerAware
     protected function renderForm($blockId, $form, $errors = null)
     {
         $block = $this->fetchBlock($blockId);
-        $template = sprintf('%sBundle:Block:%s_item.html.twig', $block->getClassName(), strtolower($block->getClassName()));
+        $template = sprintf('%sBundle:Block:%s_item.html.twig', $block->getType(), strtolower($block->getType()));
 
         return $this->container->get('templating')->render($template, array(
             'block_id' => $blockId,

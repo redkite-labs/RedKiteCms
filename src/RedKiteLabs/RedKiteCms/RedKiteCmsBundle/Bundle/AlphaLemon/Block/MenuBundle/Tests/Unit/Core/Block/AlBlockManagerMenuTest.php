@@ -33,7 +33,7 @@ class AlBlockManagerMenuTest extends TestCase
         $eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
         $blockManager = new AlBlockManagerMenu($eventsHandler, $factoryRepository);
 
-        $expectedValue = array("HtmlContent" => "<ul><li>Link 1</li><li>Link 2</li><li>Link 3</li></ul>");
+        $expectedValue = array("Content" => "<ul><li>Link 1</li><li>Link 2</li><li>Link 3</li></ul>");
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 }

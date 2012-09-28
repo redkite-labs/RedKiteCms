@@ -525,7 +525,7 @@ class AlPageTreeTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-            ->method('getClassName')
+            ->method('getType')
             ->will($this->returnValue('Script'));
 
         $externalStylesheet = 'fake-stylesheet-1.css,fake-stylesheet-2.css';
@@ -550,7 +550,7 @@ class AlPageTreeTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-            ->method('getClassName')
+            ->method('getType')
             ->will($this->returnValue('Script'));
 
         $internalStylesheet = 'fake javascript code';
@@ -575,7 +575,7 @@ class AlPageTreeTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-            ->method('getClassName')
+            ->method('getType')
             ->will($this->returnValue('FancyApp'));
 
         $this->setUpTemplateAttributes();
@@ -607,7 +607,7 @@ class AlPageTreeTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-            ->method('getClassName')
+            ->method('getType')
             ->will($this->returnValue('FancyApp'));
 
         $this->setUpTemplateAttributes();
@@ -639,7 +639,7 @@ class AlPageTreeTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-            ->method('getClassName')
+            ->method('getType')
             ->will($this->returnValue('FancyApp'));
 
         $this->setUpTemplateAttributes();

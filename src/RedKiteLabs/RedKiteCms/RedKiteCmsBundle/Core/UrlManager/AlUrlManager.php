@@ -147,7 +147,7 @@ class AlUrlManager implements AlUrlManagerInterface
 
     private function generateRoute(AlLanguage $language, AlPage $page)
     {
-        return sprintf('_%s_%s', $language->getLanguage(), str_replace("-", "_", $page->getPageName()));
+        return sprintf('_%s_%s', $language->getLanguageName(), str_replace("-", "_", $page->getPageName()));
     }
 
     private function generateDefaultUrlTokens()

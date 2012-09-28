@@ -160,7 +160,7 @@ abstract class AlDeployer implements AlDeployerInterface
             $pageName = $seoAttribute->getAlPage()->getPageName();
             if ($seoAttribute->getAlPage()->getIsHome()) $homePage = $pageName;
 
-            $language = $seoAttribute->getAlLanguage()->getLanguage();
+            $language = $seoAttribute->getAlLanguage()->getLanguageName();
             if ($seoAttribute->getAlLanguage()->getMainLanguage()) $mainLanguage = $language;
 
             // Generate only a route for the home page

@@ -37,21 +37,21 @@ class AlBlockManagerScriptTest extends TestCase
     public function testDefaultValue()
     {
         $expectedValue = array(
-            'HtmlContent' => '',
+            'Content' => '',
             'InternalJavascript' => '',
             'ExternalJavascript' => ''
         );
         $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
     }
 
-    public function testHtmlContentDisplaysTheContentWhenAnyJavascriptTagExists()
+    public function testContentDisplaysTheContentWhenAnyJavascriptTagExists()
     {
         $block = $this->initBlock('A fancy javascript');
         $this->blockManager->set($block);
         $this->assertEquals('A fancy javascript<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>', $this->blockManager->getHtmlCmsActive());
     }
 
-    public function testHtmlContentDisplaysAWarningWhenAtLeastOneJavascriptTagExists()
+    public function testContentDisplaysAWarningWhenAtLeastOneJavascriptTagExists()
     {
         $block = $this->initBlock('<script>A fancy javascript</script>');
         $this->blockManager->set($block);
@@ -72,7 +72,7 @@ class AlBlockManagerScriptTest extends TestCase
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
-            ->method('getHtmlContent')
+            ->method('getContent')
             ->will($this->returnValue($htmlContent));
         
         $block->expects($this->once())

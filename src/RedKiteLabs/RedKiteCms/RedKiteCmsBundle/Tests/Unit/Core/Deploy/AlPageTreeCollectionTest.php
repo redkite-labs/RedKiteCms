@@ -67,19 +67,19 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         $this->assertEquals(4, count($pageTreeCollection));
 
         $pageTree = $pageTreeCollection->at(0);
-        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguage());
+        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguageName());
         $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
 
         $pageTree = $pageTreeCollection->at(1);
-        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguage());
+        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguageName());
         $this->assertEquals('page-1', $pageTree->getAlPage()->getPageName());
 
         $pageTree = $pageTreeCollection->at(2);
-        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguage());
+        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguageName());
         $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
 
         $pageTree = $pageTreeCollection->at(3);
-        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguage());
+        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguageName());
         $this->assertEquals('page-1', $pageTree->getAlPage()->getPageName());
         
         $this->assertNull($pageTreeCollection->at(4));

@@ -44,7 +44,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
      */
     public function getDefaultValue()
     {
-        return array("HtmlContent" => "<ul><li>En</li></ul>");
+        return array("Content" => "<ul><li>En</li></ul>");
     }
 
     /**
@@ -61,7 +61,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
                         ->getInternalUrl();
             if (null === $url)  $url = '#';
 
-            $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $language->getLanguage());
+            $content .= sprintf('<li><a href="%s">%s</a></li>', $url, $language->getLanguageName());
         }
 
         return sprintf('<ul>%s</ul>', $content);
@@ -76,7 +76,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         $page = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage();
         $languages = $this->languageRepository->activeLanguages();
         foreach ($languages as $language) {
-            $languageName = $language->getLanguage();
+            $languageName = $language->getLanguageName();
             $url = $this->urlManager
                         ->buildInternalUrl($language, $page)
                         ->getInternalUrl();

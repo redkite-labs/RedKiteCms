@@ -35,7 +35,7 @@ class CmsControllerTest extends WebTestCaseFunctional
 
     public static function setUpBeforeClass()
     {
-        self::$languages = array(array('Language'      => 'en',));
+        self::$languages = array(array('LanguageName'      => 'en',));
 
         self::$pages = array(array('PageName'      => 'index',
                                     'TemplateName'  => 'home',
@@ -127,8 +127,8 @@ class CmsControllerTest extends WebTestCaseFunctional
         </ul>';
 
         $block = $this->blockRepository->fromPK(2);
-        $block->setClassName('Text');
-        $block->setHtmlContent($menu);
+        $block->setType('Text');
+        $block->setContent($menu);
         $block->save();
 
         $crawler = $this->client->request('GET', 'backend/en/index');

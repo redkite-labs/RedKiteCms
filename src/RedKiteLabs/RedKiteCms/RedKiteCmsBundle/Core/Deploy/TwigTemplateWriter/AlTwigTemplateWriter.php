@@ -124,7 +124,7 @@ class AlTwigTemplateWriter
     public function writeTemplate($dir)
     {
         // Writes down the file
-        $fileDir = $dir . '/' . $this->pageTree->getAlLanguage()->getLanguage();
+        $fileDir = $dir . '/' . $this->pageTree->getAlLanguage()->getLanguageName();
         if (!is_dir($fileDir)) {
             mkdir($fileDir);
         }
@@ -202,7 +202,7 @@ class AlTwigTemplateWriter
         $this->contentsSection = $this->writeComment("Contents section");
         $slots = array_keys($this->template->getSlots());
 
-        $languageName = $this->pageTree->getAlLanguage()->getLanguage();
+        $languageName = $this->pageTree->getAlLanguage()->getLanguageName();
         $pageName = $this->pageTree->getAlPage()->getPageName();
         $blocks = $this->pageTree->getPageBlocks()->getBlocks();
         foreach ($blocks as $slotName => $slotBlocks) {

@@ -31,6 +31,6 @@ class AlBlockManagerText extends AlBlockManager
      */
     public function getDefaultValue()
     {
-        return array("HtmlContent" => 'This is the default text for a new text content');
+        return array("Content" => 'This is the default text for a new text content');
     }
 }
