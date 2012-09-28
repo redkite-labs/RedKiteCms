@@ -23,3 +23,5 @@ before_script:
 notifications:
   email:
     - info@alphalemon.com
+
+script: phpunit --coverage-text
