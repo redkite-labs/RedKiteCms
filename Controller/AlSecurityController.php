@@ -20,13 +20,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
-
+/*
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;*/
 
 /**
  * Implements the authentication action to grant the use of the CMS.
@@ -66,13 +66,17 @@ class AlSecurityController extends Controller
             $template = 'AlphaLemonCmsBundle:Security:login.html.twig';
         }
 
-        $alPage = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery::create()->homePage()->findOne();
-        $alLanguage = \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery::create()->mainLanguage()->findOne();
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $pageReporitory = $factoryRepository->createRepository('Page');
+        $languageReporitory = $factoryRepository->createRepository('Language');
+        
+        $alPage = $pageReporitory->homePage();
+        $alLanguage = $languageReporitory->mainLanguage();
 
         return $this->render($template, array(
             'last_username' => $lastUsername,
             'error'         => $error,
-            'language_name'     => $alLanguage->getLanguageName(),
+            'language_name' => $alLanguage->getLanguageName(),
             'page_name'     => $alPage->getPageName(),
         ), $response);
     }
