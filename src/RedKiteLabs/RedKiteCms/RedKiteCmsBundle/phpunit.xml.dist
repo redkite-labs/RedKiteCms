@@ -8,7 +8,7 @@
   convertNoticesToExceptions="true"
   convertWarningsToExceptions="true"
   processIsolation="false"
-  stopOnFailure="false"
+  stopOnFailure="true"
   syntaxCheck="false"
   bootstrap="./Tests/bootstrap.php">
 
@@ -34,6 +34,7 @@
                 <directory>./Propel/om</directory>
                 <directory>./Core/vendor</directory>
                 <directory>./Core/Exception</directory>
+                <directory>./Command/Update</directory>
                 <directory>./Bundle/AlphaLemon/Block/*/Tests</directory>
             </exclude>
         </whitelist>
