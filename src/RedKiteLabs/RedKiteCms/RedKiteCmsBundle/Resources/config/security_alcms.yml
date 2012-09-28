@@ -1,6 +1,5 @@
 security:
     firewalls:
-
         login:
             pattern:  ^/backend/login$
             security: false
