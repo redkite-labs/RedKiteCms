@@ -1,3 +1,7 @@
+Alpha Release
+AlphaLemon CMS has been totally refactored 
+Added unit and functional tests
+
 Preview Release 6
 Renamed AlContent table to AlBlock table
 Website javascripts are now rendered when in cms navigation mode

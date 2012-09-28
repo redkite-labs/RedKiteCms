@@ -17,20 +17,17 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Command\Update;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Filesystem\Filesystem;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
 
 /**
  * Upgrades to pre alpha
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class UpdateToPreAlphaCommand extends ContainerAwareCommand
+class UpdateToPreAlphaCommand extends Base\BaseUpdateCommand
 {
     /**
      * @see Command
@@ -55,20 +52,9 @@ class UpdateToPreAlphaCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
-        $orm = new AlPropelOrm($connection);
-        
         $sqlFile = sprintf(__DIR__ . '/../../Resources/dbupdate/%s/AlphaLemonCmsPreAlpha.sql', $input->getOption('driver'));
-        if (is_file($sqlFile)) {
-            $updateQueries = file_get_contents($sqlFile);
-
-            $queries = explode(';', $updateQueries);
-            foreach ($queries as $query) {
-                $orm->executeQuery($query);
-            }
-
-            $output->writeln('<info>The database has been updated.</info>');
-        } else {
-            throw new \Exception(sprintf('The file %s has not been found. AlphaLemon provides only the mysql queries required to updated the database. To fix this, please create a %s folder under the %s and adjust the provided queries for your database, then launch the command again.', $sqlFile, $input->getOption('driver'), dirname($sqlFile)));
-        }
+        $this->executeQueries($connection, $sqlFile);
+        
+        $output->writeln('<info>The database has been updated.</info>');
     }
 }
