@@ -34,12 +34,20 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class BaseFrontendController extends Controller
 {
+    protected $dispatcher;
+    protected $event;
+
     protected function dispatchEvents(Request $request, Response $response)
     {
-        $dispatcher = $this->container->get('event_dispatcher');
+        $this->dispatcher = $this->container->get('event_dispatcher');
 
         // Dispatches the pre rendering events for current language and page
-        $event = new BeforePageRenderingEvent($response);
+        $this->event = new BeforePageRenderingEvent($response);
+        $this->dispatchSiteEvent();
+        $this->dispatchCurrentLanguageEvent($request);
+        $this->dispatchCurrentPageEvent($request);
+
+        /*
         $dispatcher->dispatch(PageRendererEvents::BEFORE_RENDER_PAGE, $event);
         $response = $event->getResponse();
 
@@ -47,11 +55,26 @@ abstract class BaseFrontendController extends Controller
         $dispatcher->dispatch($eventName, $event);
         $response = $event->getResponse();
 
-        $eventName = sprintf('page_renderer.before_%s_rendering', $request->get('page'));
-        $dispatcher->dispatch($eventName, $event);
-        $response = $event->getResponse();
+        $response =*/
 
-        return $response;
+        return $this->event->getResponse();
+    }
+
+    protected function dispatchSiteEvent()
+    {
+        $this->dispatcher->dispatch(PageRendererEvents::BEFORE_RENDER_PAGE, $this->event);
+    }
+
+    protected function dispatchCurrentLanguageEvent(Request $request)
+    {
+        $eventName = sprintf('page_renderer.before_%s_rendering', $request->getLocale());
+        $this->dispatcher->dispatch($eventName, $this->event);
+    }
+
+    protected function dispatchCurrentPageEvent(Request $request)
+    {
+        $eventName = sprintf('page_renderer.before_%s_rendering', $request->get('page'));
+        $this->dispatcher->dispatch($eventName, $this->event);
     }
 }
 
