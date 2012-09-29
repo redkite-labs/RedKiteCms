@@ -68,13 +68,15 @@ class PopulateCommand extends ContainerAwareCommand
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
 
         $queries = array(
-            'TRUNCATE al_block;',
-            'TRUNCATE al_language;',
-            'TRUNCATE al_page;',
-            'TRUNCATE al_page_attribute;',
-            'TRUNCATE al_user;',
+            'SET FOREIGN_KEY_CHECKS=0;',
             'TRUNCATE al_role;',
-            'INSERT INTO al_language (language) VALUES(\'-\');',
+            'TRUNCATE al_user;',
+            'TRUNCATE al_block;',
+            'TRUNCATE al_seo;',
+            'TRUNCATE al_page;',
+            'TRUNCATE al_language;',
+            'SET FOREIGN_KEY_CHECKS=1;',
+            'INSERT INTO al_language (language_name) VALUES(\'-\');',
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
         );
 
@@ -83,7 +85,7 @@ class PopulateCommand extends ContainerAwareCommand
             $statement = $connection->prepare($query);
             $statement->execute();
         }
-
+        
         /* TODO Users management
 
         $adminRoleId = 0;
@@ -113,7 +115,7 @@ class PopulateCommand extends ContainerAwareCommand
         $languageManager = new AlLanguageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         $languageManager->set(null)->save(
             array(
-                'Language'      => 'en',
+                'LanguageName'      => 'en',
             ));
 
         $themes = $this->getContainer()->get('alphalemon_theme_engine.themes');
