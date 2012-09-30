@@ -41,7 +41,7 @@ class TinyMCEController extends Controller
             $finder = $finder->name(trim($mediaFileType));
         }
         $imagesFiles = $finder->in($cmsAssetsFolder . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir'));
-
+        
         foreach ($imagesFiles as $imagesFile) {
             $absoluteFolderPath = '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . \str_replace($cmsAssetsFolder, '', dirname($imagesFile));
             $mceImages[] = sprintf("[\"%1\$s\", \"%2\$s/%1\$s\"]", basename($imagesFile), $absoluteFolderPath);
@@ -57,11 +57,11 @@ class TinyMCEController extends Controller
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $seoRepository = $factoryRepository->createRepository('Seo');
         $seoAttributes = $seoRepository->fromLanguageId($this->getRequest()->get('language'));
-        
+
         $mcsLinks = array();
         foreach ($seoAttributes as $seoAttribute) {
             $permalink = $seoAttribute->getPermalink();
-            $mcsLinks[] = sprintf("[\"%1\$s\", \"%1\$s\"]",$permalink, $permalink); 
+            $mcsLinks[] = sprintf("[\"%1\$s\", \"%1\$s\"]",$permalink, $permalink);
         }
         sort($mcsLinks);
         $list = 'var tinyMCELinkList = new Array(' . implode(",", $mcsLinks) . ');';

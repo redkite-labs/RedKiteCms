@@ -3,9 +3,6 @@
         "AlphaLemon\\AlphaLemonCmsBundle\\AlphaLemonCmsBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
-        "AlphaLemon\\AlValumUploaderBundle\\AlValumUploaderBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
-        },
         "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
