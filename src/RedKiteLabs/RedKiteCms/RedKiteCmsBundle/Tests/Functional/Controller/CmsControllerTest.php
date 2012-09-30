@@ -180,6 +180,13 @@ class CmsControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->click($link);
     }
 
+    public function testOpenPageFromPermalink()
+    {
+        $crawler = $this->client->request('GET', 'backend/en/this-is-a-website-fake-page');
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     private function checkCms($crawler, $expectedStylesheets, $expectedJavascripts)
     {
         $this->checkToolbar($crawler);

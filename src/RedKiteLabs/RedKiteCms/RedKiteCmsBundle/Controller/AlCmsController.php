@@ -24,6 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Implements the controller to load AlphaLemon CMS
@@ -32,8 +33,10 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
  */
 class AlCmsController extends BaseFrontendController
 {
-    private $cmsAssets = array();
     private $kernel = null;
+    private $factoryRepository = null;
+    private $pageRepository = null;
+    private $languageRepository = null;
 
     public function showAction()
     {
@@ -43,9 +46,9 @@ class AlCmsController extends BaseFrontendController
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
         $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle');
         $skin = $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alpha_lemon_cms.skin');
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-        $languageRepository = $factoryRepository->createRepository('Language');
-        $pageRepository = $factoryRepository->createRepository('Page');
+        $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
 
         $params = array('template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
                         'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
@@ -56,8 +59,8 @@ class AlCmsController extends BaseFrontendController
                         'internal_javascripts' => null,
                         'skin_path' => $skin,
                         'is_secure' => $isSecure,
-                        'pages' => ChoiceValues::getPages($pageRepository),
-                        'languages' => ChoiceValues::getLanguages($languageRepository),
+                        'pages' => ChoiceValues::getPages($this->pageRepository),
+                        'languages' => ChoiceValues::getLanguages($this->languageRepository),
                         'page' => 0,
                         'language' => 0,
                         'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
@@ -88,6 +91,26 @@ class AlCmsController extends BaseFrontendController
         $response = $this->dispatchEvents($request, $response);
 
         return $response;
+    }
+
+    /**
+     * Overrides the base method to replace the permalink when it is used instad
+     * of the page name
+     *
+     * @param type $request
+     */
+    protected function dispatchCurrentPageEvent(Request $request)
+    {
+        $pageName = $request->get('page');
+        $seoRepository = $this->factoryRepository->createRepository('Seo');
+        $seo = $seoRepository->fromPermalink($pageName);
+        if (null !== $seo) {
+            $page = $this->pageRepository->fromPk($seo->getPageId());
+            $pageName = $page->getPageName();
+        }
+
+        $eventName = sprintf('page_renderer.before_%s_rendering', $pageName);
+        $this->dispatcher->dispatch($eventName, $this->event);
     }
 
     private function findTemplate(AlPageTree $pageTree)

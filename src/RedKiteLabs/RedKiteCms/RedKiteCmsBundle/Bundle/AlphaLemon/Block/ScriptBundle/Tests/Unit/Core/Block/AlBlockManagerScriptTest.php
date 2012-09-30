@@ -48,14 +48,14 @@ class AlBlockManagerScriptTest extends TestCase
     {
         $block = $this->initBlock('A fancy javascript');
         $this->blockManager->set($block);
-        $this->assertEquals('A fancy javascript<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>', $this->blockManager->getHtmlCmsActive());
+        $this->assertEquals('A fancy javascript<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', \'A%20fancy%20javascript\');});</script>', $this->blockManager->getHtmlCmsActive());
     }
 
     public function testContentDisplaysAWarningWhenAtLeastOneJavascriptTagExists()
     {
         $block = $this->initBlock('<script>A fancy javascript</script>');
         $this->blockManager->set($block);
-        $this->assertEquals('A script content is not rendered in editor mode<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>', $this->blockManager->getHtmlCmsActive());
+        $this->assertEquals('A script content is not rendered in editor mode<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', \'A%20script%20content%20is%20not%20rendered%20in%20editor%20mode\');});</script>', $this->blockManager->getHtmlCmsActive());
     }
 
     public function testHideInEditMode()
@@ -67,19 +67,19 @@ class AlBlockManagerScriptTest extends TestCase
     {
         $this->assertTrue($this->blockManager->getReloadSuggested());
     }
-    
+
     private function initBlock($htmlContent)
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($htmlContent));
-        
+
         $block->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(2));
-        
+
         return $block;
     }
-            
+
 }

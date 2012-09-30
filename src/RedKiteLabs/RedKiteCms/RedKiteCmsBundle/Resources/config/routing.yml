@@ -19,9 +19,6 @@ _json_block:
 _deploy:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/deploy.xml"
 
-_valum_uploader:
-    resource: "@AlValumUploaderBundle/Resources/config/routing/valum.xml"
-
 _al_elfinder:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
 
