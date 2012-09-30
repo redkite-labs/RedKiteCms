@@ -90,7 +90,7 @@
         {
             if($(this).hasClass('is_hidden_in_edit_mode'))
             {
-                $(this).removeClass('is_hidden_in_edit_mode').html($(this).data('block'));
+                $(this).removeClass('is_hidden_in_edit_mode').html(decodeURIComponent($(this).data('block')));
             }
         });
     };
