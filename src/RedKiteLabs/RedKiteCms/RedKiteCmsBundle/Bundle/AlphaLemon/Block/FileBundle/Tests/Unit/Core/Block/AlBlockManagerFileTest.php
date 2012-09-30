@@ -135,7 +135,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
-        $this->assertEquals('<a href="/vfs://uploads/assets/files/my-file" />my-file</a><script type="text/javascript">$(document).ready(function(){$(\'#block_\').data(\'block\', $(\'#block_\').html());});</script>', $blockManager->getHtmlCmsActive());
+        $this->assertEquals('<a href="/vfs://uploads/assets/files/my-file" />my-file</a><script type="text/javascript">$(document).ready(function(){$(\'#block_\').data(\'block\', \'%3Ca%20href%3D%22%2Fvfs%3A%2F%2Fuploads%2Fassets%2Ffiles%2Fmy-file%22%20%2F%3Emy-file%3C%2Fa%3E\');});</script>', $blockManager->getHtmlCmsActive());
     }
 
     public function testGetHtmlCmsActiveWhenOpenedIsTrue()
@@ -161,7 +161,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
-        $this->assertEquals('<p>some html content</p><script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>', $blockManager->getHtmlCmsActive());
+        $this->assertEquals('<p>some html content</p><script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', \'%3Cp%3Esome%20html%20content%3C%2Fp%3E\');});</script>', $blockManager->getHtmlCmsActive());
     }
 
     private function initBlock($value)

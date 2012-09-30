@@ -150,7 +150,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $blockManager->setHideInEditMode(true);
         $blockManager->set($block);
 
-        $extraJavascript = '<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', $(\'#block_2\').html());});</script>';
+        $extraJavascript = '<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', \'%3Cp%3EA%20great%20App-Bundle%3C%2Fp%3E\');});</script>';
         $this->assertEquals($htmlContent . $extraJavascript, $blockManager->getHtmlCmsActive());
     }
 
