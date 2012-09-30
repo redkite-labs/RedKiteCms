@@ -47,19 +47,9 @@ to
 
     $kernel = new AppKernel('alcms', true);
 
-Development status
-------------------
-
-AlphaLemon CMS has been eavily refactored since preview releases and it is not stable yet. A pre-alpha version is
-available now, but it is buggy and incomplete, so don't expect so much from it.
-
-You may partecipate to the development browsing the official AlphaLemon's space on github [https://github.com/alphalemon](https://github.com/alphalemon).
-
-
 Documentation
 -------------
-For more information and documentation see the [documentation](https://github.com/alphalemon/AlphaLemonCmsBundle/tree/master/Resources/docs)
-that comes with AlphaLemon CMS.
+For more information and documentation, browse the official [documentation repository](https://github.com/alphalemon/alphalemon-docs)
 
 Stay in touch
 -------------
@@ -71,8 +61,6 @@ AlphaLemon CMS has been written on a linux system machine, so you may encounter 
 you work on a windows machine:
 
 - assetic:dump command might return an error
-- The upload themes button stylesheets is not visible
-- After a theme upload, the response could be false though the theme has been loaded correctly
 - Skin problems
 
 None of those problems breaks the usability of AlphaLemon CMS. If you are a windows user and you want
