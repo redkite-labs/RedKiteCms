@@ -164,7 +164,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Displays a message inside the editor to suggest a page relead
+     * When true, attaches the internal javascript code to html when the editor is active
      *
      * Return false to avoid AlphaLemon add the internal javascript code to html when the content is displayed on the
      * web page
@@ -201,8 +201,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $content = $this->formatHtmlCmsActive();
         if(null === $content) $content = $this->getHtml();
 
-        // Attaches the content a javascript code that saves the block's content to restore it when block must be hid
-        $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%1\$s').data('block', $('#block_%1\$s').html());", $this->alBlock->getId()) : '';
+        // Attaches the content a javascript code that saves the block's content to restore it when block must be hidden
+        $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%s').data('block', '%s');", $this->alBlock->getId(), rawurlencode($content)) : '';
         $internalJavascript = (string)$this->getInternalJavascript();
         $internalJavascript = ($internalJavascript != "" && $this->getExecuteInternalJavascript()) ? $internalJavascript : '';
         if ($scriptForHideContents != '' || $internalJavascript != '') {
@@ -270,7 +270,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         $internalJavascript = '';
         if (null === $this->alBlock) return $internalJavascript;
-        
+
         $savedJavascript = $this->alBlock->getInternalJavascript();
         if (null !== $this->alBlock && trim($savedJavascript) != '') {
             $internalJavascript = $savedJavascript;
