@@ -94,7 +94,7 @@
     $.fn.List = function(route)
     {
         var dialogOptions = {
-            width: 1000
+            width: 400
         };
         InitDialog('al_security_dialog', dialogOptions);
 
