@@ -1,5 +1,6 @@
 imports:
-    - { resource: config.yml }
+    - { resource: parameters.yml }
+    - { resource: "@AlphaLemonCmsBundle/Resources/config/security.yml" }
 
 monolog:
     handlers:
@@ -16,11 +17,38 @@ assetic:
     use_controller: true
 
 framework:
-    router:   { resource: "%kernel.root_dir%/config/routing_alcms.yml" }
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing_alcms.yml"
+        strict_requirements: %kernel.debug%
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    default_locale:  %locale%
+    trust_proxy_headers: false # Should Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
+    session:         ~
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    globals:
+      kernel_root_dir: %kernel.root_dir%
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
 
 alpha_lemon_cms:
     enable_yui_compressor: true
-    
+
 alpha_lemon_theme_engine:
     render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
     themes_panel:
