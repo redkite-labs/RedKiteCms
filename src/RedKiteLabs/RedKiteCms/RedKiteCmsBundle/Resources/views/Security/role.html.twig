@@ -15,6 +15,12 @@
     </div>
 </form>
 
+{% if message is defined %}
+<div id="al_message">
+    {{ message }}
+</div>
+{% endif %}
+
 <div class="al_security_commands_box">
     <ul>
         <li><input type="submit" id="al_save_role" value="Save" class="input button al_large" /></li>

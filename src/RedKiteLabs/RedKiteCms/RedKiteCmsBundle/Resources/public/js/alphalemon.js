@@ -139,7 +139,7 @@ $(document).ready(function(){
             return false;
         });
 
-        //$('#al_open_users_manager').ListUsers();
+        $('#al_open_users_manager').ListUsers();
 
         $('#al_logout').click(function()
         {

@@ -17,7 +17,7 @@
  <div class="al_items_list">
     {% if items is defined and items|length > 0 %}
     <table>
-    {% for key, item in items %}
+    {% for key, item in items %} 
          <tr class="{{ cycle(['alternate_row', 'row'], loop.index) }}">
             {% for value in item %}
                 <td>{{ value }}</td>
