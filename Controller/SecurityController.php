@@ -20,11 +20,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
-
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
-/*use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;*/
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
 
@@ -33,7 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlSecurityController extends ContainerAware
+class SecurityController extends ContainerAware
 {
     private $factoryRepository = null;
     private $userRepository = null;
@@ -41,29 +38,6 @@ class AlSecurityController extends ContainerAware
 
     public function loginAction()
     {
-        /*
-        $adminRoleId = 0;
-        $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
-        foreach ($roles as $role) {
-        $alRole = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlRole();
-        $alRole->setRole($role);
-        $alRole->save();
-
-        if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
-        }
-
-        $user = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlUser();
-        $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
-        $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-        $password = $encoder->encodePassword('admin', $salt);
-
-        $user->setSalt($salt);
-        $user->setPassword($password);
-        $user->setRoleId($adminRoleId);
-        $user->setUsername('admin');
-        $user->setEmail('');
-        $user->save();
-*/
         $request = $this->container->get('request');
         $session = $request->getSession();
 
@@ -134,32 +108,31 @@ class AlSecurityController extends ContainerAware
         $isNewUser = (null !== $request->get('id') && 0 != $request->get('id')) ? false : true;
         $user = (!$isNewUser) ? $this->userRepository()->fromPk($request->get('id')) : new AlUser();
         $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
-        
+
         $message = '';
         $errors = array();
         if ('POST' === $request->getMethod()) {
             try {
                 $alUser = $this->container->get('security.context')->getToken()->getUser();
-                if ($isNewUser || $request->get('al_password') != $user->getPassword()) {
-                    $factory = $this->container->get('security.encoder_factory');
-                    $encoder = $factory->getEncoder($alUser);
-
-                    $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-                    $password = $encoder->encodePassword($request->get('al_password'), $salt);
-
-                    $user->setSalt($salt);
-                    $user->setPassword($password);
-                }
 
                 $user->setRoleId($request->get('al_role_id'));
                 $user->setUsername($request->get('al_username'));
+                $user->setPassword($request->get('al_password'));
                 $user->setEmail($request->get('al_email'));
 
                 $validator = $this->container->get('validator');
                 $errors = $validator->validate($user);
                 if (count($errors) == 0) {
+                    $factory = $this->container->get('security.encoder_factory');
+                    $encoder = $factory->getEncoder($alUser);
+                    $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+                    $password = $encoder->encodePassword($request->get('al_password'), $salt);
+
+                    $user->setSalt($salt);
+                    $user->setPassword($password);
+
                     $message = ($user->save() > 0) ? "The user has been saved" : "The user has not been saved";
-                    
+
                     // Let's refresh the form with the saved data when the user is edited
                     if (!$isNewUser) $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
                 }
@@ -189,7 +162,8 @@ class AlSecurityController extends ContainerAware
         $errors = array();
         if ('POST' === $request->getMethod()) {
             try {
-                $role->setRole($request->get('al_rolename'));
+                $roleName = strtoupper($request->get('al_rolename'));
+                $role->setRole($roleName);
                 $validator = $this->container->get('validator');
                 $errors = $validator->validate($role);
                 if (count($errors) == 0) {
@@ -282,7 +256,7 @@ class AlSecurityController extends ContainerAware
 
         return $this->userRepository;
     }
-    
+
     private function roleRepository()
     {
         if (null === $this->roleRepository)
