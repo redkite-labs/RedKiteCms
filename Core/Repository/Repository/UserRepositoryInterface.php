@@ -25,17 +25,25 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
 interface UserRepositoryInterface
 {
     /**
-     * Fetches a language record using its primary key
+     * Fetches an user record using its primary key
      *
      * @param int       The primary key
      * @return object The fetched object
      */
     public function fromPK($id);
+    
+    /**
+     * Fetches an user record using its primary key
+     *
+     * @param int       The primary key
+     * @return object The fetched object
+     */
+    public function fromUserName($userName);    
 
     /**
-     * Fetches the main language record
+     * Fetches the site's users
      *
-     * @return object The fetched object
+     * @return object The fetched objects
      */
     public function activeUsers();
 }
