@@ -25,7 +25,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
 interface RoleRepositoryInterface
 {
     /**
-     * Fetches a language record using its primary key
+     * Fetches a role record using its primary key
      *
      * @param int       The primary key
      * @return object The fetched object
@@ -33,9 +33,17 @@ interface RoleRepositoryInterface
     public function fromPK($id);
 
     /**
-     * Fetches the main language record
+     * Fetches a role record using its primary key
      *
+     * @param int       The primary key
      * @return object The fetched object
+     */
+    public function fromRoleName($roleName); 
+    
+    /**
+     * Fetches the active roles
+     *
+     * @return object The fetched objects
      */
     public function activeRoles();
 }

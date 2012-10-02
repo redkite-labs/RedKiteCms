@@ -56,6 +56,16 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
         return AlUserQuery::create()
                           ->findPk($id);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function fromUserName($userName)
+    {
+        return AlUserQuery::create()
+                          ->filterByUserName($userName)
+                          ->findOne();
+    }
 
     /**
      * {@inheritdoc}
