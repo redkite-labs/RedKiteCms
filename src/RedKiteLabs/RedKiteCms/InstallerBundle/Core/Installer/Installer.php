@@ -148,7 +148,7 @@ class Installer {
             $updateFile = true;
         }
 
-        if($updateFile) file_put_contents($kernelFile, $contents);
+        if ($updateFile) file_put_contents($kernelFile, $contents);
 
         return;
     }
@@ -187,12 +187,6 @@ class Installer {
     {
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->vendorDir . '/../web/alcms.php', true);
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms.yml', $this->vendorDir . '/../app/config/config_alcms.yml', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms_dev.yml', $this->vendorDir . '/../app/config/config_alcms_dev.yml', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/config_alcms_test.yml', $this->vendorDir . '/../app/config/config_alcms_test.yml', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms.yml', $this->vendorDir . '/../app/config/routing_alcms.yml', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms_dev.yml', $this->vendorDir . '/../app/config/routing_alcms_dev.yml', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/config/routing_alcms_test.yml', $this->vendorDir . '/../app/config/routing_alcms_test.yml', true);
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/media');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
@@ -230,20 +224,51 @@ class Installer {
         }
         file_put_contents($configFile, $contents);
 
-        $alphaLemonConfigFile = $this->vendorDir . '/../app/config/config_alcms.yml';
-        $this->checkFile($alphaLemonConfigFile);
-        $section = "\n\npropel:\n";
-        $section .= "    path:       \"%kernel.root_dir%/../vendor/propel/propel1\"\n";
-        $section .= "    phing_path: \"%kernel.root_dir%/../vendor/phing/phing\"\n\n";
-        $section .= "    dbal:\n";
-        $section .= "        driver:               $this->driver\n";
-        $section .= "        user:                 $this->user\n";
-        $section .= "        password:             $this->password\n";
-        $section .= "        dsn:                  $this->dsn\n";
-        $section .= "        options:              {}\n";
-        $section .= "        attributes:           {}\n";
-        $section .= "        default_connection:   default\n\n";
-        $this->writeConfigFile($alphaLemonConfigFile, '/propel/is', $section);
+        $configFile = $this->vendorDir . '/../app/config/config_alcms.yml';
+        if (!is_file($configFile)) {
+            $contents = "imports:\n";
+            $contents .= "    - { resource: parameters.yml }\n";
+            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/config_alcms.yml\" }\n";
+            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/security.yml\" }";
+            $contents .= $this->writeDatabaseConfiguration($this->dsn);
+            file_put_contents($configFile, $contents);
+        }
+
+        $configFile = $this->vendorDir . '/../app/config/config_alcms_dev.yml';
+        if (!is_file($configFile)) {
+            $contents = "imports:\n";
+            $contents .= "    - { resource: config_alcms.yml }\n";
+            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/config_alcms_dev.yml\" }";
+            file_put_contents($configFile, $contents);
+        }
+
+        $configFile = $this->vendorDir . '/../app/config/config_alcms_test.yml';
+        if (!is_file($configFile)) {
+            $contents = "imports:\n";
+            $contents .= "    - { resource: config_alcms_dev.yml }\n";
+            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/config_alcms_test.yml\" }";
+            $contents .= $this->writeDatabaseConfiguration($this->shortDsn . ';dbname=' . $this->database . '_test');
+            file_put_contents($configFile, $contents);
+        }
+    }
+
+    private function writeDatabaseConfiguration($dsn)
+    {
+        $contents = "\n\nalpha_lemon_theme_engine:\n";
+        $contents .= "    deploy_bundle: " . $this->deployBundle;
+        $contents .= "\n\npropel:\n";
+        $contents .= "    path:       \"%kernel.root_dir%/../vendor/propel/propel1\"\n";
+        $contents .= "    phing_path: \"%kernel.root_dir%/../vendor/phing/phing\"\n\n";
+        $contents .= "    dbal:\n";
+        $contents .= "        driver:               $this->driver\n";
+        $contents .= "        user:                 $this->user\n";
+        $contents .= "        password:             $this->password\n";
+        $contents .= "        dsn:                  $dsn\n";
+        $contents .= "        options:              {}\n";
+        $contents .= "        attributes:           {}\n";
+        $contents .= "        default_connection:   default\n\n";
+
+        return $contents;
     }
 
     protected function writeConfigFile($configFile, $sectionRegex, $sectionContents)
@@ -272,6 +297,31 @@ class Installer {
 
             $siteRoutingFile = $this->vendorDir . "/../src/$this->companyName/$this->bundleName/Resources/config/site_routing.yml";
             file_put_contents($siteRoutingFile, "");
+        }
+
+        $configFile = $this->vendorDir . '/../app/config/routing_alcms.yml';
+        if (!is_file($configFile)) {
+            $contents = "_alcms:\n";
+            $contents .= "    resource: \"@AlphaLemonCmsBundle/Resources/config/routing_alcms.yml\"";
+            file_put_contents($configFile, $contents);
+        }
+
+        $configFile = $this->vendorDir . '/../app/config/routing_alcms_dev.yml';
+        if (!is_file($configFile)) {
+            $contents = "_alcms:\n";
+            $contents .= "    resource: \"@AlphaLemonCmsBundle/Resources/config/routing_alcms_dev.yml\"\n\n";
+            $contents = "_alcms_dev:\n";
+            $contents .= "    resource: routing_alcms.yml";
+            file_put_contents($configFile, $contents);
+        }
+
+        $configFile = $this->vendorDir . '/../app/config/routing_alcms_test.yml';
+        if (!is_file($configFile)) {
+            $contents = "_alcms_dev:\n";
+            $contents .= "    resource: resource: routing_alcms_dev.yml\n\n";
+            $contents = "_al_text_bundle:\n";
+            $contents .= "    resource: \"@TextBundle/Resources/config/routing/routing.xml\"";
+            file_put_contents($configFile, $contents);
         }
     }
 
