@@ -1,8 +1,5 @@
-routing:
+_alcms_dev:
     resource: routing_alcms_dev.yml
 
 _al_text_bundle:
     resource: "@TextBundle/Resources/config/routing/routing.xml"
-
-_alphalemoncms:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing.yml"
