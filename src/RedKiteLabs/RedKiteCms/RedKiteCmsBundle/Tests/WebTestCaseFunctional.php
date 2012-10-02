@@ -67,10 +67,16 @@ abstract class WebTestCaseFunctional extends WebTestCase
 
     protected function setUp()
     {
-        $this->client = static::createClient(array(
-            'environment' => 'alcms_test',
-            'debug'       => true,
-            ));
+        $this->client = static::createClient(
+            array(
+                'environment' => 'alcms_test',
+                'debug'       => true,
+            ),
+            array(
+                'PHP_AUTH_USER' => 'admin',
+                'PHP_AUTH_PW' => 'admin',
+            )    
+        );
 
         $activeThemeManager = $this->client->getContainer()->get('alphalemon_theme_engine.active_theme');
         $activeThemeManager->writeActiveTheme('BusinessWebsiteThemeBundle');
@@ -100,6 +106,8 @@ abstract class WebTestCaseFunctional extends WebTestCase
             'TRUNCATE al_language;',
             'TRUNCATE al_page;',
             'TRUNCATE al_seo;',
+            'TRUNCATE al_role;',
+            'TRUNCATE al_user;',
             'INSERT INTO al_language (language_name) VALUES(\'-\');',
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
         );
@@ -109,6 +117,28 @@ abstract class WebTestCaseFunctional extends WebTestCase
             $statement->execute();
         }
 
+        $adminRoleId = 0;
+        $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
+        foreach ($roles as $role) {
+            $alRole = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlRole();
+            $alRole->setRole($role);
+            $alRole->save();
+
+            if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
+        }
+
+        $user = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlUser();
+        $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
+        $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $password = $encoder->encodePassword('admin', $salt);
+
+        $user->setSalt($salt);
+        $user->setPassword($password);
+        $user->setRoleId($adminRoleId);
+        $user->setUsername('admin');
+        $user->setEmail('');
+        $user->save();
+        
         $alLanguageManager = new AlLanguageManager($eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {
             $alLanguageManager->set(null)->save($language);
