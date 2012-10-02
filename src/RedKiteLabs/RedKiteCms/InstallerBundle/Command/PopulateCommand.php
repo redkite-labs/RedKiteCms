@@ -86,8 +86,6 @@ class PopulateCommand extends ContainerAwareCommand
             $statement->execute();
         }
         
-        /* TODO Users management
-
         $adminRoleId = 0;
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
@@ -109,7 +107,6 @@ class PopulateCommand extends ContainerAwareCommand
         $user->setUsername('admin');
         $user->setEmail('');
         $user->save();
-        */
 
         $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
         $languageManager = new AlLanguageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
