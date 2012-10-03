@@ -120,8 +120,8 @@
     <column name="username" type="VARCHAR" size="128" required="true" />
     <column name="password" type="VARCHAR" size="128" required="true" />
     <column name="salt" type="VARCHAR" size="128" required="true" />
-    <column name="email" type="VARCHAR" size="255" />
-    <column name="ip" type="VARCHAR" size="15" />
+    <column name="email" type="VARCHAR" size="255" required="true" />
+    <column name="ip" type="VARCHAR" size="15" default="127.0.0.1" />
     <column name="created_at" type="timestamp" default="1975-08-17 12:30:12" required="true" />
     <unique name="I_USER">
       <unique-column name="id" />
