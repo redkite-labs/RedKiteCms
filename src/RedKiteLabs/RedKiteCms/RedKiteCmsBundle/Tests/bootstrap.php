@@ -35,9 +35,11 @@ if (0 === strncasecmp(PHP_SAPI, 'cli', 3)) {
     set_include_path(__DIR__ . '/../vendor/phing/phing/classes'.PATH_SEPARATOR.get_include_path());
 }
 
-if (class_exists('PropelQuickBuilder') && class_exists('TypehintableBehavior')) {//
+
+require_once __DIR__ . '/Tools/AlphaLemonPropelQuickBuilder.php';
+if (class_exists('TypehintableBehavior')) {
     $class = new \ReflectionClass('TypehintableBehavior');
-    $builder = new \PropelQuickBuilder();
+    $builder = new \AlphaLemonPropelQuickBuilder();
     $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
     $builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/schema.xml'));
     $builder->buildClasses();
