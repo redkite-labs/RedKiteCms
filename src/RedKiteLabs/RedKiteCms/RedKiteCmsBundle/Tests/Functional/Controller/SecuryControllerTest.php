@@ -33,27 +33,6 @@ class SecurityControllerTest extends WebTestCaseFunctional
     private $seoRepository;
     private $blockRepository;
 
-    /*
-    public static function setUpBeforeClass()
-    {
-        self::$languages = array(array('LanguageName'      => 'en',));
-
-        self::$pages = array(array('PageName'      => 'index',
-                                    'TemplateName'  => 'home',
-                                    'IsHome'        => '1',
-                                    'Permalink'     => 'this is a website fake page',
-                                    'MetaTitle'         => 'page title',
-                                    'MetaDescription'   => 'page description',
-                                    'MetaKeywords'      => 'key'),
-                            array('PageName'      => 'page1',
-                                    'TemplateName'  => 'fullpage',
-                                    'Permalink'     => 'page-1',
-                                    'MetaTitle'         => 'page 1 title',
-                                    'MetaDescription'   => 'page 1 description',
-                                    'MetaKeywords'      => ''));
-        self::populateDb();
-    }*/
-
     protected function setUp()
     {
     }
