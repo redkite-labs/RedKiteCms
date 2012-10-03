@@ -61,3 +61,24 @@ CREATE TABLE IF NOT EXISTS `al_seo` (
   `created_at` date NOT NULL default '1975-08-17 12:30:12',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `al_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `username` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `salt` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `I_USERNAME` (`username`),
+  KEY `role_id` (`role_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `al_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `I_ROLENAME` (`role`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
