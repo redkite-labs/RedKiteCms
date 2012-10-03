@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `al_user` (
   `password` varchar(128) NOT NULL,
   `salt` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `ip` varchar(15) NOT NULL,
+  `ip` varchar(15) NOT NULL DEFAULT '127.0.0.1',
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `I_USERNAME` (`username`),
