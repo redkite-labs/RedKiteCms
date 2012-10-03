@@ -82,11 +82,17 @@ class SecurityController extends ContainerAware
         ), $response);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function securityCheckAction()
     {
         // The security layer will intercept this request
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function logoutAction()
     {
         // The security layer will intercept this request

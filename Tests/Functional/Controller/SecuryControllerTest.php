@@ -57,6 +57,27 @@ class SecurityControllerTest extends WebTestCaseFunctional
     protected function setUp()
     {
     }
+    
+    public function testLoginForm()
+    {
+        $client = $this->setUpClient(array());
+
+        $crawler = $client->request('GET', '/backend/login');
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($crawler->filter('html:contains("Please authenticate yourself to manage the website with AlphaLemon CMS")')->count() == 1);
+        $this->assertTrue($crawler->filter('#username')->count() == 1);
+        $this->assertTrue($crawler->filter('#password')->count() == 1);
+    }
+    
+    public function test403StatusIsReturnedWhenTheRequestIsAnXMLHttpRequest()
+    {
+        $client = $this->setUpClient(array());
+
+        $crawler = $client->request('POST', '/backend/login', array(), array(), array('HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest'));
+        $response = $client->getResponse();
+        $this->assertEquals(403, $response->getStatusCode());
+    }
 
     public function testUserList()
     {
