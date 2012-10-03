@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Slot;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\tools\AlphaLemonDataPopulator;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 /**
