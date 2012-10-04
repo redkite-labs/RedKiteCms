@@ -36,7 +36,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
     protected function setUp()
     {
     }
-    
+
     public function testLoginForm()
     {
         $client = $this->setUpClient(array());
@@ -48,7 +48,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $this->assertTrue($crawler->filter('#username')->count() == 1);
         $this->assertTrue($crawler->filter('#password')->count() == 1);
     }
-    
+
     public function test403StatusIsReturnedWhenTheRequestIsAnXMLHttpRequest()
     {
         $client = $this->setUpClient(array());
@@ -90,12 +90,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
+        $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
             "id" => 0,
             "al_email" => "text@example.com",
             "al_username" => "",
             "al_password" => "password",
-            "al_role_id" => "6",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
@@ -107,12 +108,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
+        $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
             "id" => 0,
             "al_email" => "text@example.com",
             "al_username" => "aa",
             "al_password" => "password",
-            "al_role_id" => "6",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
@@ -124,12 +126,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
+        $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
             "id" => 0,
             "al_email" => "",
             "al_username" => "username",
             "al_password" => "password",
-            "al_role_id" => "6",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
@@ -141,12 +144,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
+        $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
             "id" => 0,
             "al_email" => "text@example",
             "al_username" => "username",
             "al_password" => "password",
-            "al_role_id" => "6",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
@@ -158,12 +162,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
+        $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
             "id" => 0,
             "al_email" => "text@example.com",
             "al_username" => "username",
             "al_password" => "",
-            "al_role_id" => "6",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
@@ -175,12 +180,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
+        $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
             "id" => 0,
             "al_email" => "text@example.com",
             "al_username" => "username",
             "al_password" => "pwd",
-            "al_role_id" => "6",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
@@ -192,12 +198,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
+        $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
             "id" => 0,
             "al_email" => "text@example.com",
             "al_username" => "username",
             "al_password" => "password",
-            "al_role_id" => "6",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
@@ -244,12 +251,13 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $client = $this->setUpClient();
 
         $user = $this->fetchUser($client, 'username');
+        $role = $this->fetchRole($client, 'ROLE_ADMIN');
         $params = array(
             "id" => $user->getId(),
             "al_email" => "edited@example.com",
             "al_username" => "john_doe",
             "al_password" => "secret",
-            "al_role_id" => "2",
+            "al_role_id" => $role->getId(),
         );
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
