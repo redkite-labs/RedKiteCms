@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `al_user` (
   `salt` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
   `ip` varchar(15) NOT NULL DEFAULT '127.0.0.1',
-  `created_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL default '1975-08-17 12:30:12',
   PRIMARY KEY (`id`),
   UNIQUE KEY `I_USERNAME` (`username`),
   KEY `role_id` (`role_id`)
