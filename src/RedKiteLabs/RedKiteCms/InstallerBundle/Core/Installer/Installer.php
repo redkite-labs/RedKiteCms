@@ -310,7 +310,7 @@ class Installer {
         if (!is_file($configFile)) {
             $contents = "_alcms:\n";
             $contents .= "    resource: \"@AlphaLemonCmsBundle/Resources/config/routing_alcms_dev.yml\"\n\n";
-            $contents = "_alcms_dev:\n";
+            $contents .= "_alcms_dev:\n";
             $contents .= "    resource: routing_alcms.yml";
             file_put_contents($configFile, $contents);
         }
@@ -319,7 +319,7 @@ class Installer {
         if (!is_file($configFile)) {
             $contents = "_alcms_dev:\n";
             $contents .= "    resource: resource: routing_alcms_dev.yml\n\n";
-            $contents = "_al_text_bundle:\n";
+            $contents .= "_al_text_bundle:\n";
             $contents .= "    resource: \"@TextBundle/Resources/config/routing/routing.xml\"";
             file_put_contents($configFile, $contents);
         }
