@@ -439,6 +439,53 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(0, count($this->blockRepository->retrieveContents(2, 2, $pagesSlots)));
     }
 
+    public function testAddSomePages()
+    {
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageName' => "another-page-1",
+                        'templateName' => "fullpage",
+                        'permalink' => "internal page 1",
+                        'title' => 'A title',
+                        'description' => 'A description',
+                        'keywords' => 'Some keywords');
+
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals("The page has been successfully saved", $json[0]["value"]);
+
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageName' => "another-page-2",
+                        'templateName' => "fullpage",
+                        'permalink' => "internal page 2",
+                        'title' => 'A title',
+                        'description' => 'A description',
+                        'keywords' => 'Some keywords');
+
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals("The page has been successfully saved", $json[0]["value"]);
+
+        $page = $this->pageRepository->fromPk(6);
+        $this->assertNotNull($page);
+        $this->assertEquals('another-page-1', $page->getPageName());
+        $this->assertEquals('fullpage', $page->getTemplateName());
+        $this->assertEquals(0, $page->getIsHome());
+
+        $page = $this->pageRepository->fromPk(7);
+        $this->assertNotNull($page);
+        $this->assertEquals('another-page-2', $page->getPageName());
+        $this->assertEquals('fullpage', $page->getTemplateName());
+        $this->assertEquals(0, $page->getIsHome());
+    }
+
     private function retrievePageSlots()
     {
         $pageTree = $this->client->getContainer()->get('alpha_lemon_cms.page_tree');
