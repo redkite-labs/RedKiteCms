@@ -20,7 +20,6 @@ namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
 use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
 /**
  * AlActiveThemeTest
@@ -31,12 +30,12 @@ class AlActiveThemeTest extends TestCase
 {
     private $container;
     private $activeThemePath;
-    
+
     protected function setUp()
     {
         $this->root = vfsStream::setup('root');
         $this->activeThemePath = vfsStream::url('root/.active_theme');
-        
+
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->container->expects($this->any())
             ->method('getParameter')
@@ -63,11 +62,11 @@ class AlActiveThemeTest extends TestCase
         $themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
         $themes->expects($this->at(1))
              ->method('valid')
-             ->will($this->returnValue(true));        
+             ->will($this->returnValue(true));
         $themes->expects($this->at(2))
              ->method('current')
              ->will($this->returnValue($theme));
-        
+
         $this->container->expects($this->any())
             ->method('get')
             ->will($this->returnValue($themes));
@@ -75,7 +74,7 @@ class AlActiveThemeTest extends TestCase
         $activeTheme = new AlActiveTheme($this->container);
         $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
     }
-    
+
     public function testWriteActiveTheme()
     {
         $activeTheme = new AlActiveTheme($this->container);
