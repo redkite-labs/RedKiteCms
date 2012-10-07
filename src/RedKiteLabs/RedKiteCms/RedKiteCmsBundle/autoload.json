@@ -16,7 +16,7 @@
             "environments" : ["alcms_dev", "alcms_test"]
         },
         "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
-            "environments" : ["alcms_dev", "alcms_test"]
+            "environments" : ["alcms", "alcms_dev", "alcms_test"]
         }
     },
     "routing" : {
