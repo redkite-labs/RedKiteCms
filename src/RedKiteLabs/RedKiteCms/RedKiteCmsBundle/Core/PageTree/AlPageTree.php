@@ -25,6 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Extends the bas AlPageTree object to fetch page information from the database
@@ -287,8 +288,11 @@ class AlPageTree extends BaseAlPageTree
             $assetsCollection = clone($assetsCollection);
 
             // merges extra assets from current theme
-            $themeName = preg_replace('/bundle$/', '', strtolower($template->getThemeName()));
-            $parameter = sprintf('%s.%s.%s_%s', $themeName, $template->getTemplateName(), $type, $assetType);
+            $themeName = $template->getThemeName();
+            $suffix = preg_match('/ThemeBundle$/', $themeName) ? 'ThemeBundle' : 'Bundle';
+            $themeBasename = str_replace($suffix, '', $themeName);
+            $extensionAlias = Container::underscore($themeBasename);
+            $parameter = sprintf('%s.%s.%s_%s', $extensionAlias, $template->getTemplateName(), $type, $assetType);
             $this->addExtraAssets($assetsCollection, $parameter);
 
             // merges assets from installed apps
