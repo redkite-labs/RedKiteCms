@@ -89,8 +89,9 @@ class PagesController extends ContainerAware
                 }
             }
 
+            $activeTheme = $this->container->get('alphalemon_theme_engine.active_theme');
             $template = $this->container->get('alpha_lemon_cms.themes_collection_wrapper')->getTemplate(
-                $pageTree->getTheme()->getThemeName(),
+                $activeTheme->getActiveTheme(),
                 $request->get('templateName')
             );
 
