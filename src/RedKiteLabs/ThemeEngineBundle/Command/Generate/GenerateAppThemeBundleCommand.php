@@ -28,7 +28,7 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
     protected function checkStrictNamespace($namespace)
     {
         if (preg_match('/^AlphaLemon\\\\Theme\\\\[\w]+ThemeBundle/', $namespace) == false) {
-            throw new \RuntimeException('A strict AlphaLemon App-Theme namespace must start with AlphaLemon\Theme');
+            throw new \RuntimeException('A strict AlphaLemon App-Theme namespace must start with AlphaLemon\Theme and the bundle must be suffixed as ThemeBundle');
         }
     }
 
@@ -41,9 +41,13 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
 
     protected function getGenerator()
     {
-        $kernel = $this->getContainer()->get('kernel');
-        $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
+        if (null === $this->generator) {
+            $kernel = $this->getContainer()->get('kernel');
+            $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
 
-        return new AlAppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+            return new AlAppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+        }
+
+        return $this->generator;
     }
 }
