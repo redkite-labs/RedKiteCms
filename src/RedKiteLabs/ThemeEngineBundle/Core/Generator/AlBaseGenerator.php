@@ -16,7 +16,8 @@ abstract class AlBaseGenerator extends BundleGenerator
     protected $skeletonDir;
 
     /**
-     * Defines an extended generate method which has an addictional option array
+     * Generates the App-Block bundle
+     * 
      * @param string $namespace
      * @param string $bundle
      * @param string $dir
