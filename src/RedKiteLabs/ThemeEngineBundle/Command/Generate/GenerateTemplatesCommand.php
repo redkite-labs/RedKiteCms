@@ -5,6 +5,7 @@ namespace AlphaLemon\ThemeEngineBundle\Command\Generate;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Generator\AlTemplateGenerator;
 use Symfony\Component\DependencyInjection\Container;
@@ -62,7 +63,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             ->setName('alphalemon:generate:templates')
             ->setDescription('Generate the templates config files for the given theme')
             ->setDefinition(array(
-                new InputOption('theme-name', '', InputOption::VALUE_REQUIRED, 'The name of the theme bundle which gets the template'),
+                new InputArgument('theme', InputArgument::REQUIRED, 'The name of the theme bundle which gets the template'),
             ));
     }
 
@@ -74,7 +75,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $themeName = $input->getOption('theme-name');
+        $themeName = $input->getArgument('theme');
         $kernel = $this->getContainer()->get('kernel');
         $dir = $kernel->locateResource('@' . $themeName);
 
