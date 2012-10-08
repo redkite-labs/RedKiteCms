@@ -92,53 +92,53 @@ class AlPageTreeTest extends TestCase
         $this->assertEquals($templateManager, $pageTree->getTemplateManager());
         $this->assertNotSame($this->templateManager, $pageTree->getTemplateManager());
     }
-    
+
     public function testGetBlockManagerReturnsAnEmptyArrayWhenTemplateManagerIsNull()
     {
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        
+
         $this->templateManager->expects($this->never())
             ->method('getSlotmanager');
-        
+
         $this->assertEquals(array(), $pageTree->getBlockManagers('logo'));
     }
-    
+
     public function testGetBlockManagerReturnsAnEmptyArrayWhenSlotHasNotBeenFound()
     {
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        
+
         $this->themesCollectionWrapper->expects($this->once())
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
-        
+
         $this->templateManager->expects($this->once())
             ->method('getSlotmanager')
             ->will($this->returnValue(null));
-        
+
         $this->assertEquals(array(), $pageTree->getBlockManagers('logo'));
     }
-    
+
     public function testGetBlockManagersReturnsTheBlockManagerSavedOnTheRequiredSlot()
     {
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        
+
         $this->themesCollectionWrapper->expects($this->once())
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
-        
-        $blockManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\BlockManagerInterface');       
-        
+
+        $blockManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\BlockManagerInterface');
+
         $slotManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager')
                                     ->disableOriginalConstructor()
-                                    ->getMock();        
+                                    ->getMock();
         $slotManager->expects($this->once())
             ->method('getBlockManagers')
-            ->will($this->returnValue(array($blockManager)));  
-        
+            ->will($this->returnValue(array($blockManager)));
+
         $this->templateManager->expects($this->once())
             ->method('getSlotmanager')
             ->will($this->returnValue($slotManager));
-        
+
         $blockManagers = $pageTree->getBlockManagers('logo');
         $this->assertEquals($blockManager, $blockManagers[0]);
     }
@@ -151,8 +151,8 @@ class AlPageTreeTest extends TestCase
         $request->expects($this->exactly(2))
             ->method('get')
             ->will($this->onConsecutiveCalls('en', false));
-        
-        $this->initContainer($request);        
+
+        $this->initContainer($request);
 
         $alLanguage = $this->setUpLanguage(2);
         $this->languageRepository->expects($this->once())
@@ -220,22 +220,22 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
-        
+
         $this->container->expects($this->at(1))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request));
-        
+
         $this->container->expects($this->at(2))
             ->method('get')
             ->with('session')
             ->will($this->returnValue($session));
-        
+
         $this->container->expects($this->at(3))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request));
-        
+
         $alLanguage = $this->setUpLanguage(2);
         $this->languageRepository->expects($this->once())
             ->method('fromLanguageName')
@@ -264,7 +264,7 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
-        
+
         $this->container->expects($this->at(1))
             ->method('get')
             ->with('request')
@@ -480,7 +480,7 @@ class AlPageTreeTest extends TestCase
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
     }
-    
+
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMEssage Something goes wrong retrieving a routing parameter
@@ -498,7 +498,7 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
-        
+
         $this->container->expects($this->at(1))
             ->method('get')
             ->with('request')
@@ -591,7 +591,7 @@ class AlPageTreeTest extends TestCase
         $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
         $this->container->expects($this->any())
             ->method('getParameter')
-            ->with('businesswebsitetheme.home.external_stylesheets.cms')
+            ->with('business_website.home.external_stylesheets.cms')
             ->will($this->returnValue($appAssets));
 
         $themeAssets = array('theme-stylesheet.css');
@@ -666,19 +666,19 @@ class AlPageTreeTest extends TestCase
         $pageTree->setup();
         $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
     }
-    
+
     public function testPageTreeHasNotBeenRefreshedBecauseThemeIsNull()
     {
         $this->activeTheme->expects($this->once())
             ->method('getActiveTheme')
             ->will($this->returnValue(null));
-        
+
         $this->language = $this->setUpLanguage(2);
         $this->page = $this->setUpPage(2);
 
         $this->themesCollectionWrapper->expects($this->never())
             ->method('assignTemplate');
-        
+
         $this->seoRepository->expects($this->never())
             ->method('fromPageAndLanguage');
 
@@ -879,19 +879,19 @@ class AlPageTreeTest extends TestCase
             ->method('getTemplateName')
             ->will($this->returnValue('home'));
     }
-    
+
     private function initContainer($request)
     {
         $this->container->expects($this->at(0))
             ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
-        
+
         for ($i = 1; $i < 3; $i++) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('request')
-                ->will($this->returnValue($request));   
+                ->will($this->returnValue($request));
         }
     }
 }
