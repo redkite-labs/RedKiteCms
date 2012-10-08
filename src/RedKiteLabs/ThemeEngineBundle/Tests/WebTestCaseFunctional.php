@@ -31,9 +31,13 @@ class WebTestCaseFunctional extends WebTestCase
     protected function setUp()
     {
         $this->client = static::createClient(array(
-            'environment' => 'alcms_test',
-            'debug'       => true,
-            ));
+                'environment' => 'alcms_test',
+                'debug'       => true,
+            ),
+            array(
+                'PHP_AUTH_USER' => 'admin',
+                'PHP_AUTH_PW' => 'admin',
+            ) );
 
         $activeThemeManager = $this->client->getContainer()->get('alphalemon_theme_engine.active_theme');
         $activeThemeManager->writeActiveTheme('BusinessWebsiteThemeBundle');
