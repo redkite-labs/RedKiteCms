@@ -7,12 +7,15 @@ use Symfony\Component\DependencyInjection\Container;
 use AlphaLemon\ThemeEngineBundle\Core\Generator\AlBaseGenerator;
 
 /**
- * AlAppBlockGenerator
+ * AlAppBlockGenerator generates an App-Block bundle
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlAppBlockGenerator extends AlBaseGenerator
 {
+    /**
+     * {@inheritdoc}
+     */
     public function generateExt($namespace, $bundle, $dir, $format, $structure, array $options)
     {
         $this->generate($namespace, $bundle, $dir, $format, $structure);
