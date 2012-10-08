@@ -53,7 +53,7 @@ class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>';
 
-        $this->assertFileExists( vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Core/Block'));
+        $this->assertFileExists( vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Resources/views/Theme'));
         $themeFile = vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Resources/config/fake_theme.xml');
         $this->assertFileExists($themeFile);
         $this->assertEquals($expected, file_get_contents($themeFile));

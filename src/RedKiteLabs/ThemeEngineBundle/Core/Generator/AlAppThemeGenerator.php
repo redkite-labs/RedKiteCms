@@ -22,8 +22,6 @@ class AlAppThemeGenerator extends AlBaseGenerator
         $suffix = $options["strict"] ? 'ThemeBundle' : 'Bundle';
         $themeBasename = str_replace($suffix, '', $bundle);
 
-        $this->filesystem->mkdir($dir.'/Core/Block');
-
         $themeSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-theme';
         $extensionAlias = Container::underscore($themeBasename);
         $parameters = array(
@@ -32,5 +30,6 @@ class AlAppThemeGenerator extends AlBaseGenerator
         );
 
         $this->renderFile($themeSkeletonDir, 'theme.xml', $dir.'/Resources/config/'.$extensionAlias.'.xml', $parameters);
+        $this->filesystem->mkdir($dir.'/Resources/views/Theme');
     }
 }
