@@ -117,14 +117,17 @@ class AlTemplateParser
      */
     protected function fetchSlots($templateContents)
     {
-        $validAttributes = array('repeated' => '', 'blockType' => '', 'htmlContent' => '');
+        $validAttributes = array(
+            'repeated' => '',
+            'blockType' => '',
+            'htmlContent' => ''
+        );
 
-        preg_match_all('/BEGIN-SLOT\s([^\s\n]+)\n([\s]+)?(.*?)END-SLOT/s', $templateContents, $matches, PREG_SET_ORDER);
+        preg_match_all('/BEGIN-SLOT[^\w]*\n([\s]*)(.*?)\n[^\w]*END-SLOT/s', $templateContents, $matches, PREG_SET_ORDER);
         $slots = array();
         foreach ($matches as $slotAttributes) {
-            $slotName = strtolower($slotAttributes[1]);
-            $spaces = $slotAttributes[2];
-            $attributes = $slotAttributes[3];
+            $spaces = $slotAttributes[1];
+            $attributes = $slotAttributes[2];
 
             if ($spaces !== "") {
                 $attributesArray = explode("\n", $attributes);
@@ -136,10 +139,16 @@ class AlTemplateParser
             }
 
             $parsedAttributes = $this->ymlParser->parse($attributes);
+            if ( ! array_key_exists('name', $parsedAttributes)) {
+                continue;
+            }
+
+            $slotName = $parsedAttributes['name'];
+            unset($parsedAttributes['name']);
             $attributes = array_intersect_key($parsedAttributes, $validAttributes);
             $wrongAttributes = array_diff_key($parsedAttributes, $validAttributes);
             $slots[$slotName] = $attributes;
-            $slots[$slotName]['errors'] = $wrongAttributes;
+            if (count($wrongAttributes) > 0) $slots[$slotName]['errors'] = $wrongAttributes;
         }
 
         return $slots;

@@ -40,11 +40,185 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $this->slotsGenerator = new AlSlotsGenerator(vfsStream::url('root/app-theme'));
     }
 
+    public function testAnySlotIsDefinedWhenTheAttributesSectionIsNotDefined()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initEmptyServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+    public function testAnyOptionalSlotAttributeIsDefined()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '   name: logo' . PHP_EOL;
+        $contents .= 'END-SLOT #}' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initOneSlotServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testDeclarationBlockHasSomeSpacesBeforeCarriageReturn()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT    ' . PHP_EOL;
+        $contents .= '   name: logo' . PHP_EOL;
+        $contents .= 'END-SLOT #}' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initOneSlotServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testDeclarationBlockHasSomeSpacesBefore()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '  {# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '    name: logo' . PHP_EOL;
+        $contents .= '  END-SLOT #}' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initOneSlotServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testDeclarationBlockBeginAndEndAreNotWellAligned()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '  {# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '    name: logo' . PHP_EOL;
+        $contents .= 'END-SLOT #}' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initOneSlotServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+
+
+    public function testAttributesAreAlignedWithDeclarationBlock()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '  {# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '  name: logo' . PHP_EOL;
+        $contents .= '  END-SLOT #}' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initOneSlotServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testSlotIsNotParsedWhenBeginDeclarationBlockIsMalformed()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT Fake' . PHP_EOL;
+        $contents .= '   name: logo' . PHP_EOL;
+        $contents .= 'END-SLOT #}' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initEmptyServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testSlotIsNotParsedWhenEndDeclarationBlockIsMalformed()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '   name: logo' . PHP_EOL;
+        $contents .= 'Fake END-SLOT #}' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+
+        $information = $this->parser->parse();
+        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
+
+        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
+        $this->assertEquals($this->initEmptyServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
+
+        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
+        $this->assertEquals($expected, $message);
+    }
+
     public function testSlotsConfigurationFileHasBeenGenerated()
     {
         $contents = '<div id="logo">' . PHP_EOL;
         $contents .= '{% block logo %}' . PHP_EOL;
-        $contents .= '{# BEGIN-SLOT LOGO' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '   name: logo' . PHP_EOL;
         $contents .= '   repeated: site' . PHP_EOL;
         $contents .= '   fake: site' . PHP_EOL;
         $contents .= '   blockType: script' . PHP_EOL;
@@ -95,5 +269,37 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
         $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
         $this->assertEquals($expected, $message);
+    }
+
+    private function initEmptyServicesFile()
+    {
+        $expected = '<?xml version="1.0" encoding="UTF-8" ?>' . PHP_EOL;
+        $expected .= '<container xmlns="http://symfony.com/schema/dic/services"' . PHP_EOL;
+        $expected .= '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' . PHP_EOL;
+        $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
+        $expected .= PHP_EOL;
+        $expected .= '    <services>' . PHP_EOL;
+        $expected .= '    </services>' . PHP_EOL;
+        $expected .= '</container>';
+
+        return $expected;
+    }
+
+    private function initOneSlotServicesFile()
+    {
+        $expected = '<?xml version="1.0" encoding="UTF-8" ?>' . PHP_EOL;
+        $expected .= '<container xmlns="http://symfony.com/schema/dic/services"' . PHP_EOL;
+        $expected .= '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' . PHP_EOL;
+        $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
+        $expected .= PHP_EOL;
+        $expected .= '    <services>' . PHP_EOL;
+        $expected .= '        <service id="fake.theme.template.home.slots.logo" class="%alpha_lemon_theme_engine.slot.class%">' . PHP_EOL;
+        $expected .= '            <argument type="string">logo</argument>' . PHP_EOL;
+        $expected .= '            <tag name="fake.theme.template.home.slots" />' . PHP_EOL;
+        $expected .= '        </service>' . PHP_EOL;
+        $expected .= '    </services>' . PHP_EOL;
+        $expected .= '</container>';
+
+        return $expected;
     }
 }

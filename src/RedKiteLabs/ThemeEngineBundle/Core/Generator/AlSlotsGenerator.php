@@ -51,8 +51,10 @@ class AlSlotsGenerator extends Generator
 
         $message = '';
         foreach ($slots as $slotName => $slot) {
-            foreach ($slot['errors'] as $error) {
-                $message .= sprintf('<error>The argument %s assigned to the %s slot is not recognized</error>', $error, $slotName);
+            if (array_key_exists('errors', $slot)) {
+                foreach ($slot['errors'] as $error) {
+                    $message .= sprintf('<error>The argument %s assigned to the %s slot is not recognized</error>', $error, $slotName);
+                }
             }
         }
         $message .= sprintf('The template\'s slots <info>%s</info> has been generated into <info>%s</info>', $slotFile, $dir);
