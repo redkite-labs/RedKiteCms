@@ -8,9 +8,17 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
 use AlphaLemon\ThemeEngineBundle\Core\Generator\AlAppBlockGenerator;
+use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 
 abstract class BaseGenerateBundle extends GenerateBundleCommand
-{
+{    
+    protected $generator;
+    
+    public function setGenerator(BundleGenerator $generator)
+    {
+        $this->generator = $generator;
+    }
+    
     /**
      * @see Command
      *
@@ -41,7 +49,7 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
         }
 
         if ($input->getOption('strict')) {
-            $this->checkStrictNamespace();
+            $this->checkStrictNamespace($namespace);
         }
 
         $bundle = Validators::validateBundleName($bundle);
