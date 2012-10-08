@@ -41,7 +41,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
             'The value you enter will be displayed in the adding menu.',
             '',
         ));
-        $description = $dialog->ask($output, $dialog->getQuestion('App-Block description', $input->getOption('description')), false, $input->getOption('description'));
+        $description = $dialog->ask($output, $dialog->getQuestion('App-Block description', $input->getOption('description')), $input->getOption('description'));
         $input->setOption('description', $description);
 
         $output->writeln(array(
@@ -49,7 +49,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
             'Please enter the group name to keep toghether the App-Blocks that belongs that group.',
             '',
         ));
-        $group = $dialog->ask($output, $dialog->getQuestion('App-Block group', $input->getOption('group')), false, $input->getOption('group'));
+        $group = $dialog->ask($output, $dialog->getQuestion('App-Block group', $input->getOption('group')), $input->getOption('group'));
         $input->setOption('group', $group);
     }
 
@@ -61,7 +61,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
     }
 
     protected function getGeneratorExtraOptions(InputInterface $input)
-    {
+    { 
         return array(
             'description' => $input->getOption('description'),
             'group' => $input->getOption('group'),
@@ -71,10 +71,13 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
 
     protected function getGenerator()
     {
-        $kernel = $this->getContainer()->get('kernel');
-        $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
+        if (null === $this->generator) {
+            $kernel = $this->getContainer()->get('kernel');
+            $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
 
-        return new AlAppBlockGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+            return new AlAppBlockGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+        }
+        
+        return $this->generator;
     }
-
 }
