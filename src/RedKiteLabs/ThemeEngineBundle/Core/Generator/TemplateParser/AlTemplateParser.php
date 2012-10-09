@@ -46,6 +46,7 @@ class AlTemplateParser
             $templates[basename($template)]['assets']['external_stylesheets_cms'] = $this->fetchExternalStylesheetsCms($templateContents);
             $templates[basename($template)]['assets']['external_javascripts_cms'] = $this->fetchExternalJavascriptsCms($templateContents);
             $templates[basename($template)]['slots'] = $this->fetchSlots($templateContents);
+            $templates[basename($template)]['generate_template'] = dirname($template) == $this->templatesDir;
         }
 
         return $templates;

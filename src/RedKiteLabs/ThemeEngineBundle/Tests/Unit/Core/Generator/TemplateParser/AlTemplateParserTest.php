@@ -35,8 +35,8 @@ class AlTemplateParserTest extends AlGeneratorBase
     {
         parent::setUp();
 
-        $this->root = vfsStream::setup('root');
-        $this->parser = new AlTemplateParser(vfsStream::url('root'));
+        $this->root = vfsStream::setup('root', null, array('Theme' => array()));
+        $this->parser = new AlTemplateParser(vfsStream::url('root/Theme'));
     }
 
     /**
@@ -46,7 +46,8 @@ class AlTemplateParserTest extends AlGeneratorBase
     {
         $contents = '<div id="logo">' . PHP_EOL;
         $contents .= '{% block logo %}' . PHP_EOL;
-        $contents .= '{# BEGIN-SLOT LOGO' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '   name: logo' . PHP_EOL;
         $contents .= '     repeated: site' . PHP_EOL; // Malformed here
         $contents .= '   htmlContent: |' . PHP_EOL;
         $contents .= '       <img src="/uploads/assets/media/business-website-original-logo.png" title="Progress website logo" alt="Progress website logo" />' . PHP_EOL;
@@ -54,7 +55,7 @@ class AlTemplateParserTest extends AlGeneratorBase
         $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
         $contents .= '{% endblock %}' . PHP_EOL;
         $contents .= '</div>';
-        file_put_contents(vfsStream::url('root/home.twig.html'), $contents);
+        file_put_contents(vfsStream::url('root/Theme/home.twig.html'), $contents);
         $this->parser->parse();
     }
 
@@ -62,7 +63,8 @@ class AlTemplateParserTest extends AlGeneratorBase
     {
         $contents = '<div id="logo">' . PHP_EOL;
         $contents .= '{% block logo %}' . PHP_EOL;
-        $contents .= '{# BEGIN-SLOT LOGO' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '   name: logo' . PHP_EOL;
         $contents .= '   repeated: site' . PHP_EOL;
         $contents .= '   fake: script' . PHP_EOL;
         $contents .= '   htmlContent: |' . PHP_EOL;
@@ -71,9 +73,10 @@ class AlTemplateParserTest extends AlGeneratorBase
         $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
         $contents .= '{% endblock %}' . PHP_EOL;
         $contents .= '</div>';
-        file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
+        file_put_contents(vfsStream::url('root/Theme/home.html.twig'), $contents);
         $information = $this->parser->parse();
         $slot = $information['home.html.twig']['slots']['logo'];
+        $this->assertTrue(array_key_exists('generate_template', $information['home.html.twig']));
         $this->assertTrue(array_key_exists('repeated', $slot));
         $this->assertTrue(array_key_exists('htmlContent', $slot));
         $this->assertFalse(array_key_exists('fake', $slot));
@@ -91,64 +94,74 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->assertTrue(array_key_exists('home.html.twig', $information));
         $this->assertTrue(array_key_exists('fullpage.html.twig', $information));
 
-        $homeTemplate = $information['base.html.twig'];
-        $this->assertTrue(array_key_exists('assets', $homeTemplate));
-        $templateAssets = $homeTemplate['assets'];
+        $template = $information['base.html.twig'];
+        $this->assertTrue(array_key_exists('assets', $template));
+        $this->assertTrue(array_key_exists('generate_template', $template));
+        $this->assertFalse($template['generate_template']);
+        $templateAssets = $template['assets'];
         $this->assertCount(4, $templateAssets);
         $this->assertCount(0, $templateAssets['external_stylesheets']);
         $this->assertCount(0, $templateAssets['external_javascripts']);
         $this->assertCount(0, $templateAssets['external_stylesheets_cms']);
         $this->assertCount(0, $templateAssets['external_javascripts_cms']);
-        $this->assertTrue(array_key_exists('slots', $homeTemplate));
-        $this->assertCount(11, $homeTemplate['slots']);
+        $this->assertTrue(array_key_exists('slots', $template));
+        $this->assertCount(11, $template['slots']);
 
-        $homeTemplate = $information['home.html.twig'];
-        $this->assertTrue(array_key_exists('assets', $homeTemplate));
-        $templateAssets = $homeTemplate['assets'];
+        $template = $information['home.html.twig'];
+        $this->assertTrue(array_key_exists('assets', $template));
+        $this->assertTrue(array_key_exists('generate_template', $template));
+        $this->assertTrue($template['generate_template']);
+        $templateAssets = $template['assets'];
         $this->assertCount(4, $templateAssets);
         $this->assertCount(4, $templateAssets['external_stylesheets']);
         $this->assertCount(7, $templateAssets['external_javascripts']);
         $this->assertCount(1, $templateAssets['external_stylesheets_cms']);
         $this->assertCount(0, $templateAssets['external_javascripts_cms']);
-        $this->assertTrue(array_key_exists('slots', $homeTemplate));
-        $this->assertCount(13, $homeTemplate['slots']);
+        $this->assertTrue(array_key_exists('slots', $template));
+        $this->assertCount(13, $template['slots']);
 
-        $homeTemplate = $information['sixboxes.html.twig'];
-        $this->assertTrue(array_key_exists('assets', $homeTemplate));
-        $templateAssets = $homeTemplate['assets'];
+        $template = $information['sixboxes.html.twig'];
+        $this->assertTrue(array_key_exists('assets', $template));
+        $this->assertTrue(array_key_exists('generate_template', $template));
+        $this->assertTrue($template['generate_template']);
+        $templateAssets = $template['assets'];
         $this->assertCount(4, $templateAssets);
         $this->assertCount(4, $templateAssets['external_stylesheets']);
         $this->assertCount(6, $templateAssets['external_javascripts']);
         $this->assertCount(0, $templateAssets['external_stylesheets_cms']);
         $this->assertCount(0, $templateAssets['external_javascripts_cms']);
-        $this->assertTrue(array_key_exists('slots', $homeTemplate));
-        $this->assertCount(6, $homeTemplate['slots']);
+        $this->assertTrue(array_key_exists('slots', $template));
+        $this->assertCount(6, $template['slots']);
 
-        $homeTemplate = $information['rightcolumn.html.twig'];
-        $this->assertTrue(array_key_exists('assets', $homeTemplate));
-        $templateAssets = $homeTemplate['assets'];
+        $template = $information['rightcolumn.html.twig'];
+        $this->assertTrue(array_key_exists('assets', $template));
+        $this->assertTrue(array_key_exists('generate_template', $template));
+        $this->assertTrue($template['generate_template']);
+        $templateAssets = $template['assets'];
         $this->assertCount(4, $templateAssets);
         $this->assertCount(4, $templateAssets['external_stylesheets']);
         $this->assertCount(6, $templateAssets['external_javascripts']);
         $this->assertCount(0, $templateAssets['external_stylesheets_cms']);
         $this->assertCount(0, $templateAssets['external_javascripts_cms']);
-        $this->assertTrue(array_key_exists('slots', $homeTemplate));
-        $this->assertCount(2, $homeTemplate['slots']);
+        $this->assertTrue(array_key_exists('slots', $template));
+        $this->assertCount(2, $template['slots']);
 
-        $homeTemplate = $information['fullpage.html.twig'];
-        $this->assertTrue(array_key_exists('assets', $homeTemplate));
-        $templateAssets = $homeTemplate['assets'];
+        $template = $information['fullpage.html.twig'];
+        $this->assertTrue(array_key_exists('assets', $template));
+        $this->assertTrue(array_key_exists('generate_template', $template));
+        $this->assertTrue($template['generate_template']);
+        $templateAssets = $template['assets'];
         $this->assertCount(4, $templateAssets);
         $this->assertCount(4, $templateAssets['external_stylesheets']);
         $this->assertCount(6, $templateAssets['external_javascripts']);
         $this->assertCount(0, $templateAssets['external_stylesheets_cms']);
         $this->assertCount(0, $templateAssets['external_javascripts_cms']);
-        $this->assertTrue(array_key_exists('slots', $homeTemplate));
-        $this->assertCount(1, $homeTemplate['slots']);
+        $this->assertTrue(array_key_exists('slots', $template));
+        $this->assertCount(1, $template['slots']);
     }
 
     protected function importDefaultTheme()
     {
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views',$this->root);
+        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views/Theme', $this->root->getChild('Theme'));
     }
 }
