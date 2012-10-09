@@ -45,7 +45,7 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
             $kernel = $this->getContainer()->get('kernel');
             $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
 
-            return new AlAppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+            $this->generator = new AlAppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
         }
 
         return $this->generator;
