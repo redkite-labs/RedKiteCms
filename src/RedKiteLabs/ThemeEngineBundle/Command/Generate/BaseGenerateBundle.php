@@ -11,14 +11,14 @@ use AlphaLemon\ThemeEngineBundle\Core\Generator\AlAppBlockGenerator;
 use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 
 abstract class BaseGenerateBundle extends GenerateBundleCommand
-{    
+{
     protected $generator;
-    
+
     public function setGenerator(BundleGenerator $generator)
     {
         $this->generator = $generator;
     }
-    
+
     /**
      * @see Command
      *
