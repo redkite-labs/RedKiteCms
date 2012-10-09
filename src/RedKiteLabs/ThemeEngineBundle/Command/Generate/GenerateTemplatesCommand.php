@@ -24,7 +24,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         $this->templateParser = $templateParser;
     }
 
-    public function getTemplateParser($themeName = null)
+    public function getTemplateParser()
     {
         return $this->templateParser;
     }
@@ -36,10 +36,6 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
 
     public function getTemplateGenerator()
     {
-        if (null === $this->templateGenerator) {
-            $this->templateGenerator = new AlTemplateGenerator();
-        }
-
         return $this->templateGenerator;
     }
 
@@ -50,10 +46,6 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
 
     public function getSlotsGenerator()
     {
-        if (null === $this->slotsGenerator) {
-            $this->slotsGenerator = new AlSlotsGenerator();
-        }
-
         return $this->slotsGenerator;
     }
 
@@ -80,23 +72,29 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         $dir = $kernel->locateResource('@' . $themeName);
 
         if (null === $this->templateParser) {
-            $this->templateParser = new AlTemplateParser($dir . 'Resources/views');
+            $this->templateParser = new AlTemplateParser($dir . 'Resources/views/Theme');
+        }
+
+        if (null === $this->templateGenerator) {
+            $this->templateGenerator = new AlTemplateGenerator();
+        }
+
+        if (null === $this->slotsGenerator) {
+            $this->slotsGenerator = new AlSlotsGenerator();
         }
 
         $templates = $this->templateParser->parse();
         $this->addOption('template-name', '', InputOption::VALUE_NONE, '');
         foreach ($templates as $templateName => $elements) {
             $templateName = basename($templateName, '.html.twig');
-            if ($templateName !== 'base') {
-                $generator = $this->getTemplateGenerator();
-                $message = $generator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName, $elements['assets']);
+            if ($elements['generate_template']) {
+                $message = $this->templateGenerator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName, $elements['assets']);
                 $output->writeln($message);
             }
 
             $slots = $elements['slots'];
             if (!empty($slots)) {
-                $slotsGenerator = $this->getSlotsGenerator();
-                $message = $slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
+                $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
 
                 $output->writeln($message);
             }
