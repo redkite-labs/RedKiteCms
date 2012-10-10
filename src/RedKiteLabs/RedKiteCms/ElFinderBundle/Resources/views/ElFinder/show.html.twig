@@ -1,7 +1,8 @@
 {% block stylesheet_files %}
     {% stylesheets filter='?yui_css,cssrewrite'
-        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/ui-themes/smoothness/jquery-ui-1.8.16.custom.css'
-        'bundles/alphalemonelfinder/vendor/ElFinder/css/*'
+        'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -9,21 +10,9 @@
 
 {% block javascript_files %}
     {% javascripts
-        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/jquery-1.7.1.min.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/jquery/jquery-ui-1.8.16.custom.min.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.version.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.elfinder.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.resources.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.options.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.history.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/elFinder.command.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/ui/*'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/commands/*'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/i18n/*'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/proxy/elFinderSupportVer1.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/jquery.dialogelfinder.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

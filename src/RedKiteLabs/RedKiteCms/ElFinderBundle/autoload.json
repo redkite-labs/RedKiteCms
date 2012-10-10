@@ -3,6 +3,5 @@
         "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
             "environments" : "all"
         }
-    },
-    "actionManager" : "AlphaLemon\\ElFinderBundle\\Core\\ActionManager\\ActionManagerElFinder"
+    }
 }
