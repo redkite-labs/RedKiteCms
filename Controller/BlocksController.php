@@ -37,7 +37,7 @@ class BlocksController extends ContainerAware
             $request = $this->container->get('request');
             $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
             $blockRepository = $factoryRepository->createRepository('Block');
-            $block = $blockRepository->fromPK($request->get('idBlock')); 
+            $block = $blockRepository->fromPK($request->get('idBlock'));
             if ($block != null) {
                 $alBlockManager = $this->container->get('alpha_lemon_cms.block_manager_factory')->createBlockManager($block);
                 $dispatcher = $this->container->get('event_dispatcher');
@@ -48,12 +48,8 @@ class BlocksController extends ContainerAware
                 }
 
                 if (null === $editor) {
-                    $editorSettingsParamName = sprintf('%s_editor_settings', strtolower($block->getType()));
-                    $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : null;
-                    if (null === $editorSettings) {
-                        $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getType()));
-                        $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
-                    }
+                    $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getType()));
+                    $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
                     $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getType(), strtolower($block->getType()));
 
                     $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
