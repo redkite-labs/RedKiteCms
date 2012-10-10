@@ -51,6 +51,7 @@ class PagesController extends ContainerAware
             $values[] = array("name" => "#pages_pageName", "value" => $alPage->getPageName());
             $values[] = array("name" => "#pages_template", "value" => $alPage->getTemplateName());
             $values[] = array("name" => "#pages_isHome", "value" => $alPage->getIsHome());
+            $values[] = array("name" => "#pages_isPublished", "value" => $alPage->getIsPublished());
 
             $seoRepository = $this->createRepository('Seo');
             $alSeo = $seoRepository->fromPageAndLanguage($languageId, $pageId);
@@ -111,6 +112,7 @@ class PagesController extends ContainerAware
             $values = array('PageName' => $request->get('pageName'),
                             'TemplateName' => $template,
                             'IsHome' => $request->get('isHome'),
+                            'IsPublished' => $request->get('isPublished'),
                             'Permalink' => $permalink,
                             'MetaTitle' => $request->get('title'),
                             'MetaDescription' => $request->get('description'),

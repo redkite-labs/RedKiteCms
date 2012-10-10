@@ -287,7 +287,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
             if (false !== $result) {
                 $values['PageName'] = $this->slugify($values['PageName']);
-                
+
                 // Saves the page
                 $result = $this->pageRepository
                                ->setRepositoryObject($this->alPage)
@@ -364,6 +364,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $result = $this->resetHome();
             } else {
                 unset($values['IsHome']);
+            }
+
+            if (isset($values['IsPublished']) && $values['IsPublished'] == $this->alPage->getPageName()) {
+                unset($values['IsPublished']);
             }
 
             if ($result !== false) {
