@@ -127,16 +127,30 @@ class AlPageTreeCollection implements \Iterator, \Countable
         foreach ($languages as $language) {
             // Cycles all the website's pages
             foreach ($pages as $page) {
+                if ( ! $page->getIsPublished()) {
+                    continue;
+                }
+                
                 // Clones the current TemplateManager object and adds it to a new instance of
                 // AlThemesCollectionWrapper, which will be passed to the new PageTree object
                 $templateManager = clone($this->themesCollectionWrapper->getTemplateManager());
-                $themesCollectionWrapper = new AlThemesCollectionWrapper($this->themesCollectionWrapper->getThemesCollection(), $templateManager);
+                $themesCollectionWrapper = new AlThemesCollectionWrapper(
+                    $this->themesCollectionWrapper->getThemesCollection(), 
+                    $templateManager
+                );
 
-                $pageTree = new AlPageTree($this->container,
-                        $this->factoryRepository,
-                        $themesCollectionWrapper);
-                $pageTree->setExtraAssetsSuffixes()
-                         ->refresh($language->getId(), $page->getId());
+                $pageTree = new AlPageTree(
+                    $this->container,
+                    $this->factoryRepository,
+                    $themesCollectionWrapper
+                );
+                
+                $pageTree
+                    ->setExtraAssetsSuffixes()
+                    ->refresh(
+                            $language->getId(), 
+                            $page->getId()
+                    );
 
                 $this->pages[] = $pageTree;
             }

@@ -28,6 +28,7 @@ use org\bovigo\vfs\vfsStream;
 class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 {
     private $container;
+    private $templateSlots;
 
     protected function setUp()
     {
@@ -42,18 +43,10 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->method('getRootDir')
             ->will($this->returnValue(vfsStream::url('app')));
 
+        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-/*
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls('AcmeWebSiteBundle',
-                    'Resources/config',
-                    'Resources/public/',
-                    vfsStream::url('root/web/uploads/assets'),
-                    '/web/uploads/assets',
-                    'Resources/views'));*/
 
         $folders = array('app' => array(),
                          'web' => array('uploads'
@@ -93,7 +86,8 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 
     public function testDeploy()
     {
-        $this->initSomeLangugesAndPages();
+        $this->initSomeLangugesAndPages();              
+        $this->initThemesCollectionWrapper(); 
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
@@ -153,11 +147,29 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
                 ->with('alphalemon_theme_engine.active_theme')
                 ->will($this->returnValue($activeTheme));
         }
-
+        
+        $this->template->expects($this->exactly(4))
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($this->templateSlots));
+        
         $this->templateSlots->expects($this->exactly(4))
             ->method('getSlots')
             ->will($this->returnValue(array()));
-
+        
+        $this
+            ->pageBlocks
+            ->expects($this->exactly(4))
+            ->method('getBlocks')
+            ->will($this->returnValue(
+                    array(
+                        "logo" => array(
+                            $this->setUpBlock('my content')
+                        )
+                    )
+                )
+            )
+        ;
+        
         $this->deployer = new AlTwigDeployer($this->container);
         $this->assertTrue($this->deployer->deploy());
 
