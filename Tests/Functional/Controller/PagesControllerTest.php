@@ -112,7 +112,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'pageName' => "page1",
                         'templateName' => "home",
-                        'permalink' => "page 1",            
+                        'permalink' => "page 1",
                         'isPublished' => "0",
                         'title' => 'A title',
                         'description' => 'A description',
@@ -178,7 +178,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals("#pages_template", $json[1]["name"]);
         $this->assertEquals("home", $json[1]["value"]);
         $this->assertEquals("#pages_isHome", $json[2]["name"]);
-        $this->assertEquals("0", $json[2]["value"]);        
+        $this->assertEquals("0", $json[2]["value"]);
         $this->assertEquals("#pages_isPublished", $json[3]["name"]);
         $this->assertEquals("0", $json[3]["value"]);
         $this->assertEquals("#seo_attributes_permalink", $json[4]["name"]);
@@ -196,7 +196,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "page1",
-                        'templateName' => "home",            
+                        'templateName' => "home",
                         'isPublished' => "0",
                         'permalink' => "page 1",
                         'title' => 'A title',
@@ -214,7 +214,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "page2",
-                        'templateName' => "home",            
+                        'templateName' => "home",
                         'isPublished' => "0",
                         'isHome' => '1',
                         'permalink' => "page 2",
@@ -247,7 +247,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'pageName' => "another-page",
                         'templateName' => "fullpage",
-                        'permalink' => "another-page",            
+                        'permalink' => "another-page",
                         'isPublished' => "0",
                         'title' => 'A title',
                         'description' => 'A description',
@@ -278,7 +278,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'pageName' => "page2 edited",
                         'permalink' => "page-2 edited",);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);echo $crawler->text();
+        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -303,7 +303,7 @@ class PagesControllerTest extends WebTestCaseFunctional
     {
         $params = array(
             'page' => 'index',
-            'language' => 'en',            
+            'language' => 'en',
             'pageId' => 3,
             'languageId' => 2,
             'isPublished' => 1,
@@ -316,7 +316,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $page = $this->pageRepository->fromPk(3);
         $this->assertEquals(1, $page->getIsPublished());
     }
-    
+
     public function testChangeThePageTemplate()
     {
         $params = array('page' => 'index',
@@ -470,7 +470,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "another-page-1",
-                        'templateName' => "fullpage",            
+                        'templateName' => "fullpage",
                         'isPublished' => "0",
                         'permalink' => "internal page 1",
                         'title' => 'A title',
@@ -487,7 +487,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "another-page-2",
-                        'templateName' => "fullpage",           
+                        'templateName' => "fullpage",
                         'isPublished' => "0",
                         'permalink' => "internal page 2",
                         'title' => 'A title',
@@ -515,14 +515,14 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(0, $page->getIsHome());
         $this->assertEquals(0, $page->getIsPublished());
     }
-    
+
     public function testAddAPagePublishedByDefault()
     {
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "another-page-3",
                         'templateName' => "home",
-                        'permalink' => "page 1",            
+                        'permalink' => "page 1",
                         'isPublished' => "1",
                         'title' => 'A title',
                         'description' => 'A description',
