@@ -112,7 +112,8 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'pageName' => "page1",
                         'templateName' => "home",
-                        'permalink' => "page 1",
+                        'permalink' => "page 1",            
+                        'isPublished' => "0",
                         'title' => 'A title',
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
@@ -177,15 +178,17 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals("#pages_template", $json[1]["name"]);
         $this->assertEquals("home", $json[1]["value"]);
         $this->assertEquals("#pages_isHome", $json[2]["name"]);
-        $this->assertEquals("0", $json[2]["value"]);
-        $this->assertEquals("#seo_attributes_permalink", $json[3]["name"]);
-        $this->assertEquals("page-1", $json[3]["value"]);
-        $this->assertEquals("#seo_attributes_title", $json[4]["name"]);
-        $this->assertEquals("A title", $json[4]["value"]);
-        $this->assertEquals("#seo_attributes_description", $json[5]["name"]);
-        $this->assertEquals("A description", $json[5]["value"]);
-        $this->assertEquals("#seo_attributes_keywords", $json[6]["name"]);
-        $this->assertEquals("Some keywords", $json[6]["value"]);
+        $this->assertEquals("0", $json[2]["value"]);        
+        $this->assertEquals("#pages_isPublished", $json[3]["name"]);
+        $this->assertEquals("0", $json[3]["value"]);
+        $this->assertEquals("#seo_attributes_permalink", $json[4]["name"]);
+        $this->assertEquals("page-1", $json[4]["value"]);
+        $this->assertEquals("#seo_attributes_title", $json[5]["name"]);
+        $this->assertEquals("A title", $json[5]["value"]);
+        $this->assertEquals("#seo_attributes_description", $json[6]["name"]);
+        $this->assertEquals("A description", $json[6]["value"]);
+        $this->assertEquals("#seo_attributes_keywords", $json[7]["name"]);
+        $this->assertEquals("Some keywords", $json[7]["value"]);
     }
 
     public function testAddPageFailsWhenThePageNameAlreadyExists()
@@ -193,7 +196,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "page1",
-                        'templateName' => "home",
+                        'templateName' => "home",            
+                        'isPublished' => "0",
                         'permalink' => "page 1",
                         'title' => 'A title',
                         'description' => 'A description',
@@ -210,7 +214,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "page2",
-                        'templateName' => "home",
+                        'templateName' => "home",            
+                        'isPublished' => "0",
                         'isHome' => '1',
                         'permalink' => "page 2",
                         'title' => 'A title',
@@ -242,7 +247,8 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'pageName' => "another-page",
                         'templateName' => "fullpage",
-                        'permalink' => "another-page",
+                        'permalink' => "another-page",            
+                        'isPublished' => "0",
                         'title' => 'A title',
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
@@ -293,6 +299,24 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals('http://localhost/backend/en/page-2-edited', $link->getUri());
     }
 
+    public function testEditPageToBePublishable()
+    {
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',            
+            'pageId' => 3,
+            'languageId' => 2,
+            'isPublished' => 1,
+        );
+
+        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $page = $this->pageRepository->fromPk(3);
+        $this->assertEquals(1, $page->getIsPublished());
+    }
+    
     public function testChangeThePageTemplate()
     {
         $params = array('page' => 'index',
@@ -386,14 +410,16 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals("home", $json[1]["value"]);
         $this->assertEquals("#pages_isHome", $json[2]["name"]);
         $this->assertEquals("0", $json[2]["value"]);
-        $this->assertEquals("#seo_attributes_permalink", $json[3]["name"]);
-        $this->assertEquals("", $json[3]["value"]);
-        $this->assertEquals("#seo_attributes_title", $json[4]["name"]);
+        $this->assertEquals("#pages_isPublished", $json[3]["name"]);
+        $this->assertEquals("1", $json[3]["value"]);
+        $this->assertEquals("#seo_attributes_permalink", $json[4]["name"]);
         $this->assertEquals("", $json[4]["value"]);
-        $this->assertEquals("#seo_attributes_description", $json[5]["name"]);
+        $this->assertEquals("#seo_attributes_title", $json[5]["name"]);
         $this->assertEquals("", $json[5]["value"]);
-        $this->assertEquals("#seo_attributes_keywords", $json[6]["name"]);
+        $this->assertEquals("#seo_attributes_description", $json[6]["name"]);
         $this->assertEquals("", $json[6]["value"]);
+        $this->assertEquals("#seo_attributes_keywords", $json[7]["name"]);
+        $this->assertEquals("", $json[7]["value"]);
     }
 
     public function testDeletePage()
@@ -444,7 +470,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "another-page-1",
-                        'templateName' => "fullpage",
+                        'templateName' => "fullpage",            
+                        'isPublished' => "0",
                         'permalink' => "internal page 1",
                         'title' => 'A title',
                         'description' => 'A description',
@@ -460,7 +487,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageName' => "another-page-2",
-                        'templateName' => "fullpage",
+                        'templateName' => "fullpage",           
+                        'isPublished' => "0",
                         'permalink' => "internal page 2",
                         'title' => 'A title',
                         'description' => 'A description',
@@ -478,12 +506,39 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals('another-page-1', $page->getPageName());
         $this->assertEquals('fullpage', $page->getTemplateName());
         $this->assertEquals(0, $page->getIsHome());
+        $this->assertEquals(0, $page->getIsPublished());
 
         $page = $this->pageRepository->fromPk(7);
         $this->assertNotNull($page);
         $this->assertEquals('another-page-2', $page->getPageName());
         $this->assertEquals('fullpage', $page->getTemplateName());
         $this->assertEquals(0, $page->getIsHome());
+        $this->assertEquals(0, $page->getIsPublished());
+    }
+    
+    public function testAddAPagePublishedByDefault()
+    {
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageName' => "another-page-3",
+                        'templateName' => "home",
+                        'permalink' => "page 1",            
+                        'isPublished' => "1",
+                        'title' => 'A title',
+                        'description' => 'A description',
+                        'keywords' => 'Some keywords');
+
+        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
+
+        $page = $this->pageRepository->fromPk(8);
+        $this->assertNotNull($page);
+        $this->assertEquals('another-page-3', $page->getPageName());
+        $this->assertEquals('home', $page->getTemplateName());
+        $this->assertEquals(0, $page->getIsHome());
+        $this->assertEquals(1, $page->getIsPublished());
     }
 
     private function retrievePageSlots()

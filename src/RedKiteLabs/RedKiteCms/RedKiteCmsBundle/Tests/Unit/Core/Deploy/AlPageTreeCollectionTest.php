@@ -36,6 +36,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
     public function testPageTreeCollectionHasBeenPopulated()
     {
         $this->initSomeLangugesAndPages();
+        $this->initThemesCollectionWrapper();
 
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
@@ -85,13 +86,63 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         $this->assertNull($pageTreeCollection->at(4));
         $this->assertEquals(0, $pageTreeCollection->key(0));
     }
-    
-    protected function initContainer()
+    public function testPageTreeCollectionHasSkippedThePagesWhichHasNotToBePublished()
     {
+        $this->page1 = $this->setUpPage('index', true);
+        $this->page2 = $this->setUpPage('page-1', false, false);
+        $this->language1 = $this->setUpLanguage('en', true);
+        $this->language2 = $this->setUpLanguage('es');
+
+        $this->initSeoRepository();
+        $this->initLanguageRepository();
+        $this->languageRepository->expects($this->exactly(2))
+            ->method('fromPK')
+            ->will($this->onConsecutiveCalls($this->language1, $this->language2));
+
+        $this->initPageRepository();
+        $this->pageRepository->expects($this->exactly(2))
+            ->method('fromPK')
+            ->will($this->returnValue($this->page1));
+
+        $this->initPageBlocks(2);
+        $this->initTemplateManager();        
+        $this->initThemesCollectionWrapper(2); 
         
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
+                    $this->languageRepository, $this->pageRepository, $this->seoRepository));
+
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('alpha_lemon_cms.themes_collection_wrapper')
+            ->will($this->returnValue($this->themesCollectionWrapper));
         
-         //   , , $activeTheme, $activeTheme, $activeTheme));
+        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme->expects($this->any())
+            ->method('getActiveTheme')
+            ->will($this->returnValue('BusinessWebsiteTheme'));
         
-        //    ->will($this->onConsecutiveCalls($this->themesCollectionWrapper, $activeTheme, $activeTheme, $activeTheme, $activeTheme));
+        for ($i = 1; $i < 3; $i++) {
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('alphalemon_theme_engine.active_theme')
+                ->will($this->returnValue($activeTheme));   
+        }
+        
+        $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
+        $this->assertEquals(2, count($pageTreeCollection));
+
+        $pageTree = $pageTreeCollection->at(0);
+        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguageName());
+        $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
+        
+        $pageTree = $pageTreeCollection->at(1);
+        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguageName());
+        $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
     }
 }
