@@ -113,8 +113,6 @@ function Navigate()
 $(document).ready(function(){
     try
     {
-        InitDialog();
-
         $('#al_languages_navigator').change(function()
         {
             Navigate();
@@ -162,8 +160,7 @@ $(document).ready(function(){
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -191,8 +188,7 @@ $(document).ready(function(){
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -219,8 +215,7 @@ $(document).ready(function(){
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -244,12 +239,11 @@ $(document).ready(function(){
                 },
                 success: function(html)
                 {
-                    $('#al_dialog').html(html);
+                    $('body').showAutoCloseDialog(item.value);
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -273,13 +267,11 @@ $(document).ready(function(){
                 },
                 success: function(html)
                 {
-                    $('#al_dialog').html(html);
-                    $('#al_dialog').dialog('open');
+                    $('body').showAutoCloseDialog(item.value);
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {

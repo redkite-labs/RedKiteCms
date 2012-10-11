@@ -45,15 +45,13 @@
                   },
                   success: function(html)
                   {
-                    $('#al_dialog').html(html);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(html);
                   },
                   error: function(err)
                   {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                   },
-                  complete: function(html)
+                  complete: function()
                   {
                     $('body').RemoveAjaxLoader();
                   }
