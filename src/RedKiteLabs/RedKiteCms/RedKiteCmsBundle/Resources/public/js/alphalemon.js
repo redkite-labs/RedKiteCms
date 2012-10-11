@@ -239,7 +239,7 @@ $(document).ready(function(){
                 },
                 success: function(html)
                 {
-                    $('body').showAutoCloseDialog(item.value);
+                    $('body').showAutoCloseDialog(html);
                 },
                 error: function(err)
                 {
@@ -267,7 +267,7 @@ $(document).ready(function(){
                 },
                 success: function(html)
                 {
-                    $('body').showAutoCloseDialog(item.value);
+                    $('body').showAutoCloseDialog(html);
                 },
                 error: function(err)
                 {

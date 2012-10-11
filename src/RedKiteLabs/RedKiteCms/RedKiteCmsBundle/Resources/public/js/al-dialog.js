@@ -18,10 +18,11 @@ InitDialog = function(id, options)
 {
     try
     {
+        var dialogZIndex = 9999999 + $('body').find('.ui-dialog').length;
         var defaultOptions = {
         autoOpen: false,
         width: 800,
-        zIndex: 9999999,
+        zIndex: dialogZIndex,
         buttons: {
             "Close": function() {
                 $(this).dialog("close");
