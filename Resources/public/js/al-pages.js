@@ -63,6 +63,7 @@ function InitPagesCommands()
     $("#al_page_saver").click(function()
     {
         var isHome = ($('#pages_isHome').is(':checked')) ? 1 : 0;
+        var isPublished = ($('#pages_isPublished').is(':checked')) ? 1 : 0;
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_savePage',
@@ -74,6 +75,7 @@ function InitPagesCommands()
                    'templateName' : $('#pages_template').val(),
                    'permalink' : $('#seo_attributes_permalink').val(),
                    'isHome' : isHome,
+                   'isPublished' : isPublished,
                    'title' : $('#seo_attributes_title').val(),
                    'description' : $('#seo_attributes_description').val(),
                    'keywords' : $('#seo_attributes_keywords').val()
@@ -226,7 +228,7 @@ function LoadSeoAttributes(idPage)
                 switch(el.name)
                 {
                     case '#pages_isHome':
-                    case '#pages_published':
+                    case '#pages_isPublished': 
                         if(el.value == 1)
                         {
                             $(el.name).attr('checked', 'checked');
