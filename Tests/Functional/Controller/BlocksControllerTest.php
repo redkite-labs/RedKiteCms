@@ -680,7 +680,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $params = (null === $params) ? array('page' => 'index', 'language' => 'en', 'slotName' => 'fake') : $params;
 
         $crawler = $this->browse($route, $params);
-        $this->assertTrue($crawler->filter('html:contains("You are trying to add a new block on a slot that does not exist on this page, or the slot name is empty")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty")')->count() > 0);
     }
 
     private function blockIdIsNull($route)

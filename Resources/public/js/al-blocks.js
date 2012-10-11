@@ -259,7 +259,7 @@ var isEditorOpened = false;
         $('#al_media_lib').html(html);
     }
 
-    $.fn.RemoveExternalFile =function(field, fileName)
+    $.fn.RemoveExternalFile =function(field)
     {
         this.each(function()
         {
@@ -273,8 +273,9 @@ var isEditorOpened = false;
                            'pageId' :  $('#al_pages_navigator option:selected').val(),
                            'languageId' : $('#al_languages_navigator option:selected').val(),
                            'idBlock'  : $('body').data('idBlock'),
+                           'slotName'  : $('body').data('slotName'),
                            'field'    : field,
-                           'file'     : fileName},
+                           'file'     : $('.al_selected_item').attr('rel')},
                     beforeSend: function()
                     {
                         $('body').AddAjaxLoader();

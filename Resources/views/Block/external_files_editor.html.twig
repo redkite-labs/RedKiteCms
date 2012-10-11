@@ -22,6 +22,9 @@
 </div>
 
 <script type="text/javascript">
-        $('.al_{{ section }}_item_remover').RemoveExternalFile('External{{ section }}', $('.al_selected_item').attr('rel'));
+    $(document).ready(function()
+    {
+        $('.al_{{ section }}_item_remover').RemoveExternalFile('External{{ section }}');
         $('.al_{{ section }}_file_manager').ShowExternalFilesManager('{{ section|lower }}');
+    });
 </script>
