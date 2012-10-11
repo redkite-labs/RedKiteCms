@@ -15,6 +15,10 @@
       {
           "type": "composer",
           "url": "http://apps.alphalemon.com/"
+      },
+      {
+          "type": "vcs",
+          "url": "https://github.com/alphalemon/common"
       }
   ],
   "require": {
@@ -40,7 +44,8 @@
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
-    "alphalemon/business-website-theme-bundle": "dev-master"
+    "alphalemon/business-website-theme-bundle": "dev-master",
+    "doctrine/common": "dev-bugfix as 2.3.0"
   },
   "minimum-stability": "dev",
   "autoload": {
