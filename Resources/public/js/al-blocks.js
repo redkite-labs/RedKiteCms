@@ -85,8 +85,7 @@ var isEditorOpened = false;
             },
             error: function(err)
             {
-                $('#al_dialog').html(err.responseText);
-                $('#al_dialog').dialog('open');
+                $('body').showDialog(err.responseText);
             },
             complete: function()
             {
@@ -123,8 +122,7 @@ var isEditorOpened = false;
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -164,8 +162,7 @@ var isEditorOpened = false;
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -201,8 +198,7 @@ var isEditorOpened = false;
                     },
                     error: function(err)
                     {
-                        $('#al_dialog').html(err.responseText);
-                        $('#al_dialog').dialog('open');
+                        $('body').showDialog(err.responseText);
                     },
                     complete: function()
                     {
@@ -240,8 +236,7 @@ var isEditorOpened = false;
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
-                    $('#al_dialog').dialog('open');
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -290,8 +285,7 @@ var isEditorOpened = false;
                     },
                     error: function(err)
                     {
-                        $('#al_dialog').html(err.responseText);
-                        $('#al_dialog').dialog('open');
+                        $('body').showDialog(err.responseText);
                     },
                     complete: function()
                     {
@@ -342,8 +336,7 @@ var isEditorOpened = false;
             },
             error: function(err)
             {
-                $('#al_dialog').html(err.responseText);
-                $('#al_dialog').dialog('open');
+                $('body').showDialog(err.responseText);
             },
             complete: function()
             {
@@ -363,7 +356,7 @@ function updateContentsJSon(response)
         switch(item.key)
         {
             case "message":
-                $('#al_dialog').html(item.value);
+                $('body').showAutoCloseDialog(item.value);
                 break;
             case "redraw-slot":
                 slot = '.' + item.slotName;

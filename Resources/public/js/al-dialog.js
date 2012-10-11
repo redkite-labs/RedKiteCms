@@ -21,6 +21,7 @@ InitDialog = function(id, options)
         var defaultOptions = {
         autoOpen: false,
         width: 800,
+        zIndex: 9999999,
         buttons: {
             "Close": function() {
                 $(this).dialog("close");
@@ -44,3 +45,40 @@ InitDialog = function(id, options)
         alert(e);
     }
 };
+
+(function($){
+    $.fn.showAutoCloseDialog = function(html, width, delay)
+    {
+        if (width == null) width = 400;
+        if (delay == null) delay = 1500;
+        
+        var options = {
+            width: width,
+            buttons: {}
+        };
+        InitDialog('al_message_success', options);
+        $('#al_message_success')
+            .html(html)
+            .dialog('open')
+            .delay(delay)
+            .fadeOut(function(){ $(this).dialog("close") });
+        
+        return false;
+    };
+    
+    $.fn.showDialog = function(html, width)
+    {
+        if (width == null) width = 800;
+        
+        var options = {
+            width: width,
+            hide: 'explode'
+        };
+        InitDialog('al_dialog', options);
+        $('#al_dialog')
+            .html(html)
+            .dialog('open');
+            
+        return false;
+    };
+})($);

@@ -74,7 +74,7 @@ function InitLanguagesCommands()
             },
             error: function(err)
             {
-                $('#al_dialog').html(err.responseText);
+                $('body').showDialog(err.responseText);
             },
             complete: function()
             {
@@ -107,7 +107,7 @@ function InitLanguagesCommands()
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
@@ -131,7 +131,7 @@ function UpdateLanguagesJSon(response)
         switch(item.key)
         {
             case "message":
-                $('#al_dialog').html(item.value);
+                $('body').showAutoCloseDialog(item.value);
                 break;
             case "languages":
                 var idSelectedLanguage = $('#al_languages_list .al_element_selected').attr('ref');

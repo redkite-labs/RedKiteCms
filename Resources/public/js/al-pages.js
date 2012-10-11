@@ -91,11 +91,10 @@ function InitPagesCommands()
             },
             error: function(err)
             {
-                $('#al_dialog').html(err.responseText);
+                $('body').showDialog(err.responseText);
             },
             complete: function()
             {
-                $('#al_dialog').dialog('open');
                 $('body').RemoveAjaxLoader();
             }
           });
@@ -133,11 +132,10 @@ function InitPagesCommands()
                 },
                 error: function(err)
                 {
-                    $('#al_dialog').html(err.responseText);
+                    $('body').showDialog(err.responseText);
                 },
                 complete: function()
                 {
-                    $('#al_dialog').dialog('open');
                     $('body').RemoveAjaxLoader();
                 }
               });
@@ -171,8 +169,7 @@ function UpdatePagesJSon(response)
         switch(item.key)
         {
             case "message":
-                $('#al_dialog').html(item.value);
-                break;
+                $('body').showAutoCloseDialog(item.value);
             case "pages":
                 var idSelectedPage = $('#al_pages_list .al_element_selected').attr('ref');
                 $('#al_pages_list').html(item.value);
@@ -246,8 +243,7 @@ function LoadSeoAttributes(idPage)
         },
         error: function(err)
         {
-            $('#al_dialog').html(err.responseText);
-            $('#al_dialog').dialog('open');
+            $('body').showDialog(err.responseText);
         },
         complete: function()
         {
