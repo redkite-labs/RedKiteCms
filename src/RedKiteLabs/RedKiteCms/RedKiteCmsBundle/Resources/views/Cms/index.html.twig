@@ -69,13 +69,13 @@
     <link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
     {% endfor %}
 {% if enable_yui_compressor is defined and enable_yui_compressor %}
-    {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui-1.8.6.custom.css'
+    {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui.css'
                                                 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/medialize/*'
                                                 'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
 {% else %}
-    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui-1.8.6.custom.css'
+    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui.css'
                                        'bundles/alphalemoncms/css/skins/alphaLemon/vendor/medialize/*'
                                        'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />

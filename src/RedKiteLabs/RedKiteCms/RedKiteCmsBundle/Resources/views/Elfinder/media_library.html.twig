@@ -15,6 +15,24 @@
 
 {% extends 'AlphaLemonElFinderBundle:ElFinder:show.html.twig' %}
 
+{% block stylesheet_files %}
+{% if enable_yui_compressor is defined and enable_yui_compressor %}
+    {% stylesheets filter='?yui_css,cssrewrite'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% else %}
+    {% stylesheets
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endstylesheets %}
+{% endif %}
+{% endblock %}
+
 {% block javascript_files %}
 {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts filter='?yui_js'
