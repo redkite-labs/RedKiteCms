@@ -1,3 +1,9 @@
+Beta Release
+Refactored security module
+Added a command to generate an App-Block Bundle
+Enabled the publishable flag
+Improved dialogs management at client side
+
 Alpha Release
 AlphaLemon CMS has been totally refactored 
 Added unit and functional tests
