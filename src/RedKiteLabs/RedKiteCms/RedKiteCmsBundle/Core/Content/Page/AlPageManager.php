@@ -366,7 +366,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 unset($values['IsHome']);
             }
 
-            if (isset($values['IsPublished']) && $values['IsPublished'] == $this->alPage->getIsPublished()) {
+            if (isset($values['IsPublished'])  && $values['IsPublished'] != "" && $values['IsPublished'] == $this->alPage->getIsPublished()) {
                 unset($values['IsPublished']);
             }
 
