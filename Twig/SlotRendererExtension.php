@@ -114,7 +114,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
 
             $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
             $content = sprintf('<div>%s</div>', $content);
-            if ($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['Type']), $content);
+            if ($add) $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\', editorWidth: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['Type']), $block['EditorWidth'], $content);
 
             return $content;
         } catch (\Exception $ex) {

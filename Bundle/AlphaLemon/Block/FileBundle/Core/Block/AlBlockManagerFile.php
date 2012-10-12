@@ -57,10 +57,15 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
         $file = $item['file'];
-        
+
         return ($item['opened'])
             ? @file_get_contents($this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $file)
             : $this->formatLink($file);
+    }
+
+    protected function getEditorWidth()
+    {
+        return 250;
     }
 
     private function formatLink($file)

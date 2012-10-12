@@ -974,7 +974,8 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->assertTrue(array_key_exists('InternalJavascript', $array));
         $this->assertTrue(array_key_exists('ExternalStylesheet', $array));
         $this->assertTrue(array_key_exists('InternalStylesheet', $array));
-        $this->assertTrue(array_key_exists('Block', $array));
+        $this->assertTrue(array_key_exists('EditorWidth', $array));
+        $this->assertTrue(array_key_exists('Block', $array));   
 
         $this->assertEquals('my fancy content', $array['Content']);
     }

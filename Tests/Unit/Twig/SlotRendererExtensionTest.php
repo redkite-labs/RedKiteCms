@@ -94,6 +94,7 @@ class SlotRendererExtensionTest extends TestCase
                 "Type" => "Text",
             ),
             "Content" => "my awesome content",
+            "EditorWidth" => "800",
         );
 
         $blockManagers = array($this->setUpBlockManager($value));
@@ -103,7 +104,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $expectedValue = '<div class="al_logo">' . PHP_EOL;
         $expectedValue .= '<!-- BEGIN LOGO BLOCK -->' . PHP_EOL;
-        $expectedValue .= '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\'}"><div>my awesome content</div></div>' . PHP_EOL;
+        $expectedValue .= '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\', editorWidth: \'800\'}"><div>my awesome content</div></div>' . PHP_EOL;
         $expectedValue .= '<!-- END LOGO BLOCK -->' . PHP_EOL;
         $expectedValue .= '</div>';
         $this->assertEquals($expectedValue, $this->slotRenderer->renderSlot('logo'));
@@ -120,6 +121,7 @@ class SlotRendererExtensionTest extends TestCase
             ),
             "Content" => "my awesome content",
             "HideInEditMode" => "true",
+            "EditorWidth" => "800",
         );
 
         $blockManagers = array($this->setUpBlockManager($value));
@@ -129,7 +131,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $expectedValue = '<div class="al_logo">' . PHP_EOL;
         $expectedValue .= '<!-- BEGIN LOGO BLOCK -->' . PHP_EOL;
-        $expectedValue .= '<div id="block_10" class="al_hide_edit_mode al_editable {id: \'10\', slotName: \'logo\', type: \'text\'}"><div>my awesome content</div></div>' . PHP_EOL;
+        $expectedValue .= '<div id="block_10" class="al_hide_edit_mode al_editable {id: \'10\', slotName: \'logo\', type: \'text\', editorWidth: \'800\'}"><div>my awesome content</div></div>' . PHP_EOL;
         $expectedValue .= '<!-- END LOGO BLOCK -->' . PHP_EOL;
         $expectedValue .= '</div>';
         $this->assertEquals($expectedValue, $this->slotRenderer->renderSlot('logo'));
@@ -144,6 +146,7 @@ class SlotRendererExtensionTest extends TestCase
                 "Type" => "Text",
             ),
             "Content" => "my awesome replaced content",
+            "EditorWidth" => "800",
             "RenderView" => array(
                 "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
                 "params" => array(),
@@ -172,7 +175,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $expectedValue = '<div class="al_logo">' . PHP_EOL;
         $expectedValue .= '<!-- BEGIN LOGO BLOCK -->' . PHP_EOL;
-        $expectedValue .= '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\'}"><div><p>This content has been rendered from a twig template</p></div></div>' . PHP_EOL;
+        $expectedValue .= '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\', editorWidth: \'800\'}"><div><p>This content has been rendered from a twig template</p></div></div>' . PHP_EOL;
         $expectedValue .= '<!-- END LOGO BLOCK -->' . PHP_EOL;
         $expectedValue .= '</div>';
         $this->assertEquals($expectedValue, $this->slotRenderer->renderSlot('logo'));
@@ -196,9 +199,10 @@ class SlotRendererExtensionTest extends TestCase
                 "Type" => "Text",
             ),
             "Content" => "my awesome content",
+            "EditorWidth" => "800",
         );
 
-        $expectedValue = '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\'}"><div>my awesome content</div></div>';
+        $expectedValue = '<div id="block_10" class=" al_editable {id: \'10\', slotName: \'logo\', type: \'text\', editorWidth: \'800\'}"><div>my awesome content</div></div>';
         $this->assertEquals($expectedValue, $this->slotRenderer->renderBlock($value, true));
     }
 

@@ -55,6 +55,7 @@ var isEditorOpened = false;
         var editableData = $(this).metadata();
         var idBlock = editableData.id;
         var slotName = editableData.slotName;
+        var editorWidth = editableData.editorWidth;
         $.ajax({
             type: 'POST',
             url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showBlocksEditor',
@@ -73,7 +74,7 @@ var isEditorOpened = false;
                 try
                 {
                     $.parseJSON(response);
-                    updateContentsJSon(response);
+                    updateContentsJSon(response, editorWidth);
                 }
                 catch(e)
                 {
@@ -349,7 +350,7 @@ var isEditorOpened = false;
 })($);
 
 
-function updateContentsJSon(response)
+function updateContentsJSon(response, editorWidth)
 {
     var slot;
     $(response).each(function(key, item)
@@ -390,6 +391,7 @@ function updateContentsJSon(response)
                 if(openEditor) {
                     var dialogOptions = {
                         buttons:{},
+                        width: editorWidth,
                         close: function(event, ui)
                         {
                             isEditorOpened = false;
