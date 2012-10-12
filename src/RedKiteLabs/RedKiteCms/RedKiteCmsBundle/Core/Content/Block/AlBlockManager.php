@@ -45,6 +45,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInt
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
+    const EDITOR_WIDTH = 800;
+
     protected $alBlock = null;
     protected $factoryRepository = null;
     protected $blockRepository = null;
@@ -373,9 +375,21 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
         $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
+        $editorWidth = $this->getEditorWidth();
+        $blockManager["EditorWidth"] = ($editorWidth != null && (int)$editorWidth > 0) ? $editorWidth : self::EDITOR_WIDTH;
         $blockManager["Block"] = $this->alBlock->toArray();
 
         return $blockManager;
+    }
+
+    /**
+     * Returns the width of the editor that manages the block
+     *
+     * @return int
+     */
+    protected function getEditorWidth()
+    {
+        return self::EDITOR_WIDTH;
     }
 
     /**

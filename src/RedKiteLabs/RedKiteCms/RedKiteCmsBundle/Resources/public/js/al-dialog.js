@@ -52,7 +52,7 @@ InitDialog = function(id, options)
     {
         if (width == null) width = 400;
         if (delay == null) delay = 1500;
-        
+
         var options = {
             width: width,
             buttons: {}
@@ -63,14 +63,14 @@ InitDialog = function(id, options)
             .dialog('open')
             .delay(delay)
             .fadeOut(function(){ $(this).dialog("close") });
-        
+
         return false;
     };
-    
+
     $.fn.showDialog = function(html, width)
     {
         if (width == null) width = 800;
-        
+
         var options = {
             width: width,
             hide: 'explode'
@@ -79,7 +79,7 @@ InitDialog = function(id, options)
         $('#al_dialog')
             .html(html)
             .dialog('open');
-            
+
         return false;
     };
 })($);
