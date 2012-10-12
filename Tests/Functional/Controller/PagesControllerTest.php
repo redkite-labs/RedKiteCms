@@ -278,7 +278,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'pageName' => "page2 edited",
                         'permalink' => "page-2 edited",);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);echo $crawler->text();exit;
+        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
