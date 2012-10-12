@@ -26,20 +26,28 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  */
 abstract class RenderingListEditorListener extends BaseRenderingEditorListener
 {
+    protected $alBlockManager = null;
+
     protected function renderEditor(BlockEditorRenderingEvent $event, array $params)
     {
         try {
-            $alBlockManager = $event->getBlockManager();
-            if ($alBlockManager instanceof $params['blockClass']) {
-                $block = $alBlockManager->get();
-                $className = $block->getType();
-                $items = json_decode($block->getContent(), true);
-                $template = sprintf('%sBundle:Block:%s_list.html.twig', $className, strtolower($className));
-                $editor = $event->getContainer()->get('templating')->render($template, array("items" => $items, "block_id" => $block->getId()));
+            $this->alBlockManager = $event->getBlockManager();
+            if ($this->alBlockManager instanceof $params['blockClass']) {
+                $editor = $this->doRenderEditor($event);
                 $event->setEditor($editor);
             }
         } catch (\Exception $ex) {
             throw $ex;
         }
+    }
+
+    protected function doRenderEditor(BlockEditorRenderingEvent $event)
+    {
+        $block = $this->alBlockManager->get();
+        $className =$block->getType();
+        $items = json_decode($block->getContent(), true);
+        $template = sprintf('%sBundle:Block:%s_list.html.twig', $className, strtolower($className));
+
+        return $event->getContainer()->get('templating')->render($template, array("items" => $items, "block_id" => $block->getId()));
     }
 }
