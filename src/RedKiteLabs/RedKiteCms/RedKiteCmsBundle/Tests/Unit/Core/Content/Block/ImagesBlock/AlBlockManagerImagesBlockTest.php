@@ -63,8 +63,6 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
     public function testAnImageHasBeenRemovedFromImagesBlock()
     {
         $this->initContainer();
-        $this->container->expects($this->once())
-                        ->method('getParameter');
 
         $block = $this->initBlock();
         $params = array('RemoveFile' => "/path/to/image");
