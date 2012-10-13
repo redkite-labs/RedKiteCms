@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% else %}
-    {% stylesheets
+    {% stylesheets filter='cssrewrite'
         'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.css'
         'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
     %}
