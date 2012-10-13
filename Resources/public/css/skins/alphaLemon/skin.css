@@ -5,7 +5,6 @@
   background-image: url(images/common/ajax-loader.gif);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 500001;
 }
 
 .ajax_loader_bg {
@@ -15,7 +14,6 @@
   background-image: url(images/common/bg-ajax-loader.png);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 500000;
 }
 
 .al_float_left {
@@ -439,12 +437,11 @@
 
 .ui-dialog {
   font: normal 12px/14px Arial, Verdana, Helvetica, sans-serif !important;
-  z-index: 91000 !important;
   text-align: left !important;
 }
 
 .ui-widget-overlay {
-  z-index: 90000 !important;
+  z-index: 9500000;
 }
 
 .editor_contents {
