@@ -18,11 +18,9 @@ InitDialog = function(id, options)
 {
     try
     {
-        var dialogZIndex = 9999999 + $('body').find('.ui-dialog').length;
         var defaultOptions = {
         autoOpen: false,
         width: 800,
-        zIndex: dialogZIndex,
         buttons: {
             "Close": function() {
                 $(this).dialog("close");
@@ -47,14 +45,30 @@ InitDialog = function(id, options)
     }
 };
 
+GetTopMost = function()
+{
+    // Credits for this snippet goes to Studio-42 http://elfinder.org
+    var zindex = 100;
+    $('body').find(':visible').each(function() {
+            var $this = $(this), z;
+            if ($this.css('position') == 'absolute' && (z = parseInt($this.zIndex())) > zindex) {
+                    zindex = z + 1;
+            }
+    });
+
+    return zindex + 10000;
+};
+
 (function($){
     $.fn.showAutoCloseDialog = function(html, width, delay)
     {
         if (width == null) width = 400;
         if (delay == null) delay = 1500;
 
+        var zIndexDialog = GetTopMost();
         var options = {
             width: width,
+            zIndex: zIndexDialog,
             buttons: {}
         };
         InitDialog('al_message_success', options);
@@ -71,8 +85,10 @@ InitDialog = function(id, options)
     {
         if (width == null) width = 800;
 
+        var zIndexDialog = GetTopMost();
         var options = {
             width: width,
+            zIndex: zIndexDialog,
             hide: 'explode'
         };
         InitDialog('al_dialog', options);

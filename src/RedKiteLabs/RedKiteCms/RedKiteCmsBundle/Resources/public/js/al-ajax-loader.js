@@ -19,6 +19,8 @@
     {
         try
         {
+            zIndex = GetTopMost();
+
             var loaderImage = document.createElement("DIV");
             $(loaderImage).addClass("ajax_loader")
                     .css("top", $(document).scrollTop())
@@ -33,8 +35,14 @@
 
             $(this).append(loader);
             $(this).append(loaderImage);
-            $(loader).show();
-            $(loaderImage).show();
+
+            $(loader)
+                    .css("z-index", zIndex)
+                    .show();
+            zIndex += 1;
+            $(loaderImage)
+                    .css("z-index", zIndex)
+                    .show();
         }
         catch(e)
         {
