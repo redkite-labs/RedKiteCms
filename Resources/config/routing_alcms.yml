@@ -1,7 +1,3 @@
-_assetic:
-    resource: .
-    type:     assetic
-
 _AlphaLemonBootstrapBundle:
     resource: .
     type: bootstrap

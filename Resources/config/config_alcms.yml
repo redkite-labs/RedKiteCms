@@ -10,7 +10,7 @@ monolog:
             level: debug
 
 assetic:
-    use_controller: true
+    use_controller: false
     bundles: [AlphaLemonCmsBundle]
 
 framework:
