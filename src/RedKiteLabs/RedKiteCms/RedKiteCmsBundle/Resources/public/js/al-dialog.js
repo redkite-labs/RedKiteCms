@@ -63,7 +63,7 @@ GetTopMost = function()
     $.fn.showAutoCloseDialog = function(html, width, delay)
     {
         if (width == null) width = 400;
-        if (delay == null) delay = 1500;
+        if (delay == null) delay = 2000;
 
         var zIndexDialog = GetTopMost();
         var options = {
@@ -71,9 +71,13 @@ GetTopMost = function()
             zIndex: zIndexDialog,
             buttons: {}
         };
+
+        var message = '<div class="al_success_big">' + html + '</div>';
+        message += '<div class="al_autoclose">This window closes automatically in 2 seconds</div>';
+
         InitDialog('al_message_success', options);
         $('#al_message_success')
-            .html(html)
+            .html(message)
             .dialog('open')
             .delay(delay)
             .fadeOut(function(){ $(this).dialog("close") });

@@ -38,6 +38,16 @@
   color: green;
 }
 
+.al_success_big {
+  font: bold 20px/24px Arial, Verdana, Helvetica, sans-serif;
+  color: green;
+}
+
+.al_autoclose {
+  font-weight: bold;
+  margin-top: 40px;
+}
+
 #al_cms_contents {
   width: 100%;
   margin: 0 auto;
