@@ -264,7 +264,12 @@ class BlocksController extends ContainerAware
                     $section = $this->getSectionFromKeyParam();
                     $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $file, "files" => $files, 'section' => $section));
 
-                    return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, "section" => $section));
+                    return $this->buildJSonResponse(
+                        array(
+                            array("key" => "message", "value" => "The file has been successfully added"),
+                            array("key" => "externalAssets", "value" => $template, "section" => $section)
+                        )
+                    );
                 } else {
                     throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
                 }
@@ -283,7 +288,7 @@ class BlocksController extends ContainerAware
     {
         try {
             $request = $this->container->get('request');
-            
+
             $file = urldecode($request->get('file'));
             if (null === $file || $file == '') {
                 throw new \Exception("External file cannot be removed because any file has been given");

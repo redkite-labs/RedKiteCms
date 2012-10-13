@@ -443,13 +443,21 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
 
         $json = json_decode($response->getContent(), true);
-        $this->assertEquals(3, count($json));
-        $this->assertTrue(array_key_exists("key", $json));
-        $this->assertEquals("externalAssets", $json["key"]);
-        $this->assertTrue(array_key_exists("value", $json));
-        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item row[^\>]+rel=\"myfile\"\>myfile\<\/li\>/s", $json["value"]);
-        $this->assertTrue(array_key_exists("section", $json));
-        $this->assertEquals("Javascript", $json["section"]);
+        $this->assertEquals(2, count($json));
+
+        $messageSection = $json[0];
+        $this->assertTrue(array_key_exists("key", $messageSection));
+        $this->assertEquals("message", $messageSection["key"]);
+        $this->assertTrue(array_key_exists("value", $messageSection));
+        $this->assertEquals("The file has been successfully added", $messageSection["value"]);
+
+        $assetsSection = $json[1];
+        $this->assertTrue(array_key_exists("key", $assetsSection));
+        $this->assertEquals("externalAssets", $assetsSection["key"]);
+        $this->assertTrue(array_key_exists("value", $assetsSection));
+        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item row[^\>]+rel=\"myfile\"\>myfile\<\/li\>/s", $assetsSection["value"]);
+        $this->assertTrue(array_key_exists("section", $assetsSection));
+        $this->assertEquals("Javascript", $assetsSection["section"]);
 
         $block = $this->blockRepository->fromPK($blockId);
         $this->assertEquals('myfile', $block->getExternalJavascript());
@@ -473,13 +481,21 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
 
         $json = json_decode($response->getContent(), true);
-        $this->assertEquals(3, count($json));
-        $this->assertTrue(array_key_exists("key", $json));
-        $this->assertEquals("externalAssets", $json["key"]);
-        $this->assertTrue(array_key_exists("value", $json));
-        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item alternate_row[^\>]+rel=\"another-file\"\>another-file<\/li\>/s", $json["value"]);
-        $this->assertTrue(array_key_exists("section", $json));
-        $this->assertEquals("Javascript", $json["section"]);
+        $this->assertEquals(2, count($json));
+
+        $messageSection = $json[0];
+        $this->assertTrue(array_key_exists("key", $messageSection));
+        $this->assertEquals("message", $messageSection["key"]);
+        $this->assertTrue(array_key_exists("value", $messageSection));
+        $this->assertEquals("The file has been successfully added", $messageSection["value"]);
+
+        $assetsSection = $json[1];
+        $this->assertTrue(array_key_exists("key", $assetsSection));
+        $this->assertEquals("externalAssets", $assetsSection["key"]);
+        $this->assertTrue(array_key_exists("value", $assetsSection));
+        $this->assertRegExp("/\<li[^\>]+class=\"al-Javascript-removable-item alternate_row[^\>]+rel=\"another-file\"\>another-file<\/li\>/s", $assetsSection["value"]);
+        $this->assertTrue(array_key_exists("section", $assetsSection));
+        $this->assertEquals("Javascript", $assetsSection["section"]);
 
         $block = $this->blockRepository->fromPK($blockId);
         $this->assertEquals('myfile,another-file', $block->getExternalJavascript());
