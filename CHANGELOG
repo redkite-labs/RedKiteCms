@@ -3,9 +3,10 @@ Refactored security module
 Added a command to generate an App-Block Bundle
 Enabled the publishable flag
 Improved dialogs management at client side
+Added a protected methos to let an App-Block Bundle to set the editor width
 
 Alpha Release
-AlphaLemon CMS has been totally refactored 
+AlphaLemon CMS has been totally refactored
 Added unit and functional tests
 
 Preview Release 6
