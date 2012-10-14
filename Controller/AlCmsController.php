@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AlCmsController extends BaseFrontendController
 {
-    private $kernel = null;
+    protected $kernel = null;
     private $factoryRepository = null;
     private $pageRepository = null;
     private $languageRepository = null;
@@ -68,7 +68,7 @@ class AlCmsController extends BaseFrontendController
 
         if (null !== $pageTree) {
            $template = $this->findTemplate($pageTree);
-
+           
            $params = array_merge($params, array(
                                 'metatitle' => $pageTree->getMetaTitle(),
                                 'metadescription' => $pageTree->getMetaDescription(),
@@ -113,7 +113,7 @@ class AlCmsController extends BaseFrontendController
         $this->dispatcher->dispatch($eventName, $this->event);
     }
 
-    private function findTemplate(AlPageTree $pageTree)
+    protected function findTemplate($pageTree)
     {
         $templateTwig = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
         if (null !== $template = $pageTree->getTemplate()) {
@@ -140,7 +140,7 @@ class AlCmsController extends BaseFrontendController
     /**
      * Workaround due to static assetic javascripts/stylesheets declaration
      */
-    private function fixAssets($assets)
+    protected function fixAssets($assets)
     {
         $ignore = array('jquery-last.min.js',
                         'jquery-ui.min.js',

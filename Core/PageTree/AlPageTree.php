@@ -256,7 +256,7 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
-     * Returns the template's slots
+     * Returns the page's block managers
      *
      * @return array
      */
@@ -310,7 +310,7 @@ class AlPageTree extends BaseAlPageTree
                     }
 
                     $method = 'get'. ucfirst($type) . ucfirst($assetType);
-                    $method = substr($method, 0, strlen($method) - 1);
+                    $method = substr($method, 0, - 1);
                     $assets = $block->$method();
                     if ($type == "external") {
                         $assetsCollection->addRange(explode(',', $assets));

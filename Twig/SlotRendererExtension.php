@@ -42,7 +42,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
 
             foreach ($blockManagers as $blockManager) {
                 if (null === $blockManager) continue;
-
+                
                 $slotContents[] = $this->doRender($blockManager->toArray(), true);
             }
 
