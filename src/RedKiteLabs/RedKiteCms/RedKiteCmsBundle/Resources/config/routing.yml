@@ -7,6 +7,9 @@ _pages:
 _languages:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/languages.xml"
 
+_theme_preview:
+    resource: "@AlphaLemonCmsBundle/Resources/config/routing/theme-preview.xml"
+
 _themes:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/themes.xml"
 
