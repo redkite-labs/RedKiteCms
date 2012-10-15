@@ -44,45 +44,47 @@ class AlCmsController extends BaseFrontendController
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
-        $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle');
-        $skin = $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alpha_lemon_cms.skin');
+
         $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
 
-        $params = array('template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
-                        'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
-                        'templateStylesheets' => null,
-                        'templateJavascripts' => null,
-                        'available_blocks' => null,
-                        'internal_stylesheets' => null,
-                        'internal_javascripts' => null,
-                        'skin_path' => $skin,
-                        'is_secure' => $isSecure,
-                        'pages' => ChoiceValues::getPages($this->pageRepository),
-                        'languages' => ChoiceValues::getLanguages($this->languageRepository),
-                        'page' => 0,
-                        'language' => 0,
-                        'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
-                        'frontController' => sprintf('/%s.php/', $this->kernel->getEnvironment()),);
+        $params = array(
+            'template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
+            'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
+            'templateStylesheets' => null,
+            'templateJavascripts' => null,
+            'available_blocks' => null,
+            'internal_stylesheets' => null,
+            'internal_javascripts' => null,
+            'skin_path' => $this->getSkin(),
+            'is_secure' => $isSecure,
+            'pages' => ChoiceValues::getPages($this->pageRepository),
+            'languages' => ChoiceValues::getLanguages($this->languageRepository),
+            'page' => 0,
+            'language' => 0,
+            'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
+            'frontController' => $this->getFrontcontroller(),
+        );
 
         if (null !== $pageTree) {
            $template = $this->findTemplate($pageTree);
-           
+
            $params = array_merge($params, array(
-                                'metatitle' => $pageTree->getMetaTitle(),
-                                'metadescription' => $pageTree->getMetaDescription(),
-                                'metakeywords' => $pageTree->getMetaKeywords(),
-                                'internal_stylesheets' => $pageTree->getInternalStylesheets(),
-                                'internal_javascripts' => $pageTree->getInternalJavascripts(),
-                                'template' => $template,
-                                'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
-                                'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
-                                'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks(),
-                                'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
-                                'templateStylesheets' => $pageTree->getExternalStylesheets(),
-                                'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
-                                ));
+                'metatitle' => $pageTree->getMetaTitle(),
+                'metadescription' => $pageTree->getMetaDescription(),
+                'metakeywords' => $pageTree->getMetaKeywords(),
+                'internal_stylesheets' => $pageTree->getInternalStylesheets(),
+                'internal_javascripts' => $pageTree->getInternalJavascripts(),
+                'template' => $template,
+                'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
+                'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
+                'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks(),
+                'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+                'templateStylesheets' => $pageTree->getExternalStylesheets(),
+                'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
+                )
+            );
         } else {
             $this->get('session')->setFlash('message', 'The requested page has not been loaded.');
         }
@@ -154,5 +156,17 @@ class AlCmsController extends BaseFrontendController
         }
 
         return $assets;
+    }
+
+    protected function getSkin()
+    {
+        $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle');
+
+        return $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alpha_lemon_cms.skin');
+    }
+    
+    protected function getFrontcontroller()
+    {
+        return sprintf('/%s.php/', $this->kernel->getEnvironment());
     }
 }
