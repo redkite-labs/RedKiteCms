@@ -1,3 +1,10 @@
+Beta-2 Release
+fixed a bug that doesn't show the ajax loader cursor when a panel was opened
+fixed a bug that doesn't select the current page and language when a CRUD operation was made on
+
+Beta-1 Release
+Fixed a bug that doesn't load the external stylesheets and javascripts in alcms environment
+
 Beta Release
 Refactored security module
 Added a command to generate an App-Block Bundle
