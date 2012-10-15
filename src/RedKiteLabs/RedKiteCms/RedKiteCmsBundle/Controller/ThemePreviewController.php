@@ -24,18 +24,10 @@ class ThemePreviewController extends AlCmsController
 {
     protected $pageTree;
 
-    public function previewThemeAction($themeName, $templateName)
+    public function previewThemeAction($languageName, $pageName, $themeName, $templateName)
     {
         //$request = $this->container->get('request');
         $this->kernel = $this->container->get('kernel');
-        //$themeName = $request->getParameter('themeName');
-        //$templateName = $request->getParameter('templateName');
-
-        //$themeName = 'BusinessWebsiteThemeBundle';
-        //$templateName = 'home';
-        
-        
-
         $themes = $this->container->get('alpha_lemon_theme_engine.themes');
         $theme = $themes->getTheme($themeName);
         
@@ -68,7 +60,8 @@ class ThemePreviewController extends AlCmsController
         $twigTemplate = $this->findTemplate($this->pageTree);
         $params = array(
             'template' => $twigTemplate,
-            'skin_path' => $this->getSkin(),
+            'skin_path' => $this->getSkin(),            
+            'theme_name' => $themeName,
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
             'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
             'internal_stylesheets' => $this->pageTree->getInternalStylesheets(),
@@ -80,6 +73,34 @@ class ThemePreviewController extends AlCmsController
         );
 
         return $this->render('AlphaLemonCmsBundle:Preview:index.html.twig', $params);
+    }
+    
+    public function loadActiveThemeAction()
+    {
+        $request = $this->container->get('request');
+        $languageId = $request->get('language');        
+        $pageId = $request->get('page');
+        
+        
+        
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $blocksRepository = $factoryRepository->createRepository('Block');
+        
+        $templates = array();
+        $activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme', $this->pageTree);
+        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        $theme = $themes->getTheme($activeTheme->getActiveTheme());
+        foreach ($theme->getTemplates() as $template) {
+            $templateName = $template->getTemplateName();
+            $blocks = $blocksRepository->retrieveContentsFromTemplate($languageId, $pageId, $templateName);
+            $templates[$templateName] = array();
+            foreach($blocks as $block) {
+                $slotName = $block->getSlotName();
+                $templates[$templateName][$slotName][] = $block->getContent();
+            }
+        }
+        
+        print_r($templates); exit;
     }
 
     protected function fetchSlotContents($template)
