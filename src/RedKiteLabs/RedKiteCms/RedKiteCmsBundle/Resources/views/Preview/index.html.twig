@@ -19,7 +19,7 @@
 {{ parent() }}
 <script>
 
-    function cmsStartInternalJavascripts(){
+    function CmsStartInternalJavascripts(){
         try
         {
             {{ internal_javascripts|raw }}
@@ -32,7 +32,10 @@
 
     $(document).ready(function()
     {
-        cmsStartInternalJavascripts();
+        frontController = '{{ frontController }}';
+
+        CmsStartInternalJavascripts();
+        ObserveThemesPreviewCommands();
     });
 </script>
 {% endblock %}
@@ -49,23 +52,44 @@
     <link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
     {% endfor %}
 
+    {% if enable_yui_compressor is defined and enable_yui_compressor %}
+        {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
+        <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+        {% endstylesheets %}
+    {% else %}
+        {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
+        <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
+        {% endstylesheets %}
+    {% endif %}
 {% endblock %}
 
 {% block external_javascripts %}
     {{ parent() }}
+
+    {% if enable_yui_compressor is defined and enable_yui_compressor %}
+    {% javascripts  filter='?yui_js' 'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
+                                     'bundles/alphalemoncms/js/al-themes-preview.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% else %}
+    {% javascripts  'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
+                    'bundles/alphalemoncms/js/al-themes-preview.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% endif %}
 
     {% for value in templateJavascripts %}
     <script src="{{ asset(value) }}"></script>
     {% endfor %}
 {% endblock %}
 
-{# block body %}
+{% block body %}
 
 
 <div id="al_toolbar">
     <div class="al_float_left al_boxes_margins small_logo"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></div>
     <div id="al_menu" class="al_float_left">
-        <ul>
+        {#<ul>
             <li><a href="#" id="al_start_editor">Edit</a></li>
             <li><a href="#" id="al_stop_editor">Stop</a></li>
             <li><a href="#" id="al_open_pages_panel">Pages</a></li>
@@ -73,29 +97,22 @@
             <li><a href="#" id="al_open_themes_panel">Themes</a></li>
             <li><a href="#" id="al_open_media_library">Media Library</a></li>
             <li><a href="#" id="al_deploy_site">Deploy</a></li>
-            {% if is_secure %}
-                <li><a href="#" id="al_open_users_manager">Users</a></li>
-                <li><a href="#" id="al_logout">Logout</a></li>
-            {% endif %}
-        </ul>
+        </ul>#}
+        Available templates
+        <select id="al_templates_selector" class="input select">
+            {% for template in templates %}
+            <option value="{{ template.getTemplateName }}">{{ template.getTemplateName }}</option>
+            {% endfor %}
+        </select>
     </div>
     <div id="al_navigator" class="al_float_right al_boxes_margins">
-        Navigate
-        <span id="al_languages_navigator_box">
-        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'selected' : language}  %}
-        </span>
-        <span id="al_pages_navigator_box">
-        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'selected' : page}  %}
-        </span>
         Languages
         {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages}  %}
     </div>
     <div style="clear:both;"></div>
 </div>
 
-<div id="al_panel"></div>
-
-<div id="al_cms_contents" class="{page: '{{ page }}', language: '{{ language }}'}">
+<div id="al_cms_contents">
 {{ parent() }}
 </div>
-{% endblock #}
+{% endblock %}
