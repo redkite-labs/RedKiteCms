@@ -68,11 +68,15 @@
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
+                                     'bundles/alphalemoncms/js/al-dialog.js'                                     
+                                     'bundles/alphalemoncms/js/al-ajax-loader.js'
                                      'bundles/alphalemoncms/js/al-themes-preview.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% else %}
     {% javascripts  'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
+                    'bundles/alphalemoncms/js/al-dialog.js'                                     
+                    'bundles/alphalemoncms/js/al-ajax-loader.js'
                     'bundles/alphalemoncms/js/al-themes-preview.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -98,12 +102,17 @@
             <li><a href="#" id="al_open_media_library">Media Library</a></li>
             <li><a href="#" id="al_deploy_site">Deploy</a></li>
         </ul>#}
+        Theme: <span id="al_current_theme">{{ theme_name }}</span> | 
         Available templates
         <select id="al_templates_selector" class="input select">
             {% for template in templates %}
             <option value="{{ template.getTemplateName }}">{{ template.getTemplateName }}</option>
             {% endfor %}
-        </select>
+        </select> 
+        <a id="al_load_active_theme" href="#">Slots</a>
+        <a href="/{{ app.environment }}.php/backend/{{ app.request.get('languageName')}}/{{app.request.get('pageName')}}">Return to CMS</a>
+        <span id="al_referal_language" class="al_hidden">{{ app.request.get('languageName') }}</span>
+        <span id="al_referal_page" class="al_hidden">{{ app.request.get('pageName') }}</span>
     </div>
     <div id="al_navigator" class="al_float_right al_boxes_margins">
         Languages
@@ -112,7 +121,8 @@
     <div style="clear:both;"></div>
 </div>
 
-<div id="al_cms_contents">
+<div id="al_preview_contents">
 {{ parent() }}
 </div>
+<div id="al_active_theme"></div>
 {% endblock %}

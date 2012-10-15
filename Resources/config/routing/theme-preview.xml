@@ -4,8 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="_preview_theme" pattern="/backend/{_locale}/al_previewTheme/{themeName}/{templateName}">
+    <route id="_preview_theme" pattern="/backend/{_locale}/al_previewTheme/{languageName}/{pageName}/{themeName}/{templateName}">
         <default key="_controller">AlphaLemonCmsBundle:ThemePreview:previewTheme</default>
         <default key="templateName">none</default>
+    </route>
+    
+    <route id="_load_active_theme" pattern="/backend/{_locale}/al_loadActiveTheme">
+        <default key="_controller">AlphaLemonCmsBundle:ThemePreview:loadActiveTheme</default>
     </route>
 </routes>
