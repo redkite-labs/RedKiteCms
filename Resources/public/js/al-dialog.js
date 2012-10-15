@@ -51,7 +51,7 @@ GetTopMost = function()
     var zindex = 100;
     $('body').find(':visible').each(function() {
             var $this = $(this), z;
-            if ($this.css('position') == 'absolute' && (z = parseInt($this.zIndex())) > zindex) {
+            if ($this.css('position') != 'static' && (z = parseInt($this.zIndex())) > zindex) {
                     zindex = z + 1;
             }
     });
