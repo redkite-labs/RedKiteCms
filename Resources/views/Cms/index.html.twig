@@ -108,10 +108,10 @@
     {% endjavascripts %}
     {% endif %}
 
-<script src="/js/tiny_mce/tiny_mce.js"></script>
-{% for value in templateJavascripts %}
-<script src="{{ asset(value) }}"></script>
-{% endfor %}
+    <script src="/js/tiny_mce/tiny_mce.js"></script>
+    {% for value in templateJavascripts %}
+    <script src="{{ asset(value) }}"></script>
+    {% endfor %}
 {% endblock %}
 
 {% block body %}

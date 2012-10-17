@@ -45,7 +45,6 @@
 {% endblock %}
 
 {% block external_stylesheets %}
-
     {{ parent() }}
 
     {% for value in templateStylesheets %}
@@ -53,11 +52,15 @@
     {% endfor %}
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
-        {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
+        {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui.css'
+                                                    'bundles/alphalemoncms/css/skins/alphaLemon/skin.css'
+        %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
         {% endstylesheets %}
     {% else %}
-        {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
+        {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui.css'
+                                           'bundles/alphalemoncms/css/skins/alphaLemon/skin.css'
+        %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
         {% endstylesheets %}
     {% endif %}
@@ -68,14 +71,16 @@
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
-                                     'bundles/alphalemoncms/js/al-dialog.js'                                     
+                                     'bundles/alphalemonthemeengine/js/vendor/jquery-ui.min.js'
+                                     'bundles/alphalemoncms/js/al-dialog.js'
                                      'bundles/alphalemoncms/js/al-ajax-loader.js'
                                      'bundles/alphalemoncms/js/al-themes-preview.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% else %}
     {% javascripts  'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
-                    'bundles/alphalemoncms/js/al-dialog.js'                                     
+                    'bundles/alphalemonthemeengine/js/vendor/jquery-ui.min.js'
+                    'bundles/alphalemoncms/js/al-dialog.js'
                     'bundles/alphalemoncms/js/al-ajax-loader.js'
                     'bundles/alphalemoncms/js/al-themes-preview.js' %}
     <script src="{{ asset_url }}"></script>
@@ -102,14 +107,16 @@
             <li><a href="#" id="al_open_media_library">Media Library</a></li>
             <li><a href="#" id="al_deploy_site">Deploy</a></li>
         </ul>#}
-        Theme: <span id="al_current_theme">{{ theme_name }}</span> | 
+        Theme: <span id="al_current_theme">{{ theme_name }}</span><span id="al_current_template" class="al_hidden">{{ template_name }}</span>|
         Available templates
         <select id="al_templates_selector" class="input select">
+            <option value=""></option>
             {% for template in templates %}
             <option value="{{ template.getTemplateName }}">{{ template.getTemplateName }}</option>
             {% endfor %}
-        </select> 
+        </select>
         <a id="al_load_active_theme" href="#">Slots</a>
+        <a id="al_save" href="#">Save</a>
         <a href="/{{ app.environment }}.php/backend/{{ app.request.get('languageName')}}/{{app.request.get('pageName')}}">Return to CMS</a>
         <span id="al_referal_language" class="al_hidden">{{ app.request.get('languageName') }}</span>
         <span id="al_referal_page" class="al_hidden">{{ app.request.get('pageName') }}</span>
@@ -121,8 +128,14 @@
     <div style="clear:both;"></div>
 </div>
 
-<div id="al_preview_contents">
+<div id="al_cms_contents">
 {{ parent() }}
 </div>
-<div id="al_active_theme"></div>
+    
+<div id="al_active_theme">
+    {% include 'AlphaLemonCmsBundle:Preview:_active_theme_templates.html.twig' with {'templates': templates}  %}
+    <div id="al_slots">
+        {% include 'AlphaLemonCmsBundle:Preview:_active_theme_slots.html.twig' with {'templates': templates, 'block_managers' : block_managers}  %}
+    </div>
+</div>
 {% endblock %}

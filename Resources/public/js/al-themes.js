@@ -38,7 +38,9 @@
                 $.ajax({
                   type: 'POST',
                   url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showThemeFixer',
-                  data: {'themeName' : data.themeName},
+                  data: {
+                      'themeName' : data.themeName
+                  },
                   beforeSend: function()
                   {
                     $('body').AddAjaxLoader();

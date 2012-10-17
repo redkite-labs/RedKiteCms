@@ -11,18 +11,26 @@
 //
 // @license    GPL LICENSE Version 2.0
 
-@import "variables"
-@import "common"
-@import "cms"
-@import "toolbar"
-@import "forms"
-@import "panel"
-@import "pages"
-@import "items_list"
-@import "images_list"
-@import "ui_dialog"
-@import "editor"
-@import "themes"
-@import "theme_preview"
-@import "security"
-@import "medializer"
+#al_active_theme
+    :width 250px
+    :height 500px
+    :padding 4px
+    :background-color #fff
+    :color #525252
+    :position fixed
+    :top 75px
+    :z-index 9900000
+    :overflow auto
+
+#al_slots
+    :min-height 480px
+
+.al_slot_active
+    :border 1px dotted #C20000
+
+.al_slot_mapped
+    :border 2px dotted #0000C2
+
+.al_slot_assigned
+    :color #999
+    :font-style italic

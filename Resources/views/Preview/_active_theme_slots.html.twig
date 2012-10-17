@@ -1,0 +1,31 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.alphalemon.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% for template_name, template in active_theme_templates %}
+    <div id="al_map_{{ template_name }}" class="al_hidden">
+        <table>
+            {% for slot_name in template %}
+            <tr>
+                <td id="al_slot_{{ template_name }}_{{ slot_name }}" class="al_slot" rel="{{ template_name }}_{{ slot_name }}">{{ slot_name }}</td>
+                <td id="al_locker_{{ template_name }}_{{ slot_name }}" class="al_locker al_hidden">LK</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endfor %}
+
+{% for key, block_manager in block_managers %}
+<div id="{{ key }}" class="al_hidden">{{ block_manager.getHtml|raw }}</div>
+{% endfor %}

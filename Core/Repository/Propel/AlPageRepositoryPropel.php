@@ -100,4 +100,16 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
                     ->filterByToDelete(0)
                     ->findOne();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fromTemplateName($templateName, $once = false)
+    {
+        $query = AlPageQuery::create()
+                    ->filterByTemplateName($templateName)
+                    ->filterByToDelete(0);
+
+        return ($once) ? $query->findOne() : $query->find();
+    }
 }

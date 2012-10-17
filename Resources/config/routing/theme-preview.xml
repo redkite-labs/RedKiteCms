@@ -9,7 +9,7 @@
         <default key="templateName">none</default>
     </route>
     
-    <route id="_load_active_theme" pattern="/backend/{_locale}/al_loadActiveTheme">
-        <default key="_controller">AlphaLemonCmsBundle:ThemePreview:loadActiveTheme</default>
+    <route id="_save_active_theme" pattern="/backend/{_locale}/al_saveActiveTheme">
+        <default key="_controller">AlphaLemonCmsBundle:ThemePreview:saveActiveTheme</default>
     </route>
 </routes>
