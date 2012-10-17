@@ -204,7 +204,10 @@ $(document).ready(function(){
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showThemes',
-                data: {},
+                data: {
+                    'page' :  $('#al_pages_navigator option:selected').text(),
+                    'language' : $('#al_languages_navigator option:selected').text()
+                },
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();

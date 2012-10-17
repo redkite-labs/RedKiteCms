@@ -48,6 +48,17 @@ interface PageRepositoryInterface
     public function fromPageName($pageName);
 
     /**
+     * Fetches one or all page record from the assigned template.
+     *
+     * When the $once argument is true just the first record is fetched, otherwise
+     * all are fetched
+     *
+     * @param string    The page name
+     * @return object The fetched object
+     */
+    public function fromTemplateName($templateName, $once = false);
+
+    /**
      * Fetches the site home page
      *
      * @return object The fetched object

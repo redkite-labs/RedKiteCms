@@ -5,6 +5,7 @@
   background-image: url(images/common/ajax-loader.gif);
   background-position: center center;
   background-repeat: no-repeat;
+  z-index: 700001;
 }
 
 .ajax_loader_bg {
@@ -14,6 +15,7 @@
   background-image: url(images/common/bg-ajax-loader.png);
   background-position: center center;
   background-repeat: no-repeat;
+  z-index: 700000;
 }
 
 .al_float_left {
@@ -46,6 +48,10 @@
 .al_autoclose {
   font-weight: bold;
   margin-top: 40px;
+}
+
+.al_hidden {
+  display: none;
 }
 
 #al_cms_contents {
@@ -533,6 +539,35 @@
   width: 100%;
   height: 32px;
   padding: 6px;
+}
+
+#al_active_theme {
+  width: 250px;
+  height: 500px;
+  padding: 4px;
+  background-color: white;
+  color: #525252;
+  position: fixed;
+  top: 75px;
+  z-index: 9900000;
+  overflow: auto;
+}
+
+#al_slots {
+  min-height: 480px;
+}
+
+.al_slot_active {
+  border: 1px dotted #c20000;
+}
+
+.al_slot_mapped {
+  border: 2px dotted #0000c2;
+}
+
+.al_slot_assigned {
+  color: #999999;
+  font-style: italic;
 }
 
 #al_login_form {
