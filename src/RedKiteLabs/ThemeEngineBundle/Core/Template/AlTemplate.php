@@ -30,6 +30,12 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  *
  * - Slots
  * - Assets
+ * @method     AlTemplate addExternalStylesheet() Returns the external stylesheets
+ * @method     AlTemplate addInternalStylesheet() Returns the internal stylesheets
+ * @method     AlTemplate addExternalStylesheets() Returns the external stylesheets
+ * @method     AlTemplate addInternalStylesheets() Returns the internal stylesheets
+ * @method     AlTemplate getExternalJavascripts() Returns the external javascripts
+ * @method     AlTemplate getInternalJavascripts() Returns the internal javascripts
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
@@ -173,7 +179,7 @@ class AlTemplate
             return $this;
         }
 
-        if(preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)?(Range)$/', $name, $matches))
+        if(preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
         {
             if(!is_array($params[0]))
             {
@@ -211,18 +217,16 @@ class AlTemplate
         }
     }
 
-
-
-    private function addAssetsRange($assetType, $type, $asset)
+    private function addAssetsRange($assetType, $type, array $assets)
     {
         $assetsCollection = $this->assets->$assetType->$type;
-        $assetsCollection->addRange($asset);
+        $assetsCollection->addRange($assets);
     }
 
-    private function addAsset($assetType, $type, array $assets)
+    private function addAsset($assetType, $type, $asset)
     {
         $assetsCollection = $this->assets->$assetType->$type;
-        $assetsCollection->add($assets);
+        $assetsCollection->add($asset);
     }
 
     private function getAssets($assetType, $type)
