@@ -35,5 +35,6 @@ class AlAppGeneratorBase extends TestCase
         $this->fileSystem = new Filesystem();
         $this->root = vfsStream::setup('root', null, array('src'));
         vfsStream::copyFromFileSystem(__DIR__ . '/../../../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle', $this->root);
+        //use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;print_r(vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());exit;
     }
 }

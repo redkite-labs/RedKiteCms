@@ -53,8 +53,6 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= PHP_EOL;
-        $expected .= PHP_EOL;
-        $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake.theme.template_assets.home" class="%alpha_lemon_theme_engine.template_assets.class%">' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
@@ -105,21 +103,25 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' . PHP_EOL;
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
-        $expected .= PHP_EOL;
-        $expected .= PHP_EOL;
+        $expected .= '    <parameters>' . PHP_EOL;
+        $expected .= '        <parameter key="fake.home.external_stylesheets" type="collection">' . PHP_EOL;
+        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/reset.css</parameter>' . PHP_EOL;
+        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</parameter>' . PHP_EOL;
+        $expected .= '        </parameter>' . PHP_EOL;
+        $expected .= '        <parameter key="fake.home.external_javascripts" type="collection">' . PHP_EOL;
+        $expected .= '            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
+        $expected .= '        </parameter>' . PHP_EOL;
+        $expected .= '        <parameter key="fake.home.external_stylesheets.cms" type="collection">' . PHP_EOL;
+        $expected .= '        </parameter>' . PHP_EOL;
+        $expected .= '    </parameters>' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake.theme.template_assets.home" class="%alpha_lemon_theme_engine.template_assets.class%">' . PHP_EOL;
         $expected .= '            <call method="setExternalStylesheets">' . PHP_EOL;
-        $expected .= '                <argument type="collection">' . PHP_EOL;
-        $expected .= '                    <argument>@BusinessWebsiteThemeBundle/Resources/public/css/reset.css</argument>' . PHP_EOL;
-        $expected .= '                    <argument>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</argument>' . PHP_EOL;
-        $expected .= '                </argument>' . PHP_EOL;
+        $expected .= '                <argument>%fake.home.external_stylesheets%</argument>' . PHP_EOL;
         $expected .= '            </call>' . PHP_EOL;
         $expected .= '            <call method="setExternalJavascripts">' . PHP_EOL;
-        $expected .= '                <argument type="collection">' . PHP_EOL;
-        $expected .= '                    <argument>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</argument>' . PHP_EOL;
-        $expected .= '                </argument>' . PHP_EOL;
+        $expected .= '                <argument>%fake.home.external_javascripts%</argument>' . PHP_EOL;
         $expected .= '            </call>' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
@@ -175,9 +177,14 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' . PHP_EOL;
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
-        $expected .= PHP_EOL;
-        $expected .= PHP_EOL;
         $expected .= '    <parameters>' . PHP_EOL;
+        $expected .= '        <parameter key="fake.home.external_stylesheets" type="collection">' . PHP_EOL;
+        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/reset.css</parameter>' . PHP_EOL;
+        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</parameter>' . PHP_EOL;
+        $expected .= '        </parameter>' . PHP_EOL;
+        $expected .= '        <parameter key="fake.home.external_javascripts" type="collection">' . PHP_EOL;
+        $expected .= '            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
+        $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '        <parameter key="fake.home.external_stylesheets.cms" type="collection">' . PHP_EOL;
         $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/cms_fix.css</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
@@ -189,15 +196,10 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake.theme.template_assets.home" class="%alpha_lemon_theme_engine.template_assets.class%">' . PHP_EOL;
         $expected .= '            <call method="setExternalStylesheets">' . PHP_EOL;
-        $expected .= '                <argument type="collection">' . PHP_EOL;
-        $expected .= '                    <argument>@BusinessWebsiteThemeBundle/Resources/public/css/reset.css</argument>' . PHP_EOL;
-        $expected .= '                    <argument>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</argument>' . PHP_EOL;
-        $expected .= '                </argument>' . PHP_EOL;
+        $expected .= '                <argument>%fake.home.external_stylesheets%</argument>' . PHP_EOL;
         $expected .= '            </call>' . PHP_EOL;
         $expected .= '            <call method="setExternalJavascripts">' . PHP_EOL;
-        $expected .= '                <argument type="collection">' . PHP_EOL;
-        $expected .= '                    <argument>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</argument>' . PHP_EOL;
-        $expected .= '                </argument>' . PHP_EOL;
+        $expected .= '                <argument>%fake.home.external_javascripts%</argument>' . PHP_EOL;
         $expected .= '            </call>' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
@@ -220,7 +222,7 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        </service>' . PHP_EOL;
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>';
-
+        
         $this->assertFileExists(vfsStream::url('root/template/home.xml'));
         $this->assertEquals($expected, file_get_contents(vfsStream::url('root/template/home.xml')));
 
