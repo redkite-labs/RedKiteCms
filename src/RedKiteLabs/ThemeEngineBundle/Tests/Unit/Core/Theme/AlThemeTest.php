@@ -44,6 +44,19 @@ class AlThemeTest extends TestCase
         $this->assertEquals('FakeBundle', $theme->getThemeName());
     }
 
+    public function testSetATemplate()
+    {
+        $template = $this->setUpTemplate();
+        $theme = $this->setUpTheme('FakeBundle', $template);
+        $otherTemplate = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $this->assertSame($template, $theme->getTemplate('home'));
+        $theme->setTemplate('home', $otherTemplate);
+        $this->assertNotSame($template, $theme->getTemplate('home'));
+        $this->assertSame($otherTemplate, $theme->getTemplate('home'));
+    }
+
     public function testAddATemplate()
     {
         $template = $this->setUpTemplate();
@@ -87,14 +100,14 @@ class AlThemeTest extends TestCase
         return $theme;
     }
 
-    private function setUpTemplate()
+    private function setUpTemplate($templateName = 'Home')
     {
         $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $template->expects($this->once())
             ->method('getTemplateName')
-            ->will($this->returnValue('Home'));
+            ->will($this->returnValue($templateName));
 
         return $template;
     }

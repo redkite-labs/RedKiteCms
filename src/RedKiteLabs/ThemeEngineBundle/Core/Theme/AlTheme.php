@@ -30,7 +30,6 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 {
     private $templates = array();
     private $themeName = null;
-    private $asset = null;
 
     /**
      * Constructor
@@ -68,9 +67,27 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     public function getTemplate($name)
     {
         $key = $this->normalizeKey($name);
-        if(!array_key_exists($key, $this->templates)) return null;
+        if ( ! $this->hasTemplate($name)) return null;
 
         return $this->templates[$key];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTemplate($key, AlTemplate $template)
+    {
+        $this->templates[$key] = $template;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasTemplate($name)
+    {
+        $key = $this->normalizeKey($name);
+
+        return array_key_exists($key, $this->templates);
     }
 
     /**

@@ -16,6 +16,8 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\Theme;
 
+use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
+
 /**
  * AlThemeInterface
  *
@@ -38,10 +40,27 @@ interface AlThemeInterface
     public function getTemplates();
 
     /**
+     * Checks if the given template exists for the current theme
+     *
+     * @param string  The name of the theme to retrieve
+     * @return Boolean
+     */
+    public function hasTemplate($name);
+
+    /**
+     * Sets the template for the given key
+     *
+     * @param string  The name of the template to set
+     * @param \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate  The template to set
+     * @return null | \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     */
+    public function setTemplate($key, AlTemplate $template);
+
+    /**
      * Returns the template from its name
      *
      * @param string  The name of the theme to retrieve
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return null | \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function getTemplate($name);
 }
