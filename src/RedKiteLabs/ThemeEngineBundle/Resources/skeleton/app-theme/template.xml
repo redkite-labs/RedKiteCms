@@ -3,20 +3,42 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+{% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0  %}
+{% set stylesheets = true %}
+{% else %}
+{% set stylesheets = false %}
+{% endif %}
+{% if assets.external_javascripts is defined and assets.external_javascripts|length > 0  %}
+{% set javascripts = true %}
+{% else %}
+{% set javascripts = false %}
+{% endif %}
 {% if assets.external_stylesheets_cms is defined and assets.external_stylesheets_cms|length > 0  %}
 {% set cms_stylesheets = true %}
 {% else %}
 {% set cms_stylesheets = false %}
 {% endif %}
-
 {% if assets.external_javascripts_cms is defined and assets.external_javascripts_cms|length > 0  %}
 {% set cms_javascripts = true %}
 {% else %}
 {% set cms_javascripts = false %}
 {% endif %}
-
-{% if cms_stylesheets or cms_javascripts %}
+{% if stylesheets or javascripts or cms_stylesheets or cms_javascripts %}
     <parameters>
+{% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0 %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.external_stylesheets" type="collection">
+{% for asset in assets.external_stylesheets %}
+            <parameter>{% spaceless %}{{ asset }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
+{% if assets.external_javascripts is defined and assets.external_javascripts|length > 0 %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.external_javascripts" type="collection">
+{% for asset in assets.external_javascripts %}
+            <parameter>{% spaceless %}{{ asset }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
 {% if assets.external_stylesheets_cms is defined %}
         <parameter key="{{ extension_alias }}.{{ template_name }}.external_stylesheets.cms" type="collection">
 {% for asset in assets.external_stylesheets_cms %}
@@ -38,20 +60,12 @@
         <service id="{{ extension_alias }}.theme.template_assets.{{ template_name }}" class="%alpha_lemon_theme_engine.template_assets.class%">
 {% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0 %}
             <call method="setExternalStylesheets">
-                <argument type="collection">
-{% for asset in assets.external_stylesheets %}
-                    <argument>{% spaceless %}{{ asset }}{% endspaceless %}</argument>
-{% endfor %}
-                </argument>
+                <argument>%{{ extension_alias }}.{{ template_name }}.external_stylesheets%</argument>
             </call>
 {% endif %}
 {% if assets.external_javascripts is defined and assets.external_javascripts|length > 0 %}
             <call method="setExternalJavascripts">
-                <argument type="collection">
-{% for asset in assets.external_javascripts %}
-                    <argument>{% spaceless %}{{ asset }}{% endspaceless %}</argument>
-{% endfor %}
-                </argument>
+                <argument>%{{ extension_alias }}.{{ template_name }}.external_javascripts%</argument>
             </call>
 {% endif %}
         </service>
