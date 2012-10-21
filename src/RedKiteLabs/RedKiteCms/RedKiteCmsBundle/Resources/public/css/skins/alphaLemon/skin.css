@@ -96,15 +96,13 @@
   font-weight: normal;
   color: #525252;
   background-color: white;
-  -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  -o-border-radius: 10px;
+  -moz-border-radius: 10px;
   -ms-border-radius: 10px;
-  -khtml-border-radius: 10px;
+  -o-border-radius: 10px;
   border-radius: 10px;
-  -moz-box-shadow: #666666 6px 6px 6px;
   -webkit-box-shadow: #666666 6px 6px 6px;
-  -o-box-shadow: #666666 6px 6px 6px;
+  -moz-box-shadow: #666666 6px 6px 6px;
   box-shadow: #666666 6px 6px 6px;
 }
 #al_cms_background p {
@@ -129,6 +127,11 @@
   color: #cccccc;
   font: normal 14px/16px Arial, Verdana, Helvetica, sans-serif;
 }
+#al_toolbar ul {
+  padding: 0;
+  margin: 0;
+  margin-top: 1px;
+}
 #al_toolbar li {
   display: inline;
   padding: 6px;
@@ -136,11 +139,10 @@
 }
 #al_toolbar li:hover {
   background-color: #4f4f4f;
-  -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
-  -o-border-radius: 8px;
+  -moz-border-radius: 8px;
   -ms-border-radius: 8px;
-  -khtml-border-radius: 8px;
+  -o-border-radius: 8px;
   border-radius: 8px;
 }
 #al_toolbar a {
@@ -154,19 +156,24 @@
   margin-right: 20px;
 }
 #al_toolbar .small_logo {
-  padding: 5px 0;
+  margin-top: 4px;
+}
+#al_toolbar table {
+  margin: 0;
+  padding: 2px;
+}
+#al_toolbar td {
+  margin: 0;
+  padding: 4px;
+  padding-top: 8px;
+  min-width: 10px;
+}
+#al_toolbar select {
+  margin-top: -4px;
 }
 
 #al_menu {
-  padding: 8px;
-}
-#al_menu ul {
   padding: 0;
-  margin: 0;
-}
-
-#al_navigator {
-  padding: 5px;
 }
 
 .input, .textarea {
@@ -179,11 +186,10 @@
   border: 1px solid #cccccc;
   background-color: white;
   cursor: pointer;
-  -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
-  -o-border-radius: 3px;
+  -moz-border-radius: 3px;
   -ms-border-radius: 3px;
-  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
   border-radius: 3px;
   cursor: pointer;
 }
@@ -256,9 +262,8 @@
   border: 1px solid #cccccc;
   margin-bottom: 10px;
   padding: 2px;
-  -moz-box-shadow: #999999 3px 3px 3px;
   -webkit-box-shadow: #999999 3px 3px 3px;
-  -o-box-shadow: #999999 3px 3px 3px;
+  -moz-box-shadow: #999999 3px 3px 3px;
   box-shadow: #999999 3px 3px 3px;
 }
 #al_panel_contents .al_panel_note {
@@ -344,15 +349,13 @@
 
 .al_panel_box {
   border: 1px solid #525252;
-  -moz-box-shadow: #999999 3px 3px 3px;
   -webkit-box-shadow: #999999 3px 3px 3px;
-  -o-box-shadow: #999999 3px 3px 3px;
+  -moz-box-shadow: #999999 3px 3px 3px;
   box-shadow: #999999 3px 3px 3px;
-  -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
-  -o-border-radius: 8px;
+  -moz-border-radius: 8px;
   -ms-border-radius: 8px;
-  -khtml-border-radius: 8px;
+  -o-border-radius: 8px;
   border-radius: 8px;
   margin: 10px 0;
 }
@@ -360,11 +363,10 @@
 .al_panel_box h3 {
   border-bottom: 1px solid #525252;
   background-color: #afafaf;
-  -moz-border-radius: 8px 8px 0 0;
   -webkit-border-radius: 8px 8px 0 0;
-  -o-border-radius: 8px 8px 0 0;
+  -moz-border-radius: 8px 8px 0 0;
   -ms-border-radius: 8px 8px 0 0;
-  -khtml-border-radius: 8px 8px 0 0;
+  -o-border-radius: 8px 8px 0 0;
   border-radius: 8px 8px 0 0;
   padding: 2px;
   margin: 0;
@@ -430,20 +432,18 @@
 }
 .al_images_list .al_image img {
   border: 5px solid #c9c9c9;
-  -moz-border-radius: 6px 6px 6px 6px;
   -webkit-border-radius: 6px 6px 6px 6px;
-  -o-border-radius: 6px 6px 6px 6px;
+  -moz-border-radius: 6px 6px 6px 6px;
   -ms-border-radius: 6px 6px 6px 6px;
-  -khtml-border-radius: 6px 6px 6px 6px;
+  -o-border-radius: 6px 6px 6px 6px;
   border-radius: 6px 6px 6px 6px;
 }
 .al_images_list .al_image_selected img {
   border: 5px solid #ff9900;
-  -moz-border-radius: 6px 6px 6px 6px;
   -webkit-border-radius: 6px 6px 6px 6px;
-  -o-border-radius: 6px 6px 6px 6px;
+  -moz-border-radius: 6px 6px 6px 6px;
   -ms-border-radius: 6px 6px 6px 6px;
-  -khtml-border-radius: 6px 6px 6px 6px;
+  -o-border-radius: 6px 6px 6px 6px;
   border-radius: 6px 6px 6px 6px;
 }
 
@@ -544,17 +544,33 @@
 #al_active_theme {
   width: 250px;
   height: 500px;
-  padding: 4px;
+  padding: 10px;
   background-color: white;
   color: #525252;
   position: fixed;
-  top: 75px;
+  top: 47px;
   z-index: 9900000;
   overflow: auto;
+  font-style: normal;
 }
 
 #al_slots {
+  width: 100%;
   min-height: 480px;
+  margin-top: 10px;
+}
+#al_slots table {
+  margin: 0;
+}
+#al_slots td {
+  margin: 0;
+  font-style: normal 14px/16px Arial, Verdana, Helvetica, sans-serif;
+  line-height: 16px;
+}
+
+.al_active_templates_caption {
+  font-style: italic;
+  margin-right: 6px;
 }
 
 .al_slot_active {
@@ -562,11 +578,24 @@
 }
 
 .al_slot_mapped {
-  border: 2px dotted #0000c2;
+  border: 2px dotted #669933;
 }
 
 .al_slot_assigned {
   color: #999999;
+  font-style: italic;
+}
+
+.al_caption {
+  font-weight: bold;
+  margin: 6px 0;
+}
+
+.al_current_theme {
+  margin: 0;
+}
+
+#al_current_theme, #al_current_template {
   font-style: italic;
 }
 

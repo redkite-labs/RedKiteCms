@@ -14,23 +14,48 @@
 #al_active_theme
     :width 250px
     :height 500px
-    :padding 4px
+    :padding 10px
     :background-color #fff
     :color #525252
     :position fixed
-    :top 75px
+    :top 47px
     :z-index 9900000
     :overflow auto
+    :font-style normal
 
 #al_slots
+    :width 100%
     :min-height 480px
+    :margin-top 10px
+
+    table
+        :margin 0
+
+    td
+        :margin 0
+        :font-style $toolbarFont
+        :line-height 16px
+
+.al_active_templates_caption
+    :font-style italic
+    :margin-right 6px
 
 .al_slot_active
     :border 1px dotted #C20000
 
 .al_slot_mapped
-    :border 2px dotted #0000C2
+    :border 2px dotted #669933
 
 .al_slot_assigned
     :color #999
     :font-style italic
+
+.al_caption
+    :font-weight bold
+    :margin 6px 0
+
+.al_current_theme
+    :margin 0
+
+#al_current_theme, #al_current_template
+    :font-style italic  
