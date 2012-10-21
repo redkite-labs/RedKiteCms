@@ -14,13 +14,15 @@
 #}
 
 {% for template_name, template in active_theme_templates %}
-    <div id="al_map_{{ template_name }}" class="al_hidden">
-        <table>
+    <div id="al_map_{{ template_name }}" class="al_template al_items_list al_hidden">
+        <table width="100%">
             {% for slot_name in template %}
-            <tr>
-                <td id="al_slot_{{ template_name }}_{{ slot_name }}" class="al_slot" rel="{{ template_name }}_{{ slot_name }}">{{ slot_name }}</td>
-                <td id="al_locker_{{ template_name }}_{{ slot_name }}" class="al_locker al_hidden">LK</td>
+            {% if slot_name != "" %}
+            <tr class="{{ cycle(['alternate_row', 'row'], loop.index) }}">
+                <td id="al_slot_{{ template_name }}_{{ slot_name }}" class="al_slot" rel="{{ template_name }}_{{ slot_name }}" width="95%">{{ slot_name }}</td>
+                <td  width="5%"><div id="al_locker_{{ template_name }}_{{ slot_name }}" class="al_locker al_hidden">LK</div></td>
             </tr>
+            {% endif %}
             {% endfor %}
         </table>
     </div>

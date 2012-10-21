@@ -147,32 +147,52 @@
 #}
 
 <div id="al_toolbar">
-    <div class="al_float_left al_boxes_margins small_logo"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></div>
+    <div class="al_float_left al_boxes_margins">
+        <table>
+            <tr>
+                <td><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></td>
+            </tr>
+        </table>
+    </div>
     <div id="al_menu" class="al_float_left">
-        <ul>
-            <li><a href="#" id="al_start_editor">Edit</a></li>
-            <li><a href="#" id="al_stop_editor">Stop</a></li>
-            <li><a href="#" id="al_open_pages_panel">Pages</a></li>
-            <li><a href="#" id="al_open_languages_panel">Languages</a></li>
-            <li><a href="#" id="al_open_themes_panel">Themes</a></li>
-            <li><a href="#" id="al_open_media_library">Media Library</a></li>
-            <li><a href="#" id="al_deploy_site">Deploy</a></li>
-            {% if is_secure %}
-                <li><a href="#" id="al_open_users_manager">Users</a></li>
-                <li><a href="#" id="al_logout">Logout</a></li>
-            {% endif %}
-        </ul>
+        <table>
+            <tr>
+                <td>
+                    <ul>
+                        <li><a href="#" id="al_start_editor">Edit</a></li>
+                        <li><a href="#" id="al_stop_editor">Stop</a></li>
+                        <li><a href="#" id="al_open_pages_panel">Pages</a></li>
+                        <li><a href="#" id="al_open_languages_panel">Languages</a></li>
+                        <li><a href="#" id="al_open_themes_panel">Themes</a></li>
+                        <li><a href="#" id="al_open_media_library">Media Library</a></li>
+                        <li><a href="#" id="al_deploy_site">Deploy</a></li>
+                        {% if is_secure %}
+                            <li><a href="#" id="al_open_users_manager">Users</a></li>
+                            <li><a href="#" id="al_logout">Logout</a></li>
+                        {% endif %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
     </div>
     <div id="al_navigator" class="al_float_right al_boxes_margins">
-        Navigate
-        <span id="al_languages_navigator_box">
-        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'selected' : language}  %}
-        </span>
-        <span id="al_pages_navigator_box">
-        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'selected' : page}  %}
-        </span>
-        Languages
-        {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages}  %}
+        <table>
+            <tr>
+                <td>Navigate</td>
+                <td>
+                    <span id="al_languages_navigator_box">
+                    {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'selected' : language}  %}
+                    </span>
+                </td>
+                <td>
+                    <span id="al_pages_navigator_box">
+                    {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'selected' : page}  %}
+                    </span>
+                </td>
+                <td>Languages</td>
+                <td>{% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages}  %}</td>
+            </tr>
+        </table>
     </div>
     <div style="clear:both;"></div>
 </div>
