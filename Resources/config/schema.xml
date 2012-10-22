@@ -159,4 +159,21 @@
         <parameter name="AutoIncrement" value="1"/>
     </vendor>
   </table>
+  
+  <table name="al_locked_resource" idMethod="native">
+    <column name="resource_name" type="VARCHAR" size="128" required="true" primaryKey="true" />
+    <column name="user_id" type="INTEGER" required="true" />    
+    <column name="updated_at" type="timestamp" default="1975-08-17 12:30:12" required="true" />
+    <unique name="I_RESOURCE_NAME">
+      <unique-column name="resource_name" />
+    </unique>
+    <unique name="I_USER_ID">
+      <unique-column name="user_id" />
+    </unique>
+
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+    </vendor>
+  </table>
 </database>
