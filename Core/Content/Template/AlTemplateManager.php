@@ -90,6 +90,7 @@ class AlTemplateManager extends AlTemplateBase
     public function setTemplate(AlTemplate $template)
     {
         $this->template = $template;
+        $this->slotManagers = array();
 
         return $this;
     }
@@ -109,7 +110,7 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the current AlTemplateSlots object
      *
      *
-     * @param  AlTemplateSlotsInterface                                                $templateSlots
+     * @param  AlTemplateSlotsInterface $templateSlots
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function setTemplateSlots(AlTemplateSlotsInterface $templateSlots)
@@ -387,7 +388,7 @@ class AlTemplateManager extends AlTemplateBase
         if (null === $this->template) return;
 
         $templateSlots = $this->template->getTemplateSlots();
-
+        
         if (null === $templateSlots) {
             throw new General\ParameterIsEmptyException("Any template has been set");
         }
