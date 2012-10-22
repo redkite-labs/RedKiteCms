@@ -16,9 +16,11 @@
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTreePreview;
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks;
+use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 
 class ThemePreviewController extends AlCmsController
 {
@@ -27,7 +29,6 @@ class ThemePreviewController extends AlCmsController
 
     public function previewThemeAction($languageName, $pageName, $themeName, $templateName)
     {
-        //$request = $this->container->get('request');
         $this->kernel = $this->container->get('kernel');
         $themes = $this->container->get('alpha_lemon_theme_engine.themes');
         $theme = $themes->getTheme($themeName);
@@ -59,7 +60,7 @@ class ThemePreviewController extends AlCmsController
         $this->container->set('alpha_lemon_cms.page_tree', $this->pageTree);
 
         $twigTemplate = $this->findTemplate($this->pageTree);
-        $params = array(
+        $baseParams = array(
             'template' => $twigTemplate,
             'skin_path' => $this->getSkin(),
             'theme_name' => $themeName,
@@ -74,7 +75,7 @@ class ThemePreviewController extends AlCmsController
             'frontController' => $this->getFrontcontroller(),
         );
 
-        $params = array_merge($params, $this->loadActiveTheme($languageName));
+        $params = array_merge($baseParams, $this->renderActiveThemePanel($languageName));
 
         return $this->render('AlphaLemonCmsBundle:Preview:index.html.twig', $params);
     }
@@ -83,78 +84,103 @@ class ThemePreviewController extends AlCmsController
     {
         $request = $this->container->get('request');
 
-        $activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
         $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $pagesRepository = $factoryRepository->createRepository('Page');
-        $blocksRepository = $factoryRepository->createRepository('Block');
-
-        $error = "";
+        
+        $message = "";
+        $repeatedSlots = array();
         $data = array();
-        parse_str($request->get('data'), $data);//print_R($data);exit;
-        $pagesRepository->startTransaction();
-        foreach($data['templates'] as $template)
-        {
-            if ( ! isset($template['slots']) || ($template['slots']) == 0) {
-                break;
-            }
-
-            $pages = $pagesRepository->fromTemplateName($template["old_template"]);
-
-            foreach ($pages as $page) {
-                $pageManager->set($page);
-                if (false === $pageManager->save(array('TemplateName' => $template["new_template"]))) {
-                    $error = sprintf('An error occoured when saving the template "%s" for the page "%s". Operation aborted', $template, $page->getPageName());
-                    break;
+        parse_str($request->get('data'), $data); 
+        if (array_key_exists('templates', $data)) {
+            $pagesRepository->startTransaction();
+            foreach($data['templates'] as $template)
+            {
+                if ( ! isset($template['slots']) || count($template['slots']) == 0) {
+                    continue;
                 }
 
-                foreach($template['slots'] as $slot)
-                {
-                    $prevSlotName = str_replace('al_slot_' . $template["old_template"] . '_', '', $slot['slot_placeholder']);
-                    $newSlotName = str_replace('al_map_', '', $slot['slot']);
-                    if ($prevSlotName != $newSlotName) {
-                        $blocks = $blocksRepository->retrieveContents(null, array(1, $page->getId()), $prevSlotName);
-                        foreach($blocks as $block)
-                        {
-                            $blocksFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
-                            $blockManager = $blocksFactory->createBlockManager($block);
-                            if (false === $blockManager->save(array('SlotName' => $newSlotName))) {
-                                $error = sprintf('An error occoured when changing the slot "%s" to the new one "%s" on the template "%s" for the page "%s". Operation aborted', $newSlotName, $prevSlotName, $template, $page->getPageName());
-                                break;
-                            }
+                if ($template["old_template"] == 'repeated_slots') {
+                    $repeatedSlots = $template["slots"];
+
+                    continue;
+                }
+                
+                $pages = $pagesRepository->fromTemplateName($template["old_template"]);
+                foreach ($pages as $page) {
+                    if ($template["new_template"] != $template["old_template"]) {
+                        $pageManager->set($page);
+                        if (false === $pageManager->save(array('TemplateName' => $template["new_template"]))) {
+                            $message = sprintf('An error occoured when saving the template "%s" for the page "%s". Operation aborted', $template["new_template"], $page->getPageName());
+                            break;
                         }
                     }
 
-                    if ( ! empty($error)) {
+                    if ( ! $this->changeBlockSlots($template["old_template"], $template['slots'], $page->getId(), $factoryRepository))
+                    {
+                        $message = sprintf('An error occoured when changing a slot on the template "%s". Operation aborted', $template["new_template"], $page->getPageName());
                         break;
                     }
                 }
-                if ( ! empty($error)) {
-                    break;
+            }
+            
+            if (count($repeatedSlots) > 0 && ! $this->changeBlockSlots('repeated_slots', $repeatedSlots, 1, $factoryRepository))
+            {
+                $message = sprintf('An error occoured when changing a repeated slot on the template "%s". Operation aborted', $template["new_template"]);
+            }
+
+            if (empty($message)) {
+                $pagesRepository->commit();
+
+                $activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
+                $activeTheme->writeActiveTheme($data['theme']);
+
+                $message = 'The new theme has been activated';
+            }
+            else {
+                $pagesRepository->rollback();
+            }
+        }
+        else {
+            $message = 'No mapping has been created. Operation aborted';
+        }
+        
+        $response = new Response();
+
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);
+    }
+
+    protected function changeBlockSlots($template, $slots, $pageId, $factoryRepository)
+    {
+        $result = true;
+        $blocksFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+        $blocksRepository = $factoryRepository->createRepository('Block');
+        foreach($slots as $slot)
+        {
+            $prevSlotName = str_replace('al_slot_' . $template . '_', '', $slot['slot_placeholder']);
+            $newSlotName = str_replace('al_map_', '', $slot['slot']);
+            if ($prevSlotName != $newSlotName) {
+                $blocks = $blocksRepository->retrieveContents(null, $pageId, $prevSlotName);
+                foreach($blocks as $block)
+                {
+                    $blockManager = $blocksFactory->createBlockManager($block);
+                    if (false === $blockManager->save(array('SlotName' => $newSlotName))) {
+                        $result = false;
+                        break;
+                    }
                 }
             }
 
+            if ( ! $result) {
+                break;
+            }
         }
 
-
-
-        if (empty($error)) {
-            $pagesRepository->commit();
-        }
-        else {
-            $pagesRepository->rollback();
-        }
-
-        $response = new Response();
-
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $error), $response);
+        return $result;
     }
 
-    public function loadActiveTheme($languageName)
+    protected function renderActiveThemePanel($languageName)
     {
-        //$request = $this->container->get('request');
-        //$languageName = $request->get('language');
-
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $blocksRepository = $factoryRepository->createRepository('Block');
         $languagesRepository = $factoryRepository->createRepository('Language');
@@ -163,46 +189,79 @@ class ThemePreviewController extends AlCmsController
         $language = $languagesRepository->fromLanguageName($languageName);
         $languageId = $language->getId();
 
-        $templates = array();
-        $blockManagers = array();
-        $blocksFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+        $newThemeTemplates = array();
+        $newBlockManagers = array();
         $activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
         $themes = $this->container->get('alpha_lemon_theme_engine.themes');
         $theme = $themes->getTheme($activeTheme->getActiveTheme());
         foreach ($theme->getTemplates() as $template) {
             $templateName = $template->getTemplateName();
             $page = $pagesRepository->fromTemplateName($templateName, true);
-            $blocks = $blocksRepository->retrieveContents(array(1, $languageId), array(1, $page->getId()));
-            $templates[$templateName] = array();
-            foreach($blocks as $block) {
-                $slotName = $block->getSlotName();
-                $blockManager = $blocksFactory->createBlockManager($block);
-                $key = $templateName . '_' . $slotName;
-                $blockManagers[$key] = $blockManager;
-                $templates[$templateName][] = $slotName;
+            if (null !== $page) {
+                $blocks = $blocksRepository->retrieveContents($languageId, $page->getId());
+                $values = $this->fetchActiveThemeElements($templateName, $blocks);
+                $newThemeTemplates = array_merge($newThemeTemplates, $values['templates']);
+                $newBlockManagers = array_merge($newBlockManagers, $values['block_managers']);
             }
         }
+
+        $blocks = $blocksRepository->retrieveContents(null, 1);
+        $values = $this->fetchActiveThemeElements('repeated_slots', $blocks);
+        $templates = array_merge($newThemeTemplates, $values['templates']);
+        $blockManagers = array_merge($newBlockManagers, $values['block_managers']);
 
         return array(
             'active_theme_templates' => $templates,
             'block_managers' => $blockManagers,
         );
-
-
-//$this->render('AlphaLemonCmsBundle:Preview:active_theme.html.twig', array('templates' => $templates, 'block_managers' => $blockManagers));
     }
 
-    protected function fetchSlotContents($template)
+    protected function fetchActiveThemeElements($templateName, $blocks)
     {
         $blocksFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+        $blockManagers = array();
+        $templates = array();
+        $templates[$templateName] = array();
+
+        // Aggregates the blocks by slot name
+        $blocksAggregateBySlotName = array();
+        foreach ($blocks as $block) {
+            $blocksAggregateBySlotName[$block->getSlotName()][] = $block;
+        }
+
+        foreach($blocksAggregateBySlotName as $slotName => $blocks) {
+            $block = clone($blocks[0]);
+            $content = implode("", array_map(function($b){ return $b->getContent(); }, $blocks));
+            if (preg_match('/\<script/s', $content)) {
+                $content = "This block contains a script block and it is not renderable in preview mode";
+            }
+            $block->setContent($content);
+
+            $blockManager = $blocksFactory->createBlockManager($block);
+            $key = $templateName . '_' . $slotName;
+            $blockManagers[$key] = $blockManager;
+            $templates[$templateName][] = $slotName;
+        }
+
+        return array(
+            'templates' => $templates,
+            'block_managers' => $blockManagers,
+        );
+    }
+
+    protected function fetchSlotContents(AlTemplate $template)
+    {
+        $blocksFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $blocksRepository = $factoryRepository->createRepository('Block');
         $slots = $template->getSlots();
         $slotContents = array();
         foreach ($slots as $slot) {
             $blockType = $slot->getBlockType();
             $blockManager = $blocksFactory->createBlockManager($blockType);
 
-            // TODO
-            $block = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock();
+            $blockClass = $blocksRepository->getRepositoryObjectClassName();
+            $block = new $blockClass();
             $block->setType($blockType);
             $block->setSlotName($slot->getSlotName());
             $content = $slot->getContent();
