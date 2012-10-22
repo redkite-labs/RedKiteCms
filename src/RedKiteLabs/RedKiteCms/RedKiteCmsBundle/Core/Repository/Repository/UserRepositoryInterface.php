@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
 
 /**
- * Defines the methods used to fetch language records
+ * Defines the methods used to fetch user records
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
