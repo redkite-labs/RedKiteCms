@@ -23,6 +23,7 @@
             {
                 $(this).SaveTemplateMapping();
                 var template = $('#al_templates_selector option:selected').text();
+
                 location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/al_previewTheme/' + $('#al_referal_language').text() + '/' + $('#al_referal_page').text() + '/' +  $('#al_current_theme').text() + '/' + template;
             });
         });
@@ -36,25 +37,32 @@
         {
             $(this).change(function()
             {
-                var storageKey = getCurrentStorageTemplateName();
-                if (localStorage[storageKey] != null) {
-                    if (!confirm("Changing the template when a current mappin is active, will destroy that map: are you sure to continue?")) {                        
+                var template = $('#al_active_template_selector option:selected').text();
+                var storageKey = getCurrentTemplateStorageKey();
+                if (localStorage[storageKey] != null &&
+                    $('#al_active_template_selector').data('active') != null &&
+                    $('#al_active_template_selector').data('active') != 'repeated_slots' &&
+                    template != 'repeated_slots'
+                ) {
+                    if (!confirm("Changing the template when a current mappin is active, will destroy that map: are you sure to continue?")) {
+                        $('#al_active_template_selector').val($('#al_active_template_selector').data('active'));
+
                         return;
                     }
-                    
+
                     $('.al_locker').each(function() {
                         $(this).DoUnlockSlot();
                     });
-                    
+
                     localStorage.removeItem(storageKey);
                 }
 
-                $('#al_slots').find(':visible').each(function() {
+                $('.al_template').each(function() {
                     $(this).hide();
                 });
 
-                var template = $('#al_active_template_selector option:selected').text();
                 $('#al_map_' + template).show();
+                $('#al_active_template_selector').data('active', $('#al_active_template_selector option:selected').text());
             });
         });
 
@@ -84,7 +92,7 @@
                 if ($(this).attr('id') != slotActive.attr('id')) {
                     $(this).addClass('al_slot_active').data('content', $(this).html());
                 }
-                
+
                 return false;
             });
         });
@@ -114,6 +122,9 @@
                     element
                         .removeClass('al_slot_active')
                         .addClass('al_slot_mapped');
+                    if ($('#al_active_template_selector option:selected').text() == 'repeated_slots') {
+                        element.addClass('al_slot_repeated');
+                    }
 
                     $(this)
                         .addClass('al_slot_assigned')
@@ -123,10 +134,10 @@
                     $("#al_locker_" + key)
                         .attr('rel', key)
                         .show();
-                        
+
                     $('body').SaveTemplateMapping();
                 }
-                
+
                 return false;
             });
         });
@@ -140,20 +151,24 @@
         {
             $(this).click(function()
             {
-                $(this).DoUnlockSlot();                
+                $(this).DoUnlockSlot();
                 $('body').SaveTemplateMapping();
-                
+
                 return false;
             });
         });
 
         return this;
     };
-    
+
     $.fn.DoUnlockSlot =function()
     {
         var slotPlaceholder = $("#al_slot_" + $(this).attr('rel'));
         var slot = $("#" + slotPlaceholder.data('mapped_slot'));
+        if ($('#al_active_template_selector option:selected').text() != 'repeated_slots' && slot.hasClass('al_slot_repeated'))
+        {
+            return this;
+        }
 
         $(slotPlaceholder)
             .removeClass('al_slot_assigned')
@@ -180,58 +195,61 @@
             if ($(this).hasClass('al_slot_assigned')) {
                 var slotName = $(this).data('mapped_slot');
                 var mappedSlot = $("#" + slotName);
+                var repeated = $(mappedSlot).hasClass('al_slot_repeated');
                 var slot = {
                     'slot_placeholder': $(this).attr('id'),
                     'slot': slotName,
-                    'default_content': mappedSlot.data('content')
+                    'default_content': mappedSlot.data('content'),
+                    'repeated': repeated
                 };
 
                 slotData[c] = slot;
                 c++;
             }
-
-/*                 if (Modernizr.localstorage) {
-// window.localStorage is available!
-} else {
-// no native support for HTML5 storage :(
-// maybe try dojox.storage or a third-party solution
-}*/
         });
 
         var data = {
             'new_template' : newTemplate,
-            'old_template' : oldTemplate,            
+            'old_template' : oldTemplate,
             'slots' : slotData
         };
-        var storageKey = getCurrentStorageTemplateName();
+        var storageKey = (oldTemplate != 'repeated_slots') ? getCurrentTemplateStorageKey() : getRepeatedSlotStorageKey();
         localStorage[storageKey] = JSON.stringify(data);
-        console.log(localStorage[storageKey]);
     };
 
-    $.fn.RestoreTemplateMapping =function()
+    $.fn.RestoreTemplateMapping =function(storageKey)
     {
-        var storageKey = getCurrentStorageTemplateName();
         var data = localStorage[storageKey];
         if (data != null) {
             data = JSON.parse(data);
 
-            $('#al_active_template_selector').val(data.old_template);
-            $('#al_map_' + data.old_template).show();
+            if(storageKey != getRepeatedSlotStorageKey()) {
+
+                $('#al_active_template_selector').data('active', data.old_template).val(data.old_template);
+                $('#al_map_' + data.old_template).show();
+            }
+
             $(data.slots).each(function(key, value) {
                 $('#' + value.slot_placeholder)
                     .addClass('al_slot_assigned')
                     .data('mapped_slot', value.slot)
                 ;
 
-                var slotKey = $('#' + value.slot_placeholder).attr('rel');
-                $('#' + value.slot)
-                    .addClass('al_slot_mapped')
-                    .data('content', value.default_content)
-                    .html($('#' + slotKey).html())
-                ;
-                $('#al_locker_' + slotKey)
-                    .attr('rel', slotKey)
-                    .show();
+                if ($('#' + value.slot).length > 0) {
+                    var slotKey = $('#' + value.slot_placeholder).attr('rel');
+                    $('#' + value.slot)
+                        .addClass('al_slot_mapped')
+                        .data('content', value.default_content)
+                        .html($('#' + slotKey).html())
+                    ;
+                    if (value.repeated) {
+                        $('#' + value.slot).addClass('al_slot_repeated')
+                    }
+
+                    $('#al_locker_' + slotKey)
+                        .attr('rel', slotKey)
+                        .show();
+                }
             });
         }
 
@@ -245,26 +263,33 @@
             $(this).click(function()
             {
                 var c = 0;
-                var templates = [];                
+                var templates = [];
                 $('#al_templates_selector option').each(function()
                 {
                     var templateName = $(this).val();
                     if (templateName != "") {
                         var storageKey = "alphalemon." + $('#al_current_theme').text() + "." + templateName;
                         var savedData = localStorage[storageKey];
-                        if (savedData != null) {                            
+                        if (savedData != null) {
                             savedData = JSON.parse(savedData);
                             templates[c] = savedData;
                             c++;
                         }
                     }
                 });
-                
+
+                var storageKey = getRepeatedSlotStorageKey();
+                var savedData = localStorage[storageKey];
+                if (savedData != null) {
+                    savedData = JSON.parse(savedData);
+                    templates[c] = savedData;
+                }
+
                 var obj = {
                     'theme': $('#al_current_theme').text(),
                     'templates': templates
                 };
-                
+
                 $.ajax({
                     type: 'POST',
                     url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_saveActiveTheme',
@@ -277,7 +302,15 @@
                     },
                     success: function(html)
                     {
-                        //$('#al_slots').html(html);
+                        // removes the active theme mapping from localStorage
+                        localStorage.removeItem(getRepeatedSlotStorageKey());
+                        $('#al_templates_selector option').each(function()
+                        {
+                            var storageKey = "alphalemon." + $('#al_current_theme').text() + "." + $(this).text();
+                            localStorage.removeItem(storageKey);
+                        });
+
+                        location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/' + $('#al_referal_page').text();
                     },
                     error: function(err)
                     {
@@ -289,40 +322,16 @@
                     }
                 });
             });
-            /*
-            $(this).click(function()
-            {
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_saveActiveTheme',
-                    data: {
-                        'language' : $('#al_referal_language').text()
-                    },
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(html)
-                    {
-                        //$('#al_slots').html(html);
-                    },
-                    error: function(err)
-                    {
-                        $('body').showDialog(err.responseText);
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
-
-                return false;
-            });*/
         });
     };
 })($);
 
-function getCurrentStorageTemplateName()
+function getRepeatedSlotStorageKey()
+{
+    return "alphalemon." + $('#al_current_theme').text() + ".repeated_slots";
+}
+
+function getCurrentTemplateStorageKey()
 {
     return "alphalemon." + $('#al_current_theme').text() + "." + getCurrentTemplateName();
 }
@@ -339,10 +348,10 @@ function ObserveThemesPreviewCommands()
         $('.al_template_slot').ActivateSlot();
         $('.al_slot').InjectContent();
         $('#al_active_template_selector').ShowTemplateSlots();
-        $('.al_locker').UnlockSlot();      
+        $('.al_locker').UnlockSlot();
         $('#al_save').SaveActiveTheme();
-        
-        $('body').RestoreTemplateMapping();
+
+        $('body').RestoreTemplateMapping(getRepeatedSlotStorageKey()).RestoreTemplateMapping(getCurrentTemplateStorageKey());
 
     } catch (e) {alert(e)}
 }
