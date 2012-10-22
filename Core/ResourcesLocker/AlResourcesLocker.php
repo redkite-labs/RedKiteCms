@@ -37,22 +37,46 @@ class AlResourcesLocker
         $this->lockedResourceRepository = $this->factoryRepository->createRepository('LockedResource');
     }
     
-    public function addResource($resource, $userId)
+    public function lockResource($userId, $resource)
     {
-        if ( ! $this->isResourceFree($resource)) {
-            throw new \InvalidArgumentException();
+        $resourceId = $this->fetchLockedResourceByUser($userId, $resource);
+        if (null === $resourceId) {
+            if ( ! $this->isResourceFree($resource)) {
+                throw new \InvalidArgumentException('Not free');
+            }
+            
+            $values = array(
+                'ResourceName' => $resource,
+                'UserId' => $userId,
+                'UpdatedAt' => Now(),
+            );
         }
-        
-        $values = array(
-            'ResourceName' => $resource,
-            'UserId' => $userId,
-            'UpdatedAt' => $resource,
-        );
-        //$this->lockedResourceRepository->
+        else {
+            $values = array(
+                'UpdatedAt' => Now(),
+            );
+        }
+            
+        $this->lockedResourceRepository->save($values);
+    }
+    
+    public function freeResource($resource)
+    {
+        $this->freeLockedResource($resource);
+    }
+    
+    public function freeExpiredResources()
+    {
+        $this->removeExpiredResources();
     }
     
     protected function isResourceFree($resource)
     {
         return (0 === $this->lockedResourceRepository->fromResourceName($resource, true)) ? true : false;
+    }
+    
+    protected function fetchResourceFromUser($userId, $resource)
+    {
+        return $this->lockedResourceRepository->fromResourceNameByUser($userId, $resource);
     }
 }
