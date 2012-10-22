@@ -68,9 +68,9 @@ class AlCmsController extends BaseFrontendController
         );
 
         if (null !== $pageTree) {
-           $template = $this->findTemplate($pageTree);
+            $template = $this->findTemplate($pageTree);
 
-           $params = array_merge($params, array(
+            $params = array_merge($params, array(
                 'metatitle' => $pageTree->getMetaTitle(),
                 'metadescription' => $pageTree->getMetaDescription(),
                 'metakeywords' => $pageTree->getMetaKeywords(),
