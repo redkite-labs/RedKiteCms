@@ -37,7 +37,7 @@ interface AlPageBlocksInterface
      * @param int $position The first element has a position equals to 0
      * @throws \InvalidArgumentException
      */
-    public function add($slotName, array $values, $position = null);
+    public function add($slotName, $value, $position = null);
 
     /**
      * Adds a range of blocks.

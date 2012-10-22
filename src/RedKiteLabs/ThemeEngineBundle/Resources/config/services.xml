@@ -20,6 +20,7 @@
             <parameter>version</parameter>
         </parameter>
 
+        <parameter key="alpha_lemon_theme_engine.page_tree.class">AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree</parameter>
         <parameter key="alpha_lemon_theme_engine.active_theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme</parameter>
         <parameter key="alpha_lemon_theme_engine.themes.class">AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
         <parameter key="alpha_lemon_theme_engine.theme.class">AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
@@ -34,6 +35,10 @@
         </service>
 
         <service id="alphalemon_theme_engine.active_theme" class="%alpha_lemon_theme_engine.active_theme.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="alphalemon_theme_engine.page_tree" class="%alpha_lemon_theme_engine.page_tree.class%">
             <argument type="service" id="service_container"></argument>
         </service>
     </services>

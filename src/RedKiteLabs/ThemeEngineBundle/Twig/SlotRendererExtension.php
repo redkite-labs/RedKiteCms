@@ -42,11 +42,15 @@ class SlotRendererExtension extends \Twig_Extension
         {
             $result = '';
 
-            if (!$this->container->has('alpha_lemon_cms.page_tree')) {
+            if (!$this->container->has('alpha_lemon_theme_engine.page_tree')) {
                 return $result;
             }
 
-            $slotContents = $this->container->get('alpha_lemon_cms.page_tree')->getPageBlocks($slotName);
+            $slotContents = $this
+                ->container
+                ->get('alpha_lemon_theme_engine.page_tree')
+                ->getPageBlocks()
+                ->getSlotBlocks($slotName);
             if(count($slotContents) > 0)
             {
                 foreach($slotContents as $contents)

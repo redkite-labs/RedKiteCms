@@ -35,17 +35,18 @@ use AlphaLemon\ThemeEngineBundle\Core\PageTree\Exception\AnyValidArgumentGivenEx
 class AlPageBlocks implements AlPageBlocksInterface
 {
     protected $blocks = array();
-    protected $requiredParamsOptions = array('Content' => '');
+    //protected $requiredParamsOptions = array('Content' => '');
 
     /**
      * {@inheritdoc}
      */
-    public function add($slotName, array $values, $position = null)
+    public function add($slotName, $value, $position = null)
     {
+        /*
         $value = array_intersect_key($values, $this->requiredParamsOptions);
         if (empty($value)) {
             throw new AnyValidArgumentGivenException(sprintf('Any valid option have been given. Add was expecting "%s" but receives "%s"', implode(',', array_keys($this->requiredParamsOptions)), implode(',', array_keys($values))));
-        }
+        }*/
 
         if(null !== $position && array_key_exists($position, $this->blocks[$slotName]))
         {
@@ -55,7 +56,7 @@ class AlPageBlocks implements AlPageBlocksInterface
         {
             $this->blocks[$slotName][] = $value;
         }
-        
+
         return $this;
     }
 
@@ -82,7 +83,7 @@ class AlPageBlocks implements AlPageBlocksInterface
                 $this->blocks[$slotName] = null;
             }
         }
-        
+
         return $this;
     }
 
@@ -94,7 +95,7 @@ class AlPageBlocks implements AlPageBlocksInterface
         $this->checkSlotExists($slotName);
 
         $this->blocks[$slotName] = array();
-        
+
         return $this;
     }
 
@@ -106,7 +107,7 @@ class AlPageBlocks implements AlPageBlocksInterface
         foreach ($this->blocks as $slotName => $block) {
             $this->clearSlotBlocks($slotName);
         }
-        
+
         return $this;
     }
 
@@ -118,7 +119,7 @@ class AlPageBlocks implements AlPageBlocksInterface
         $this->checkSlotExists($slotName);
 
         unset($this->blocks[$slotName]);
-        
+
         return $this;
     }
 
@@ -128,7 +129,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     public function removeSlots()
     {
         $this->blocks = array();
-        
+
         return $this;
     }
 

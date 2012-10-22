@@ -31,9 +31,10 @@ use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
  *   - Slots
  *   - Contents
  *   - Assets
- *
- * @method     AlPageTree getExternalStylesheets() Returns the external stylesheets
- * @method     AlPageTree getInternalStylesheets() Returns the internal stylesheets
+ * @method     AlPageTree addExternalStylesheet() Returns the external stylesheets
+ * @method     AlPageTree addInternalStylesheet() Returns the internal stylesheets
+ * @method     AlPageTree addExternalStylesheets() Returns the external stylesheets
+ * @method     AlPageTree addInternalStylesheets() Returns the internal stylesheets
  * @method     AlPageTree getExternalJavascripts() Returns the external javascripts
  * @method     AlPageTree getInternalJavascripts() Returns the internal javascripts
  * @method     AlPageTree getMetaTitle() Returns the seo meta title
@@ -145,6 +146,22 @@ class AlPageTree
      */
     public function __call($name, $params)
     {
+        if(preg_match('/^(add)?(External)?([Styleshee|Javascrip]+t)$/', $name, $matches))
+        {
+            $method = $matches[0];
+            $this->getTemplate()->$method($params[0]);
+            
+            return $this;
+        }
+        
+        if(preg_match('/^(add)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
+        {
+            $method = $matches[0];
+            $this->getTemplate()->$method($params[0]);
+            
+            return $this;
+        }
+        
         if(preg_match('/^(get)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
         {
             return $this->getAssets($matches[0], strtolower($matches[3]), strtolower($matches[2]));
@@ -189,9 +206,11 @@ class AlPageTree
             $blocks = $this->pageBlocks->getBlocks();
             foreach ($blocks as $slotBlocks) {
                 foreach ($slotBlocks as $block) {
-                    $method = 'get'. ucfirst($type) . ucfirst($assetType);
-                    $method = substr($method, 0, strlen($method) - 1);
-                    $assetsCollection->addRange(explode(',', $block->$method()));
+                    $key = ucfirst($type) . ucfirst($assetType);
+                    $key = substr($key, 0, - 1);
+                    if (array_key_exists($key, $block)) {
+                        $assetsCollection->addRange(explode(',', $block[$key]));
+                    }
                 }
             }
 
@@ -221,7 +240,7 @@ class AlPageTree
             $originalAsset = $asset->getAsset();
             $assets[] = ($type == 'external') ? (empty($absolutePath)) ? $originalAsset : $absolutePath : $originalAsset;
         }
-
+        
         return $assets;
     }
 }
