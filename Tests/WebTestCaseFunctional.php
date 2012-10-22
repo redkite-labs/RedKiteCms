@@ -20,10 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page as Listener;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
@@ -146,6 +142,12 @@ abstract class WebTestCaseFunctional extends WebTestCase
 
         $alPageManager = new AlPageManager($eventsHandler, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
         foreach (self::$pages as $page) {
+            if (isset($page["TemplateName"]) && $page["TemplateName"] != "home")
+            {
+                $template = $theme->getTemplate($page["TemplateName"]);
+                $templateManager->setTemplate($template);
+                $alPageManager->setTemplateManager($templateManager);
+            }
             $alPageManager->set(null)->save($page);
         }
 
