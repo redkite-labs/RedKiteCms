@@ -17,7 +17,7 @@
           "url": "http://apps.alphalemon.com/"
       },
       {
-          "type": "vcs",
+          "type": "git",
           "url": "https://github.com/alphalemon/common"
       }
   ],
