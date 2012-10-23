@@ -25,6 +25,7 @@
         <parameter key="alpha_lemon_cms.commands_processor.class">AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor</parameter>
         <parameter key="alpha_lemon_cms.images_thumbnailer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
         <parameter key="alpha_lemon_cms.events_handler.class">AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler</parameter>
+        <parameter key="alpha_lemon_cms.resources_locker.class">AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker</parameter>        
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
@@ -143,6 +144,10 @@
         </service>
 
         <service id="alpha_lemon_cms.images_thumbnailer" class="%alpha_lemon_cms.images_thumbnailer.class%">
+        </service>
+        
+        <service id="alpha_lemon_cms.resources_locker" class="%alpha_lemon_cms.resources_locker.class%">
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
     </services>
 </container>

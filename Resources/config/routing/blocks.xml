@@ -4,9 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="_show_blocks_editor" pattern="/backend/{_locale}/al_showBlocksEditor">
+    <route id="_show_blocks_editor" pattern="/backend/{_locale}/al_showBlocksEditor/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Blocks:showBlocksEditor</default>
         <default key="_locale">en</default>
+        <default key="locked">idBlock</default>
+        <requirement key="_method">POST</requirement>
     </route>
 
     <route id="_add_block" pattern="/backend/{_locale}/addBlock">
@@ -21,9 +23,10 @@
         <requirement key="_method">POST</requirement>
     </route>
 
-    <route id="_delete_block" pattern="/backend/{_locale}/deleteBlock">
+    <route id="_delete_block" pattern="/backend/{_locale}/deleteBlock/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Blocks:deleteBlock</default>
         <default key="_locale">en</default>
+        <default key="locked">idBlock</default>
         <requirement key="_method">POST</requirement>
     </route>
 

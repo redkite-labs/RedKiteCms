@@ -17,6 +17,9 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
+
 /**
  * 
  *
@@ -25,58 +28,67 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker;
 class AlResourcesLocker
 {
     private $lockedResourceRepository;
+    private $expiringTime;
     
     /**
      * Constructor
      *
      * @param AlFactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(AlFactoryRepositoryInterface $factoryRepository, $expiringTime = 300)
     {
         $this->factoryRepository = $factoryRepository;
         $this->lockedResourceRepository = $this->factoryRepository->createRepository('LockedResource');
+        $this->expiringTime = $expiringTime;
     }
     
-    public function lockResource($userId, $resource)
+    public function lockResource($userId, $resourceName)
     {
-        $resourceId = $this->fetchLockedResourceByUser($userId, $resource);
-        if (null === $resourceId) {
-            if ( ! $this->isResourceFree($resource)) {
-                throw new \InvalidArgumentException('Not free');
+        $resource = $this->lockedResourceRepository->fromResourceNameByUser($userId, $resourceName);
+        if (null === $resource) {
+            if ( ! $this->isResourceFree($resourceName)) {
+                throw new ResourceNotFreeException('The resource you requested is locked by another user. Please retry in a couple of minutes');
             }
             
+            $resourceClass = $this->lockedResourceRepository->getRepositoryObjectClassName();
+            $resource = new $resourceClass();
             $values = array(
-                'ResourceName' => $resource,
+                'ResourceName' => $resourceName,
                 'UserId' => $userId,
-                'UpdatedAt' => Now(),
+                'CreatedAt' => time(),
+                'UpdatedAt' => time(),
             );
         }
         else {
             $values = array(
-                'UpdatedAt' => Now(),
+                'UpdatedAt' => time(),
             );
         }
             
-        $this->lockedResourceRepository->save($values);
+        $this->lockedResourceRepository
+             ->setRepositoryObject($resource)
+             ->save($values);
     }
     
-    public function freeResource($resource)
+    public function unlockUserResource($userId)
     {
-        $this->freeLockedResource($resource);
+        $this->lockedResourceRepository->freeUserResource($userId);
+    }
+    
+    public function freeResource($resourceName)
+    {
+        $this->lockedResourceRepository->freeLockedResource($resourceName);
     }
     
     public function freeExpiredResources()
     {
-        $this->removeExpiredResources();
+        $expiredTime = time() - $this->expiringTime;
+        
+        $this->lockedResourceRepository->removeExpiredResources($expiredTime);
     }
     
-    protected function isResourceFree($resource)
+    protected function isResourceFree($resourceName)
     {
-        return (0 === $this->lockedResourceRepository->fromResourceName($resource, true)) ? true : false;
-    }
-    
-    protected function fetchResourceFromUser($userId, $resource)
-    {
-        return $this->lockedResourceRepository->fromResourceNameByUser($userId, $resource);
+        return (null === $this->lockedResourceRepository->fromResourceName($resourceName, true)) ? true : false;
     }
 }

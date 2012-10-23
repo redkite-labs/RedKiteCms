@@ -55,7 +55,7 @@ class CmsBootstrapListener
         if (strpos($this->kernel->getEnvironment(), 'alcms') === false) {
             return;
         }
-
+        
         $this->setUpRequiredFolders();
         $this->setUpPageTree();
         $this->checkTemplatesSlots();

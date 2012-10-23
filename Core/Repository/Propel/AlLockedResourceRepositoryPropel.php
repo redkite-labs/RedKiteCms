@@ -17,9 +17,9 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\UserRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlLockedResource;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlLockedResourceQuery;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 
 /**
@@ -27,14 +27,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
  *
  *  @author alphalemon <webmaster@alphalemon.com>
  */
-class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepositoryInterface
+class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implements LockedResourceRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlUser';
+        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlLockedResource';
     }
 
     /**
@@ -42,38 +42,61 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlUser) {
-            throw new InvalidParameterTypeException('AlUserRepositoryPropel accepts only AlUser propel objects');
+        if (null !== $object && !$object instanceof AlLockedResource) {
+            throw new InvalidParameterTypeException('AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects');
         }
 
         return parent::setRepositoryObject($object);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function fromPK($id)
-    {
-        return AlUserQuery::create()
-                          ->findPk($id);
     }
     
     /**
      * {@inheritdoc}
      */
-    public function fromUserName($userName)
+    public function fromResourceName($resource)
     {
-        return AlUserQuery::create()
-                          ->filterByUserName($userName)
-                          ->findOne();
+       return AlLockedResourceQuery::create()
+                              ->filterByResourceName($resource)
+                              ->findOne();
     }
-
+    
     /**
      * {@inheritdoc}
      */
-    public function activeUsers()
+    public function fromResourceNameByUser($userId, $resource)
     {
-        return AlUserQuery::create()
-                          ->find();
+        return AlLockedResourceQuery::create()
+                               ->filterByUserId($userId)
+                               ->filterByResourceName($resource)
+                               ->findOne();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function freeLockedResource($resource)
+    {
+        AlLockedResourceQuery::create()
+                        ->filterByResourceName($resource)
+                        ->delete();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function removeExpiredResources($expiredTime)
+    {
+        AlLockedResourceQuery::create('a')
+                        ->where('a.UpdatedAt <= ?', $expiredTime)
+                        ->delete();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function freeUserResource($userId)
+    {
+        return AlLockedResourceQuery::create()
+                               ->filterByUserId($userId)
+                               ->delete();
     }
 }
