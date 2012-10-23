@@ -14,7 +14,7 @@
   "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.2",
-        "alphalemon/alphalemon-cms-bundle": "v1.0.0-beta3"
+        "alphalemon/alphalemon-cms-bundle": "dev-v1.0.0-beta"
     },
   "autoload": {
     "psr-0": {
