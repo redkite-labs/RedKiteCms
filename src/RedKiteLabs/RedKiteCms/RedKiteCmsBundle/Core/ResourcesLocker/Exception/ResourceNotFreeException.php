@@ -15,13 +15,13 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception;
 
 /**
- * Thrown when any language is added to the website
+ * Thrown when any a locked resource is not free
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AnyLanguageExistsException extends \RuntimeException
+class ResourceNotFreeException extends \RuntimeException
 {
 }

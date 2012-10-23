@@ -17,90 +17,71 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use Symfony\Component\Security\Core\SecurityContext;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
 /**
- * Bootstraps AlphaLemon CMS
+ * 
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class CmsBootstrapListener
+class ResourceFreeListener
 {
-    private $container;
-    private $kernel;
-    private $pageTree;
+    private $securityContext;
+    private $resourcesLocker;
 
     /**
      * Contructor
      *
-     * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(SecurityContext $securityContext, AlResourcesLocker $resourcesLocker)
     {
-        $this->container = $container;
-        $this->kernel = $container->get('kernel');
-        $this->pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+        $this->securityContext = $securityContext;
+        $this->resourcesLocker = $resourcesLocker;
     }
 
     /**
-     * Listen to onKernelRequest to check and configure AlphaLemon CMS
+     * Listen to onKernelRequest 
      *
      * @param GetResponseEvent $event
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (strpos($this->kernel->getEnvironment(), 'alcms') === false) {
-            return;
+        $token = $this->securityContext->getToken();
+        if (null !== $token) {
+            $user = $token->getUser();
+            if (null !== $user) {
+                $userId = $user->getId();
+                $this->resourcesLocker->freeExpiredResources();
+                $this->resourcesLocker->unlockUserResource($userId);
+
+                $request = $event->getRequest();
+                $locked = $request->get('locked');
+                if (null !== $locked) {
+                    $errorMessage = '';
+                    try {
+                        $key = (null !== $request->get($locked)) ? $locked . "=" . $request->get($locked) : $request->getUri() . '/locked';
+                        $this->resourcesLocker->lockResource($userId, md5($key));
+                    } catch(\PropelException $ex) {
+                        $errorMessage = 'The resource is not lockable because it was free but someone has locked it before you. This happens when two users tries to get a resource at the same time';
+                    } catch(ResourceNotFreeException $ex) {
+                        $errorMessage = $ex->getMessage();
+                    } catch(\Exception $ex) {
+                        $errorMessage = $ex->getMessage();
+                    }
+                    
+                    if ($errorMessage != "") {
+                        $response = new \Symfony\Component\HttpFoundation\Response();
+                        $response->setStatusCode('404');
+                        $response->setContent($errorMessage);
+                        
+                        $event->setResponse($response);
+                        $event->stopPropagation();
+                    }
+                }
+            }
         }
-
-        $this->setUpRequiredFolders();
-        $this->setUpPageTree();
-        $this->checkTemplatesSlots();
-    }
-
-    private function setUpRequiredFolders()
-    {
-        $folders = array();
-        $basePath = $this->locate($this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir'));
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
-
-        //$basePath = $this->locate('@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'));
-        $basePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
-        $folders[] = $basePath;
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
-
-        $fs = new Filesystem();
-        $fs->mkdir($folders);
-    }
-
-    private function locate($asset, $message = null)
-    {
-        $asset = new AlAsset($this->kernel, $asset);
-        $assetPath = $asset->getRealPath();
-
-        return $assetPath;
-    }
-
-    private function setUpPageTree()
-    {
-        $this->pageTree->setUp();
-    }
-
-    private function checkTemplatesSlots()
-    {
-        $template = $this->pageTree->getTemplate();
-        if (null === $template) {
-            return;
-        }
-
-        $slotsAligner = $this->container->get('alpha_lemon_cms.repeated_slots_aligner');
-        $slotsAligner->align($template->getThemeName(), $template->getTemplateName(), $template->getSlots());
     }
 }

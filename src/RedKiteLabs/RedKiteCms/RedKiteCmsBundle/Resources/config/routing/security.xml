@@ -19,33 +19,41 @@
         <default key="_locale">en</default>
     </route>
 
-    <route id="_user_list" pattern="/backend/users/{_locale}/al_userList">
+    <route id="_user_list" pattern="/backend/users/{_locale}/al_userList/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Security:listUsers</default>
         <default key="_locale">en</default>
+        <default key="locked"></default>
+        <requirement key="_method">POST</requirement>
     </route>
 
     <route id="_show_user" pattern="/backend/users/{_locale}/al_showUser">
         <default key="_controller">AlphaLemonCmsBundle:Security:showUser</default>
         <default key="_locale">en</default>
+        <requirement key="_method">POST</requirement>
     </route>
 
     <route id="_delete_user" pattern="/backend/users/{_locale}/al_deleteUser">
         <default key="_controller">AlphaLemonCmsBundle:Security:deleteUser</default>
         <default key="_locale">en</default>
+        <requirement key="_method">POST</requirement>
     </route>
 
-    <route id="_roles_list" pattern="/backend/users/{_locale}/al_rolesList">
+    <route id="_roles_list" pattern="/backend/users/{_locale}/al_rolesList/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Security:listRoles</default>
         <default key="_locale">en</default>
+        <default key="locked"></default>
+        <requirement key="_method">POST</requirement>
     </route>
 
     <route id="_show_role" pattern="/backend/users/{_locale}/al_showRole">
         <default key="_controller">AlphaLemonCmsBundle:Security:showRole</default>
         <default key="_locale">en</default>
+        <requirement key="_method">POST</requirement>
     </route>
 
     <route id="_delete_role" pattern="/backend/users/{_locale}/al_deleteRole">
         <default key="_controller">AlphaLemonCmsBundle:Security:deleteRole</default>
         <default key="_locale">en</default>
+        <requirement key="_method">POST</requirement>
     </route>
 </routes>

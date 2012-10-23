@@ -30,5 +30,13 @@ interface LockedResourceRepositoryInterface
      * @param int       The primary key
      * @return object The fetched object
      */
-    public function fromResourceName($resource, $returnNumberOfRecords = false);    
+    public function fromResourceName($resource);    
+    
+    public function fromResourceNameByUser($userId, $resource);    
+    
+    public function freeUserResource($userId);
+    
+    public function freeLockedResource($resource);    
+    
+    public function removeExpiredResources($expiredTime);  
 }
