@@ -156,7 +156,52 @@ function UpdateLanguagesJSon(response)
     });
 
     ObserveLanguages();
-};
+}
+
+function LoadLanguageAttributes(idLanguage)
+{
+    //$("#al_attributes_form").ResetFormElements();
+    $.ajax({
+        type: 'POST',
+        url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadLanguageAttributes',
+        data: {'languageId' : retrieveIdLanguage()},
+        beforeSend: function()
+        {
+            $('body').AddAjaxLoader();
+        },
+        success: function(response)
+        {
+            $(response).each(function(key, el)
+            {
+                switch(el.name)
+                {
+
+                    case '#languages_isMain':
+                        if(el.value == 1)
+                        {
+                            $(el.name).attr('checked', 'checked');
+                        }
+                        else
+                        {
+                            $(el.name).removeAttr("checked");
+                        }
+                        break;
+                    default:
+                        $(el.name).val(el.value);
+                        break;
+                }
+            });
+        },
+        error: function(err)
+        {
+            $('body').showDialog(err.responseText);
+        },
+        complete: function()
+        {
+            $('body').RemoveAjaxLoader();
+        }
+      });
+}
 
 function ObserveLanguages()
 {

@@ -21,7 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
 
 class LanguagesController extends ContainerAware
 {
@@ -100,6 +99,24 @@ class LanguagesController extends ContainerAware
 
             return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
         }
+    }
+    
+    public function loadLanguageAttributesAction()
+    {
+        $values = array();
+        $request = $this->container->get('request');
+        $languageId = $request->get('languageId');
+        if($languageId != 'none')
+        {
+            $alLanguage = $this->fetchLanguage($languageId);             
+            $values[] = array("name" => "#languages_language", "value" => $alLanguage->getLanguageName());
+            $values[] = array("name" => "#languages_isMain", "value" => $alLanguage->getMainLanguage());
+        }
+        
+        $response = new Response(json_encode($values));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     protected function buildJSonHeader($message)
