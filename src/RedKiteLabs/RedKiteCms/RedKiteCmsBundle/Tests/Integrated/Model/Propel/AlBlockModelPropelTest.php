@@ -29,7 +29,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     protected function setUp()
     {
         parent::setUp();
-
+        
         $container = $this->client->getContainer();
         $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
         $this->blockRepository = $factoryRepository->createRepository('Block');
@@ -85,19 +85,19 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveContentsRepeatedAtPageLevelBySlotName()
     {
         $blocks = $this->blockRepository->retrieveContentsBySlotName('right_sidebar_content');
-        $this->assertEquals(4, count($blocks));
+        $this->assertEquals(2, count($blocks));
     }
 
     public function testRetrieveContentsByLanguageId()
     {
         $blocks = $this->blockRepository->fromLanguageId(2);
-        $this->assertEquals(31, count($blocks));
+        $this->assertEquals(21, count($blocks));
     }
 
     public function testRetrieveAllContentsByLanguageId()
     {
         $blocks = $this->blockRepository->fromLanguageId(array(1, 2));
-        $this->assertEquals(33, count($blocks));
+        $this->assertEquals(23, count($blocks));
     }
 
     public function testRetrieveContentsByPageId()
@@ -127,12 +127,12 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text');
-        $this->assertCount(38, $blocks);
+        $this->assertCount(30, $blocks);
     }
 
     public function testRetrieveNumberOfContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text', 'count');
-        $this->assertEquals(38, $blocks);
+        $this->assertEquals(30, $blocks);
     }
 }
