@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `al_user` (
   `salt` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
   `ip` varchar(15) NOT NULL DEFAULT '127.0.0.1',
-  `created_at` datetime NOT NULL default '1975-08-17 12:30:12',
+  `created_at` datetime NOT NULL DEFAULT '1975-08-17 12:30:12',
   PRIMARY KEY (`id`),
   UNIQUE KEY `I_USERNAME` (`username`),
   KEY `role_id` (`role_id`)
@@ -82,3 +82,12 @@ CREATE TABLE IF NOT EXISTS `al_role` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `I_ROLENAME` (`role`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `al_locked_resource` (
+  `resource_name` varchar(32) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT '1975-08-17 12:30:12',
+  `updated_at` datetime NOT NULL DEFAULT '1975-08-17 12:30:12',
+  PRIMARY KEY (`resource_name`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
