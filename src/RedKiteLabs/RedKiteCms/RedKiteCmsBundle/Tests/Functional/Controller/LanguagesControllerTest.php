@@ -44,7 +44,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
     public function testFormElements()
     {
-        $crawler = $this->client->request('GET', 'backend/en/al_showLanguages');
+        $crawler = $this->client->request('POST', '/backend/en/al_showLanguages');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#languages_language')->count());
@@ -58,7 +58,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'isMain' => '0',);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_saveLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('A language cannot be null. Please provide a valid language name to add the language', $crawler->text());
@@ -71,7 +71,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'newLanguage' => 'fr',
                         'isMain' => '0',);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_saveLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -110,12 +110,35 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
     public function testLanguageJustAdded()
     {
-        $crawler = $this->client->request('GET', 'backend/fr/this-is-a-website-fake-page');
+        $crawler = $this->client->request('GET', '/backend/fr/this-is-a-website-fake-page');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#block_1')->count());
         $this->assertEquals(1, $crawler->filter('#block_32')->count());
         $this->assertEquals(22, $crawler->filter('.al_editable')->count());
+    }
+    
+    public function testLoadLanguageAttributes()
+    {
+        $params = array('languageId' => 2);
+        $crawler = $this->client->request('POST', '/backend/en/al_loadLanguageAttributes', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals("#languages_language", $json[0]["name"]);
+        $this->assertEquals("en", $json[0]["value"]);
+        $this->assertEquals("#languages_isMain", $json[1]["name"]);
+        $this->assertEquals("1", $json[1]["value"]);
+        
+        $params = array('languageId' => 3);
+        $crawler = $this->client->request('POST', '/backend/en/al_loadLanguageAttributes', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals("#languages_language", $json[0]["name"]);
+        $this->assertEquals("fr", $json[0]["value"]);
+        $this->assertEquals("#languages_isMain", $json[1]["name"]);
+        $this->assertEquals("0", $json[1]["value"]);
     }
 
     public function testAddLanguageFailsWhenTheLanguageNameAlreadyExists()
@@ -124,7 +147,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'newLanguage' => 'fr',
                         'isMain' => '0',);
-        $crawler = $this->client->request('POST', 'backend/en/al_saveLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('The language you are trying to add, already exists in the website', $crawler->text());
@@ -136,7 +159,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'newLanguage' => 'es',
                         'isMain' => '1',);
-        $crawler = $this->client->request('POST', 'backend/en/al_saveLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -158,7 +181,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'languageId' => 3,
                         'newLanguage' => "it",);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_saveLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -172,7 +195,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'languageId' => 'none');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('Any language has been choosen for removing', $crawler->text());
@@ -184,7 +207,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'languageId' => 999);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('Any language has been choosen for removing', $crawler->text());
@@ -197,7 +220,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'languageId' => $language->getId());
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again', $crawler->text());
@@ -209,7 +232,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'languageId' => 2);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deleteLanguage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deleteLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(2, count($this->languageRepository->activeLanguages()));

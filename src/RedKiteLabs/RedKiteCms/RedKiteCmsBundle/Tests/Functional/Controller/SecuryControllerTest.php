@@ -62,7 +62,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
-        $crawler = $client->request('GET', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_items_list')->count() == 1);
@@ -75,7 +75,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
-        $crawler = $client->request('GET', '/backend/users/en/al_showUser');
+        $crawler = $client->request('POST', '/backend/users/en/al_showUser');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Username")')->count() == 1);
@@ -211,7 +211,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The user has been saved")')->count() == 1);
 
-        $crawler = $client->request('GET', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 2);
@@ -233,7 +233,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
             "id" => $user->getId(),
         );
 
-        $crawler = $client->request('GET', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Username")')->count() == 1);
@@ -264,7 +264,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The user has been saved")')->count() == 1);
 
-        $crawler = $client->request('GET', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 2);
@@ -290,7 +290,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $crawler = $client->request('GET', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 1);
@@ -305,7 +305,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
-        $crawler = $client->request('GET', '/backend/users/en/al_rolesList');
+        $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("ROLE_USER")')->count() == 1);
@@ -319,7 +319,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
     {
         $client = $this->setUpClient();
 
-        $crawler = $client->request('GET', '/backend/users/en/al_showRole');
+        $crawler = $client->request('POST', '/backend/users/en/al_showRole');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
@@ -366,7 +366,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The role has been saved")')->count() == 1);
 
-        $crawler = $client->request('GET', '/backend/users/en/al_rolesList');
+        $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("ROLE_BOSS")')->count() == 1);
@@ -386,7 +386,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The role has been saved")')->count() == 1);
 
-        $crawler = $client->request('GET', '/backend/users/en/al_rolesList');
+        $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("ROLE_GOD")')->count() == 1);
@@ -404,7 +404,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $crawler = $client->request('GET', '/backend/users/en/al_rolesList');
+        $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("ROLE_GOD")')->count() == 0);
@@ -437,7 +437,7 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $crawler = $client->request('GET', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
 
