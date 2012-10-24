@@ -144,11 +144,6 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businesswebsitetheme/css/layout.css",
             "/bundles/businesswebsitetheme/css/style.css",
             "/bundles/businesswebsitetheme/css/al_fix_style.css",
-            "/bundles/businesscarousel/css/business-carousel.css",
-            "/bundles/businesscarousel/css/business-carousel-editor.css",
-            "/bundles/businessslider/css/business-slider.css",
-            "/bundles/businessdropcap/css/business-dropcap.css",
-            "/bundles/businessdropcap/css/business-dropcap-editor.css",
         );
 
         $expectedJavascripts = array
@@ -158,11 +153,6 @@ class CmsControllerTest extends WebTestCaseFunctional
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_700.font.js",
             "/bundles/businesswebsitetheme/js/tabs.js",
-            "/bundles/businesscarousel/js/jcarousellite.js",
-            "/bundles/businesscarousel/js/carousel.js",
-            "/bundles/businessslider/js/tms-0.3.js",
-            "/bundles/businessslider/js/tms_presets.js",
-            "/bundles/businessslider/js/slider.js",
         );
 
         $this->checkCms($crawler, $expectedStylesheets, $expectedJavascripts);

@@ -142,7 +142,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
 
         $alPageManager = new AlPageManager($eventsHandler, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
         foreach (self::$pages as $page) {
-            if (isset($page["TemplateName"]) && $page["TemplateName"] != "home")
+            if (isset($page["TemplateName"]))
             {
                 $template = $theme->getTemplate($page["TemplateName"]);
                 $templateManager->setTemplate($template);

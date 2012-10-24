@@ -89,8 +89,10 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function setTemplate(AlTemplate $template)
     {
-        $this->template = $template;
-        $this->slotManagers = array();
+        if ($template !== $this->template) {
+            $this->template = $template;
+            $this->setUpSlotManagers();
+        }
 
         return $this;
     }
@@ -387,6 +389,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         if (null === $this->template) return;
 
+        $this->slotManagers = array();
         $templateSlots = $this->template->getTemplateSlots();
         
         if (null === $templateSlots) {
@@ -416,7 +419,7 @@ class AlTemplateManager extends AlTemplateBase
      * Create the slot manager for the given slot
      *
      *
-     * @param  AlSlot                                                          $slot
+     * @param  AlSlot $slot
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      */
     protected function createSlotManager(AlSlot $slot)
