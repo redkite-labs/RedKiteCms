@@ -46,7 +46,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testEditorReturnsAnErrorMessageWhenTheBlockIdIsNotGiven()
     {
-        $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor');
+        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor');
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
@@ -55,7 +55,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testEditorReturnsAnErrorMessageWhenTheBlockIdDoesNotExist()
     {
         $params = array("idBlock" => 9999);
-        $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor', $params);
+        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
@@ -64,7 +64,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowContentsEditor()
     {
         $params = array("idBlock" => 3);
-        $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor', $params);
+        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -82,7 +82,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowContentsEditorRenderedFromAListener()
     {
         $params = array("idBlock" => 2);
-        $crawler = $this->client->request('GET', 'backend/en/al_showBlocksEditor', $params);
+        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
