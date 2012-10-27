@@ -34,19 +34,7 @@ class ThemePreviewController extends AlCmsController
         $theme = $themes->getTheme($themeName);
 
         // Any templateName is specified
-        if ($templateName == 'none') {
-
-            // Tries to look for the home template
-            $templateName = 'home';
-            if ( ! $theme->hasTemplate($templateName)) {
-
-                // Returns the first one in alphabetic order
-                $templates = array_keys($theme->getTemplates());
-                sort($templates);
-                $templateName = $templates[0];
-            }
-        }
-        $template = $theme->getTemplate($templateName);
+        $template = ($templateName == 'none') ? $theme->getHomeTemplate() : $theme->getTemplate($templateName);
 
         $this->pageTree = new AlPageTreePreview($this->container, $this->container->get('alpha_lemon_cms.factory_repository'));
         $slotContents = $this->fetchSlotContents($template);
@@ -64,7 +52,7 @@ class ThemePreviewController extends AlCmsController
             'template' => $twigTemplate,
             'skin_path' => $this->getSkin(),
             'theme_name' => $themeName,
-            'template_name' => $templateName,
+            'template_name' => $template->getTemplateName(),
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
             'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
             'internal_stylesheets' => $this->pageTree->getInternalStylesheets(),
