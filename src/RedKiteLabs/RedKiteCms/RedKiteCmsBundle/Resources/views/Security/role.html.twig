@@ -36,10 +36,16 @@
 
 <script>
     $('#al_save_role').click(function() {
+      // Required for resources locking
+      var roleId = $('#al_role_id').val();
+      if (roleId == null || roleId == '') {
+          roleId = 0;
+      }
+      
       $.ajax({
           type: 'POST',
           url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/al_showRole',
-          data: {'id' : $('#al_role_id').val(),
+          data: {'id' : roleId,
                  'al_rolename' : $('#al_role_role').val(),
              },
           beforeSend: function()

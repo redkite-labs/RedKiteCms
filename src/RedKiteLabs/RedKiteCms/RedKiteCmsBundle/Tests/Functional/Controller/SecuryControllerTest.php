@@ -17,17 +17,12 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
-
 /**
  * SecurityControllerTest
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class SecurityControllerTest extends WebTestCaseFunctional
+class SecurityControllerTest extends BaseSecured
 {
     private $pageRepository;
     private $seoRepository;
@@ -444,26 +439,6 @@ class SecurityControllerTest extends WebTestCaseFunctional
         $crawler = $client->request('GET', '/backend/en/al_local_deploy');
         $response = $client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
-    }
-
-    private function setUpClient(array $credentials = null)
-    {
-        if (null === $credentials) {
-            $credentials = array(
-                'PHP_AUTH_USER' => 'admin',
-                'PHP_AUTH_PW' => 'admin',
-            );
-        }
-
-        $client = static::createClient(
-            array(
-                'environment' => 'alcms_test',
-                'debug'       => true,
-            ),
-            $credentials
-        );
-
-        return $client;
     }
 
     private function fetchUser($client, $username)

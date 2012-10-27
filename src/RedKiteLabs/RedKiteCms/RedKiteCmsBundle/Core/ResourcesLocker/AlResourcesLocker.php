@@ -21,7 +21,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
 /**
+ * AlResourcesLocker is responsible to manage the database table where the locked
+ * resources are saved.
  * 
+ * A user could not lock more that a resource a time
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -32,8 +35,9 @@ class AlResourcesLocker
     
     /**
      * Constructor
-     *
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param int $expiringTime The time after a not updated resource is expired
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository, $expiringTime = 300)
     {
@@ -42,6 +46,14 @@ class AlResourcesLocker
         $this->expiringTime = $expiringTime;
     }
     
+    /**
+     * Locks a resource for the current user when it is free or updates the expiring
+     * time when it is locked by the same user
+     * 
+     * @param int $userId
+     * @param string $resourceName
+     * @throws ResourceNotFreeException
+     */
     public function lockResource($userId, $resourceName)
     {
         $resource = $this->lockedResourceRepository->fromResourceNameByUser($userId, $resourceName);
@@ -65,30 +77,52 @@ class AlResourcesLocker
             );
         }
             
-        $this->lockedResourceRepository
-             ->setRepositoryObject($resource)
-             ->save($values);
+        $result = $this->lockedResourceRepository
+                       ->setRepositoryObject($resource)
+                       ->save($values);
+        if (false === $result) {
+            throw new \RuntimeException("The resource has not been locked due to an error occoured during the saving operation");
+        }
     }
     
+    /**
+     * Unlocks the resource held by the giving user
+     * 
+     * @param int $userId
+     */
     public function unlockUserResource($userId)
     {
-        $this->lockedResourceRepository->freeUserResource($userId);
+        return $this->lockedResourceRepository->freeUserResource($userId);
     }
     
-    public function freeResource($resourceName)
+    /**
+     * Unlocks the given resource
+     * 
+     * @param string $resourceName
+     */
+    public function unlockResource($resourceName)
     {
-        $this->lockedResourceRepository->freeLockedResource($resourceName);
+        return $this->lockedResourceRepository->freeLockedResource($resourceName);
     }
     
-    public function freeExpiredResources()
+    /**
+     * Unlocks the expired resources
+     */
+    public function unlockExpiredResources()
     {
         $expiredTime = time() - $this->expiringTime;
         
-        $this->lockedResourceRepository->removeExpiredResources($expiredTime);
+        return $this->lockedResourceRepository->removeExpiredResources($expiredTime);
     }
     
+    /**
+     * Checks whene a resource is free
+     * 
+     * @param string $resourceName
+     * @return boolean
+     */
     protected function isResourceFree($resourceName)
     {
-        return (null === $this->lockedResourceRepository->fromResourceName($resourceName, true)) ? true : false;
+        return (null === $this->lockedResourceRepository->fromResourceName($resourceName)) ? true : false;
     }
 }

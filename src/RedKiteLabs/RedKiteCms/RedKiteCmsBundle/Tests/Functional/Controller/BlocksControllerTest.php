@@ -349,7 +349,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testShowFilesManagerFailsWhenAnyKeyIsGiven()
     {
-        $crawler = $this->client->request('GET', 'backend/en/showExternalFilesManager');
+        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager');
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
 
@@ -359,7 +359,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowFilesManagerFailsWhenKeyIsInvalid()
     {
         $params = array("key" => "fake");
-        $crawler = $this->client->request('GET', 'backend/en/showExternalFilesManager', $params);
+        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
 
@@ -369,7 +369,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowJavascriptsFilesManager()
     {
         $params = array("key" => "javascript");
-        $crawler = $this->client->request('GET', 'backend/en/showExternalFilesManager', $params);
+        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp("/al\_elFinderJavascriptsConnect/s", $crawler->text());
@@ -378,7 +378,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowStylesheetsFilesManager()
     {
         $params = array("key" => "stylesheet");
-        $crawler = $this->client->request('GET', 'backend/en/showExternalFilesManager', $params);
+        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp("/al\_elFinderStylesheetsConnect/s", $crawler->text());
