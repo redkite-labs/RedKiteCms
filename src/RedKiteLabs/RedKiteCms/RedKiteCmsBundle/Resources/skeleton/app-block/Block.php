@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * An AlphaLemonCms Block
  */
 

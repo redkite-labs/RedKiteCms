@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -47,7 +47,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $this->blockGenerator->generateExt('AlphaLemon\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
 
         $expected = '<?php' . PHP_EOL;
-        $expected .= '/*' . PHP_EOL;
+        $expected .= '/**' . PHP_EOL;
         $expected .= ' * An AlphaLemonCms Block' . PHP_EOL;
         $expected .= ' */' . PHP_EOL;
         $expected .= PHP_EOL;
