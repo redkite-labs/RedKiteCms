@@ -64,10 +64,16 @@
 
 <script>
     $('#al_save_user').click(function() {
+      // Required for resources locking
+      var userId = $('#al_user_id').val();
+      if (userId == null || userId == '') {
+          userId = 0;
+      }
+      
       $.ajax({
           type: 'POST',
           url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/al_showUser',
-          data: {'id' : $('#al_user_id').val(),
+          data: {'id' : userId,
                  'al_username' : $('#al_user_username').val(),
                  'al_password' : $('#al_user_password').val(),
                  'al_email' : $('#al_user_email').val(),

@@ -75,9 +75,9 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function freeLockedResource($resource)
     {
-        AlLockedResourceQuery::create()
-                        ->filterByResourceName($resource)
-                        ->delete();
+        return AlLockedResourceQuery::create()
+                                    ->filterByResourceName($resource)
+                                    ->delete();
     }
     
     /**
@@ -85,9 +85,9 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function removeExpiredResources($expiredTime)
     {
-        AlLockedResourceQuery::create('a')
-                        ->where('a.UpdatedAt <= ?', $expiredTime)
-                        ->delete();
+        return AlLockedResourceQuery::create('a')
+                                    ->where('a.UpdatedAt <= ?', $expiredTime)
+                                    ->delete();
     }
     
     /**
@@ -96,7 +96,19 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
     public function freeUserResource($userId)
     {
         return AlLockedResourceQuery::create()
-                               ->filterByUserId($userId)
-                               ->delete();
+                                    ->filterByUserId($userId)
+                                    ->delete();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function fetchResources($userId = null)
+    {
+        return AlLockedResourceQuery::create()
+                                    ->_if($userId)
+                                        ->filterBySlotName($userId)
+                                    ->_endif()
+                                    ->find();
     }
 }

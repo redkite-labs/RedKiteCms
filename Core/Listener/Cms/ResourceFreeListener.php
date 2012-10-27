@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
@@ -34,7 +35,9 @@ class ResourceFreeListener
 
     /**
      * Contructor
-     *
+     * 
+     * @param SecurityContext $securityContext
+     * @param AlResourcesLocker $resourcesLocker 
      */
     public function __construct(SecurityContext $securityContext, AlResourcesLocker $resourcesLocker)
     {
@@ -43,7 +46,7 @@ class ResourceFreeListener
     }
 
     /**
-     * Listen to onKernelRequest 
+     * Listen to onKernelRequest event to lock a resource
      *
      * @param GetResponseEvent $event
      */
@@ -53,33 +56,49 @@ class ResourceFreeListener
         if (null !== $token) {
             $user = $token->getUser();
             if (null !== $user) {
+                $errorMessage = '';
                 $userId = $user->getId();
-                $this->resourcesLocker->freeExpiredResources();
-                $this->resourcesLocker->unlockUserResource($userId);
+                try {
+                    $this->resourcesLocker->unlockExpiredResources();
+                    $this->resourcesLocker->unlockUserResource($userId);
+                } catch(\Exception $ex) {
+                    $errorMessage = $ex->getMessage();
+                }
 
-                $request = $event->getRequest();
-                $locked = $request->get('locked');
-                if (null !== $locked) {
-                    $errorMessage = '';
-                    try {
-                        $key = (null !== $request->get($locked)) ? $locked . "=" . $request->get($locked) : $request->getUri() . '/locked';
-                        $this->resourcesLocker->lockResource($userId, md5($key));
-                    } catch(\PropelException $ex) {
-                        $errorMessage = 'The resource is not lockable because it was free but someone has locked it before you. This happens when two users tries to get a resource at the same time';
-                    } catch(ResourceNotFreeException $ex) {
-                        $errorMessage = $ex->getMessage();
-                    } catch(\Exception $ex) {
-                        $errorMessage = $ex->getMessage();
+                if ($errorMessage == '') {
+                    $request = $event->getRequest();
+                    $locked = $request->get('locked');
+                    if (null !== $locked) {                    
+                        try {
+                            // Process composite locking rules
+                            $rules = explode(',', $locked);
+                            if (isset($rules[1])) {
+                                $locked = $rules[0];
+                                $param = $request->get($rules[1]);
+                            }
+                            else {
+                                $param = $request->get($locked);
+                            }
+                            
+                            $key = ('locked' !== $locked) ? $locked . "=" . $param : $request->getUri() . '/locked';
+                            $this->resourcesLocker->lockResource($userId, md5($key));
+                        } catch(\PropelException $ex) {
+                            $errorMessage = 'The resource is not lockable because it was free but someone has locked it before you. This happens when two users tries to get a resource at the same time';
+                        } catch(ResourceNotFreeException $ex) {
+                            $errorMessage = $ex->getMessage();
+                        } catch(\Exception $ex) {
+                            $errorMessage = $ex->getMessage();
+                        }
                     }
-                    
-                    if ($errorMessage != "") {
-                        $response = new \Symfony\Component\HttpFoundation\Response();
-                        $response->setStatusCode('404');
-                        $response->setContent($errorMessage);
-                        
-                        $event->setResponse($response);
-                        $event->stopPropagation();
-                    }
+                }
+                
+                if ($errorMessage != '') {
+                    $response = new Response();
+                    $response->setStatusCode('404');
+                    $response->setContent($errorMessage);
+
+                    $event->setResponse($response);
+                    $event->stopPropagation();
                 }
             }
         }

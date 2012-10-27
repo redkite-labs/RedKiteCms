@@ -186,7 +186,7 @@ function show(route, id)
       },
       error: function(err)
       {
-        $('#al_error').html(err.responseText);
+        $('body').showDialog(err.responseText);
       },
       complete: function()
       {
@@ -212,7 +212,7 @@ function remove(route, id)
       },
       error: function(err)
       {
-        $('#al_error').html(err.responseText);
+        $('body').showDialog(err.responseText);
       },
       complete: function()
       {

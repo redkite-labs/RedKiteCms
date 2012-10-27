@@ -18,188 +18,312 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Cms;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\CmsBootstrapListener;
-use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\ResourceFreeListener;
 
 /**
- * CmsBootstrapListenerTest
+ * ResourceFreeListenerTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class CmsBootstrapListenerTest extends TestCase
+class ResourceFreeListenerTest extends TestCase
 {
     protected function setUp()
     {
         parent::setUp();
 
-        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->pageTree = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
-                            ->disableOriginalConstructor()
-                            ->getMock();
-
-        $this->aligner = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner')
-                            ->disableOriginalConstructor()
-                            ->getMock();
-
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-
+        $this->securityContext = 
+            $this->getMockBuilder('Symfony\Component\Security\Core\SecurityContext')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $this->resourcesLocker = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
 
         $this->event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
                             ->disableOriginalConstructor()
-                            ->getMock();
+                            ->getMock();        
     }
 
-    public function testConfigurationIsSkippedWhenTheEnvironmentIsNotAlCms()
+    public function testResourceIsNotLockedWhenTheSecurityContextIsNotInstantiated()
     {
-        $this->initContainer();
-
-        $this->setUpEnvironment('dev');
-        $testListener = new CmsBootstrapListener($this->container);
-        $this->assertNull($testListener->onKernelRequest($this->event));
-    }
-
-    public function testCmsHasBeenBootstrapped()
-    {
-        $this->initContainer();
+        $this->initSecurityContext(null);
         
-        $this->container->expects($this->at(2))
-            ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy_bundle')
-            ->will($this->returnValue('@AcmeWebSiteBundle'));
-
-        $this->container->expects($this->at(3))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.assets_base_dir')
-            ->will($this->returnValue('asset-base-dir'));
-
-        $this->container->expects($this->at(4))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.media_dir')
-            ->will($this->returnValue('media'));
-
-        $this->container->expects($this->at(5))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
-            ->will($this->returnValue('js'));
-
-        $this->container->expects($this->at(6))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.css_dir')
-            ->will($this->returnValue('css'));
-
-        $this->container->expects($this->at(7))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_full_path')
-            ->will($this->returnValue(vfsStream::url('root/cms-assets/uploades-base-dir')));
-
-        $this->container->expects($this->at(8))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.media_dir')
-            ->will($this->returnValue('media'));
-
-        $this->container->expects($this->at(9))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
-            ->will($this->returnValue('js'));
-
-        $this->container->expects($this->at(10))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.css_dir')
-            ->will($this->returnValue('css'));
-
-        $this->container->expects($this->at(11))
-            ->method('get')
-            ->with('alpha_lemon_cms.repeated_slots_aligner')
-            ->will($this->returnValue($this->aligner));
-
-        $this->setUpEnvironment('alcms');
-        $this->setupFolders();
-
-        $this->kernel->expects($this->once())
-            ->method('locateResource')
-            ->will($this->returnValue(vfsStream::url('root/frontend-assets')));
-
-        /*
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls('@AcmeWebSiteBundle', 'asset-base-dir', 'media', 'js', 'css', vfsStream::url('root/cms-assets/uploades-base-dir'), 'media', 'js', 'css'));
-*/
-        $this->pageTree->expects($this->once())
-            ->method('setup');
-
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
-                            ->disableOriginalConstructor()
-                            ->getMock();
-        $template->expects($this->once())
-            ->method('getThemeName')
-            ->will($this->returnValue('Theme'));
-
-        $template->expects($this->once())
-            ->method('getTemplateName')
-            ->will($this->returnValue('Template'));
-
-        $template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('fake' => 'slots')));
-
-        $this->pageTree->expects($this->once())
-            ->method('getTemplate')
-            ->will($this->returnValue($template));
-
-        $this->aligner->expects($this->once())
-            ->method('align');
-
-        $expectedResult = array('root' =>
-                                    array('frontend-assets' =>
-                                        array('asset-base-dir' =>
-                                            array(
-                                                'media' => array(),
-                                                'js' => array(),
-                                                'css' => array()
-                                            ),
-                                        ),
-
-                                        'cms-assets' =>
-                                                    array('uploades-base-dir' =>
-                                                        array(
-                                                            'media' => array(),
-                                                            'js' => array(),
-                                                            'css' => array()
-                                                        ),
-                                                    ),
-                                        ),
-                                    );
-
-        $testListener = new CmsBootstrapListener($this->container);
+        $this->resourcesLocker
+             ->expects($this->never())
+             ->method('lockResource')
+        ;   
+        
+        $testListener = $this->initTestListener();
         $testListener->onKernelRequest($this->event);
-        $this->assertEquals($expectedResult, vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());
     }
-
-    private function setupFolders($permissions = 0777)
+    
+    public function testResourceIsNotLockedWhenTheUserIsNotInstantiated()
     {
-        $this->root = vfsStream::setup('root');
-        vfsStream::newDirectory('frontend-assets', $permissions)->at($this->root);
-        vfsStream::newDirectory('cms-assets')->at($this->root);
+        $token = $this->initToken();
+        $this->initSecurityContext($token);
+        
+        $this->resourcesLocker
+             ->expects($this->never())
+             ->method('lockResource')
+        ;   
+        
+        $testListener = $this->initTestListener();
+        $testListener->onKernelRequest($this->event);
     }
-
-    private function setUpEnvironment($environment)
+    
+    public function testSomethingGoesWrongUnlockingTheExpiredResources()
     {
-        $this->kernel->expects($this->once())
-            ->method('getEnvironment')
-            ->will($this->returnValue($environment));
+        $user = $this->initUser();
+        $token = $this->initToken($user);        
+        $this->initSecurityContext($token);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockExpiredResources')
+             ->will($this->throwException(new \PropelException('Unknown propel error')))
+        ;
+        
+        $this->initEvent();
+        
+        $testListener = $this->initTestListener();
+        $testListener->onKernelRequest($this->event);
     }
-
-    private function initContainer()
+    
+    public function testSomethingGoesWrongUnlockingTheResource()
     {
-        $this->container->expects($this->at(0))
+        $user = $this->initUser();
+        $token = $this->initToken($user);        
+        $this->initSecurityContext($token);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockExpiredResources')
+        ;
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockUserResource')
+             ->will($this->throwException(new \PropelException('Unknown propel error')))
+        ;
+        
+        $this->initEvent();
+        
+        $testListener = $this->initTestListener();
+        $testListener->onKernelRequest($this->event);
+    }
+    
+    public function testResourceIsNotLockedWhenLockedParameterIsNull()
+    {
+        $user = $this->initUser();
+        $token = $this->initToken($user);        
+        $this->initSecurityContext($token);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockExpiredResources')
+        ;
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockUserResource')
+        ;
+        
+        $request = $this->initRequest();
+        $this->event
+             ->expects($this->once())
+             ->method('getRequest')
+             ->will($this->returnValue($request))
+        ;  
+        
+        $this->initEvent(0);
+        
+        $this->resourcesLocker
+             ->expects($this->never())
+             ->method('lockResource')
+        ; 
+        
+        $testListener = $this->initTestListener();
+        $testListener->onKernelRequest($this->event);
+    }
+    
+    /**
+     * @dataProvider exceptionsProvider 
+     */
+    public function testLockResourcesException($exception)
+    {
+        $user = $this->initUser();
+        $token = $this->initToken($user);        
+        $this->initSecurityContext($token);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockExpiredResources')
+        ;
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockUserResource')
+        ;
+        
+        $request = $this->initRequest('idBlock');
+        $this->event
+             ->expects($this->once())
+             ->method('getRequest')
+             ->will($this->returnValue($request))
+        ;  
+        
+        $this->initEvent(1);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('lockResource')
+             ->will($this->throwException($exception))
+        ; 
+        
+        $testListener = $this->initTestListener();
+        $testListener->onKernelRequest($this->event);
+    }
+    
+    /**
+     * @dataProvider lockedValueProvider
+     */
+    public function testResourceIsLocked($lockedParam, $lockedValue, $getUriTimes)
+    {
+        $user = $this->initUser();
+        $token = $this->initToken($user);        
+        $this->initSecurityContext($token);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockExpiredResources')
+        ;
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockUserResource')
+        ;
+        
+        $request = $this->initRequest($lockedParam, $lockedValue);
+        $request
+            ->expects($this->exactly($getUriTimes))
+            ->method('getUri')
+        ;
+        
+        $this->event
+             ->expects($this->once())
+             ->method('getRequest')
+             ->will($this->returnValue($request))
+        ;  
+        
+        $this->initEvent(0);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('lockResource')
+        ; 
+        
+        $testListener = $this->initTestListener();
+        $testListener->onKernelRequest($this->event);
+    }
+    
+    public function exceptionsProvider()
+    {
+        return array(
+            array(new \PropelException('Unknown propel error')),
+            array(new \AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException('The resource you requested is locked by another user. Please retry in a couple of minutes')),
+            array(new \RuntimeException('Unespected error')),
+        );
+    }
+    
+    public function lockedValueProvider()
+    {
+        return array(
+            array('idBlock', 12, 0),
+            array('blocks,idBlock', 13, 0),
+            array('locked', null, 1),
+        );
+    }
+    
+    private function initSecurityContext($token)
+    {
+        $this->securityContext
+             ->expects($this->once())
+             ->method('getToken')
+             ->will($this->returnValue($token))
+        ;
+    }
+    
+    private function initToken($user = null)
+    {
+        $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token
+            ->expects($this->once())
+            ->method('getUser')
+            ->will($this->returnValue($user))
+        ;
+        
+        return $token;
+    }
+    
+    private function initUser()
+    {
+        $user = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlUser');
+        $user
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(1))
+        ;
+        
+        return $user;
+    }
+    
+    private function initTestListener()
+    {
+        return new ResourceFreeListener($this->securityContext, $this->resourcesLocker);
+    }
+    
+    private function initEvent($times = 1)
+    {
+        $this->event
+             ->expects($this->exactly($times))
+             ->method('setResponse')
+        ;  
+        
+        $this->event
+             ->expects($this->exactly($times))
+             ->method('stopPropagation')
+        ;  
+    }
+    
+    private function initRequest($lockedParam = null, $lockedValue = null)
+    {
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request
+            ->expects($this->at(0))
             ->method('get')
-            ->with('kernel')
-            ->will($this->returnValue($this->kernel));
-
-         $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('alpha_lemon_cms.page_tree')
-            ->will($this->returnValue($this->pageTree));
+            ->with('locked')
+            ->will($this->returnValue($lockedParam))
+        ;
+        
+        if (null !== $lockedValue) {
+            
+            $rules = explode(',', $lockedParam);
+            if (isset($rules[1])) {
+                $lockedParam = $rules[1];
+            }
+            
+            $request
+                ->expects($this->at(1))
+                ->method('get')
+                ->with($lockedParam)
+                ->will($this->returnValue($lockedValue))
+            ;
+        }
+        
+        return $request;
     }
 }
