@@ -63,6 +63,49 @@
             });
         });
     };
+    
+    $.fn.startFromTheme =function()
+    {
+        this.each(function()
+        {
+            $(this).click(function()
+            {
+                if ( ! confirm('WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?')) {
+                    return;
+                }
+                
+                var data = $(this).metadata();
+
+                $.ajax({
+                  type: 'POST',
+                  url: frontController + 'backend/' + $('#al_available_languages').val() + '/startFromTheme',
+                  data: {
+                      'themeName' : data.themeName
+                  },
+                  beforeSend: function()
+                  {
+                    $('body').AddAjaxLoader();
+                  },
+                  success: function(html)
+                  {
+                    $('body').showDialog(html);
+                    location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator option:selected').text() + '/' + $('#al_pages_navigator option:selected').text();
+                  },
+                  error: function(err)
+                  {
+                    $('body').showDialog(err.responseText);
+                  },
+                  complete: function()
+                  {
+                    $('body').RemoveAjaxLoader();
+                  }
+                });
+
+                return false;
+            });
+        });
+    };
+    
 })($);
 
 ObserveThemeCommands =function()
@@ -70,5 +113,6 @@ ObserveThemeCommands =function()
     try {
         $('.al_theme_activator').unbind().activateTheme();
         $('.al_themes_fixer').unbind().showThemeFixer();
+        $('.al_start_from_theme').unbind().startFromTheme();
     } catch (e) {}
 };

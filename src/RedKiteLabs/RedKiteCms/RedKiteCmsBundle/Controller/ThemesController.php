@@ -19,15 +19,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
-use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlPageQuery;
 use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Finder\Finder;
-use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
+//use AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap;
 
 class ThemesController extends BaseController
 {
@@ -95,6 +88,38 @@ class ThemesController extends BaseController
 
             return $this->renderThemeFixer($error);
         }
+    }
+    
+    public function startFromThemeAction()
+    {
+        $request = $this->container->get('request');
+        $themeName = $request->get('themeName');
+        
+        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        $theme = $themes->getTheme($themeName);
+        $template = $theme->getHomeTemplate();
+
+        $templateManager = $this->container->get('alpha_lemon_cms.template_manager');
+        $templateManager
+            ->setTemplate($template)
+            ->refresh();
+        
+        $siteBootstrap = $this->container->get('alpha_lemon_cms.site_bootstrap');        
+        $result = $siteBootstrap
+                    ->setTemplateManager($templateManager)
+                    ->bootstrap();
+        if ($result) {
+            $message = "The site has been bootstrapped with the new theme. This page is reloading";
+            $statusCode = 200;
+        }
+        else {
+            $message = $siteBootstrap->getErrorMessage();
+            $statusCode = 404;
+        }
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $response->setStatusCode($statusCode);
+
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);        
     }
 
     protected function renderThemeFixer($error = null)
