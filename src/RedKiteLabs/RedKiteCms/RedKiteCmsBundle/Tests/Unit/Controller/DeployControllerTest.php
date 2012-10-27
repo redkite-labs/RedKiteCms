@@ -97,7 +97,7 @@ class DeployControllerTest extends TestCase
         $this->container->expects($this->at(2))
             ->method('getParameter')
             ->will($this->returnValue('/path/to/app'));
-
+        
         $this->container->expects($this->at(3))
             ->method('get')
             ->with('alpha_lemon_cms.commands_processor')
