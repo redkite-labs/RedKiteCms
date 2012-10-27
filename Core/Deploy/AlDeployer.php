@@ -61,9 +61,6 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
-        if (null === $this->deployBundleAsset->getWebFolderRealPath()) {
-            throw new InvalidParameterException(sprintf('The %s cannot be located. Check it is correctly enabled in your AppKernel class', $this->deployBundle));
-        }
 
         $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.config_dir');
         $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir');
