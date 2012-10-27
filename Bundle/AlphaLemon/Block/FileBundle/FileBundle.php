@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the BusinessCarouselBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
