@@ -85,7 +85,7 @@ class AlThemesCollectionWrapper
     public function getTemplate($themeName, $templateName)
     {
         $theme = $this->getTheme($themeName);
-
+        
         return $theme->getTemplate($templateName);
     }
 

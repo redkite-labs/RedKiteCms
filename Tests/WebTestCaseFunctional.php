@@ -35,6 +35,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
     protected $client;
     protected static $languages;
     protected static $pages;
+    protected static $roles = array();
 
     public static function setUpBeforeClass()
     {
@@ -100,6 +101,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
             'SET foreign_key_checks = 0',
             'TRUNCATE al_block;',
             'TRUNCATE al_language;',
+            'TRUNCATE al_locked_resource;',
             'TRUNCATE al_page;',
             'TRUNCATE al_seo;',
             'TRUNCATE al_role;',
@@ -113,27 +115,18 @@ abstract class WebTestCaseFunctional extends WebTestCase
             $statement->execute();
         }
 
-        $adminRoleId = 0;
+        //$adminRoleId = 0;
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
             $alRole = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlRole();
             $alRole->setRole($role);
             $alRole->save();
 
-            if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
+            self::$roles[$role] = $alRole->getId();
+            //if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
         }
 
-        $user = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlUser();
-        $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
-        $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-        $password = $encoder->encodePassword('admin', $salt);
-
-        $user->setSalt($salt);
-        $user->setPassword($password);
-        $user->setRoleId($adminRoleId);
-        $user->setUsername('admin');
-        $user->setEmail('');
-        $user->save();
+        self::addUser('admin', 'admin', self::$roles['ROLE_ADMIN']);
         
         $alLanguageManager = new AlLanguageManager($eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {
@@ -153,5 +146,20 @@ abstract class WebTestCaseFunctional extends WebTestCase
 
         $statement = $connection->prepare('SET foreign_key_checks = 1');
         $statement->execute();
+    }
+    
+    protected static function addUser($username, $password, $adminRoleId)
+    {
+        $user = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlUser();
+        $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
+        $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $password = $encoder->encodePassword($password, $salt);
+
+        $user->setSalt($salt);
+        $user->setPassword($password);
+        $user->setRoleId($adminRoleId);
+        $user->setUsername($username);
+        $user->setEmail('');
+        $user->save();
     }
 }
