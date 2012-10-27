@@ -24,11 +24,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Propel\PropelBundle\Command\ModelBuildCommand;
 
 /**
- * Upgrades to AlphaLemonCms Alpha release
+ * Upgrades to AlphaLemonCms Beta4 release
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class UpdateToAlphaCommand extends Base\BaseUpdateCommand
+class UpdateToBeta4Command extends Base\BaseUpdateCommand
 {
     /**
      * @see Command
@@ -36,14 +36,14 @@ class UpdateToAlphaCommand extends Base\BaseUpdateCommand
     protected function configure()
     {
         $this
-            ->setDescription('Updates the database to AlphaLemon CMS Alpha')
+            ->setDescription('Updates the database to AlphaLemon CMS Beta4')
             ->setDefinition(array(
                 new InputArgument('dsn', InputArgument::REQUIRED, 'The dsn to connect the database'),
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
                 new InputOption('driver', null, InputOption::VALUE_OPTIONAL, 'The database driver', 'mysql'),
             ))
-            ->setName('alphalemon:update-to-alpha');
+            ->setName('alphalemon:update-to-beta-4');
     }
 
     /**
@@ -53,7 +53,7 @@ class UpdateToAlphaCommand extends Base\BaseUpdateCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
-        $sqlFile = sprintf(__DIR__ . '/../../Resources/dbupdate/%s/AlphaLemonCmsAlpha.sql', $input->getOption('driver'));
+        $sqlFile = sprintf(__DIR__ . '/../../Resources/dbupdate/%s/AlphaLemonCmsBeta4.sql', $input->getOption('driver'));
         $this->executeQueries($connection, $sqlFile);
         $this->buildModel($input, $output);
     }
