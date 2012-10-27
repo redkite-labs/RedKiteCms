@@ -17,11 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,7 +65,7 @@ class AlCmsController extends BaseFrontendController
 
         if (null !== $pageTree) {
             $template = $this->findTemplate($pageTree);
-
+            
             $params = array_merge($params, array(
                 'metatitle' => $pageTree->getMetaTitle(),
                 'metadescription' => $pageTree->getMetaDescription(),
@@ -86,13 +82,12 @@ class AlCmsController extends BaseFrontendController
                 )
             );
         } else {
-            $this->get('session')->setFlash('message', 'The requested page has not been loaded.');
+            $this->container->get('session')->setFlash('message', 'The requested page has not been loaded');
         }
 
         $response = $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', $params);
-        $response = $this->dispatchEvents($request, $response);
 
-        return $response;
+        return $this->dispatchEvents($request, $response);
     }
 
     /**
@@ -125,7 +120,7 @@ class AlCmsController extends BaseFrontendController
             $asset = new AlAsset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
             if (false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig')) {
-                $this->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
+                $this->container->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
 
                 return $templateTwig;
             }
@@ -142,7 +137,7 @@ class AlCmsController extends BaseFrontendController
     /**
      * Workaround due to static assetic javascripts/stylesheets declaration
      */
-    protected function fixAssets($assets)
+    protected function fixAssets(array $assets)
     {
         $ignore = array('jquery-last.min.js',
                         'jquery-ui.min.js',
