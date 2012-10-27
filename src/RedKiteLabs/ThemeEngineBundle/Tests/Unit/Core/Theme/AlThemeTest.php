@@ -91,6 +91,24 @@ class AlThemeTest extends TestCase
 
         $this->assertEquals($template, $theme->getTemplate('Home'));
     }
+    
+    public function testGetHomeTemplateReturnsATemplateNamedHome()
+    {
+        $homeTemplate = $this->setUpTemplate();
+        $template = $this->setUpTemplate('Internal');
+        $theme = $this->setUpTheme('FakeBundle', $template);
+        $theme->addTemplate($homeTemplate);
+
+        $this->assertEquals($homeTemplate, $theme->getHomeTemplate());
+    }
+    
+    public function testGetHomeTemplateReturnsTheFirstTemplateWhenTheHomeOneDoesNotExist()
+    {
+        $template = $this->setUpTemplate('Fake');
+        $theme = $this->setUpTheme('FakeBundle', $template);
+
+        $this->assertEquals($template, $theme->getHomeTemplate());
+    }
 
     private function setUpTheme($themeName = 'FakeBundle', $template = null)
     {

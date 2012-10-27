@@ -19,7 +19,6 @@ namespace AlphaLemon\ThemeEngineBundle\Core\Theme;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemeCollectionBase;
 use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
  * AlTheme represents a theme and it is a collection of AlTemplate objects
@@ -89,11 +88,31 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 
         return array_key_exists($key, $this->templates);
     }
+    
+    /**
+     * Returns the home template or the first one when the theme does not contains
+     * an home template
+     * 
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     */
+    public function getHomeTemplate()
+    {
+        $templateName = 'home';
+        if ( ! $this->hasTemplate($templateName)) {
+
+            // Returns the first one in alphabetic order
+            $templates = array_keys($this->templates);
+            sort($templates);
+            $templateName = $templates[0];
+        }
+        
+        return $this->templates[$templateName];
+    }
 
     /**
      * Adds a template object to the themes collection
      *
-     * @param AlTemplate $template
+     * @param \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate $template
      */
     public function addTemplate(AlTemplate $template)
     {
