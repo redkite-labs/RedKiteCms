@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\CmsInstallerBundle\Command;
+namespace AlphaLemon\AlphaLemonCmsBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
@@ -24,7 +24,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 
@@ -109,12 +108,6 @@ class PopulateCommand extends ContainerAwareCommand
         $user->save();
 
         $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
-        $languageManager = new AlLanguageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
-        $languageManager->set(null)->save(
-            array(
-                'LanguageName'      => 'en',
-            ));
-
         $themes = $this->getContainer()->get('alphalemon_theme_engine.themes');
         $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
         $template = $theme->getTemplate('home');
@@ -122,17 +115,22 @@ class PopulateCommand extends ContainerAwareCommand
         $pageContentsContainer = new AlPageBlocks($factoryRepository);
         $templateManager = new AlTemplateManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, $template, $pageContentsContainer, $this->getContainer()->get('alphalemon_cms.block_manager_factory'));
         $templateManager->refresh();
-
+        
+        $languageManager = new AlLanguageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         $pageManager = new AlPageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
-        $pageManager->set(null)->save(
-            array(
-                'PageName' => 'index',
-                'TemplateName' => 'home',
-                'Permalink' => 'homepage',
-                'MetaTitle' => 'A website made with AlphaLemon CMS',
-                'MetaDescription' => 'Website homepage',
-                'MetaKeywords' => '',
-            ));
+        $siteBootstrap = $this->getContainer()->get('alpha_lemon_cms.site_bootstrap');        
+        $result = $siteBootstrap
+                    ->setLanguageManager($languageManager)
+                    ->setPageManager($pageManager)
+                    ->setTemplateManager($templateManager)
+                    ->bootstrap();
+        
+        if ($result) {
+            $output->writeln("The site has been bootstrapped");
+        } else {
+            $output->writeln("Something goes wrong during the site bootstrapping process. The installation has been aborted");
+            die;
+        }
 
         try
         {
