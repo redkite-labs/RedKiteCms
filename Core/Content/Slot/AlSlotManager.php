@@ -113,11 +113,12 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets the slot manager's behavior when a new block is added
      *
-     *
      * When true forces the add operation to use the default AlSlot attributes for
      * the new block type
-     *
-     * @param Boolean
+     * 
+     * @param type $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
+     * @throws \InvalidArgumentException
      */
     public function setForceSlotAttributes($v)
     {
@@ -130,10 +131,18 @@ class AlSlotManager extends AlTemplateBase
         return $this;
     }
     
+    /**
+     * Skips adding a new block when the slot is repeated at site level and the block 
+     * has been already added
+     * 
+     * @param type $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
+     * @throws \InvalidArgumentException
+     */
     public function setSkipSiteLevelBlocks($v)
     {
         if (!is_bool($v)) {
-            throw new \InvalidArgumentException("setForceSlotAttributes accepts only boolean values");
+            throw new \InvalidArgumentException("setSkipSiteLevelBlocks accepts only boolean values");
         }
 
         $this->skipSiteLevelBlocks = $v;
@@ -266,7 +275,8 @@ class AlSlotManager extends AlTemplateBase
         }
         
         try {
-            switch ($this->slot->getRepeated()) {
+            $repeated = $this->slot->getRepeated();
+            switch ($repeated) {
                 case 'site':
                     $idPage = 1;
                     $idLanguage = 1;
@@ -285,9 +295,9 @@ class AlSlotManager extends AlTemplateBase
                     //idGroup = 1; //TODO
                     break;
             }
-
+            
             // Make sure that a content repeated at site level is never added twice
-            if ($this->skipSiteLevelBlocks && $idPage == 1 && $idLanguage == 1) {
+            if ($this->skipSiteLevelBlocks && $repeated == 'site') {
                 if (count($this->blockRepository->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
                     return;
                 }
@@ -332,7 +342,7 @@ class AlSlotManager extends AlTemplateBase
                   "PageId"          => $idPage,
                   "LanguageId"      => $idLanguage,
                   "SlotName"        => $this->slot->getSlotName(),
-                  "Type"       => $type,
+                  "Type"            => $type,
                   "ContentPosition" => $position,
                   'CreatedAt'       => date("Y-m-d H:i:s")
                 );
@@ -345,7 +355,7 @@ class AlSlotManager extends AlTemplateBase
                 $alBlockManager->set(null);
                 $result = $alBlockManager->save($values);
             }
-
+            
             if ($result !== false) {
                 $this->blockRepository->commit();
             } else {
@@ -523,30 +533,6 @@ class AlSlotManager extends AlTemplateBase
     }
 
     /**
-     * @deprecated
-     */
-    public function getContentManagers()
-    {
-        throw new \Exception ('Use the getBlockManagers() method instead of this one');
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getContentManager($idContent)
-    {
-        throw new \Exception ('Use the getBlockManager() method instead of this one');
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getContentManagerIndex($idContent)
-    {
-        throw new \Exception ('Use the getBlockManagerIndex() method instead of this one');
-    }
-
-    /**
      * Returns the managed blocks as an array
      *
      *
@@ -622,7 +608,9 @@ class AlSlotManager extends AlTemplateBase
             // Checks the $op parameter. If doesn't match, throwns and exception
             $required = array("add", "del");
             if (!in_array($op, $required)) {
+                // @codeCoverageIgnoreStart
                 throw new \InvalidArgumentException($this->translate('The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"', array('%className%' => get_class($this), '%options%' => $required, '%parameter%' => $op), 'al_slot_manager_exceptions'));
+                // @codeCoverageIgnoreEnd
             }
 
             if (count($managers) > 0) {
