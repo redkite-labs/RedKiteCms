@@ -281,8 +281,11 @@ class AlTemplateManager extends AlTemplateBase
                 if ($ignoreRepeated && $slotManager->getRepeated() != 'page') {
                     continue;
                 }
-
-                $slotManager->setForceSlotAttributes(true);
+                
+                $slotManager
+                    ->setForceSlotAttributes(true)
+                    ->setSkipSiteLevelBlocks(true)
+                ;
                 $result = $slotManager->addBlock($idLanguage, $idPage);
                 if(false === $result) break;
             }

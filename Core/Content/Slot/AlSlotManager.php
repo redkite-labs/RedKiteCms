@@ -41,6 +41,7 @@ class AlSlotManager extends AlTemplateBase
     protected $lastAdded = null;
     protected $blockManagers = array();
     protected $forceSlotAttributes = false;
+    protected $skipSiteLevelBlocks = false;
 
     /**
      * Constructor
@@ -125,6 +126,17 @@ class AlSlotManager extends AlTemplateBase
         }
 
         $this->forceSlotAttributes = $v;
+
+        return $this;
+    }
+    
+    public function setSkipSiteLevelBlocks($v)
+    {
+        if (!is_bool($v)) {
+            throw new \InvalidArgumentException("setForceSlotAttributes accepts only boolean values");
+        }
+
+        $this->skipSiteLevelBlocks = $v;
 
         return $this;
     }
@@ -252,7 +264,7 @@ class AlSlotManager extends AlTemplateBase
         if ((int) $idPage == 0) {
             throw new InvalidParameterTypeException(get_class($this) . ' reports: "idPage parameter must be a valid integer"');
         }
-
+        
         try {
             switch ($this->slot->getRepeated()) {
                 case 'site':
@@ -264,16 +276,18 @@ class AlSlotManager extends AlTemplateBase
                     $idPage = 1;
                     //idGroup = 1; //TODO
                     break;
+                /* TODO
                 case 'group':
                     $idPage = 1;
                     break;
+                 */
                 case 'page':
                     //idGroup = 1; //TODO
                     break;
             }
 
             // Make sure that a content repeated at site level is never added twice
-            if ($idPage == 1 && $idLanguage == 1) {
+            if ($this->skipSiteLevelBlocks && $idPage == 1 && $idLanguage == 1) {
                 if (count($this->blockRepository->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
                     return;
                 }
