@@ -142,7 +142,7 @@ class SecurityController extends ContainerAware
                     // Let's refresh the form with the saved data when the user is edited
                     if (!$isNewUser) $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
                 }
-            } catch (\PropelException $e) {
+            } catch (\Exception $e) {
                 $response = new Response();
                 $response->setStatusCode('404');
 
@@ -178,7 +178,7 @@ class SecurityController extends ContainerAware
                     // Let's refresh the form with the saved data when the user is edited
                     if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);
                 }
-            } catch (\PropelException $e) {
+            } catch (\Exception $e) {
                 $response = new Response();
                 $response->setStatusCode('404');
 
@@ -203,7 +203,7 @@ class SecurityController extends ContainerAware
             }
 
             return $this->loadUsers();
-        } catch (\PropelException $e) {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
 
@@ -221,7 +221,7 @@ class SecurityController extends ContainerAware
             }
 
             return $this->loadRoles();
-        } catch (\PropelException $e) {
+        } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
 
