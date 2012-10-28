@@ -64,6 +64,15 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp("/Redirecting to \/backend\/en\/page1/s", $crawler->text());
     }
+    
+    public function testActiveteThemeRedirectsToHomePageWhenLanguageOrPageAreInvalid()
+    {
+        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BusinessWebsiteThemeBundle/foo/bar');
+        $this->client->followRedirect();
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp("/Redirecting to \/backend\/en\/index/s", $crawler->text());
+    }
 
     public function testThemeFixer()
     {
