@@ -32,14 +32,18 @@ class AlSlotManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
+        $this->validator = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
 
-        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
+        $this->blockRepository = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
 
         $slot = new AlSlot('test', array('repeated' => 'page'));
         $this->slotManager = new AlSlotManager($this->eventsHandler, $slot, $this->blockRepository, $factory, $this->validator);
@@ -47,12 +51,16 @@ class AlSlotManagerTest extends AlContentManagerBase
     
     public function testAlSlotInjectedBySetters()
     {
-        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
-                     ->disableOriginalConstructor()
-                     ->getMock();        
+        $slot = 
+            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;        
+        
         $slot->expects($this->once())
              ->method('getSlotName')
-             ->will($this->returnValue('logo'));
+             ->will($this->returnValue('logo'))
+        ;
         
         $this->assertEquals($this->slotManager, $this->slotManager->setSlot($slot));
         $this->assertEquals($slot, $this->slotManager->getSlot());
@@ -68,6 +76,20 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->slotManager->setForceSlotAttributes('fake');
     }
     
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage setSkipSiteLevelBlocks accepts only boolean values
+     */
+    public function testSetSkipSiteLevelBlocksWantsABooleanAsArgument()
+    {
+        $this->slotManager->setSkipSiteLevelBlocks('fake');
+    }
+    
+    public function testGetRepeated()
+    {
+        $this->assertEquals('page', $this->slotManager->getRepeated());
+    }
+    
     public function testGetForceSlotAttributes()
     {
         $this->assertFalse($this->slotManager->getForceSlotAttributes());
@@ -77,9 +99,11 @@ class AlSlotManagerTest extends AlContentManagerBase
     
     public function testBlockRepositoryInjectedBySetters()
     {
-        $blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
-                                ->disableOriginalConstructor()
-                                ->getMock();
+        $blockRepository = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
         $this->assertEquals($this->slotManager, $this->slotManager->setBlockRepository($blockRepository));
         $this->assertEquals($blockRepository, $this->slotManager->getBlockRepository());
         $this->assertNotSame($this->slotManager, $this->slotManager->getBlockRepository());
@@ -90,13 +114,17 @@ class AlSlotManagerTest extends AlContentManagerBase
      */
     public function testAddBlockFailsWhenReceivesAnInvalidLanguageId()
     {
-        $this->eventsHandler->expects($this->never())
-            ->method('createEvent');
+        $this
+            ->eventsHandler
+            ->expects($this->never())
+            ->method('createEvent')
+        ;
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $factory->expects($this->any())
-                ->method('createBlockManager')
-                ->will($this->throwException(new \InvalidArgumentException));
+        $factory
+            ->expects($this->any())
+            ->method('createBlockManager')
+            ->will($this->throwException(new \InvalidArgumentException));
 
         $this->slotManager->addBlock('fake', 2);
     }
@@ -106,11 +134,15 @@ class AlSlotManagerTest extends AlContentManagerBase
      */
     public function testAddBlockThrowsAnExceptionWhenReceivesAnInvalidPageId()
     {
-        $this->eventsHandler->expects($this->never())
-            ->method('createEvent');
+        $this
+            ->eventsHandler
+            ->expects($this->never())
+            ->method('createEvent')
+        ;
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $factory->expects($this->any())
+        $factory
+            ->expects($this->any())
             ->method('createBlockManager')
             ->will($this->throwException(new \InvalidArgumentException));
 
@@ -122,13 +154,18 @@ class AlSlotManagerTest extends AlContentManagerBase
      */
     public function testAddBlockThrowsAnExceptionWhenReceivesAnInvalidType()
     {
-        $this->eventsHandler->expects($this->never())
-            ->method('createEvent');
+        $this
+            ->eventsHandler
+            ->expects($this->never())
+            ->method('createEvent')
+        ;
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $factory->expects($this->any())
+        $factory
+            ->expects($this->any())
             ->method('createBlockManager')
-            ->will($this->throwException(new \InvalidArgumentException));
+            ->will($this->throwException(new \InvalidArgumentException))
+        ;
 
         $this->slotManager->addBlock(2, 2, 'fake');
     }
@@ -138,71 +175,44 @@ class AlSlotManagerTest extends AlContentManagerBase
      */
     public function testAddNewBlockThrownAnUnespectedException()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getLanguageId')
-                ->will($this->returnValue(2));
-
-        $block->expects($this->any())
-                ->method('getPageId')
-                ->will($this->returnValue(2));
-
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('rollback');
+        $block = $this->initBlock();
+        $this->setUpRepositoryBehavior(0, 1);
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $this->slotManager->setBlockManagerFactory($factory);
 
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
-        $this->blockManager->expects($this->once())
+        $this
+            ->blockManager
+            ->expects($this->once())
             ->method('save')
-            ->will($this->throwException(new \RuntimeException()));
+            ->will($this->throwException(new \RuntimeException()))
+        ;
 
         $this->slotManager->addBlock(2, 2);
+    }
+    
+    public function testAddNewBlockFailsWhenContentManagerSavingFails()
+    {
+        $block = $this->initBlock();
+        $this->setUpRepositoryBehavior(0, 1);
+
+        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block, 'save', false);
+        $this->slotManager->setBlockManagerFactory($factory);
+        $this->assertFalse($this->slotManager->addBlock(2, 2));
     }
 
     public function testAddNewBlockWithoutGivingTheClassType()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getLanguageId')
-                ->will($this->returnValue(2));
-
-        $block->expects($this->any())
-                ->method('getPageId')
-                ->will($this->returnValue(2));
-
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $block = $this->initBlock(null, 'Text', 2, 2);
+        $this->setUpRepositoryBehavior();
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $this->slotManager->setBlockManagerFactory($factory);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
         $this->assertTrue($this->slotManager->addBlock(2, 2));
+        
+        $blockManagers = $this->slotManager->getBlockManagers();
+        $this->assertCount(1, $blockManagers);
+        $this->assertInstanceOf('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $blockManagers[0]);
         $this->assertEquals(1, $this->slotManager->length());
         $this->assertEquals(2, $this->slotManager->first()->get()->getLanguageId());
         $this->assertEquals(2, $this->slotManager->first()->get()->getPageId());
@@ -213,106 +223,127 @@ class AlSlotManagerTest extends AlContentManagerBase
 
     public function testAddNewBlockGivingTheClassType()
     {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
+        $block = $this->initBlock();
+        $this->setUpRepositoryBehavior();
 
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
         $this->assertEquals(1 ,$this->slotManager->length());
     }
-
-    public function testAddNewBlockInSecondPosition()
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testAddNewBlockInSecondPositionFailsBecauseSomethingWasWrongAdjustingThePosition1()
     {
-        $this->blockRepository->expects($this->exactly(4))
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->exactly(4))
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $this->blockRepository->expects($this->once())
+        $this->blockRepository
+            ->expects($this->once())
             ->method('setRepositoryObject')
-            ->will($this->returnSelf());
+            ->will($this->returnSelf())
+        ;
 
-        $this->blockRepository->expects($this->once())
+        $this->blockRepository
+            ->expects($this->once())
             ->method('save')
-            ->will($this->returnValue(true));
+            ->will($this->throwException(new \RuntimeException()))
+        ;
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $block->expects($this->once())
-                ->method('getContentPosition')
-                ->will($this->returnValue(1));
-
+        $block = $this->initBlock(1, array('Text', 0), null, null, array(1, 0));
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $this->slotManager->setBlockManagerFactory($factory);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Script'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(2));
-
-        $block->expects($this->exactly(3))
-                ->method('getContentPosition')
-                ->will($this->returnValue(3));
-
+        
+        $block = $this->initBlock(null, array('Script', 0), null, null, array(3, 2));
         $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Menu'));
+        $blockManager = $this->getMockBuilder('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu')
+                            ->disableOriginalConstructor()
+                            ->getMock();
 
-        $block->expects($this->once())
-                ->method('getContentPosition')
-                ->will($this->returnValue(2));
+        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory
+            ->expects($this->any())
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager))
+        ;
+        $this->assertFalse($this->slotManager->addBlock(2, 2, "Menu", 1));
+    }
+    
+    public function testAddNewBlockInSecondPositionFailsBecauseSomethingWasWrongAdjustingThePosition()
+    {
+        $this->blockRepository
+            ->expects($this->once())
+            ->method('setRepositoryObject')
+            ->will($this->returnSelf())
+        ;
 
+        $this->blockRepository
+            ->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(false))
+        ;
+
+        $block = $this->initBlock(1, 'Text', null, null, 1);
+        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $this->slotManager->setBlockManagerFactory($factory);
+        $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
+        
+        $block = $this->initBlock(null, 'Script', null, null, array(3, 3));
+        $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
+        $this->slotManager->setBlockManagerFactory($factory);
+        $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
+
+        $blockManager = $this->getMockBuilder('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory
+            ->expects($this->any())
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager))
+        ;
+        $this->assertFalse($this->slotManager->addBlock(2, 2, "Menu", 1));
+        
+        $this->assertEquals(2, $this->slotManager->length());
+        $this->assertEquals('Text', $this->slotManager->first()->get()->getType());
+        $this->assertEquals('Script', $this->slotManager->indexAt(1)->get()->getType());
+        $this->assertEquals(1, $this->slotManager->first()->get()->getContentPosition());
+        $this->assertEquals(3, $this->slotManager->last()->get()->getContentPosition());
+    }
+    
+    public function testAddNewBlockInSecondPosition()
+    {
+        $this->setUpRepositoryBehavior(4);
+
+        $this->blockRepository
+            ->expects($this->once())
+            ->method('setRepositoryObject')
+            ->will($this->returnSelf())
+        ;
+
+        $this->blockRepository
+            ->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue(true))
+        ;
+
+        $block = $this->initBlock(1, 'Text', null, null, 1);
+        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $this->slotManager->setBlockManagerFactory($factory);
+        $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
+        
+        $block = $this->initBlock(null, 'Script', null, null, array(3, 3));
+        $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
+        $this->slotManager->setBlockManagerFactory($factory);
+        $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
+
+        $block = $this->initBlock(null, 'Menu', null, null, 2);        
         $factory = $this->setUpFactory('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', $block);
         $this->slotManager->setBlockManagerFactory($factory);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Menu", 1));
 
         $this->assertEquals(3, $this->slotManager->length());
@@ -326,41 +357,13 @@ class AlSlotManagerTest extends AlContentManagerBase
 
     public function testAddNewBlockGivingAnInvalidBlockIdAddsTheBlockAsLast()
     {
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
+        $this->setUpRepositoryBehavior(2);
+        
+        $block = $this->initBlock();
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $this->slotManager->setBlockManagerFactory($factory);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Script'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
+        $block = $this->initBlock(null, 'Script');
 
         $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
@@ -370,104 +373,26 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertEquals('Script', $this->slotManager->last()->get()->getType());
     }
 
-    public function testAddNewBlockOnSlotRepeatedAtLanguage()
+    /**
+     * @dataProvider repeatedSlotProvider
+     */
+    public function testAddNewBlockOnARepeatedSlot($languageId, $pageId, $repeated)
     {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $block->expects($this->once())
-                ->method('getLanguageId')
-                ->will($this->returnValue(2));
-
-        $block->expects($this->once())
-                ->method('getPageId')
-                ->will($this->returnValue(1));
+        $this->setUpRepositoryBehavior();
+        $block = $this->initBlock(null, null, $languageId, $pageId);
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
-        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => $repeated)), $this->blockRepository, $factory, $this->validator);
         $this->assertTrue($slotManager->addBlock(2, 2, "Text"));
 
-        $this->assertEquals(2, $slotManager->first()->get()->getLanguageId());
-        $this->assertEquals(1, $slotManager->first()->get()->getPageId());
+        $this->assertEquals($languageId, $slotManager->first()->get()->getLanguageId());
+        $this->assertEquals($pageId, $slotManager->first()->get()->getPageId());
     }
-
-    public function testAddNewBlockOnSlotRepeatedAtSite()
-    {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $block->expects($this->once())
-                ->method('getLanguageId')
-                ->will($this->returnValue(1));
-
-        $block->expects($this->once())
-                ->method('getPageId')
-                ->will($this->returnValue(1));
-
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
-        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
-
-        $this->blockManager->expects($this->once())
-                ->method('set')
-                ->with(null);
-
-        $this->assertTrue($slotManager->addBlock(2, 2, "Text"));
-
-        $this->assertEquals(1, $slotManager->first()->get()->getLanguageId());
-        $this->assertEquals(1, $slotManager->first()->get()->getPageId());
-    }
-
+    
     public function testTryingToEditNonExistentBlock()
     {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
+        $this->setUpRepositoryBehavior();
+        $block = $this->initBlock(1);
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $this->slotManager->setBlockManagerFactory($factory);
@@ -481,48 +406,38 @@ class AlSlotManagerTest extends AlContentManagerBase
      */
     public function testEditBlockThrownAnUnespectedException()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(0, 1);
+        $block = $this->initBlock(1);
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
 
-        $this->blockManager->expects($this->once())
-            ->method('save')
-            ->will($this->throwException(new \RuntimeException()));
+        $this->blockManager
+             ->expects($this->once())
+             ->method('save')
+             ->will($this->throwException(new \RuntimeException()))
+        ;
 
         $slotManager->setUpBlockManagers(array($block));
         $slotManager->editBlock(1, array('Content' => 'fake'));
     }
+    
+    public function testEditBlockFailsWhenBlockManagerSavingFails()
+    {
+        $this->setUpRepositoryBehavior(0, 1);
+        $block = $this->initBlock(1, null, null, null, null);
+
+        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block, 'save', false);
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager->setUpBlockManagers(array($block));
+        $res = $slotManager->editBlock(1, array('Content' => 'fake'));
+        $this->assertFalse($res);
+    }
 
     public function testEditBlock()
     {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $block->expects($this->once())
-                ->method('getContent')
-                ->will($this->returnValue('fake'));
+        $this->setUpRepositoryBehavior();
+        $block = $this->initBlock(1, null, null, null, null, 'fake');
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
@@ -537,16 +452,8 @@ class AlSlotManagerTest extends AlContentManagerBase
      */
     public function testDeleteBlockThrownAnUnespectedException()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(0, 1);
+        $block = $this->initBlock(1);
 
         $blockManager = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
                             ->disableOriginalConstructor()
@@ -559,27 +466,58 @@ class AlSlotManagerTest extends AlContentManagerBase
         $blockManager->expects($this->any())
                         ->method('get')
                         ->will($this->returnValue($block));
-
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
-
+         
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block));
         $slotManager->deleteBlock(1);
     }
+    
+    public function testDeleteBlockFailsWhenBlockManagerFaildToDeleteABlock()
+    {
+        $this->setUpRepositoryBehavior(0, 1);
+        $block = $this->initBlock(1);
+
+        $blockManager = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $blockManager->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue(false));
+
+        $blockManager->expects($this->any())
+                        ->method('get')
+                        ->will($this->returnValue($block));
+        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory->expects($this->any())
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager));
+         
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $slotManager->setUpBlockManagers(array($block));
+        $slotManager->deleteBlock(1);
+    }
+    
+    public function testDeleteIsSkippedWhenAnyBlockManagerExists()
+    {
+        $this
+            ->blockRepository
+            ->expects($this->never())
+            ->method('startTransaction')
+        ;
+        
+        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $this->assertNull($slotManager->deleteBlock(1));
+    }
 
     public function testDeleteBlock()
     {
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(2);
 
         $this->blockRepository->expects($this->once())
             ->method('setRepositoryObject')
@@ -587,21 +525,9 @@ class AlSlotManagerTest extends AlContentManagerBase
 
         $this->blockRepository->expects($this->once())
             ->method('save')
-            ->will($this->returnValue(true));
-
-        $block1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block1->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $block1->expects($this->any())
-                ->method('getContentPosition')
-                ->will($this->returnValue(1));
-
-        $block1->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue("Text"));
-
+            ->will($this->returnValue(true));        
+        
+        $block1 = $this->initBlock(1, 'Text', null, null, 1);
         $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
                             ->disableOriginalConstructor()
                             ->getMock();
@@ -613,21 +539,8 @@ class AlSlotManagerTest extends AlContentManagerBase
         $blockManager1->expects($this->any())
             ->method('get')
             ->will($this->returnValue($block1));
-
-        // Block Manager 2
-        $block2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block2->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(2));
-
-        $block2->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue("Script"));
-
-        $block2->expects($this->any())
-                ->method('getContentPosition')
-                ->will($this->returnValue(1));
-
+        
+        $block2 = $this->initBlock(null, 'Script', null, null, array(1, 2));
         $blockManager2 = $this->getMockBuilder('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript')
                             ->disableOriginalConstructor()
                             ->getMock();
@@ -652,30 +565,70 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertEquals("Script", $slotManager->first()->get()->getType());
         $this->assertEquals(1, $slotManager->first()->get()->getContentPosition());
     }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testDeleteBlocksFailsWhenABlockDeletedOperationThrowsAnAnUnespectedException()
+    {
+        $this->setUpRepositoryBehavior(0, 1);
+        $block1 = $this->initBlock();
+
+        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $blockManager1->expects($this->once())
+                ->method('delete')
+                ->will($this->throwException(new \RuntimeException()));
+
+        $blockManager1->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($block1));
+
+        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory->expects($this->once())
+            ->method('createBlockManager')
+            ->will($this->onConsecutiveCalls($blockManager1));
+
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository,  $factory, $this->validator);
+        $slotManager->setUpBlockManagers(array($block1));
+
+        $slotManager->deleteBlocks();
+    }
+    
+    public function testDeleteBlocksFailsWhenOneBlockIsNotDeletedDueToAnUnespectedError()
+    {
+        $this->setUpRepositoryBehavior(0, 1);
+        $block1 = $this->initBlock();
+
+        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $blockManager1->expects($this->once())
+                ->method('delete')
+                ->will($this->returnValue(false));
+
+        $blockManager1->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($block1));
+
+        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory->expects($this->once())
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager1));
+
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository,  $factory, $this->validator);
+        $slotManager->setUpBlockManagers(array($block1));
+
+        $slotManager->deleteBlocks();
+    }
 
     public function testDeleteBlocks()
     {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $block1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block1->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
-        $block1->expects($this->any())
-                ->method('getContentPosition')
-                ->will($this->returnValue(1));
-
-        $block1->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue("Text"));
+        $this->setUpRepositoryBehavior(1);
+        $block1 = $this->initBlock();
 
         $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
                             ->disableOriginalConstructor()
@@ -690,19 +643,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->returnValue($block1));
 
         // Block Manager 2
-        $block2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block2->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(2));
-
-        $block2->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue("Script"));
-
-        $block2->expects($this->any())
-                ->method('getContentPosition')
-                ->will($this->returnValue(1));
-
+        $block2 = $this->initBlock();
         $blockManager2 = $this->getMockBuilder('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript')
                             ->disableOriginalConstructor()
                             ->getMock();
@@ -726,55 +667,47 @@ class AlSlotManagerTest extends AlContentManagerBase
         $slotManager->deleteBlocks();
         $this->assertEquals(0, $slotManager->length());
     }
+    
+    public function testDeleteBlocksIsSkippedWhenAnyBlockManagerExists()
+    {
+        $this
+            ->blockRepository
+            ->expects($this->never())
+            ->method('startTransaction')
+        ;
+        
+        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
+        $this->assertNull($slotManager->deleteBlocks());
+    }
 
     public function testFirst()
     {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(1);
 
         $this->assertNull($this->slotManager->first());
 
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
 
         $this->assertEquals('Text', $this->slotManager->first()->get()->getType());
     }
 
     public function testLast()
     {
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(2);
 
         $this->assertNull($this->slotManager->last());
 
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
         $this->assertEquals('Text', $this->slotManager->last()->get()->getType());
 
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
         $this->assertEquals('Script', $this->slotManager->last()->get()->getType());
     }
 
     public function testLastAdded()
     {
-        $this->blockRepository->expects($this->exactly(4))
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->exactly(4))
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(4);
 
         $this->blockRepository->expects($this->once())
             ->method('setRepositoryObject')
@@ -785,29 +718,17 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->returnValue(true));
 
         $this->assertNull($this->slotManager->lastAdded());
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
+        $block = $this->initBlock(1, 'Text');
 
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, 'Text'));
         $this->assertEquals('Text', $this->slotManager->lastAdded()->get()->getType());
 
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
         $this->assertEquals('Script', $this->slotManager->lastAdded()->get()->getType());
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Menu'));
+        $block = $this->initBlock(null, 'Menu');
 
         $factory = $this->setUpFactory('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', $block);
         $this->slotManager->setBlockManagerFactory($factory);
@@ -818,19 +739,12 @@ class AlSlotManagerTest extends AlContentManagerBase
 
     public function testIndexAt()
     {
-        $this->blockRepository->expects($this->exactly(3))
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->exactly(3))
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(3);
 
         $this->assertNull($this->slotManager->indexAt(0));
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', 'Menu');
+        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', 'Menu');
         $this->assertNull($this->slotManager->indexAt(-1));
         $this->assertNull($this->slotManager->indexAt(3));
         $this->assertEquals('Text', $this->slotManager->indexAt(0)->get()->getType());
@@ -840,46 +754,23 @@ class AlSlotManagerTest extends AlContentManagerBase
 
     public function testLength()
     {
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->exactly(2))
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior(2);
 
         $this->assertEquals(0, $this->slotManager->length());
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
         $this->assertEquals(1, $this->slotManager->length());
-        $this->addBlockManagerOnlyWithType('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
         $this->assertEquals(2, $this->slotManager->length());
     }
 
     public function testGetBlockManager()
     {
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
+        $this->setUpRepositoryBehavior();
 
         $this->assertNull($this->slotManager->getBlockManager(99999999));
-
         $this->assertNull($this->slotManager->lastAdded());
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->any())
-                ->method('getType')
-                ->will($this->returnValue('Text'));
-
-        $block->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue(1));
-
+        
+        $block = $this->initBlock();
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, 'Text'));
@@ -889,7 +780,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
     public function testToArray()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->initBlock();
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
 
         $this->slotManager->setBlockManagerFactory($factory);
@@ -899,7 +790,7 @@ class AlSlotManagerTest extends AlContentManagerBase
                 ->with(null);
         $this->assertTrue($this->slotManager->addBlock(2, 2));
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->initBlock();
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
 
         $this->slotManager->setBlockManagerFactory($factory);
@@ -915,7 +806,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
     public function testForceAttributes()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->initBlock();
         $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
 
         $this->blockManager->expects($this->once())
@@ -934,16 +825,118 @@ class AlSlotManagerTest extends AlContentManagerBase
         $slotManager->setForceSlotAttributes(true);
         $slotManager->addBlock(2, 2);
     }
+    
+    public function testSetSkippedSiteLevelFlag()
+    {
+        $this->setUpRepositoryBehavior();
+        $block = $this->initBlock();
 
-    private function setUpBlockManager($class, $block = null, $method = "save")
+        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+
+        $this->blockManager
+            ->expects($this->once())
+            ->method('set')
+            ->with(null)
+        ;
+        
+        $this->blockRepository
+            ->expects($this->at(0))
+            ->method('retrieveContents')
+            ->with(1, 1, 'test')
+            ->will($this->returnValue(array()))
+        ;
+        
+        $this->blockRepository
+            ->expects($this->at(3))
+            ->method('retrieveContents')
+            ->with(1, 1, 'test')
+            ->will($this->returnValue(array($block)))
+        ;
+
+        $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'site')), $this->blockRepository, $factory, $this->validator);
+        $slotManager->setSkipSiteLevelBlocks(true);
+        $this->assertTrue($slotManager->addBlock(2, 2, 'Text'));
+        $this->assertNull($slotManager->addBlock(2, 2, 'Text'));
+        $this->assertEquals(1 ,$slotManager->length());
+    }
+    
+    public function repeatedSlotProvider()
+    {
+        return array(
+            array(2, 1, 'language'),
+            array(1, 1, 'site'),
+        );
+    }
+    
+    private function initBlock($id = null, $type = null, $languageId = null, $pageId = null, $position = null, $content = null)
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');        
+        $this->initBlockExpectation($block, $id, 'getId');
+        $this->initBlockExpectation($block, $type, 'getType');
+        $this->initBlockExpectation($block, $languageId, 'getLanguageId');
+        $this->initBlockExpectation($block, $pageId, 'getPageId');
+        $this->initBlockExpectation($block, $position, 'getContentPosition');        
+        $this->initBlockExpectation($block, $content, 'getContent');
+        
+        return $block;
+    }
+    
+    private function initBlockExpectation($block, $property, $method)
+    {
+        if (null !== $property) {
+            if (is_array($property)) {
+                $value = $property[0];                
+                $times = $property[1];
+            }
+            else {
+                $value = $property;
+                $times = 1;
+            }
+            $block
+                ->expects($this->exactly($times))
+                ->method($method)
+                ->will($this->returnValue($value))
+            ;
+        }
+    }
+    
+    private function setUpRepositoryBehavior($successTimes = 1, $failTimes = 0)
+    {
+        $transactionTimes = ($successTimes > 0) ? $successTimes : $failTimes;
+        $this
+            ->blockRepository
+            ->expects($this->exactly($transactionTimes))
+            ->method('startTransaction')
+        ;
+
+        $this
+            ->blockRepository
+            ->expects($this->exactly($successTimes))
+            ->method('commit')
+        ;
+
+        $this
+            ->blockRepository
+            ->expects($this->exactly($failTimes))
+            ->method('rollback')
+        ;
+    }
+
+    private function setUpBlockManager($class, $block = null, $method = "save", $result = true)
     {
         $blockManager = $this->getMockBuilder($class)
                             ->disableOriginalConstructor()
                             ->getMock();
 
+        $blockManager
+            ->expects($this->any())
+            ->method('set')
+            ->with(null)
+        ;
+        
         $blockManager->expects($this->once())
                 ->method($method)
-                ->will($this->returnValue(true));
+                ->will($this->returnValue($result));
 
         if (null !== $block) {
             $blockManager->expects($this->any())
@@ -956,9 +949,9 @@ class AlSlotManagerTest extends AlContentManagerBase
         return $blockManager;
     }
 
-    private function setUpFactory($class, $block = null)
+    private function setUpFactory($class, $block = null, $method = "save", $result = true)
     {
-        $blockManager = $this->setUpBlockManager($class, $block);
+        $blockManager = $this->setUpBlockManager($class, $block, $method, $result);
 
         $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
@@ -968,7 +961,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         return $factory;
     }
 
-    private function addBlockManagerOnlyWithType($class, $type = "Text")
+    private function addMoreBlocks($class, $type = "Text")
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
@@ -978,7 +971,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
         $factory = $this->setUpFactory($class, $block);
         $this->slotManager->setBlockManagerFactory($factory);
-
+        
         $this->assertTrue($this->slotManager->addBlock(2, 2, $type));
     }
 }
