@@ -31,7 +31,7 @@ class SecurityControllerTest extends BaseSecured
     protected function setUp()
     {
     }
-
+    
     public function testLoginForm()
     {
         $client = $this->setUpClient(array());
