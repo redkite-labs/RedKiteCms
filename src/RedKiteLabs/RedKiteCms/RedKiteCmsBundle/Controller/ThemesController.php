@@ -26,19 +26,28 @@ class ThemesController extends BaseController
 {
     public function activateCmsThemeAction($themeName, $languageName, $pageName)
     {
-        try {
-            $this->getActiveTheme()->writeActiveTheme($themeName);
-            $url = $this->container->get('router')->generate('_navigation', array('_locale' => $languageName, 'page' => $pageName));
-
-            // Url must contain all parts otherwise errors could occour
-            if (!preg_match('/backend\/[\w]+\/[\w]+/', $url)) {
-                $url .= sprintf('/%s/%s', $languageName, $pageName);
-            }
-
-            return new RedirectResponse($url);
-        } catch (Exception $e) {
-            throw new NotFoundHttpException($e->getMessage());
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $languageRepository = $factoryRepository->createRepository('Language');                
+        if (null === $languageRepository->fromLanguageName($languageName)) {
+            $languageName = $languageRepository->mainLanguage()->getLanguageName();
         }
+        
+        $pageRepository = $factoryRepository->createRepository('Page');
+        if (null === $pageRepository->fromPageName($pageName)) {
+            $pageName = $pageRepository->homePage()->getPageName();
+        }
+                
+        $this->getActiveTheme()->writeActiveTheme($themeName);
+        
+        $router = $this->container->get('router');
+        $url = $router->generate('_navigation', array('_locale' => $languageName, 'page' => $pageName));
+        
+        // Url must contain all parts otherwise errors could occour
+        if (!preg_match('/backend\/[\w]+\/[\w]+/', $url)) {
+            $url .= sprintf('/%s/%s', $languageName, $pageName);
+        }
+
+        return new RedirectResponse($url);
     }
 
     public function showThemeFixerAction()
