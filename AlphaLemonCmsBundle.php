@@ -20,7 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Compiler\AlBlocksCompilerPass;
 
 /**
@@ -31,12 +30,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Compiler\AlBlocksCompilerPass;
 class AlphaLemonCmsBundle extends Bundle
 {
 
+    /**
+     * @inheritdoc
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
         $container->addCompilerPass(new RegisterCmsListenersPass());
-
         $container->addCompilerPass(new AlBlocksCompilerPass());
     }
 }
