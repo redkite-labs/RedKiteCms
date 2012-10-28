@@ -20,6 +20,24 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap;
 
+class AlSiteBootstrapTester extends AlSiteBootstrap
+{
+    public function getLanguageManager()
+    {
+        return $this->languageManager;
+    }
+    
+    public function getPageManager()
+    {
+        return $this->pageManager;
+    }
+    
+    public function getTemplateManager()
+    {
+        return $this->templateManager;
+    }
+}
+
 /**
  * AlSiteBootstrapTest
  *
@@ -73,6 +91,45 @@ class AlSiteBootstrapTest extends TestCase
         ;
         
         $this->siteBoostrap = new AlSiteBootstrap($this->languageManager, $this->pageManager, $this->templateManager);
+    }
+    
+    public function testLanguageManagerInjectedBySetters()
+    {
+        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->templateManager);
+        $languageManager = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        $this->assertEquals($siteBootstrap, $siteBootstrap->setLanguageManager($languageManager));
+        $this->assertEquals($languageManager, $siteBootstrap->getLanguageManager());
+        $this->assertNotSame($this->languageManager, $siteBootstrap->getLanguageManager());
+    }
+    
+    public function testPageManagerInjectedBySetters()
+    {
+        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->templateManager);
+        $pageManager = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        $this->assertEquals($siteBootstrap, $siteBootstrap->setPageManager($pageManager));
+        $this->assertEquals($pageManager, $siteBootstrap->getPageManager());
+        $this->assertNotSame($this->pageManager, $siteBootstrap->getPageManager());
+    }
+    
+    public function testTemplateManagerInjectedBySetters()
+    {
+        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->templateManager);
+        $templateManager = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        $this->assertEquals($siteBootstrap, $siteBootstrap->setTemplateManager($templateManager));
+        $this->assertEquals($templateManager, $siteBootstrap->getTemplateManager());
+        $this->assertNotSame($this->templateManager, $siteBootstrap->getTemplateManager());
     }
     
     public function testDeleteExistingLanguageFails()
