@@ -346,7 +346,49 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(0, count($blocks));
     }
+    
+    public function testDeleteBlockPlacedOnASlotThatHasMoreThanOneBlocks()
+    {
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
+                        'slotName' => 'left_sidebar_content');
+        $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
+        $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
+        $this->assertEquals(2, count($blocks));
+        
+        $blockId = $this->getLastBlock("left_sidebar_content")->getId();
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
+                        'slotName' => 'left_sidebar_content',
+                        "key" => "fake",
+                        "value" => "new content",
+                        "idBlock" => $blockId);
 
+        $crawler = $this->client->request('POST', '/backend/en/deleteBlock', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(2, count($json));
+        $this->assertTrue(array_key_exists("key", $json[0]));
+        $this->assertEquals("message", $json[0]["key"]);
+        $this->assertTrue(array_key_exists("value", $json[0]));
+        $this->assertEquals("The content has been successfully removed", $json[0]["value"]);
+
+        $this->assertTrue(array_key_exists("key", $json[1]));
+        $this->assertEquals("remove-block", $json[1]["key"]);
+        $this->assertTrue(array_key_exists("blockName", $json[1]));
+        $this->assertEquals("block_26", $json[1]["blockName"]);
+
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
+        $this->assertEquals(1, count($blocks));
+    }
+    
     public function testShowFilesManagerFailsWhenAnyKeyIsGiven()
     {
         $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager');
@@ -664,7 +706,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     private function getLastBlock($slotName)
     {
         $blocks = $this->getSlotBlocks($slotName);
-
+        
         return $blocks[count($blocks) - 1];
     }
 
