@@ -9,6 +9,8 @@ class AlUser extends BaseAlUser implements UserInterface
 {
     /**
      * {@inheritDoc}
+     * 
+     * @codeCoverageIgnore
      */
     public function getRoles()
     {
@@ -17,6 +19,8 @@ class AlUser extends BaseAlUser implements UserInterface
     
     /**
      * {@inheritDoc}
+     * 
+     * @codeCoverageIgnore
      */
     public function eraseCredentials()
     {
