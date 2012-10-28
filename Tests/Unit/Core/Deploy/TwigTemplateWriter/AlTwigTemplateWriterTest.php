@@ -303,7 +303,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);//echo nl2br($twigTemplateWriter->getContentsSection());exit;
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -325,7 +325,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);//echo nl2br($twigTemplateWriter->getContentsSection());exit;
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
