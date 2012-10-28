@@ -28,6 +28,12 @@ use AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler\EventListenersRegistrat
  */
 class RegisterCmsListenersPass implements CompilerPassInterface
 {
+    /**
+     * Registers the AlphaLemon CMS events
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @codeCoverageIgnore
+     */
     public function process(ContainerBuilder $container)
     {
         EventListenersRegistrator::registerByTaggedServiceId($container, 'alcms.event_listener');
