@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,7 +91,9 @@ class BlocksController extends ContainerAware
             $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
             $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
             if (!$res) {
+                // @codeCoverageIgnoreStart
                 throw new \RuntimeException('The content has not been added because something goes wrong during the operation');
+                // @codeCoverageIgnoreEnd
             }
 
             $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
@@ -134,7 +135,9 @@ class BlocksController extends ContainerAware
             if(null !== $request->get('options') && is_array($request->get('options'))) $values = array_merge($values, $request->get('options'));
             $result = $slotManager->editBlock($request->get('idBlock'), $values);
             if (false === $result) {
+                // @codeCoverageIgnoreStart
                 throw new \RuntimeException('The content has not been edited because something goes wrong during the operation');
+                // @codeCoverageIgnoreEnd
             }
 
             if (null === $result) {
@@ -159,7 +162,7 @@ class BlocksController extends ContainerAware
                           "blockName" => "block_" . $blockManager->get()->getId(),
                           "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))));
 
-                return $this->buildJSonResponse($values);
+                $response = $this->buildJSonResponse($values);
             }
 
             return $response;
@@ -271,7 +274,9 @@ class BlocksController extends ContainerAware
                         )
                     );
                 } else {
+                    // @codeCoverageIgnoreStart
                     throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
+                    // @codeCoverageIgnoreEnd
                 }
             } else {
                 throw new \RuntimeException('You are trying to add an external file on a content that doesn\'t exist anymore');
@@ -304,36 +309,35 @@ class BlocksController extends ContainerAware
             if (null !== $blockManager) {
                 $field = $request->get('field');
                 $externalFiles =  $blockManager->get()->{'get' . $field}();
+                
+                $filePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
+                $file = $filePath . $file;
+                @unlink($file);
 
-                if ($request->get('file') != null) {
-                    $filePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
-                    $file = $filePath . $request->get('file');
-                    @unlink($file);
+                if (!empty($externalFiles)) {
+                    $files = array_flip(explode(",", $externalFiles));
+                    if (array_key_exists($request->get('file'), $files)) {
+                        unset($files[$request->get('file')]);
+                        $files = array_flip($files);
+                        $value = implode(",", $files);
 
-                    if (!empty($externalFiles)) {
-                        $files = array_flip(explode(",", $externalFiles));
-                        if (array_key_exists($request->get('file'), $files)) {
-                            unset($files[$request->get('file')]);
-                            $files = array_flip($files);
-                            $value = implode(",", $files);
+                        $values = array($field => $value);
+                        $result = $slotManager->editBlock($request->get('idBlock'), $values);
+                        if ($result) {
+                            $section = $this->getSectionFromKeyParam();
+                            $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $section));
 
-                            $values = array($field => $value);
-                            $result = $slotManager->editBlock($request->get('idBlock'), $values);
-                            if ($result) {
-                                $section = $this->getSectionFromKeyParam();
-                                $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $section));
-
-                                return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, 'section' => $section));
-                            } else {
-                                throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
-                            }
+                            return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, 'section' => $section));
+                        } else {
+                            // @codeCoverageIgnoreStart
+                            throw new \RuntimeException('Something goes wrong when saving the external file reference to database. Operation aborted');
+                            // @codeCoverageIgnoreEnd
                         }
                     }
-
-                    return $this->buildJSonResponse(array("key" => "message", "value" => "The file has been removed"));
-                } else {
-                    return $this->buildJSonResponse(array("key" => "message", "value" => "Any file has been selected"));
                 }
+
+                return $this->buildJSonResponse(array("key" => "message", "value" => "The file has been removed"));
+                
             } else {
                 throw new \RuntimeException('You are trying to delete an external file from a content that doesn\'t exist anymore');
             }

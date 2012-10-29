@@ -46,7 +46,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testEditorReturnsAnErrorMessageWhenTheBlockIdIsNotGiven()
     {
-        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor');
+        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor');
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
@@ -55,7 +55,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testEditorReturnsAnErrorMessageWhenTheBlockIdDoesNotExist()
     {
         $params = array("idBlock" => 9999);
-        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
@@ -64,7 +64,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowContentsEditor()
     {
         $params = array("idBlock" => 3);
-        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -82,7 +82,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowContentsEditorRenderedFromAListener()
     {
         $params = array("idBlock" => 2);
-        $crawler = $this->client->request('POST', 'backend/en/al_showBlocksEditor', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -99,17 +99,17 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testAddBlockFailsWhenAnyValidParameterIsGiven()
     {
-        $this->anyValidParameterIsGiven('backend/en/addBlock');
+        $this->anyValidParameterIsGiven('/backend/en/addBlock');
     }
 
     public function testAddBlockFailsWhenAnyValidPageIsRetrievedWithGivenParameters()
     {
-        $this->anyValidPageIsRetrievedWithGivenParameters('backend/en/addBlock');
+        $this->anyValidPageIsRetrievedWithGivenParameters('/backend/en/addBlock');
     }
 
     public function testAddBlockFailsWhenTheSlotNameIsInvalid()
     {
-        $this->slotNameIsInvalid('backend/en/addBlock');
+        $this->slotNameIsInvalid('/backend/en/addBlock');
     }
 
     public function testAddNewBlock()
@@ -122,7 +122,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         'slotName' => 'left_sidebar_content',
                         'idBlock' => $referenceBlockId);
 
-        $crawler = $this->client->request('POST', 'backend/en/addBlock', $params);
+        $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -158,7 +158,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         'languageId' => '2',
                         'slotName' => 'left_sidebar_content');
 
-        $crawler = $this->client->request('POST', 'backend/en/addBlock', $params);
+        $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -186,29 +186,29 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testEditBlockFailsWhenAnyValidParameterIsGiven()
     {
-        $this->anyValidParameterIsGiven('backend/en/editBlock');
+        $this->anyValidParameterIsGiven('/backend/en/editBlock');
     }
 
     public function testEditBlockFailsWhenAnyValidPageIsRetrievedWithGivenParameters()
     {
-        $this->anyValidPageIsRetrievedWithGivenParameters('backend/en/editBlock');
+        $this->anyValidPageIsRetrievedWithGivenParameters('/backend/en/editBlock');
     }
 
     public function testEditBlockFailsWhenTheSlotNameIsInvalid()
     {
-        $this->slotNameIsInvalid('backend/en/editBlock');
+        $this->slotNameIsInvalid('/backend/en/editBlock');
     }
 
     public function testEditBlockFailsWhenTheRequiredBlockIdIsNull()
     {
-        $crawler = $this->blockIdIsNull('backend/en/editBlock');
+        $crawler = $this->blockIdIsNull('/backend/en/editBlock');
 
         $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
     }
 
     public function testEditBlockFailsWhenTheRequiredBlockDoesNotExist()
     {
-        $crawler = $this->blockIdDoesNotExist('backend/en/editBlock');
+        $crawler = $this->blockIdDoesNotExist('/backend/en/editBlock');
 
         $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
     }
@@ -225,7 +225,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         "value" => "new content",
                         "idBlock" => $blockId);
 
-        $crawler = $this->client->request('POST', 'backend/en/editBlock', $params);
+        $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
@@ -243,7 +243,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         "value" => "This is the default text for a new text content",
                         "idBlock" => $blockId);
 
-        $crawler = $this->client->request('POST', 'backend/en/editBlock', $params);
+        $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
@@ -261,7 +261,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         "value" => "New content",
                         "idBlock" => $blockId);
 
-        $crawler = $this->client->request('POST', 'backend/en/editBlock', $params);
+        $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -286,29 +286,29 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testDeleteBlockFailsWhenAnyValidParameterIsGiven()
     {
-        $this->anyValidParameterIsGiven('backend/en/deleteBlock');
+        $this->anyValidParameterIsGiven('/backend/en/deleteBlock');
     }
 
     public function testDeleteBlockFailsWhenAnyValidPageIsRetrievedWithGivenParameters()
     {
-        $this->anyValidPageIsRetrievedWithGivenParameters('backend/en/deleteBlock');
+        $this->anyValidPageIsRetrievedWithGivenParameters('/backend/en/deleteBlock');
     }
 
     public function testDeleteBlockFailsWhenTheSlotNameIsInvalid()
     {
-        $this->slotNameIsInvalid('backend/en/deleteBlock');
+        $this->slotNameIsInvalid('/backend/en/deleteBlock');
     }
 
     public function testDeleteBlockFailsWhenTheRequiredBlockIdIsNull()
     {
-        $crawler = $this->blockIdIsNull('backend/en/deleteBlock');
+        $crawler = $this->blockIdIsNull('/backend/en/deleteBlock');
 
         $this->assertTrue($crawler->filter('html:contains("The content you tried to remove does not exist anymore in the website")')->count() > 0);
     }
 
     public function testDeleteBlockFailsWhenTheRequiredBlockDoesNotExist()
     {
-        $crawler = $this->blockIdDoesNotExist('backend/en/deleteBlock');
+        $crawler = $this->blockIdDoesNotExist('/backend/en/deleteBlock');
 
         $this->assertTrue($crawler->filter('html:contains("The content you tried to remove does not exist anymore in the website")')->count() > 0);
     }
@@ -325,7 +325,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         "value" => "new content",
                         "idBlock" => $blockId);
 
-        $crawler = $this->client->request('POST', 'backend/en/deleteBlock', $params);
+        $crawler = $this->client->request('POST', '/backend/en/deleteBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -391,7 +391,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     
     public function testShowFilesManagerFailsWhenAnyKeyIsGiven()
     {
-        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager');
+        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager');
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
 
@@ -401,7 +401,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowFilesManagerFailsWhenKeyIsInvalid()
     {
         $params = array("key" => "fake");
-        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager', $params);
+        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
 
@@ -411,7 +411,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowJavascriptsFilesManager()
     {
         $params = array("key" => "javascript");
-        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager', $params);
+        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp("/al\_elFinderJavascriptsConnect/s", $crawler->text());
@@ -420,7 +420,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testShowStylesheetsFilesManager()
     {
         $params = array("key" => "stylesheet");
-        $crawler = $this->client->request('POST', 'backend/en/showExternalFilesManager', $params);
+        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp("/al\_elFinderStylesheetsConnect/s", $crawler->text());
@@ -428,14 +428,14 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testExternalFileIsNotAddedWhenAnyValidParameterHasBeenGiven()
     {
-        $crawler = $this->browse('backend/en/addExternalFile');
+        $crawler = $this->browse('/backend/en/addExternalFile');
         $this->assertTrue($crawler->filter('html:contains("External file cannot be added because any file has been given")')->count() > 0);
     }
 
     public function testExternalFileIsNotAddedWhenFieldParameterMissing()
     {
         $params = array('page' => 'index', 'language' => 'en', "file" => "myfile");
-        $crawler = $this->browse('backend/en/addExternalFile', $params);
+        $crawler = $this->browse('/backend/en/addExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("External file cannot be added because any valid field name has been given")')->count() > 0);
     }
 
@@ -449,7 +449,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "file" => "myfile",
             'field' => "ExternalJavascript"
         );
-        $this->slotNameIsInvalid('backend/en/addExternalFile', $params);
+        $this->slotNameIsInvalid('/backend/en/addExternalFile', $params);
     }
 
     public function testExternalFileIsNotAddedWhenAnyValidBlockIdHasBeenGiven()
@@ -463,7 +463,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'field' => "ExternalJavascript",
             "slotName" => "left_sidebar_content"
         );
-        $crawler = $this->browse('backend/en/addExternalFile', $params);
+        $crawler = $this->browse('/backend/en/addExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("You are trying to add an external file on a content that doesn\'t exist anymore")')->count() > 0);
     }
 
@@ -480,7 +480,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "right_sidebar_content",
             "idBlock" => $blockId
         );
-        $crawler = $this->client->request('POST', 'backend/en/addExternalFile', $params);
+        $crawler = $this->client->request('POST', '/backend/en/addExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -518,7 +518,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "right_sidebar_content",
             "idBlock" => $blockId
         );
-        $crawler = $this->client->request('POST', 'backend/en/addExternalFile', $params);
+        $crawler = $this->client->request('POST', '/backend/en/addExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -556,13 +556,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "right_sidebar_content",
             "idBlock" => $blockId
         );
-        $crawler = $this->browse('backend/en/addExternalFile', $params);
+        $crawler = $this->browse('/backend/en/addExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("The block has already assigned the external file you are trying to add")')->count() > 0);
     }
 
     public function testExternalFileIsNotRemovedWhenAnyValidParameterHasBeenGiven()
     {
-        $crawler = $this->browse('backend/en/removeExternalFile');
+        $crawler = $this->browse('/backend/en/removeExternalFile');
         $this->assertTrue($crawler->filter('html:contains("External file cannot be removed because any file has been given")')->count() > 0);
     }
 
@@ -575,7 +575,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "myfile"
         );
-        $crawler = $this->browse('backend/en/removeExternalFile', $params);
+        $crawler = $this->browse('/backend/en/removeExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("External file cannot be removed because any valid field name has been given")')->count() > 0);
     }
 
@@ -589,7 +589,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "file" => "myfile",
             'field' => "ExternalJavascript"
         );
-        $this->slotNameIsInvalid('backend/en/removeExternalFile', $params);
+        $this->slotNameIsInvalid('/backend/en/removeExternalFile', $params);
     }
 
     public function testExternalFileIsNotDeletedWhenAnyValidBlockIdHasBeenGiven()
@@ -603,10 +603,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'field' => "ExternalJavascript",
             "slotName" => "right_sidebar_content"
         );
-        $crawler = $this->browse('backend/en/removeExternalFile', $params);
+        $crawler = $this->browse('/backend/en/removeExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("You are trying to delete an external file from a content that doesn\'t exist anymore")')->count() > 0);
     }
-
+    
     public function testExternalFileIsDeletedButNotRemovedFromTheDbBecauseItIsNotSavedIn()
     {
         $blockId = $this->getLastBlock("right_sidebar_content")->getId();
@@ -620,7 +620,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "right_sidebar_content",
             "idBlock" => $blockId
         );
-        $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
+        $crawler = $this->client->request('POST', '/backend/en/removeExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -649,7 +649,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "right_sidebar_content",
             "idBlock" => $blockId
         );
-        $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
+        $crawler = $this->client->request('POST', '/backend/en/removeExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -680,7 +680,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "right_sidebar_content",
             "idBlock" => $blockId
         );
-        $crawler = $this->client->request('POST', 'backend/en/removeExternalFile', $params);
+        $crawler = $this->client->request('POST', '/backend/en/removeExternalFile', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
