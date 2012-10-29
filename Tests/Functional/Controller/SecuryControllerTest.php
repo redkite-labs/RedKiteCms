@@ -24,10 +24,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
  */
 class SecurityControllerTest extends BaseSecured
 {
-    private $pageRepository;
-    private $seoRepository;
-    private $blockRepository;
-
     protected function setUp()
     {
     }
