@@ -57,7 +57,7 @@ class DeployControllerTest extends TestCase
         $this->deployer->expects($this->any())
             ->method('deploy')
             ->will($this->throwException(new \Exception));
-
+        
         $this->templating->expects($this->once())
             ->method('renderResponse')
             ->will($this->returnValue($this->response));
@@ -68,6 +68,11 @@ class DeployControllerTest extends TestCase
     public function testAWarningMessageIsDisplayedWhenRenderingTheResponseThrowsAnException()
     {
         $this->initContainer();
+        
+        $this->container->expects($this->at(2))
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($this->templating));
 
         $this->container->expects($this->never())
             ->method('getParameter');
@@ -121,12 +126,12 @@ class DeployControllerTest extends TestCase
     {
         $this->container->expects($this->at(0))
             ->method('get')
-            ->with('templating')
-            ->will($this->returnValue($this->templating));
+            ->with('alpha_lemon_cms.local_deployer')
+            ->will($this->returnValue($this->deployer));
 
         $this->container->expects($this->at(1))
             ->method('get')
-            ->with('alpha_lemon_cms.local_deployer')
-            ->will($this->returnValue($this->deployer));
+            ->with('templating')
+            ->will($this->returnValue($this->templating));
     }
 }
