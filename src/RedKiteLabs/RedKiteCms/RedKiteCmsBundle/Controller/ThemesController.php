@@ -84,9 +84,11 @@ class ThemesController extends BaseController
                 $alPage = $pagesRepository->fromPK($pageId);
                 $pageManager->set($alPage);
                 if (false === $pageManager->save(array('TemplateName' => $params['al_template']))) {
+                    // @codeCoverageIgnoreStart
                     $error = sprintf('An error occoured when saving the new template for the page %s. Operation aborted', $alPage->getPageName());
 
                     return $this->renderThemeFixer($error);
+                    // @codeCoverageIgnoreEnd
                 }
             }
 
