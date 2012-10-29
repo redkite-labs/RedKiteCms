@@ -201,7 +201,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals('Any language has been choosen for removing', $crawler->text());
     }
 
-    public function testDeleteLanguageFailsBecauseAnInvalidLanguaageIdIsGiven()
+    public function testDeleteLanguageFailsBecauseAnInvalidLanguageIdIsGiven()
     {
         $params = array('page' => 'index',
                         'language' => 'en',

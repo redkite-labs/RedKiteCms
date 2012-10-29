@@ -60,7 +60,9 @@ class LanguagesController extends ContainerAware
                 return $this->buildJSonHeader('The language has been successfully saved');
             }
 
+            // @codeCoverageIgnoreStart
             throw new \RuntimeException('An error has been occoured, so the language has not been saved');
+            // @codeCoverageIgnoreEnd
         } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
@@ -85,11 +87,9 @@ class LanguagesController extends ContainerAware
                     return $this->buildJSonHeader($message);
                 }
 
-                if (null === $result) {
-                    throw new \RuntimeException($this->container->get('translator')->trans('The main language could not be deleted'));
-                }
-
-                throw new \RuntimeException($this->container->get('translator')->trans('Nothing to delete with the given parameters'));
+                // @codeCoverageIgnoreStart
+                throw new \RuntimeException($this->container->get('translator')->trans('The language has not been deleted'));
+                // @codeCoverageIgnoreEnd
             }
 
             throw new \RuntimeException($this->container->get('translator')->trans('Any language has been choosen for removing'));
