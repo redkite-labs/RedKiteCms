@@ -44,7 +44,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testFormElements()
     {
-        $crawler = $this->client->request('GET', 'backend/en/al_showPages');
+        $crawler = $this->client->request('GET', '/backend/en/al_showPages');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#pages_pageName')->count());
@@ -68,7 +68,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         "pageName" => "al_temp");
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes")')->count() > 0);
@@ -84,7 +84,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('The name to assign to the page cannot be null. Please provide a valid page name to add your page', $crawler->text());
@@ -100,7 +100,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('The page requires at least a template. Please provide the template name to add your page', $crawler->text());
@@ -118,7 +118,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
@@ -169,7 +169,7 @@ class PagesControllerTest extends WebTestCaseFunctional
     public function testPageJustAddedSeoAttributes()
     {
         $params = array('pageId' => 3, 'languageId' => 2);
-        $crawler = $this->client->request('POST', 'backend/en/al_loadSeoAttributes', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_loadSeoAttributes', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $json = json_decode($response->getContent(), true);
@@ -203,7 +203,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('The web site already contains the page you are trying to add. Please use another name for that page', $crawler->text());
@@ -222,7 +222,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -252,7 +252,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'title' => 'A title',
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -278,7 +278,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'pageName' => "page2 edited",
                         'permalink' => "page-2 edited",);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -291,7 +291,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testPermalinksHaveBeenChanged()
     {
-        $crawler = $this->client->request('GET', 'backend/en/index');
+        $crawler = $this->client->request('GET', '/backend/en/index');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -310,7 +310,7 @@ class PagesControllerTest extends WebTestCaseFunctional
             'permalink' => "page-2 edited",
         );
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -327,7 +327,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'templateName' => 'fullpage',
                         'permalink' => "page-2 edited",);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -343,7 +343,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'languageId' => 2,
                         'languageId' => 'none');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('Any page has been choosen for removing', $crawler->text());
@@ -357,7 +357,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'languageId' => 2,
                         'languageId' => 'none');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('Any page has been choosen for removing', $crawler->text());
@@ -372,7 +372,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'languageId' => 2,
                         'languageId' => 'none');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one', $crawler->text());
@@ -385,7 +385,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'pageId' => 3,
                         'languageId' => 2);
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(4, count($this->pageRepository->activePages()));
@@ -401,7 +401,7 @@ class PagesControllerTest extends WebTestCaseFunctional
     public function testPageJustDeletedSeoAttributes()
     {
         $params = array('pageId' => 3, 'languageId' => 2);
-        $crawler = $this->client->request('POST', 'backend/en/al_loadSeoAttributes', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_loadSeoAttributes', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $json = json_decode($response->getContent(), true);
@@ -430,7 +430,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'pageId' => 2,
                         'languageId' => 'none');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_deletePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(3, count($this->pageRepository->activePages()));
@@ -529,7 +529,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'description' => 'A description',
                         'keywords' => 'Some keywords');
 
-        $crawler = $this->client->request('POST', 'backend/en/al_savePage', $params);
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
