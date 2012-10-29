@@ -114,4 +114,18 @@ class ThemesPreviewControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#al_slot_sixboxes_content_1')->count());
         $this->assertEquals(1, $crawler->filter('#al_locker_sixboxes_content_1')->count());
     }
+    
+    public function testScriptBlocksAreNotDisplayed()
+    {
+        $this->blockRepository = new \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel();
+        $blocks = $this->blockRepository->retrieveContents(2, 2, 'top_section_1');
+        $block = $blocks[0]; //->getId();exit;
+        $block->setContent('<script>doSomething();</script>');
+        $block->save();
+        
+        $crawler = $this->client->request('GET', '/backend/en/al_previewTheme/en/index/BusinessWebsiteThemeBundle');
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('This block contains a script block and it is not renderable in preview mode', $crawler->filter('#home_top_section_1')->text()); 
+    }
 }
