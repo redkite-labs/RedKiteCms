@@ -22,7 +22,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\SeoForm;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 class PagesController extends ContainerAware
 {
@@ -120,9 +119,11 @@ class PagesController extends ContainerAware
 
             if ($pageManager->save($values)) {
                 return $this->buildJSonHeader('The page has been successfully saved');
-            } else {
-                throw new \RuntimeException('The page has not been saved');
-            }
+            } 
+            
+            // @codeCoverageIgnoreStart
+            throw new \RuntimeException('The page has not been saved');
+            // @codeCoverageIgnoreEnd
         } catch (\Exception $e) {
             $response = new Response();
             $response->setStatusCode('404');
@@ -150,22 +151,30 @@ class PagesController extends ContainerAware
                             $pageManager->getPageRepository()->commit();
                             $message = $this->container->get('translator')->trans('The page\'s attributes for the selected language has been successfully removed');
                         } else {
+                            // @codeCoverageIgnoreStart
                             $pageManager->getPageRepository()->rollBack();
                             throw new \RuntimeException($this->container->get('translator')->trans('Nothig to delete with the given parameters'));
+                            // @codeCoverageIgnoreEnd
                         }
                     } catch (\Exception $ex) {
+                        // @codeCoverageIgnoreStart
                         $pageManager->getPageRepository()->rollBack();
                         throw $ex;
+                        // @codeCoverageIgnoreEnd
                     }
                 } elseif ($request->get('pageId')) {
                     $result = $pageManager->delete();
                     if ($result) {
                         $message = $this->container->get('translator')->trans('The page has been successfully removed');
                     } else {
+                        // @codeCoverageIgnoreStart
                         throw new \RuntimeException($this->container->get('translator')->trans('Nothing to delete with the given parameters'));
+                        // @codeCoverageIgnoreEnd
                     }
                 } else {
+                    // @codeCoverageIgnoreStart
                     throw new \RuntimeException($this->container->get('translator')->trans('To delete a page you must choose it'));
+                    // @codeCoverageIgnoreEnd
                 }
             } else {
                 throw new \RuntimeException($this->container->get('translator')->trans('Any page has been choosen for removing'));
