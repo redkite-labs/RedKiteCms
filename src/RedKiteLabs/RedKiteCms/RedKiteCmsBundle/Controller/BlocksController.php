@@ -21,14 +21,13 @@ use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
  * Implements the actions to manage the blocks on a slot's page
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class BlocksController extends ContainerAware
+class BlocksController extends Base\BaseController
 {
     public function showBlocksEditorAction()
     {
@@ -73,10 +72,7 @@ class BlocksController extends ContainerAware
                 throw new \RuntimeException($this->container->get('translator')->trans('The content does not exist anymore or the slot has any content inside'));
             }
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -115,10 +111,7 @@ class BlocksController extends ContainerAware
 
             return $this->buildJSonResponse($values);
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -167,10 +160,7 @@ class BlocksController extends ContainerAware
 
             return $response;
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -203,10 +193,7 @@ class BlocksController extends ContainerAware
                 throw new \RuntimeException('The content you tried to remove does not exist anymore in the website');
             }
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -220,10 +207,7 @@ class BlocksController extends ContainerAware
 
             return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), array('enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor')));
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -282,10 +266,7 @@ class BlocksController extends ContainerAware
                 throw new \RuntimeException('You are trying to add an external file on a content that doesn\'t exist anymore');
             }
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -342,10 +323,7 @@ class BlocksController extends ContainerAware
                 throw new \RuntimeException('You are trying to delete an external file from a content that doesn\'t exist anymore');
             }
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 

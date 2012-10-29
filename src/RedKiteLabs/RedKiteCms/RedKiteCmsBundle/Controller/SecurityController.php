@@ -30,7 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class SecurityController extends ContainerAware
+class SecurityController extends Base\BaseController
 {
     private $factoryRepository = null;
     private $userRepository = null;
@@ -143,10 +143,9 @@ class SecurityController extends ContainerAware
                     if (!$isNewUser) $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
                 }
             } catch (\Exception $e) {
-                $response = new Response();
-                $response->setStatusCode('404');
-
-                return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+                // @codeCoverageIgnoreStart
+                return $this->renderDialogMessage($e->getMessage());
+                // @codeCoverageIgnoreEnd
             }
         }
 
@@ -179,10 +178,9 @@ class SecurityController extends ContainerAware
                     if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);
                 }
             } catch (\Exception $e) {
-                $response = new Response();
-                $response->setStatusCode('404');
-
-                return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+                // @codeCoverageIgnoreStart
+                return $this->renderDialogMessage($e->getMessage());
+                // @codeCoverageIgnoreEnd
             }
         }
 
@@ -204,10 +202,9 @@ class SecurityController extends ContainerAware
 
             return $this->loadUsers();
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            // @codeCoverageIgnoreStart
+            return $this->renderDialogMessage($e->getMessage());
+            // @codeCoverageIgnoreEnd
         }
     }
 
@@ -222,10 +219,9 @@ class SecurityController extends ContainerAware
 
             return $this->loadRoles();
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            // @codeCoverageIgnoreStart
+            return $this->renderDialogMessage($e->getMessage());
+            // @codeCoverageIgnoreEnd
         }
     }
 

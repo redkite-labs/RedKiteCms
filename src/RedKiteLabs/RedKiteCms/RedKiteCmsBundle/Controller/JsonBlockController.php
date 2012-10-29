@@ -17,8 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -26,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class JsonBlockController extends ContainerAware
+class JsonBlockController extends Base\BaseController
 {
     /**
      * Lists the elements of a json object
@@ -44,10 +42,7 @@ class JsonBlockController extends ContainerAware
 
             return $this->container->get('templating')->renderResponse($template, array("items" => $items, "block_id" => $block->getId()));
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -65,10 +60,7 @@ class JsonBlockController extends ContainerAware
 
             return $this->buildJSonResponse(array($formView));
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -100,10 +92,7 @@ class JsonBlockController extends ContainerAware
 
             return $this->buildJSonResponse($responseValues);
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 

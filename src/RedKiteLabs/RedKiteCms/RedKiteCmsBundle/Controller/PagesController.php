@@ -17,13 +17,12 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\SeoForm;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
-class PagesController extends ContainerAware
+class PagesController extends Base\BaseController
 {
     public function indexAction()
     {
@@ -125,10 +124,7 @@ class PagesController extends ContainerAware
             throw new \RuntimeException('The page has not been saved');
             // @codeCoverageIgnoreEnd
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -182,10 +178,7 @@ class PagesController extends ContainerAware
 
             return $this->buildJSonHeader($message);
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 

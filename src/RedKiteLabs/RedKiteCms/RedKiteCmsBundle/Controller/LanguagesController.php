@@ -17,21 +17,17 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
 
-class LanguagesController extends ContainerAware
+class LanguagesController extends Base\BaseController
 {
     public function indexAction()
     {
         // @codeCoverageIgnoreStart
         if (!extension_loaded('intl')) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted.'), $response);
+            return $this->renderDialogMessage('To manage languages you must enable the intl extension in your php.ini file. Operation aborted');
         }
         // @codeCoverageIgnoreEnd
 
@@ -64,10 +60,7 @@ class LanguagesController extends ContainerAware
             throw new \RuntimeException('An error has been occoured, so the language has not been saved');
             // @codeCoverageIgnoreEnd
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 
@@ -94,10 +87,7 @@ class LanguagesController extends ContainerAware
 
             throw new \RuntimeException($this->container->get('translator')->trans('Any language has been choosen for removing'));
         } catch (\Exception $e) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $e->getMessage()), $response);
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
     
