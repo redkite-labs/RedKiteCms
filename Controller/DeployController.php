@@ -16,10 +16,9 @@
  */
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
-class DeployController extends ContainerAware
+class DeployController extends Base\BaseController
 {
     public function localAction()
     {
@@ -39,11 +38,8 @@ class DeployController extends ContainerAware
             ));
 
             return $response;
-        } catch (\Exception $ex) {
-            $response = new Response();
-            $response->setStatusCode('404');
-
-            return $templating->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $ex->getMessage()), $response);
+        } catch (\Exception $e) {
+            return $this->renderDialogMessage($e->getMessage());
         }
     }
 }
