@@ -104,7 +104,7 @@ class PopulateCommand extends ContainerAwareCommand
         $user->setPassword($password);
         $user->setRoleId($adminRoleId);
         $user->setUsername('admin');
-        $user->setEmail('');
+        $user->setEmail('user@aserver.com');
         $user->save();
 
         $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
