@@ -1,0 +1,34 @@
+.context-menu-item {
+  min-width: 150px;
+  padding: 2px 2px 2px 2px;
+}
+
+#tlyPageGuideWrapper,
+#tlyPageGuideWrapper .tlypageguide_toggle,
+#tlyPageGuideWrapper #tlyPageGuide li,
+#tlyPageGuideWrapper #tlyPageGuideMessages {
+  z-index: 95000000;
+  border: 1px solid black;
+}
+
+#tlyPageGuideWrapper #tlyPageGuideMessages .tlypageguide_back,
+#tlyPageGuideWrapper #tlyPageGuideMessages .tlypageguide_fwd {
+  background: transparent url("pageguide/img/tlyguide/tlyguide_arrow.png") 10px 4px no-repeat;
+}
+
+#tlyPageGuideWrapper .tlypageguide_toggle:before {
+  background: transparent url("images/question_mark_8x16.png") 0 0 no-repeat;
+}
+
+#tlyPageGuideWrapper .tlypageguide_toggle {
+  background-color: #999999;
+  color: white;
+  filter: alpha(opacity=0.8) !important;
+  -moz-opacity: 0.8 !important;
+  -khtml-opacity: 0.8 !important;
+  opacity: 0.8 !important;
+}
+
+#tlyPageGuideWrapper .tlypageguide_toggle:hover {
+  background-color: #999999;
+}
