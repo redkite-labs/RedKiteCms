@@ -1,0 +1,63 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.alphalemon.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+<ul id="tlyPageGuide" data-tourtitle="AlphaLemon CMS">    
+  {# Themes preview #}
+  <li class="tlypageguide_left" data-tourtarget="#al_current_theme">
+    <div>
+      {{ "The name of the theme you are previewing" | trans([], "al_help") }}
+    </div>
+  </li>
+  <li class="tlypageguide_bottom" data-tourtarget="#al_current_template">
+    <div>
+      {{ "The name of the active template for the theme you are previewing" | trans([], "al_help") }}
+    </div>
+  </li>
+  <li class="tlypageguide_bottom" data-tourtarget="#al_templates_selector">
+    <div>
+      {{ "Have a preview of the theme's templates by choosing them from this combobox" | trans([], "al_help") }}
+    </div>
+  </li>
+  <li class="tlypageguide_bottom" data-tourtarget="#al_save">
+    <div>
+      {{ "Saves the mappings to the database and activates the new theme" | trans([], "al_help") }}
+    </div>
+  </li>
+  <li class="tlypageguide_bottom" data-tourtarget="#al_back">
+    <div>
+      {{ "Returns back to the CMS. The saved mappings are not lost" | trans([], "al_help") }}
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget="#al_slots">
+    <div>
+      {{ "This panel lists the slots that made each template of the website active theme" | trans([], "al_help") }}
+    </div>
+  </li>
+  <li class="tlypageguide_bottom" data-tourtarget="#al_active_template_selector">
+    <div>
+      {{ "Here are listed the templates from the active theme to map it with the current template you are previewing, plus a \"repeated_slots\" entry which lists the theme repeated slots. When you change a template and some mappings have already been made, you are warned that, if you continue, the active map for the template will be destroyed. This behavior is not applied to repeated slots so this entry could be safety choosen without destroying anything" | trans([], "al_help") }}
+    </div>
+  </li>
+  <li class="tlypageguide_right" data-tourtarget=".al_template_slot">
+    <div>
+      {{ "Click on contents placed on slots to select the item to map. The slot is highlighted" | trans([], "al_help") }}
+    </div>
+  </li>  
+  <li class="tlypageguide_bottom" data-tourtarget=".al_slot">
+    <div>
+      {{ "When the mouse is over one of these entries, the content you saved on the slot is placed into the slot you chose on the template. When the slot matches, click to save the mapping. The slot is highlighted with a green dotted square and an \"LK\" placeholder is shown at the right of the slot name. To unlock the map for the slot, simply click on this placeholder" | trans([], "al_help") }}
+    </div>
+  </li> 
+</ul>

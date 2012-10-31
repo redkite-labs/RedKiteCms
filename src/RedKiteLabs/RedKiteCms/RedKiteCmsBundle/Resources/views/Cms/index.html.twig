@@ -51,6 +51,12 @@
             }
         });
 
+        tl.pg.init(
+            {
+                "pg_caption": "Help"
+            }
+        );
+
         cmsStartInternalJavascripts();
     });
 </script>
@@ -69,14 +75,18 @@
     <link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
     {% endfor %}
 {% if enable_yui_compressor is defined and enable_yui_compressor %}
-    {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui.css'
-                                                'bundles/alphalemoncms/css/skins/alphaLemon/vendor/medialize/*'
+    {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
+                                                'bundles/alphalemoncms/vendor/medialize/css/*'
+                                                'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
+                                                'bundles/alphalemoncms/vendor/vendor-adapter.css'
                                                 'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
 {% else %}
-    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/css/skins/alphaLemon/vendor/smoothness/jquery-ui.css'
-                                       'bundles/alphalemoncms/css/skins/alphaLemon/vendor/medialize/*'
+    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
+                                       'bundles/alphalemoncms/vendor/medialize/css/*'
+                                       'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
+                                       'bundles/alphalemoncms/vendor/vendor-adapter.css'
                                        'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
     {% endstylesheets %}
@@ -92,7 +102,8 @@
                                      'bundles/alphalemonthemeengine/js/vendor/jquery.easing-1.3.js'
                                      'bundles/alphalemonthemeengine/js/vendor/jquery.metadata.js'
                                      'bundles/alphalemonthemeengine/js/vendor/jquery.ui.position.js'
-                                     'bundles/alphalemoncms/vendor/medialize/*'
+                                     'bundles/alphalemoncms/vendor/medialize/js/*'
+                                     'bundles/alphalemoncms/vendor/pageguide/js/pageguide.js'
                                      'bundles/alphalemoncms/js/*' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -102,7 +113,8 @@
                     'bundles/alphalemonthemeengine/js/vendor/jquery.easing-1.3.js'
                     'bundles/alphalemonthemeengine/js/vendor/jquery.metadata.js'
                     'bundles/alphalemonthemeengine/js/vendor/jquery.ui.position.js'
-                    'bundles/alphalemoncms/vendor/medialize/*'
+                    'bundles/alphalemoncms/vendor/medialize/js/*'
+                    'bundles/alphalemoncms/vendor/pageguide/js/pageguide.js'
                     'bundles/alphalemoncms/js/*' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -150,7 +162,7 @@
     <div class="al_float_left al_boxes_margins">
         <table>
             <tr>
-                <td><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></td>
+                <td id="al_small_logo"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></td>
             </tr>
         </table>
     </div>
@@ -202,4 +214,7 @@
 <div id="al_cms_contents" class="{page: '{{ page }}', language: '{{ language }}'}">
 {{ parent() }}
 </div>
+
+{% include "AlphaLemonCmsBundle:Cms:PageGuide/_help.html.twig" %}
+
 {% endblock %}
