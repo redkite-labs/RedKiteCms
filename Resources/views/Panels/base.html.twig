@@ -21,9 +21,15 @@
   {% set both_sidebars_defined = false %}
 {% endif %}
 
+{% if panel_class is defined %}
+  {% set panel_class = 'class=' ~ panel_class %}
+{% else %}
+  {% set panel_class = '' %}
+{% endif %}
+
 {% block body %}
     {% block al_panels_contents_outside %}
-    <div id="al_panels_contents">
+    <div id="al_panels_contents" {{ panel_class }}>
       {% block al_panels_contents_inside %}
 
         {% block al_panel_header_outside %}
