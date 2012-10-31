@@ -16,25 +16,11 @@
 {% extends 'AlphaLemonCmsBundle:Panels:base.html.twig' %}
 
 {% set domain = "al_languages" %}
+{% set panel_class = 'al_panel_contents_width' %}
 
 {% block al_cms_header_inside %}
     <h1>{{ "Website's languages manager" | trans([], domain) }}</h1>
     <p>{{ "In this module you can manage the website's languages, adding new ones, or editing them or removing them from the site." | trans([], domain) }}</p>
-{% endblock %}
-
-{% block al_sidebar_left_inside %}
-<div id="al_instructions">
-    <h2>{{ "Instructions" | trans([], domain) }}</h2>
-    <p>{{ "The Languages's attributes section is the interface used to add or edit the language's data. To get more info about each field, leave the cursor on it for one second. The Languaages Selector section is the interface used to select and/or remove the languages." | trans([], domain) }}</p>
-    <h4>{{ "Add a new language" | trans([], domain) }}</h4>
-    <p>{{ "To add a new language simply choose the language from the related comboboxes." | trans([], domain) }}</p>
-    <h4>{{ "Select / deselect a language" | trans([], domain) }}</h4>
-    <p>{{ "From the Languages Selector section, click on the language name you want to select. To deselect the language, simply click it again." }}</p>
-    <h4>{{ "Edit an existing language" | trans([], domain) }}</h4>
-    <p>{{ "From the languages Selector section, choose the language from the Languages combobox then click on the language name you want to edit. The language's data will be loaded, so you can change them. Click on Save button to commit your changes." }}</p>
-    <h4>{{ "Remove a language" | trans([], domain) }}</h4>
-    <p>{{ "To completely remove a language select it, then click the Delete button." }}</p>
-</div>
 {% endblock %}
 
 {% block al_sidebar_middle_inside %}

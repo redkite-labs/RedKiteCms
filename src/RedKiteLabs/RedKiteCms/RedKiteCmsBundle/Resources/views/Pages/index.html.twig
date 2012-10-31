@@ -16,28 +16,7 @@
 {% extends 'AlphaLemonCmsBundle:Panels:base.html.twig' %}
 
 {% set domain = "al_pages" %}
-
-{# block al_panel_header_inside %}
-    <h1>{{ "Website's pages manager" | trans([], domain) }}</h1>
-    <p>{{ "In this module you can manage the website's pages, adding new ones, or editing them or removing them from the site. Here you will manage all the parameters related to SEO, to optimize your web site to be indexed at the top by the search engines." | trans([], domain) }}</p>
-{% endblock #}
-
-{% block al_sidebar_left_inside %}
-<div id="al_instructions">
-    <h2>{{ "Instructions" | trans([], domain) }}</h2>
-    <p>{{ "The Pages's attributes section is the interface used to add or edit the page's data. To get more info about each field, leave the cursor on it for one second. The Pages Selector section is the interface used to select and/or remove the pages." | trans([], domain) }}</p>
-    <h4>{{ "Add a new page" | trans([], domain) }}</h4>
-    <p>{{ "To add a new page, simply fill the Pages's attributes form when it is totally blank, then click the Save button. A new page is added and its SEO attributes are added for each language in the website." | trans([], domain) }}</p>
-    <h4>{{ "Select / deselect a page" | trans([], domain) }}</h4>
-    <p>{{ "From the Pages Selector section, click on the page name you want to select. To deselect the page, simply click it again." }}</p>
-    <h4>{{ "Edit an existing page" | trans([], domain) }}</h4>
-    <p>{{ "From the Pages Selector section, choose the language from the Languages combobox then click on the page name you want to edit. The page's data will be loaded, so you can change them. Click on Save button to commit your changes." }}</p>
-    <h4>{{ "Remove attributes for a specific language" | trans([], domain) }}</h4>
-    <p>{{ "Each page has specific attributes related to the SEO section, for each language on the website. To remove the attributes for a specific language, select the language and the page from the Pages Selector section, then click the Delete button." }}</p>
-    <h4>{{ "Remove a page" | trans([], domain) }}</h4>
-    <p>{{ "To completely remove a page select it and leave the Languages combobox blank, then click the Delete button." }}</p>
-</div>
-{% endblock %}
+{% set panel_class = 'al_panel_contents_width' %}
 
 {% block al_sidebar_middle_inside %}
 <div id="al_pages">
