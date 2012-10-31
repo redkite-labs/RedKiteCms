@@ -35,7 +35,7 @@ security:
                 login_path:  /backend/login
             logout:
                 path:   /backend/logout
-                target: /backend/
+                target: /backend/login
             http_basic:
             #anonymous: ~            
             #    realm: "Secured Demo Area"
