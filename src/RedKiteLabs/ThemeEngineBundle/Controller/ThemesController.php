@@ -18,24 +18,9 @@
 namespace AlphaLemon\ThemeEngineBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Filesystem\Filesystem;
-use AlphaLemon\CmsBundle\Controller\CmsController;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\HttpFoundation\Response;
-
-use AlphaLemon\ThemeEngineBundle\Core\Model\AlThemeQuery;
-use AlphaLemon\ThemeEngineBundle\Core\ThemeManager\AlThemeManager;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use Symfony\Component\Config\FileLocator;
-
-use AlphaLemon\AlValumUploaderBundle\Core\Options\AlValumUploaderOptionsBuilder;
-use AlphaLemon\ThemeEngineBundle\Core\Autoloader\Base\BundlesAutoloaderComposer;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\Yaml\Yaml;
 
 class ThemesController extends ContainerAware
 {
