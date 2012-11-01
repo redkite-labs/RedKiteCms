@@ -392,7 +392,7 @@ function updateContentsJSon(response, editorWidth)
                     var dialogOptions = {
                         buttons:{},
                         width: editorWidth,
-                        zIndex: 500000,
+                        zIndex: 120000,
                         close: function(event, ui)
                         {
                             isEditorOpened = false;

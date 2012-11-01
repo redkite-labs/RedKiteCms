@@ -5,7 +5,7 @@
   background-image: url(images/common/ajax-loader.gif);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 700001;
+  z-index: 9000001;
 }
 
 .ajax_loader_bg {
@@ -15,7 +15,7 @@
   background-image: url(images/common/bg-ajax-loader.png);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 700000;
+  z-index: 9000000;
 }
 
 .al_float_left {
@@ -121,7 +121,7 @@
   left: 0;
   background: #333333;
   text-align: left;
-  z-index: 300000;
+  z-index: 9000000;
   padding: 4px;
   border-bottom: 2px solid white;
   color: #cccccc;
@@ -216,7 +216,7 @@
   background: white;
   text-align: left;
   display: none;
-  z-index: 40000;
+  z-index: 100000;
 }
 #al_panel p {
   padding: 0;
@@ -448,7 +448,7 @@
 }
 
 .ui-widget-overlay {
-  z-index: 9500000;
+  z-index: 120000;
 }
 
 .editor_contents {
@@ -540,7 +540,7 @@
   color: #525252;
   position: fixed;
   top: 47px;
-  z-index: 9900000;
+  z-index: 130000;
   overflow: auto;
   font-style: normal;
 }
