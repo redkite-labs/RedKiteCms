@@ -72,10 +72,12 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
     protected function getGenerator()
     {
         if (null === $this->generator) {
+            // @codeCoverageIgnoreStart
             $kernel = $this->getContainer()->get('kernel');
             $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
 
             return new AlAppBlockGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+            // @codeCoverageIgnoreEnd
         }
         
         return $this->generator;
