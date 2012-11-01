@@ -1,0 +1,36 @@
+{#
+   This file is part of the AlphaLemon FrontendBundle and it is distributed
+   under the GPL LICENSE Version 2.0. In addiction, to use this bundle, you must leave
+   intact this copyright notice.
+ 
+    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ 
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+ +
+   For extra documentation and help please visit http://alphalemon.com
+  
+   @license    GPL LICENSE Version 2.0
+#}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Ops... something went wrong</title>
+        <meta name="generator" content="AlphaLemon Theme Engine" />
+        
+        <link href="/bundles/alphalemonthemeengine/css/404.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    
+    <body>
+        {# block body %}{% endblock %}
+        
+        {% block internal_body_javascripts %}{% endblock #}
+        <div class="status-code center">{{ status_code }}</div>
+        <div class="image center"><img src="/bundles/alphalemonthemeengine/images/404.jpg" /></div>
+        <div class="message center">{{ message }}</div>
+    </body>
+    
+</html>

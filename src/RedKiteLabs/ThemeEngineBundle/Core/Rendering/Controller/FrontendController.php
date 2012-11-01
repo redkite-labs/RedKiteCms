@@ -17,13 +17,6 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-use AlphaLemon\ThemeEngineBundle\Core\Event\PageRenderer\BeforePageRenderingEvent;
-use AlphaLemon\ThemeEngineBundle\Core\Event\PageRendererEvents;
-
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -52,11 +45,16 @@ abstract class FrontendController extends BaseFrontendController
             return $response;
         }
         catch(\Exception $ex) {
+            $statusCode = (method_exists($ex, 'getStatusCode')) ? $ex->getStatusCode() : 500;
             $response = new Response();
-            $response->setStatusCode(404);
-            $response->setContent("CUSTOM ERROR PAGE");
+            $response->setStatusCode($statusCode);
 
-            return $response;
+            $values = array(
+                'status_code' => $statusCode,
+                'message' => $ex->getMessage(),
+            );
+            
+            return $this->container->get('templating')->renderResponse('AlphaLemonThemeEngineBundle:Error:error.html.twig', $values, $response);
         }
     }
 }

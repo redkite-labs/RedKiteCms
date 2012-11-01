@@ -28,6 +28,7 @@
         <parameter key="alpha_lemon_theme_engine.template.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate</parameter>
         <parameter key="alpha_lemon_theme_engine.template_assets.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets</parameter>
         <parameter key="alpha_lemon_theme_engine.template_slots.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots</parameter>
+        <parameter key="alpha_lemon_theme_engine.404_error_handler.class">AlphaLemon\ThemeEngineBundle\Core\Listener\NotFoundErrorHandlerListener</parameter>
     </parameters>
 
     <services>
@@ -40,6 +41,11 @@
 
         <service id="alphalemon_theme_engine.page_tree" class="%alpha_lemon_theme_engine.page_tree.class%">
             <argument type="service" id="service_container"></argument>
+        </service>
+        
+        <service id="alpha_lemon_theme_engine.404_error_handler" class="%alpha_lemon_theme_engine.404_error_handler.class%">
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
+            <argument type="service" id="templating"></argument>
         </service>
     </services>
 </container>
