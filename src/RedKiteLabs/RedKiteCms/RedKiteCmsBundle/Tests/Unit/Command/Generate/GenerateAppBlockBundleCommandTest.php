@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
 
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
-use AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
 use Symfony\Component\Console\Tester\CommandTester;
 use org\bovigo\vfs\vfsStream;
 
@@ -29,6 +28,25 @@ use org\bovigo\vfs\vfsStream;
  */
 class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
 {
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage A strict AlphaLemon App-Block namespace must start with AlphaLemon\Block
+     */
+    public function testAnExceptionIsThrownWhenTheNamespaceIsInvalidInStrictMode()
+    {
+        $options = array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--strict' => true, '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true);
+        $input = "Foo\FooBarBundle\n";
+        
+        $generator = $this->getGenerator();        
+        $generator
+            ->expects($this->never())
+            ->method('generateExt')
+        ;
+
+        $tester = new CommandTester($this->getCommand($generator, $input));
+        $tester->execute($options);
+    }
+    
     /**
      * @dataProvider getInteractiveCommandData
      */
@@ -111,7 +129,9 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
 
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
-        $command->setGenerator($generator);
+        if (null !== $generator) {
+            $command->setGenerator($generator);
+        }
 
         return $command;
     }
