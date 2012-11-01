@@ -53,7 +53,7 @@ class AlTwigDeployer extends AlDeployer
     {
         parent::checkTargetFolders();
 
-        $this->checkFolder($this->viewsDir);
+        $this->fileSystem->mkdir($this->viewsDir);
     }
 
     /**
