@@ -38,6 +38,7 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $configDir = null;
     protected $assetsDir = null;
     protected $factoryRepository;
+    protected $fileSystem = null;
 
     /**
      * Save the page from an AlPageTree object
@@ -67,6 +68,7 @@ abstract class AlDeployer implements AlDeployerInterface
 
         $this->uploadAssetsFullPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
         $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path');
+        $this->fileSystem = new Filesystem();
     }
 
     /**
@@ -85,20 +87,8 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     protected function checkTargetFolders()
     {
-        $this->checkFolder($this->configDir);
-        $this->checkFolder($this->assetsDir);
-    }
-
-    /**
-     * Checks that the given folder exists and creates it when it doesn't
-     *
-     * @param  string            $folder
-     * @throws \RuntimeException
-     */
-    protected function checkFolder($folder)
-    {
-        $fileSystem = new Filesystem();
-        $fileSystem->mkdir($folder);
+        $this->fileSystem->mkdir($this->configDir);
+        $this->fileSystem->mkdir($this->assetsDir);
     }
 
     /**
@@ -126,13 +116,12 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     protected function copyAssets()
     {
-        $fs = new Filesystem();
         $finder = new Finder();
         $folders = $finder->directories()->depth(0)->in($this->uploadAssetsFullPath);
         foreach ($folders as $folder) {
             $targetFolder = $this->assetsDir . '/' . basename($folder->getFileName());
-            $fs->remove($targetFolder);
-            $fs->mirror($folder , $targetFolder, null, array('override' => true));
+            $this->fileSystem->remove($targetFolder);
+            $this->fileSystem->mirror($folder , $targetFolder, null, array('override' => true));
         }
     }
 
