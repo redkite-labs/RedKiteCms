@@ -39,29 +39,7 @@ class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
 
     public function testThemeIsGenerated()
     {
-        $this->themeGenerator->generateExt('AlphaLemon\\Theme\\FakeThemeBundle', 'FakeThemeBundle', vfsStream::url('root/src'), 'xml', '', array('strict' => false));
-
-        $expected = '<?xml version="1.0" encoding="UTF-8" ?>' . PHP_EOL;
-        $expected .= '<container xmlns="http://symfony.com/schema/dic/services"' . PHP_EOL;
-        $expected .= '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' . PHP_EOL;
-        $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
-        $expected .= PHP_EOL;
-        $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme" class="%alpha_lemon_theme_engine.theme.class%">' . PHP_EOL;
-        $expected .= '            <argument type="string">FakeTheme</argument>' . PHP_EOL;
-        $expected .= '        </service>' . PHP_EOL;
-        $expected .= '    </services>' . PHP_EOL;
-        $expected .= '</container>';
-
-        $this->assertFileExists( vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Resources/views/Theme'));
-        $themeFile = vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Resources/config/fake_theme.xml');
-        $this->assertFileExists($themeFile);
-        $this->assertEquals($expected, file_get_contents($themeFile));
-    }
-
-    public function testThemeIsGeneratedUsingStrictMode()
-    {
-        $this->themeGenerator->generateExt('AlphaLemon\\Theme\\FakeThemeBundle', 'FakeThemeBundle', vfsStream::url('root/src'), 'xml', '', array('strict' => true));
+        $this->themeGenerator->generateExt('AlphaLemon\\Theme\\FakeThemeBundle', 'FakeThemeBundle', vfsStream::url('root/src'), 'xml', '', array());
 
         $expected = '<?xml version="1.0" encoding="UTF-8" ?>' . PHP_EOL;
         $expected .= '<container xmlns="http://symfony.com/schema/dic/services"' . PHP_EOL;
@@ -71,10 +49,12 @@ class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake.theme" class="%alpha_lemon_theme_engine.theme.class%">' . PHP_EOL;
         $expected .= '            <argument type="string">Fake</argument>' . PHP_EOL;
+        $expected .= '            <tag name="alpha_lemon_theme_engine.themes.theme" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>';
 
+        $this->assertFileExists( vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Resources/views/Theme'));
         $themeFile = vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Resources/config/fake.xml');
         $this->assertFileExists($themeFile);
         $this->assertEquals($expected, file_get_contents($themeFile));

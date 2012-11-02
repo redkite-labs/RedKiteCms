@@ -21,7 +21,7 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
                 new InputOption('bundle-name', '', InputOption::VALUE_REQUIRED, 'The optional bundle name'),
                 new InputOption('format', '', InputOption::VALUE_REQUIRED, 'Do nothing but mandatory for extend', 'annotation'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
-                new InputOption('strict', '', InputOption::VALUE_NONE, 'Forces the bundle namespace to be compatible as distributable App-Block'),
+                new InputOption('strict', '', InputOption::VALUE_NONE, 'Forces the bundle namespace to be compatible as distributable Theme-Block'),
             ));
     }
 

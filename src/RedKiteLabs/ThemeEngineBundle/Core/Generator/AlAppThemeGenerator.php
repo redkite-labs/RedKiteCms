@@ -19,7 +19,7 @@ class AlAppThemeGenerator extends AlBaseGenerator
         $this->generate($namespace, $bundle, $dir, $format, $structure);
 
         $dir .= '/'.strtr($namespace, '\\', '/');
-        $suffix = $options["strict"] ? 'ThemeBundle' : 'Bundle';
+        $suffix = preg_match('/ThemeBundle$/', $namespace) ? 'ThemeBundle' : 'Bundle';
         $themeBasename = str_replace($suffix, '', $bundle);
 
         $themeSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-theme';
