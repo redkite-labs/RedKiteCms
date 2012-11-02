@@ -42,6 +42,7 @@ class AlSiteBootstrap
     private $defaultPage = array(
         'PageName' => 'index',
         'Permalink' => 'homepage',
+        'IsPublished' => '1',
         'MetaTitle' => 'A website made with AlphaLemon CMS',
         'MetaDescription' => 'Website homepage',
         'MetaKeywords' => '',
