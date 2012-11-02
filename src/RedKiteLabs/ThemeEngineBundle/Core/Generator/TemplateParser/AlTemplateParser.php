@@ -105,8 +105,9 @@ class AlTemplateParser
      */
     protected function fetchAssets($templateContents, $section)
     {
-        preg_match(sprintf('/BEGIN-%1$s\n(.*?)\nEND-%1$s/s', $section), $templateContents, $matches);
-
+        $pattern = sprintf('/BEGIN-%1$s[^\w\s]*[\r\n](.*?)[\r\n][^\w]*END-%1$s/s', $section);
+        preg_match($pattern, $templateContents, $matches);
+        
         return ( ! empty($matches)) ? explode("\n", $matches[1]) : array();
     }
 
@@ -124,7 +125,7 @@ class AlTemplateParser
             'htmlContent' => ''
         );
 
-        preg_match_all('/BEGIN-SLOT[^\w]*\n([\s]*)(.*?)\n[^\w]*END-SLOT/s', $templateContents, $matches, PREG_SET_ORDER);
+        preg_match_all('/BEGIN-SLOT[^\w]*[\r\n]([\s]*)(.*?)[\r\n][^\w]*END-SLOT/s', $templateContents, $matches, PREG_SET_ORDER);
         $slots = array();
         foreach ($matches as $slotAttributes) {
             $spaces = $slotAttributes[1];
