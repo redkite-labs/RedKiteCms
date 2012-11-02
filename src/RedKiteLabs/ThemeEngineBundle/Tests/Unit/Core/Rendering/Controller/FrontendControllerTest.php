@@ -53,39 +53,68 @@ class FrontendControllerTest extends TestCase
     {
         $this->setUpRequest();
 
-        $this->templating->expects($this->once())
+        $this->templating->expects($this->at(0))
             ->method('renderResponse')
             ->will($this->throwException(new \RuntimeException));
+        
+        $this->templating->expects($this->at(1))
+            ->method('renderResponse')
+            ->will($this->returnValue($this->response));
 
         $this->dispatcher->expects($this->never())
             ->method('dispatch');
 
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->request, $this->templating));
-
-        $response = $this->controller->showAction();
-        $this->assertEquals(404, $response->getStatusCode());
+            ->with('request')
+            ->will($this->returnValue($this->request));
+        
+        $this->container->expects($this->at(3))
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($this->templating));
+        
+        $this->container->expects($this->at(4))
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($this->templating));
+        
+        $this->controller->showAction();
     }
 
     public function testCustomErrorPageIsReturnedWhenAnExceptionIsThrownRenderingAListener()
     {
         $this->setUpRequest();
 
-        $this->templating->expects($this->once())
+        $this->templating->expects($this->exactly(2))
             ->method('renderResponse')
             ->will($this->returnValue($this->response));
 
         $this->dispatcher->expects($this->once())
             ->method('dispatch')
             ->will($this->throwException(new \RuntimeException));
-
-        $this->container->expects($this->exactly(3))
+        
+        $this->container->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls($this->request, $this->templating, $this->dispatcher));
+            ->with('request')
+            ->will($this->returnValue($this->request));
+        
+        $this->container->expects($this->at(3))
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($this->templating));
+        
+        $this->container->expects($this->at(4))
+            ->method('get')
+            ->with('event_dispatcher')
+            ->will($this->returnValue($this->dispatcher));
+        
+        $this->container->expects($this->at(5))
+            ->method('get')
+            ->with('templating')
+            ->will($this->returnValue($this->templating));
 
-        $response = $this->controller->showAction();
-        $this->assertEquals(404, $response->getStatusCode());
+        $this->controller->showAction();
     }
 
     public function testAnExceptionIsThrownWhenRenderSlotContentsMethodDoesNotReturnAnArray()
