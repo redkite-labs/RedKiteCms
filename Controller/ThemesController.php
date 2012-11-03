@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
-//use AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap;
 
 class ThemesController extends BaseController
 {

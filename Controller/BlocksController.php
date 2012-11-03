@@ -49,7 +49,7 @@ class BlocksController extends Base\BaseController
                     $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getType()));
                     $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
                     $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getType(), strtolower($block->getType()));
-
+                    
                     $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
                                                                                            "jsFiles" => explode(",", $block->getExternalJavascript()),
                                                                                            "cssFiles" => explode(",", $block->getExternalStylesheet()),
