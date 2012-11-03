@@ -81,7 +81,7 @@ class ThemesPreviewControllerTest extends WebTestCaseFunctional
         $this->assertEquals('home', $crawler->filter('#al_current_template')->text());  
         $this->assertEquals(4, $crawler->filter('.al_caption')->count());
         $this->assertEquals(1, $crawler->filter('#al_templates_selector')->count());
-        $this->assertEquals('fullpagehomerightcolumnsixboxes', $crawler->filter('#al_templates_selector')->text());
+        $this->assertEquals('homefullpagerightcolumnsixboxes', $crawler->filter('#al_templates_selector')->text());
         $this->assertEquals(1, $crawler->filter('#al_save')->count());
         $this->assertEquals('Save and activate', $crawler->filter('#al_save')->text());
         $this->assertEquals(1, $crawler->filter('#al_back')->count());
@@ -94,7 +94,7 @@ class ThemesPreviewControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('.al_active_templates_caption')->count());
         $this->assertEquals(1, $crawler->filter('#al_slots')->count());
         $this->assertEquals(1, $crawler->filter('#al_active_template_selector')->count());
-        $this->assertEquals('fullpagehomerightcolumnsixboxesrepeated_slots', $crawler->filter('#al_active_template_selector')->text());        
+        $this->assertEquals('homefullpagerightcolumnsixboxesrepeated_slots', $crawler->filter('#al_active_template_selector')->text());        
         $this->assertEquals(1, $crawler->filter('#al_map_home')->count());   
         $this->assertEquals(1, $crawler->filter('#al_map_fullpage')->count());   
         $this->assertEquals(1, $crawler->filter('#al_map_rightcolumn')->count());   
