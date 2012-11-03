@@ -93,7 +93,9 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
                 $blockManager = $blockManagerItem->getBlockManager();
                 $blockManager = clone($blockManager);
                 if ($isAlBlock) $blockManager->set($block);
-                if (null !== $this->translator) $blockManager->setTranslator($this->translator);
+                if (null !== $this->translator) {
+                    $blockManager->setTranslator($this->translator);
+                }
 
                 return $blockManager;
             }
