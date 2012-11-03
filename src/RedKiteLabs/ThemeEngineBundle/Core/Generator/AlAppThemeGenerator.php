@@ -16,6 +16,7 @@ class AlAppThemeGenerator extends AlBaseGenerator
      */
     public function generateExt($namespace, $bundle, $dir, $format, $structure, array $options)
     {
+        $format = 'annotation';
         $this->generate($namespace, $bundle, $dir, $format, $structure);
 
         $dir .= '/'.strtr($namespace, '\\', '/');
@@ -30,6 +31,7 @@ class AlAppThemeGenerator extends AlBaseGenerator
         );
 
         $this->renderFile($themeSkeletonDir, 'theme.xml', $dir.'/Resources/config/'.$extensionAlias.'.xml', $parameters);
+        $this->renderFile($themeSkeletonDir, 'info.yml', $dir.'/Resources/data/info.yml', $parameters);
         $this->filesystem->mkdir($dir.'/Resources/views/Theme');
     }
 }
