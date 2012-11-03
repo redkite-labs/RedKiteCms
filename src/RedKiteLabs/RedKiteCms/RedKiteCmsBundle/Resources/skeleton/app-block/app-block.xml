@@ -13,7 +13,6 @@
 
     <services>
         <service id="{{ extension_alias }}.block" class="%{{ extension_alias }}.block.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
             <tag name="alphalemon_cms.blocks_factory.block" description="{{ description }}" type="{{ bundle_basename }}" group="{{ group }}" />
         </service>
     </services>

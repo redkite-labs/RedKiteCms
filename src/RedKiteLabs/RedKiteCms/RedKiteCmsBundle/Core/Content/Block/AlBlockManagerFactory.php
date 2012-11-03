@@ -29,6 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInter
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 
 /**
  * AlBlockManagerFactory is the object responsible to create a new AlBlockManager object
@@ -45,14 +46,16 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     private $blockManagersItems = array();
     private $translator = null;
     private $factoryRepository;
+    private $eventsHandler;
 
     /**
      * Constructor
      *
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository = null, TranslatorInterface $translator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null, TranslatorInterface $translator = null)
     {
+        $this->eventsHandler = $eventsHandler;
         $this->factoryRepository = $factoryRepository;
         $this->translator = $translator;
     }
@@ -92,6 +95,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
             if ($blockManagerItem->getType() == $blockType) {
                 $blockManager = $blockManagerItem->getBlockManager();
                 $blockManager = clone($blockManager);
+                $blockManager->setEventsHandler($this->eventsHandler);
                 if ($isAlBlock) $blockManager->set($block);
                 if (null !== $this->translator) {
                     $blockManager->setTranslator($this->translator);
