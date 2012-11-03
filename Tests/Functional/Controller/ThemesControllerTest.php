@@ -110,7 +110,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_fixTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('html:contains("An error occourced: The following parameters are required: PageName,TemplateName. The parameters you gave are TemplateName")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("An error occourced: The following options are required: PageName,TemplateName. The options you gave are TemplateName")')->count());
     }
 
     public function testChangeTemplate()
