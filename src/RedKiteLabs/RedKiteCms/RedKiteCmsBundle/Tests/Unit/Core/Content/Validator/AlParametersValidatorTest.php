@@ -77,7 +77,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
-     * @expectedExceptionMessage The following parameters are required: %required%. You must give %diff% which is/are missing
+     * @expectedExceptionMessage At least one of those options are required: %required%. The options you gave are %values%
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFound()
     {
@@ -118,7 +118,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
-     * @expectedExceptionMessage The following parameters are required: %required%. The parameters you gave are %values%
+     * @expectedExceptionMessage The following options are required: %required%. The options you gave are %values%
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErroraMessage()
     {

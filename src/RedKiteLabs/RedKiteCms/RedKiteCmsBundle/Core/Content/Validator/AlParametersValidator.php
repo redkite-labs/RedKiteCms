@@ -53,7 +53,9 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
 
         $diff = array_intersect_key($requiredParams, $values);
         if (empty($diff)) {
-            if(null === $message) $message = $this->translate('The following parameters are required: %required%. You must give %diff% which is/are missing', array('%required%' => $this->doImplode($requiredParams), '%diff%' => $this->doImplode($diff)));
+            if (null === $message) {
+                $message = $this->translate('At least one of those options are required: %required%. The options you gave are %values%', array('%required%' => $this->doImplode($requiredParams), '%values%' => $this->doImplode($values)));
+            }
 
             throw new General\ParameterExpectedException($message);
         }
@@ -71,7 +73,9 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
 
         $diff = array_intersect_key($requiredParams, $values);
         if ($diff != $requiredParams) {
-            if(null === $message) $message = $this->translate('The following parameters are required: %required%. The parameters you gave are %values%', array('%required%' => $this->doImplode($requiredParams), '%values%' => $this->doImplode($values)));
+            if (null === $message) {
+                $message = $this->translate('The following options are required: %required%. The options you gave are %values%', array('%required%' => $this->doImplode($requiredParams), '%values%' => $this->doImplode($values)));
+            }
 
             throw new General\ParameterExpectedException($message);
         }
@@ -85,6 +89,9 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
      */
     protected function doImplode(array $params)
     {
-        return implode(',', array_keys($params));
+        $options = array_keys($params);
+        sort($options);
+        
+        return implode(',', $options);
     }
 }
