@@ -42,7 +42,8 @@
         </service>
 
         <service id="alpha_lemon_cms.block_manager_factory" class="%alpha_lemon_cms.block_manager_factory.class%">
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />            
+            <argument type="service" id="translator" />
         </service>
 
         <service id="alpha_lemon_cms.url_manager" class="%alpha_lemon_cms.url_manager.class%">
