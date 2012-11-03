@@ -1,3 +1,13 @@
+RC1 Release (2012-11-03)
+Added the interactive guide
+Fixed the command to generate App-Blocks
+Removed the AlHeventsHandler dependency from App-Blocks and deputated the AlBlockManagerFactory to inject that dependendy by setter 
+Fixed windows positioning order because z-index was too high and tinymce windows was not correctly positioned
+Web site pages are published by default when the site is bootstrapped
+Removed remember me from login form
+Fixed a bug that does not let the user add more than one block on a slot repeated at site level
+Completed automated tests
+
 Beta-4 Release (2012-10-27)
 Added the locking of resources to avoid conflicts when the CMS is used by several users a time
 Added a module to start a site from the scratch from the choosen theme
