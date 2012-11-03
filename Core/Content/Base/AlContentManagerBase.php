@@ -49,10 +49,10 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Constructor
      *
-     * @param AlEventsHandlerInterface       $dispatcher
+     * @param AlEventsHandlerInterface       $eventsHandler
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlParametersValidatorInterface $validator = null)
     {
         $this->eventsHandler = $eventsHandler;
         $this->validator = (null === $validator) ? new AlParametersValidator() : $validator;

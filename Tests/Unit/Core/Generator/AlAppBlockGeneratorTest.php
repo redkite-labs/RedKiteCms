@@ -85,7 +85,6 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake_block.block" class="%fake_block.block.class%">' . PHP_EOL;
-        $expected .= '            <argument type="service" id="alpha_lemon_cms.events_handler" />' . PHP_EOL;
         $expected .= '            <tag name="alphalemon_cms.blocks_factory.block" description="Fake block" type="FakeBlock" group="fake-group" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .= '    </services>' . PHP_EOL;
@@ -127,6 +126,10 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Block/fakeblock_editor.html.twig');
         $this->assertFileExists($file);
         $this->assertEquals('{% extends \'AlphaLemonCmsBundle:Block:base_editor.html.twig\' %}', file_get_contents($file));
+        
+        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/DependencyInjection/FakeBlockExtension.php');
+        $this->assertFileExists($file);
+        $this->assertRegExp('/\$loader\-\>load\(\'app\-block\.xml\'\)\;/', file_get_contents($file));
     }
 
     public function testBlockBundleIsGeneratedUsingStrictMode()

@@ -31,13 +31,15 @@ class AlBlockManagerFactoryTest extends TestCase
     private $translator;
     private $blockManager;
     private $blockManagerFactory;
+    private $eventsHandler;
 
     protected function setUp()
     {
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
-        $this->blockManagerFactory = new AlBlockManagerFactory($this->factoryRepository, $this->translator);
+        $this->blockManagerFactory = new AlBlockManagerFactory($this->eventsHandler, $this->factoryRepository, $this->translator);
     }
 
     public function testTypeOptionIsrequiredToAddANewBlockManager()
@@ -63,6 +65,8 @@ class AlBlockManagerFactoryTest extends TestCase
     public function testFactoryCreateANewBlockManagerFromBlockType()
     {
         $this->initBlockManager();
+        $this->setEventsHandler();
+        
         $blockManager = $this->blockManagerFactory->createBlockManager('Text');
         $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
         $this->assertNotSame($this->blockManager, $blockManager);
@@ -75,6 +79,7 @@ class AlBlockManagerFactoryTest extends TestCase
               ->method('getType')
               ->will($this->returnValue('Text'));
         $this->initBlockManager();
+        $this->setEventsHandler();
         $blockManager = $this->blockManagerFactory->createBlockManager($block);
         $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
         $this->assertNotSame($this->blockManager, $blockManager);
@@ -135,6 +140,13 @@ class AlBlockManagerFactoryTest extends TestCase
                            ->with($this->factoryRepository);
 
         $this->blockManagerFactory->addBlockManager($this->blockManager, $attributes);
+    }
+    
+    private function setEventsHandler()
+    {
+        $this->blockManager->expects($this->once())
+                           ->method('setEventsHandler')
+                           ->with($this->eventsHandler);
     }
 
     private function createBlockManager()

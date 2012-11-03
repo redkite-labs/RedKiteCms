@@ -58,7 +58,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @param AlFactoryRepositoryInterface   $factoryRepository
      * @param AlParametersValidatorInterface $validator
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($eventsHandler, $validator);
 
