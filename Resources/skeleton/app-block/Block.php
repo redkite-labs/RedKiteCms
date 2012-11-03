@@ -14,6 +14,6 @@ class AlBlockManager{{ bundle_basename }} extends AlBlockManager
 {
     public function getDefaultValue()
     {
-        return array('HtmlContent' => '<p>Default content</p>');
+        return array('Content' => '<p>Default content</p>');
     }
 }

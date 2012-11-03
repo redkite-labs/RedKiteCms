@@ -27,6 +27,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
 
         $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';
         $extensionAlias = Container::underscore($bundleBasename);
+        $typeLowercase = strtolower($bundleBasename);
         $parameters = array(
             'namespace' => $namespace,
             'namespace_path' => str_replace('\\', '\\\\', $namespace),
@@ -34,6 +35,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
             'bundle'    => $bundle,
             'format'    => $format,
             'bundle_basename' => $bundleBasename,
+            'type_lowercase' => $typeLowercase,
             'extension_alias' => $extensionAlias,
             'description'    => $options["description"],
             'group'    => $options["group"],
@@ -46,6 +48,6 @@ class AlAppBlockGenerator extends AlBaseGenerator
         $this->renderFile($blockSkeletonDir, 'config_alcms_test.yml', $dir.'/Resources/config/config_alcms_test.yml', $parameters);
         $this->renderFile($blockSkeletonDir, 'autoload.json', $dir.'/autoload.json', $parameters);
         if ($options["strict"]) $this->renderFile($blockSkeletonDir, 'composer.json', $dir.'/composer.json', $parameters);
-        $this->filesystem->copy($blockSkeletonDir . '/editor.html.twig', $dir.'/Resources/views/Block/' . $extensionAlias . '_editor.html.twig');
+        $this->filesystem->copy($blockSkeletonDir . '/editor.html.twig', $dir.'/Resources/views/Block/' . $typeLowercase . '_editor.html.twig');
     }
 }
