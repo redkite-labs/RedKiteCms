@@ -62,7 +62,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '{' . PHP_EOL;
         $expected .= '    public function getDefaultValue()' . PHP_EOL;
         $expected .= '    {' . PHP_EOL;
-        $expected .= '        return array(\'HtmlContent\' => \'<p>Default content</p>\');' . PHP_EOL;
+        $expected .= '        return array(\'Content\' => \'<p>Default content</p>\');' . PHP_EOL;
         $expected .= '    }' . PHP_EOL;
         $expected .= '}';
 
@@ -76,7 +76,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <parameters>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_block.editor_settings" type="collection">' . PHP_EOL;
+        $expected .= '        <parameter key="fakeblock.editor_settings" type="collection">' . PHP_EOL;
         $expected .= '            <parameter key="rich_editor">true</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= PHP_EOL;
@@ -124,7 +124,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
 
         $this->assertFileNotExists(vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/composer.json'));
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Block/fake_block_editor.html.twig');
+        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Block/fakeblock_editor.html.twig');
         $this->assertFileExists($file);
         $this->assertEquals('{% extends \'AlphaLemonCmsBundle:Block:base_editor.html.twig\' %}', file_get_contents($file));
     }
