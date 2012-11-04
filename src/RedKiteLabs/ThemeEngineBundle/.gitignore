@@ -1,5 +1,6 @@
-/Model
-/Themes/*
-/Tests_
+/vendor/
 /*~
 /Core/.fr-kNFKpM/
+/nbproject/
+/composer.lock
+/composer.phar

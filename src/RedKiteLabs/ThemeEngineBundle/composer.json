@@ -29,6 +29,11 @@
     "propel/propel1": "1.6.*",
     "phing/phing": "2.4.*"
   },
+  "require-dev": {
+    "mikey179/vfsStream": "dev-master",
+    "alphalemon/business-website-theme-bundle": "dev-master",    
+    "alphalemon/alphalemon-bootstrap-bundle": "dev-master"
+  },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
     }

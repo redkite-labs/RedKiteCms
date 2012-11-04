@@ -1,0 +1,7 @@
+{
+    "bundles" : {
+        "AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle" : {
+            "environments" : ["all"]
+        }
+    }
+}

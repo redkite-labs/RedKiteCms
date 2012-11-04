@@ -42,6 +42,16 @@ class AlGeneratorBase extends TestCase
 
     protected function importDefaultTheme()
     {
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views',$this->root);
+        $baseThemeDir = __DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views';
+        if ( ! is_dir($baseThemeDir)) { 
+            $baseThemeDir = __DIR__ . '/../../../../../vendor/alphalemon/business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views';
+            if ( ! is_dir($baseThemeDir)) {
+                $this->markTestSkipped(
+                    'BusinessWebsiteThemeBundle is not available.'
+                );
+            }
+        }
+        
+        vfsStream::copyFromFileSystem($baseThemeDir ,$this->root);
     }
 }

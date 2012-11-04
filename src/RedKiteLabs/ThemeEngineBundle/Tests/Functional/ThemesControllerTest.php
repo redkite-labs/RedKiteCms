@@ -29,7 +29,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
     public function testThemesPanel()
     {
         $crawler = $this->client->request('GET', 'backend/en/al_showThemes');
-        $response = $this->client->getResponse();
+        $response = $this->client->getResponse();//echo $crawler->text();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#al_themes')->count());
         $this->assertEquals(1, $crawler->filter('#al_themes_table')->count());
@@ -52,7 +52,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/al_activateTheme/FakeTheme');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-
+        
         $this->assertEquals('FakeTheme', file_get_contents($this->client->getContainer()->getParameter('kernel.root_dir') . '/Resources/.tests_active_theme' ));
     }
 }

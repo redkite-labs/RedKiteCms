@@ -32,12 +32,8 @@ class WebTestCaseFunctional extends WebTestCase
     {
         $this->client = static::createClient(
             array(
-                'environment' => 'alcms_test',
+                'environment' => 'test',
                 'debug'       => true,
-            ),
-            array(
-                'PHP_AUTH_USER' => 'admin',
-                'PHP_AUTH_PW' => 'admin',
             )
         );
 

@@ -35,7 +35,17 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         parent::setUp();
 
         $this->root = vfsStream::setup('root', null, array('slots'));
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../Resources/skeleton', $this->root);
+        
+        $skeletonDir = __DIR__ . '/../../../../Resources/skeleton';
+        if ( ! is_dir($skeletonDir)) {
+            $skeletonDir = __DIR__ . '/Resources/skeleton';
+            if ( ! is_dir($skeletonDir)) {
+                $this->markTestSkipped(
+                    'skeleton dir is not available.'
+                );
+            }
+        }
+        vfsStream::copyFromFileSystem($skeletonDir, $this->root);
 
         $this->slotsGenerator = new AlSlotsGenerator(vfsStream::url('root/app-theme'));
     }

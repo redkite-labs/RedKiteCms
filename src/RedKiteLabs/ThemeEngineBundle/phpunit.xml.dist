@@ -11,22 +11,25 @@
     processIsolation            = "false"
     stopOnFailure               = "true"
     syntaxCheck                 = "true"
-    bootstrap                   = "bootstrap.php.cache" >
+    bootstrap                   = "./Tests/bootstrap.php">
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>../vendor/bundles/AlphaLemon/ThemeEngineBundle/Tests</directory>
+        <testsuite name="ThemeEngineBundle Test Suite">
+            <directory>./Tests</directory>
         </testsuite>
     </testsuites>
 
+    <php>
+        <server name="KERNEL_DIR" value="./Tests/Functional/app" />
+    </php>
+    
     <filter>
         <whitelist>
-            <directory>../src</directory>
+            <directory>./</directory>
             <exclude>
-                <directory>../src/*/*Bundle/Resources</directory>
-                <directory>../src/*/*Bundle/Tests</directory>
-                <directory>../src/*/Bundle/*Bundle/Resources</directory>
-                <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>./Resources</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
             </exclude>
         </whitelist>
     </filter>

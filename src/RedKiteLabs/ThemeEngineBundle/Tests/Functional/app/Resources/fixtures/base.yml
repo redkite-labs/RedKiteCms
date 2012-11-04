@@ -1,0 +1,76 @@
+slots:
+  logo:
+    repeated: site
+    htmlContent: |
+      Progress Business Company
+  nav_menu:
+    blockType: BusinessMenu
+    repeated: language
+    htmlContent: |
+      <ul class="business-menu">
+        <li><a href="#">[Home, Welcome!]</a></li>
+        <li><a href="#">[News, Fresh]</a></li>
+        <li><a href="#">[Services, for you]</a></li>
+        <li><a href="#">[Products, The best]</a></li>
+        <li><a href="#">[Contacts, Our Address]</a></li>
+      </ul>
+    internalJavascript: |
+      $(".business-menu a").doCufon();
+  footer_title_1:
+    repeated: language
+    htmlContent: |
+      <h4>Why Us?</h4>
+  nav_menu_1:
+    repeated: language
+    htmlContent: |
+      <ul class="list1">
+        <li><a href="#">Lorem ipsum dolor sit</a></li>
+        <li><a href="#">Dmet, consectetur</a></li>
+        <li><a href="#">Adipisicing elit eiusmod </a></li>
+        <li><a href="#">Tempor incididunt ut</a></li>
+      </ul>
+  footer_title_2:
+    repeated: language
+    htmlContent: |
+      <h4>Address</h4>
+  nav_menu_2:
+    repeated: language
+    htmlContent: |
+      <ul class="address">
+        <li><span>Country:</span>USA</li>
+        <li><span>City:</span>San Diego</li>
+        <li><span>Phone:</span>8 800 154-45-67</li>
+        <li><span>Email:</span><a href="mailto:">progress@mail.com</a></li>
+      </ul>
+  footer_title_3:
+    repeated: language
+    htmlContent: |
+      <h4>Follow Us</h4>
+  nav_menu_3:
+    repeated: language
+    htmlContent: |
+      <ul id="icons">
+        <li><a href="#"><img src="/bundles/businesswebsitetheme/images/icon1.jpg" alt="">Facebook</a></li>
+        <li><a href="#"><img src="/bundles/businesswebsitetheme/images/icon2.jpg" alt="">Twitter</a></li>
+        <li><a href="#"><img src="/bundles/businesswebsitetheme/images/icon3.jpg" alt="">LinkedIn</a></li>
+        <li><a href="#"><img src="/bundles/businesswebsitetheme/images/icon4.jpg" alt="">Delicious</a></li>
+      </ul>
+  footer_title_4:
+    repeated: language
+    htmlContent: |
+      <h4>Newsletter</h4>
+  newsletter_box:
+    repeated: language
+    htmlContent: |
+      <form id="newsletter" method="post">
+        <div>
+          <div class="wrapper">
+            <input class="input" type="text" value="Type Your Email Here"  onblur="if(this.value=='') this.value='Type Your Email Here'" onfocus="if(this.value =='Type Your Email Here' ) this.value=''" >
+          </div>
+          <a href="#" class="button" onclick="document.getElementById('newsletter').submit()">Subscribe</a>
+        </div>
+      </form>
+  copyright_box:
+    repeated: site
+    htmlContent: |
+      <a href="#">(C) Copyright Progress Business Company</a>
