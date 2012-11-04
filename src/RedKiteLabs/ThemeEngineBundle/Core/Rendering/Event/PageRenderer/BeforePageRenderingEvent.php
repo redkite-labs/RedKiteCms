@@ -27,49 +27,33 @@ class BeforePageRenderingEvent extends Event
 {
     protected $response = null;
 
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\HttpFoundation\Response $response
+     */
     public function __construct(Response $response)
     {
-        $this->response = $response;
+        $this->setResponse($response);
     }
 
+    /**
+     * Gets the response
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getResponse()
     {
         return $this->response;
     }
 
+    /**
+     * Sets the response
+     * 
+     * @param \Symfony\Component\HttpFoundation\Response $response
+     */
     public function setResponse(Response $response)
     {
         $this->response = $response;
     }
 }
-
-
-/*
- * class BeforePageRenderingEvent extends Event
-{
-    protected $request = null;
-    protected $pageTree = null;
-
-    public function __construct(Request $request, AlPageTree $pageTree)
-    {
-        $this->request = $request;
-        $this->pageTree = $pageTree;
-    }
-
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    public function getPageTree()
-    {
-        return $this->pageTree;
-    }
-
-    public function setPageTree($v)
-    {
-        if($this->pageTree != null) $this->pageTree = $v;
-    }
-}
- * 
- */

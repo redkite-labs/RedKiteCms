@@ -16,13 +16,12 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler;
 
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Register the listeners by their tags
  *
- * @author AlphaLemon
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class EventListenersRegistrator
 {
