@@ -1,4 +1,5 @@
 # ThemeEngineBundle
+
 ThemeEngineBundle is build with the pourpose to add theming feature to any Symfony2 application, solving one of the most difficult problem related to 
 templating: the preservation of contents when a graphic theme is changed. ThemeEngineBundle tries to solve this problem introducing slots. A slot is simple a 
 placeholder on a twig template, identified by a name, and implemented as a twig function. Follows an example:
@@ -10,6 +11,8 @@ This function tells twig to render the contents identified by the slot called "l
 
 The themes, managed by the ThemeEngineBundle, are nothing more than standard Symfony2 Bundles, so each theme has its own templates, configurations and assets
 packed togheter into a well defined known structure.
+
+[![Build Status](https://secure.travis-ci.org/alphalemon/ThemeEngineBundle.png)](http://travis-ci.org/alphalemon/ThemeEngineBundle)
 
 ## Install the ThemeEngineBundle
 The ThemeEngine depends on several bundles and packages: 
