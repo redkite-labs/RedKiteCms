@@ -87,7 +87,7 @@ class AlAssetCollectionTest extends TestCase
             '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css',));
         $this->assertEquals(2, count($alAssetCollection));
     }
-
+    
     public function testTheAssetDoesNotExistInTheCollectionSoAnythingIsRemoved()
     {
         $alAssetCollection = new AlAssetCollection($this->kernel);

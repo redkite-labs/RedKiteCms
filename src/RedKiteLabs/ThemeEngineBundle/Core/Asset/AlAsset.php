@@ -16,7 +16,6 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\Asset;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
@@ -167,7 +166,7 @@ class AlAsset
 
             return (isset($match[2])) ? $resource . $match[2] : $resource;
         }
-        catch(\InvalidArgumentException $e)
+        catch(\Exception $e)
         {
             return null;
         }
