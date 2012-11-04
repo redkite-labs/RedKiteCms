@@ -4,3 +4,5 @@
 /nbproject/
 /composer.lock
 /composer.phar
+/Tests/Functional/app/cache/
+/Tests/Functional/app/logs/

@@ -1,5 +1,0 @@
-_assetic:
-    resource: .
-    type: assetic
-_app:
-    resource: /home/alphalemon/tests/ThemeEngineBundle/Tests/Functional/app/config/routing_dev.yml
