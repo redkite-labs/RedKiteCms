@@ -21,12 +21,8 @@ class AppKernel extends Kernel
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Sensio\Bundle\DistributionBundle\SensioDistributionBundle(),
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
-            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
+            new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
         );
-
-        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
-        $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
-                                ->getBundles();
         
         $bundles[] = new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle();
 

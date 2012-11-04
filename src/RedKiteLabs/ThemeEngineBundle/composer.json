@@ -31,8 +31,7 @@
   },
   "require-dev": {
     "mikey179/vfsStream": "dev-master",
-    "alphalemon/business-website-theme-bundle": "dev-master",    
-    "alphalemon/alphalemon-bootstrap-bundle": "dev-master"
+    "alphalemon/business-website-theme-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
