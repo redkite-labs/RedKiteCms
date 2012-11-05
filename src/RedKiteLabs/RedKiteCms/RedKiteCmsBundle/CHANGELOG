@@ -1,3 +1,6 @@
+RC2 Release (2012-11-03)
+Changed the behavior of App-Block command generator, which works in strict mode by default and added the no-strict option to use custom paths for App-Blocks
+
 RC1 Release (2012-11-03)
 Added the interactive guide
 Fixed the command to generate App-Blocks
