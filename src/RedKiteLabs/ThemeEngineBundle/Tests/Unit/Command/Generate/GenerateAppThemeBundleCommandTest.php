@@ -34,10 +34,10 @@ class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
      */
     public function testNonInteractiveCommand($options, $expected)
     {
-        list($namespace, $bundle, $dir, $format, $structure, $strict) = $expected;
+        list($namespace, $bundle, $dir, $format, $structure, $noStrict) = $expected;
 
         $commandOptions = array(
-            'strict' => $strict,
+            'no-strict' => $noStrict,
         );
 
         $generator = $this->getGenerator();
@@ -56,9 +56,9 @@ class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
         $root = vfsStream::setup('root');
 
         return array(
-            array(array('--dir' => vfsStream::url('root'), '--namespace' => 'Foo/BarBundle'), array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, false)),
-            array(array('--dir' => vfsStream::url('root'), '--namespace' => 'Foo/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('Foo\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, false)),
-            array(array('--dir' => vfsStream::url('root'), '--strict' => true, '--namespace' => 'AlphaLemon/Theme/BarThemeBundle', '--format' => 'yml', '--bundle-name' => 'BarThemeBundle', '--structure' => true), array('AlphaLemon\Theme\BarThemeBundle', 'BarThemeBundle', vfsStream::url('root/'), 'yml', true, true)),
+            array(array('--dir' => vfsStream::url('root'), '--no-strict' => true, '--namespace' => 'Foo/BarBundle'), array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, true)),
+            array(array('--dir' => vfsStream::url('root'), '--no-strict' => true, '--namespace' => 'Foo/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('Foo\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, true)),
+            array(array('--dir' => vfsStream::url('root'), '--namespace' => 'AlphaLemon/Theme/BarThemeBundle', '--format' => 'yml', '--bundle-name' => 'BarThemeBundle', '--structure' => true), array('AlphaLemon\Theme\BarThemeBundle', 'BarThemeBundle', vfsStream::url('root/'), 'yml', true, false)),
         );
     }
 

@@ -13,6 +13,7 @@ use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 abstract class BaseGenerateBundle extends GenerateBundleCommand
 {
     protected $generator;
+    protected $updateKernel = true;
 
     public function setGenerator(BundleGenerator $generator)
     {
@@ -48,7 +49,7 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
             $bundle = strtr($namespace, array('\\' => ''));
         }
 
-        if ($input->getOption('strict')) {
+        if ($input->getOption('no-strict') == false) {
             $this->checkStrictNamespace($namespace);
         }
 
@@ -75,7 +76,9 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
         $runner($this->checkAutoloader($output, $namespace, $bundle, $dir));
 
         // register the bundle in the Kernel class
-        $runner($this->updateKernel($dialog, $input, $output, $this->getContainer()->get('kernel'), $namespace, $bundle));
+        if ($this->updateKernel) {
+            $runner($this->updateKernel($dialog, $input, $output, $this->getContainer()->get('kernel'), $namespace, $bundle));
+        }
 
         $dialog->writeGeneratorSummary($output, $errors);
     }
