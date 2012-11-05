@@ -43,7 +43,7 @@ class BundlesAutoloader
     private $environment;
     private $kernelDir;
     private $vendorDir;
-    //private $autoloaders = array();
+    private $autoloaderCollection = array();
     private $installedBundles = array();
     private $environmentsBundles = array();
     private $overridedBundles = array();
@@ -54,6 +54,7 @@ class BundlesAutoloader
     private $cachePath;
     private $filesystem;
     private $bootstrapped = false;
+    private $extraFolders;
 
     /**
      * Constructor
@@ -62,14 +63,15 @@ class BundlesAutoloader
      * @param string $environment   The current environment
      * @param array $bundles        The bundles already loaded
      * @param Script\Factory\ScriptFactoryInterface $scriptFactory
+     * @param null|array $extraFolders   Adds extra folders to be parsed to look for other budles to autoload. When null looks for AlphaLemon's blocks
      */
-    public function __construct($kernelDir, $environment, array $bundles, Script\Factory\ScriptFactoryInterface $scriptFactory = null)
+    public function __construct($kernelDir, $environment, array $bundles, Script\Factory\ScriptFactoryInterface $scriptFactory = null, $extraFolders = null)
     {
         $this->environment = $environment;
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
+        $this->extraFolders = (null === $extraFolders) ? array($this->kernelDir . '/../src/AlphaLemon/Block') : $extraFolders;
         $this->filesystem = new Filesystem();
-
 
         $this->setupFolders();
 
@@ -111,7 +113,7 @@ class BundlesAutoloader
     protected function run()
     {
         if (!$this->bootstrapped) {
-            $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir);
+            $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir, $this->extraFolders);
             $this->retrieveInstalledBundles();
             $this->install();
             $this->uninstall();
@@ -167,7 +169,7 @@ class BundlesAutoloader
                 }
             }
         }
-
+        
         $this->register('all');
         $this->register($this->environment);
         $this->orderBundles();
@@ -188,7 +190,7 @@ class BundlesAutoloader
                     if (!class_exists($bundleClass)) {
                         throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem", $bundleClass, get_class($this)));
                     }
-
+                    
                     if (!in_array($bundle->getId(), $this->bundles)) {
                         $instantiatedBundle = new $bundleClass;
                         $this->bundles[$bundle->getId()] = $instantiatedBundle;

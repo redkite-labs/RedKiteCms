@@ -17,6 +17,7 @@
 namespace AlphaLemon\BootstrapBundle\Core\Json;
 
 use AlphaLemon\BootstrapBundle\Core\Exception\InvalidProjectException;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Class for iterating over a list of autoloaders elements
@@ -26,17 +27,19 @@ use AlphaLemon\BootstrapBundle\Core\Exception\InvalidProjectException;
 class JsonAutoloaderCollection implements \Iterator, \Countable
 {
     protected $autoloaders = array();
-    protected $vendorDir;
+    protected $extraFolders;
 
     /**
      * Constructor
-     *
-     * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
-     * @param array $autoloaders
+     * 
+     * @param string $vendorDir
+     * @param array $extraFolders
      */
-    public function __construct($vendorDir)
+    public function __construct($vendorDir, array $extraFolders = array())
     {
         $this->vendorDir = $vendorDir;
+        $this->extraFolders = $extraFolders;
+        
         $this->load();
     }
 
@@ -104,18 +107,30 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
         foreach ($map as $namespace => $path) {
             $dir = $path . str_replace('\\', '/', $namespace);
             $bundleName = $this->getBundleName($dir);
+            $this->addBundle($bundleName, $dir);
+        }
+        
+        $this->parseExtraFolders();
+    }
 
-            // The bundle is inclued only when the autoloader.json file exists
-            if (null !== $bundleName && $this->hasAutoloader($dir)) {
-                // Instantiates the autoload
-                $bundleName = strtolower($bundleName);
-                $autoloader = $dir . '/autoload.json';
-                $jsonAutoloader = new JsonAutoloader($bundleName, $autoloader);
-                $this->autoloaders[$dir] = $jsonAutoloader;
+    /**
+     * parses extra folders to look for autoloaders in different path than the ones
+     * saved into the composer file
+     */
+    protected function parseExtraFolders()
+    {
+        foreach ($this->extraFolders as $folder) {
+            $finder = new Finder();
+            if (is_dir($folder)) {
+                $bundleFolders = $finder->directories()->depth(0)->in($folder);
+                foreach ($bundleFolders as $bundleFolder) {
+                    $bundleName = basename($bundleFolder);
+                    $this->addBundle($bundleName, (string)$bundleFolder);
+                }
             }
         }
     }
-
+    
     /**
      * Retrieves the current bundle class
      *
@@ -152,5 +167,16 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
         }
 
         return false;
+    }
+    
+    protected function addBundle($bundleName, $bundleFolder)
+    {
+        if (null !== $bundleName && $this->hasAutoloader($bundleFolder)) {
+            // Instantiates the autoload
+            $bundleName = strtolower($bundleName);
+            $autoloader = $bundleFolder . '/autoload.json';
+            $jsonAutoloader = new JsonAutoloader($bundleName, $autoloader);
+            $this->autoloaders[$bundleFolder] = $jsonAutoloader;
+        }
     }
 }
