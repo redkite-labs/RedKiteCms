@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemonPageTreeBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.

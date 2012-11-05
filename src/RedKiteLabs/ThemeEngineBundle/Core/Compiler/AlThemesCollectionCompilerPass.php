@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemonPageTreeBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
@@ -34,11 +34,11 @@ class AlThemesCollectionCompilerPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition('alpha_lemon_theme_engine.themes');
-        foreach ($container->findTaggedServiceIds('alpha_lemon_theme_engine.themes.theme') as $id => $attributes) { 
+        foreach ($container->findTaggedServiceIds('alpha_lemon_theme_engine.themes.theme') as $id => $attributes) {
             foreach($attributes as $tagAttributes) {
                 $definition->addMethodCall('addTheme', array(new Reference($id)));
             }
-
+            
             $templateDefinition = $container->getDefinition($id);
             $templateId = $id . '.template';
             foreach ($container->findTaggedServiceIds($templateId) as $id => $templateAttributes) {

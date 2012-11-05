@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -52,7 +52,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/al_activateTheme/FakeTheme');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-
+        
         $this->assertEquals('FakeTheme', file_get_contents($this->client->getContainer()->getParameter('kernel.root_dir') . '/Resources/.tests_active_theme' ));
     }
 }

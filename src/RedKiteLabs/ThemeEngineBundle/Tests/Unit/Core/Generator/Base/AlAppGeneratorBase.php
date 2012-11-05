@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -34,7 +34,17 @@ class AlAppGeneratorBase extends TestCase
 
         $this->fileSystem = new Filesystem();
         $this->root = vfsStream::setup('root', null, array('src'));
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle', $this->root);
-        //use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;print_r(vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());exit;
+        
+        $sensioDir = __DIR__ . '/../../../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle';
+        if ( ! is_dir($sensioDir)) {
+            $sensioDir = __DIR__ . '/../../../../../vendor/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle';
+            if ( ! is_dir($sensioDir)) {
+                $this->markTestSkipped(
+                    'Sension Generator bundle is not available.'
+                );
+            }
+        }
+        
+        vfsStream::copyFromFileSystem($sensioDir, $this->root);
     }
 }

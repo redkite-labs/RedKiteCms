@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -83,6 +83,23 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->assertTrue(array_key_exists('errors', $slot));
         $this->assertTrue(array_key_exists('fake', $slot['errors']));
     }
+    
+    public function testTheSlotIsSkippedWhenNameOptionDoesNotExist()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '   repeated: site' . PHP_EOL;
+        $contents .= '   htmlContent: |' . PHP_EOL;
+        $contents .= '       <img src="/uploads/assets/media/business-website-original-logo.png" title="Progress website logo" alt="Progress website logo" />' . PHP_EOL;
+        $contents .= 'END-SLOT #}' . PHP_EOL;
+        $contents .= '{{ renderSlot(\'logo\') }}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/Theme/home.html.twig'), $contents);
+        $information = $this->parser->parse();
+        $this->assertCount(0, $information['home.html.twig']['slots']);
+    }
 
     public function testRealTheme()
     {
@@ -162,6 +179,16 @@ class AlTemplateParserTest extends AlGeneratorBase
 
     protected function importDefaultTheme()
     {
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views/Theme', $this->root->getChild('Theme'));
+        $baseThemeDir = __DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views/Theme';
+        if ( ! is_dir($baseThemeDir)) { 
+            $baseThemeDir = __DIR__ . '/../../../../../vendor/alphalemon/business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views/Theme';
+            if ( ! is_dir($baseThemeDir)) {
+                $this->markTestSkipped(
+                    'BusinessWebsiteThemeBundle is not available.'
+                );
+            }
+        }
+        
+        vfsStream::copyFromFileSystem($baseThemeDir, $this->root->getChild('Theme'));
     }
 }

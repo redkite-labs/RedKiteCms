@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemonPageTreeBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
@@ -52,6 +52,8 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     /**
      * {@inheritdoc}
+     * 
+     * @codeCoverageIgnore
      */
     public function key()
     {
@@ -149,13 +151,6 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      */
     public function remove($asset)
     {
-        $assetName = basename($asset);
-        if (array_key_exists($assetName, $this->assets)) {
-           unset($this->assets[$assetName]);
-
-           return;
-        }
-
         $asset = new AlAsset($this->kernel, $asset);
         if (in_array($asset, $this->assets)) {
             $key = array_search($asset, $this->assets);

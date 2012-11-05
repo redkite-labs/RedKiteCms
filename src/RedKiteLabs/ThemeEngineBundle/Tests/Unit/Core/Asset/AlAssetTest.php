@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -53,17 +53,38 @@ class AlAssetTest extends TestCase
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertNull($alAsset->getAbsolutePath());
     }
+    
+    public function testTheResourceCannotBeLocated()
+    {
+        $asset = '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css';        
+        $this->kernel
+             ->expects($this->once())
+             ->method('locateResource')
+             ->will($this->throwException(new \RuntimeException()))
+        ;
+
+        $alAsset = new AlAsset($this->kernel, $asset);
+        $this->assertEquals($asset, $alAsset->getAsset());
+        $this->assertEquals('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css', $alAsset->getRealPath());
+    }
 
     public function testAssetPathAreCalculatedFromARelativePath()
     {
         $asset = '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css';
         $bundleAssetPath = '/path/to/bundle/folder';
         $this->setUpKernel($bundleAssetPath);
+        
+        $this->kernel
+             ->expects($this->exactly(2))
+             ->method('getRootDir')
+             ->will($this->returnValue('/pat/to/kernel/root/dir'))
+        ;
 
         $alAsset = new AlAsset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals($bundleAssetPath . '/Resources/public/css/reset.css', $alAsset->getRealPath());
         $this->assertEquals('bundles/businesswebsitetheme/css/reset.css', $alAsset->getAbsolutePath());
+        $this->assertEquals('/pat/to/kernel/root/dir/../web/bundles/businesswebsitetheme/css/reset.css', $alAsset->getWebFolderRealPath());        
     }
 
     public function testAssetPathAreCalculatedFromARealPath()

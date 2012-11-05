@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemonPageTreeBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
@@ -16,13 +16,12 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler;
 
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Register the listeners by their tags
  *
- * @author AlphaLemon
+ * @author AlphaLemon <webmaster@alphalemon.com>
  */
 class EventListenersRegistrator
 {

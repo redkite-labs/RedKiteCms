@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -32,12 +32,8 @@ class WebTestCaseFunctional extends WebTestCase
     {
         $this->client = static::createClient(
             array(
-                'environment' => 'alcms_test',
+                'environment' => 'test',
                 'debug'       => true,
-            ),
-            array(
-                'PHP_AUTH_USER' => 'admin',
-                'PHP_AUTH_PW' => 'admin',
             )
         );
 

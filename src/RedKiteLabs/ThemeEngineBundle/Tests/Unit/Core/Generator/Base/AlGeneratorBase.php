@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -42,6 +42,16 @@ class AlGeneratorBase extends TestCase
 
     protected function importDefaultTheme()
     {
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views',$this->root);
+        $baseThemeDir = __DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views';
+        if ( ! is_dir($baseThemeDir)) { 
+            $baseThemeDir = __DIR__ . '/../../../../../vendor/alphalemon/business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views';
+            if ( ! is_dir($baseThemeDir)) {
+                $this->markTestSkipped(
+                    'BusinessWebsiteThemeBundle is not available.'
+                );
+            }
+        }
+        
+        vfsStream::copyFromFileSystem($baseThemeDir ,$this->root);
     }
 }

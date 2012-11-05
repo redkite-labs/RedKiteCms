@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon FrontendBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -23,6 +23,9 @@ use AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler\EventListenersRegistrat
 
 class RegisterRenderingListenersPass implements CompilerPassInterface
 {
+    /**
+     * @codeCoverageIgnore
+     */
     public function process(ContainerBuilder $container)
     {
         EventListenersRegistrator::registerByTaggedServiceId($container, 'alpha_lemon_theme_engine.event_listener');

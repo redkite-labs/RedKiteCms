@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of the AlphaLemon CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -87,7 +87,7 @@ class AlAssetCollectionTest extends TestCase
             '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css',));
         $this->assertEquals(2, count($alAssetCollection));
     }
-
+    
     public function testTheAssetDoesNotExistInTheCollectionSoAnythingIsRemoved()
     {
         $alAssetCollection = new AlAssetCollection($this->kernel);
