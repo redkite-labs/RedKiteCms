@@ -42,7 +42,6 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $options = array(
             'description' => 'Fake block',
             'group' => 'fake-group',
-            'strict' => false
         );
         $this->blockGenerator->generateExt('AlphaLemon\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
 
@@ -90,7 +89,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>';
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/app-block.xml');
+        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/app_block.xml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
@@ -121,30 +120,39 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
-        $this->assertFileNotExists(vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/composer.json'));
-
+        $expected = '{' . PHP_EOL;
+        $expected .= '    "autoload": {' . PHP_EOL;
+        $expected .= '        "psr-0": { "AlphaLemon\\\\Block\\\\FakeBlockBundle\\\\FakeBlockBundle": ""' . PHP_EOL;
+        $expected .= '        }' . PHP_EOL;
+        $expected .= '    },' . PHP_EOL;
+        $expected .= '    "target-dir" : "AlphaLemon/Block/FakeBlockBundle",' . PHP_EOL;
+        $expected .= '    "minimum-stability": "dev"' . PHP_EOL;
+        $expected .= '}';
+        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/composer.json');
+        $this->assertFileExists($file);
+        $this->assertEquals($expected, file_get_contents($file));
+        
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Block/fakeblock_editor.html.twig');
         $this->assertFileExists($file);
         $this->assertEquals('{% extends \'AlphaLemonCmsBundle:Block:base_editor.html.twig\' %}', file_get_contents($file));
         
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/DependencyInjection/FakeBlockExtension.php');
         $this->assertFileExists($file);
-        $this->assertRegExp('/\$loader\-\>load\(\'app\-block\.xml\'\)\;/', file_get_contents($file));
     }
 
-    public function testBlockBundleIsGeneratedUsingStrictMode()
+    public function testBlockBundleIsGeneratedSkippingStrictMode()
     {
         $options = array(
             'description' => 'Fake block',
             'group' => 'fake-group',
-            'strict' => true
+            'no-strict' => true
         );
         $this->blockGenerator->generateExt('AlphaLemon\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
 
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/app-block.xml');
+        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/app_block.xml');
         $this->assertFileExists($file);
 
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms.yml');
@@ -159,17 +167,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/autoload.json');
         $this->assertFileExists($file);
 
-        $expected = '{' . PHP_EOL;
-        $expected .= '    "autoload": {' . PHP_EOL;
-        $expected .= '        "psr-0": { "AlphaLemon\\\\Block\\\\FakeBlockBundle\\\\FakeBlockBundle": ""' . PHP_EOL;
-        $expected .= '        }' . PHP_EOL;
-        $expected .= '    },' . PHP_EOL;
-        $expected .= '    "target-dir" : "AlphaLemon/Block/FakeBlockBundle",' . PHP_EOL;
-        $expected .= '    "minimum-stability": "dev"' . PHP_EOL;
-        $expected .= '}';
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/composer.json');
-        $this->assertFileExists($file);
-        $this->assertEquals($expected, file_get_contents($file));
+        $this->assertFileNotExists(vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/composer.json'));
 
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Block/fake_block_editor.html.twig');
     }

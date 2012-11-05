@@ -5,12 +5,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Sensio\Bundle\GeneratorBundle\Command\Validators;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Generator\AlAppBlockGenerator;
 use AlphaLemon\ThemeEngineBundle\Command\Generate\BaseGenerateBundle;
 
 class GenerateAppBlockBundleCommand extends BaseGenerateBundle
 {
+    protected $updateKernel = false;
+    
     protected function configure()
     {
         $this
@@ -22,7 +23,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
                 new InputOption('bundle-name', '', InputOption::VALUE_REQUIRED, 'The optional bundle name'),
                 new InputOption('format', '', InputOption::VALUE_REQUIRED, 'Do nothing but mandatory for extend', 'annotation'),
                 new InputOption('structure', '', InputOption::VALUE_NONE, 'Whether to generate the whole directory structure'),
-                new InputOption('strict', '', InputOption::VALUE_NONE, 'Forces the bundle namespace to be compatible as distributable App-Block'),
+                new InputOption('no-strict', '', InputOption::VALUE_NONE, 'Skips the strict control on App-Block namespace'),
                 new InputOption('description', '', InputOption::VALUE_REQUIRED, 'The App-Block description displayed in the add-block menu'),
                 new InputOption('group', '', InputOption::VALUE_REQUIRED, 'The App-Block group, to group thogether blocks'),
 
@@ -61,11 +62,11 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
     }
 
     protected function getGeneratorExtraOptions(InputInterface $input)
-    { 
+    {
         return array(
             'description' => $input->getOption('description'),
             'group' => $input->getOption('group'),
-            'strict' => $input->getOption('strict'),
+            'no-strict' => $input->getOption('no-strict'),
         );
     }
 
