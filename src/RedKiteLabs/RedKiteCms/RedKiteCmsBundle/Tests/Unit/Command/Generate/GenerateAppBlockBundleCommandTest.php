@@ -34,7 +34,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
      */
     public function testAnExceptionIsThrownWhenTheNamespaceIsInvalidInStrictMode()
     {
-        $options = array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--strict' => true, '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true);
+        $options = array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true);
         $input = "Foo\FooBarBundle\n";
         
         $generator = $this->getGenerator();        
@@ -52,12 +52,12 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
      */
     public function testInteractiveCommand($options, $input, $expected)
     {
-        list($namespace, $bundle, $dir, $format, $structure, $description, $group, $strict) = $expected;
+        list($namespace, $bundle, $dir, $format, $structure, $description, $group, $noStrict) = $expected;
 
         $commandOptions = array(
             'description' => $description,
             'group' => $group,
-            'strict' => $strict,
+            'no-strict' => $noStrict,
         );
         
         $generator = $this->getGenerator();        
@@ -75,12 +75,12 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
     {
         $root = vfsStream::setup('root');
         
-        $options = array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--strict' => false);
+        $options = array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true);
         return array(
-            array($options, "Foo/BarBundle\n", array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, 'Fake block', 'fake-group', false)),
-            array($options, "Foo/BarBundle\nBarBundle\nfoo\nyml\nn", array('Foo\BarBundle', 'BarBundle', 'foo/', 'yml', false, 'Fake block', 'fake-group', false)),
-            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), "Foo/BarBundle\n", array('Foo\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'yml', true, 'Fake block', 'fake-group', false)),
-            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--strict' => true, '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), "AlphaLemon/Block/BarBundle\n", array('AlphaLemon\Block\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'yml', true, 'Fake block', 'fake-group', true)),
+            array($options, "Foo/BarBundle\n", array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, 'Fake block', 'fake-group', true)),
+            array($options, "Foo/BarBundle\nBarBundle\nfoo\nyml\nn", array('Foo\BarBundle', 'BarBundle', 'foo/', 'yml', false, 'Fake block', 'fake-group', true)),
+            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true, '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), "Foo/BarBundle\n", array('Foo\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'yml', true, 'Fake block', 'fake-group', true)),
+            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--format' => 'annotation', '--bundle-name' => 'BarBundle', '--structure' => true), "AlphaLemon/Block/BarBundle\n", array('AlphaLemon\Block\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'annotation', true, 'Fake block', 'fake-group', false)),
         );
     }
     
@@ -89,12 +89,12 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
      */
     public function testNonInteractiveCommand($options, $expected)
     {
-        list($namespace, $bundle, $dir, $format, $structure, $description, $group, $strict) = $expected;
+        list($namespace, $bundle, $dir, $format, $structure, $description, $group, $noStrict) = $expected;
 
         $commandOptions = array(
             'description' => $description,
             'group' => $group,
-            'strict' => $strict,
+            'no-strict' => $noStrict,
         );
         
         $generator = $this->getGenerator();
@@ -113,9 +113,9 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
         $root = vfsStream::setup('root');
         
         return array(
-            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--namespace' => 'Foo/BarBundle'), array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, 'Fake block', 'fake-group', false)),
-            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--namespace' => 'Foo/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('Foo\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, 'Fake block', 'fake-group', false)),
-            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--strict' => true, '--namespace' => 'AlphaLemon/Block/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('AlphaLemon\Block\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, 'Fake block', 'fake-group', true)),
+            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true, '--namespace' => 'Foo/BarBundle'), array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, 'Fake block', 'fake-group', true)),
+            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true, '--namespace' => 'Foo/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('Foo\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, 'Fake block', 'fake-group', true)),
+            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--namespace' => 'AlphaLemon/Block/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('AlphaLemon\Block\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, 'Fake block', 'fake-group', false)),
         );
     }
     
