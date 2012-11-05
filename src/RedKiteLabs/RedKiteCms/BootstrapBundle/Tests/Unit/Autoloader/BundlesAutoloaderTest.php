@@ -36,7 +36,16 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $this->scriptFactory = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
 
         $folders = array('app' => array(),
-                         'vendor' => array('composer' => array()),
+                         'src' => array(
+                             'Acme' => array(),
+                             'AlphaLemon' => 
+                                array(
+                                    'Block' => array(),
+                                ),
+                         ),
+                         'vendor' => array(
+                             'composer' => array(),
+                         ),
                         );
         $this->root = vfsStream::setup('root', null, $folders);
     }
@@ -80,7 +89,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
         $this->assertEquals($expectedResult, vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());
     }
-
+    
     public function testOnlyBundlesWithAnAutoloadFileAreAutoloaded()
     {
         $this->createAutoloadNamespacesFile();
@@ -96,11 +105,11 @@ class BundlesAutoloaderTest extends BaseFilesystem
             ->will($this->returnValue($this->createScript()));
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
-        $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businessdropcap.json')));
+        $this->assertCount(1, $bundlesAutoloader->getBundles());
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/autoloaders/businessdropcap.json'));
     }
 
     public function testOnlyBundlesWithAnAutoloadFileAreAutoloaded1()
@@ -126,11 +135,11 @@ class BundlesAutoloaderTest extends BaseFilesystem
             ->will($this->returnValue($this->createScript()));
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
-        $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businessdropcap.json')));
+        $this->assertCount(1, $bundlesAutoloader->getBundles());
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/autoloaders/businessdropcap.json'));
     }
 
     public function testConfigAndRoutingFilesAreCopiedToRespectiveFolders()
@@ -151,9 +160,9 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
         $bundlesAutoloader->getBundles();
 
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml'));
     }
 
     /**
@@ -205,7 +214,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundlesAutoloader->getBundles();
 
-        $this->assertEquals(0, count($bundlesAutoloader->getBundles()));
+        $this->assertCount(0, $bundlesAutoloader->getBundles());
     }
 
     public function testInstallationByEnvironmentWithMoreBundles()
@@ -234,7 +243,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundlesAutoloader->getBundles();
 
-        $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
+        $this->assertCount(1, $bundlesAutoloader->getBundles());
     }
 
     public function testAnOverridedBundleIsPlacedAfterTheOneHowOverrideIt()
@@ -262,7 +271,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
-        $this->assertEquals(2, count($bundles));
+        $this->assertCount(2, $bundles);
         $this->assertEquals(array('BusinessDropCapFakeBundle', 'BusinessCarouselFakeBundle'), array_keys($bundles));
     }
 
@@ -290,7 +299,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
-        $this->assertEquals(2, count($bundles));
+        $this->assertCount(2, $bundles);
         $this->assertEquals(array('BusinessCarouselFakeBundle', 'AlphaLemonCmsFakeBundle'), array_keys($bundles));
     }
 
@@ -327,7 +336,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
-        $this->assertEquals(2, count($bundles));
+        $this->assertCount(2, $bundles);
         $this->assertEquals(array('BusinessCarouselFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
     }
 
@@ -366,7 +375,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
-        $this->assertEquals(3, count($bundles));
+        $this->assertCount(3, $bundles);
         $this->assertEquals(array('BusinessCarouselFakeBundle', 'AlphaLemonCmsFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
     }
 
@@ -387,10 +396,10 @@ class BundlesAutoloaderTest extends BaseFilesystem
             ->will($this->returnValue($this->createScript()));
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
-        $this->assertEquals(1, count($bundlesAutoloader->getBundles()));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
-        $this->assertTrue(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
+        $this->assertCount(1, $bundlesAutoloader->getBundles());
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml'));
 
         // Next call
         $fs = new \Symfony\Component\Filesystem\Filesystem();
@@ -408,10 +417,69 @@ class BundlesAutoloaderTest extends BaseFilesystem
             ->will($this->returnValue($script));
 
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $scriptFactory);
-        $this->assertEquals(0, count($bundlesAutoloader->getBundles()));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml')));
-        $this->assertFalse(file_exists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml')));
+        $this->assertCount(0, $bundlesAutoloader->getBundles());
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml'));
+    }
+    
+    public function testBundlesSavedUnderTheStandardPathAreAutoloaded()
+    {
+        $this->createAutoloadNamespacesFile();
+
+        $bundleFolder = 'root/src/AlphaLemon/Block/BusinessSliderFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessSliderFakeBundle');
+        
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
+
+        $this->scriptFactory->expects($this->exactly(2))
+            ->method('createScript')
+            ->will($this->returnValue($this->createScript()));
+
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);        
+        $this->assertCount(2, $bundlesAutoloader->getBundles());
+        
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
+    }
+    
+    public function testBundlesNotSavedUnderTheStandardPathAreNotAutoloaded()
+    {
+        $this->createAutoloadNamespacesFile();
+
+        $bundleFolder = 'root/src/Acme/Blocks/BusinessMenuFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessMenuFakeBundle');
+        
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
+
+        $this->scriptFactory->expects($this->exactly(2))
+            ->method('createScript')
+            ->will($this->returnValue($this->createScript()));
+
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $this->assertCount(1, $bundlesAutoloader->getBundles());
+        
+        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/autoloaders/businessmenufake.json'));
+    }
+    
+    public function testOverridesTheStandardPath()
+    {
+        $this->createAutoloadNamespacesFile();
+
+        $bundleFolder = 'root/src/Acme/Blocks/BusinessMenuFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessMenuFakeBundle');
+        
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
+
+        $this->scriptFactory->expects($this->exactly(2))
+            ->method('createScript')
+            ->will($this->returnValue($this->createScript()));
+
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory, array(vfsStream::url('root/src/Acme/Blocks')));
+        $this->assertCount(2, $bundlesAutoloader->getBundles());        
+        $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businessmenufakebundle.json'));
     }
 
     private function createScript()
