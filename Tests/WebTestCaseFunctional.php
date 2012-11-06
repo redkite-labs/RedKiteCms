@@ -96,26 +96,37 @@ abstract class WebTestCaseFunctional extends WebTestCase
         $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('alpha_lemon_cms.block_manager_factory'));
         $templateManager->refresh();
 
-        $connection = \Propel::getConnection();
+        $connection = \Propel::getConnection(); 
         $queries = array(
-            'SET foreign_key_checks = 0',
-            'TRUNCATE al_block;',
-            'TRUNCATE al_language;',
-            'TRUNCATE al_locked_resource;',
-            'TRUNCATE al_page;',
-            'TRUNCATE al_seo;',
-            'TRUNCATE al_role;',
-            'TRUNCATE al_user;',
+            'DELETE FROM al_block;',
+            'DELETE FROM al_language;',
+            'DELETE FROM al_locked_resource;',
+            'DELETE FROM al_page;',
+            'DELETE FROM al_seo;',
+            'DELETE FROM al_role;',
+            'DELETE FROM al_user;',
             'INSERT INTO al_language (language_name) VALUES(\'-\');',
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
         );
+        
+        /*
+        $queries = array(
+            'TRUNCATE  al_block;',
+            'TRUNCATE  al_language;',
+            'TRUNCATE  al_locked_resource;',
+            'TRUNCATE  al_page;',
+            'TRUNCATE  al_seo;',
+            'TRUNCATE  al_role;',
+            'TRUNCATE  al_user;',
+            'INSERT INTO al_language (language_name) VALUES(\'-\');',
+            'INSERT INTO al_page (page_name) VALUES(\'-\');',
+        );*/
 
         foreach ($queries as $query) {
             $statement = $connection->prepare($query);
             $statement->execute();
         }
-
-        //$adminRoleId = 0;
+        
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
             $alRole = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlRole();
@@ -123,7 +134,6 @@ abstract class WebTestCaseFunctional extends WebTestCase
             $alRole->save();
 
             self::$roles[$role] = $alRole->getId();
-            //if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
         }
 
         self::addUser('admin', 'admin', self::$roles['ROLE_ADMIN']);
@@ -143,9 +153,6 @@ abstract class WebTestCaseFunctional extends WebTestCase
             }
             $alPageManager->set(null)->save($page);
         }
-
-        $statement = $connection->prepare('SET foreign_key_checks = 1');
-        $statement->execute();
     }
     
     protected static function addUser($username, $password, $adminRoleId)
