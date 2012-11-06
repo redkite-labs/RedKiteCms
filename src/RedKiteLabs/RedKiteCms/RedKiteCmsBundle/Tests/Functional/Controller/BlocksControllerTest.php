@@ -383,7 +383,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("remove-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("blockName", $json[1]));
-        $this->assertEquals("block_26", $json[1]["blockName"]);
+        $this->assertEquals("block_25", $json[1]["blockName"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(1, count($blocks));
