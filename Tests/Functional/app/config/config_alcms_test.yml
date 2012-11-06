@@ -20,10 +20,11 @@ propel:
     phing_path: "%kernel.root_dir%/../../../vendor/phing/phing"
 
     dbal:
-        driver:               mysql
-        user:                 root
-        password:
-        dsn:                  mysql:host=localhost;dbname=alphalemon_test
+        driver:               sqlite
+        #user:                 root
+        #password:
+        #dsn:                  mysql:host=localhost;dbname=alphalemon_test
+        dsn:                  sqlite:memory
         options:              {}
         attributes:           {}
         default_connection:   default
