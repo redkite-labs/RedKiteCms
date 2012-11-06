@@ -38,6 +38,23 @@ if (0 === strncasecmp(PHP_SAPI, 'cli', 3)) {
 
 require_once __DIR__ . '/Tools/AlphaLemonPropelQuickBuilder.php';
 if (class_exists('TypehintableBehavior')) {
+    
+    $config = array("datasources" => array (
+        "default" => array (
+            "adapter" => "sqlite",
+            "connection" => array
+            (
+                "dsn" => "sqlite:memory",
+                "classname" => "DebugPDO",
+                "options" => array(),
+                "attributes" => array (),
+                "settings" => array (),
+            )
+        )
+    ));
+    \Propel::setConfiguration($config);
+    \Propel::initialize();
+    
     $class = new \ReflectionClass('TypehintableBehavior');
     $builder = new \AlphaLemonPropelQuickBuilder();
     $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
