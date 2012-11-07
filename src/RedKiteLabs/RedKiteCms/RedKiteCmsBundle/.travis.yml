@@ -24,4 +24,4 @@ notifications:
   email:
     - info@alphalemon.com
 
-script: phpunit --coverage-text
+#script: phpunit --coverage-text
