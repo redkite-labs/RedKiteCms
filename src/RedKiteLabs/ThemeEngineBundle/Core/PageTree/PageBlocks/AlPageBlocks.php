@@ -17,10 +17,7 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Model\Entities\BlockModelInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\Exception\AnyValidArgumentGivenException;
 
 /**
  * AlPageBlocks is the object responsible to manage the blocks on a web page. A block on a web
@@ -35,19 +32,12 @@ use AlphaLemon\ThemeEngineBundle\Core\PageTree\Exception\AnyValidArgumentGivenEx
 class AlPageBlocks implements AlPageBlocksInterface
 {
     protected $blocks = array();
-    //protected $requiredParamsOptions = array('Content' => '');
 
     /**
      * {@inheritdoc}
      */
     public function add($slotName, $value, $position = null)
     {
-        /*
-        $value = array_intersect_key($values, $this->requiredParamsOptions);
-        if (empty($value)) {
-            throw new AnyValidArgumentGivenException(sprintf('Any valid option have been given. Add was expecting "%s" but receives "%s"', implode(',', array_keys($this->requiredParamsOptions)), implode(',', array_keys($values))));
-        }*/
-
         if(null !== $position && array_key_exists($position, $this->blocks[$slotName]))
         {
             $this->blocks[$slotName][$position] = $value;

@@ -36,20 +36,11 @@ class AlPageBlocksTest extends TestCase
         $this->pageBlocks = new AlPageBlocks();
     }
 
-    /**
-     * @expectedException_ AlphaLemon\ThemeEngineBundle\Core\PageTree\Exception\AnyValidArgumentGivenException
-     */
-    /*
-    public function testBlockIsNotAddedWhenGivenValuesDoesNotContainAnyValidOptionParam()
-    {
-        $this->pageBlocks->add("logo", array('Fake' => 'My value'));
-    }*/
-
     public function testBlockIsAdded()
     {
         $this->assertEquals($this->pageBlocks, $this->pageBlocks->add("logo", array('Content' => 'My value')));
 
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 1);
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
         $this->checkOneBlock('logo', 'My value');
     }
 
@@ -58,7 +49,7 @@ class AlPageBlocksTest extends TestCase
         $this->pageBlocks->add("logo", array('Content' => 'My value'));
         $this->pageBlocks->add("logo", array('Content' => 'My new value'), 0);
 
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 1);
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
         $this->checkOneBlock('logo', 'My new value');
     }
 
@@ -67,30 +58,40 @@ class AlPageBlocksTest extends TestCase
         $this->pageBlocks->add("logo", array('Content' => 'My value'));
         $this->pageBlocks->add("logo", array('Content' => 'My new value'), 5);
 
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 1);
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
         $block = $this->pageBlocks->getSlotBlocks('logo');
-        $this->assertTrue(count($block) == 2);
+        $this->assertCount(2, $block);
     }
-
-    /**
-     * @expectedException_ AlphaLemon\ThemeEngineBundle\Core\PageTree\Exception\AnyValidArgumentGivenException
-     */
-    /*
-    public function testOneBlockIsNotAddedWhenBecauseItContainsAnInvalidOptionParam()
+    
+    public function testNullContents()
     {
-        $this->assertEquals($this->pageBlocks, $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'), array('Fake' => 'My value')))));
-        $this->checkOneBlock('logo', 'My value');
-    }*/
+        $this->pageBlocks->addRange(array("logo" => null));
+
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
+        $block = $this->pageBlocks->getSlotBlocks('logo');
+        $this->assertNull($block);
+    }
 
     public function testARangeOfBlocksIsAdded()
     {
         $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
 
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 1);
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
         $block = $this->pageBlocks->getSlotBlocks('logo');
-        $this->assertTrue(count($block) == 2);
+        $this->assertCount(2, $block);
         $this->assertEquals('My value', $block[0]['Content']);
         $this->assertEquals('My new value', $block[1]['Content']);
+    }
+    
+    public function testARangeOfBlocksIsOverriden()
+    {
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'Overrided value'))), true);
+
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
+        $block = $this->pageBlocks->getSlotBlocks('logo');
+        $this->assertCount(1, $block);
+        $this->assertEquals('Overrided value', $block[0]['Content']);
     }
 
     public function testARangeOfBlocksIsAddedOnMoreSlots()
@@ -98,7 +99,7 @@ class AlPageBlocksTest extends TestCase
         $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value')),
             "nav_menu" => array(array('Content' => 'My value'))));
 
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 2);
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
     }
 
     /**
@@ -112,23 +113,23 @@ class AlPageBlocksTest extends TestCase
     public function testASlotIsCleared()
     {
         $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'))));
-        $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 1);
+        $this->assertCount(1, $this->pageBlocks->getSlotBlocks('logo'));
 
         $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlotBlocks('logo'));
-        $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 0);
+        $this->assertCount(0, $this->pageBlocks->getSlotBlocks('logo'));
     }
 
     public function testAllSlotsAreCleared()
     {
         $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 2);
-        $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 1);
-        $this->assertTrue(count($this->pageBlocks->getSlotBlocks('nav-menu')) == 1);
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
+        $this->assertCount(1, $this->pageBlocks->getSlotBlocks('logo'));
+        $this->assertCount(1, $this->pageBlocks->getSlotBlocks('nav-menu'));
 
         $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlots());
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 2);
-        $this->assertTrue(count($this->pageBlocks->getSlotBlocks('logo')) == 0);
-        $this->assertTrue(count($this->pageBlocks->getSlotBlocks('nav-menu')) == 0);
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
+        $this->assertCount(0, $this->pageBlocks->getSlotBlocks('logo'));
+        $this->assertCount(0, $this->pageBlocks->getSlotBlocks('nav-menu'));
     }
 
     /**
@@ -142,19 +143,19 @@ class AlPageBlocksTest extends TestCase
     public function testASlotIsRemoved()
     {
         $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'))));
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 1);
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
 
         $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlot('logo'));
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 0);
+        $this->assertCount(0, $this->pageBlocks->getBlocks());
     }
 
     public function testAllSlotsAreRemoved()
     {
         $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 2);
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
 
         $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlots());
-        $this->assertTrue(count($this->pageBlocks->getBlocks()) == 0);
+        $this->assertCount(0, $this->pageBlocks->getBlocks());
     }
 
     private function checkOneBlock($slotName, $expectedContent)
