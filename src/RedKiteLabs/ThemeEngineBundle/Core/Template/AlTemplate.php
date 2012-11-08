@@ -59,16 +59,31 @@ class AlTemplate
         $this->templateAssets = $templateAssets;
         $this->templateSlots = $templateSlots;
 
-        $this->setUp();
+        $this->assets = new \ArrayObject(array());
+        $this->assets->stylesheets = new \ArrayObject(array());
+        $this->assets->javascripts = new \ArrayObject(array());
+        $this->assets->stylesheets->external = new AlAssetCollection($this->kernel, $this->templateAssets->getExternalStylesheets());
+        $this->assets->stylesheets->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalStylesheets());
+        $this->assets->javascripts->external = new AlAssetCollection($this->kernel, $this->templateAssets->getExternalJavascripts());
+        $this->assets->javascripts->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalJavascripts());
+            
+        //$this->setUp();
     }
 
     /**
      * Clones the holden objects, when the object is cloned
+     * 
+     * @codeCoverageIgnore
      */
     function __clone()
     {
-        if (null !== $this->templateAssets) $this->templateAssets = clone($this->templateAssets);
-        if (null !== $this->templateSlots) $this->templateSlots = clone($this->templateSlots);
+        if (null !== $this->templateAssets) {
+            $this->templateAssets = clone($this->templateAssets);
+        }
+        
+        if (null !== $this->templateSlots) {
+            $this->templateSlots = clone($this->templateSlots);
+        }
     }
 
     /**
@@ -80,7 +95,7 @@ class AlTemplate
     public function setThemeName($v)
     {
         $this->templateAssets->setThemeName($v);
-        $this->setUp();
+        //$this->setUp();
 
         return $this;
     }
@@ -94,7 +109,7 @@ class AlTemplate
     public function setTemplateName($v)
     {
         $this->templateAssets->setTemplateName($v);
-        $this->setUp();
+        //$this->setUp();
 
         return $this;
     }
@@ -203,7 +218,7 @@ class AlTemplate
      * Sets up the template slots object and the template's assets
      */
     protected function setUp()
-    {
+    {return;
         $themeName = $this->getThemeName();
         $templateName = $this->getTemplateName();
         if ($themeName != '' && $templateName != '') {
