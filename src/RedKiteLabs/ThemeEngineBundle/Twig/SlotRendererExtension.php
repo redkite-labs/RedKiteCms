@@ -23,7 +23,8 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 /**
  * Adds the renderSlot function to Twig engine
  *
- * @author Giansimon Diblas
+ * @author alphalemon <webmaster@alphalemon.com>
+ * @codeCoverageIgnore
  */
 class SlotRendererExtension extends \Twig_Extension
 {
