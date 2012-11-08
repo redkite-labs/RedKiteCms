@@ -157,7 +157,7 @@ class AlPageTree
         if(preg_match('/^(add)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
         {
             $method = $matches[0];
-            $this->getTemplate()->$method($params[0]);
+            $this->getTemplate()->$method($params);
             
             return $this;
         }
@@ -181,6 +181,7 @@ class AlPageTree
 
         if(preg_match('/^(set)?(Meta)?([Title|Description|Keywords]+)$/', $name, $matches))
         {
+            $property = strtolower($matches[2]) . $matches[3];
             $this->$property = $params[0];
 
             return $this;
@@ -196,6 +197,8 @@ class AlPageTree
      * @param string $assetType The assets type (stylesheet/favascript)
      * @param string $type The required type (internal/external)
      * @return type
+     * 
+     * @codeCoverageIgnore
      */
     protected function mergeAssets($method, $assetType, $type)
     {

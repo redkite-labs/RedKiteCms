@@ -40,6 +40,10 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->setMethods(
                                         array(
+                                            'addExternalStylesheet',
+                                            'addExternalStylesheets',
+                                            'addExternalJavascript',
+                                            'addExternalJavascripts',
                                             'getExternalStylesheets', 
                                             'getInternalStylesheets', 
                                             'getExternalJavascripts', 
@@ -55,68 +59,106 @@ class AlPageTreeTest extends TestCase
         $this->pageTree = new AlPageTree($this->container, $this->pageBlocks);
         $this->pageTree->setTemplate($this->template);
     }
-
-    public function testExternalStylesheets()
+   
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testAnExceptionIsThrowsWhenCalledMethodDoesNotExist()
     {
-        $assets = array('theme-stylesheet.css');
-        $assetsCollection = $this->setUpAssetsCollection($assets);
-        
-        $this->template->expects($this->once())
-            ->method('getExternalStylesheets')
-            ->will($this->returnValue($assetsCollection));
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array()));
-
-        $this->assertEquals($assets, $this->pageTree->getExternalStylesheets());
+        $this->pageTree->fake();
     }
     
-    public function testInternalStylesheets()
+    public function testGetNotInitializedAssets()
     {
-        $assets = array('an-awesome-styleshet');
-        $assetsCollection = $this->setUpAssetsCollection($assets);
-        
-        $this->template->expects($this->once())
-            ->method('getInternalStylesheets')
-            ->will($this->returnValue($assetsCollection));
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array()));
-
-        $this->assertEquals($assets[0], $this->pageTree->getInternalStylesheets());
-    }
-    public function testExternalJavascripts()
-    {
-        $assets = array('theme-javascript.js');
-        $assetsCollection = $this->setUpAssetsCollection($assets);
-        
-        $this->template->expects($this->once())
-            ->method('getExternalJavascripts')
-            ->will($this->returnValue($assetsCollection));
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array()));
-
-        $this->assertEquals($assets, $this->pageTree->getExternalJavascripts());
+        $this->assertEmpty($this->pageTree->getExternalStylesheets());
     }
     
-    public function testInternalJavascripts()
+    /**
+     * @dataProvider getAssetsProvider
+     */
+    public function testGetAssets($assets, $method, $blockAssets, $result)
     {
-        $assets = array('an-awesome-javascript');
         $assetsCollection = $this->setUpAssetsCollection($assets);
         
         $this->template->expects($this->once())
-            ->method('getInternalJavascripts')
+            ->method($method)
             ->will($this->returnValue($assetsCollection));
 
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue($blockAssets));
 
-        $this->assertEquals($assets[0], $this->pageTree->getInternalJavascripts());
+        $this->assertEquals($result, $this->pageTree->$method());
+    }
+    
+    public function getAssetsProvider()
+    {
+        return array(
+            array(
+                array('theme-stylesheet.css'),
+                'getExternalStylesheets',
+                array(),
+                array('theme-stylesheet.css'),
+            ),
+            array(
+                array('some stylesheets code'),
+                'getInternalStylesheets',
+                array(),
+                'some stylesheets code',
+            ),
+            array(
+                array('theme-javascript.js'),
+                'getExternalJavascripts',
+                array(),
+                array('theme-javascript.js'),
+            ),
+            array(
+                array('some javascript code'),
+                'getInternalJavascripts',
+                array(),
+                'some javascript code',
+            ),
+        );
+    }
+    
+    /**
+     * @dataProvider addAssetsProvider
+     */
+    public function testAddAssets($assets, $method, $result = null)
+    {
+        if (null === $result) {
+            $result = $assets;
+        }
+        
+        $this->template->expects($this->once())
+            ->method($method)
+            ->with($assets);
+
+        $this->pageTree->$method($result);
+    }
+    
+    public function addAssetsProvider()
+    {
+        return array(            
+            array(
+                array('theme-stylesheet.css'),
+                'addExternalStylesheet',
+            ),
+            array(
+                array('theme-javascript.js'),
+                'addExternalJavascript',
+            ),
+            array(
+                array(array('theme-stylesheet.css','another-stylesheet.css')),
+                'addExternalStylesheets',
+                array('theme-stylesheet.css','another-stylesheet.css'),
+            ),
+            array(
+                array(array('theme-javascript.js','another-javascript.js')),
+                'addExternalJavascripts',
+                array('theme-javascript.js','another-javascript.js'),
+            ),
+        );
     }
     
     public function testMetatags()
@@ -131,6 +173,18 @@ class AlPageTreeTest extends TestCase
         $this->assertEquals($metas['title'], $this->pageTree->getMetaTitle());
         $this->assertEquals($metas['description'], $this->pageTree->getMetaDescription());
         $this->assertEquals($metas['keywords'], $this->pageTree->getMetaKeywords());
+        
+        $title = "another title";
+        $this->pageTree->setMetaTitle($title);
+        $this->assertEquals($title, $this->pageTree->getMetaTitle());
+        
+        $desription = "another description";
+        $this->pageTree->setMetaDescription($desription);
+        $this->assertEquals($desription, $this->pageTree->getMetaDescription());
+        
+        $keywords = "another,keyword";
+        $this->pageTree->setMetaKeywords($keywords);
+        $this->assertEquals($keywords, $this->pageTree->getMetaKeywords());
     }
     
     public function testPageBlocks()
@@ -156,5 +210,4 @@ class AlPageTreeTest extends TestCase
                 
         return $assetsCollection;
     }
-
 }
