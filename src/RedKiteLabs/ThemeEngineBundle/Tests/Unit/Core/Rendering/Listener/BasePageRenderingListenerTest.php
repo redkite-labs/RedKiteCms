@@ -141,6 +141,31 @@ class BasePageRenderingListenerTest extends TestCase
         $this->listener->onPageRendering($this->event);
     }
     
+    public function testContentIsInject1()
+    {
+        $replacingContent = 'my awesome content';
+        
+        $this->slotContent->expects($this->once())
+            ->method('isReplacing')
+            ->will($this->returnValue(false));        
+        
+        $this->slotContent->expects($this->exactly(2))
+            ->method('getSlotName')
+            ->will($this->returnValue('menu'));
+        
+        $this->slotContent->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue($replacingContent));
+        
+        $existingContent = 'a replaceable content';
+        $this->response->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue(sprintf('<!-- BEGIN LOGO BLOCK -->%s<!-- END LOGO BLOCK -->', $existingContent)));
+        
+        $this->listener->setSlotContents(array($this->slotContent));
+        $this->listener->onPageRendering($this->event);
+    }
+    
     private function setUpSlotContent($slotName = null, $replacing = null, $content = null)
     {       
         $expectation = (null === $content) ? $this->once() : $this->exactly(2);

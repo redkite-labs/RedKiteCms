@@ -128,7 +128,7 @@ abstract class BasePageRenderingListener
     protected function injectContent(AlSlotContent $slotContent, $content)
     {
         $regex = $this->getPattern($slotContent->getSlotName());
-        if (false === preg_match($regex, $content, $match)) {
+        if (false == preg_match($regex, $content, $match)) {
             return;
         }
         $newContent = $match[1] . PHP_EOL . $slotContent->getContent();
