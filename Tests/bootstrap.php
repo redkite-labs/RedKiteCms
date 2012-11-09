@@ -44,7 +44,7 @@ if (class_exists('TypehintableBehavior')) {
             "adapter" => "sqlite",
             "connection" => array
             (
-                "dsn" => "sqlite:memory",
+                "dsn" => "sqlite::memory:",
                 "classname" => "DebugPDO",
                 "options" => array(),
                 "attributes" => array (),
