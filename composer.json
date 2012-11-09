@@ -36,15 +36,17 @@
     "jms/security-extra-bundle": "1.2.*",
     "jms/di-extra-bundle": "1.1.*",
     "imagine/Imagine": ">=0.2",
-    "propel/propel-bundle": "1.1.x-dev",
-    "propel/propel1": "1.6.*",
-    "phing/phing": "2.4.*",
-    "willdurand/propel-typehintable-behavior": "dev-master",
-    "mikey179/vfsStream": "dev-master",
+    "propel/propel-bundle": "1.1.5",
+    "propel/propel1": "1.6.7",
+    "phing/phing": "2.4.12",
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
-    "alphalemon/business-website-theme-bundle": "dev-master",
+    "alphalemon/business-website-theme-bundle": "dev-master"
+  },
+  "require-dev": {    
+    "willdurand/propel-typehintable-behavior": "dev-master",  
+    "mikey179/vfsStream": "dev-master",
     "doctrine/common": "dev-bugfix as 2.3.0"
   },
   "minimum-stability": "dev",
