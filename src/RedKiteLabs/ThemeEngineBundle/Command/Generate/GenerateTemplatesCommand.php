@@ -125,9 +125,10 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             }            
         }
         
-        $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, 'base', $baseSlots);
-        $output->writeln($message);
-        
+        if ( ! empty($baseSlots)) {
+            $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, 'base', $baseSlots);
+            $output->writeln($message);
+        }
         
         $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, $templates);
         $output->writeln($message);
