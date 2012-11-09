@@ -20,6 +20,12 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
         $this->container = new ContainerBuilder();        
         $this->container->setParameter('kernel.root_dir', 'root');
     }
+    
+    public function testGetAlias()
+    {
+        $extension = new AlphaLemonThemeEngineExtension();
+        $this->assertEquals('alpha_lemon_theme_engine', $extension->getAlias());
+    }
 
     public function testDefaultConfiguration()
     {
