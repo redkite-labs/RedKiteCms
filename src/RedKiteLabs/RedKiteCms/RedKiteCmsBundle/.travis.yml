@@ -9,16 +9,16 @@ php:
 #  - SYMFONY_VERSION=origin/2.0
 #  - SYMFONY_VERSION=origin/master
 
-mysql:
-  adapter: mysql2
-  database: alphalemon_test
-  username: root
-  encoding: utf8
+#mysql:
+#  adapter: mysql2
+#  database: alphalemon_test
+#  username: root
+#  encoding: utf8
 
 before_script:
-  - "mysql -e 'create database alphalemon_test;'"
+#  - "mysql -e 'create database alphalemon_test;'"
   - wget http://getcomposer.org/composer.phar
-  - php composer.phar install
+  - php composer.phar install --dev
 
 notifications:
   email:
