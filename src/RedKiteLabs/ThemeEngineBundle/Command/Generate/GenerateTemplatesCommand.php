@@ -103,21 +103,31 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             $this->extensionGenerator = new AlExtensionGenerator();
         }
 
+        $baseSlots = array();
         $templates = $this->templateParser->parse();
         $this->addOption('template-name', '', InputOption::VALUE_NONE, '');
-        foreach ($templates as $templateName => $elements) {
-            $templateName = basename($templateName, '.html.twig');
+        foreach ($templates as $templateFileName => $elements) {
+            $templateName = basename($templateFileName, '.html.twig');
             if ($elements['generate_template']) {
                 $message = $this->templateGenerator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName, $elements['assets']);
                 $output->writeln($message);
-            }
-
-            $slots = $elements['slots'];
-            if (!empty($slots)) {
-                $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
-                $output->writeln($message);
-            }
+                
+                $slots = $elements['slots'];
+                if (!empty($slots)) {
+                    $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
+                    $output->writeln($message);
+                }
+            } else {
+                $baseSlots = array_merge($baseSlots, $elements['slots']);
+                if ($templateName != 'base') {
+                    unset($templates[$templateFileName]);
+                }
+            }            
         }
+        
+        $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, 'base', $baseSlots);
+        $output->writeln($message);
+        
         
         $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, $templates);
         $output->writeln($message);

@@ -40,15 +40,16 @@ class AlTemplateParser
         $templateFiles = $finder->files('*.twig')->in($this->templatesDir);
         foreach ($templateFiles as $template) {
             $template = (string)$template;
+            $templateName = basename($template);
             $templateContents = file_get_contents($template);
-            $templates[basename($template)]['assets']['external_stylesheets'] = $this->fetchExternalStylesheets($templateContents);
-            $templates[basename($template)]['assets']['external_javascripts'] = $this->fetchExternalJavascripts($templateContents);
-            $templates[basename($template)]['assets']['external_stylesheets_cms'] = $this->fetchExternalStylesheetsCms($templateContents);
-            $templates[basename($template)]['assets']['external_javascripts_cms'] = $this->fetchExternalJavascriptsCms($templateContents);
-            $templates[basename($template)]['slots'] = $this->fetchSlots($templateContents);
-            $templates[basename($template)]['generate_template'] = dirname($template) == $this->templatesDir;
+            $templates[$templateName]['assets']['external_stylesheets'] = $this->fetchExternalStylesheets($templateContents);
+            $templates[$templateName]['assets']['external_javascripts'] = $this->fetchExternalJavascripts($templateContents);
+            $templates[$templateName]['assets']['external_stylesheets_cms'] = $this->fetchExternalStylesheetsCms($templateContents);
+            $templates[$templateName]['assets']['external_javascripts_cms'] = $this->fetchExternalJavascriptsCms($templateContents);
+            $templates[$templateName]['slots'] = $this->fetchSlots($templateContents);
+            $templates[$templateName]['generate_template'] = dirname($template) == $this->templatesDir;
         }
-
+        
         return $templates;
     }
 
