@@ -16,9 +16,7 @@
 
 namespace AlphaLemon\ThemeEngineBundle\Core\Template;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
@@ -66,8 +64,6 @@ class AlTemplate
         $this->assets->stylesheets->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalStylesheets());
         $this->assets->javascripts->external = new AlAssetCollection($this->kernel, $this->templateAssets->getExternalJavascripts());
         $this->assets->javascripts->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalJavascripts());
-            
-        //$this->setUp();
     }
 
     /**
@@ -95,7 +91,6 @@ class AlTemplate
     public function setThemeName($v)
     {
         $this->templateAssets->setThemeName($v);
-        //$this->setUp();
 
         return $this;
     }
@@ -109,7 +104,6 @@ class AlTemplate
     public function setTemplateName($v)
     {
         $this->templateAssets->setTemplateName($v);
-        //$this->setUp();
 
         return $this;
     }
@@ -212,24 +206,6 @@ class AlTemplate
         }
 
         throw new \RuntimeException('Call to undefined method: ' . $name);
-    }
-
-    /**
-     * Sets up the template slots object and the template's assets
-     */
-    protected function setUp()
-    {return;
-        $themeName = $this->getThemeName();
-        $templateName = $this->getTemplateName();
-        if ($themeName != '' && $templateName != '') {
-            $this->assets = new \ArrayObject(array());
-            $this->assets->stylesheets = new \ArrayObject(array());
-            $this->assets->javascripts = new \ArrayObject(array());
-            $this->assets->stylesheets->external = new AlAssetCollection($this->kernel, $this->templateAssets->getExternalStylesheets());
-            $this->assets->stylesheets->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalStylesheets());
-            $this->assets->javascripts->external = new AlAssetCollection($this->kernel, $this->templateAssets->getExternalJavascripts());
-            $this->assets->javascripts->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalJavascripts());
-        }
     }
 
     private function addAssetsRange($assetType, $type, array $assets)
