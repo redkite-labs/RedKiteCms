@@ -80,7 +80,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         
         $this->assertEquals($templateManager, $templateManager->setBlockManagerFactory($blockManagerFactory));
         $this->assertEquals($blockManagerFactory, $templateManager->getBlockManagerFactory());
-        $this->assertNotSame($templateManager, $templateManager->getBlockManagerFactory());
+        $this->assertNotSame($this->factoryRepository, $templateManager->getBlockManagerFactory());
     }
     
     public function testBlockRepositoryInjectedBySetters()
@@ -91,7 +91,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                                 ->getMock();
         $this->assertEquals($templateManager, $templateManager->setBlockRepository($blockRepository));
         $this->assertEquals($blockRepository, $templateManager->getBlockRepository());
-        $this->assertNotSame($templateManager, $templateManager->getBlockRepository());
+        $this->assertNotSame($this->blockRepository, $templateManager->getBlockRepository());
     }
     
     /**
