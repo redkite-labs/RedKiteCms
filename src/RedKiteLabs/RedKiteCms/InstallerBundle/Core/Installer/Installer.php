@@ -115,6 +115,7 @@ class Installer {
     {
         $updateFile = false;
         $kernelFile = $this->vendorDir . '/../app/AppKernel.php';
+        $this->backUpFile($kernelFile);
         $contents = file_get_contents($kernelFile);
 
         if(strpos($contents, 'new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle()') === false)
@@ -182,6 +183,15 @@ class Installer {
             throw new \RuntimeException($message);
         }
     }
+    
+    protected function backUpFile($fileName)
+    {
+        $backupFile = $fileName . '.bak';
+        
+        if ( !file_exists($backupFile)) {
+            $this->filesystem ->copy($fileName, $backupFile);
+        }
+    }
 
     protected function setUpEnvironments()
     {
@@ -191,7 +201,6 @@ class Installer {
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
 
-
         $this->filesystem ->mkdir($this->vendorDir . '/../app/propel/sql');
     }
 
@@ -199,7 +208,8 @@ class Installer {
     {
         $configFile = $this->vendorDir . '/../app/config/config.yml';
         $this->checkFile($configFile);
-
+        $this->backUpFile($configFile);
+        
         // Writes the config.yml file
         $contents = file_get_contents($configFile);
         $deployBundle = $this->deployBundle;
@@ -284,6 +294,7 @@ class Installer {
     {
         $configFile = $this->vendorDir . '/../app/config/routing.yml';
         $this->checkFile($configFile);
+        $this->backUpFile($configFile);
 
         $contents = file_get_contents($configFile);
         preg_match("/_$this->deployBundle/", $contents, $match);
@@ -361,7 +372,6 @@ class Installer {
 
     protected function setup()
     {
-        //$this->setUpOrm($this->dsn);
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
         $assetsInstall = 'assets:install --env=alcms_dev ' . $this->vendorDir . '/../web' . $symlink;
         $populate = sprintf('alphalemon:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);
@@ -373,60 +383,5 @@ class Installer {
             );
 
         $this->commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });
-        /*
-        $this->processConsole->executeCommand('propel:build --env=alcms_dev');
-        $this->processConsole->executeCommand('propel:insert-sql --force --env=alcms_dev');
-        $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
-        $this->processConsole->executeCommand('assets:install --env=alcms_dev ' . $this->vendorDir . '/../web' . $symlink);
-        $cmd = sprintf('alphalemon:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);echo $cmd;
-        $this->processConsole->executeCommand($cmd);
-        $this->processConsole->executeCommand('assetic:dump --env=alcms_dev');
-        $this->processConsole->executeCommand('cache:clear --env=alcms_dev');
-        /*
-        $phpFinder = new PhpExecutableFinder;
-        $php = escapeshellarg($phpFinder->find());
-        $console = escapeshellarg($this->vendorDir . '/../app/console');
-
-        $process = new Process($php.' '.$console.' '.'propel:build --env=alcms_dev');
-        $process->run(function ($type, $buffer) {  });
-
-        $process = new Process($php.' '.$console.' '.'propel:insert-sql --force --env=alcms_dev');
-        $process->run(function ($type, $buffer) {  });
-
-        $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
-        $process = new Process($php.' '.$console.' '.'assets:install --env=alcms_dev ' . $this->vendorDir . '/../web' . $symlink);
-        $process->run(function ($type, $buffer) {  });
-
-        $cmd = sprintf('alphalemon:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);echo $cmd;
-        $process = new Process($php.' '.$console.' '.$cmd);
-        $process->run(function ($type, $buffer) { echo $buffer; });
-
-        $process = new Process($php.' '.$console.' '.'assetic:dump --env=alcms_dev');
-        $process->run(function ($type, $buffer) { echo $buffer; });
-
-        $process = new Process($php.' '.$console.' '.'cache:clear --env=alcms_dev');
-        $process->run(function ($type, $buffer) { echo $buffer; });
-
-        return;
-/*
-        $appDir = $this->vendorDir . '/../app';
-        $this->executeCommand($appDir, 'cache:clear'); echo (is_dir($appDir)) ? "AAA" : "BBB";exit;
-
-        require_once $this->vendorDir . '/../app/TempKernel.php';
-
-        $kernel = new \AppKernel('alcms_dev', true);
-        $kernel->boot();
-        $cmd = sprintf('alphalemon:populate %s --user=%s --password=%s', $this->dsn, $this->user, $this->password);
-
-        set_include_path($this->vendorDir.'/phing/phing/classes'.PATH_SEPARATOR.get_include_path());
-
-        $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
-        AlToolkit::executeCommand($kernel, array('propel:build',
-                                                                     'propel:insert-sql --force',
-                                                                     'assets:install ' . $this->vendorDir . '/../web' . $symlink,
-                                                                     $cmd,
-                                                                     'assetic:dump',
-                                                                     'cache:clear',
-            ));*/
     }
 }
