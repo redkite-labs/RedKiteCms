@@ -111,7 +111,7 @@ class AlAssetTest extends TestCase
         $this->setUpKernel($bundleAssetPath);
         
         $this->kernel
-             ->expects($this->once())
+             ->expects($this->exactly(2))
              ->method('getRootDir')
              ->will($this->returnValue('/path/to/kernel/root/dir'))
         ;
