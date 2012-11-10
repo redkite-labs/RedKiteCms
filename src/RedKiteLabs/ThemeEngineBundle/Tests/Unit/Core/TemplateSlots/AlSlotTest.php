@@ -55,7 +55,7 @@ class AlSlotTest extends TestCase
     public function testAlSlotInizializedWithGivenValues()
     {
         $slot = new AlSlot('nav-menu', array('repeated' => 'site',
-                                        'blockType' => 'script',
+                                        'blockType' => 'Script',
                                         'htmlContent' => 'my fancy content'));
         $this->assertEquals('nav-menu', $slot->getSlotName());
         $this->assertEquals('my fancy content', $slot->getContent());
@@ -66,11 +66,20 @@ class AlSlotTest extends TestCase
     public function testAlSlotToArray()
     {
         $values = array('repeated' => 'site',
-                        'blockType' => 'script',
+                        'blockType' => 'Script',
                         'htmlContent' => 'my fancy content');
         $slot = new AlSlot('logo', $values);
         $values['slotName'] = 'logo';
         $values['blockType'] = 'Script';
         $this->assertEquals($values, $slot->toArray());
+    }
+    
+    public function testSetSlotPropertiesBySetters()
+    {
+        $slot = new AlSlot('logo');
+        $slot->setRepeated('language');
+        $slot->setBlockType('Script');
+        $this->assertEquals('language', $slot->getRepeated());
+        $this->assertEquals('Script', $slot->getBlockType());
     }
 }

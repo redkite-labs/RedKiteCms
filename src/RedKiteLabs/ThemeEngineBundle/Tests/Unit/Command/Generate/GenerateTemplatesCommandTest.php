@@ -84,49 +84,31 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
                 ),
                 "slots" => array(),
                 "generate_template" => true,
+                "generate_slot" => false, // this option does not belong the values array in the real world and it is used only for test pourpose
             ),
         );
-
-        $themeName = 'FakeThemeBundle';
-        $template = array_keys($values);
-        $template = $template[0];
-        $templateName = basename($template, '.html.twig');
-
-        $templateParser = $this->getTemplateParser($values);
-        $templateGenerator = $this->getTemplateGenerator();
-        $templateGenerator
-            ->expects($this->once())
-            ->method('generateTemplate')
-            ->with(vfsStream::url('root/Resources/config/templates'), null, $templateName, $values[$template]['assets'])
-        ;
-
-        $slotsGenerator = $this->getSlotsGenerator();
-        $slotsGenerator
-            ->expects($this->never())
-            ->method('generateSlots')
-        ;
-
-        $tester = new CommandTester($this->getCommand($templateParser, $templateGenerator, $slotsGenerator, ''));
-        $tester->execute(array(array('theme' => $themeName)), array('interactive' => false));
+        $this->generationTest($values);
     }
 
-    public function testTemplateHasBeenGeneratedAndExtensionFileHasBeenUpdated()
+    /**
+     * @dataProvider templatesProvider 
+     */
+    public function testTemplatesGeneration($values, $slotPattern)
     {
         $fakeCode = '{' . PHP_EOL;
         $fakeCode .= '        $loader->load(\'services.xml\');' . PHP_EOL;
         $fakeCode .= '}';
         file_put_contents(vfsStream::url('root/DependencyInjection/Extension.php'), $fakeCode);
 
-        $this->generationTest();
+        $this->generationTest($values);
         $extensionContents = file_get_contents(vfsStream::url('root/DependencyInjection/Extension.php'));
         
-        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
-        $this->assertRegExp($pattern, $extensionContents);
-        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
-        $this->assertRegExp($pattern, $extensionContents);
+        $templatePattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
+        $this->assertRegExp($templatePattern, $extensionContents);
+        $this->assertRegExp($slotPattern, $extensionContents);
     }
 
-    public function testWhenTheExtensionFileHasAlreadyWritteCodeIsRegenerated()
+    public function testWhenTheExtensionFileHasAlreadyWrittenCodeIsRegenerated()
     {
         file_put_contents(vfsStream::url('root/DependencyInjection/Extension.php'), 'Extension content');
 
@@ -134,48 +116,153 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
         $extensionContents = file_get_contents(vfsStream::url('root/DependencyInjection/Extension.php'));
         $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
         $this->assertRegExp($pattern, $extensionContents);
-        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
     }
     
-    protected function generationTest()
+    public function templatesProvider()
     {
-        $values = array(
-            "home.html.twig" => array(
-                "assets" => array(
-                    "external_stylesheets" => array(
-                        "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
+        return array(
+            array(
+                array(
+                    "home.html.twig" => array(
+                        "assets" => array(
+                            "external_stylesheets" => array(
+                                "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
+                            ),
+                        ),
+                        "slots" => array
+                        (
+                            "page_content" => array
+                            (
+                                "htmlContent" => "<p>Some content",
+                            ),
+                        ),
+                        "generate_template" => true,
                     ),
                 ),
-                "slots" => array
-                (
-                    "page_content" => array
-                    (
-                        "htmlContent" => "<p>Some content",
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/",
+            ),
+            array(
+                array(
+                    "home.html.twig" => array(
+                        "assets" => array(
+                            "external_stylesheets" => array(
+                                "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
+                            ),
+                        ),
+                        "slots" => array
+                        (
+                            "page_content" => array
+                            (
+                                "htmlContent" => "<p>Some content",
+                            ),
+                        ),
+                        "generate_template" => true,
+                    ),
+                    "base.html.twig" => array(
+                        "slots" => array
+                        (
+                            "logo" => array
+                            (
+                                "htmlContent" => "<p>Some content",
+                            ),
+                        ),
+                        "generate_template" => false,
                     ),
                 ),
-                "generate_template" => true,
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'base.xml',\n[\s]+\),/",
+            ),
+            array(
+                array(
+                    "home.html.twig" => array(
+                        "assets" => array(
+                            "external_stylesheets" => array(
+                                "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
+                            ),
+                        ),
+                        "slots" => array
+                        (
+                            "page_content" => array
+                            (
+                                "htmlContent" => "<p>Some content",
+                            ),
+                        ),
+                        "generate_template" => true,
+                    ),
+                    "base.html.twig" => array(
+                        "slots" => array
+                        (
+                            "logo" => array
+                            (
+                                "htmlContent" => "<p>Some content",
+                            ),
+                        ),
+                        "generate_template" => false,
+                    ),
+                    "template.html.twig" => array(
+                        "slots" => array
+                        (
+                            "logo" => array
+                            (
+                                "htmlContent" => "<p>Some content",
+                            ),
+                        ),
+                        "generate_template" => false,
+                        "generate_slot" => false, // this option does not belong the values array in the real world and it is used only for test pourpose
+                    ),
+                ),
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'base.xml',\n[\s]+\),/"
             ),
         );
-
-        $themeName = 'FakeThemeBundle';
-        $template = array_keys($values);
-        $template = $template[0];
-        $templateName = basename($template, '.html.twig');
-
-        $templateParser = $this->getTemplateParser($values);
-        $templateGenerator = $this->getTemplateGenerator();
-        $templateGenerator
-            ->expects($this->once())
-            ->method('generateTemplate')
-            ->with(vfsStream::url('root/Resources/config/templates'), null, $templateName, $values[$template]['assets'])
-        ;
+    }
+    
+    protected function generationTest($values = null)
+    {
+        if (null === $values) {
+            $values = array(
+                "home.html.twig" => array(
+                    "assets" => array(
+                        "external_stylesheets" => array(
+                            "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
+                        ),
+                    ),
+                    "slots" => array
+                    (
+                        "page_content" => array
+                        (
+                            "htmlContent" => "<p>Some content",
+                        ),
+                    ),
+                    "generate_template" => true,
+                ),
+            );
+        }   
 
         $slotsGenerator = $this->getSlotsGenerator();
-        $slotsGenerator
-            ->expects($this->once())
-            ->method('generateSlots')
-            ->with(vfsStream::url('root/Resources/config/templates/slots'), null, $templateName, $values[$template]['slots'])
-        ;
+        $themeName = 'FakeThemeBundle';
+        
+        $c = 0;
+        foreach($values as $template => $value) {
+            $templateName = basename($template, '.html.twig');
+            
+            if ($value["generate_template"]) {
+                $templateParser = $this->getTemplateParser($values);
+                $templateGenerator = $this->getTemplateGenerator();
+                $templateGenerator
+                    ->expects($this->once())
+                    ->method('generateTemplate')
+                    ->with(vfsStream::url('root/Resources/config/templates'), null, $templateName, $values[$template]['assets'])
+                ;
+            }
+            
+            if (!array_key_exists("generate_slot", $value) || $value["generate_slot"] == true ) {
+                $slotsGenerator
+                    ->expects($this->at($c))
+                    ->method('generateSlots')
+                    ->with(vfsStream::url('root/Resources/config/templates/slots'), null, $templateName, $values[$template]['slots'])
+                ;
+                $c++;
+            }
+        }
 
         $tester = new CommandTester($this->getCommand($templateParser, $templateGenerator, $slotsGenerator, ''));
         $tester->execute(array(array('theme' => $themeName)), array('interactive' => false));

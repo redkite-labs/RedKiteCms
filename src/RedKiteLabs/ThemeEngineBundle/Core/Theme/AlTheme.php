@@ -138,6 +138,8 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 
     /**
      * {@inheritdoc}
+     * 
+     * @codeCoverageIgnore
      */
     public function next()
     {
@@ -146,6 +148,8 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 
     /**
      * {@inheritdoc}
+     * 
+     * @codeCoverageIgnore
      */
     public function rewind()
     {

@@ -64,16 +64,25 @@ class AlTemplateAssetTest extends TestCase
         $this->templateAssets->setTemplateName(array('fake'));
     }
     
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testAnExceptionIsThrownCallingAMethodThatDoesNotExist()
+    {
+        $this->templateAssets->getImages();
+    }
+    
     public function testAssetsAreNotRetrievedJustValorizingTheThemeName()
     {
         $this->templateAssets->setThemeName('BusinessWebsiteThemeBundle');
-        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 0);
+        $this->assertEquals('BusinessWebsiteThemeBundle', $this->templateAssets->getThemeName());
+        $this->assertCount(0, $this->templateAssets->getExternalStylesheets());
     }
     
     public function testAssetsAreNotRetrievedJustValorizingTheTemplateName()
     {
         $this->templateAssets->setTemplateName('Home');
-        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 0);
+        $this->assertCount(0, $this->templateAssets->getExternalStylesheets());
     }
     
     public function testAssetsHaveBeenSetted()
@@ -81,7 +90,16 @@ class AlTemplateAssetTest extends TestCase
         $this->templateAssets
                 ->setThemeName('BusinessWebsiteThemeBundle')
                 ->setTemplateName('Home');
-        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 0);
+        $this->assertCount(0, $this->templateAssets->getExternalStylesheets());
+    }
+    
+    public function testSetExternalStylesheetsFromAStringAsset()
+    {
+        $assets = '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css';
+        
+        $this->templateAssets->setExternalStylesheets($assets);
+        $this->assertEquals(array($assets), $this->templateAssets->getExternalStylesheets());   
+        $this->assertCount(1, $this->templateAssets->getExternalStylesheets());
     }
     
     public function testSetExternalStylesheets()
@@ -90,6 +108,6 @@ class AlTemplateAssetTest extends TestCase
         
         $this->templateAssets->setExternalStylesheets($assets);
         $this->assertEquals($assets, $this->templateAssets->getExternalStylesheets());        
-        $this->assertTrue(count($this->templateAssets->getExternalStylesheets()) == 1);  
+        $this->assertCount(1, $this->templateAssets->getExternalStylesheets());  
     }
 }

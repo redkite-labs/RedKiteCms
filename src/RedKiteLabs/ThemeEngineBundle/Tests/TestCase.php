@@ -19,5 +19,5 @@ namespace AlphaLemon\ThemeEngineBundle\Tests;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TestCase extends \PHPUnit_Framework_TestCase
-{ 
+{
 }

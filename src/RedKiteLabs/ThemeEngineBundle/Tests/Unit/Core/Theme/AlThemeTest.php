@@ -66,6 +66,7 @@ class AlThemeTest extends TestCase
         $this->assertEquals($template, $theme->current());
         $this->assertEquals('home', $theme->key());
         $this->assertTrue($theme->valid());
+        $this->assertCount(1, $theme->getTemplates());
     }
 
     public function testRetrivingATemplateFromAnInvalidKey()

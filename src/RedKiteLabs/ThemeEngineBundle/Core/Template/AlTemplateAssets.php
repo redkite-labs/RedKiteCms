@@ -110,7 +110,7 @@ class AlTemplateAssets
      */
     public function __call($name, $params)
     {
-        if(preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
+        if (preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
         {
             $property = strtolower($matches[2]) . $matches[3];
             $assets = $this->$property;
@@ -118,15 +118,15 @@ class AlTemplateAssets
             return $assets;
         }
 
-        $values = $params[0];
-        if (!is_array($values)) {
-            $values = array($values);
-        }
-
-        if(preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)?/', $name, $matches))
+        if (preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)/', $name, $matches))
         {
+            $values = $params[0];
+            if ( ! is_array($values)) {
+                $values = array($values);
+            }
+        
             $property = strtolower($matches[2]) . $matches[3];
-            $this->$property = $params[0];
+            $this->$property = $values;
 
             return $this;
         }
