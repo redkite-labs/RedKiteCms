@@ -21,10 +21,7 @@ propel:
 
     dbal:
         driver:               sqlite
-        #user:                 root
-        #password:
-        #dsn:                  mysql:host=localhost;dbname=alphalemon_test
-        dsn:                  sqlite:memory
+        dsn:                  "sqlite::memory:"
         options:              {}
         attributes:           {}
         default_connection:   default
