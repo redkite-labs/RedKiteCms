@@ -1,3 +1,7 @@
+RC3 Release (2012-11-10)
+Required specific versions of certain dependencies
+Minor bug fixing
+
 RC2 Release (2012-11-03)
 Changed the behavior of App-Block command generator, which works in strict mode by default and added the no-strict option to use custom paths for App-Blocks
 
