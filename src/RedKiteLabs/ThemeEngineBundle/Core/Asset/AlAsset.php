@@ -115,7 +115,6 @@ class AlAsset
     {
         $asset = $this->asset;
         
-        /* TODO: Is this necessary?
         $namespacesFile = $this->kernel->getRootDir() . '/../vendor/composer/autoload_namespaces.php';
         if (file_exists($namespacesFile)) {
             $map = require $namespacesFile;
@@ -125,7 +124,7 @@ class AlAsset
                     $asset = str_replace("\\", "", $namespace) . $matches[1];
                 }
             }
-        }*/
+        }
 
         preg_match('/([^@\/][\w]+Bundle)\/(Resources\/public)?\/(.*)/', $asset, $matches);
         if (!empty($matches) && count($matches) == 4) {
