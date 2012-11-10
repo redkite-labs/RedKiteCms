@@ -42,12 +42,12 @@
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
-    "alphalemon/business-website-theme-bundle": "dev-master"
+    "alphalemon/business-website-theme-bundle": "dev-master",
+    "doctrine/common": "dev-bugfix as 2.3.0"
   },
   "require-dev": {    
     "willdurand/propel-typehintable-behavior": "dev-master",  
-    "mikey179/vfsStream": "dev-master",
-    "doctrine/common": "dev-bugfix as 2.3.0"
+    "mikey179/vfsStream": "dev-master"
   },
   "minimum-stability": "dev",
   "autoload": {
