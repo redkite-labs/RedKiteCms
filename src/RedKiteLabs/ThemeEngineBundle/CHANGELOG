@@ -1,2 +1,5 @@
+Beta-4 Release (2012-11-10)
+Added several tests to have a better code coverage and fixed several bugs
+
 Beta-3 Release (2012-10-23)
 Improved the generate:templates command
