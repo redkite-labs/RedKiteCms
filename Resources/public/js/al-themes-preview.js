@@ -14,7 +14,7 @@
  *
  */
 
-(function($){
+(function($){    
     $.fn.ChangeTemplate =function()
     {
         this.each(function()
@@ -324,6 +324,19 @@
             });
         });
     };
+    
+    $.fn.TogglePanel =function()
+    {
+        this.each(function()
+        {
+            $(this).click(function()
+            {
+                $('#al_active_theme').toggle();
+                var message = ($('#al_active_theme').is(":visible")) ? "Hide panel" : "Show panel";
+                $('#al_active_theme_toggler').html(message); //''
+            });
+        });
+    };
 })($);
 
 function getRepeatedSlotStorageKey()
@@ -350,6 +363,7 @@ function ObserveThemesPreviewCommands()
         $('#al_active_template_selector').ShowTemplateSlots();
         $('.al_locker').UnlockSlot();
         $('#al_save').SaveActiveTheme();
+        $('#al_active_theme_toggler').TogglePanel();
 
         $('body').RestoreTemplateMapping(getRepeatedSlotStorageKey()).RestoreTemplateMapping(getCurrentTemplateStorageKey());
 
