@@ -1,3 +1,7 @@
+RC4 Release (2012-11-11)
+hide the slots mapper panel by default and added a command on the toolbar to toggle its visibility
+fixed the stylesheet that displays the theme panel
+
 RC3 Release (2012-11-10)
 Required specific versions of certain dependencies
 Minor bug fixing
