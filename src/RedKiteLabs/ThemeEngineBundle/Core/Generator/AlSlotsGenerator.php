@@ -35,9 +35,9 @@ class AlSlotsGenerator extends Generator
      */
     public function generateSlots($dir, $themeName, $templateName, array $slots)
     {
-        $suffix = preg_match('/ThemeBundle$/', $themeName) ? 'ThemeBundle' : 'Bundle';
-
-        $themeBasename = str_replace($suffix, '', $themeName);
+        //$suffix = preg_match('/ThemeBundle$/', $themeName) ? 'ThemeBundle' : 'Bundle';
+        //$themeBasename = str_replace($suffix, '', $themeName);
+        $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
 
         $parameters = array(

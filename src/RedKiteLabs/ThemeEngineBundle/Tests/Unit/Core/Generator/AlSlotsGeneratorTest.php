@@ -249,7 +249,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake.theme.template.home.slots.logo" class="%alpha_lemon_theme_engine.slot.class%">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home.slots.logo" class="%alpha_lemon_theme_engine.slot.class%">' . PHP_EOL;
         $expected .= '            <argument type="string">logo</argument>' . PHP_EOL;
         $expected .= '            <argument type="collection" >' . PHP_EOL;
         $expected .= '                <argument key="repeated">site</argument>' . PHP_EOL;
@@ -258,7 +258,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $expected .= '                    <![CDATA[<img src="/uploads/assets/media/business-website-original-logo.png" title="Progress website logo" alt="Progress website logo" />]]>' . PHP_EOL;
         $expected .= '                </argument>' . PHP_EOL;
         $expected .= '            </argument>' . PHP_EOL;
-        $expected .= '            <tag name="fake.theme.template.home.slots" />' . PHP_EOL;
+        $expected .= '            <tag name="fake_theme.theme.template.home.slots" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>';
@@ -303,9 +303,9 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake.theme.template.home.slots.logo" class="%alpha_lemon_theme_engine.slot.class%">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home.slots.logo" class="%alpha_lemon_theme_engine.slot.class%">' . PHP_EOL;
         $expected .= '            <argument type="string">logo</argument>' . PHP_EOL;
-        $expected .= '            <tag name="fake.theme.template.home.slots" />' . PHP_EOL;
+        $expected .= '            <tag name="fake_theme.theme.template.home.slots" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>';

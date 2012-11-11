@@ -48,7 +48,10 @@ class AlExtensionGenerator extends Generator
             }
             $slotFiles[] = $fileName;
         }
-
+  /*      
+        $suffix = preg_match('/ThemeBundle$/', $namespace) ? 'ThemeBundle' : 'Bundle';
+        $configThemeName = Container::underscore(str_replace($suffix, '', $themeName));
+*/
         $parameters = array(
             'namespace' => $namespace,
             'bundle_basename' => $themeBasename,
