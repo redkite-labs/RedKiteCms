@@ -289,8 +289,7 @@ class AlPageTree extends BaseAlPageTree
 
             // merges extra assets from current theme
             $themeName = $template->getThemeName();
-            $suffix = preg_match('/ThemeBundle$/', $themeName) ? 'ThemeBundle' : 'Bundle';
-            $themeBasename = str_replace($suffix, '', $themeName);
+            $themeBasename = str_replace('Bundle', '', $themeName);
             $extensionAlias = Container::underscore($themeBasename);
             $parameter = sprintf('%s.%s.%s_%s', $extensionAlias, $template->getTemplateName(), $type, $assetType);
             $this->addExtraAssets($assetsCollection, $parameter);

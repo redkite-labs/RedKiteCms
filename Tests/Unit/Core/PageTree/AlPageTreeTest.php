@@ -591,7 +591,7 @@ class AlPageTreeTest extends TestCase
         $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
         $this->container->expects($this->any())
             ->method('getParameter')
-            ->with('business_website.home.external_stylesheets.cms')
+            ->with('business_website_theme.home.external_stylesheets.cms')
             ->will($this->returnValue($appAssets));
 
         $themeAssets = array('theme-stylesheet.css');
