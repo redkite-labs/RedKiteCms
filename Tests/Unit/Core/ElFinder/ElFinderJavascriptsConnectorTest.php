@@ -60,10 +60,26 @@ class ElFinderJavascriptsConnectorTest extends TestCase
         $container->expects($this->once())
             ->method('get')
             ->will($this->returnValue($request));
-
-        $container->expects($this->exactly(3))
+        
+        $container->expects($this->at(1))
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls('js', 'uploads/assets', '/full/base/path/to/web/uploads/assets'));
+            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
+            ->will($this->returnValue('js')); 
+         
+        $container->expects($this->at(2))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.upload_assets_absolute_path')
+            ->will($this->returnValue('web/uploads/assets')); 
+       
+        $container->expects($this->at(3))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.upload_assets_full_path')
+            ->will($this->returnValue('/full/base/path/to/web/uploads/assets')); 
+        
+        $container->expects($this->at(4))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.upload_assets_dir')
+            ->will($this->returnValue('uploads/assets'));
 
         $espected = array
         (
@@ -74,7 +90,7 @@ class ElFinderJavascriptsConnectorTest extends TestCase
                         (
                             "driver" => "LocalFileSystem",
                             "path" => "/full/base/path/to/web/uploads/assets/js",
-                            "URL" => "http://example.com/uploads/assets/js/",
+                            "URL" => "http://example.com/uploads/assets/js",
                             "accessControl" => "access",
                             "rootAlias" => "Javascripts"
                         )
