@@ -5,7 +5,7 @@
   background-image: url(images/common/ajax-loader.gif);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 9000001;
+  z-index: 125001;
 }
 
 .ajax_loader_bg {
@@ -15,7 +15,7 @@
   background-image: url(images/common/bg-ajax-loader.png);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 9000000;
+  z-index: 125000;
 }
 
 .al_float_left {
@@ -121,7 +121,7 @@
   left: 0;
   background: #333333;
   text-align: left;
-  z-index: 9000000;
+  z-index: 100000;
   padding: 4px;
   border-bottom: 2px solid white;
   color: #cccccc;
@@ -545,7 +545,7 @@
   color: #525252;
   position: fixed;
   top: 47px;
-  z-index: 130000;
+  z-index: 101000;
   overflow: auto;
   font-style: normal;
   display: none;

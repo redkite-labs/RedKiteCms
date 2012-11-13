@@ -52,11 +52,11 @@ GetTopMost = function()
     $('body').find(':visible').each(function() {
             var $this = $(this), z;
             if ($this.css('position') != 'static' && (z = parseInt($this.zIndex())) > zindex) {
-                    zindex = z + 1;
+                zindex = z + 1;
             }
     });
-
-    return zindex + 10000;
+    
+    return zindex + 10;
 };
 
 (function($){
