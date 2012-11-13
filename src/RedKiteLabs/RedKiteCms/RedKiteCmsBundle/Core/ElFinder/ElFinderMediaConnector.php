@@ -32,18 +32,18 @@ class ElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
     {
         $request = $this->container->get('request');
 
-        $folder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir') ;
-        $absolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . '/' . $folder . '/';
-        $filesPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $folder;
+        $mediaFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir') ;
+        $absolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . '/' . $mediaFolder . '/';
+        $filesPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $mediaFolder;
         if (!is_dir($filesPath)) @mkdir($filesPath);
-
+        
         $options = array(
             'locale' => '',
             'roots' => array(
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
                     'path'          => $filesPath,         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $absolutePath, // URL to files (REQUIRED)
+                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $mediaFolder, // URL to files (REQUIRED)
                     'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
                     'rootAlias'     => 'Media'             // disable and hide dot starting files (OPTIONAL)
                 )
