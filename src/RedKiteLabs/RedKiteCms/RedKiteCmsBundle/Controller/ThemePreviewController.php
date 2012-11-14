@@ -116,7 +116,7 @@ class ThemePreviewController extends AlCmsController
             {
                 $message = sprintf('An error occoured when changing a repeated slot on the template "%s". Operation aborted', $template["new_template"]);
             }
-
+            
             if (empty($message)) {
                 $pagesRepository->commit();
 

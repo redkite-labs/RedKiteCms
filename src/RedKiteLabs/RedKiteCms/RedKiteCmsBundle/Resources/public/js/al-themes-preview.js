@@ -16,7 +16,7 @@
 
 (function($){    
     $.fn.ChangeTemplate =function()
-    {
+    { 
         this.each(function()
         {
             $(this).change(function()
@@ -255,6 +255,31 @@
 
         return this;
     };
+    
+    
+    $.fn.ResetMapping =function()
+    {
+        this.each(function()
+        {
+            $(this).click(function()
+            {
+                if (confirm("This action resets the slots mapping for the whole theme: are you sure to continue?")) {
+                    // removes the active theme mapping from localStorage
+                    localStorage.removeItem(getRepeatedSlotStorageKey());
+                    $('#al_templates_selector option').each(function()
+                    {
+                        var storageKey = "alphalemon." + $('#al_current_theme').text() + "." + $(this).text();
+                        localStorage.removeItem(storageKey);
+                    });
+                    
+                    $('.al_slot_mapped').each(function(){
+                        $(this).removeClass('al_slot_mapped')
+                        .html($(this).data('content'));
+                    });                    
+                }
+            });
+        });
+    };
 
     $.fn.SaveActiveTheme =function()
     {
@@ -302,14 +327,6 @@
                     },
                     success: function(html)
                     {
-                        // removes the active theme mapping from localStorage
-                        localStorage.removeItem(getRepeatedSlotStorageKey());
-                        $('#al_templates_selector option').each(function()
-                        {
-                            var storageKey = "alphalemon." + $('#al_current_theme').text() + "." + $(this).text();
-                            localStorage.removeItem(storageKey);
-                        });
-
                         location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/' + $('#al_referal_page').text();
                     },
                     error: function(err)
@@ -363,7 +380,8 @@ function ObserveThemesPreviewCommands()
         $('#al_active_template_selector').ShowTemplateSlots();
         $('.al_locker').UnlockSlot();
         $('#al_save').SaveActiveTheme();
-        $('#al_active_theme_toggler').TogglePanel();
+        $('#al_active_theme_toggler').TogglePanel();        
+        $('#al_reset').ResetMapping();
 
         $('body').RestoreTemplateMapping(getRepeatedSlotStorageKey()).RestoreTemplateMapping(getCurrentTemplateStorageKey());
 
