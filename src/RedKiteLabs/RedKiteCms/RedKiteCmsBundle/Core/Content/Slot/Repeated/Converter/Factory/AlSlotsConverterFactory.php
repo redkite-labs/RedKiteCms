@@ -54,8 +54,6 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus)
     {
-        if ($slot->getRepeated() == $newRepeatedStatus) return;
-
         $className = '\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
         if (!class_exists($className)) {
             throw new ClassNotFoundException(sprintf("The class %s that shoud define a new Slot Converter does not exist", $className));
