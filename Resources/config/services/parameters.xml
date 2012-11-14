@@ -14,8 +14,8 @@
         </parameter>
 
         <parameter key="alpha_lemon_cms.upload_assets_dir">uploads/assets</parameter>
-        <parameter key="alpha_lemon_cms.upload_assets_full_path">%alpha_lemon_cms.web_folder_full_path%/uploads/assets</parameter>
-        <parameter key="alpha_lemon_cms.upload_assets_absolute_path">/%alpha_lemon_cms.web_folder%/uploads/assets</parameter>
+        <parameter key="alpha_lemon_cms.upload_assets_full_path">%alpha_lemon_cms.web_folder_full_path%/%alpha_lemon_cms.upload_assets_dir%</parameter>
+        <parameter key="alpha_lemon_cms.upload_assets_absolute_path">/%alpha_lemon_cms.web_folder%/%alpha_lemon_cms.upload_assets_dir%</parameter>
         <parameter key="alpha_lemon_cms.deploy_bundle.resources_dir">Resources</parameter>
         <parameter key="alpha_lemon_cms.deploy_bundle.assets_base_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/public</parameter>
         <parameter key="alpha_lemon_cms.deploy_bundle.config_dir">%alpha_lemon_cms.deploy_bundle.resources_dir%/config</parameter>
