@@ -102,10 +102,10 @@ class AlRepeatedSlotsAligner
             if (empty($diffCurrent)) {
                 return null;
             }
-
+            
             $diffActive = array_diff_assoc($savedSlots, $currentSlots);
             $changedSlots = array_intersect_key($diffCurrent, $diffActive);
-
+            
             $result = $this->updateSlotStatus($templateSlots, $changedSlots);
         }
 
@@ -129,13 +129,13 @@ class AlRepeatedSlotsAligner
             foreach ($changedSlots as $slotName => $repeated) {
                 $converter = $this->slotsConverterFactory->createConverter($templateSlots[$slotName], $repeated);
                 if (null === $converter) continue;
-
+                
                 $result = $converter->convert();
                 if (!$result) {
                     break;
                 }
             }
-
+            
             if ($result) {
                 $this->blockRepository->commit();
             } else {

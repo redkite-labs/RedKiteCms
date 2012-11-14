@@ -59,14 +59,6 @@ class AlSlotsConverterFactoryTest extends TestCase
         $slotsConverterFactory->createConverter($slot, 'fake');
     }
 
-    public function testCreateConverterReturnsNullGivingTheSameRepeatedStatus()
-    {
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->factoryRepository);
-
-        $this->assertNull($slotsConverterFactory->createConverter($slot, 'page'));
-    }
-
     public function testConverterHasBeenInstantiated()
     {
         $this->pageContents->expects($this->any())
