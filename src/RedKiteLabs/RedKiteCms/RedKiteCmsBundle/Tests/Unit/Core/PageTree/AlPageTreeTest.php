@@ -520,6 +520,35 @@ class AlPageTreeTest extends TestCase
         $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme', $pageTree->getTheme());
         $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo', $pageTree->getAlSeo());
     }
+    
+    public function tesASlotNotInTemplateIsIgnore()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue('Script'));
+
+        $externalStylesheet = 'fake-stylesheet-1.css,fake-stylesheet-2.css';
+        $block->expects($this->once())
+            ->method('getExternalStylesheet')
+            ->will($this->returnValue($externalStylesheet));
+
+        $this->pageBlocks->expects($this->once())
+            ->method('getBlocks')
+            ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array('nav-menu' => 'slot')));
+
+        $themeAssets = array('theme-stylesheet.css');
+        $this->setUpAssetsCollection($themeAssets);
+
+        $this->initValidPageTree();
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($themeAssets, $pageTree->getExternalStylesheets());
+    }
 
     public function testPageTreeSetsUpExternalAssetsFromABlock()
     {
@@ -536,6 +565,10 @@ class AlPageTreeTest extends TestCase
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array('logo' => 'slot')));
 
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
@@ -561,6 +594,10 @@ class AlPageTreeTest extends TestCase
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array('logo' => 'slot')));
 
         $themeAssets = array('some code retrieved from template');
         $this->setUpAssetsCollection($themeAssets);
@@ -583,6 +620,10 @@ class AlPageTreeTest extends TestCase
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array('logo' => 'slot')));
 
         $this->container->expects($this->exactly(3))
             ->method('hasParameter')
@@ -615,6 +656,10 @@ class AlPageTreeTest extends TestCase
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array('logo' => 'slot')));
 
         $this->container->expects($this->exactly(3))
             ->method('hasParameter')
@@ -647,6 +692,10 @@ class AlPageTreeTest extends TestCase
         $this->pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue(array('logo' => array($block))));
+        
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array('logo' => 'slot')));
 
         $this->container->expects($this->exactly(3))
             ->method('hasParameter')
