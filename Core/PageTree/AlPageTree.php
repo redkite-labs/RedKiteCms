@@ -295,8 +295,13 @@ class AlPageTree extends BaseAlPageTree
             $this->addExtraAssets($assetsCollection, $parameter);
 
             // merges assets from installed apps
+            $templateSlots = array_keys($template->getSlots());
             $blocks = $this->pageBlocks->getBlocks();
-            foreach ($blocks as $slotBlocks) {
+            foreach ($blocks as $slotName => $slotBlocks) {
+                if ( ! in_array($slotName, $templateSlots)) {
+                    continue;
+                }
+                
                 foreach ($slotBlocks as $block) {
                     $className = $block->getType();
                     if (!in_array($className, $appsAssets)) {
