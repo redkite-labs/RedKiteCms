@@ -17,70 +17,77 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner;
 
-use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
- * AlRepeatedSlotsManager is responsible to verify when a slot changes its repetition status and
- * to update the contents to reflect it. This job is achieved saving the current status for each slot
- * in an xml file, which is used when the comparison with the active slots status is made.
+ * AlRepeatedSlotsAligner is responsibile to align the slots repeated status when
+ * a the status is changes on a template
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlRepeatedSlotsAligner
 {
-    protected $kernel;
     protected $themesCollection;
     protected $slotsConverterFactory;
-    protected $cacheFile;
-    protected $skeletonFile;
     protected $blockRepository;
+    protected $languageId = null;
+    protected $pageId = null;
 
     /**
      * Constructor
-     * @param ContainerInterface $container
-     * @param string             $activeThemeName The active theme
+     * 
+     * @param AlThemesCollection $themesCollection
+     * @param AlSlotsConverterFactoryInterface $slotsConverterFactory
+     * @param AlFactoryRepositoryInterface $factoryRepository 
      */
-    public function __construct(KernelInterface $kernel, AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlFactoryRepositoryInterface $factoryRepository)
     {
-        $this->kernel = $kernel;
         $this->themesCollection = $themesCollection;
         $this->slotsConverterFactory = $slotsConverterFactory;
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
-
-        $this->cacheFile =  $kernel->getRootDir() . '/Resources/active_theme_slots.xml';
-        $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle/Resources/data/xml/repeated-slots-skeleton.xml');
-        $this->skeletonFile = $asset->getRealPath();
     }
-
-    public function setCacheFile($fileName)
+    
+    /**
+     * Sets the id of the language
+     * 
+     * @param int id
+     */
+    public function setLanguageId($v)
     {
-        $this->cacheFile = $fileName;
-
+        $this->languageId = $v;
+        
         return $this;
     }
-
-    public function setSkeletonFile($fileName)
+    
+    /**
+     * Sets the id of the page
+     * 
+     * @param int id
+     */
+    public function setPageId($v)
     {
-        if (file_exists($fileName) && @simplexml_load_file($fileName)) {
-            $this->skeletonFile = $fileName;
-        }
-
+        $this->pageId = $v;
+        
         return $this;
     }
-
-    public function getCacheFile()
+    
+    /**
+     * Retrieves the id of the language
+     */
+    public function getLanguageId()
     {
-        return $this->cacheFile;
+        return $this->languageId;
     }
-
-    public function getSkeletonFile()
+    
+    /**
+     * Retrieves the id of the page
+     */    
+    public function getPageId()
     {
-        return $this->skeletonFile;
+        return $this->pageId;
     }
 
     /**
@@ -91,28 +98,52 @@ class AlRepeatedSlotsAligner
      *
      * @return boolean or null when any update is made
      */
-    public function align($themeName, $templateName, array $templateSlots)
+    public function align($templateName, array $templateSlots)
     {
-        $result = true;
-        $templateName = strtolower($templateName);
-        $savedSlots = $this->loadSavedSlots($templateName);
-        if (null !== $savedSlots) {
-            $currentSlots = $this->templateSlotsToArray($templateSlots);
-            $diffCurrent = array_diff_assoc($currentSlots, $savedSlots);
-            if (empty($diffCurrent)) {
-                return null;
-            }
-            
-            $diffActive = array_diff_assoc($savedSlots, $currentSlots);
-            $changedSlots = array_intersect_key($diffCurrent, $diffActive);
-            
-            $result = $this->updateSlotStatus($templateSlots, $changedSlots);
+        if (empty($templateSlots)) {
+            return null;
         }
-
-        // The xml file is made for the first time
-        if($result) $this->saveSlots($themeName, $templateName);
-
-        return $result;
+        
+        $templateName = strtolower($templateName);
+        
+        if (null === $this->languageId) {
+            $languageRepository = $this->factoryRepository->createRepository('Language');
+            $language = $languageRepository->mainLanguage();
+            $this->languageId = $language->getId();
+        }
+        
+        if (null === $this->pageId) {
+            $pageRepository = $this->factoryRepository->createRepository('Page');
+            $page = $pageRepository->fromTemplateName($templateName, true);
+            $this->pageId = $page->getId();
+        }
+        
+        $pageBlocks = $this->blockRepository->retrieveContents(array(1, $this->languageId), array(1, $this->pageId));
+        $currentSlots = $this->templateSlotsToArray($templateSlots);
+        
+        $changedSlots = array();
+        foreach ($pageBlocks as $pageBlock) {
+            $slotName = $pageBlock->getSlotName();
+            if (array_key_exists($slotName, $currentSlots)) {
+                $languageId = $pageBlock->getLanguageId();
+                $pageId = $pageBlock->getPageId();
+                $currentRepeatedStatus = 'page';
+                if ($languageId == 1 && $pageId == 1) {
+                    $currentRepeatedStatus = 'site';
+                }
+                
+                if ($languageId != 1 && $pageId == 1) {
+                    $currentRepeatedStatus = 'language';
+                }
+                
+                if ($currentRepeatedStatus != $currentSlots[$slotName])
+                {
+                    $changedSlots[$slotName] = $currentSlots[$slotName];
+                }
+            }
+        }
+        
+        return ( ! empty($changedSlots)) ? $this->updateSlotStatus($templateSlots, $changedSlots) : null;
     }
 
     /**
@@ -153,50 +184,6 @@ class AlRepeatedSlotsAligner
     }
 
     /**
-     * Loads the saved slots from the xml file
-     *
-     * @param  string $templateName
-     * @return array
-     */
-    protected function loadSavedSlots($templateName)
-    {
-        $templateName = strtolower($templateName);
-        if (!is_file($this->cacheFile)) {
-            return null;
-        }
-
-        $xml = @simplexml_load_file($this->cacheFile);
-        if (false === $xml) {
-            return;
-        }
-
-        $result = array();
-        foreach ($xml->templates->children() as $template) {
-            if ($template["name"] == $templateName) {
-                foreach ($template as $slot) {
-                    $slotName = (string) $slot["name"];
-                    $result[$slotName] = (string) $slot;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Saves the active slots to the xml file
-     */
-    protected function saveSlots($themeName, $templateName)
-    {
-        $result = array();
-        $theme = $this->themesCollection->getTheme($themeName);
-        $templateSlots = $theme->getTemplate($templateName)->getTemplateSlots();
-        $result[$templateName] = $this->templateSlotsToArray($templateSlots->getSlots());
-
-        $this->write($result);
-    }
-
-    /**
      * Converts the slots to an array where the key is the slot name and the value is the repeated status
      * @param  type $slots
      * @return type
@@ -209,26 +196,5 @@ class AlRepeatedSlotsAligner
         }
 
         return $result;
-    }
-
-    /**
-     * Writes the xml file
-     *
-     * @param array $themeSlots
-     */
-    protected function write($themeSlots)
-    {
-        $skeleton = file_get_contents($this->skeletonFile);
-        $xml = new \SimpleXMLElement($skeleton);
-        foreach ($themeSlots as $className => $templateSlots) {
-            $template = $xml->templates->addChild('template');
-            $template->addAttribute('name', $className);
-            foreach ($templateSlots as $name => $value) {
-                $slot = $template->addChild('slot', $value);
-                $slot->addAttribute('name', $name);
-            }
-        }
-
-        $xml->asXML($this->cacheFile);
     }
 }

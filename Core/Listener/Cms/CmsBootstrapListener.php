@@ -99,8 +99,16 @@ class CmsBootstrapListener
         if (null === $template) {
             return;
         }
+        
+        $language = $this->pageTree->getAlLanguage();
+        $page = $this->pageTree->getAlPage();
+        $languageId = (null !== $language) ? $language->getId() : null;
+        $pageId = (null !== $page) ? $page->getId() : null;
 
         $slotsAligner = $this->container->get('alpha_lemon_cms.repeated_slots_aligner');
-        $slotsAligner->align($template->getThemeName(), $template->getTemplateName(), $template->getSlots());
+        $slotsAligner
+            ->setLanguageId($languageId)
+            ->setPageId($pageId)
+            ->align($template->getTemplateName(), $template->getSlots());
     }
 }
