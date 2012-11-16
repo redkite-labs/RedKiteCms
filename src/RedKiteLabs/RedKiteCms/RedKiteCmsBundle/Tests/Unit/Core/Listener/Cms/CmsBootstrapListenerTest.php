@@ -120,20 +120,12 @@ class CmsBootstrapListenerTest extends TestCase
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root/frontend-assets')));
 
-        /*
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls('@AcmeWebSiteBundle', 'asset-base-dir', 'media', 'js', 'css', vfsStream::url('root/cms-assets/uploades-base-dir'), 'media', 'js', 'css'));
-*/
         $this->pageTree->expects($this->once())
             ->method('setup');
 
         $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
                             ->disableOriginalConstructor()
                             ->getMock();
-        $template->expects($this->once())
-            ->method('getThemeName')
-            ->will($this->returnValue('Theme'));
 
         $template->expects($this->once())
             ->method('getTemplateName')
@@ -146,6 +138,14 @@ class CmsBootstrapListenerTest extends TestCase
         $this->pageTree->expects($this->once())
             ->method('getTemplate')
             ->will($this->returnValue($template));
+        
+        $this->aligner->expects($this->once())
+            ->method('setLanguageId')
+            ->will($this->returnSelf());
+        
+        $this->aligner->expects($this->once())
+            ->method('setPageId')
+            ->will($this->returnSelf());
 
         $this->aligner->expects($this->once())
             ->method('align');
