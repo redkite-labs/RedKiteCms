@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 
 /**
- * Defines the names for the page events
+ * Defines the names for the seo events
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
