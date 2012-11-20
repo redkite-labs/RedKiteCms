@@ -36,8 +36,20 @@ abstract class FrontendController extends BaseFrontendController
         try {
             $request = $this->container->get('request');
 
-            $template = sprintf('%s:%s:%s.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle'), $request->getLocale(), $request->get('page'));
-            $response = $this->render($template, array('base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template')));
+            $language = $request->getLocale();
+            $page = $request->get('page');
+            $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
+            $baseTemplate = $this->container->getParameter('alpha_lemon_theme_engine.base_template');
+            $templatesFolder = $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');
+            
+            try {
+                $template = sprintf('%s:%s:%s/%s.html.twig', $deployBundle, $templatesFolder, $language, $page);
+                $response = $this->render($template, array('base_template' => $baseTemplate));
+            }
+            catch(\InvalidArgumentException $ex) { // Backward compatibility
+                $template = sprintf('%s:%s:%s.html.twig', $deployBundle, $language, $page);
+                $response = $this->render($template, array('base_template' => $baseTemplate));
+            }
 
             // Dispatches the pre rendering events for current language and page
             $response = $this->dispatchEvents($request, $response);
