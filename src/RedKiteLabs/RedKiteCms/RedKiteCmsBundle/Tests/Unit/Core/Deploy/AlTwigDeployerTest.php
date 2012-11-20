@@ -286,7 +286,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         
         $this->container->expects($this->at(8))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.view_folder')
+            ->with('alpha_lemon_theme_engine.deploy.templates_folder')
             ->will($this->returnValue('AlphaLemon'));
         
         $this->container->expects($this->at(9))
