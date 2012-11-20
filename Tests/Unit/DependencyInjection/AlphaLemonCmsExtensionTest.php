@@ -44,7 +44,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
         $this->assertEquals('js', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir'));
         $this->assertEquals('css', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir'));
         $this->assertEquals('WebSite', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller'));
-        $this->assertEquals('AlphaLemon', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.view_folder'));
+        $this->assertEquals('AlphaLemon', $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder'));
     }
 
     public function testOrm()

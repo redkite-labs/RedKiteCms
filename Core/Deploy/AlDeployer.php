@@ -75,7 +75,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path');
         
         $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
-        $this->deployFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.view_folder');
+        $this->deployFolder = $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');
         $this->fileSystem = new Filesystem();
     }
 
@@ -87,6 +87,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $dispatcher = $this->container->get('event_dispatcher');
         $dispatcher->dispatch(Deploy\DeployEvents::BEFORE_LOCAL_DEPLOY, new Deploy\BeforeDeployEvent($this));
         
+        $this->fileSystem->remove($this->deployFolder);
         $this->checkTargetFolders();
         $this->copyAssets();
         $result = ($this->generateRoutes() && $this->savePages()) ? true :false;
@@ -118,6 +119,7 @@ abstract class AlDeployer implements AlDeployerInterface
     {
         $this->fileSystem->mkdir($this->configDir);
         $this->fileSystem->mkdir($this->assetsDir);
+        $this->fileSystem->mkdir($this->deployFolder);
     }
 
     /**
