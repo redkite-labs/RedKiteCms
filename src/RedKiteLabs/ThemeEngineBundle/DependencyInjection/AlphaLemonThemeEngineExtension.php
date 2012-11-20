@@ -42,7 +42,6 @@ class AlphaLemonThemeEngineExtension extends Extension
         $configuration = new Configuration();
         $config = $processor->processConfiguration($configuration, $configs);
 
-
         if (isset($config['base_template'])) {
             $container->setParameter('alpha_lemon_theme_engine.base_template', $config['base_template']);
         }
@@ -65,6 +64,10 @@ class AlphaLemonThemeEngineExtension extends Extension
         
         if (isset($config['render_slot_class'])) {
             $container->setParameter('twig.extension.render_slot.class', $config['render_slot_class']);
+        }
+        
+        if (isset($config['templates_folder'])) {
+            $container->setParameter('alpha_lemon_theme_engine.deploy.templates_folder', $config['templates_folder']);
         }
         
         $container->setParameter('alpha_lemon_theme_engine.deploy_bundle', $config['deploy_bundle']);

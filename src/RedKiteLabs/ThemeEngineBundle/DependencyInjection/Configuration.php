@@ -51,6 +51,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('info_valid_entries')->end()
                 ->scalarNode('render_slot_class')->end()
                 ->scalarNode('active_theme_file')->end()
+                ->scalarNode('templates_folder')->end()
             ->end()
         ;
 
