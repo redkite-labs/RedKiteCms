@@ -41,9 +41,9 @@ class FrontendControllerTest extends TestCase
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->exactly(2))
+        $this->container->expects($this->exactly(3))
             ->method('getParameter')
-            ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'ThemeEngineBundle:Fake:template.html.twig'));
+            ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'ThemeEngineBundle:Fake:template.html.twig', 'AlphaLemon'));
 
         $this->controller = new FrontendControllerTester();
         $this->controller->setContainer($this->container);
@@ -69,12 +69,12 @@ class FrontendControllerTest extends TestCase
             ->with('request')
             ->will($this->returnValue($this->request));
         
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
             ->method('get')
             ->with('templating')
             ->will($this->returnValue($this->templating));
         
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(5))
             ->method('get')
             ->with('templating')
             ->will($this->returnValue($this->templating));
@@ -99,17 +99,17 @@ class FrontendControllerTest extends TestCase
             ->with('request')
             ->will($this->returnValue($this->request));
         
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
             ->method('get')
             ->with('templating')
             ->will($this->returnValue($this->templating));
         
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(5))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($this->dispatcher));
         
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(6))
             ->method('get')
             ->with('templating')
             ->will($this->returnValue($this->templating));
