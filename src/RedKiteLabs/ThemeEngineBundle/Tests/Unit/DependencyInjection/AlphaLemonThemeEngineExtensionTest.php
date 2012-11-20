@@ -35,6 +35,7 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
         $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:index.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'));
         $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_section'));
         $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton'));
+        $this->assertEquals('AlphaLemon', $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder'));
         $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('alpha_lemon_theme_engine.active_theme_file'));
         $this->assertEquals(
             array(
@@ -69,6 +70,11 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
     {
         $this->scalarNodeParameter('twig.extension.render_slot.class', 'render_slot_class', 'AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension');
     }
+    
+    public function testRenderSlotClass1()
+    {
+        $this->scalarNodeParameter('alpha_lemon_theme_engine.deploy.templates_folder', 'templates_folder', 'AlphaLemon');
+    }
 
     public function testThemesPanelBaseTheme()
     {
@@ -86,7 +92,7 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
         $this->assertEquals($value, $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_section'));
     }
     
-    public function testThemesPanelThemeKeleton()
+    public function testThemesPanelThemeSKeleton()
     {
         $value = 'AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig';
         $extension = new AlphaLemonThemeEngineExtension();
