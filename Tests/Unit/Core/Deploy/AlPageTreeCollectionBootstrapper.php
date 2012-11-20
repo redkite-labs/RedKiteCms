@@ -46,6 +46,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         // Prepares page and languages
         $this->page1 = $this->setUpPage('index', true);
         $this->page2 = $this->setUpPage('page-1');
+        $this->page3 = $this->setUpPage('page-2', false, false);
         $this->language1 = $this->setUpLanguage('en', true);
         $this->language2 = $this->setUpLanguage('es');
 
@@ -89,7 +90,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
                                     ->getMock();
         $this->pageRepository->expects($this->once())
             ->method('activePages')
-            ->will($this->returnValue(array($this->page1, $this->page2)));
+            ->will($this->returnValue(array($this->page1, $this->page2, $this->page3)));
     }
     
     protected function initPageBlocks($expects = 4)
