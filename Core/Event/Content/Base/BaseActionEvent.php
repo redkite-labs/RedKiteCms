@@ -40,7 +40,7 @@ abstract class BaseActionEvent extends Event
     }
 
     /**
-     * Returns the current AlBlockManager object
+     * Returns the current AlContentManager object
      *
      * @return AlBlockManager
      */
@@ -50,9 +50,9 @@ abstract class BaseActionEvent extends Event
     }
     
     /**
-     * Returns the current AlBlockManager object
-     *
-     * @return AlBlockManager
+     * Sets the current AlContentManager object
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface $value
      */
     public function setContentManager(AlContentManagerInterface $value)
     {
