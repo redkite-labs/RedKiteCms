@@ -58,6 +58,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('media_dir')->defaultValue('media')->end()
                         ->scalarNode('js_dir')->defaultValue('js')->end()
                         ->scalarNode('css_dir')->defaultValue('css')->end()
+                        ->scalarNode('controller')->defaultValue('WebSite')->end()
+                        ->scalarNode('view_folder')->defaultValue('AlphaLemon')->end()
                     ->end()
                 ->end()
             ->end()

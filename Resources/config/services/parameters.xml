@@ -23,5 +23,7 @@
         <parameter key="alpha_lemon_cms.deploy_bundle.media_dir">media</parameter>
         <parameter key="alpha_lemon_cms.deploy_bundle.js_dir">js</parameter>
         <parameter key="alpha_lemon_cms.deploy_bundle.css_dir">css</parameter>
+        <parameter key="alpha_lemon_cms.deploy_bundle.controller">WebSite</parameter>        
+        <parameter key="alpha_lemon_cms.deploy_bundle.view_folder">AlphaLemon</parameter>
     </parameters>
 </container>
