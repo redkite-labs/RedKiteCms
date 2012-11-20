@@ -59,6 +59,8 @@ class AlphaLemonCmsExtension extends Extension
             $container->setParameter('alpha_lemon_cms.deploy_bundle.media_dir', $config['deploy_bundle']['media_dir']);
             $container->setParameter('alpha_lemon_cms.deploy_bundle.js_dir', $config['deploy_bundle']['js_dir']);
             $container->setParameter('alpha_lemon_cms.deploy_bundle.css_dir', $config['deploy_bundle']['css_dir']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.controller', $config['deploy_bundle']['controller']);
+            $container->setParameter('alpha_lemon_cms.deploy_bundle.view_folder', $config['deploy_bundle']['view_folder']);
         }
     }
 
