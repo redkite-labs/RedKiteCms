@@ -23,6 +23,7 @@ use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
 
 /**
  * The object deputated to deploy the website from development (CMS) to production (the deploy bundle)
@@ -39,6 +40,10 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $assetsDir = null;
     protected $factoryRepository;
     protected $fileSystem = null;
+    protected $deployController = null;
+    protected $deployFolder = null;
+    
+    private $pageTreeCollection = null;
 
     /**
      * Save the page from an AlPageTree object
@@ -68,6 +73,9 @@ abstract class AlDeployer implements AlDeployerInterface
 
         $this->uploadAssetsFullPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
         $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path');
+        
+        $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
+        $this->deployFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.view_folder');
         $this->fileSystem = new Filesystem();
     }
 
@@ -76,10 +84,31 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     public function deploy()
     {
+        $dispatcher = $this->container->get('event_dispatcher');
+        $dispatcher->dispatch(Deploy\DeployEvents::BEFORE_LOCAL_DEPLOY, new Deploy\BeforeDeployEvent($this));
+        
         $this->checkTargetFolders();
         $this->copyAssets();
-
-        return ($this->generateRoutes() && $this->savePages()) ? true :false;
+        $result = ($this->generateRoutes() && $this->savePages()) ? true :false;
+        
+        $dispatcher->dispatch(Deploy\DeployEvents::AFTER_LOCAL_DEPLOY, new Deploy\AfterDeployEvent($this));
+        
+        return $result;
+    }
+    
+    public function getDeployBundleRealPath()
+    {
+        return $this->deployBundleAsset->getRealPath();
+    }
+    
+    public function setPageTreeCollection(AlPageTreeCollection $value)
+    {
+        $this->pageTreeCollection = $value;
+    }
+    
+    public function getPageTreeCollection()
+    {
+        return $this->pageTreeCollection;
     }
 
     /**
@@ -98,9 +127,14 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     protected function savePages()
     {
-        $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
-        foreach ($pageTreeCollection as $pageTree) {
-            if (!$this->save($pageTree)) return false;
+        if (null === $this->pageTreeCollection) {
+            $this->pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
+        }
+        
+        foreach ($this->pageTreeCollection as $pageTree) {
+            if ( ! $this->save($pageTree)) {
+                return false;
+            }
         }
 
         return true;
@@ -136,18 +170,28 @@ abstract class AlDeployer implements AlDeployerInterface
         $schema = "# Route << %1\$s >> generated for language << %2\$s >> and page << %3\$s >>\n";
         $schema .= "_%4\$s:\n";
         $schema .= "  pattern: /%1\$s\n";
-        $schema .= "  defaults: { _controller: $this->deployBundle:WebSite:show, _locale: %2\$s, page: %3\$s }";
+        $schema .= "  defaults: { _controller: $this->deployBundle:$this->deployController:show, _locale: %2\$s, page: %3\$s }";
 
         $homePage = "";
         $mainLanguage = "";
         $routes = array();
         $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages();
         foreach ($seoAttributes as $seoAttribute) {
-            $pageName = $seoAttribute->getAlPage()->getPageName();
-            if ($seoAttribute->getAlPage()->getIsHome()) $homePage = $pageName;
+            
+            $alPage = $seoAttribute->getAlPage();            
+            if ( ! $alPage->getIsPublished()) {
+                continue;
+            }
+            
+            $pageName = $alPage->getPageName();
+            if ($seoAttribute->getAlPage()->getIsHome()) {
+                $homePage = $pageName;
+            }
 
             $language = $seoAttribute->getAlLanguage()->getLanguageName();
-            if ($seoAttribute->getAlLanguage()->getMainLanguage()) $mainLanguage = $language;
+            if ($seoAttribute->getAlLanguage()->getMainLanguage()) {
+                $mainLanguage = $language;
+            }
 
             // Generate only a route for the home page
             $permalink = ($homePage != $pageName || $mainLanguage != $language) ? $seoAttribute->getPermalink() : "";

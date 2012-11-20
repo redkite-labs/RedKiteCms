@@ -86,10 +86,12 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         $this->assertNull($pageTreeCollection->at(4));
         $this->assertEquals(0, $pageTreeCollection->key(0));
     }
+    
     public function testPageTreeCollectionHasSkippedThePagesWhichHasNotToBePublished()
     {
         $this->page1 = $this->setUpPage('index', true);
         $this->page2 = $this->setUpPage('page-1', false, false);
+        $this->page3 = $this->setUpPage('page-2', false, false);
         $this->language1 = $this->setUpLanguage('en', true);
         $this->language2 = $this->setUpLanguage('es');
 

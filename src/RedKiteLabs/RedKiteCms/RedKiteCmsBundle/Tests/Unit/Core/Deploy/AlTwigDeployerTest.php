@@ -28,6 +28,7 @@ use org\bovigo\vfs\vfsStream;
 class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 {
     private $container;
+    private $dispatcher;
     private $templateSlots;
 
     protected function setUp()
@@ -47,6 +48,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->dispatcher = $this->getMock('\Symfony\Component\EventsDispatcher\EventDispatcherInterface', array('dispatch'));
 
         $folders = array('app' => array(),
                          'web' => array('uploads'
@@ -92,19 +94,23 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
-            ->will($this->onConsecutiveCalls($this->seoRepository, $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository));
+            ->will($this->onConsecutiveCalls(
+                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
+                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
+                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
+                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
+                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
+                    $this->seoRepository));
 
         $seo1 = $this->setUpSeo('homepage', $this->page1, $this->language1);
         $seo2 = $this->setUpSeo('my-awesome-page', $this->page2, $this->language1);
         $seo3 = $this->setUpSeo('es-homepage', $this->page1, $this->language2);
         $seo4 = $this->setUpSeo('es-my-awesome-page', $this->page2, $this->language2);
+        $seo5= $this->setUpSeo('es-homepage', $this->page3, $this->language1);
+        $seo6 = $this->setUpSeo('es-my-awesome-page', $this->page3, $this->language2);
         $this->seoRepository->expects($this->once())
             ->method('fetchSeoAttributesWithPagesAndLanguages')
-            ->will($this->returnValue(array($seo1, $seo2, $seo3, $seo4)));
+            ->will($this->returnValue(array($seo1, $seo2, $seo3, $seo4, $seo5, $seo6)));
 
         $this->template->expects($this->exactly(4))
             ->method('getSlots')
@@ -136,12 +142,15 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 
         $this->initContainer();
 
-        $this->container->expects($this->at(10))
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch');
+        
+        $this->container->expects($this->at(13))
             ->method('get')
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
 
-        for($i = 11; $i < 15; $i++) {
+        for($i = 14; $i < 18; $i++) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
@@ -171,7 +180,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         ;
         
         $this->deployer = new AlTwigDeployer($this->container);
-        $this->assertTrue($this->deployer->deploy());
+        $this->assertTrue($this->deployer->deploy());//print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
 
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('config')->hasChild('site_routing.yml'));
@@ -203,12 +212,13 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->assertEquals($siteRouting, file_get_contents(vfsStream::url('root\AcmeWebSiteBundle\Resources\config\site_routing.yml')));
 
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('views'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild('en'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('en')->hasChild('index.html.twig'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('en')->hasChild('page-1.html.twig'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild('es'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('es')->hasChild('index.html.twig'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('es')->hasChild('page-1.html.twig'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild('AlphaLemon'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->hasChild('en'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('en')->hasChild('index.html.twig'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('en')->hasChild('page-1.html.twig'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->hasChild('es'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('es')->hasChild('index.html.twig'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('es')->hasChild('page-1.html.twig'));
 
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('public'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('media'));
@@ -227,7 +237,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 
     private function checkTemplateSection($language, $page, $template)
     {
-        $contents = file_get_contents(vfsStream::url(sprintf('root/AcmeWebSiteBundle/Resources/views/%s/%s.html.twig', $language, $page)));
+        $contents = file_get_contents(vfsStream::url(sprintf('root/AcmeWebSiteBundle/Resources/views/AlphaLemon/%s/%s.html.twig', $language, $page)));
 
         $this->assertRegExp("/\'BusinessWebsiteThemeBundle\:Theme\:$template\.html\.twig\'/s", $contents);
     }
@@ -268,20 +278,35 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->method('getParameter')
             ->with('alpha_lemon_cms.upload_assets_absolute_path')
             ->will($this->returnValue('/web/uploads/assets'));
-
+        
         $this->container->expects($this->at(7))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.controller')
+            ->will($this->returnValue('WebSite'));
+        
+        $this->container->expects($this->at(8))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.deploy_bundle.view_folder')
+            ->will($this->returnValue('AlphaLemon'));
+        
+        $this->container->expects($this->at(9))
             ->method('get')
             ->with('alpha_lemon_cms.url_manager')
             ->will($this->returnValue($this->urlManager));
 
-        $this->container->expects($this->at(8))
+        $this->container->expects($this->at(10))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($this->blockManagerFactory));
 
-        $this->container->expects($this->at(9))
+        $this->container->expects($this->at(11))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.views_dir')
             ->will($this->returnValue('Resources/views'));
+        
+        $this->container->expects($this->at(12))
+            ->method('get')
+            ->with('event_dispatcher')
+            ->will($this->returnValue($this->dispatcher));
     }
 }
