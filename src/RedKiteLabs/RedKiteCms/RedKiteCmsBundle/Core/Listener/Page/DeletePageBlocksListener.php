@@ -62,9 +62,12 @@ class DeletePageBlocksListener
                 $result = true;
                 $idPage = $pageManager->get()->getId();
                 $pageRepository->startTransaction();
+                $templateManager = $pageManager->getTemplateManager();
                 foreach ($languages as $alLanguage) {
-                    $result = $pageManager->getTemplateManager()->clearPageBlocks($alLanguage->getId(), $idPage);
-                    if (false === $result) break;
+                    $result = $templateManager->clearPageBlocks($alLanguage->getId(), $idPage);
+                    if (false === $result) {
+                        break;
+                    }
                 }
 
                 if (false !== $result) {
