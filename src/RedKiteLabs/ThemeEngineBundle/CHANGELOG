@@ -1,3 +1,7 @@
+Beta-6 Release (2012-11-22)
+* fb817fd    updated the FrontendController to read the generated templates from the folder defined by the alpha_lemon_theme_engine.deploy.templates_folder. Backward compatibility has been preserved
+* 960670a    added alpha_lemon_theme_engine.deploy.templates_folder parameter to define where the generated templates by AlphaLemon lives
+
 Beta-5 Release (2012-11-11)
 Fixed theme, template and slot generators
 
