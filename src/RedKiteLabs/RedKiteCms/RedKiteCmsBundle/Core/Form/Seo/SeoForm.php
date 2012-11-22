@@ -40,8 +40,8 @@ class SeoForm extends AbstractType
     {
         $builder->add('idPage', 'hidden');
         $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages($this->languageRepository)));
-        $builder->add('permalink');
-        $builder->add('title');
+        $builder->add('permalink', 'textarea');
+        $builder->add('title', 'textarea');
         $builder->add('description', 'textarea');
         $builder->add('keywords', 'textarea');
     }
