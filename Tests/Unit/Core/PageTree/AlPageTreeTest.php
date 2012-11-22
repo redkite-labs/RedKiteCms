@@ -142,15 +142,26 @@ class AlPageTreeTest extends TestCase
         $blockManagers = $pageTree->getBlockManagers('logo');
         $this->assertEquals($blockManager, $blockManagers[0]);
     }
-
-    public function testLanguageIsFetchedFromLanguageParam()
+    
+    public function testLanguageIsFetchedFromLocale()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', false));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('en'));
 
         $this->initContainer($request);
 
@@ -174,9 +185,16 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls(2, false));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(2));
 
         $this->initContainer($request);
 
@@ -195,54 +213,30 @@ class AlPageTreeTest extends TestCase
         $this->assertFalse($pageTree->isValid());
     }
 
-    public function testLanguageIsFetchedFromRequest()
+    public function testLanguageIsFetchedFromPermalink()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
-                                    ->getMock();
-        $request->expects($this->any())
+                                    ->getMock();        
+        $request->expects($this->once())
             ->method('get')
-            ->will($this->onConsecutiveCalls(null, false));
+            ->with('page')
+            ->will($this->returnValue('index'));
 
-        $request->expects($this->any())
-            ->method('getLocale')
-            ->will($this->returnValue('en'));
+        $this->initContainer($request);
 
-        $session = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $session->expects($this->any())
-            ->method('getLocale')
-            ->will($this->returnValue('en'));
-
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('alphalemon_theme_engine.active_theme')
-            ->will($this->returnValue($this->activeTheme));
-
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('request')
-            ->will($this->returnValue($request));
-
-        $this->container->expects($this->at(2))
-            ->method('get')
-            ->with('session')
-            ->will($this->returnValue($session));
-
-        $this->container->expects($this->at(3))
-            ->method('get')
-            ->with('request')
-            ->will($this->returnValue($request));
-
-        $alLanguage = $this->setUpLanguage(2);
-        $this->languageRepository->expects($this->once())
-            ->method('fromLanguageName')
+        $alLanguage = $this->setUpLanguage(2); 
+        $alSeo = $this->setUpSeo(2);
+        $alSeo->expects($this->once())
+            ->method('getAlLanguage')
             ->will($this->returnValue($alLanguage));
 
+        $this->seoRepository->expects($this->once())
+            ->method('fromPermalink')
+            ->will($this->returnValue($alSeo));
+        
         $this->languageRepository->expects($this->never())
-            ->method('fromPK');
+            ->method('fromLanguageName');
 
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
@@ -256,21 +250,24 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->once())
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->returnValue('en'));
-
-        $this->container->expects($this->at(0))
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
             ->method('get')
-            ->with('alphalemon_theme_engine.active_theme')
-            ->will($this->returnValue($this->activeTheme));
-
-        $this->container->expects($this->at(1))
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
             ->method('get')
-            ->with('request')
-            ->will($this->returnValue($request));
+            ->with('_locale')
+            ->will($this->returnValue(null));
 
-        $this->seoRepository->expects($this->never())
+        $this->initContainer($request);
+
+        $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
@@ -293,9 +290,25 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', 'index'));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('en'));
+        
+        $request->expects($this->at(3))
+            ->method('get')
+            ->with('pageId')
+            ->will($this->returnValue(null));
 
         $this->initContainer($request);
         $this->configureLanguage();
@@ -308,9 +321,8 @@ class AlPageTreeTest extends TestCase
             ->method('fromPageName')
             ->will($this->returnValue(null));
 
-        $this->pageRepository->expects($this->once())
-            ->method('fromPK')
-            ->will($this->returnValue(null));
+        $this->pageRepository->expects($this->never())
+            ->method('fromPK');
 
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
@@ -323,9 +335,25 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', 2));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('en'));
+        
+        $request->expects($this->at(3))
+            ->method('get')
+            ->with('pageId')
+            ->will($this->returnValue(2));
 
         $this->initContainer($request);
         $this->configureLanguage();
@@ -334,9 +362,8 @@ class AlPageTreeTest extends TestCase
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
-        $this->pageRepository->expects($this->once())
-            ->method('fromPageName')
-            ->will($this->returnValue(null));
+        $this->pageRepository->expects($this->never())
+            ->method('fromPageName');
 
         $alPage = $this->setUpPage(2);
         $this->pageRepository->expects($this->once())
@@ -354,9 +381,25 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', 'index'));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('en'));
+        
+        $request->expects($this->at(3))
+            ->method('get')
+            ->with('pageId')
+            ->will($this->returnValue(null));
 
         $this->initContainer($request);
         $this->configureLanguage();
@@ -384,21 +427,27 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->once())
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', 'index'));
+            ->with('page')
+            ->will($this->returnValue('index'));
 
         $this->initContainer($request);
-        $this->configureLanguage();
 
         $alPage = $this->setUpPage(2);
+        $alLanguage = $this->setUpLanguage(2); 
         $alSeo = $this->setUpSeo(2);
+        $alSeo->expects($this->once())
+            ->method('getAlLanguage')
+            ->will($this->returnValue($alLanguage));
+        
         $alSeo->expects($this->once())
             ->method('getAlPage')
             ->will($this->returnValue($alPage));
 
         $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
+            ->with('index')
             ->will($this->returnValue($alSeo));
 
         $this->pageRepository->expects($this->never())
@@ -418,15 +467,31 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', 'index'));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('en'));
 
         $this->initContainer($request);
         $this->configureLanguage();
 
         $alPage = $this->setUpPage(2);
         $alSeo = $this->setUpSeo(2);
+
+        $alSeo->expects($this->once())
+            ->method('getAlPage')
+            ->will($this->returnValue($alPage));
+        
         $alSeo->expects($this->once())
             ->method('getMetaTitle');
 
@@ -435,10 +500,6 @@ class AlPageTreeTest extends TestCase
 
         $alSeo->expects($this->once())
             ->method('getMetaKeywords');
-
-        $alSeo->expects($this->once())
-            ->method('getAlPage')
-            ->will($this->returnValue($alPage));
 
         $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
@@ -465,9 +526,20 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', 'index'));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('en'));
 
         $this->initContainer($request);
         $this->configureLanguage();
@@ -802,9 +874,20 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->exactly(2))
+        $request->expects($this->at(0))
             ->method('get')
-            ->will($this->onConsecutiveCalls('en', 'index'));
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('en'));
 
         $this->initContainer($request);
 
@@ -936,11 +1019,9 @@ class AlPageTreeTest extends TestCase
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
 
-        for ($i = 1; $i < 3; $i++) {
-            $this->container->expects($this->at($i))
+         $this->container->expects($this->at(1))
                 ->method('get')
                 ->with('request')
                 ->will($this->returnValue($request));
-        }
     }
 }
