@@ -1,3 +1,17 @@
+RC5 Release (2011-12-22)
+* 862d5a7    PageTree was not correctly initialized when the language was changed by clicking a link in the navigation menu block, when in  multi-languages sites
+* 493dfba    changed the inputs that handles permalink and title fields, to textareas
+* 69f0541    added BeforeDeployEvent and AfterDeployEvent events 
+* 691bec1    added table button to tinymce editor
+* 934e710    skipped a block that belongs a page when it does not belong the template. This might occour when the theme is changed
+* 88cbdf1    added list commands to tinymce
+* c2e39aa    revisited the AlRepeatedSlotsAligner object which didn't work as expected.
+* da2ce2d    fixed the AlSlotsConverterFactory's createConverter method
+* 8da9f80    added the right reference to upload_assets_dir for parameters who require that param
+* ac76b82    [Themes Preview] changed the behavior of Save and activate, which does not reset the mapping
+* ea1bd98    fixed url path for ElFinder connectors
+* fabb0cf    fixed the windows position order
+
 RC4 Release (2012-11-11)
 hide the slots mapper panel by default and added a command on the toolbar to toggle its visibility
 fixed the stylesheet that displays the theme panel
