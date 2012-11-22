@@ -44,10 +44,10 @@ class AlPageTree extends BaseAlPageTree
     protected $seoRepository = null;
     protected $templateManager;
     protected $locatedAssets = array('css' => array(), 'js' => array());
-    protected $isValidLanguage = false;
-    protected $isValidPage = false;
     protected $extraAssetsSuffixes = array('cms');
     protected $themesCollectionWrapper;
+    private $pageName = null;
+    private $request = null;
 
     /**
      * Constructor
@@ -149,7 +149,7 @@ class AlPageTree extends BaseAlPageTree
      */
     public function isValid()
     {
-        return ($this->isValidPage && $this->isValidLanguage) ? true : false;
+        return (null !== $this->alPage && null !== $this->alLanguage) ? true : false;
     }
 
     /**
@@ -170,9 +170,16 @@ class AlPageTree extends BaseAlPageTree
      */
     public function setUp()
     {
-        try {
-            $this->alLanguage = $this->setupLanguageFromSession();
-            $this->alPage = $this->setupPageFromRequest();
+        try {   
+            $this->pageName = $this->getRequest()->get('page');
+            if (!$this->pageName || $this->pageName == "" || $this->pageName == "backend") {
+                return null;
+            }
+
+            $this->alSeo= $this->seoRepository->fromPermalink($this->pageName);        
+            $this->alLanguage = $this->setupLanguage();
+            
+            $this->alPage = $this->setupPage();
             if (null === $this->alLanguage || null === $this->alPage) {
                 return null;
             }
@@ -333,18 +340,16 @@ class AlPageTree extends BaseAlPageTree
      *
      * @return null|AlLanguage
      */
-    protected function setupLanguageFromSession()
+    protected function setupLanguage()
     {
-        $request = $this->container->get('request');
-        $language = $request->get('language');
-        if (null === $language) {
-            $session = $this->container->get('session');
-            $language = method_exists ($session, "getLocale") ? $session->getLocale() : $request->getLocale();
+        if (null !== $this->alSeo) {
+            return $this->alSeo->getAlLanguage();
         }
-
-        $alLanguage = ((int) $language > 0) ? $this->languageRepository->fromPK($language) : $this->languageRepository->fromLanguageName($language);
-        $this->isValidLanguage = true;
-
+        
+        $request = $this->getRequest();
+        $languageId = $request->get('languageId');        
+        $alLanguage = (null === $languageId) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
+        
         return $alLanguage;
     }
 
@@ -353,38 +358,31 @@ class AlPageTree extends BaseAlPageTree
      *
      * @return null
      */
-    protected function setupPageFromRequest()
+    protected function setupPage()
     {
         if (null === $this->alLanguage) {
             return null;
         }
-
-        $pageName = $this->container->get('request')->get('page');
-        if (!$pageName || $pageName == "" || $pageName == "backend") {
-            return null;
+        
+        if (null !== $this->alSeo) {
+            return $this->alSeo->getAlPage();
         }
 
-        $seo = $this->seoRepository->fromPermalink($pageName);
-        if (null === $seo) {
-            $seo = $this->seoRepository->fromPageAndLanguage($pageName, $this->alLanguage->getId());
-        }
-
-        if (null === $seo) {
-            $alPage = $this->pageRepository->fromPageName($pageName);
-            if (null === $alPage) {
-                $alPage = $this->pageRepository->fromPK($pageName);
-                if (!$alPage) {
-                    return null;
-                }
-            }
+        $this->alSeo= $this->seoRepository->fromPageAndLanguage($this->pageName, $this->alLanguage->getId());
+        if (null === $this->alSeo) {
+            $pageId = $this->getRequest()->get('pageId');    
+            $alPage = (null === $pageId) ? $this->pageRepository->fromPageName($this->pageName) : $this->pageRepository->fromPK($pageId);
         } else {
-            $alPage = $seo->getAlPage();
-            $this->setUpMetaTags($seo);
+            $alPage = $this->alSeo->getAlPage();
+            $this->setUpMetaTags();
         }
 
-        $this->isValidPage = true;
+        if (null !== $alPage) {
 
-        return $alPage;
+            return $alPage;
+        }
+
+        return null;
     }
 
     /**
@@ -392,12 +390,12 @@ class AlPageTree extends BaseAlPageTree
      *
      * @param AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo $seo
      */
-    protected function setUpMetaTags($seo)
+    protected function setUpMetaTags()
     {
-        if (null !== $seo) {
-            $this->metaTitle = $seo->getMetaTitle();
-            $this->metaDescription = $seo->getMetaDescription();
-            $this->metaKeywords = $seo->getMetaKeywords();
+        if (null !== $this->alSeo) {
+            $this->metaTitle = $this->alSeo->getMetaTitle();
+            $this->metaDescription = $this->alSeo->getMetaDescription();
+            $this->metaKeywords = $this->alSeo->getMetaKeywords();
         }
     }
 
@@ -436,5 +434,14 @@ class AlPageTree extends BaseAlPageTree
         $this->theme = new AlTheme($themeName);
 
         return true;
+    }
+    
+    private function getRequest()
+    {
+        if (null === $this->request) {
+            $this->request = $this->container->get('request');
+        }
+        
+        return $this->request;
     }
 }
