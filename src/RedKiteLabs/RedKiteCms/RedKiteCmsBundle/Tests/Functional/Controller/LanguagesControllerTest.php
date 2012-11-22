@@ -107,10 +107,20 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $pagesSlots = $this->retrievePageSlots();
         $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(3, 2, $pagesSlots)));
     }
-
-    public function testLanguageJustAdded()
+    
+    public function testRequestingPageFromLanguageAndPage()
     {
-        $crawler = $this->client->request('GET', '/backend/fr/this-is-a-website-fake-page');
+        $crawler = $this->client->request('GET', '/backend/fr/index');
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('#block_1')->count());
+        $this->assertEquals(1, $crawler->filter('#block_32')->count());
+        $this->assertEquals(22, $crawler->filter('.al_editable')->count());
+    }
+
+    public function testRequestingPageFromPermalink()
+    {
+        $crawler = $this->client->request('GET', '/backend/fr-this-is-a-website-fake-page');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#block_1')->count());

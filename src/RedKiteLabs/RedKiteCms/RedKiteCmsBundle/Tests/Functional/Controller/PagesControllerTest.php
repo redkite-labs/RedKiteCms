@@ -156,7 +156,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 3, $pagesSlots)));
+        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 3)));
 
         $crawler = $this->client->request('GET', '/backend/en/page1');
         $response = $this->client->getResponse();
@@ -238,7 +238,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
         // Repeated contents have not been added
         $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 4, $pagesSlots)));
+        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 4)));
     }
 
     public function testAddNewPageWithATemplateDifferentThanTheOneOfCurrentPage()
@@ -394,8 +394,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $seo = $this->seoRepository->fromPageAndLanguage(2, 3);
         $this->assertNull($seo);
 
-        $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(0, count($this->blockRepository->retrieveContents(3, 2, $pagesSlots)));
+        $this->assertEquals(0, count($this->blockRepository->retrieveContents(3, 2)));
     }
 
     public function testPageJustDeletedSeoAttributes()
@@ -425,7 +424,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testDeletePage()
     {
-        $params = array('page' => 'index',
+        $params = array('page' => 'page-2-edited',
                         'language' => 'en',
                         'pageId' => 2,
                         'languageId' => 'none');
@@ -461,9 +460,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNull($seo);
 
-        // Repeated contents have not been added
-        $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(0, count($this->blockRepository->retrieveContents(2, 2, $pagesSlots)));
+        $this->assertEquals(0, count($this->blockRepository->retrieveContents(2, 2)));
     }
 
     public function testAddSomePages()
