@@ -272,7 +272,7 @@ class DeletePageBlocksListenerTest extends BaseListenerTest
             ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
 
-        $this->pageManager->expects($this->exactly(2))
+        $this->pageManager->expects($this->once())
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
 
@@ -310,7 +310,7 @@ class DeletePageBlocksListenerTest extends BaseListenerTest
             ->will($this->returnValue(true));
 
         // Page manager
-        $this->pageManager->expects($this->exactly(2))
+        $this->pageManager->expects($this->once())
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
 
