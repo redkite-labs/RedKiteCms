@@ -209,7 +209,6 @@
 
 #al_panel {
   width: 100%;
-  max-height: 560px;
   position: fixed;
   top: 43;
   left: 0;
@@ -231,7 +230,6 @@
 #al_panel_contents {
   margin: 0 auto;
   width: 1000px;
-  max-height: 550px;
   font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
   color: #525252;
   margin-bottom: 10px;
