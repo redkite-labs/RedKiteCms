@@ -4,8 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="_markdown_connect" pattern="/{_locale}/al_elFinderFileConnect">
+    <route id="_file_connect" pattern="/backend/{_locale}/al_elFinderFileConnect">
         <default key="_controller">FileBundle:ElFinderFile:connectFile</default>
+        <default key="_locale">en</default>
+    </route>
+    
+    <route id="_show_file_media_library" pattern="/backend/{_locale}/al_showFileMediaLibrary">
+        <default key="_controller">FileBundle:ElFinderFile:showMediaLibrary</default>
         <default key="_locale">en</default>
     </route>
 </routes>
