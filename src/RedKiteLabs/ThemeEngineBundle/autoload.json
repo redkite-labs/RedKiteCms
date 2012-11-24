@@ -2,9 +2,6 @@
     "bundles" : {
         "AlphaLemon\\ThemeEngineBundle\\AlphaLemonThemeEngineBundle" : {
             "environments" : ["all"]
-        },
-        "Propel\\PropelBundle\\PropelBundle" : {
-            "environments" : ["all"]
         }
     }
 }
