@@ -122,7 +122,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
 
         $expected = '{' . PHP_EOL;
         $expected .= '    "autoload": {' . PHP_EOL;
-        $expected .= '        "psr-0": { "AlphaLemon\\\\Block\\\\FakeBlockBundle\\\\FakeBlockBundle": ""' . PHP_EOL;
+        $expected .= '        "psr-0": { "AlphaLemon\\\\Block\\\\FakeBlockBundle": ""' . PHP_EOL;
         $expected .= '        }' . PHP_EOL;
         $expected .= '    },' . PHP_EOL;
         $expected .= '    "target-dir" : "AlphaLemon/Block/FakeBlockBundle",' . PHP_EOL;
