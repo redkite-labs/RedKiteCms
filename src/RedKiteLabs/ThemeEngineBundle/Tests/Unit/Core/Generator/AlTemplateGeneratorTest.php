@@ -39,9 +39,17 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $this->templateGenerator = new AlTemplateGenerator(vfsStream::url('root/app-theme'));
     }
     
-    public function testTemplateConfigurationHasAnyAsset()
+    public function testTemplateIsNotGeneratedWhenAnySlotIsDefined()
     {
         file_put_contents(vfsStream::url('root/home.html.twig'), '');
+
+        $information = $this->parser->parse();
+        $this->assertCount(0, $information);
+    }
+    
+    public function testTemplateConfigurationHasAnyAsset()
+    {
+        file_put_contents(vfsStream::url('root/home.html.twig'), $this->fetchBaseContents());
 
         $information = $this->parser->parse();
         $message = $this->templateGenerator->generateTemplate(vfsStream::url('root/template'), 'FakeThemeBundle', 'home', $information['home.html.twig']['assets']);
@@ -91,7 +99,9 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $contents .= 'END-EXTERNAL-STYLESHEETS #}' . PHP_EOL;
         $contents .= '{# BEGIN-EXTERNAL-JAVASCRIPTS' . PHP_EOL;
         $contents .= '@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
-        $contents .= 'END-EXTERNAL-JAVASCRIPTS #}';
+        $contents .= 'END-EXTERNAL-JAVASCRIPTS #}' . PHP_EOL;        
+        $contents .= $this->fetchBaseContents();
+        
         file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
 
         $information = $this->parser->parse();
@@ -165,7 +175,9 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $contents .= 'END-EXTERNAL-STYLESHEETS #}' . PHP_EOL;
         $contents .= '{# BEGIN-EXTERNAL-JAVASCRIPTS' . PHP_EOL;
         $contents .= '@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
-        $contents .= 'END-EXTERNAL-JAVASCRIPTS #}';
+        $contents .= 'END-EXTERNAL-JAVASCRIPTS #}' . PHP_EOL;        
+        $contents .= $this->fetchBaseContents();
+        
         file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
 
         $information = $this->parser->parse();
@@ -238,5 +250,22 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $this->assertFileExists(vfsStream::url('root/template/home.xml'));
         $expected = 'The template <info>home.xml</info> has been generated into <info>vfs://root/template</info>';
         $this->assertEquals($expected, $message);
+    }
+    
+    private function fetchBaseContents()
+    {
+        $contents = '<div class="grid_4 alpha header_box">' . PHP_EOL;
+        $contents .= '    {% block header_box_1 %}' . PHP_EOL;
+        $contents .= '        {# BEGIN-SLOT' . PHP_EOL;
+        $contents .= '            name: header_box_1' . PHP_EOL;
+        $contents .= '            repeated: language' . PHP_EOL;
+        $contents .= '            htmlContent: |' . PHP_EOL;
+        $contents .= '                Lorem ipsum' . PHP_EOL;
+        $contents .= '        END-SLOT #}' . PHP_EOL;
+        $contents .= '        {{ renderSlot(\'header_box_1\') }}' . PHP_EOL;
+        $contents .= '    {% endblock %} ' . PHP_EOL;
+        $contents .= '</div>';
+        
+        return $contents;
     }
 }

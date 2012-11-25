@@ -60,13 +60,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
 
         $information = $this->parser->parse();
-        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
-
-        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
-        $this->assertEquals($this->initEmptyServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
-
-        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
-        $this->assertEquals($expected, $message);
+        $this->assertCount(0, $information);
     }
     public function testAnyOptionalSlotAttributeIsDefined()
     {
@@ -156,7 +150,6 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $this->assertEquals($expected, $message);
     }
 
-
     public function testAttributesAreAlignedWithDeclarationBlock()
     {
         $contents = '<div id="logo">' . PHP_EOL;
@@ -192,13 +185,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
 
         $information = $this->parser->parse();
-        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
-
-        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
-        $this->assertEquals($this->initEmptyServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
-
-        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
-        $this->assertEquals($expected, $message);
+        $this->assertCount(0, $information);
     }
 
     public function testSlotIsNotParsedWhenEndDeclarationBlockIsMalformed()
@@ -214,13 +201,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
 
         $information = $this->parser->parse();
-        $message = $this->slotsGenerator->generateSlots(vfsStream::url('root/slots'), 'FakeThemeBundle', 'home', $information['home.html.twig']['slots']);
-
-        $this->assertFileExists(vfsStream::url('root/slots/home.xml'));
-        $this->assertEquals($this->initEmptyServicesFile(), file_get_contents(vfsStream::url('root/slots/home.xml')));
-
-        $expected = 'The template\'s slots <info>home.xml</info> has been generated into <info>vfs://root/slots</info>';
-        $this->assertEquals($expected, $message);
+        $this->assertCount(0, $information);
     }
 
     public function testSlotsConfigurationFileHasBeenGenerated()
