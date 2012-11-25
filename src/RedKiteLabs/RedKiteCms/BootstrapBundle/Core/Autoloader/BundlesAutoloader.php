@@ -70,7 +70,7 @@ class BundlesAutoloader
         $this->environment = $environment;
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
-        $this->extraFolders = (null === $extraFolders) ? array($this->kernelDir . '/../src/AlphaLemon/Block') : $extraFolders;
+        $this->extraFolders = (null === $extraFolders) ? array($this->kernelDir . '/../src/AlphaLemon/Block', $this->kernelDir . '/../src/AlphaLemon/Theme') : $extraFolders;
         $this->filesystem = new Filesystem();
 
         $this->setupFolders();
