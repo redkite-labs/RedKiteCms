@@ -1,6 +1,6 @@
 {
     "autoload": {
-        "psr-0": { "{{ namespace_path }}\\{{ bundle }}": ""
+        "psr-0": { "{{ namespace_path }}": ""
         }
     },
     "target-dir" : "{{ target_dir }}",
