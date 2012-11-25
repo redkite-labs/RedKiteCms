@@ -1,4 +1,10 @@
-RC5 Release (2011-12-22)
+RC6 Release (2012-11-25)
+* 11a446a    updated licenses conditions: see new LICENSE file
+* 06314e0    The active page is no more editable in the pages management panel
+* 53caa7d    fixed wrong namespace declaration in the generated composer.json file
+* 0c7b60e    fixed media library not correctly rendered when using the FileBundle
+
+RC5 Release (2012-11-22)
 * 862d5a7    PageTree was not correctly initialized when the language was changed by clicking a link in the navigation menu block, when in  multi-languages sites
 * 493dfba    changed the inputs that handles permalink and title fields, to textareas
 * 69f0541    added BeforeDeployEvent and AfterDeployEvent events 
