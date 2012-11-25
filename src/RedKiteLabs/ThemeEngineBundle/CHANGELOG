@@ -1,3 +1,8 @@
+Beta-7 Release (2012-11-25)
+* b3bb736    added composer.json and autoload.json to a new generated theme
+* 2fd2993    fixed a bug that generates a template configuration file for twig templates that not contains any valid slot
+* e177f20    removed propel bundle from autoloader
+
 Beta-6 Release (2012-11-22)
 * fb817fd    updated the FrontendController to read the generated templates from the folder defined by the alpha_lemon_theme_engine.deploy.templates_folder. Backward compatibility has been preserved
 * 960670a    added alpha_lemon_theme_engine.deploy.templates_folder parameter to define where the generated templates by AlphaLemon lives
