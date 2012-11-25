@@ -20,20 +20,22 @@ class AlAppThemeGenerator extends AlBaseGenerator
         $this->generate($namespace, $bundle, $dir, $format, $structure);
 
         $dir .= '/'.strtr($namespace, '\\', '/');
-        /*
-        $suffix = preg_match('/ThemeBundle$/', $namespace) ? 'ThemeBundle' : 'Bundle';
-        $themeBasename = str_replace($suffix, '', $bundle);*/
         $themeBasename = str_replace('Bundle', '', $bundle);
         $extensionAlias = Container::underscore($themeBasename);
 
         $themeSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-theme';
         $parameters = array(
+            'namespace_path' => str_replace('\\', '\\\\', $namespace),
+            'target_dir' => str_replace('\\', '/', $namespace),
+            'bundle'    => $bundle,
             'theme_basename' => $themeBasename,
             'extension_alias' => $extensionAlias,
         );
 
         $this->renderFile($themeSkeletonDir, 'theme.xml', $dir.'/Resources/config/'.$extensionAlias.'.xml', $parameters);
         $this->renderFile($themeSkeletonDir, 'info.yml', $dir.'/Resources/data/info.yml', $parameters);
+        $this->renderFile($themeSkeletonDir, 'autoload.json', $dir.'/autoload.json', $parameters);
+        $this->renderFile($themeSkeletonDir, 'composer.json', $dir.'/composer.json', $parameters);
         $this->filesystem->mkdir($dir.'/Resources/views/Theme');
     }
 }

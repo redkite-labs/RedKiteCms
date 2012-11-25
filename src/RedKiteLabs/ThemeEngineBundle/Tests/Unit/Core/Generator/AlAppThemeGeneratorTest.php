@@ -58,5 +58,30 @@ class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
         $themeFile = vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/Resources/config/fake_theme.xml');
         $this->assertFileExists($themeFile);
         $this->assertEquals($expected, file_get_contents($themeFile));
+        
+        $expected = '{' . PHP_EOL;
+        $expected .= '    "autoload": {' . PHP_EOL;
+        $expected .= '        "psr-0": { "AlphaLemon\\\\Theme\\\\FakeThemeBundle": ""' . PHP_EOL;
+        $expected .= '        }' . PHP_EOL;
+        $expected .= '    },' . PHP_EOL;
+        $expected .= '    "target-dir" : "AlphaLemon/Theme/FakeThemeBundle",' . PHP_EOL;
+        $expected .= '    "minimum-stability": "dev"' . PHP_EOL;
+        $expected .= '}';
+        
+        $composer = vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/composer.json');
+        $this->assertFileExists($composer);
+        $this->assertEquals($expected, file_get_contents($composer));
+        
+        $expected = '{' . PHP_EOL;
+        $expected .= '    "bundles" : {' . PHP_EOL;
+        $expected .= '        "AlphaLemon\\\\Theme\\\\FakeThemeBundle\\\\FakeThemeBundle" : {' . PHP_EOL;
+        $expected .= '            "environments" : ["all"]' . PHP_EOL;
+        $expected .= '        }' . PHP_EOL;
+        $expected .= '    }' . PHP_EOL;
+        $expected .= '}';
+        
+        $autoloader = vfsStream::url('root/src/AlphaLemon/Theme/FakeThemeBundle/autoload.json');
+        $this->assertFileExists($autoloader);
+        $this->assertEquals($expected, file_get_contents($autoloader));
     }
 }

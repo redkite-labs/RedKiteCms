@@ -38,7 +38,7 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
 
         $this->templateGenerator = new AlTemplateGenerator(vfsStream::url('root/app-theme'));
     }
-
+    
     public function testTemplateConfigurationHasAnyAsset()
     {
         file_put_contents(vfsStream::url('root/home.html.twig'), '');

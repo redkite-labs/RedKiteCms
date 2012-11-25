@@ -34,8 +34,6 @@ class AlTemplateGenerator extends Generator
      */
     public function generateTemplate($dir, $themeName, $templateName, $assets)
     {
-        //$suffix = preg_match('/ThemeBundle$/', $themeName) ? 'ThemeBundle' : 'Bundle';
-        //$themeBasename = str_replace($suffix, '', $themeName);
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
 
