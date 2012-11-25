@@ -149,7 +149,10 @@ $(document).ready(function(){
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages option:selected').text() + '/al_showPages',
-                data: {},
+                data: {
+                    'page' :  $('#al_pages_navigator option:selected').text(),
+                    'language' : $('#al_languages_navigator option:selected').text()
+                },
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();
@@ -177,7 +180,10 @@ $(document).ready(function(){
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showLanguages',
-                data: {},
+                data: {
+                    'page' :  $('#al_pages_navigator option:selected').text(),
+                    'language' : $('#al_languages_navigator option:selected').text()
+                },
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();

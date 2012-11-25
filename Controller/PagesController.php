@@ -29,10 +29,13 @@ class PagesController extends Base\BaseController
         $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('alpha_lemon_theme_engine.themes')));
         $seoForm = $this->container->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
+        $request = $this->container->get('request');
         $params = array('base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
                         'pages' => $this->getPages(),
                         'pagesForm' => $pagesForm->createView(),
-                        'pageAttributesForm' => $seoForm->createView());
+                        'pageAttributesForm' => $seoForm->createView(),
+                        'activePage' => $request->get('page'),
+        );
 
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Pages:index.html.twig', $params);
     }
