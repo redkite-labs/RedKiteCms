@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Sensio\Bundle\DistributionBundle\SensioDistributionBundle(),
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
+            new Propel\PropelBundle\PropelBundle(),
             new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
             new AlphaLemon\Block\TextBundle\TextBundle(),
             new AlphaLemon\Block\MenuBundle\MenuBundle(),
