@@ -17,9 +17,6 @@
         },
         "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test"]
-        },
-        "Propel\\PropelBundle\\PropelBundle" : {
-            "environments" : ["all"]
         }
     },
     "routing" : {
