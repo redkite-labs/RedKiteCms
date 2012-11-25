@@ -42,11 +42,17 @@ class AlTemplateParser
             $template = (string)$template;
             $templateName = basename($template);
             $templateContents = file_get_contents($template);
+            
+            $slots = $this->fetchSlots($templateContents);
+            if (empty($slots)) {
+                continue;
+            }
+            
             $templates[$templateName]['assets']['external_stylesheets'] = $this->fetchExternalStylesheets($templateContents);
             $templates[$templateName]['assets']['external_javascripts'] = $this->fetchExternalJavascripts($templateContents);
             $templates[$templateName]['assets']['external_stylesheets_cms'] = $this->fetchExternalStylesheetsCms($templateContents);
             $templates[$templateName]['assets']['external_javascripts_cms'] = $this->fetchExternalJavascriptsCms($templateContents);
-            $templates[$templateName]['slots'] = $this->fetchSlots($templateContents);
+            $templates[$templateName]['slots'] = $slots;
             $templates[$templateName]['generate_template'] = dirname($template) == $this->templatesDir;
         }
         

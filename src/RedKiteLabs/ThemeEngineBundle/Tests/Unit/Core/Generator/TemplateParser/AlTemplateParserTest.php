@@ -38,6 +38,17 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->root = vfsStream::setup('root', null, array('Theme' => array()));
         $this->parser = new AlTemplateParser(vfsStream::url('root/Theme'));
     }
+    
+    public function testTemplatesWhichContainsAnySlotAreSkipped()
+    {
+        $contents = '<div id="logo">' . PHP_EOL;
+        $contents .= '{% block logo %}' . PHP_EOL;
+        $contents .= '{% endblock %}' . PHP_EOL;
+        $contents .= '</div>';
+        file_put_contents(vfsStream::url('root/Theme/home.html.twig'), $contents);
+        $information = $this->parser->parse();
+        $this->assertCount(0, $information);
+    }
 
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
@@ -98,7 +109,7 @@ class AlTemplateParserTest extends AlGeneratorBase
         $contents .= '</div>';
         file_put_contents(vfsStream::url('root/Theme/home.html.twig'), $contents);
         $information = $this->parser->parse();
-        $this->assertCount(0, $information['home.html.twig']['slots']);
+        $this->assertCount(0, $information);
     }
 
     public function testRealTheme()
