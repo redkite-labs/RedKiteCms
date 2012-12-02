@@ -145,12 +145,11 @@ class SlotRendererExtensionTest extends TestCase
                 "SlotName" => "logo",
                 "Type" => "Text",
             ),
-            "Content" => "my awesome replaced content",
-            "EditorWidth" => "800",
-            "RenderView" => array(
+            "Content" => array("RenderView" => array(
                 "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
-                "params" => array(),
-            )
+                "options" => array(),
+            )),
+            "EditorWidth" => "800",
         );
 
         $blockManagers = array($this->setUpBlockManager($value));
@@ -217,11 +216,12 @@ class SlotRendererExtensionTest extends TestCase
                 "SlotName" => "logo",
                 "Type" => "Text",
             ),
-            "Content" => "my awesome replaced content",
-            "RenderView" => array(
-                "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
-                "params" => array(),
-            )
+            "Content" => array(
+                "RenderView" => array(
+                    "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
+                    "options" => array(),
+                )
+            ),
         );
 
         $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
