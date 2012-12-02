@@ -378,7 +378,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $editorWidth = $this->getEditorWidth();
         $blockManager["EditorWidth"] = ($editorWidth != null && (int)$editorWidth > 0) ? $editorWidth : self::EDITOR_WIDTH;
         $blockManager["Block"] = $this->alBlock->toArray();
-
+        $blockManager["Block"]["Content"] = $this->getHtml();
+        
         return $blockManager;
     }
 
