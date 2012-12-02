@@ -108,8 +108,8 @@ class SlotRendererExtension extends BaseSlotRendererExtension
 
             $slotName = $block["Block"]["SlotName"];
             $content = $block['Content'];
-            if (\array_key_exists('RenderView', $block)) {
-                $content = $this->container->get('templating')->render($block['RenderView']['view'], $block['RenderView']['params']);
+            if (is_array($content) && \array_key_exists('RenderView', $content)) {
+                $content = $this->container->get('templating')->render($content['RenderView']['view'], $content['RenderView']['options']);
             }
 
             $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
