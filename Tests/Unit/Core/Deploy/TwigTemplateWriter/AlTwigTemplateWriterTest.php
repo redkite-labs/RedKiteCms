@@ -90,10 +90,8 @@ class AlTwigTemplateWriterTest extends TestCase
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
-        $section .= "{% block title %}" . PHP_EOL;
-        $section .= "A title" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
-
+        $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
+        
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
 
@@ -107,9 +105,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
-        $section .= "{% block description %}" . PHP_EOL;
-        $section .= "A description" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
@@ -124,9 +120,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
-        $section .= "{% block keywords %}" . PHP_EOL;
-        $section .= "some,keywords" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block keywords %}some,keywords{% endblock %}" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
@@ -141,15 +135,9 @@ class AlTwigTemplateWriterTest extends TestCase
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
-        $section .= "{% block title %}" . PHP_EOL;
-        $section .= "A title" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
-        $section .= "{% block description %}" . PHP_EOL;
-        $section .= "A description" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
-        $section .= "{% block keywords %}" . PHP_EOL;
-        $section .= "some,keywords" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
+        $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;
+        $section .= "{% block keywords %}some,keywords{% endblock %}" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getMetaTagsSection());
     }
@@ -166,6 +154,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
         $section .= "  {% endstylesheets %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
@@ -185,6 +174,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
         $section .= "  {% endjavascripts %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
@@ -266,11 +256,13 @@ class AlTwigTemplateWriterTest extends TestCase
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
         $section .= "  {% endstylesheets %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
         $section .= "  {% endjavascripts %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
@@ -527,23 +519,19 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $section = "{% extends 'FakeTheme:Theme:Home.html.twig' %}" . PHP_EOL;
         $section .= "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
-        $section .= "{% block title %}" . PHP_EOL;
-        $section .= "A title" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
-        $section .= "{% block description %}" . PHP_EOL;
-        $section .= "A description" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
-        $section .= "{% block keywords %}" . PHP_EOL;
-        $section .= "some,keywords" . PHP_EOL;
-        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
+        $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;
+        $section .= "{% block keywords %}some,keywords{% endblock %}" . PHP_EOL;
         $section .= "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
         $section .= "  {% endstylesheets %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
+        $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
         $section .= "  {% endjavascripts %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;

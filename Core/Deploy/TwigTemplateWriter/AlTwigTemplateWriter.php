@@ -159,9 +159,9 @@ class AlTwigTemplateWriter
     protected function generateMetaTagsSection()
     {
         $this->metatagsSection = $this->writeComment("Metatags section");
-        $this->metatagsSection .= $this->writeBlock('title', $this->pageTree->getMetaTitle());
-        $this->metatagsSection .= $this->writeBlock('description', $this->pageTree->getMetaDescription());
-        $this->metatagsSection .= $this->writeBlock('keywords', $this->pageTree->getMetaKeywords());
+        $this->metatagsSection .= $this->writeInlineBlock('title', $this->pageTree->getMetaTitle());
+        $this->metatagsSection .= $this->writeInlineBlock('description', $this->pageTree->getMetaDescription());
+        $this->metatagsSection .= $this->writeInlineBlock('keywords', $this->pageTree->getMetaKeywords());
     }
 
     /**
@@ -299,8 +299,26 @@ class AlTwigTemplateWriter
         }
 
         $block = "{% block $blockName %}" . PHP_EOL;
-        $block .= $blockContent . "" . PHP_EOL;
+        $block .= $blockContent . PHP_EOL;
         $block .= "{% endblock %}\n" . PHP_EOL;
+
+        return $block;
+    }
+    
+    /**
+     * Writes a block section without carriage return
+     *
+     * @param  string $blockName
+     * @param  string $blockContent
+     * @return string
+     */
+    protected function writeInlineBlock($blockName, $blockContent)
+    {
+        if (empty($blockContent)) {
+            return "";
+        }
+
+        $block = "{% block $blockName %}" . $blockContent . "{% endblock %}" . PHP_EOL;
 
         return $block;
     }
@@ -323,6 +341,7 @@ class AlTwigTemplateWriter
         if (null !== $output)
             $section .= " output=\"$output\"";
         $block = "  {% $section %}" . PHP_EOL;
+        $block .= "    {{ parent() }}" . PHP_EOL;
         $block .= $this->identateContent($sectionContent) . "" . PHP_EOL;
         $block .= "  {% end$sectionName %}";
 
