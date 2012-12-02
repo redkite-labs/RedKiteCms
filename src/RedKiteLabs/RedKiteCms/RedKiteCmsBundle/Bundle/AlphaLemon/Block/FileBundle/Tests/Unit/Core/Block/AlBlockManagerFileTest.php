@@ -163,31 +163,6 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $blockManager->set($block);
         $this->assertEquals('<p>some html content</p><script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', \'%3Cp%3Esome%20html%20content%3C%2Fp%3E\');});</script>', $blockManager->getHtmlCmsActive());
     }
-    
-    public function testEditorWidth()
-    {
-        $value =
-        '{
-            "0" : {
-                "file" : "files/my-file",
-                "opened" : "1"
-            }
-        }';
-        
-        $block = $this->initBlock($value);
-        $block->expects($this->once())
-              ->method('getId')
-              ->will($this->returnValue(2));
-        $this->initContainer();
-        $this->container->expects($this->once())
-                        ->method('getParameter')
-                        ->will($this->returnValue(vfsStream::url('root/assets')));
-
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
-        $blockManager->set($block);
-        $blockManagerArray = $blockManager->toArray();
-        $this->assertEquals(250, $blockManagerArray["EditorWidth"]);
-    }
 
     private function initBlock($value)
     {

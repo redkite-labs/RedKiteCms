@@ -63,6 +63,9 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             : $this->formatLink($file);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function getEditorWidth()
     {
         return 250;
