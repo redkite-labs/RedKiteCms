@@ -19,10 +19,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
@@ -71,7 +69,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * Returns an array which may contain one or more of these keys:
      *
-     *   - *Content*            The html content displayed on the page
+     *   - *Content*                The html content displayed on the page
      *   - *ExternalJavascript*     A comma separated external javascripts files
      *   - *InternalJavascript*     A javascript code
      *   - *ExternalStylesheet*     A comma separated external stylesheets files
@@ -195,23 +193,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * By default the internal javascript is concatenated to the block's html content: this behavior
      * can be changed overriding the getExecuteInternalJavascript() method.
      *
-     *
+     * @deprecated
      * @return string
      */
     final public function getHtmlCmsActive()
     {
-        $content = $this->formatHtmlCmsActive();
-        if(null === $content) $content = $this->getHtml();
-
-        // Attaches the content a javascript code that saves the block's content to restore it when block must be hidden
-        $scriptForHideContents = ($this->getHideInEditMode()) ? sprintf("$('#block_%s').data('block', '%s');", $this->alBlock->getId(), rawurlencode($content)) : '';
-        $internalJavascript = (string)$this->getInternalJavascript();
-        $internalJavascript = ($internalJavascript != "" && $this->getExecuteInternalJavascript()) ? $internalJavascript : '';
-        if ($scriptForHideContents != '' || $internalJavascript != '') {
-            $content .= sprintf('<script type="text/javascript">$(document).ready(function(){%s%s});</script>', $scriptForHideContents, $internalJavascript);
-        }
-
-        return $content;
+        throw new \RuntimeException("getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**
@@ -367,10 +354,16 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (null === $this->alBlock) {
             return array();
         }
+        
+        $content = $this->replaceHtmlCmsActive();
+        if (null === $content) {
+            $content = $this->getHtml();
+        }
 
         $blockManager = array();
-        $blockManager["HideInEditMode"] = $this->getHideInEditMode();
-        $blockManager["Content"] = $this->getHtmlCmsActive();
+        $blockManager["HideInEditMode"] = $this->getHideInEditMode();        
+        $blockManager["ExecuteInternalJavascript"] = $this->getExecuteInternalJavascript();
+        $blockManager["Content"] = $content;   
         $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
@@ -378,7 +371,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $editorWidth = $this->getEditorWidth();
         $blockManager["EditorWidth"] = ($editorWidth != null && (int)$editorWidth > 0) ? $editorWidth : self::EDITOR_WIDTH;
         $blockManager["Block"] = $this->alBlock->toArray();
-        $blockManager["Block"]["Content"] = $this->getHtml();
         
         return $blockManager;
     }
@@ -399,11 +391,18 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return null
      */
-    protected function formatHtmlCmsActive()
+    protected function replaceHtmlCmsActive()
     {
         return null;
     }
-
+    
+    /**
+     * @deprecated
+     */
+    protected function formatHtmlCmsActive()
+    {
+        return replaceHtmlCmsActive();
+    }
 
     /**
      * Adds a new block to the AlBlock table
