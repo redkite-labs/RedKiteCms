@@ -52,7 +52,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             : $this->formatLink($file);
     }
 
-    protected function formatHtmlCmsActive()
+    protected function replaceHtmlCmsActive()
     {
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
@@ -63,9 +63,6 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             : $this->formatLink($file);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     protected function getEditorWidth()
     {
         return 250;
