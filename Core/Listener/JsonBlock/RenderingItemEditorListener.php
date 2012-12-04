@@ -42,7 +42,7 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
                 $container = $event->getContainer();
                 $block = $alBlockManager->get();
                 $className = $block->getType();
-                $content = json_decode($block->getContent(), true);        
+                $content = json_decode($block->getContent(), true);      
                 $content = $content[0];
                 $content = $this->formatContent($content);
                 $content['id'] = 0;
