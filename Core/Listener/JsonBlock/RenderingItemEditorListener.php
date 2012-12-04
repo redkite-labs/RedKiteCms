@@ -47,7 +47,15 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
                 $content = $this->formatContent($content);
                 $content['id'] = 0;
                 
-                $form = $container->get('form.factory')->create(new $params['formClass'](), $content);
+                if (array_key_exists('embeddedClass', $params)) {                    
+                    $embeddedClass = new $params['embeddedClass'](); 
+                    $form = $container->get('form.factory')->create(new $params['formClass'](), $embeddedClass);
+                    $form->bind($content);
+                }
+                else {
+                    $form = $container->get('form.factory')->create(new $params['formClass'](), $content);
+                }
+                
                 $template = sprintf('%sBundle:Block:%s_item.html.twig', $className, strtolower($className));
                 $editor = $container->get('templating')->render($template, array("form" => $form->createView()));
                 $event->setEditor($editor);
