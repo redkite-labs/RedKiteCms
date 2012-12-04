@@ -130,30 +130,11 @@ class AlBlockManagerTest extends AlContentManagerBase
         $block->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($htmlContent));
-        $this->blockManager->set($block);
-
-        $this->assertEquals($htmlContent, $this->blockManager->getHtmlCmsActive());
+        $this->blockManager->set($block);       
+        $blockManagerArray = $this->blockManager->toArray();
+        $this->assertEquals($htmlContent, $blockManagerArray['Content']);
     }
-
-    public function testHtmlCmsActiveReturnsTheBlockContentAndAnExtraJavascriptWhenTheContentIsHideInEditMode()
-    {
-        $htmlContent = '<p>A great App-Bundle</p>';
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
-
-        $block->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue($htmlContent));
-        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
-        $blockManager->setHideInEditMode(true);
-        $blockManager->set($block);
-
-        $extraJavascript = '<script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', \'%3Cp%3EA%20great%20App-Bundle%3C%2Fp%3E\');});</script>';
-        $this->assertEquals($htmlContent . $extraJavascript, $blockManager->getHtmlCmsActive());
-    }
-
+/*
     public function testHtmlCmsActiveReturnsTheBlockContentAndTheInternalJavascript()
     {
         $htmlContent = '<p>A great App-Bundle</p>';
@@ -224,7 +205,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('a great javascript', $blockManager->getInternalJavascript(false));
-    }
+    }*/
 
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
