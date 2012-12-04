@@ -141,7 +141,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<div\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
+        $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(2, $blocks[count($blocks) - 1]->getContentPosition());
@@ -177,9 +177,8 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<div\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
-        //$this->assertRegExp("/\<div[^\>]+class=\"al_left_sidebar_content\"\>This is the default text for a new text content\<\/div\>/s", $json[1]["value"]);
-
+        $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
+        
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(1, $blocks[count($blocks) - 1]->getContentPosition());
     }
@@ -278,7 +277,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("blockName", $json[1]));
         $this->assertEquals("block_" . $blockId, $json[1]["blockName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<div\>New content\<\/div\>/s", $json[1]["value"]);
+        $this->assertRegExp("/New content/s", $json[1]["value"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(1, $blocks[count($blocks) - 1]->getContentPosition());
