@@ -112,7 +112,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
         $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li><li><a href="/alcms.php/backend/another-fancy-permalink">es</a></li></ul>', $blockManager->getHtml());
     }
     
-    public function testHtmlCmsActive()
+    public function testHtmlReplace()
     {
         $language = $this->initLanguage();
         $pageTree = $this->initPageTree();
@@ -123,11 +123,14 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $blockManager = new AlBlockManagerNavigationMenu($container);
-        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li></ul>', $blockManager->getHtmlCmsActive());
+        $blockManager->set($block);
+        $blockManagerArray = $blockManager->toArray();
+        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li></ul>', $blockManagerArray['Content']);
     }
 
-    public function testHtmlCmsActiveWhenRouteDoesNotExist()
+    public function testHtmlReplaceWhenRouteDoesNotExist()
     {
         $language = $this->initLanguage();
         $pageTree = $this->initPageTree();
@@ -138,11 +141,14 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->method('activeLanguages')
             ->will($this->returnValue(array($language)));
 
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $blockManager = new AlBlockManagerNavigationMenu($container);
-        $this->assertEquals('<ul><li><a href="#">en [Er]</a></li></ul>', $blockManager->getHtmlCmsActive());
+        $blockManager->set($block);
+        $blockManagerArray = $blockManager->toArray();
+        $this->assertEquals('<ul><li><a href="#">en [Er]</a></li></ul>', $blockManagerArray['Content']);
     }
 
-    public function testHtmlCmsActiveWithMoreLanguages()
+    public function testHtmlReplaceWithMoreLanguages()
     {
         $language1 = $this->initLanguage();
         $language2 = $this->initLanguage('es');
@@ -161,8 +167,11 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->method('activeLanguages')
             ->will($this->returnValue(array($language1, $language2)));
 
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $blockManager = new AlBlockManagerNavigationMenu($container);
-        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li><li><a href="/alcms.php/backend/another-fancy-permalink">es</a></li></ul>', $blockManager->getHtmlCmsActive());
+        $blockManager->set($block);
+        $blockManagerArray = $blockManager->toArray();
+        $this->assertEquals('<ul><li><a href="/alcms.php/backend/a-fancy-permalink">en</a></li><li><a href="/alcms.php/backend/another-fancy-permalink">es</a></li></ul>', $blockManagerArray['Content']);
     }
     
     private function initUrlManager($value)
