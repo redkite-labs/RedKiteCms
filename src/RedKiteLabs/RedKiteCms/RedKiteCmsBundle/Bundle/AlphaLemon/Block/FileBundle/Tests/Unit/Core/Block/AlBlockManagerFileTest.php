@@ -117,7 +117,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->assertEquals('{% set file = kernel_root_dir ~ \'/../web/bundles/acmewebsite/files/my-file\' %} {{ file_open(file) }}', $blockManager->getHtml());
     }
 
-    public function testGetHtmlCmsActiveWhenOpenedIsFalse()
+    public function testContentReplacedWhenOpenedIsFalse()
     {
         $value =
         '{
@@ -135,10 +135,12 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
-        $this->assertEquals('<a href="/vfs://uploads/assets/files/my-file" />my-file</a><script type="text/javascript">$(document).ready(function(){$(\'#block_\').data(\'block\', \'%3Ca%20href%3D%22%2Fvfs%3A%2F%2Fuploads%2Fassets%2Ffiles%2Fmy-file%22%20%2F%3Emy-file%3C%2Fa%3E\');});</script>', $blockManager->getHtmlCmsActive());
+        $blockManagerArray = $blockManager->toArray();
+        $this->assertEquals('<a href="/vfs://uploads/assets/files/my-file" />my-file</a>', $blockManagerArray['Content']);
+        $this->assertEquals(250, $blockManagerArray["EditorWidth"]);
     }
 
-    public function testGetHtmlCmsActiveWhenOpenedIsTrue()
+    public function testContentReplacedWhenOpenedIsTrue()
     {
         $value =
         '{
@@ -151,9 +153,6 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $root = vfsStream::setup('root', null, array('assets' => array('files' => array('my-file' => '<p>some html content</p>'))));
 
         $block = $this->initBlock($value);
-        $block->expects($this->once())
-              ->method('getId')
-              ->will($this->returnValue(2));
         $this->initContainer();
         $this->container->expects($this->once())
                         ->method('getParameter')
@@ -161,7 +160,8 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
-        $this->assertEquals('<p>some html content</p><script type="text/javascript">$(document).ready(function(){$(\'#block_2\').data(\'block\', \'%3Cp%3Esome%20html%20content%3C%2Fp%3E\');});</script>', $blockManager->getHtmlCmsActive());
+        $blockManagerArray = $blockManager->toArray();
+        $this->assertEquals('<p>some html content</p>', $blockManagerArray['Content']);
     }
 
     private function initBlock($value)
