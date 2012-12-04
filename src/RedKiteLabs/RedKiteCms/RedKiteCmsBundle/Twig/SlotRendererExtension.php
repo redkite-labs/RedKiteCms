@@ -100,30 +100,47 @@ class SlotRendererExtension extends BaseSlotRendererExtension
      * @return string
      * @throws Exception
      */
-    protected function doRender(array $block = null, $add = false)
+    protected function doRender(array $block = array(), $add = false)
     {
         try {
-            $content = "";
-            if(null === $block || empty($block)) return $content;
-
+            if (empty($block)) {
+                return "";
+            }
+            
+            $templating = $this->container->get('templating');
             $slotName = $block["Block"]["SlotName"];
             $content = $block['Content'];
-            if (is_array($content) && \array_key_exists('RenderView', $content)) {
-                $content = $this->container->get('templating')->render($content['RenderView']['view'], $content['RenderView']['options']);
+            if ( is_array($content) && \array_key_exists('RenderView', $content)) {
+                $content = $templating->render($content['RenderView']['view'], $content['RenderView']['options']);
+            }
+            
+            if (strpos($content, '<script') !== false) {
+                $content = "A script content is not rendered in editor mode";
             }
 
+            if (null === $block['Block']["Id"]) {
+                return $templating->render('AlphaLemonCmsBundle:Slot:map_slot.html.twig', array(
+                    'slot_name' => $slotName,
+                    'content' => $content,
+                ));
+            }
+            
             $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-            if (null !== $block['Block']["Id"]) {
-                $content = sprintf('<div>%s</div>', $content);
-                if ($add) {
-                    $content = sprintf ('<div id="block_%s" class="%s al_editable {id: \'%s\', slotName: \'%s\', type: \'%s\', editorWidth: \'%s\'}">%s</div>', $block['Block']["Id"], $hideInEditMode, $block['Block']['Id'], $slotName, strtolower($block['Block']['Type']), $block['EditorWidth'], $content);
-                }
-            }
-            else {
-                $content = sprintf ('<div id="al_map_%s" class="al_template_slot" >%s</div>', $slotName, $content);
-            }
-
-            return $content;
+            $scriptToHideContents = ($hideInEditMode != '') ? sprintf("$('#block_%s').data('block', '%s');", $block['Block']["Id"], rawurlencode($content)) : '';
+            $internalJavascript = (string)$block["InternalJavascript"];
+            $internalJavascript = ($internalJavascript != "" && (bool)$block["ExecuteInternalJavascript"]) ? $internalJavascript : '';
+            $template = ($add) ? 'editable_block.html.twig' : '_block.html.twig';
+            
+            return $templating->render('AlphaLemonCmsBundle:Slot:' . $template, array(
+                'block_id' => $block['Block']["Id"],
+                'hide_in_edit_mode' => $hideInEditMode,
+                'slot_name' => $slotName,
+                'type' => $block['Block']['Type'],
+                'editor_width' => $block['EditorWidth'],
+                'content' => $content,
+                'contents_hidden_script' => $scriptToHideContents,
+                'internal_javascript' => $internalJavascript,
+            ));
         } catch (\Exception $ex) {
             throw $ex;
         }
