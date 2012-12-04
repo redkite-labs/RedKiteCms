@@ -39,17 +39,6 @@ class AlBlockManagerScript extends AlBlockManager
     /**
      * {@inheritdoc}
      */
-    protected function formatHtmlCmsActive()
-    {
-        $content = $this->alBlock->getContent();
-        if (strpos($content, '<script') !== false) return "A script content is not rendered in editor mode";
-        
-        return $content;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getHideInEditMode()
     {
         return true;
