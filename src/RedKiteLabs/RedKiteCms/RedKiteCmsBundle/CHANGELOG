@@ -1,3 +1,21 @@
+RC7 Release (2012-12-08)
+* [many]  api frozen (still in progress)
+* 0e1dd82 fixed docblock documentation
+* d76eba9 fixed and improved RenderView option from a block. The getHtml block's method may return an array where are declared one or more views and the options instead of html
+* a335245 add new getMetaTags method to let a block add extra metatags
+* a335245 add setPageTree method to inject current pagetree
+* 6ed2780 styled the form table cells
+* ae0ea8a improved Json/_item.html.twig template to be more overridable and moved form building to Json/_form_renderer.html.twig template
+* af4a300 updated configuration for dev and test environments to import from alcms enviroment
+* 442e79a [bug] added alpha_lemon_cms.events_handler argument service to block service which misses
+* d5f6071 updated the RenderingItemEditorListener to work with embedded forms too
+* a1a0ae5 formatHtmlCmsActive method has been renamed to replaceHtmlCmsActive
+* a1a0ae5 getHtmlCmsActive has been deprecated 
+* a1a0ae5 toArray has been imporoved to return the block's html from getHtml method or the replaceHtmlCmsActive when defined
+* a1a0ae5 the ExecuteInternalJavascript option has been added to toArray method
+* 84adba4 metatags blocks are now written in a single line to avoid carriage return breaks the metatag
+* d660782 toArray method returns the formatted content by getHtml function instead of the saved content value
+
 RC6 Release (2012-11-25)
 * 11a446a    updated licenses conditions: see new LICENSE file
 * 06314e0    The active page is no more editable in the pages management panel
