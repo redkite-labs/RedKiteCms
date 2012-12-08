@@ -1,4 +1,4 @@
-RC7 Release (2012-12-08)
+RC7 Release (2012-12-09)
 * [many]  api frozen (still in progress)
 * 0e1dd82 fixed docblock documentation
 * d76eba9 fixed and improved RenderView option from a block. The getHtml block's method may return an array where are declared one or more views and the options instead of html
