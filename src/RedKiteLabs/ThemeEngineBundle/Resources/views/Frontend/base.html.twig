@@ -21,16 +21,25 @@
         <meta name="Description" content="{% block description %}{% if metadescription is defined %}{{ metadescription }}{% endif %}{% endblock %}" />
         <meta name="Keywords" content="{% block keywords %}{% if metakeywords is defined %}{{ metakeywords }}{% endif %}{% endblock %}" />
         <meta name="generator" content="AlphaLemon CMS" />
+        {% block metatags %}        
+        {% endblock %}
         
         {% block external_stylesheets %}
             {% if stylesheets_template is defined and stylesheets_template != "" %}
                 {% include(stylesheets_template) %}
             {% endif %}
         {% endblock %}
+        
+        {% block extra_external_stylesheets %}
+        {% endblock %}
+        
         {% block external_javascripts %}
             {% if javascripts_template is defined and javascripts_template != "" %}
                 {% include(javascripts_template) %}
             {% endif %}
+        {% endblock %}
+        
+        {% block extra_external_javascripts %}
         {% endblock %}
         
         {% block internal_header_javascripts %}{% endblock %}
