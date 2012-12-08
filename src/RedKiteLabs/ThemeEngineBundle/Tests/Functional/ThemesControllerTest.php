@@ -44,7 +44,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('html:contains("website")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("http://aphalemon.com")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("license")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("GPL LICENSE Version 2.0")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("MIT LICENSE")')->count());
     }
 
     public function testActivate()
