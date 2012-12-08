@@ -27,6 +27,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AlBlocksCompilerPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (false === $container->hasDefinition('alpha_lemon_cms.block_manager_factory')) {

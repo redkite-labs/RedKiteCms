@@ -23,12 +23,13 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Handles a set of events. This object is capable to create the events and
- * dispatch them when required.
+ * A base EventsHandler object to create the events and dispatch them when required
  *
  * When an event already exists, it is recreated
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class AlEventsHandler implements AlEventsHandlerInterface
 {
@@ -39,13 +40,17 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     /**
      * Configures the methods that will be evaluated and valorized when a new
      * event is created
+     * 
+     * @api
      */
     abstract protected function configureMethods();
 
     /**
      * Constructor
-     *
-     * @param EventDispatcherInterface $eventDispatcher
+     * 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     * 
+     * @api
      */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
@@ -57,6 +62,8 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
      * Returns the event dispatcher associated with the object
      *
      * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     * 
+     * @api
      */
     public function getEventDispatcher()
     {
@@ -65,7 +72,10 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
 
     /**
      * Returns the handled events
+     * 
      * @return array
+     * 
+     * @api
      */
     public function getEvents()
     {
@@ -79,9 +89,12 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     {
         return $this->fetchEvent($eventName);
     }
-
+    
     /**
      * {@inheritdoc}
+     * 
+     * @throws InvalidParameterException
+     * @throws InvalidParameterTypeException
      */
     public function createEvent($eventName, $class, array $args)
     {
@@ -117,9 +130,11 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
 
         return $this;
     }
-
+    
     /**
      * {@inheritdoc}
+     * 
+     * @throws \RuntimeException
      */
     public function dispatch($eventName = null)
     {

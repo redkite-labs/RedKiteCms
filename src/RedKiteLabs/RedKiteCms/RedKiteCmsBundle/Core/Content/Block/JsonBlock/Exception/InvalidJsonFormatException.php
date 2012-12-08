@@ -21,6 +21,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception;
  * Thrown when the json content is not decodable
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class InvalidJsonFormatException extends \RuntimeException
 {

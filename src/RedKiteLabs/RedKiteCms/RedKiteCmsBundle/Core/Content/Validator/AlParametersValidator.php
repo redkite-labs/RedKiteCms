@@ -24,18 +24,23 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
  * AlParametersValidator validates consistence of array parameters
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlParametersValidator extends AlTranslator implements AlParametersValidatorInterface
 {
     /**
      * {@inheritdoc}
-     *
-     * @throws General\EmptyParametersException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     * 
+     * @api
      */
     public function checkEmptyParams(array $values, $message = null)
     {
         if (empty($values)) {
-            if(null === $message) $message = 'Any parameter has been given';
+            if (null === $message) {
+                $message = 'Any parameter has been given';
+            }
 
             throw new General\EmptyParametersException($this->translate($message));
         }
@@ -43,8 +48,9 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
 
     /**
      * {@inheritdoc}
-     *
-     * @throws General\ParameterExpectedException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * 
+     * @api
      */
     public function checkOnceValidParamExists(array $requiredParams, array $values, $message = null)
     {
@@ -60,11 +66,12 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
             throw new General\ParameterExpectedException($message);
         }
     }
-
+    
     /**
      * {@inheritdoc}
-     *
-     * @throws General\ParameterExpectedException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * 
+     * @api
      */
     public function checkRequiredParamsExists(array $requiredParams, array $values, $message = null)
     {
@@ -85,7 +92,7 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
      * Implodes the given array
      *
      * @param  array $params
-     * @return type
+     * @return array
      */
     protected function doImplode(array $params)
     {

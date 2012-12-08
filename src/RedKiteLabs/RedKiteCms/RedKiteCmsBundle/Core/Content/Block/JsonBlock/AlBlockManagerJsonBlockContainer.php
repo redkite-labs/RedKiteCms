@@ -22,7 +22,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJs
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
- * AlBlockManagerJsonBlockContainer
+ * AlBlockManagerJsonBlockContainer extends the AlBlockManagerJson base object with
+ * the Symfony2 Container object
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -30,6 +31,14 @@ abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
 {
     protected $container;
 
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator 
+     * 
+     * @api
+     */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         $this->container = $container;

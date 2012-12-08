@@ -24,9 +24,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
- * The base object that implements the methods to deploy the website from development (CMS) to production (the deploy bundle)
+ * A collection of PageTree objects
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlPageTreeCollection implements \Iterator, \Countable
 {
@@ -38,6 +40,15 @@ class AlPageTreeCollection implements \Iterator, \Countable
     private $themesCollectionWrapper = null;
     private $seoRepository = null;
 
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
+     * 
+     * @api
+     */
     public function  __construct(ContainerInterface $container,
             AlFactoryRepositoryInterface $factoryRepository,
             AlThemesCollectionWrapper $themesCollectionWrapper = null)
@@ -102,9 +113,11 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Returns the AlPageTree object stored at the requird key
-     *
-     * @param  string                                                        $key
+     * 
+     * @param string $key
      * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * 
+     * @api
      */
     public function at($key)
     {

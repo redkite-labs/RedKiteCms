@@ -20,12 +20,17 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\EventsHandler;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler;
 
 /**
- *
+ * Implements the AlEventsHandler to hanled events for Content objects
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlContentEventsHandler extends AlEventsHandler
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configureMethods()
     {
         return array(
