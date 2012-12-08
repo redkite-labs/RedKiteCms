@@ -35,7 +35,7 @@ abstract class FrontendController extends BaseFrontendController
     {
         try {
             $request = $this->container->get('request');
-
+            
             $language = $request->getLocale();
             $page = $request->get('page');
             $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
