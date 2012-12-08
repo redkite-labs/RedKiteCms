@@ -13,25 +13,15 @@
    @license    GPL LICENSE Version 2.0
 #}
 
+{% if form_name is not defined %}
+{% set form_name = "al_item_form" %}
+{% endif %}
+
 <div>
     {% block form %}
-    <form id="al_item_form" action="#" method="post" {{ form_enctype(form) }}>
+    <form id="{{ form_name }}" action="#" method="post" {{ form_enctype(form) }}>
         <table>
-            {% for key, item in form %}
-                {% if(item.vars.block_prefixes.2 != "hidden") %}
-                <tr>
-                    <td>{{ form_label(item) }}</td>
-                    <td>{{ form_errors(item) }}
-                    {% if(item.vars.block_prefixes.3 == "textarea") %}
-                        {{ form_widget(item, { 'attr': {'class' : 'textarea' }}) }}
-                    {% else %}
-                        {{ form_widget(item, { 'attr': {'class' : 'input' }}) }}
-                    {% endif %}
-                    </td>
-                </tr>
-                {% endif %}
-            {% endfor %}
-            {{ form_rest(form) }}
+            {% include "AlphaLemonCmsBundle:Block:Json/_form_renderer.html.twig" %}
         </table>
     </form>
     {% endblock %}
