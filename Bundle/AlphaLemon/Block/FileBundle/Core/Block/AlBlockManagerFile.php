@@ -7,7 +7,6 @@
 
 namespace AlphaLemon\Block\FileBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
