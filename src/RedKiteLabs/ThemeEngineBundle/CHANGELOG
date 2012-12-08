@@ -1,3 +1,7 @@
+Beta-8 Release (2012-12-09)
+7cda284 added temporary solution to avoid the page not rendered when a slot has any content inside
+6bb735d added some new sections to base twig template to let the child template add extra metatags, external stylesheets and javascripts
+
 Beta-7 Release (2012-11-25)
 * b3bb736    added composer.json and autoload.json to a new generated theme
 * 2fd2993    fixed a bug that generates a template configuration file for twig templates that not contains any valid slot
