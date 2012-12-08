@@ -35,8 +35,12 @@ class SlotRendererExtension extends \Twig_Extension
         $this->container = $container;
     }
 
+    // TODO: To be redefined when ThemeEngine will be revisited
     public function render($slotName = null)
     {
+        return "";
+        
+        /*
         $this->checkSlotName($slotName);
 
         try
@@ -46,7 +50,7 @@ class SlotRendererExtension extends \Twig_Extension
             if (!$this->container->has('alpha_lemon_theme_engine.page_tree')) {
                 return $result;
             }
-
+            
             $slotContents = $this
                 ->container
                 ->get('alpha_lemon_theme_engine.page_tree')
@@ -73,7 +77,7 @@ class SlotRendererExtension extends \Twig_Extension
         catch (\Exception $ex)
         {
             throw $ex;
-        }
+        }*/
     }
 
     /**
