@@ -64,7 +64,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
      * Renders a block
      *
      * @param array $block
-     * @param Boolean $add Returns the slot as new editable block
+     * @param boolean $add Returns the slot as new editable block
      * @return string
      * @throws \InvalidArgumentException
      */
@@ -96,7 +96,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
      * Renders the slot
      *
      * @param array $block
-     * @param Boolean $add
+     * @param boolean $add
      * @return string
      * @throws Exception
      */
@@ -111,7 +111,8 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $slotName = $block["Block"]["SlotName"];
             $content = $block['Content'];
             if ( is_array($content) && \array_key_exists('RenderView', $content)) {
-                $content = $templating->render($content['RenderView']['view'], $content['RenderView']['options']);
+                $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
+                $content = $viewsRenderer->render($content['RenderView']);
             }
             
             if (strpos($content, '<script') !== false) {
@@ -145,4 +146,6 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             throw $ex;
         }
     }
+    
+    
 }
