@@ -20,10 +20,12 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 class AlSlotConverterToLanguage extends AlSlotConverterBase
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      *
      * @return null|boolean
-     * @throws Exception
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
+     * 
+     * @api
      */
     public function convert()
     {

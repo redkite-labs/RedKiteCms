@@ -176,7 +176,7 @@ class AlPageTree extends BaseAlPageTree
                 return null;
             }
 
-            $this->alSeo= $this->seoRepository->fromPermalink($this->pageName);        
+            $this->alSeo = $this->seoRepository->fromPermalink($this->pageName);
             $this->alLanguage = $this->setupLanguage();
             
             $this->alPage = $this->setupPage();
@@ -209,6 +209,19 @@ class AlPageTree extends BaseAlPageTree
         $this->alLanguage = $this->languageRepository->fromPK($idLanguage);
         $this->alPage = $this->pageRepository->fromPK($idPage);
 
+        if (null === $this->alSeo) { 
+            $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
+        }
+        
+        if (null === $this->theme) {
+            if (null !== $this->initTheme()) {
+                $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
+            }
+        }
+        
+        $this->doRefresh();
+
+        /*
         if (null === $this->theme) {
             if (null === $this->initTheme()) {
                 return null;
@@ -217,26 +230,38 @@ class AlPageTree extends BaseAlPageTree
 
         $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
         $this->doRefresh();
-
+        */
         return $this;
     }
 
     private function doRefresh()
     {
+        if (null === $this->templateManager) {
+            return;
+        }
+        
         $idLanguage = $this->alLanguage->getId();
         $idPage = $this->alPage->getId();
 
-        $this->pageBlocks = $this->templateManager
-                    ->getPageBlocks()
-                    ->setIdLanguage($idLanguage)
-                    ->setIdPage($idPage)
-                    ->refresh();
+        $this->pageBlocks = $this->templateManager->getPageBlocks();
+        if (null === $this->pageBlocks) {
+            return;
+        }
+        
+        $this->pageBlocks
+             ->setIdLanguage($idLanguage)
+             ->setIdPage($idPage)
+             ->refresh();
 
         $this->templateManager
-                    ->setPageBlocks($this->pageBlocks)
-                    ->refresh();
+             ->setPageBlocks($this->pageBlocks)
+             ->refresh();
 
-        $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
+        /*
+        if (null === $this->alSeo) { 
+            $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
+        }*/
+        
         $this->setUpMetaTags($this->alSeo);
     }
 

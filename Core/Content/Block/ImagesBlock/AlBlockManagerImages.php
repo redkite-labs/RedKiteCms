@@ -7,12 +7,20 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJs
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
- * AlBlockManagerImages manages a content made by a serie of images
+ * AlBlockManagerImages is the base object deputated to handle a content made by a list 
+ * of images, like a slider or an image gallery
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 abstract class AlBlockManagerImages extends AlBlockManagerContainer
 {
+    /**
+     * {@inheritdoc}
+     *
+     * Extends the base edit method to manage an images list
+     * 
+     * @api
+     */
     protected function edit(array $values)
     {
         $images = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);

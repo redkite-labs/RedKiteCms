@@ -20,20 +20,23 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
- * AlBlockManagerJson manages a json content
+ * AlBlockManagerJson is the base object deputated to handle a json content
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class AlBlockManagerJsonBlock extends AlBlockManager
 {
-
     /**
      * Decodes a json content
      *
-     * @param  mixed string|AlBlock                 $block
-     * @param  boolean                              $assoc
-     * @return mixed                                array|object depends on assoc param     *
+     * @param  string|AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
+     * @param  boolean  $assoc
+     * @return array|object depends on assoc param
      * @throws Exception\InvalidJsonFormatException
+     * 
+     * @api
      */
     public static function decodeJsonContent($block, $assoc = true)
     {
@@ -58,6 +61,8 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
      * {@inheritdoc}
      *
      * Extends the base edit method to manage a json content
+     * 
+     * @api
      */
     protected function edit(array $values)
     {

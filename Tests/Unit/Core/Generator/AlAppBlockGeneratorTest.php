@@ -83,8 +83,9 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    </parameters>' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake_block.block" class="%fake_block.block.class%">' . PHP_EOL;
+        $expected .= '        <service id="fake_block.block" class="%fake_block.block.class%">' . PHP_EOL; 
         $expected .= '            <tag name="alphalemon_cms.blocks_factory.block" description="Fake block" type="FakeBlock" group="fake-group" />' . PHP_EOL;
+        $expected .= '            <argument type="service" id="alpha_lemon_cms.events_handler" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>';
@@ -100,6 +101,9 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
+        $expected = 'imports:' . PHP_EOL;
+        $expected .= '- { resource: "@FakeBlockBundle/Resources/config/config_alcms.yml" }';
+        
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms_dev.yml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));

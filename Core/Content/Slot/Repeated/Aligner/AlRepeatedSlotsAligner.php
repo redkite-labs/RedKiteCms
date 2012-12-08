@@ -23,9 +23,11 @@ use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
  * AlRepeatedSlotsAligner is responsibile to align the slots repeated status when
- * a the status is changes on a template
+ * a slot changes its status on a template
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlRepeatedSlotsAligner
 {
@@ -38,9 +40,11 @@ class AlRepeatedSlotsAligner
     /**
      * Constructor
      * 
-     * @param AlThemesCollection $themesCollection
-     * @param AlSlotsConverterFactoryInterface $slotsConverterFactory
-     * @param AlFactoryRepositoryInterface $factoryRepository 
+     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themesCollection
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface $slotsConverterFactory
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @api
      */
     public function __construct(AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlFactoryRepositoryInterface $factoryRepository)
     {
@@ -53,7 +57,10 @@ class AlRepeatedSlotsAligner
     /**
      * Sets the id of the language
      * 
-     * @param int id
+     * @param int $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
+     * 
+     * @api
      */
     public function setLanguageId($v)
     {
@@ -65,7 +72,10 @@ class AlRepeatedSlotsAligner
     /**
      * Sets the id of the page
      * 
-     * @param int id
+     * @param int $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
+     * 
+     * @api
      */
     public function setPageId($v)
     {
@@ -75,7 +85,11 @@ class AlRepeatedSlotsAligner
     }
     
     /**
-     * Retrieves the id of the language
+     * Fetches the id of the language
+     * 
+     * @return int
+     * 
+     * @api
      */
     public function getLanguageId()
     {
@@ -83,7 +97,11 @@ class AlRepeatedSlotsAligner
     }
     
     /**
-     * Retrieves the id of the page
+     * Fetches the id of the page
+     * 
+     * @return int
+     * 
+     * @api
      */    
     public function getPageId()
     {
@@ -94,9 +112,11 @@ class AlRepeatedSlotsAligner
      * Compares the slots and updates the contents according the new status
      *
      * @param string $templateName The current template to check
-     * @param array  $savedSlots   The saved slots
+     * @param array  $templateSlots The template's slots
      *
-     * @return boolean or null when any update is made
+     * @return null|boolean null is returned when any update is made
+     * 
+     * @api
      */
     public function align($templateName, array $templateSlots)
     {
@@ -148,9 +168,13 @@ class AlRepeatedSlotsAligner
 
     /**
      * Updates the slot status for the given slots
-     *
-     * @param  array   $changedSlots The slots to update
+     * 
+     * @param array $templateSlots
+     * @param array $changedSlots
      * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\Exception
+     * 
+     * @api
      */
     protected function updateSlotStatus(array $templateSlots, array $changedSlots)
     {
@@ -185,8 +209,11 @@ class AlRepeatedSlotsAligner
 
     /**
      * Converts the slots to an array where the key is the slot name and the value is the repeated status
-     * @param  type $slots
+     * 
+     * @param array $slots
      * @return type
+     * 
+     * @api
      */
     protected function templateSlotsToArray($slots)
     {

@@ -21,6 +21,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception;
  * Thrown when the content has not the requested item
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class InvalidItemException extends \InvalidArgumentException
 {

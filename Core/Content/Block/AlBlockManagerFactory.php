@@ -40,18 +40,48 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  *
+ * @api
  */
 class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 {
+    /**
+     * The generable blockManagers
+     * 
+     * @var array $blockManagersItems
+     * 
+     * @api
+     */
     private $blockManagersItems = array();
+    
+    /**
+     * @var \Symfony\Component\Translation\TranslatorInterface 
+     * 
+     * @api
+     */
     private $translator = null;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface 
+     * 
+     * @api
+     */
     private $factoryRepository;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface 
+     * 
+     * @api
+     */
     private $eventsHandler;
-
+    
     /**
      * Constructor
-     *
-     * @param EventDispatcherInterface $dispatcher
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * 
+     * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null, TranslatorInterface $translator = null)
     {
@@ -66,7 +96,9 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      * This method is usually called by the AlBlocksCompilerPass object
      *
      * @param AlBlockManagerInterface $blockManager
-     * @param array                   $attributes
+     * @param array $attributes
+     *
+     * @api
      */
     public function addBlockManager(AlBlockManagerInterface $blockManager, array $attributes)
     {
@@ -117,6 +149,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      * factory, ordered by group
      *
      * @return array
+     *
+     * @api
      */
     public function getBlocks()
     {
@@ -139,8 +173,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     /**
      * Removes a block when it is given as parameter to look for but it is not found between
      * any of the available blocks
-     *
-     * @param AlBlock $block
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
      */
     protected function removeBlock(AlBlock $block)
     {

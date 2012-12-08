@@ -21,9 +21,11 @@ use Symfony\Component\Validator\Validator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Defines the languages form fields
+ * Defines the embedded object mapped with the languages form
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class Language
 {
@@ -37,11 +39,21 @@ class Language
      */
     protected $isMain = false;
 
+    /**
+     * fetches the language
+     * 
+     * @return string
+     */
     public function getLanguage()
     {
         return $this->language;
     }
 
+    /**
+     * Sets the language
+     * 
+     * @return string
+     */
     public function setLanguage($v)
     {
         $this->language = $v;
