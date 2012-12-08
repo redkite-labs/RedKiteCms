@@ -187,7 +187,7 @@ class AlPageTree extends BaseAlPageTree
             if (null === $this->initTheme()) {
                 return null;
             }
-
+            
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
             $this->doRefresh();
 
