@@ -93,7 +93,7 @@ class StringsExtension extends \Twig_Extension
      *
      * @param string $text
      * @param int $length
-     * @return Boolean
+     * @return boolean
      */
     protected function isValidLength($text, $length)
     {

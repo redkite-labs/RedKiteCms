@@ -23,9 +23,11 @@ use Symfony\Component\HttpFoundation\Request;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
- * Defines the BlockEditorRenderedEvent event
+ * Defines the BlockEditorRenderingEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class BlockEditorRenderingEvent extends Event
 {
@@ -34,6 +36,15 @@ class BlockEditorRenderingEvent extends Event
     private $blockManager = null;
     private $editor = null;
 
+    /**
+     * Construct
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * 
+     * @api
+     */
     public function __construct(ContainerInterface $container, Request $request, AlBlockManagerInterface $blockManager)
     {
         $this->container = $container;
@@ -41,41 +52,97 @@ class BlockEditorRenderingEvent extends Event
         $this->blockManager = $blockManager;
     }
 
+    /**
+     * Returns the handled request object
+     * 
+     * @return \Symfony\Component\HttpFoundation\Request
+     * 
+     * @api
+     */
     public function getRequest()
     {
         return $this->request;
     }
 
+    /**
+     * Sets the request
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $v
+     * 
+     * @api
+     */
     public function setRequest(Request $v)
     {
         $this->request = $v;
     }
 
+    /**
+     * Returns the handled block manager object
+     * 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface
+     * 
+     * @api
+     */
     public function getBlockManager()
     {
         return $this->blockManager;
     }
     
+    /**
+     * Sets the block manager 
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $v
+     * 
+     * @api
+     */
     public function setBlockManager(AlBlockManagerInterface $v)
     {
         $this->blockManager = $v;
     }
 
+    /**
+     * Returns the handled Container object
+     * 
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     * 
+     * @api
+     */
     public function getContainer()
     {
         return $this->container;
     }
 
+    /**
+     * Sets the Container object
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $v
+     * 
+     * @api
+     */
     public function setContainer(ContainerInterface $v)
     {
         $this->container = $v;
     }
 
+    /**
+     * Returns the handled editor object
+     * 
+     * @return string
+     * 
+     * @api
+     */
     public function getEditor()
     {
         return $this->editor;
     }
 
+    /**
+     * Sets the current rendered editor
+     * 
+     * @param string $v
+     * 
+     * @api
+     */
     public function setEditor($v)
     {
         $this->editor = $v;

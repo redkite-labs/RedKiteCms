@@ -22,23 +22,22 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\PageEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
- * AlPageManager is the object responsible to an AlPage object
+ * AlPageManager is the base object that wraps an AlPage object
  *
- * AlPageManager manages an AlPage object, implementig the base methods to add, edit and delete
- * that kind of object.
- *
+ * AlPageManager manages an AlPage object, implementig the base methods to add, edit
+ * and delete that kind of object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlPageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
@@ -50,11 +49,13 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
     /**
      * Constructor
-     *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param AlTemplateManager              $templateManager
-     * @param PageRepositoryInterface        $pageRepository
-     * @param AlParametersValidatorInterface $validator
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * 
+     * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
@@ -86,13 +87,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
         return $this;
     }
-
+    
     /**
      * Sets the template manager object
-     *
-     *
-     * @param  AlTemplateManager $templateManager
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
+     * 
+     * @api
      */
     public function setTemplateManager(AlTemplateManager $templateManager)
     {
@@ -104,8 +106,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Returns the template manager object associated with this object
      *
-     *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * 
+     * @api
      */
     public function getTemplateManager()
     {
@@ -114,10 +117,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
     /**
      * Sets the page model object
-     *
-     *
-     * @param  PageRepositoryInterface                                         $v
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
+     * 
+     * @api
      */
     public function setPageRepository(PageRepositoryInterface $v)
     {
@@ -128,9 +132,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
     /**
      * Returns the page model object associated with this object
-     *
-     *
+     * 
      * @return PageRepositoryInterface
+     * 
+     * @api
      */
     public function getPageRepository()
     {
@@ -144,13 +149,20 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     {
         if (null === $this->alPage || $this->alPage->getId() == null) {
             return $this->add($parameters);
-        } else {
-            return $this->edit($parameters);
         }
+        
+        return $this->edit($parameters);
     }
 
     /**
      * {@inheritdoc}
+     * 
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * 
+     * @api
      */
     public function delete()
     {
@@ -208,8 +220,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * Based on http://php.vrana.cz/vytvoreni-pratelskeho-url.php
      *
-     * @param  type $text
-     * @return type
+     * @param  string $text
+     * @return string
+     * 
+     * @api
      */
     public static function slugify($text)
     {
@@ -234,13 +248,18 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
         return $text;
     }
-
+    
     /**
      * Adds a new AlPage object from the given params
-     *
-     *
-     * @param  array $values
-     * @return bool
+     * 
+     * @param array $values
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\PageExistsException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
+     * 
+     * @api
      */
     protected function add(array $values)
     {
@@ -321,13 +340,15 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             throw $e;
         }
     }
-
+    
     /**
      * Edits the managed page object
-     *
-     *
-     * @param  array   $values
-     * @return Boolean
+     * 
+     * @param array $values
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
+     * 
+     * @api
      */
     protected function edit(array $values)
     {
@@ -410,8 +431,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Degrades the home page to normal page
      *
-     *
-     * @return Boolean
+     * @return boolean
      */
     protected function resetHome()
     {

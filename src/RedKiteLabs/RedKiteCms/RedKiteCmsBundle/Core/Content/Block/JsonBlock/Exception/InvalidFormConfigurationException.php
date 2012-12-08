@@ -21,6 +21,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception;
  * Thrown when the form which must be used with JsonBlock is not configured properly
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class InvalidFormConfigurationException extends \InvalidArgumentException
 {

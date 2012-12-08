@@ -21,6 +21,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
  * Identifies a block manager object type
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 interface AlBlockManagerInterface
 {

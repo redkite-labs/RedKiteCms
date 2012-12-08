@@ -21,11 +21,14 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
 
 /**
  * AlTwigTemplateWriter generates a twig template from a PageTree object
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlTwigTemplateWriter
 {
@@ -34,15 +37,18 @@ class AlTwigTemplateWriter
     protected $template;
     protected $twigTemplate;
     protected $templateSection;
+    protected $metatagsExtraSection;
     protected $metatagsSection;
     protected $assetsSection;
     protected $contentsSection;
     protected $blockManagerFactory;
+    protected $metatagsExtraContents = "";
+    protected $viewRenderer;
 
     /**
      * Constructor
      *
-     * The $replaceImagesPaths contains the backend images' path and the production images path, as follows:
+     * The replaceImagesPaths contains the backend images' path and the production images path, as follows:
      *
      *      array(
      *          backendPath => '/path/to/backend/images,
@@ -50,16 +56,19 @@ class AlTwigTemplateWriter
      *      )
      *
      * When the page is saving, the images' path is replaced
-     *
-     * @param AlPageTree            $pageTree
-     * @param AlUrlManagerInterface $urlManager
-     * @param array                 $replaceImagesPaths
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface $urlManager
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface $viewRenderer
+     * @param array $replaceImagesPaths
      */
-    public function  __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, array $replaceImagesPaths = array())
+    public function __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, AlViewRendererInterface $viewRenderer, array $replaceImagesPaths = array())
     {
         $this->pageTree = $pageTree;
         $this->blockManagerFactory = $blockManagerFactory;
         $this->urlManager = $urlManager;
+        $this->viewRenderer = $viewRenderer;
         $this->replaceImagesPaths = $replaceImagesPaths;
         $this->template = $this->pageTree->getTemplate();
         $this->generateTemplate();
@@ -69,6 +78,8 @@ class AlTwigTemplateWriter
      * Returns the generated template
      *
      * @return string
+     * 
+     * @api
      */
     public function getTwigTemplate()
     {
@@ -79,6 +90,8 @@ class AlTwigTemplateWriter
      * Returns the template extend directive
      *
      * @return string
+     * 
+     * @api
      */
     public function getTemplateSection()
     {
@@ -89,6 +102,8 @@ class AlTwigTemplateWriter
      * Returns the metatags section
      *
      * @return string
+     * 
+     * @api
      */
     public function getMetaTagsSection()
     {
@@ -99,6 +114,8 @@ class AlTwigTemplateWriter
      * Returns the assets section
      *
      * @return string
+     * 
+     * @api
      */
     public function getAssetsSection()
     {
@@ -109,6 +126,8 @@ class AlTwigTemplateWriter
      * Returns the contents section
      *
      * @return string
+     * 
+     * @api
      */
     public function getContentsSection()
     {
@@ -120,6 +139,8 @@ class AlTwigTemplateWriter
      *
      * @param  string  $dir
      * @return boolean
+     * 
+     * @api
      */
     public function writeTemplate($dir)
     {
@@ -141,8 +162,9 @@ class AlTwigTemplateWriter
         $this->generateMetaTagsSection();
         $this->generateAssetsSection();
         $this->generateContentsSection();
+        $this->generateAddictionalMetaTagsSection();
 
-        $this->twigTemplate = $this->templateSection . $this->metatagsSection . $this->assetsSection . $this->contentsSection;
+        $this->twigTemplate = $this->templateSection . $this->metatagsSection . $this->metatagsExtraSection . $this->assetsSection . $this->contentsSection;
     }
 
     /**
@@ -162,6 +184,14 @@ class AlTwigTemplateWriter
         $this->metatagsSection .= $this->writeInlineBlock('title', $this->pageTree->getMetaTitle());
         $this->metatagsSection .= $this->writeInlineBlock('description', $this->pageTree->getMetaDescription());
         $this->metatagsSection .= $this->writeInlineBlock('keywords', $this->pageTree->getMetaKeywords());
+    }
+    
+    protected function generateAddictionalMetaTagsSection()
+    {
+        if ( ! empty($this->metatagsExtraContents)) {
+            $this->metatagsExtraSection = $this->writeComment("Metatags extra section");
+            $this->metatagsExtraSection .= $this->writeBlock('metatags', $this->metatagsExtraContents);
+        }
     }
 
     /**
@@ -202,31 +232,49 @@ class AlTwigTemplateWriter
         $this->contentsSection = $this->writeComment("Contents section");
         $slots = array_keys($this->template->getSlots());
 
+        
         $languageName = $this->pageTree->getAlLanguage()->getLanguageName();
         $pageName = $this->pageTree->getAlPage()->getPageName();
         $blocks = $this->pageTree->getPageBlocks()->getBlocks();
         foreach ($blocks as $slotName => $slotBlocks) {
-            if (!in_array($slotName, $slots))
+            if ( ! in_array($slotName, $slots)) {
                 continue;
+            }
 
+            $contentMetatags = "";
             $htmlContents = array();
             foreach ($slotBlocks as $block) {
                 $content = "";
                 $blockManager = $this->blockManagerFactory->createBlockManager($block);
                 if (null !== $blockManager) {
+                    $blockManager->setPageTree($this->pageTree);
                     $content = $blockManager->getHtml();
+                    if (is_array($content)) {
+                        $content = $this->viewRenderer->render($content['RenderView']);
+                    }
+                    
                     $content = $this->rewriteImagesPathForProduction($content);
                     $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
+                    
+                    $metatags = $blockManager->getMetaTags();
+                    if (null !== $metatags) {
+                        $contentMetatags = (is_array($metatags)) ? $this->viewRenderer->render($metatags['RenderView']) : $metatags;
+                    }
                 }
 
                 $htmlContents[] = $content;
             }
-
+            
+            if ( ! empty($contentMetatags)) {
+                $this->metatagsExtraContents .= $contentMetatags;
+            }
             $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $htmlContents)));
         }
 
         $template = $this->pageTree->getTemplate();
-        if (null === $template) return;
+        if (null === $template) {
+            return;
+        }
 
         $templateSlots = $template->getTemplateSlots();
         $slots = $templateSlots->getSlots();
@@ -341,7 +389,6 @@ class AlTwigTemplateWriter
         if (null !== $output)
             $section .= " output=\"$output\"";
         $block = "  {% $section %}" . PHP_EOL;
-        $block .= "    {{ parent() }}" . PHP_EOL;
         $block .= $this->identateContent($sectionContent) . "" . PHP_EOL;
         $block .= "  {% end$sectionName %}";
 

@@ -23,34 +23,38 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
 /**
- * Creates a slot converter from a known repeated status.
- *  *
+ * Creates a slot converter from a known repeated status
+ * 
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
 {
     protected $pageContentsContainer = null;
     protected $factoryRepository = null;
-
+    
     /**
      * Constructor
-     *
-     * @param AlPageBlocksInterface        $pageContentsContainer
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @param \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface $pageContentsContainer
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @api
      */
     public function __construct(AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->pageContentsContainer = $pageContentsContainer;
         $this->factoryRepository = $factoryRepository;
     }
-
+    
     /**
-     * Create the slot converter
-     *
-     * @param  AlSlot                                                                                 $slot
-     * @param  string                                                                                 $newRepeatedStatus
+     * {@inheritdoc}
+     * 
+     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot $slot
+     * @param string $newRepeatedStatus
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
-     * @throws ClassNotFoundException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ClassNotFoundException
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus)
     {

@@ -15,15 +15,14 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer;
 
 /**
- * Thrown when the content has not the requested item
- *
- * @author alphalemon <webmaster@alphalemon.com>
+ * Defines the methods to render a set of views
  * 
- * @api
+ * @author alphalemon <webmaster@alphalemon.com>
  */
-class InvalidItemException extends \InvalidArgumentException
+interface AlViewRendererInterface
 {
+    public function render(array $views);
 }

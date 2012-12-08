@@ -22,13 +22,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
 
 /**
- * The object deputated to deploy the website from development (CMS) to production (the deploy bundle)
+ * The object deputated to deploy the website from development, AlphaLemon CMS, to production, 
+ * the deploy bundle.
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class AlDeployer implements AlDeployerInterface
 {
@@ -50,14 +52,17 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @param  AlPageTree $pageTree
      * @return boolean
+     * 
+     * @api
      */
     abstract protected function save(AlPageTree $pageTree);
 
     /**
      * Constructor
-     *
-     * @param  ContainerInterface        $container
-     * @throws InvalidParameterException
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * 
+     * @api
      */
     public function  __construct(ContainerInterface $container)
     {
@@ -80,7 +85,7 @@ abstract class AlDeployer implements AlDeployerInterface
     }
 
     /**
-     * Deploys all the website's pages
+     * {@inheritdoc}
      */
     public function deploy()
     {
@@ -97,16 +102,40 @@ abstract class AlDeployer implements AlDeployerInterface
         return $result;
     }
     
+    /**
+     * Returns the real path of the deploy bundle
+     * 
+     * @return string
+     * 
+     * @api
+     */
     public function getDeployBundleRealPath()
     {
         return $this->deployBundleAsset->getRealPath();
     }
     
+    /**
+     * Sets the pagetree collection
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection $value
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployer
+     * 
+     * @api
+     */
     public function setPageTreeCollection(AlPageTreeCollection $value)
     {
         $this->pageTreeCollection = $value;
+        
+        return $this;
     }
     
+    /**
+     * Fetches the current page tree collection
+     * 
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection
+     * 
+     * @api
+     */
     public function getPageTreeCollection()
     {
         return $this->pageTreeCollection;

@@ -21,6 +21,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
  * AlBlockManagerFactory creates a BlockManager object
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 interface AlBlockManagerFactoryInterface
 {
@@ -29,7 +31,9 @@ interface AlBlockManagerFactoryInterface
      *
      * @param mixed string | \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
      *
-     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\class
+     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;AlBlockManagerInterface
+     * 
+     * @api
      */
     public function createBlockManager($block);
 }

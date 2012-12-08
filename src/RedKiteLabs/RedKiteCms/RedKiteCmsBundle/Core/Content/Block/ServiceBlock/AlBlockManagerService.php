@@ -23,9 +23,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
  * AlBlockManagerService represent an empty BlockManager
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlBlockManagerService extends AlBlockManager
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultValue()
     {
         return null;

@@ -461,6 +461,10 @@
   height: 284px;
 }
 
+.al_editor_table td {
+  padding: 4px;
+}
+
 #al_themes {
   margin-top: 10px;
   padding: 6px;

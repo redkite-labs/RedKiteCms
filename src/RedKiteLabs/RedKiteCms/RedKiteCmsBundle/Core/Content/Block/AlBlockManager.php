@@ -26,11 +26,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 
 /**
- * AlBlockManager is the object responsible to manage an AlBlock object.
- *
+ * AlBlockManager is the base object that wraps an AlBlock object and implements an 
+ * AlphaLemonCMS Block object
+ * 
  *
  * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete
  * that kind of object and provides several methods to change the behavior of the block itself,
@@ -43,18 +44,37 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInt
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
+    
     const EDITOR_WIDTH = 800;
 
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $alBlock
+     */
     protected $alBlock = null;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     */
     protected $factoryRepository = null;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
+     */
     protected $blockRepository = null;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
+     */
+    protected $pageTree = null;
 
     /**
      * Constructor
-     *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param AlFactoryRepositoryInterface   $factoryRepository
-     * @param AlParametersValidatorInterface $validator
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * 
+     * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
@@ -101,12 +121,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         return $this;
     }
-
+    
     /**
      * Sets the factory repository
-     *
-     * @param  AlFactoryRepositoryInterface                                      $v
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
+     * 
+     * @api
      */
     public function setFactoryRepository(AlFactoryRepositoryInterface $v)
     {
@@ -118,7 +140,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the factory repository object associated with this object
      *
-     * @return BlockRepositoryInterface
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * 
+     * @api
      */
     public function getFactoryRepository()
     {
@@ -128,22 +152,34 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the block repository object associated with this object
      *
-     * @return BlockRepositoryInterface
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
+     * 
+     * @api
      */
     public function getBlockRepository()
     {
         return $this->blockRepository;
     }
+    
+    /**
+     * Sets the current page tree
+     *  
+     * @param type $v
+     */
+    public function setPageTree(AlPageTree $v)
+    {
+        $this->pageTree = $v;
+    }
 
     /**
      * Defines when a content is rendered or not in edit mode.
      *
-     *
      * By default the content is rendered when the edit mode is active. To hide the content, simply override
      * this method and return true
      *
-     *
-     * @return Boolean
+     * @return boolean
+     * 
+     * @api
      */
     public function getHideInEditMode()
     {
@@ -151,12 +187,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Displays a message inside the editor to suggest a page relead
+     * Displays a message inside the default editor to suggest a page relead
      *
      * Return true to display a warnig on editor that suggest the used to reload the page when the block is added or edited
      *
-     *
-     * @return Boolean
+     * @return boolean
+     * 
+     * @api
      */
     public function getReloadSuggested()
     {
@@ -169,8 +206,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Return false to avoid AlphaLemon add the internal javascript code to html when the content is displayed on the
      * web page
      *
-     *
-     * @return Boolean
+     * @return boolean
+     * 
+     * @api
      */
     public function getExecuteInternalJavascript()
     {
@@ -179,12 +217,27 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
     /**
      * Returns the block's html content
+     * 
+     * This method must be overriden to display an elaborated version of the content
+     * saved for the current Block
      *
-     * @return string
+     * @return string|array
+     * 
+     * @api
      */
     public function getHtml()
     {
         return (null !== $this->alBlock) ? $this->alBlock->getContent() : "";
+    }
+    
+    /**
+     * Returns a string that contains the metatags required by the block
+     * 
+     * @return null|string
+     */
+    public function getMetaTags()
+    {
+        return null;
     }
 
     /**
@@ -207,8 +260,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * The editor that manages the content gets the content saved into the database.
      * Override this method to change the content to display
      *
-     *
      * @return string
+     * 
+     * @api
      */
     public function getContentForEditor()
     {
@@ -216,10 +270,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Returns the current saved ExternalJavascript value
-     *
+     * Returns the current saved ExternalJavascript value as array
      *
      * @return array
+     * 
+     * @api
      */
     public function getExternalJavascript()
     {
@@ -231,10 +286,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Returns the current saved ExternalStylesheet value
-     *
+     * Returns the current saved ExternalStylesheet value as array
      *
      * @return array
+     * 
+     * @api
      */
     public function getExternalStylesheet()
     {
@@ -251,9 +307,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * By default the values is encapsulated into a try/catch block to avoid breaking the execution.
      * To get only the internal javascript, call the method with the safe argument as false
      *
-     *
      * @param boolean
      * @return string
+     * 
+     * @api
      */
     public function getInternalJavascript($safe = true)
     {
@@ -280,8 +337,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the current saved InternalStylesheet
      *
-     *
      * @return string
+     * 
+     * @api
      */
     public function getInternalStylesheet()
     {
@@ -295,13 +353,19 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         if (null === $this->alBlock || $this->alBlock->getId() == null) {
             return $this->add($parameters);
-        } else {
-            return $this->edit($parameters);
-        }
+        } 
+        
+        return $this->edit($parameters);
     }
-
+    
     /**
      * {@inheritdoc}
+     * 
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * 
+     * @api
      */
     public function delete()
     {
@@ -346,8 +410,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Converts the AlBlockManager object into an array
      *
-     *
+     * Adds some internal options to describe how to properly render the block
+     * 
      * @return array
+     * 
+     * @api
      */
     public function toArray()
     {
@@ -379,6 +446,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Returns the width of the editor that manages the block
      *
      * @return int
+     * 
+     * @api
      */
     protected function getEditorWidth()
     {
@@ -390,6 +459,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * to display when the Cms is active
      *
      * @return null
+     * 
+     * @api
      */
     protected function replaceHtmlCmsActive()
     {
@@ -406,12 +477,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
     /**
      * Adds a new block to the AlBlock table
-     *
-     *
-     * @param  array                     $values An array where keys are the AlBlockField definition and values are the values to add
-     * @throws \InvalidArgumentException When the expected parameters are invalid
-     * @throws \RuntimeException         When the action is aborted by a calling event
-     * @return Boolean
+     * 
+     * @param array $values An array where keys are the AlBlockField definition and values are the values to add
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * 
+     * @api
      */
     protected function add(array $values)
     {
@@ -474,12 +546,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
     /**
      * Edits the current block object
-     *
-     *
-     * @param  array                     $values An array where keys are the AlBlockField definition and values are the values to edit
-     * @throws \InvalidArgumentException When the expected parameters are invalid
-     * @throws \RuntimeException         When the action is aborted by a calling event
-     * @return Boolean
+     * 
+     * @param array $values An array where keys are the AlBlockField definition and values are the values to edit
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * 
+     * @api
      */
     protected function edit(array $values)
     {

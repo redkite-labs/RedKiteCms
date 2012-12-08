@@ -19,7 +19,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
@@ -27,17 +26,21 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
  * Implements the base object that defines a template
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class AlTemplateBase extends AlContentManagerBase
 {
     protected $blockManagerFactory;
-
+    
     /**
      * Contructor
-     *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
-     * @param AlParametersValidatorInterface $validator
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * 
+     * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlBlockManagerFactoryInterface $blockManagerFactory, AlParametersValidatorInterface $validator = null)
     {
@@ -45,12 +48,14 @@ abstract class AlTemplateBase extends AlContentManagerBase
 
         $this->blockManagerFactory = $blockManagerFactory; //(null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
     }
-
+    
     /**
      * Sets the blockManager factory object
-     *
-     * @param  AlBlockManagerFactoryInterface                                       $blockManagerFactory
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase (for fluent API)
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase
+     * 
+     * @api
      */
     public function setBlockManagerFactory(AlBlockManagerFactoryInterface $blockManagerFactory)
     {
@@ -63,6 +68,8 @@ abstract class AlTemplateBase extends AlContentManagerBase
      * Returns the blockManager factory object
      *
      * @return AlBlockManagerFactoryInterface
+     * 
+     * @api
      */
     public function getBlockManagerFactory()
     {
