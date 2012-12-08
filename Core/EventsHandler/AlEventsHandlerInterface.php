@@ -18,17 +18,22 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler;
 
 /**
- * 
+ * Defines the interface to implement a EventDispatcher wrapper to handle and dispatch several 
+ * events
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 interface AlEventsHandlerInterface
 {
     /**
-     * Returns the required event
+     * Returns the event by its name
      * 
      * @param string $eventName
      * @return \Symfony\Component\EventDispatcher\Event
+     * 
+     * @api
      */
     public function getEvent($eventName);
 
@@ -38,8 +43,10 @@ interface AlEventsHandlerInterface
      * @param string $eventName
      * @param string $class
      * @param array $args
-     * @param Boolean $overrideIfExists
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler 
+     * @param boolean $overrideIfExists
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler
+     * 
+     * @api
      */
     public function createEvent($eventName, $class, array $args);
 
@@ -48,7 +55,8 @@ interface AlEventsHandlerInterface
      * 
      * @param string $eventName
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler
-     * @throws type 
+     * 
+     * @api
      */
     public function dispatch($eventName = null);
 }

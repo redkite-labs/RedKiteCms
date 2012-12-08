@@ -23,6 +23,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseActionEvent;
  * Defines the AfterBlockDeletedEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AfterBlockDeletedEvent extends BaseActionEvent
 {

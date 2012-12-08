@@ -21,6 +21,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
  * AlParametersValidator
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 interface AlParametersValidatorInterface
 {
@@ -29,6 +31,8 @@ interface AlParametersValidatorInterface
      *
      * @param array  $values
      * @param string $message Overrides the default exception message
+     * 
+     * @api
      */
     public function checkEmptyParams(array $values, $message = null);
 
@@ -38,7 +42,9 @@ interface AlParametersValidatorInterface
      *
      * @param array $requiredParams
      * @param array $values
-     * @param type  $message        Overrides the default exception message
+     * @param string  $message Overrides the default exception message
+     * 
+     * @api
      */
     public function checkOnceValidParamExists(array $requiredParams, array $values, $message = null);
 
@@ -48,7 +54,9 @@ interface AlParametersValidatorInterface
      *
      * @param array $requiredParams
      * @param array $values
-     * @param type  $message        Overrides the default exception message
+     * @param string  $message Overrides the default exception message
+     * 
+     * @api
      */
     public function checkRequiredParamsExists(array $requiredParams, array $values, $message = null);
 }

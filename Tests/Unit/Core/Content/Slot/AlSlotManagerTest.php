@@ -71,7 +71,7 @@ class AlSlotManagerTest extends AlContentManagerBase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage setForceSlotAttributes accepts only boolean values
      */
-    public function testSetForceSlotAttributesWantsABooleanAsArgument()
+    public function testSetForceSlotAttributesWantsAbooleanAsArgument()
     {
         $this->slotManager->setForceSlotAttributes('fake');
     }
@@ -80,7 +80,7 @@ class AlSlotManagerTest extends AlContentManagerBase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage setSkipSiteLevelBlocks accepts only boolean values
      */
-    public function testSetSkipSiteLevelBlocksWantsABooleanAsArgument()
+    public function testSetSkipSiteLevelBlocksWantsAbooleanAsArgument()
     {
         $this->slotManager->setSkipSiteLevelBlocks('fake');
     }

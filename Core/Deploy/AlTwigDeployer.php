@@ -26,6 +26,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplate
  * AlTwigDeployer extends the base deployer class to save the PageTree as a twig template
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlTwigDeployer extends AlDeployer
 {
@@ -34,8 +36,10 @@ class AlTwigDeployer extends AlDeployer
 
     /**
      * Constructor
-     *
-     * @param ContainerInterface $container
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * 
+     * @api
      */
     public function  __construct(ContainerInterface $container)
     {
@@ -61,11 +65,13 @@ class AlTwigDeployer extends AlDeployer
      */
     protected function save(AlPageTree $pageTree)
     {
+        $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
         $imagesPath = array(
             'backendPath' => $this->uploadAssetsAbsolutePath,
             'prodPath' => $this->deployBundleAsset->getAbsolutePath()
         );
-        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->blockManagerFactory, $this->urlManager, $imagesPath);
+        
+        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->blockManagerFactory, $this->urlManager, $viewsRenderer, $imagesPath);
 
         return $twigTemplateWriter->writeTemplate($this->viewsDir);
     }

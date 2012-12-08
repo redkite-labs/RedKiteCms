@@ -30,8 +30,6 @@ interface AlSlotsConverterFactoryInterface
 {
     /**
      * Creates the appropriate conver using the given parameter
-     *
-     * @param string $newRepeatedStatus The new repeated status the slot must get
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus);
 }

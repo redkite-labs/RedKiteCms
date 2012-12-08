@@ -249,6 +249,7 @@ class SlotRendererExtensionTest extends TestCase
             ->method('getBlockManagers')
             ->will($this->returnValue($blockManagers));
         
+        /**/
         $expected = array(
             "block_id" => 10,
             "hide_in_edit_mode" => "",
@@ -260,13 +261,25 @@ class SlotRendererExtensionTest extends TestCase
             "internal_javascript" => "",
         );
         $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $templating->expects($this->at(0))
-                        ->method('render')
-                        ->with("AlphaLemonWebSite:Template:my_template.twig.html", array("foo" => "bar"));
+        $templating->expects($this->once())
+                   ->method('render')
+                   ->with("AlphaLemonCmsBundle:Slot:editable_block.html.twig", $expected);
         
-        $templating->expects($this->at(1))
+        
+        $viewRenderer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer')
+                             ->disableOriginalConstructor()
+                             ->getMock();
+        
+        $viewRendererExpected = array(
+            "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
+            "options" => array(
+                "foo" => "bar"
+            ),
+        );
+        
+        $viewRenderer->expects($this->once())
                         ->method('render')
-                        ->with('AlphaLemonCmsBundle:Slot:editable_block.html.twig', $expected);
+                        ->with($viewRendererExpected);
 
         $this->container->expects($this->at(0))
                         ->method('get')
@@ -277,6 +290,11 @@ class SlotRendererExtensionTest extends TestCase
                         ->method('get')
                         ->with('templating')
                         ->will($this->returnValue($templating));
+        
+        $this->container->expects($this->at(2))
+                        ->method('get')
+                        ->with('alpha_lemon_cms.view_renderer')
+                        ->will($this->returnValue($viewRenderer));
         
         $this->slotRenderer->renderSlot('logo');
     }
@@ -382,14 +400,25 @@ class SlotRendererExtensionTest extends TestCase
         );
 
         $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $templating->expects($this->once())
+        $templating->expects($this->never())
+                        ->method('render');
+        
+        $viewRenderer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer')
+                             ->disableOriginalConstructor()
+                             ->getMock();
+        $viewRenderer->expects($this->once())
                         ->method('render')
                         ->will($this->throwException(new \RuntimeException()));
 
-        $this->container->expects($this->once())
+        $this->container->expects($this->at(0))
                         ->method('get')
                         ->with('templating')
                         ->will($this->returnValue($templating));
+        
+        $this->container->expects($this->at(1))
+                        ->method('get')
+                        ->with('alpha_lemon_cms.view_renderer')
+                        ->will($this->returnValue($viewRenderer));
 
         $this->slotRenderer->renderBlock($value);
     }

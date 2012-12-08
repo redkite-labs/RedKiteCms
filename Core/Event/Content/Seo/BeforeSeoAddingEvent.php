@@ -23,6 +23,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent
  * Defines the BeforeSeoAddingEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class BeforeSeoAddingEvent extends BaseBeforeActionEvent
 {

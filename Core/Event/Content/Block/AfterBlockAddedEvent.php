@@ -23,6 +23,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseActionEvent;
  * Defines the AfterBlockAddedEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AfterBlockAddedEvent extends BaseActionEvent
 {

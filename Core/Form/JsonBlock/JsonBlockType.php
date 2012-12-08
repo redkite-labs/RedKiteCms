@@ -20,13 +20,25 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * JsonBlockType is the abstract Type that should be used to implement an App-Block which
+ * has a form interface and saves its content as json
+ */
 abstract class JsonBlockType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     * 
+     * Adds the id hidden required field
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', 'hidden');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultOptions(array $options)
     {
         return array(
@@ -34,6 +46,9 @@ abstract class JsonBlockType extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'al_json_block';

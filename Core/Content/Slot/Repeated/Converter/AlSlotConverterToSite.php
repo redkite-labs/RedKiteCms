@@ -26,10 +26,12 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
 class AlSlotConverterToSite extends AlSlotConverterBase
 {
     /**
-     * {inheritdoc}
-     *
-     * @return null|boolean
-     * @throws Exception
+     * {@inheritdoc}
+     * 
+     * @return type
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
+     * 
+     * @api
      */
     public function convert()
     {
