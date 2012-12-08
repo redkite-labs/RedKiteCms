@@ -157,6 +157,14 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
                 ->will($this->returnValue($activeTheme));
         }
         
+        for($i = 18; $i < 22; $i++) {
+            $viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('alpha_lemon_cms.view_renderer')
+                ->will($this->returnValue($viewRenderer));
+        }
+        
         $this->template->expects($this->exactly(4))
             ->method('getTemplateSlots')
             ->will($this->returnValue($this->templateSlots));

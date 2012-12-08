@@ -15,22 +15,14 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
-
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer;
 
 /**
- * Defines the mehods to deploy a website
- *
- * @author alphalemon <webmaster@alphalemon.com>
+ * Defines the methods to render a set of views
  * 
- * @api
+ * @author alphalemon <webmaster@alphalemon.com>
  */
-interface AlDeployerInterface
+interface AlViewRendererInterface
 {
-    /**
-     * Deploys all the website's pages
-     * 
-     * @api
-     */
-    public function deploy();
+    public function render(array $views);
 }
