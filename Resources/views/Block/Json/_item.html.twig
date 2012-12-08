@@ -20,7 +20,7 @@
 <div>
     {% block form %}
     <form id="{{ form_name }}" action="#" method="post" {{ form_enctype(form) }}>
-        <table>
+        <table class="al_editor_table">
             {% include "AlphaLemonCmsBundle:Block:Json/_form_renderer.html.twig" %}
         </table>
     </form>
