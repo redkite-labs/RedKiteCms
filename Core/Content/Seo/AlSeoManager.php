@@ -22,33 +22,48 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\SeoEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 
 /**
- * AlSeoManager is the object responsible to manage an AlSeo object.
+ * AlSeoManager is the base object that wraps an AlSeo object
+ *
+ * AlSeoManager manages an AlSeo object, implementig the base methods to add, edit
+ * and delete that kind of object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlSeoManager extends AlContentManagerBase implements AlContentManagerInterface
 {
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo 
+     */
     protected $alSeo = null;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface 
+     */
     protected $factoryRepository = null;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface 
+     */
     protected $seoRepository = null;
 
     /**
      * Constructor
-     *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param SeoRepositoryInterface         $alSeoRepository
-     * @param AlParametersValidatorInterface $validator
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * 
+     * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
     {
@@ -57,12 +72,14 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         $this->factoryRepository = $factoryRepository;
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
     }
-
+    
     /**
      * Sets the seo model object
-     *
-     * @param  SeoRepositoryInterface                                        $v
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager
+     * 
+     * @api
      */
     public function setSeoRepository(SeoRepositoryInterface $v)
     {
@@ -74,8 +91,9 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Returns the seo model object associated with this object
      *
-     *
      * @return SeoRepositoryInterface
+     * 
+     * @api
      */
     public function getSeoRepository()
     {
@@ -111,13 +129,19 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     {
         if (null === $this->alSeo || $this->alSeo->getId() == null) {
             return $this->add($values);
-        } else {
-            return $this->edit($values);
         }
+        
+        return $this->edit($values);
     }
 
     /**
      * {@inheritdoc}
+     * 
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * 
+     * @api
      */
     public function delete()
     {
@@ -168,9 +192,12 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
     /**
      * Deletes the seo attribute identified by the given language and page
+     * 
      * @param  int     $languageId
      * @param  int     $pageId
-     * @return Boolean
+     * @return boolean
+     * 
+     * @api
      */
     public function deleteSeoAttributesFromLanguage($languageId, $pageId)
     {
@@ -184,12 +211,16 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
         return $result;
     }
-
+    
     /**
      * Adds a new AlSeo object from the given params
-     *
-     * @param  array   $values
-     * @return Boolean
+     * 
+     * @param array $values
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * 
+     * @api
      */
     protected function add(array $values)
     {
@@ -259,12 +290,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             throw $e;
         }
     }
-
+    
     /**
      * Edits the managed page attributes object
-     *
-     * @param  array   $values
-     * @return Boolean
+     * 
+     * @param array $values
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * 
+     * @api
      */
     protected function edit(array $values = array())
     {
