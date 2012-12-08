@@ -17,38 +17,53 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\LanguageEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
- * Defines the language content manager object, that implements the methods to manage an AlLanguage object
+ * AlLanguageManager is the base object that wraps an AlLanguage object
+ * 
+ * AlLanguageManager manages an AlPage object, implementig the base methods to add, edit
+ * and delete that kind of object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage 
+     */
     protected $alLanguage = null;
+    
+    /**
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface 
+     */
     protected $factoryRepository = null;
+    
+    /**
+     * @var AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface 
+     */
     protected $languageRepository = null;
 
     /**
      * Constructor
-     *
-     * @param AlEventsHandlerInterface             $eventsHandler
-     * @param AlFactoryRepositoryInterface         $factoryRepository
-     * @param AlParametersValidatorLanguageManager $validator
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager $validator
+     * 
+     * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorLanguageManager $validator = null)
     {
@@ -60,6 +75,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
     /**
      * {@inheritdoc}
+     * 
+     * @api
      */
     public function get()
     {
@@ -68,6 +85,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
     /**
      * {@inheritdoc}
+     * 
+     * @api
      */
     public function set($object = null)
     {
@@ -84,8 +103,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Sets the language model object
      *
      *
-     * @param  LanguageRepositoryInterface                                             $v
+     * @param  LanguageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager
+     * 
+     * @api
      */
     public function setLanguageRepository(LanguageRepositoryInterface $v)
     {
@@ -98,6 +119,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Returns the block model object associated with this object
      *
      * @return LanguageRepositoryInterface
+     * 
+     * @api
      */
     public function getLanguageRepository()
     {
@@ -111,13 +134,20 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         if (null === $this->alLanguage || $this->alLanguage->getId() == null) {
             return $this->add($parameters);
-        } else {
-            return $this->edit($parameters);
         }
+        
+        return $this->edit($parameters);
     }
 
     /**
      * {@inheritdoc}
+     * 
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\RemoveMainLanguageException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * 
+     * @api
      */
     public function delete()
     {
@@ -170,15 +200,17 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             throw $e;
         }
     }
-
+    
     /**
      * Adds a new AlLanguage object from the given params
-     *
-     * @param  array                   $values
-     * @return boolean
-     * @throws Exception
-     * @throws \RuntimeException
+     * 
+     * @param array $values
+     * @return type
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      * @throws LanguageExistsException
+     * @throws General\ParameterIsEmptyException
+     * 
+     * @api
      */
     protected function add(array $values)
     {
@@ -250,11 +282,12 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
     /**
      * Edits the managed language object
-     *
-     * @param  array             $values
-     * @return boolean
-     * @throws Exception
-     * @throws \RuntimeException
+     * 
+     * @param array $values
+     * @return type
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * 
+     * @api
      */
     protected function edit(array $values)
     {
@@ -326,10 +359,12 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     }
 
     /**
-     * Degrades the main language to normal
-     *
+     * Degrades the main language to normal language
+     * 
      * @return boolean
-     * @throws Exception
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * 
+     * @api
      */
     protected function resetMain()
     {
