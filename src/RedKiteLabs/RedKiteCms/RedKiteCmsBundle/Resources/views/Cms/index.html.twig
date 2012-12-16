@@ -79,11 +79,13 @@
                                                 'bundles/alphalemoncms/vendor/medialize/css/*'
                                                 'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
                                                 'bundles/alphalemoncms/vendor/vendor-adapter.css'
-                                                'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
+                                                'bundles/alphalemoncms/css/skins/alphaLemon/skin.css'
+                                                'bundles/alphalemoncms/vendor/bootstrap/css/bootstrap.min.css' %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
 {% else %}
-    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
+    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/vendor/bootstrap/css/bootstrap.min.css'
+                                       'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
                                        'bundles/alphalemoncms/vendor/medialize/css/*'
                                        'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
                                        'bundles/alphalemoncms/vendor/vendor-adapter.css'
@@ -120,6 +122,7 @@
     {% endjavascripts %}
     {% endif %}
 
+    <script src="/bundles/alphalemoncms/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/js/tiny_mce/tiny_mce.js"></script>
     {% for value in templateJavascripts %}
     <script src="{{ asset(value) }}"></script>
@@ -128,9 +131,9 @@
 
 {% block body %}
 {#
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
-        <a class="brand" href="#"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /> AlphaLemon CMS</a>
+        <a class="brand" href="#"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></a>
         <ul class="nav">
             <li><a href="#" id="al_start_editor">Edit</a></li>
             <li><a href="#" id="al_stop_editor">Stop</a></li>
@@ -170,20 +173,36 @@
         <table>
             <tr>
                 <td>
-                    <ul>
+                    <ul class="toolbar-nav" >
                         <li><a href="#" id="al_start_editor">Edit</a></li>
                         <li><a href="#" id="al_stop_editor">Stop</a></li>
                         <li><a href="#" id="al_open_pages_panel">Pages</a></li>
                         <li><a href="#" id="al_open_languages_panel">Languages</a></li>
                         <li><a href="#" id="al_open_themes_panel">Themes</a></li>
                         <li><a href="#" id="al_open_media_library">Media Library</a></li>
-                        <li><a href="#" id="al_deploy_site">Deploy</a></li>
-                        {% if is_secure %}
-                            <li><a href="#" id="al_open_users_manager">Users</a></li>
-                            <li><a href="#" id="al_logout">Logout</a></li>
-                        {% endif %}
                     </ul>
-                </td>
+                </td>   
+                <td>
+                    <ul class="nav"> 
+                        <li class="dropdown toolbar-nav-item">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Deploy<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="al_deployer" rel="local">Production</a></li>
+                                <li><a href="#" class="al_deployer" rel="stage">Stage</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>            
+                {% if is_secure %}
+                <td>
+                    <ul class="toolbar-nav" >
+                        <li><a href="#" id="al_open_users_manager">Users</a></li>
+                        <li><a href="#" id="al_logout">Logout</a></li>
+                    </ul>
+                </td>  
+                {% endif %} 
             </tr>
         </table>
     </div>
