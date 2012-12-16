@@ -50,15 +50,6 @@ class CmsBootstrapListenerTest extends TestCase
                             ->getMock();
     }
 
-    public function testConfigurationIsSkippedWhenTheEnvironmentIsNotAlCms()
-    {
-        $this->initContainer();
-
-        $this->setUpEnvironment('dev');
-        $testListener = new CmsBootstrapListener($this->container);
-        $this->assertNull($testListener->onKernelRequest($this->event));
-    }
-
     public function testCmsHasBeenBootstrapped()
     {
         $this->initContainer();
@@ -113,7 +104,6 @@ class CmsBootstrapListenerTest extends TestCase
             ->with('alpha_lemon_cms.repeated_slots_aligner')
             ->will($this->returnValue($this->aligner));
 
-        $this->setUpEnvironment('alcms');
         $this->setupFolders();
 
         $this->kernel->expects($this->once())
@@ -181,13 +171,6 @@ class CmsBootstrapListenerTest extends TestCase
         $this->root = vfsStream::setup('root');
         vfsStream::newDirectory('frontend-assets', $permissions)->at($this->root);
         vfsStream::newDirectory('cms-assets')->at($this->root);
-    }
-
-    private function setUpEnvironment($environment)
-    {
-        $this->kernel->expects($this->once())
-            ->method('getEnvironment')
-            ->will($this->returnValue($environment));
     }
 
     private function initContainer()
