@@ -41,16 +41,16 @@ class FrontendControllerTest extends TestCase
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->exactly(3))
-            ->method('getParameter')
-            ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'ThemeEngineBundle:Fake:template.html.twig', 'AlphaLemon'));
-
         $this->controller = new FrontendControllerTester();
         $this->controller->setContainer($this->container);
     }
 
-    public function testCustomErrorPageIsReturnedWhenAnExceptionIsThrownRenderingTheRequestedTemplate()
+    /**
+     * @dataProvider templateFoldersProvider
+     */
+    public function testCustomErrorPageIsReturnedWhenAnExceptionIsThrownRenderingTheRequestedTemplate($folder)
     {
+        $this->setUpContainer($folder);
         $this->setUpRequest();
 
         $this->templating->expects($this->at(0))
@@ -63,8 +63,8 @@ class FrontendControllerTest extends TestCase
 
         $this->dispatcher->expects($this->never())
             ->method('dispatch');
-
-        $this->container->expects($this->at(0))
+        
+        $this->container->expects($this->at(1))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($this->request));
@@ -82,9 +82,13 @@ class FrontendControllerTest extends TestCase
         $this->controller->showAction();
     }
 
-    public function testCustomErrorPageIsReturnedWhenAnExceptionIsThrownRenderingAListener()
-    {
-        $this->setUpRequest();
+    /**
+     * @dataProvider templateFoldersProvider
+     */
+    public function testCustomErrorPageIsReturnedWhenAnExceptionIsThrownRenderingAListener($folder)
+    {      
+        $this->setUpContainer($folder);
+        $this->setUpRequest();  
 
         $this->templating->expects($this->exactly(2))
             ->method('renderResponse')
@@ -94,7 +98,7 @@ class FrontendControllerTest extends TestCase
             ->method('dispatch')
             ->will($this->throwException(new \RuntimeException));
         
-        $this->container->expects($this->at(0))
+        $this->container->expects($this->at(1))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($this->request));
@@ -117,8 +121,12 @@ class FrontendControllerTest extends TestCase
         $this->controller->showAction();
     }
 
-    public function testAnExceptionIsThrownWhenRenderSlotContentsMethodDoesNotReturnAnArray()
+    /**
+     * @dataProvider templateFoldersProvider
+     */
+    public function testWebsitePageHasBeenRendered($folder)
     {
+        $this->setUpContainer($folder);
         $this->setUpRequest(2);
 
         $this->templating->expects($this->once())
@@ -133,6 +141,32 @@ class FrontendControllerTest extends TestCase
             ->will($this->onConsecutiveCalls($this->request, $this->templating, $this->dispatcher));
 
         $this->controller->showAction();
+    }
+    
+    public function templateFoldersProvider()
+    {
+        return array(
+            array('AlphaLemon'),
+            array('AlphaLemonStage'),
+        );
+    }
+    
+    private function setUpContainer($templatesFolder)
+    {
+        $this->container->expects($this->at(0))
+            ->method('getParameter')
+            ->with('alpha_lemon_theme_engine.deploy.templates_folder')
+            ->will($this->returnValue($templatesFolder));
+        
+        $this->container->expects($this->at(2))
+            ->method('getParameter')
+            ->with('alpha_lemon_theme_engine.deploy_bundle')
+            ->will($this->returnValue('AcmeWebsiteBundle'));
+        
+        $this->container->expects($this->at(3))
+            ->method('getParameter')
+            ->with('alpha_lemon_theme_engine.base_template')
+            ->will($this->returnValue('ThemeEngineBundle:Fake:template.html.twig'));
     }
 
     private function setUpRequest($times = 1)
