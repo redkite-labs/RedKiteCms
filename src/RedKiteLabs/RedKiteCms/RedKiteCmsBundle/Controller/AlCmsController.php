@@ -60,7 +60,7 @@ class AlCmsController extends BaseFrontendController
             'page' => 0,
             'language' => 0,
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
-            'frontController' => $this->getFrontcontroller(),
+            'frontController' => $this->getFrontcontroller($request),
         );
 
         if (null !== $pageTree) {
@@ -159,8 +159,12 @@ class AlCmsController extends BaseFrontendController
         return $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alpha_lemon_cms.skin');
     }
     
-    protected function getFrontcontroller()
+    protected function getFrontcontroller(Request $request = null)
     {
-        return sprintf('/%s.php/', $this->kernel->getEnvironment());
+        if (null === $request) {
+            $request = $this->container->get('request');
+        }
+        
+        return $request->getBaseUrl() . '/';
     }
 }
