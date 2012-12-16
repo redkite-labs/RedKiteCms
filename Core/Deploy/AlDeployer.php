@@ -56,6 +56,20 @@ abstract class AlDeployer implements AlDeployerInterface
      * @api
      */
     abstract protected function save(AlPageTree $pageTree);
+    
+    /**
+     * Returns the folder where the template files must be written
+     * 
+     * @return string
+     */
+    abstract protected function getTemplatesFolder();
+    
+    /**
+     * Returns a prefix for routes
+     * 
+     * @return string
+     */
+    abstract protected function getRoutesPrefix();
 
     /**
      * Constructor
@@ -80,7 +94,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path');
         
         $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
-        $this->deployFolder = $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');
+        $this->deployFolder = $this->getTemplatesFolder();
         $this->fileSystem = new Filesystem();
     }
 
@@ -197,11 +211,20 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     protected function generateRoutes()
     {
+        $prefix = $this->getRoutesPrefix();
+        
+        $controllerPrefix =  'show';
+        $environmentPrefix =  '';
+        if ( ! empty($prefix)) {
+            $controllerPrefix =  $prefix;
+            $environmentPrefix =  '_' . $prefix;
+        }
+        
         // Defines the  schema pattern
         $schema = "# Route << %1\$s >> generated for language << %2\$s >> and page << %3\$s >>\n";
-        $schema .= "_%4\$s:\n";
+        $schema .= "%6\$s_%4\$s:\n";
         $schema .= "  pattern: /%1\$s\n";
-        $schema .= "  defaults: { _controller: $this->deployBundle:$this->deployController:show, _locale: %2\$s, page: %3\$s }";
+        $schema .= "  defaults: { _controller: $this->deployBundle:$this->deployController:%5\$s, _locale: %2\$s, page: %3\$s }";
 
         $homePage = "";
         $mainLanguage = "";
@@ -226,11 +249,12 @@ abstract class AlDeployer implements AlDeployerInterface
 
             // Generate only a route for the home page
             $permalink = ($homePage != $pageName || $mainLanguage != $language) ? $seoAttribute->getPermalink() : "";
-            $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName));
+            $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName), $controllerPrefix, $environmentPrefix);
+                
         }
         // Defines the main route
-        $routes[] = \sprintf($schema, '', $mainLanguage, $homePage, 'home');
+        $routes[] = \sprintf($schema, '', $mainLanguage, $homePage, 'home', $controllerPrefix, $prefix);
 
-        return @file_put_contents($this->configDir . '/site_routing.yml', implode("\n\n", $routes));
+        return @file_put_contents(sprintf('%s/site_routing%s.yml', $this->configDir, $environmentPrefix), implode("\n\n", $routes));
     }
 }
