@@ -32,7 +32,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
 /**
  * AlLanguageManager is the base object that wraps an AlLanguage object
  * 
- * AlLanguageManager manages an AlPage object, implementig the base methods to add, edit
+ * AlLanguageManager manages an AlLanguage object, implementig the base methods to add, edit
  * and delete that kind of object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
