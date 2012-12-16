@@ -20,15 +20,49 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
 
 /**
- * Manipulates the block's editor response when the editor has been rendered
+ * Provides a base class to render a Json block manager editor
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class BaseRenderingEditorListener
 {
+    /**
+     * Configure the options required by the event
+     * 
+     * Valid options are:
+     *      blockClass    [Mandatory] : The class that identifies the Block Manager
+     *      formClass     [Mandatory] : The class that represents the form to render
+     *      embeddedClass [Optional]  : The embedded class to handle the form's data
+     * 
+     * @return array
+     * 
+     * @api
+     */
     abstract protected function configure();
+    
+    /**
+     * Renders the editor and adds it to the response replacing the curret response's content
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
+     * @param array $params
+     * @throws \InvalidArgumentException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\Exception
+     * 
+     * @api
+     */
     abstract protected function renderEditor(BlockEditorRenderingEvent $event, array $params);
 
+    /**
+     * Renders the editor
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\Exception
+     * @throws \InvalidArgumentException
+     * 
+     * @api
+     */
     public function onBlockEditorRendering(BlockEditorRenderingEvent $event)
     {
         try {

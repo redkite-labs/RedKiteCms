@@ -24,9 +24,13 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
 /**
- * 
+ * Checks that the requested resource is not used by any other user. When it is not free,
+ * it stops the request propagation and returns a response warning the user that the
+ * resouce is locked, when it is available, it locks the resource for the current user.
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class ResourceFreeListener
 {
@@ -36,8 +40,10 @@ class ResourceFreeListener
     /**
      * Contructor
      * 
-     * @param SecurityContext $securityContext
-     * @param AlResourcesLocker $resourcesLocker 
+     * @param \Symfony\Component\Security\Core\SecurityContext $securityContext
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
+     * 
+     * @api
      */
     public function __construct(SecurityContext $securityContext, AlResourcesLocker $resourcesLocker)
     {
@@ -49,16 +55,24 @@ class ResourceFreeListener
      * Listen to onKernelRequest event to lock a resource
      *
      * @param GetResponseEvent $event
+     * 
+     * @api
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
+        // checks if the backend is secured
         $token = $this->securityContext->getToken();
         if (null !== $token) {
+            
+            // Check if the user has already been logged in
             $user = $token->getUser();
             if (null !== $user) {
                 $errorMessage = '';
                 $userId = $user->getId();
-                try {
+                
+                // Frees the expired locked resources and the resource previously locked 
+                // by the user
+                try {                    
                     $this->resourcesLocker->unlockExpiredResources();
                     $this->resourcesLocker->unlockUserResource($userId);
                 } catch(\Exception $ex) {
@@ -67,6 +81,8 @@ class ResourceFreeListener
 
                 if ($errorMessage == '') {
                     $request = $event->getRequest();
+                    
+                    // LOcks the resource
                     $locked = $request->get('locked');
                     if (null !== $locked) {                    
                         try {
@@ -92,6 +108,7 @@ class ResourceFreeListener
                     }
                 }
                 
+                // The resource is not free, stops the request
                 if ($errorMessage != '') {
                     $response = new Response();
                     $response->setStatusCode('404');

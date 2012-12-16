@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\Base;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent;
 
 /**
- * Abstract listener to the onBeforeDeleteLanguageCommit event
+ * Provides a base class to listen to onBeforeDeleteLanguageCommit event
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
@@ -32,11 +32,15 @@ abstract class DeleteLanguageBaseListener
 
     /**
      * Implement this method to set up the source objects
+     *
+     * @return A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     abstract protected function setUpSourceObjects();
 
     /**
      * Implement this method to delete the source objects to the new ones
+     *
+     * @return null|A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     abstract protected function delete($object);
 

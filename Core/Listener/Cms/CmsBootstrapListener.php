@@ -26,6 +26,8 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
  * Bootstraps AlphaLemon CMS
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class CmsBootstrapListener
 {
@@ -37,6 +39,8 @@ class CmsBootstrapListener
      * Contructor
      *
      * @param ContainerInterface $container
+     * 
+     * @api
      */
     public function __construct(ContainerInterface $container)
     {
@@ -49,13 +53,11 @@ class CmsBootstrapListener
      * Listen to onKernelRequest to check and configure AlphaLemon CMS
      *
      * @param GetResponseEvent $event
+     * 
+     * @api
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (strpos($this->kernel->getEnvironment(), 'alcms') === false) {
-            return;
-        }
-        
         $this->setUpRequiredFolders();
         $this->setUpPageTree();
         $this->checkTemplatesSlots();
@@ -69,7 +71,6 @@ class CmsBootstrapListener
         $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
         $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
 
-        //$basePath = $this->locate('@AlphaLemonCmsBundle/Resources/public/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'));
         $basePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
         $folders[] = $basePath;
         $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');

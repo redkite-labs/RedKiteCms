@@ -18,26 +18,41 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
- * Extends the bas AlPageTree object to fetch page information from the database
+ * Extends the AlphaLemonCms AlPageTree object to display the page in preview mode
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlPageTreePreview extends AlPageTree
 {
     protected $blockManagers = array();
 
-
-    public function addBlockManager($slotName, $blockManager)
+    /**
+     * Adds a block manager
+     * 
+     * @param type $slotName
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTreePreview
+     * 
+     * @api
+     */
+    public function addBlockManager($slotName, AlBlockManagerInterface $blockManager)
     {
-        return $this->blockManagers[$slotName][] = $blockManager;
+        $this->blockManagers[$slotName][] = $blockManager;
+        
+        return $this;
     }
 
     /**
-     * Returns the page's block managers
+     * Overrides the base method to return the Block Managers.
      *
      * @return array
+     * 
+     * @api
      */
     public function getBlockManagers($slotName)
     {

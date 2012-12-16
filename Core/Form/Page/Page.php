@@ -21,6 +21,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page;
  * Defines the pages form fields
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class Page
 {

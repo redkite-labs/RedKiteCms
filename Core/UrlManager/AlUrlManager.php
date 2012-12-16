@@ -24,9 +24,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
 
 /**
- * Manages an url to be used when in CMS mode and for production mode
+ * This object is deputaed to format an url to be used when the CMS editor is active or for 
+ * the production environment
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlUrlManager implements AlUrlManagerInterface
 {
@@ -40,9 +43,11 @@ class AlUrlManager implements AlUrlManagerInterface
 
     /**
      * Constructor
-     *
-     * @param KernelInterface              $kernel
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @api
      */
     public function __construct(KernelInterface $kernel, AlFactoryRepositoryInterface $factoryRepository)
     {
@@ -145,7 +150,14 @@ class AlUrlManager implements AlUrlManagerInterface
         return $this;
     }
 
-    private function generateRoute(AlLanguage $language, AlPage $page)
+    /**
+     * Generates an internal route name, from the language and the page
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage $language
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage $page
+     * @return string
+     */
+    protected function generateRoute(AlLanguage $language, AlPage $page)
     {
         return sprintf('_%s_%s', $language->getLanguageName(), str_replace("-", "_", $page->getPageName()));
     }

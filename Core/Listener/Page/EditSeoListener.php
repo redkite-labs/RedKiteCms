@@ -22,25 +22,38 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
 /**
- * Listen to the onBeforeEditPageCommit event to edit the seo attributes when a new page is edited
+ * Listen to the onBeforeEditPageCommit event to edit the seo attributes when a new 
+ * page is edited
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class EditSeoListener
 {
     private $seoManager;
 
+    /**
+     * Constructor
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
+     * 
+     * @api
+     */
     public function __construct(AlSeoManager $seoManager)
     {
         $this->seoManager = $seoManager;
     }
-
+    
     /**
      * Edits the seo attributes when a new page is edited
-     *
-     * @param  BeforeEditPageCommitEvent $event
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent $event
+     * @return boolean
      * @throws \InvalidArgumentException
-     * @throws Exception
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
+     * 
+     * @api
      */
     public function onBeforeEditPageCommit(BeforeEditPageCommitEvent $event)
     {

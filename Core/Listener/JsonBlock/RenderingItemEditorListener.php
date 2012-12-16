@@ -20,12 +20,17 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
 
 /**
- * Manipulates the block's editor response when the editor has been rendered
+ * Renders the editor to manipulate a Json item
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function renderEditor(BlockEditorRenderingEvent $event, array $params)
     {
         if (!array_key_exists('formClass', $params)) {

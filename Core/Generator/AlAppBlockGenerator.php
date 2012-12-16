@@ -10,6 +10,8 @@ use AlphaLemon\ThemeEngineBundle\Core\Generator\AlBaseGenerator;
  * AlAppBlockGenerator generates an App-Block bundle
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlAppBlockGenerator extends AlBaseGenerator
 {

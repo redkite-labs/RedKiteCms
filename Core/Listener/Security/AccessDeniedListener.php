@@ -24,15 +24,26 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 
 /**
- * Listens for kernel exceptions
+ * Listens for kernel exceptions to intercept the AccessDeniedException during an Ajax
+ * request
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AccessDeniedListener
 {
     private $context;
     private $authenticationTrustResolver;
 
+    /**
+     * Construct
+     * 
+     * @param \Symfony\Component\Security\Core\SecurityContextInterface $context
+     * @param \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface $trustResolver
+     * 
+     * @api
+     */
     public function __construct(SecurityContextInterface $context, AuthenticationTrustResolverInterface $trustResolver)
     {
         $this->context = $context;
@@ -40,10 +51,12 @@ class AccessDeniedListener
     }
 
     /**
-    * Returns a response when is an ajax request and an AccessDeniedException has been thrown
-    *
-    * @param GetResponseForExceptionEvent $event
-    */
+     * Returns a response when is an ajax request and an AccessDeniedException has been thrown
+     *
+     * @param GetResponseForExceptionEvent $event
+     * 
+     * @api
+     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $request = $event->getRequest();
