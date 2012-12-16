@@ -22,21 +22,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
- * Listen to the onBeforeDeletePageCommit event to delete the page's seo attributes, when a page is removed
+ * Listen to the onBeforeDeletePageCommit event to delete the page's seo attributes, when 
+ * a page is removed
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class DeleteSeoListener
 {
     protected $factoryRepository = null;
     private $seoManager = null;
     private $languageRepository = null;
-
+    
     /**
      * Constructor
-     *
-     * @param AlSeoManager                 $seoManager
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @api
      */
     public function __construct(AlSeoManager $seoManager, AlFactoryRepositoryInterface $factoryRepository)
     {
@@ -47,9 +52,12 @@ class DeleteSeoListener
 
     /**
      * Deletes the page's seo attributes, for all the languages of the site
-     *
-     * @param  BeforeDeletePageCommitEvent $event
-     * @throws Exception
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent $event
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
+     * 
+     * api
      */
     public function onBeforeDeletePageCommit(BeforeDeletePageCommitEvent $event)
     {

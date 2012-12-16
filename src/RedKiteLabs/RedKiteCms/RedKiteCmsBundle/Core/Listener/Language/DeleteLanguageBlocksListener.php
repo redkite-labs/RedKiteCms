@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Listen to the onBeforeDeleteLanguageCommit event to delete the blocks which
@@ -31,18 +31,16 @@ class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
 
     /**
      * Constructor
-     *
-     * @param AlBlockManager $blockManager
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      */
-    public function __construct(AlBlockManager $blockManager)
+    public function __construct(AlBlockManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return null|A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
     {
@@ -58,9 +56,6 @@ class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
 
     /**
      * {@inheritdoc}
-     *
-     * @param AlBlock
-     * @return boolean
      */
     protected function delete($object)
     {

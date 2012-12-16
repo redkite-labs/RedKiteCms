@@ -26,16 +26,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPr
  * Defines the page attributes form
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class SeoForm extends AbstractType
 {
     private $languageRepository;
 
+    /**
+     * Constructor
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel $languageRepository
+     */
     public function __construct(AlLanguageRepositoryPropel $languageRepository)
     {
         $this->languageRepository = $languageRepository;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('idPage', 'hidden');
@@ -46,6 +56,9 @@ class SeoForm extends AbstractType
         $builder->add('keywords', 'textarea');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultOptions(array $options)
     {
         return array(
@@ -53,6 +66,9 @@ class SeoForm extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'seo_attributes';

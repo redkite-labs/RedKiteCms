@@ -17,8 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-
 /**
  * Defines the methods to manages an url to be used when in CMS mode and for production mode
  *

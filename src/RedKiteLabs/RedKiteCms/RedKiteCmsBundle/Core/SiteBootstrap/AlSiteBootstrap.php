@@ -22,12 +22,15 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm\OrmInterface;
 
 /**
- * AlSiteBootstrap is responsibile to boostrap a web site from the scratch for a 
+ * AlSiteBootstrap is responsibile to boostrap a web site from the scratch, for a 
  * given theme
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlSiteBootstrap
 {
@@ -47,13 +50,15 @@ class AlSiteBootstrap
         'MetaDescription' => 'Website homepage',
         'MetaKeywords' => '',
     );
-
+    
     /**
      * Constructor
-     *
-     * @param ContainerInterface           $container
-     * @param AlFactoryRepositoryInterface $factoryRepository
-     * @param AlThemesCollectionWrapper    $themesCollectionWrapper
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager $languageManager
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager $pageManager
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * 
+     * @api
      */
     public function __construct(AlLanguageManager $languageManager,
                                 AlPageManager $pageManager,
@@ -125,7 +130,9 @@ class AlSiteBootstrap
     /**
      * Bootstraps the website
      * 
-     * @return boolean 
+     * @return boolean
+     * 
+     * @api
      */
     public function bootstrap()
     {
@@ -157,8 +164,8 @@ class AlSiteBootstrap
     /**
      * Removes the active languages
      * 
-     * @param LanguageRepositoryInterface $languageRepository
-     * @return boolean 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface $languageRepository
+     * @return boolean
      */
     protected function removeActiveLanguages(LanguageRepositoryInterface $languageRepository)
     {
@@ -180,8 +187,8 @@ class AlSiteBootstrap
     /**
      * Removes the active pages
      * 
-     * @param PageRepositoryInterface $pageRepository
-     * @return boolean 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface $pageRepository
+     * @return boolean
      */
     protected function removeActivePages(PageRepositoryInterface $pageRepository)
     {
@@ -258,10 +265,10 @@ class AlSiteBootstrap
     /**
      * Rollbacks the saving operation
      * 
-     * @param type $repository
-     * @return boolean 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm\OrmInterface $repository
+     * @return boolean
      */
-    protected function fails($repository)
+    protected function fails(OrmInterface $repository)
     {
         $repository->rollback();
         

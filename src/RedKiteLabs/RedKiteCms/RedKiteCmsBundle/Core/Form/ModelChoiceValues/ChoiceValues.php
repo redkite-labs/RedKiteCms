@@ -23,7 +23,8 @@ use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
- * Retrieves form the database the values used in the forms
+ * Implements some static method to fetch the values used in the interfaces forms from 
+ * the database
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */

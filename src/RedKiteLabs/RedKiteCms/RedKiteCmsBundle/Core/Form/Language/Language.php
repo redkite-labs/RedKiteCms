@@ -40,7 +40,7 @@ class Language
     protected $isMain = false;
 
     /**
-     * fetches the language
+     * Fetches the language
      * 
      * @return string
      */

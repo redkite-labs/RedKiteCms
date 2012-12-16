@@ -21,31 +21,39 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommi
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
- * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page is removed
+ * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page 
+ * is removed
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class DeletePageBlocksListener
 {
     private $factoryRepository = null;
     private $languageRepository = null;
-
+    
     /**
      * Constructor
-     *
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
     }
-
+    
     /**
      * Deletes the page's contents, for all the languages of the site
-     *
-     * @param  BeforeDeletePageCommitEvent $event
-     * @throws Exception
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent $event
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
+     * 
+     * @api
      */
     public function onBeforeDeletePageCommit(BeforeDeletePageCommitEvent $event)
     {
