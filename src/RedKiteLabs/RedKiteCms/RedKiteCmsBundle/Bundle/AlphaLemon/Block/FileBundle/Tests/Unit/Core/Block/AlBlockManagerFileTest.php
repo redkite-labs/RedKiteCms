@@ -137,7 +137,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $blockManager->set($block);
         $blockManagerArray = $blockManager->toArray();
         $this->assertEquals('<a href="/vfs://uploads/assets/files/my-file" />my-file</a>', $blockManagerArray['Content']);
-        $this->assertEquals(250, $blockManagerArray["EditorWidth"]);
+        $this->assertEquals(270, $blockManagerArray["EditorWidth"]);
     }
 
     public function testContentReplacedWhenOpenedIsTrue()
