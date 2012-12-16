@@ -28,10 +28,19 @@ abstract class FrontendController extends BaseFrontendController
 {
     public function showAction()
     {
-        return $this->renderPage();
+        $templatesFolder = $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');
+        
+        return $this->renderPage($templatesFolder);
     }
-
-    protected function renderPage()
+    
+    public function stageAction()
+    {
+        $stageTemplatesFolder = $this->container->getParameter('alpha_lemon_theme_engine.deploy.stage_templates_folder');
+        
+        return $this->renderPage($stageTemplatesFolder, 'AlphaLemonThemeEngineBundle:Stage:stage.html.twig');
+    }
+    
+    protected function renderPage($templatesFolder)
     {
         try {
             $request = $this->container->get('request');
@@ -40,7 +49,6 @@ abstract class FrontendController extends BaseFrontendController
             $page = $request->get('page');
             $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
             $baseTemplate = $this->container->getParameter('alpha_lemon_theme_engine.base_template');
-            $templatesFolder = $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');
             
             try {
                 $template = sprintf('%s:%s:%s/%s.html.twig', $deployBundle, $templatesFolder, $language, $page);
@@ -70,4 +78,3 @@ abstract class FrontendController extends BaseFrontendController
         }
     }
 }
-

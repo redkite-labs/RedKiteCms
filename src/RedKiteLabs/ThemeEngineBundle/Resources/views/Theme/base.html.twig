@@ -17,10 +17,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}{% if metadescription is defined %}{{ metatitle }}{% endif %}{% endblock %}</title>
+        <title>{% block title %}{% if metatitle is defined %}{{ metatitle }}{% endif %}{% endblock %}</title>
         <meta name="Description" content="{% block description %}{% if metadescription is defined %}{{ metadescription }}{% endif %}{% endblock %}" />
         <meta name="Keywords" content="{% block keywords %}{% if metakeywords is defined %}{{ metakeywords }}{% endif %}{% endblock %}" />
         <meta name="generator" content="AlphaLemon CMS" />
+        {% block metatags %}        
+        {% endblock %}
+        
         {% block external_javascripts %}
             {% if javascripts is defined %}
                 {% for javascript in javascripts %}

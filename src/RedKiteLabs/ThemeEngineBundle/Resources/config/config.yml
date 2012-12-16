@@ -2,6 +2,7 @@ alpha_lemon_theme_engine:
     base_template: AlphaLemonThemeEngineBundle:Frontend:base.html.twig
 
 assetic:
+    bundles: [ AlphaLemonThemeEngineBundle ]
     filters:
         cssrewrite: ~
         yui_css:
