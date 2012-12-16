@@ -61,22 +61,17 @@ class ElFinderMediaConnectorTest extends TestCase
             ->method('get')
             ->will($this->returnValue($request));
         
-        $container->expects($this->at(1))
+        $container->expects($this->at(0))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.media_dir')
             ->will($this->returnValue('media')); 
-         
-        $container->expects($this->at(2))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_absolute_path')
-            ->will($this->returnValue('web/uploads/assets')); 
        
-        $container->expects($this->at(3))
+        $container->expects($this->at(1))
             ->method('getParameter')
             ->with('alpha_lemon_cms.upload_assets_full_path')
             ->will($this->returnValue('/full/base/path/to/web/uploads/assets')); 
         
-        $container->expects($this->at(4))
+        $container->expects($this->at(3))
             ->method('getParameter')
             ->with('alpha_lemon_cms.upload_assets_dir')
             ->will($this->returnValue('uploads/assets'));

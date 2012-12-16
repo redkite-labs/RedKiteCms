@@ -17,39 +17,20 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder;
 
-use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
 
 /**
  * Configures the ElFinder library to manage media files, like images, flash, pdf and more
  */
-class ElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
+class ElFinderMediaConnector extends ElFinderBaseConnector
 {
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $request = $this->container->get('request');
-
-        $mediaFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir') ;
-        $absolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . '/' . $mediaFolder . '/';
-        $filesPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $mediaFolder;
-        if (!is_dir($filesPath)) @mkdir($filesPath);
+        $mediaFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
         
-        $options = array(
-            'locale' => '',
-            'roots' => array(
-                array(
-                    'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-                    'path'          => $filesPath,         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $mediaFolder, // URL to files (REQUIRED)
-                    'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
-                    'rootAlias'     => 'Media'             // disable and hide dot starting files (OPTIONAL)
-                )
-            )
-        );
-
-        return $options;
+        return $this->generateOptions($mediaFolder, 'Media');
     }
 }
