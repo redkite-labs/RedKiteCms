@@ -30,6 +30,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
 
 /**
  * AlTemplateManager wrap an AlTemplate object to manage the template's slots when the
@@ -51,6 +52,7 @@ class AlTemplateManager extends AlTemplateBase
     protected $template;
     protected $blockRepository;
     protected $pageBlocks;
+    protected $dispatcher;
 
     /**
      * Constructor
@@ -71,6 +73,7 @@ class AlTemplateManager extends AlTemplateBase
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
         $this->pageBlocks = (null === $pageBlocks) ? new AlPageBlocks($this->factoryRepository) : $pageBlocks;
+        $this->dispatcher = $eventsHandler->getEventDispatcher();
     }
 
     /**
@@ -297,7 +300,9 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function populate($idLanguage, $idPage, $skipRepeated = false)
     {
-        try {
+        try {               
+            $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_POPULATE, new Content\TemplateManager\BeforePopulateEvent($this));
+            
             $this->refreshPageBlocks($idLanguage, $idPage);
 
             $result = false;
@@ -315,12 +320,15 @@ class AlTemplateManager extends AlTemplateBase
                 if(false === $result) break;
             }
 
+            $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_POPULATE_COMMIT, new Content\TemplateManager\BeforePopulateCommitEvent($this));
+            
             if ($result !== false) {
                 $this->blockRepository->commit();
             } else {
                 $this->blockRepository->rollBack();
             }
-
+            $this->dispatcher->dispatch(Content\TemplateManagerEvents::AFTER_POPULATE, new Content\TemplateManager\AfterPopulateEvent($this));
+            
             return $result;
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -343,7 +351,9 @@ class AlTemplateManager extends AlTemplateBase
     public function clearBlocks($skipRepeated = true)
     {
         try {
-            $result = null;
+            $result = null;            
+            $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_CLEAR_BLOCKS, new Content\TemplateManager\BeforeClearBlocksEvent($this));
+            
             $this->blockRepository->startTransaction();
             foreach ($this->slotManagers as $slotManager) {
                 if ($skipRepeated && $slotManager->getSlot()->getRepeated() != 'page') {
@@ -353,13 +363,17 @@ class AlTemplateManager extends AlTemplateBase
 
                 if(false === $result) break;
             }
-
+            
+            $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_CLEAR_BLOCKS_COMMIT, new Content\TemplateManager\BeforeClearBlocksCommitEvent($this));
+            
             if ($result !== false) {
                 $this->blockRepository->commit();
             } else {
                 $this->blockRepository->rollBack();
             }
-
+            
+            $this->dispatcher->dispatch(Content\TemplateManagerEvents::AFTER_CLEAR_BLOCKS, new Content\TemplateManager\AfterClearBlocksEvent($this));
+            
             return $result;
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -393,13 +407,13 @@ class AlTemplateManager extends AlTemplateBase
             $result = $this->clearBlocks($skipRepeated);
             $this->pageBlocks = $pageBlocks;
             $this->setUpSlotManagers();
-
+            
             if ($result !== false) {
                 $this->blockRepository->commit();
             } else {
                 $this->blockRepository->rollBack();
             }
-
+            
             return $result;
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
