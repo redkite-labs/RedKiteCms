@@ -57,11 +57,26 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
         
-        for ($i = 1; $i < 5; $i++) {
+        $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        
+        $i = 1;
+        while ($i < 9) {
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('event_dispatcher')
+                ->will($this->returnValue($dispatcher));
+        
+            $i = $i + 2;
+        }
+        
+        $i = 2;
+        while ($i < 9) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
-                ->will($this->returnValue($activeTheme));   
+                ->will($this->returnValue($activeTheme));  
+        
+            $i = $i + 2; 
         }
         
         $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
@@ -124,16 +139,35 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
         
+        $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->container->expects($this->at(1))
+            ->method('get')
+            ->with('event_dispatcher')
+            ->will($this->returnValue($dispatcher));
+        
         $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())
             ->method('getActiveTheme')
             ->will($this->returnValue('BusinessWebsiteTheme'));
         
-        for ($i = 1; $i < 3; $i++) {
+        $i = 1;
+        while ($i < 4) {
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('event_dispatcher')
+                ->will($this->returnValue($dispatcher));
+        
+            $i = $i + 2;
+        }
+        
+        $i = 2;
+        while ($i < 6) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
-                ->will($this->returnValue($activeTheme));   
+                ->will($this->returnValue($activeTheme));  
+        
+            $i = $i + 2; 
         }
         
         $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);

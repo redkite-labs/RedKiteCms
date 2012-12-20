@@ -24,6 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
 use Symfony\Component\DependencyInjection\Container;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Event\PageTree;
 
 /**
  * {@inheritdoc}
@@ -43,6 +44,7 @@ class AlPageTree extends BaseAlPageTree
     protected $pageRepository = null;
     protected $seoRepository = null;
     protected $templateManager;
+    protected $dispatcher;
     protected $locatedAssets = array('css' => array(), 'js' => array());
     protected $extraAssetsSuffixes = array('cms');
     protected $themesCollectionWrapper;
@@ -67,6 +69,7 @@ class AlPageTree extends BaseAlPageTree
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
+        $this->dispatcher = $container->get('event_dispatcher');
 
         parent::__construct($container);
     }
@@ -188,7 +191,9 @@ class AlPageTree extends BaseAlPageTree
      */
     public function setUp()
     {
-        try {   
+        try { 
+            $this->dispatcher->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTree\BeforePageTreeSetupEvent($this));
+            
             $this->pageName = $this->getRequest()->get('page');
             if (!$this->pageName || $this->pageName == "" || $this->pageName == "backend") {
                 return null;
@@ -208,7 +213,9 @@ class AlPageTree extends BaseAlPageTree
 
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
             $this->doRefresh();
-
+            
+            $this->dispatcher->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_SETUP, new PageTree\AfterPageTreeSetupEvent($this));
+            
             return $this;
         } catch (\Exception $ex) {
             throw $ex;
@@ -224,6 +231,8 @@ class AlPageTree extends BaseAlPageTree
      */
     public function refresh($idLanguage, $idPage)
     {
+        $this->dispatcher->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_REFRESH, new PageTree\BeforePageTreeRefreshEvent($this));
+        
         $this->alLanguage = $this->languageRepository->fromPK($idLanguage);
         $this->alPage = $this->pageRepository->fromPK($idPage);
 
@@ -238,6 +247,8 @@ class AlPageTree extends BaseAlPageTree
         }
         
         $this->doRefresh();
+        
+        $this->dispatcher->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_REFRESH, new PageTree\AfterPageTreeRefreshEvent($this));
         
         return $this;
     }
