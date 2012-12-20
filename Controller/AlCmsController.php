@@ -30,9 +30,9 @@ use Symfony\Component\HttpFoundation\Request;
 class AlCmsController extends BaseFrontendController
 {
     protected $kernel = null;
-    private $factoryRepository = null;
-    private $pageRepository = null;
-    private $languageRepository = null;
+    protected $factoryRepository = null;
+    protected $pageRepository = null;
+    protected $languageRepository = null;
 
     public function showAction()
     {
