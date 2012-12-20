@@ -44,7 +44,6 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $fileSystem = null;
     protected $deployController = null;
     protected $deployFolder = null;
-    
     private $pageTreeCollection = null;
 
     /**
@@ -104,14 +103,14 @@ abstract class AlDeployer implements AlDeployerInterface
     public function deploy()
     {
         $dispatcher = $this->container->get('event_dispatcher');
-        $dispatcher->dispatch(Deploy\DeployEvents::BEFORE_LOCAL_DEPLOY, new Deploy\BeforeDeployEvent($this));
+        $dispatcher->dispatch(Deploy\DeployEvents::BEFORE_DEPLOY, new Deploy\BeforeDeployEvent($this));
         
         $this->fileSystem->remove($this->deployFolder);
         $this->checkTargetFolders();
         $this->copyAssets();
         $result = ($this->generateRoutes() && $this->savePages()) ? true :false;
         
-        $dispatcher->dispatch(Deploy\DeployEvents::AFTER_LOCAL_DEPLOY, new Deploy\AfterDeployEvent($this));
+        $dispatcher->dispatch(Deploy\DeployEvents::AFTER_DEPLOY, new Deploy\AfterDeployEvent($this));
         
         return $result;
     }
