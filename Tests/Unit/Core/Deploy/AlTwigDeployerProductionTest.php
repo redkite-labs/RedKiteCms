@@ -150,14 +150,26 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
 
-        for($i = 14; $i < 18; $i++) {
+        $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $i = 14;
+        while ($i < 22) {
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('event_dispatcher')
+                ->will($this->returnValue($dispatcher));
+            $i = $i + 2;
+        }
+        
+        $i = 15;
+        while ($i < 22) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
                 ->will($this->returnValue($activeTheme));
+            $i = $i + 2;
         }
         
-        for($i = 18; $i < 22; $i++) {
+        for($i = 22; $i < 26; $i++) {
             $viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
             $this->container->expects($this->at($i))
                 ->method('get')
