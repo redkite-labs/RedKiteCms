@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
 
 /**
- * Defines the AfterPageAddedEvent event
+ * Defines the BeforeDeleteSeoCommitEvent event
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  * 
