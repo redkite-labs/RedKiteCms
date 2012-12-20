@@ -59,4 +59,14 @@ interface AlEventsHandlerInterface
      * @api
      */
     public function dispatch($eventName = null);
+    
+    
+    /**
+     * Returns the event dispatcher associated with the object
+     *
+     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     * 
+     * @api
+     */
+    public function getEventDispatcher();
 }
