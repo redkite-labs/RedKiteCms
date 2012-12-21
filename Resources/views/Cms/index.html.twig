@@ -55,8 +55,13 @@
             {
                 "pg_caption": "Help"
             }
-        );
-
+        );     
+        
+        // Workaroud to close the twitter bootstrap dropdown when a menu item is clicked
+        $('.dropdown-menu li a').each(function(){
+            $(this).click(function(){$('.dropdown').removeClass('open')});
+        });
+        
         cmsStartInternalJavascripts();
     });
 </script>
@@ -172,7 +177,7 @@
     <div id="al_menu" class="al_float_left">
         <table>
             <tr>
-                <td>
+                {#<td>
                     <ul class="toolbar-nav" >
                         <li><a href="#" id="al_start_editor">Edit</a></li>
                         <li><a href="#" id="al_stop_editor">Stop</a></li>
@@ -181,9 +186,26 @@
                         <li><a href="#" id="al_open_themes_panel">Themes</a></li>
                         <li><a href="#" id="al_open_media_library">Media Library</a></li>
                     </ul>
-                </td>   
+                </td>   #}
+                <td>
+                    <ul class="toolbar-nav" >
+                        <li><a href="#" id="al_start_editor">Edit</a></li>
+                        <li><a href="#" id="al_stop_editor">Stop</a></li>
+                    </ul>
+                </td> 
                 <td>
                     <ul class="nav"> 
+                        <li class="dropdown toolbar-nav-item">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Website<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="al_open_pages_panel">Pages</a></li>
+                                <li><a href="#" id="al_open_languages_panel">Languages</a></li>
+                                <li><a href="#" id="al_open_themes_panel">Themes</a></li>
+                                <li><a href="#" id="al_open_media_library">Media Library</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown toolbar-nav-item">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Deploy<b class="caret"></b>
@@ -197,10 +219,22 @@
                 </td>            
                 {% if is_secure %}
                 <td>
+                    <ul class="nav"> 
+                        <li class="dropdown toolbar-nav-item">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Security<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="al_open_users_manager">Users</a></li>
+                                <li><a href="#" id="al_logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                        {#
                     <ul class="toolbar-nav" >
                         <li><a href="#" id="al_open_users_manager">Users</a></li>
                         <li><a href="#" id="al_logout">Logout</a></li>
-                    </ul>
+                    </ul>#}
                 </td>  
                 {% endif %} 
             </tr>
