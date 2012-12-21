@@ -76,6 +76,26 @@ class SlotRendererExtension extends BaseSlotRendererExtension
 
         return $this->doRender($block, $add);
     }
+    
+    /**
+     * Converts a block's content to html
+     * 
+     * @param array|string $block
+     * @return string
+     */
+    public function blockContentToHtml($content)
+    {
+        $result = $content;        
+        if (is_array($content)) {
+            $result = "";
+            if (\array_key_exists('RenderView', $content)) {
+                $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
+                $result = $viewsRenderer->render($content['RenderView']);
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * {@inheritdoc}
@@ -87,6 +107,9 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 'is_safe' => array('html'),
             )),
             'renderBlock' => new \Twig_Function_Method($this, 'renderBlock', array(
+                'is_safe' => array('html'),
+            )),
+            'blockContentToHtml' => new \Twig_Function_Method($this, 'blockContentToHtml', array(
                 'is_safe' => array('html'),
             )),
         );
@@ -109,11 +132,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             
             $templating = $this->container->get('templating');
             $slotName = $block["Block"]["SlotName"];
-            $content = $block['Content'];
-            if ( is_array($content) && \array_key_exists('RenderView', $content)) {
-                $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
-                $content = $viewsRenderer->render($content['RenderView']);
-            }
+            $content = $this->blockContentToHtml($block['Content']);
             
             if (strpos($content, '<script') !== false) {
                 $content = "A script content is not rendered in editor mode";
