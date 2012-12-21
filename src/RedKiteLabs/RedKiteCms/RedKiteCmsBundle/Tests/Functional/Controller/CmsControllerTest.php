@@ -95,6 +95,7 @@ class CmsControllerTest extends WebTestCaseFunctional
 
         $expectedJavascripts = array
         (
+            "/bundles/alphalemoncms/vendor/bootstrap/js/bootstrap.min.js",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js/al-cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
@@ -148,6 +149,7 @@ class CmsControllerTest extends WebTestCaseFunctional
 
         $expectedJavascripts = array
         (
+            "/bundles/alphalemoncms/vendor/bootstrap/js/bootstrap.min.js",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js//al-cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
@@ -192,9 +194,10 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->check($crawler, '#al_open_pages_panel', "Pages");
         $this->check($crawler, '#al_open_languages_panel', "Languages");
         $this->check($crawler, '#al_open_themes_panel', "Themes");
-        $this->check($crawler, '#al_open_media_library', "Media Library");
-        $this->check($crawler, '#al_deploy_site', "Deploy");
-        $this->check($crawler, '#al_languages_navigator', "en");
+        $this->check($crawler, '#al_open_media_library', "Media Library");        
+        $this->check($crawler, '#al_languages_navigator', "en");        
+        $el = $crawler->filter('.al_deployer');
+        $this->assertEquals(2, $el->count());
         $this->check($crawler, '#al_pages_navigator', "indexpage1");
         $this->check($crawler, '#al_available_languages', "English");
     }
