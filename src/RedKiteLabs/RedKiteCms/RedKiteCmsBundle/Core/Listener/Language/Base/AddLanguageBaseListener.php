@@ -21,9 +21,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguage
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Abstract listener to the onBeforeAddLanguageCommit event
+ * Provides a base class to listen to onBeforeAddLanguageCommit event
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class AddLanguageBaseListener
 {
@@ -35,11 +37,20 @@ abstract class AddLanguageBaseListener
 
     /**
      * Implement this method to set up the source objects
+     *
+     * @return A model collection instance depending on the used ORM (i.e PropelCollection)
+     * 
+     * @api
      */
     abstract protected function setUpSourceObjects();
 
     /**
      * Implement this method to copy the source objects to the new ones
+     *
+     * @param  array   $values
+     * @return boolean
+     * 
+     * @api
      */
     abstract protected function copy(array $values);
 
@@ -47,6 +58,8 @@ abstract class AddLanguageBaseListener
      * Constructor
      *
      * @param Request $request
+     * 
+     * @api
      */
     public function __construct(ContainerInterface $container = null)
     {
@@ -55,12 +68,15 @@ abstract class AddLanguageBaseListener
             $this->request = $container->get('request');
         }
     }
-
+    
     /**
      * Listen the onBeforeAddLanguageCommit event to copy the source object to the new language
-     *
-     * @param  BeforeAddPageCommitEvent $event
-     * @throws Exception
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent $event
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\Base\Exception
+     * 
+     * @api
      */
     public function onBeforeAddLanguageCommit(BeforeAddLanguageCommitEvent $event)
     {
@@ -112,7 +128,7 @@ abstract class AddLanguageBaseListener
     /**
      * Fetches the base language used to copy the entities
      *
-     * @return AlLanguage
+     * @return AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage
      */
     protected function getBaseLanguage()
     {

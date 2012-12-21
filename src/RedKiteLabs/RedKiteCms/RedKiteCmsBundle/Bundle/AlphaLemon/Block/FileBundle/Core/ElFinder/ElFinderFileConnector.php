@@ -6,37 +6,19 @@
 
 namespace AlphaLemon\Block\FileBundle\Core\ElFinder;
 
-use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
 
 /**
  * Description of ElFinderMarkdownConnector
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class ElFinderFileConnector extends AlphaLemonElFinderBaseConnector
+class ElFinderFileConnector extends ElFinderBaseConnector
 {
     protected function configure()
     {
-        $request = $this->container->get('request');
-        $folder = $this->container->getParameter('file.base_folder') ;
-        $absolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . '/' . $folder . '/';
-        $filesPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $folder;
-        if (!is_dir($filesPath)) @mkdir($filesPath);
+        $filesFolder = $this->container->getParameter('file.base_folder') ;
         
-        $options = array(
-            'locale' => '',
-            'roots' => array(
-                array(
-                    'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-                    'path'          => $filesPath,         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $folder, // URL to files (REQUIRED)
-                    'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
-                    'rootAlias'     => 'File',
-                )
-            )
-        );
-
-        return $options;
+        return $this->generateOptions($filesFolder, 'Files');
     }
 }

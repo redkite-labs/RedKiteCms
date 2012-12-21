@@ -11,18 +11,24 @@
 //
 // @license    GPL LICENSE Version 2.0
 
+@import "compass/typography/lists/inline-block-list"
+
+.al_items_list, .al_commands_box
+    ul
+        +inline-block-list
+
+    li
+        :margin-right 6px
+
+.al_commands_box
+    :padding 4px
+
 .al_items_list
     :border 2px solid #ccc
     :overflow auto
     :margin-bottom 10px
 
-    ul
-        :list-style-type none
-        :padding 0
-        :margin 0
-
     li
-        :padding 4px
         :border-bottom 1px dotted #a5a5a5
 
     table

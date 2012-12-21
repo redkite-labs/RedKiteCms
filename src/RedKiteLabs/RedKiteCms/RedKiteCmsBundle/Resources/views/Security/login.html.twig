@@ -13,16 +13,20 @@
    @license    GPL LICENSE Version 2.0
 #}
 
+{% set form_title = title is defined ? title : "AlphaLemon CMS Login" %} 
+{% set form_body= body is defined ? body : "Please authenticate yourself to manage the website with AlphaLemon CMS" %} 
 
-<h1>AlphaLemon CMS Login</h1>
-<p>Please authenticate yourself to manage the website with AlphaLemon CMS</p>
+<h1>{{ form_title }}</h1>
+<p>{{ form_body }}</p>
 
 {% if error %}
     <div class="al_error">{{ error }}</div>
 {% endif %}
 
+{% set login_route = route is defined ? route : "_login_check" %}  
+    
 <div id="al_login_form">
-    <form action="{{ path("_login_check") }}" method="post" id="login">
+    <form action="{{ path(login_route) }}" method="post" id="login">
 
         <div>
             <label for="username">Username</label>
@@ -34,8 +38,9 @@
             <input type="password" id="password" name="_password" />
         </div>
 
-        <input type="hidden" name="_target_path" value="/backend/{{ language_name }}/{{ page_name }}" />
-
+        {% if target is defined %}
+        <input type="hidden" name="_target_path" value="{{ target }}" />
+        {% endif %}
 
         <input type="submit" class="symfony-button-grey" value="LOGIN" />
     </form>

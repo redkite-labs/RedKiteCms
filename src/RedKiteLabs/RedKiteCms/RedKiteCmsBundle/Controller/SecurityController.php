@@ -39,25 +39,7 @@ class SecurityController extends Base\BaseController
     public function loginAction()
     {
         $request = $this->container->get('request');
-        $session = $request->getSession();
-
-        // get the error if any (works with forward and redirect -- see below)
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } elseif (null !== $session && $session->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
-            $error = '';
-        }
-
-        if ($error) {
-            // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
-            $error = $error->getMessage();
-        }
-
-        // last username entered by the user
-        $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
+        $params = $this->checkRequestError();
 
         $response = null;
         $template = 'AlphaLemonCmsBundle:Security:graphical-login.html.twig';
@@ -73,13 +55,19 @@ class SecurityController extends Base\BaseController
 
         $alPage = $pageReporitory->homePage();
         $alLanguage = $languageReporitory->mainLanguage();
+        $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
+        
+        return $this->container->get('templating')->renderResponse($template, $params, $response);
+    }
+    
+    public function stageLoginAction()
+    {
+        if ($this->container->has('profiler')) {
+            $this->container->get('profiler')->disable();
+        }
+        $params = $this->checkRequestError();
 
-        return $this->container->get('templating')->renderResponse($template, array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
-            'language_name' => $alLanguage->getLanguageName(),
-            'page_name'     => $alPage->getPageName(),
-        ), $response);
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:stage_login.html.twig', $params);
     }
 
     /**
@@ -223,6 +211,35 @@ class SecurityController extends Base\BaseController
             return $this->renderDialogMessage($e->getMessage());
             // @codeCoverageIgnoreEnd
         }
+    }
+    
+    protected function checkRequestError()
+    {
+        $request = $this->container->get('request');
+        $session = $request->getSession();
+        
+        // get the error if any (works with forward and redirect -- see below)
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        } elseif (null !== $session && $session->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        } else {
+            $error = '';
+        }
+
+        if ($error) {
+            // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
+            $error = $error->getMessage();
+        }
+
+        // last username entered by the user
+        $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
+        
+        return array(
+            "error" => $error,
+            "last_username" => $lastUsername,
+        );
     }
 
     private function loadUsers()

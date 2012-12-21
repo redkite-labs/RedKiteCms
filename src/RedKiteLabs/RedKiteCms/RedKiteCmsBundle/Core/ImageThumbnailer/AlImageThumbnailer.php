@@ -35,36 +35,71 @@ class AlImageThumbnailer
         $this->transformation = (null === $transformation) ? new Transformation() : $transformation;
     }
 
+    /**
+     * Sets the thumbnails folder
+     * 
+     * @param string $v
+     */
     public function setThumbnailFolder($v)
     {
         $this->thumbnailsFolder = $v;
     }
 
+    /**
+     * Returns the thumbnails folder
+     * 
+     * @return string
+     */
     public function getThumbnailFolder()
     {
         return $this->thumbnailsFolder;
     }
 
+    /**
+     * Returns the thumbnails folder
+     * 
+     * @return string
+     */
     public function getThumbnailPath()
     {
         return $this->thumbnailPath;
     }
 
+    /**
+     * Returns the thumbnail image
+     * 
+     * @return string
+     */
     public function getThumbnailImage()
     {
         return $this->thumbnailImage;
     }
 
+    /**
+     * Returns the thumbnail image name
+     * 
+     * @return string
+     */
     public function getThumbnailImageName()
     {
         return (null !== $this->thumbnailImage) ? basename($this->thumbnailImage) : '';
     }
 
+    /**
+     * Returns the thumbnail width
+     * 
+     * @return int
+     */
     public function getThumbnailWidth()
     {
         return $this->imageSize[0];
     }
 
+    /**
+     * Returns the thumbnail height
+     * 
+     * @return int
+     */
     public function getThumbnailHeight()
     {
         return $this->imageSize[1];

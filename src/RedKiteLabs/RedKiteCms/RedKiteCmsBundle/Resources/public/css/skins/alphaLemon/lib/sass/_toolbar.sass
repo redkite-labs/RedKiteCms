@@ -25,6 +25,26 @@
   :color $toolbarTextColor
   :font $toolbarFont
 
+  .al_boxes_margins
+    margin-right: 20px
+
+  .small_logo
+    :margin-top 4px
+
+  table
+    :margin 0
+    :padding 2px
+
+  td
+    :margin 0
+    :padding 4px
+    :padding-top 8px
+    :min-width 10px
+
+  select
+    :margin-top -4px
+
+.toolbar-nav  
   ul
     :padding 0
     :margin 0
@@ -46,24 +66,18 @@
   a:hover
     :text-decoration none
 
-  .al_boxes_margins
-    margin-right: 20px
+// workaround
+.toolbar-nav-item
+  :display inline
+  :padding 6px
+  :margin 0
 
-  .small_logo
-    :margin-top 4px
+  a
+    :color $toolbarLinkColor
+    :text-decoration none
 
-  table
-    :margin 0
-    :padding 2px
-
-  td
-    :margin 0
-    :padding 4px
-    :padding-top 8px
-    :min-width 10px
-
-  select
-    :margin-top -4px
+  a:hover
+    :text-decoration none
 
 #al_menu
   padding: 0

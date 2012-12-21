@@ -17,38 +17,20 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder;
 
-use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
 
 /**
  * Configures the ElFinder library to manage javascripts files
  */
-class ElFinderJavascriptsConnector extends AlphaLemonElFinderBaseConnector
+class ElFinderJavascriptsConnector extends ElFinderBaseConnector
 {
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $request = $this->container->get('request');
-        $folder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir') ;
-        $absolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path') . '/' . $folder . '/';
-        $filesPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $folder;
-        if (!is_dir($filesPath)) @mkdir($filesPath);
-
-        $options = array(
-            'locale' => '',
-            'roots' => array(
-                array(
-                    'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-                    'path'          => $filesPath,         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $folder, // URL to files (REQUIRED)
-                    'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
-                    'rootAlias'     => 'Javascripts',
-                )
-            )
-        );
-
-        return $options;
+        $javascripsFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir') ;
+        
+        return $this->generateOptions($javascripsFolder, 'Javascripts');
     }
 }

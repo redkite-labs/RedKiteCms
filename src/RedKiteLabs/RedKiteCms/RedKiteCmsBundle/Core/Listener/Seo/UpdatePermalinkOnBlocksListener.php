@@ -22,9 +22,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 
 /**
- * Listen to the onBeforeAddPageCommit event to add the page attributes when a new page is added
+ * Listen to the onBeforeEditSeoCommit event and parsers the blocks to look for the old
+ * permalink and replaces it with the new one
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class UpdatePermalinkOnBlocksListener
 {
@@ -32,18 +35,30 @@ class UpdatePermalinkOnBlocksListener
     private $blockRepository = null;
     private $blocksFactory = null;
 
+    /**
+     * Construct
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blocksFactory
+     * 
+     * @api
+     */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blocksFactory)
     {
         $this->blocksFactory = $blocksFactory;
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
-
+    
     /**
      * Adds the page attributes when a new page is added, for each language of the site
-     *
-     * @param  BeforeAddPageCommitEvent $event
-     * @throws \Exception
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent $event
+     * @return boolean
+     * @throws \InvalidArgumentException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo\Exception
+     * 
+     * @api
      */
     public function onBeforeEditSeoCommit(BeforeEditSeoCommitEvent $event)
     {

@@ -29,10 +29,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplate
  * 
  * @api
  */
-class AlTwigDeployer extends AlDeployer
+abstract class AlTwigDeployer extends AlDeployer
 {
-    private $urlManager;
-    private $blockManagerFactory;
+    protected $urlManager;
+    protected $blockManagerFactory;
 
     /**
      * Constructor

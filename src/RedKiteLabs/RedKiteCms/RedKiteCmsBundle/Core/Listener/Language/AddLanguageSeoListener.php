@@ -21,10 +21,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Listen to the onBeforeAddLanguageCommit event to copy blocks from a language
- * to the adding language
+ * Listen to the onBeforeAddLanguageCommit event to copy seo attributes from the
+ * main language to the new one
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 {
@@ -32,8 +34,11 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 
     /**
      * Constructor
-     *
-     * @param AlSeoManager $seoManager
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * 
+     * @api
      */
     public function __construct(AlSeoManager $seoManager, ContainerInterface $container = null)
     {
@@ -44,8 +49,6 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 
     /**
      *{ @inheritdoc }
-     *
-     * @return A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
     {
@@ -56,9 +59,6 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 
     /**
      * { @inheritdoc }
-     *
-     * @param  array   $values
-     * @return boolean
      */
     protected function copy(array $values)
     {

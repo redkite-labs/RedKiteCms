@@ -31,7 +31,7 @@ class LanguagesController extends Base\BaseController
         }
         // @codeCoverageIgnoreEnd
 
-        $languagesForm = new LanguagesForm($this->container);
+        $languagesForm = new LanguagesForm();
         $form = $this->container->get('form.factory')->create($languagesForm);
 
         $params = array('base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),

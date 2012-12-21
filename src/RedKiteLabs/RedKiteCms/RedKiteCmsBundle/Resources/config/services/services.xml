@@ -17,11 +17,13 @@
         <parameter key="alpha_lemon_cms.page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
         <parameter key="alpha_lemon_cms.repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
         <parameter key="alpha_lemon_cms.slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
-        <parameter key="alpha_lemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
+        <parameter key="alpha_lemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerProduction</parameter>
+        <parameter key="alpha_lemon_cms.stage_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerStage</parameter>
         <parameter key="alpha_lemon_cms.block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
         <parameter key="alpha_lemon_cms.themes_collection_wrapper.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
         <parameter key="alpha_lemon_cms.factory_repository.class">AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
         <parameter key="alpha_lemon_cms.url_manager.class">AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager</parameter>
+        <parameter key="alpha_lemon_cms.url_manager_stage.class">AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerStage</parameter>
         <parameter key="alpha_lemon_cms.commands_processor.class">AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor</parameter>
         <parameter key="alpha_lemon_cms.images_thumbnailer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
         <parameter key="alpha_lemon_cms.events_handler.class">AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler</parameter>
@@ -53,6 +55,11 @@
         </service>
 
         <service id="alpha_lemon_cms.url_manager" class="%alpha_lemon_cms.url_manager.class%">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        </service>
+        
+        <service id="alpha_lemon_cms.url_manager_stage" class="%alpha_lemon_cms.url_manager_stage.class%">
             <argument type="service" id="kernel" />
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
@@ -143,6 +150,10 @@
         </service>
 
         <service id="alpha_lemon_cms.local_deployer" class="%alpha_lemon_cms.local_deployer.class%">
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="alpha_lemon_cms.stage_deployer" class="%alpha_lemon_cms.stage_deployer.class%">
             <argument type="service" id="service_container" />
         </service>
 

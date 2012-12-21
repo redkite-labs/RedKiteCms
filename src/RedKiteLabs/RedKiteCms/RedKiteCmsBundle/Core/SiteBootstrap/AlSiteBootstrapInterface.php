@@ -22,18 +22,21 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
- * AlSiteBootstrap is responsibile to boostrap a web site from the scratch for a 
- * given theme
+ * AlSiteBootstrapInterface defines the methos to boostrap an AlphaLemon website from 
+ * the scratch for a given theme
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 interface AlSiteBootstrapInterface
 {
-    
     /**
      * Returns the error message
      * 
      * @return string
+     * 
+     * @api
      */
     public function getErrorMessage();
     
@@ -42,6 +45,8 @@ interface AlSiteBootstrapInterface
      * 
      * @param AlLanguageManager $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
+     * 
+     * @api
      */
     public function setLanguageManager(AlLanguageManager $value);
     
@@ -50,6 +55,8 @@ interface AlSiteBootstrapInterface
      * 
      * @param AlPageManager $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
+     * 
+     * @api
      */
     public function setPageManager(AlPageManager $value);
     
@@ -58,6 +65,8 @@ interface AlSiteBootstrapInterface
      * 
      * @param AlTemplateManager $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
+     * 
+     * @api
      */
     public function setTemplateManager(AlTemplateManager $value);
     
@@ -66,6 +75,8 @@ interface AlSiteBootstrapInterface
      * 
      * @param array $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
+     * 
+     * @api
      */
     public function setDefaultLanguageValues(array $value);
     
@@ -74,6 +85,8 @@ interface AlSiteBootstrapInterface
      * 
      * @param array $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
+     * 
+     * @api
      */
     public function setDefaultPageValues(array $value);
     
@@ -81,6 +94,8 @@ interface AlSiteBootstrapInterface
      * Bootstraps the website
      * 
      * @return boolean 
+     * 
+     * @api
      */
     public function bootstrap();
 }

@@ -31,8 +31,8 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 
     /**
      * Constructor
-     *
-     * @param AlSeoManager $seoManager
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
      */
     public function __construct(AlSeoManager $seoManager)
     {
@@ -41,8 +41,6 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 
     /**
      *{ @inheritdoc }
-     *
-     * @return A model collection instance (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
     {
@@ -58,9 +56,6 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 
     /**
      * {@inheritdoc}
-     *
-     * @param AlSeo
-     * @return boolean
      */
     protected function delete($object)
     {

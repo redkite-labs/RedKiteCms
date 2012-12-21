@@ -23,9 +23,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
 
 /**
- * Renders the ediotr to manage a serie of images
+ * Renders the editor to manage a collection of images
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class ImagesBlockEditedListener
 {
@@ -33,8 +35,10 @@ class ImagesBlockEditedListener
 
     /**
      * Contructor
-     *
-     * @param EngineInterface $templateEngine
+     * 
+     * @param \Symfony\Component\Templating\EngineInterface $templateEngine
+     * 
+     * @api
      */
     public function __construct(EngineInterface $templateEngine)
     {
@@ -42,10 +46,12 @@ class ImagesBlockEditedListener
     }
 
     /**
-    * Renders the editor
-    *
-    * @param BlockEditedEvent $event
-    */
+     * Renders the editor
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent $event
+     * 
+     * @api
+     */
     public function onBlockEdited(BlockEditedEvent $event)
     {
         $blockManager = $event->getBlockManager();
