@@ -27,6 +27,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
 final class DeployEvents
 {
     // alcms.event_listener
-    const BEFORE_LOCAL_DEPLOY = 'deploy.before_local_deploy';
-    const AFTER_LOCAL_DEPLOY = 'deploy.after_local_deploy';
+    const BEFORE_DEPLOY = 'deploy.before_deploy';
+    const AFTER_DEPLOY = 'deploy.after_deploy';
 }

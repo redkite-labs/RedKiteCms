@@ -21,9 +21,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEv
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
- * Listen to the onBeforeAddPageCommit event to add the page's contents, when a new page is added
+ * Listen to the onBeforeAddPageCommit event to add the page's contents, when a new 
+ * page is added
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AddPageBlocksListener
 {
@@ -31,8 +34,10 @@ class AddPageBlocksListener
 
     /**
      * Constructor
-     *
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * 
+     * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
@@ -41,9 +46,12 @@ class AddPageBlocksListener
 
     /**
      * Adds the contents for the page when a new page is added, for each language of the site
-     *
-     * @param  BeforeAddPageCommitEvent $event
-     * @throws Exception
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
+     * @return boolean
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
+     * 
+     * @api
      */
     public function onBeforeAddPageCommit(BeforeAddPageCommitEvent $event)
     {

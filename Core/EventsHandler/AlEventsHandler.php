@@ -59,11 +59,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     }
 
     /**
-     * Returns the event dispatcher associated with the object
-     *
-     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
-     * 
-     * @api
+     * {@inheritdoc}
      */
     public function getEventDispatcher()
     {

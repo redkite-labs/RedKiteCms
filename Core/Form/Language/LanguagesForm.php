@@ -21,25 +21,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Defines the languages form
+ * Implements the form to manage the website languages
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class LanguagesForm extends AbstractType
 {
-    private $container;
-
-    public function __construct($container)
-    {
-        $this->container = $container;
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('language', 'language');
         $builder->add('isMain', 'checkbox');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultOptions(array $options)
     {
         return array(
@@ -47,6 +46,9 @@ class LanguagesForm extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'languages';

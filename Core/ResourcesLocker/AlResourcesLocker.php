@@ -21,12 +21,13 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
 /**
- * AlResourcesLocker is responsible to manage the database table where the locked
- * resources are saved.
+ * AlResourcesLocker is responsible to manage the locked resources.
  * 
  * A user could not lock more that a resource a time
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AlResourcesLocker
 {
@@ -38,6 +39,8 @@ class AlResourcesLocker
      * 
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      * @param int $expiringTime The time after a not updated resource is expired
+     * 
+     * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository, $expiringTime = 300)
     {
@@ -50,9 +53,12 @@ class AlResourcesLocker
      * Locks a resource for the current user when it is free or updates the expiring
      * time when it is locked by the same user
      * 
-     * @param int $userId
-     * @param string $resourceName
+     * @param type $userId
+     * @param type $resourceName
      * @throws ResourceNotFreeException
+     * @throws \RuntimeException
+     * 
+     * @api
      */
     public function lockResource($userId, $resourceName)
     {
@@ -89,6 +95,8 @@ class AlResourcesLocker
      * Unlocks the resource held by the giving user
      * 
      * @param int $userId
+     * 
+     * @api
      */
     public function unlockUserResource($userId)
     {
@@ -99,6 +107,8 @@ class AlResourcesLocker
      * Unlocks the given resource
      * 
      * @param string $resourceName
+     * 
+     * @api
      */
     public function unlockResource($resourceName)
     {
@@ -107,6 +117,8 @@ class AlResourcesLocker
     
     /**
      * Unlocks the expired resources
+     * 
+     * @api
      */
     public function unlockExpiredResources()
     {
@@ -120,6 +132,8 @@ class AlResourcesLocker
      * 
      * @param string $resourceName
      * @return boolean
+     * 
+     * @api
      */
     protected function isResourceFree($resourceName)
     {

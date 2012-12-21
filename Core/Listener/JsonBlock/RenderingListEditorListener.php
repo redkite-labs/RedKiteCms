@@ -20,14 +20,19 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
 
 /**
- * Manipulates the block's editor response when the editor has been rendered
+ * Renders the editor to manipulate a Json list of items
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 abstract class RenderingListEditorListener extends BaseRenderingEditorListener
 {
     protected $alBlockManager = null;
 
+    /**
+     * {@inheritdoc}
+     */
     protected function renderEditor(BlockEditorRenderingEvent $event, array $params)
     {
         try {
@@ -41,6 +46,12 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
         }
     }
 
+    /**
+     * Renders the editor
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
+     * @return string The rendered editor
+     */
     protected function doRenderEditor(BlockEditorRenderingEvent $event)
     {
         $block = $this->alBlockManager->get();

@@ -25,15 +25,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * to the adding language
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 {
     private $blockManager;
 
+    
     /**
      * Constructor
-     *
-     * @param AlBlockManager $blockManager
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager $blockManager
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * 
+     * @api
      */
     public function __construct(AlBlockManager $blockManager, ContainerInterface $container = null)
     {
@@ -44,8 +50,6 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 
     /**
      * {@inheritdoc}
-     *
-     * @return A model collection instance depending on the used ORM (i.e PropelCollection)
      */
     protected function setUpSourceObjects()
     {
@@ -58,9 +62,6 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 
     /**
      * {@inheritdoc}
-     *
-     * @param  array   $values
-     * @return boolean
      */
     protected function copy(array $values)
     {

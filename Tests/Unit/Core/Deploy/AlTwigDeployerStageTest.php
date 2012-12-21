@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerStage;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -25,7 +25,7 @@ use org\bovigo\vfs\vfsStream;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
+class AlTwigDeployerStageTest extends AlPageTreeCollectionBootstrapper
 {
     private $container;
     private $dispatcher;
@@ -82,7 +82,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
 
         vfsStream::newDirectory('Resources', 0444)->at($this->root->getChild('AcmeWebSiteBundle'));
 
-        $this->deployer = new AlTwigDeployer($this->container);
+        $this->deployer = new AlTwigDeployerStage($this->container);
         $this->deployer->deploy();
     }
 
@@ -145,19 +145,31 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
-        $this->container->expects($this->at(13))
+        $this->container->expects($this->at(14))
             ->method('get')
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
 
-        for($i = 14; $i < 18; $i++) {
+        $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $i = 15;
+        while ($i < 23) {
+            $this->container->expects($this->at($i))
+                ->method('get')
+                ->with('event_dispatcher')
+                ->will($this->returnValue($dispatcher));
+            $i = $i + 2;
+        }
+        
+        $i = 16;
+        while ($i < 23) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
                 ->will($this->returnValue($activeTheme));
+            $i = $i + 2;
         }
         
-        for($i = 18; $i < 22; $i++) {
+        for($i = 23; $i < 27; $i++) {
             $viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
             $this->container->expects($this->at($i))
                 ->method('get')
@@ -187,37 +199,37 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             )
         ;
         
-        $this->deployer = new AlTwigDeployer($this->container);
-        $this->assertTrue($this->deployer->deploy());//print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
+        $this->deployer = new AlTwigDeployerStage($this->container);
+        $this->assertTrue($this->deployer->deploy());
 
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('config')->hasChild('site_routing.yml'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('config')->hasChild('site_routing_stage.yml'));
 
         $siteRouting = "# Route <<  >> generated for language << en >> and page << index >>\n";
-        $siteRouting .= "_en_index:\n";
+        $siteRouting .= "_stage_en_index:\n";
         $siteRouting .= "  pattern: /\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: en, page: index }\n";
+        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: index }\n";
         $siteRouting .= "\n";
         $siteRouting .= "# Route << my-awesome-page >> generated for language << en >> and page << page-1 >>\n";
-        $siteRouting .= "_en_page_1:\n";
+        $siteRouting .= "_stage_en_page_1:\n";
         $siteRouting .= "  pattern: /my-awesome-page\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: en, page: page-1 }\n";
+        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: page-1 }\n";
         $siteRouting .= "\n";
         $siteRouting .= "# Route << es-homepage >> generated for language << es >> and page << index >>\n";
-        $siteRouting .= "_es_index:\n";
+        $siteRouting .= "_stage_es_index:\n";
         $siteRouting .= "  pattern: /es-homepage\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: es, page: index }\n";
+        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: es, page: index }\n";
         $siteRouting .= "\n";
         $siteRouting .= "# Route << es-my-awesome-page >> generated for language << es >> and page << page-1 >>\n";
-        $siteRouting .= "_es_page_1:\n";
+        $siteRouting .= "_stage_es_page_1:\n";
         $siteRouting .= "  pattern: /es-my-awesome-page\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: es, page: page-1 }\n";
+        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: es, page: page-1 }\n";
         $siteRouting .= "\n";
         $siteRouting .= "# Route <<  >> generated for language << en >> and page << index >>\n";
-        $siteRouting .= "_home:\n";
+        $siteRouting .= "stage_home:\n";
         $siteRouting .= "  pattern: /\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: en, page: index }";
-        $this->assertEquals($siteRouting, file_get_contents(vfsStream::url('root\AcmeWebSiteBundle\Resources\config\site_routing.yml')));
+        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: index }";
+        $this->assertEquals($siteRouting, file_get_contents(vfsStream::url('root\AcmeWebSiteBundle\Resources\config\site_routing_stage.yml')));
 
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('views'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild('AlphaLemon'));
@@ -294,7 +306,7 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
         
         $this->container->expects($this->at(8))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy.templates_folder')
+            ->with('alpha_lemon_theme_engine.deploy.stage_templates_folder')
             ->will($this->returnValue('AlphaLemon'));
         
         $this->container->expects($this->at(9))
@@ -313,6 +325,11 @@ class AlTwigDeployerTest extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue('Resources/views'));
         
         $this->container->expects($this->at(12))
+            ->method('get')
+            ->with('alpha_lemon_cms.url_manager_stage')
+            ->will($this->returnValue($this->urlManager));
+        
+        $this->container->expects($this->at(13))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($this->dispatcher));

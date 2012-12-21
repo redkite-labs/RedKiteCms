@@ -18,17 +18,18 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
 
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
 use Symfony\Component\DependencyInjection\Container;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Event\PageTree;
 
 /**
- * Extends the bas AlPageTree object to fetch page information from the database
+ * {@inheritdoc}
+ * 
+ * Extends the base AlPageTree object to fetch page information from the database
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -43,18 +44,21 @@ class AlPageTree extends BaseAlPageTree
     protected $pageRepository = null;
     protected $seoRepository = null;
     protected $templateManager;
+    protected $dispatcher;
     protected $locatedAssets = array('css' => array(), 'js' => array());
     protected $extraAssetsSuffixes = array('cms');
     protected $themesCollectionWrapper;
     private $pageName = null;
     private $request = null;
-
+    
     /**
      * Constructor
-     *
-     * @param ContainerInterface           $container
-     * @param AlFactoryRepositoryInterface $factoryRepository
-     * @param AlThemesCollectionWrapper    $themesCollectionWrapper
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
+     * 
+     * @api
      */
     public function __construct(ContainerInterface $container,
                                 AlFactoryRepositoryInterface $factoryRepository,
@@ -65,6 +69,7 @@ class AlPageTree extends BaseAlPageTree
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
+        $this->dispatcher = $container->get('event_dispatcher');
 
         parent::__construct($container);
     }
@@ -72,7 +77,9 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Returns the current AlPage object
      *
-     * @return AlPage
+     * @return AlPage instance
+     * 
+     * @api
      */
     public function getAlPage()
     {
@@ -82,7 +89,9 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Returns the current AlLanguage object
      *
-     * @return AlLanguage
+     * @return AlLanguage instance
+     * 
+     * @api
      */
     public function getAlLanguage()
     {
@@ -92,7 +101,9 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Returns the current AlSeo object
      *
-     * @return AlSeo
+     * @return AlSeo instance
+     * 
+     * @api
      */
     public function getAlSeo()
     {
@@ -103,17 +114,21 @@ class AlPageTree extends BaseAlPageTree
      * Returns the current AlTheme object
      *
      * @return \AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme
+     * 
+     * @api
      */
     public function getTheme()
     {
         return $this->theme;
     }
-
+    
     /**
      * Sets the template manager
-     *
-     * @param  AlTemplateManager                                        $v
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * 
+     * @api
      */
     public function setTemplateManager(AlTemplateManager $v)
     {
@@ -126,6 +141,8 @@ class AlPageTree extends BaseAlPageTree
      * Returns the current AlTemplateManager object
      *
      * @return AlTemplateManager
+     * 
+     * @api
      */
     public function getTemplateManager()
     {
@@ -143,9 +160,11 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
-     * Returns true when both page and language have been setted
+     * Returns true when both AlPage and AlLanguage have been setted
      *
      * @return boolean
+     * 
+     * @api
      */
     public function isValid()
     {
@@ -156,21 +175,25 @@ class AlPageTree extends BaseAlPageTree
      * Returns the current template
      *
      * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * 
+     * @api
      */
     public function getTemplate()
     {
         return (null !== $this->templateManager) ? $this->templateManager->getTemplate() : $this->template;
     }
-
+    
     /**
-     * Sets up the page tree object from current request or session (symfony 2.0.x)
-     *
-     * @return null
-     * @throws Exception
+     * Sets up the page tree object from current request
+     * 
+     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * @throws \Exception
      */
     public function setUp()
     {
-        try {   
+        try { 
+            $this->dispatcher->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTree\BeforePageTreeSetupEvent($this));
+            
             $this->pageName = $this->getRequest()->get('page');
             if (!$this->pageName || $this->pageName == "" || $this->pageName == "backend") {
                 return null;
@@ -190,22 +213,26 @@ class AlPageTree extends BaseAlPageTree
             
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
             $this->doRefresh();
-
+            
+            $this->dispatcher->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_SETUP, new PageTree\AfterPageTreeSetupEvent($this));
+            
             return $this;
         } catch (\Exception $ex) {
             throw $ex;
         }
     }
-
+    
     /**
-     * Refreshes the page tree object with the given language and page ids
-     *
-     * @param  int  $idLanguage
-     * @param  int  $idPage
+     * Refreshes the page tree object with the given language and page identities
+     * 
+     * @param int $idLanguage
+     * @param int $idPage
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
      */
     public function refresh($idLanguage, $idPage)
     {
+        $this->dispatcher->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_REFRESH, new PageTree\BeforePageTreeRefreshEvent($this));
+        
         $this->alLanguage = $this->languageRepository->fromPK($idLanguage);
         $this->alPage = $this->pageRepository->fromPK($idPage);
 
@@ -220,49 +247,10 @@ class AlPageTree extends BaseAlPageTree
         }
         
         $this->doRefresh();
-
-        /*
-        if (null === $this->theme) {
-            if (null === $this->initTheme()) {
-                return null;
-            }
-        }
-
-        $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
-        $this->doRefresh();
-        */
+        
+        $this->dispatcher->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_REFRESH, new PageTree\AfterPageTreeRefreshEvent($this));
+        
         return $this;
-    }
-
-    private function doRefresh()
-    {
-        if (null === $this->templateManager) {
-            return;
-        }
-        
-        $idLanguage = $this->alLanguage->getId();
-        $idPage = $this->alPage->getId();
-
-        $this->pageBlocks = $this->templateManager->getPageBlocks();
-        if (null === $this->pageBlocks) {
-            return;
-        }
-        
-        $this->pageBlocks
-             ->setIdLanguage($idLanguage)
-             ->setIdPage($idPage)
-             ->refresh();
-
-        $this->templateManager
-             ->setPageBlocks($this->pageBlocks)
-             ->refresh();
-
-        /*
-        if (null === $this->alSeo) { 
-            $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
-        }*/
-        
-        $this->setUpMetaTags($this->alSeo);
     }
 
     /**
@@ -277,7 +265,7 @@ class AlPageTree extends BaseAlPageTree
      * stylesheet that must be loaded only when you are in CMS mode. That task is achieved adding a parameter
      * suffixed with the ".cms" suffix (businesswebsitetheme.home.external_stylesheets.cms)
      *
-     * @param  array                                                    $value
+     * @param  array $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
      */
     public function setExtraAssetsSuffixes(array $value = array())
@@ -291,6 +279,8 @@ class AlPageTree extends BaseAlPageTree
      * Returns the page's block managers
      *
      * @return array
+     * 
+     * @api
      */
     public function getBlockManagers($slotName)
     {
@@ -361,7 +351,7 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
-     * Sets up the AlLanguage object from the current request or session (symfony 2.0.x)
+     * Sets up the AlLanguage object from the current request
      *
      * @return null|AlLanguage
      */
@@ -428,7 +418,7 @@ class AlPageTree extends BaseAlPageTree
      * Adds a range of assets to the assets collection
      *
      * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string                                                     $parameter
+     * @param string $parameter The parameter to fetch from the Container
      */
     protected function addAssetsFromContainer(&$assetsCollection, $parameter)
     {
@@ -439,7 +429,7 @@ class AlPageTree extends BaseAlPageTree
      * Adds to the assets collection the extra parameters defined by extraAssetsSuffixes
      *
      * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string                                                     $baseParam
+     * @param string $baseParam
      */
     protected function addExtraAssets(&$assetsCollection, $baseParam)
     {
@@ -468,5 +458,33 @@ class AlPageTree extends BaseAlPageTree
         }
         
         return $this->request;
+    }
+    
+    
+
+    private function doRefresh()
+    {
+        if (null === $this->templateManager) {
+            return;
+        }
+        
+        $idLanguage = $this->alLanguage->getId();
+        $idPage = $this->alPage->getId();
+
+        $this->pageBlocks = $this->templateManager->getPageBlocks();
+        if (null === $this->pageBlocks) {
+            return;
+        }
+        
+        $this->pageBlocks
+             ->setIdLanguage($idLanguage)
+             ->setIdPage($idPage)
+             ->refresh();
+
+        $this->templateManager
+             ->setPageBlocks($this->pageBlocks)
+             ->refresh();
+        
+        $this->setUpMetaTags($this->alSeo);
     }
 }

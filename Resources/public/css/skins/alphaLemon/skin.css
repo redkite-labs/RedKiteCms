@@ -127,31 +127,6 @@
   color: #cccccc;
   font: normal 14px/16px Arial, Verdana, Helvetica, sans-serif;
 }
-#al_toolbar ul {
-  padding: 0;
-  margin: 0;
-  margin-top: 1px;
-}
-#al_toolbar li {
-  display: inline;
-  padding: 6px;
-  margin: 0;
-}
-#al_toolbar li:hover {
-  background-color: #4f4f4f;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-  border-radius: 8px;
-}
-#al_toolbar a {
-  color: white;
-  text-decoration: none;
-}
-#al_toolbar a:hover {
-  text-decoration: none;
-}
 #al_toolbar .al_boxes_margins {
   margin-right: 20px;
 }
@@ -170,6 +145,45 @@
 }
 #al_toolbar select {
   margin-top: -4px;
+}
+
+.toolbar-nav ul {
+  padding: 0;
+  margin: 0;
+  margin-top: 1px;
+}
+.toolbar-nav li {
+  display: inline;
+  padding: 6px;
+  margin: 0;
+}
+.toolbar-nav li:hover {
+  background-color: #4f4f4f;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+}
+.toolbar-nav a {
+  color: white;
+  text-decoration: none;
+}
+.toolbar-nav a:hover {
+  text-decoration: none;
+}
+
+.toolbar-nav-item {
+  display: inline;
+  padding: 6px;
+  margin: 0;
+}
+.toolbar-nav-item a {
+  color: white;
+  text-decoration: none;
+}
+.toolbar-nav-item a:hover {
+  text-decoration: none;
 }
 
 #al_menu {
@@ -378,18 +392,39 @@
   width: 700px;
 }
 
+.al_items_list ul, .al_commands_box ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  *zoom: 1;
+}
+.al_items_list ul li, .al_commands_box ul li {
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: 0;
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+  white-space: nowrap;
+}
+.al_items_list li, .al_commands_box li {
+  margin-right: 6px;
+}
+
+.al_commands_box {
+  padding: 4px;
+}
+
 .al_items_list {
   border: 2px solid #cccccc;
   overflow: auto;
   margin-bottom: 10px;
 }
-.al_items_list ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
 .al_items_list li {
-  padding: 4px;
   border-bottom: 1px dotted #a5a5a5;
 }
 .al_items_list table {

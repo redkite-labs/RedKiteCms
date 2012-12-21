@@ -263,11 +263,11 @@ $(document).ready(function(){
             return false;
         });
 
-        $('#al_deploy_site').click(function()
+        $('.al_deployer').click(function()
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_local_deploy',
+                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_' + $(this).attr('rel')  + '_deploy',
                 data: {'page' :  $('#al_pages_navigator option:selected').val(),
                     'language' : $('#al_languages_navigator option:selected').val()},
                 beforeSend: function()

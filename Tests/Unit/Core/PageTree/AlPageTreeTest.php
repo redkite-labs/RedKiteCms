@@ -80,6 +80,8 @@ class AlPageTreeTest extends TestCase
         $this->themesCollectionWrapper->expects($this->any())
             ->method('assignTemplate')
             ->will($this->returnValue($this->templateManager));
+        
+        $this->dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
     }
 
     public function testTemplateManagerInjectedBySetters()
@@ -173,6 +175,8 @@ class AlPageTreeTest extends TestCase
         $this->languageRepository->expects($this->never())
             ->method('fromPK');
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
         $this->assertEquals($alLanguage, $pageTree->getAlLanguage());
@@ -206,6 +210,8 @@ class AlPageTreeTest extends TestCase
             ->method('fromPK')
             ->will($this->returnValue($alLanguage));
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
         $this->assertEquals($alLanguage, $pageTree->getAlLanguage());
@@ -238,6 +244,8 @@ class AlPageTreeTest extends TestCase
         $this->languageRepository->expects($this->never())
             ->method('fromLanguageName');
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
         $this->assertEquals($alLanguage, $pageTree->getAlLanguage());
@@ -279,6 +287,8 @@ class AlPageTreeTest extends TestCase
             ->method('fromPK')
             ->will($this->returnValue(null));
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
         $this->assertNull($pageTree->getAlPage());
@@ -324,6 +334,8 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
         $this->assertNull($pageTree->getAlPage());
@@ -370,6 +382,8 @@ class AlPageTreeTest extends TestCase
             ->method('fromPK')
             ->will($this->returnValue($alPage));
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->setup();
         $this->assertEquals($alPage, $pageTree->getAlPage());
@@ -416,6 +430,8 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->setup();
         $this->assertEquals($alPage, $pageTree->getAlPage());
@@ -456,6 +472,8 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->setup();
         $this->assertEquals($alPage, $pageTree->getAlPage());
@@ -515,6 +533,8 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->never())
             ->method('fromPK');
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->setup();
         $this->assertEquals($alPage, $pageTree->getAlPage());
@@ -549,6 +569,8 @@ class AlPageTreeTest extends TestCase
             ->method('getActiveTheme')
             ->will($this->returnValue(null));
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
     }
@@ -568,14 +590,21 @@ class AlPageTreeTest extends TestCase
 
         $this->container->expects($this->at(0))
             ->method('get')
+            ->with('event_dispatcher')
+            ->will($this->returnValue($this->dispatcher));
+        
+        $this->container->expects($this->at(1))
+            ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
 
-        $this->container->expects($this->at(1))
+        $this->container->expects($this->at(2))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request));
 
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $this->assertNull($pageTree->setup());
     }
@@ -852,9 +881,16 @@ class AlPageTreeTest extends TestCase
 
         $this->container->expects($this->at(0))
             ->method('get')
+            ->with('event_dispatcher')
+            ->will($this->returnValue($this->dispatcher));
+        
+        $this->container->expects($this->at(1))
+            ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
 
+        $this->initEventsDispatcher('page_tree.before_refresh', 'page_tree.after_refresh');
+        
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->refresh(2, 2);
         $this->assertEquals($this->language, $pageTree->getAlLanguage());
@@ -924,6 +960,8 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
+        
+        $this->initEventsDispatcher('page_tree.before_setup', 'page_tree.after_setup');
     }
 
     private function configureLanguage()
@@ -1017,12 +1055,32 @@ class AlPageTreeTest extends TestCase
     {
         $this->container->expects($this->at(0))
             ->method('get')
+            ->with('event_dispatcher')
+            ->will($this->returnValue($this->dispatcher));
+        
+        $this->container->expects($this->at(1))
+            ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
 
-         $this->container->expects($this->at(1))
+         $this->container->expects($this->at(2))
                 ->method('get')
                 ->with('request')
                 ->will($this->returnValue($request));
+    }
+    
+    private function initEventsDispatcher($beforeEvent = null, $afterEvent = null)
+    {
+        if (null !== $beforeEvent) {
+            $this->dispatcher->expects($this->at(0))
+                    ->method('dispatch')
+                    ->with($beforeEvent);
+        }
+        
+        if (null !== $afterEvent) {
+            $this->dispatcher->expects($this->at(1))
+                    ->method('dispatch')
+                    ->with($afterEvent);
+        }
     }
 }

@@ -24,11 +24,11 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        login:
+        alphalemon_login:
             pattern:  ^/backend/login$
             security: false
 
-        alphalemon_cms:
+        alphalemon:
             pattern:    ^/backend
             form_login:
                 check_path:  /backend/login_check
@@ -36,9 +36,8 @@ security:
             logout:
                 path:   /backend/logout
                 target: /backend/login
-            http_basic:
-            #anonymous: ~            
-            #    realm: "Secured Demo Area"
+            http_basic: ~
+            context: primary_auth
 
     access_control:
         - { path: "^/backend/[a-z]+/al_local_deploy", role: ROLE_ADMIN }

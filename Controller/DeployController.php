@@ -40,4 +40,17 @@ class DeployController extends Base\BaseController
             return $this->renderDialogMessage($e->getMessage());
         }
     }
+    
+    public function stageAction()
+    {
+        try {
+            $deployer = $this->container->get('alpha_lemon_cms.stage_deployer');
+            $deployer->deploy();
+            $response = $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
+            
+            return $response;
+        } catch (\Exception $e) {
+            return $this->renderDialogMessage($e->getMessage());
+        }
+    }
 }

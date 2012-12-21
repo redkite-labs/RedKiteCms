@@ -24,21 +24,32 @@ use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 
 /**
- * Defines the pages form
+ * Implements the form to manage the website pages
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
 class PagesForm extends AbstractType
 {
     private $activeTheme;
     private $themes;
 
+    /**
+     * Constructor 
+     * 
+     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme $activeTheme
+     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
+     */
     public function __construct(AlActiveTheme $activeTheme, AlThemesCollection $themes)
     {
         $this->activeTheme = $activeTheme;
         $this->themes = $themes;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('pageName');
@@ -47,6 +58,9 @@ class PagesForm extends AbstractType
         $builder->add('isPublished', 'checkbox');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultOptions(array $options)
     {
         return array(
@@ -54,6 +68,9 @@ class PagesForm extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'pages';

@@ -258,7 +258,9 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockManager->expects($this->exactly(2))
             ->method('save')
             ->will($this->onConsecutiveCalls(true, false));
-
+        
+        $this->initEventsDispatcher('template_manager.before_populate', 'template_manager.after_populate', 'template_manager.before_populate_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -300,6 +302,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
 
+        $this->initEventsDispatcher('template_manager.before_populate');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -339,6 +343,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->returnValue(true));
 
+        $this->initEventsDispatcher('template_manager.before_populate', 'template_manager.after_populate', 'template_manager.before_populate_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -394,6 +400,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->throwException(new \RuntimeException()));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -432,6 +440,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->returnValue(false));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -473,6 +483,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->returnValue(true));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -517,6 +529,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->returnValue(true));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -561,10 +575,12 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->returnValue(true));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
-
+        
         $result = $templateManager->clearBlocks();
         $this->assertTrue($result);
     }
@@ -609,6 +625,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->returnValue(false));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -660,6 +678,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->throwException(new \RuntimeException()));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
@@ -711,11 +731,40 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('delete')
             ->will($this->returnValue(true));
 
+        $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
+        
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
         $result = $templateManager->clearPageBlocks(3, 3);
         $this->assertTrue($result);
+    }
+    
+    private function initEventsDispatcher($beforeEvent = null, $afterEvent = null, $beforeCommitEvent = null)
+    {
+        $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        
+        if (null !== $beforeEvent) {
+            $dispatcher->expects($this->at(0))
+                    ->method('dispatch')
+                    ->with($beforeEvent);
+        }
+        
+        if (null !== $beforeCommitEvent) {
+            $dispatcher->expects($this->at(1))
+                    ->method('dispatch')
+                    ->with($beforeCommitEvent);
+        }
+        
+        if (null !== $afterEvent) {
+            $dispatcher->expects($this->at(2))
+                    ->method('dispatch')
+                    ->with($afterEvent);
+        }
+        
+        $this->eventsHandler->expects($this->once())
+                ->method('getEventDispatcher')
+                ->will($this->returnValue($dispatcher));
     }
 }

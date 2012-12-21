@@ -22,7 +22,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException;
 
 /**
- * Wraps the themes collection object to provide an easy way to deal with themes
+ * Handles the themes collection object to provide an easy way to deal with themes
  * and templates
  *
  * @author alphalemon <webmaster@alphalemon.com>
@@ -34,9 +34,9 @@ class AlThemesCollectionWrapper
 
     /**
      * Constructor
-     *
-     * @param AlThemesCollection $themes
-     * @param AlTemplateManager  $templateManager
+     * 
+     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
      */
     public function __construct(AlThemesCollection $themes, AlTemplateManager $templateManager)
     {
@@ -47,7 +47,7 @@ class AlThemesCollectionWrapper
     /**
      * Returns the managed themes collection
      *
-     * @return AlThemesCollection
+     * @return \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection
      */
     public function getThemesCollection()
     {
@@ -57,7 +57,7 @@ class AlThemesCollectionWrapper
     /**
      * Returns the managed template manager
      *
-     * @return AlTemplateManager
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function getTemplateManager()
     {
@@ -68,7 +68,7 @@ class AlThemesCollectionWrapper
      * Returns the theme from its name
      *
      * @param  string  $themeName
-     * @return AlTheme
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme
      */
     public function getTheme($themeName)
     {
@@ -80,7 +80,7 @@ class AlThemesCollectionWrapper
      *
      * @param  string     $themeName
      * @param  string     $templateName
-     * @return AlTemplate
+     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function getTemplate($themeName, $templateName)
     {
@@ -94,7 +94,8 @@ class AlThemesCollectionWrapper
      *
      * @param  string            $themeName
      * @param  string            $templateName
-     * @return AlTemplateManager
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @throws NonExistentTemplateException
      */
     public function assignTemplate($themeName, $templateName)
     {
