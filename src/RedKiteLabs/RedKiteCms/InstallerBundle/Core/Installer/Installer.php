@@ -197,6 +197,9 @@ class Installer {
     {
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->vendorDir . '/../web/alcms.php', true);
         $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/AlphaLemon/ThemeEngineBundle/Resources/environments/frontcontrollers/stage.php', $this->vendorDir . '/../web/stage.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/AlphaLemon/ThemeEngineBundle/Resources/environments/frontcontrollers/stage_dev.php', $this->vendorDir . '/../web/stage_dev.php', true);
+        $this->filesystem ->mkdir($this->vendorDir . '/../web/uploads/assets');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/media');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
         $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
@@ -258,6 +261,24 @@ class Installer {
             $contents .= "    - { resource: config_alcms_dev.yml }\n";
             $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/config_alcms_test.yml\" }";
             $contents .= $this->writeDatabaseConfiguration($this->shortDsn . ';dbname=' . $this->database . '_test');
+            file_put_contents($configFile, $contents);
+        }
+        
+        $configFile = $this->vendorDir . '/../app/config/config_stage.yml';
+        if (!is_file($configFile)) {
+            $contents = "imports:\n";
+            $contents .= "    - { resource: config.yml }\n\n";
+            $contents .= "framework:\n";
+            $contents .= "    router:   { resource: \"%kernel.root_dir%/config/routing_stage.yml\" }";
+            file_put_contents($configFile, $contents);
+        }
+
+        $configFile = $this->vendorDir . '/../app/config/config_stage_dev.yml';
+        if (!is_file($configFile)) {
+            $contents = "imports:\n";
+            $contents .= "    - { resource: config_dev.yml }\n\n";
+            $contents .= "framework:\n";
+            $contents .= "    router:   { resource: \"%kernel.root_dir%/config/routing_stage_dev.yml\" }";
             file_put_contents($configFile, $contents);
         }
     }
@@ -332,6 +353,22 @@ class Installer {
             $contents .= "    resource: resource: routing_alcms_dev.yml\n\n";
             $contents .= "_al_text_bundle:\n";
             $contents .= "    resource: \"@TextBundle/Resources/config/routing/routing.xml\"";
+            file_put_contents($configFile, $contents);
+        }
+        
+        $configFile = $this->vendorDir . '/../app/config/routing_stage.yml';
+        if (!is_file($configFile)) {
+            $config = "_" . $this->deployBundle . "Stage:\n";
+            $config .= "    resource: \"@$this->deployBundle/Resources/config/site_routing_stage.yml\"\n\n";
+            file_put_contents($configFile, $contents);
+        }
+
+        $configFile = $this->vendorDir . '/../app/config/routing_stage_dev.yml';
+        if (!is_file($configFile)) {
+            $contents = "_stage_prod:\n";
+            $contents .= "    resource: routing_stage.yml\n\n";
+            $contents .= "_stage_dev:\n";
+            $contents .= "    resource: routing_dev.yml";
             file_put_contents($configFile, $contents);
         }
     }

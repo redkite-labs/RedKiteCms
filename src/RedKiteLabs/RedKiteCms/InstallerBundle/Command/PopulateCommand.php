@@ -34,7 +34,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerProduction;
 
 /**
  * Populates the database after a fresh install
@@ -134,7 +134,7 @@ class PopulateCommand extends ContainerAwareCommand
 
         try
         {
-            $deployer = new AlTwigDeployer($this->getContainer());
+            $deployer = new AlTwigDeployerProduction($this->getContainer());
             $deployer->deploy();
         }
         catch(\Exception $ex)
