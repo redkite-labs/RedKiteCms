@@ -29,5 +29,5 @@
 {% endfor %}
 
 {% for key, block_manager in block_managers %}
-<div id="{{ key }}" class="al_hidden">{{ block_manager.getHtml|raw }}</div>
+<div id="{{ key }}" class="al_hidden">{{ blockContentToHtml(block_manager.toArray.Content) }}</div>
 {% endfor %}
