@@ -31,6 +31,7 @@ class SlotRendererExtensionTest extends TestCase
         $functions = array(
             "renderSlot",
             "renderBlock",
+            "blockContentToHtml",
         );
         $this->assertEquals($functions, array_keys($this->slotRenderer->getFunctions()));
     }
