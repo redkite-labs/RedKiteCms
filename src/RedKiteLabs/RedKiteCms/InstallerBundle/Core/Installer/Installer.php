@@ -358,8 +358,8 @@ class Installer {
         
         $configFile = $this->vendorDir . '/../app/config/routing_stage.yml';
         if (!is_file($configFile)) {
-            $config = "_" . $this->deployBundle . "Stage:\n";
-            $config .= "    resource: \"@$this->deployBundle/Resources/config/site_routing_stage.yml\"\n\n";
+            $contents = "_" . $this->deployBundle . "Stage:\n";
+            $contents .= "    resource: \"@$this->deployBundle/Resources/config/site_routing_stage.yml\"\n\n";
             file_put_contents($configFile, $contents);
         }
 
