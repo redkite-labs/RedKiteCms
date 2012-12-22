@@ -65,13 +65,12 @@ abstract class AlTwigDeployer extends AlDeployer
      */
     protected function save(AlPageTree $pageTree)
     {
-        $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
         $imagesPath = array(
             'backendPath' => $this->uploadAssetsAbsolutePath,
             'prodPath' => $this->deployBundleAsset->getAbsolutePath()
         );
         
-        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->blockManagerFactory, $this->urlManager, $viewsRenderer, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewsRenderer, $imagesPath);
 
         return $twigTemplateWriter->writeTemplate($this->viewsDir);
     }

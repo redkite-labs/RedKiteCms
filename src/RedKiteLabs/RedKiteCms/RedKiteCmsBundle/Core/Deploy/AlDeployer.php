@@ -44,6 +44,7 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $fileSystem = null;
     protected $deployController = null;
     protected $deployFolder = null;
+    protected $viewsRenderer;
     private $pageTreeCollection = null;
 
     /**
@@ -94,6 +95,8 @@ abstract class AlDeployer implements AlDeployerInterface
         
         $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
         $this->deployFolder = $this->getTemplatesFolder();
+        $this->viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
+        
         $this->fileSystem = new Filesystem();
     }
 
