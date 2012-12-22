@@ -256,7 +256,7 @@ class AlTwigTemplateWriter
                     
                     $content = $this->rewriteImagesPathForProduction($content);
                     $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
-                    if($slotName == 'alphalemon_love') {echo "Y";exit;}
+                    
                     if ($needsCredits && $slotName == 'alphalemon_love' && preg_match('/\<a[^\>]+href="http:\/\/alphalemon\.com[^\>]+\>powered by alphalemon cms\<\/a\>/is', strtolower($content))) {
                         $needsCredits = false;
                     }
