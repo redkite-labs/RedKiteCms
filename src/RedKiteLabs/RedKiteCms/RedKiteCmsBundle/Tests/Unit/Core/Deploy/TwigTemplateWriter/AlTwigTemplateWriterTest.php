@@ -294,6 +294,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "<!-- END LOGO BLOCK -->" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
@@ -316,6 +317,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
@@ -338,6 +340,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
@@ -370,6 +373,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
@@ -396,6 +400,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
@@ -428,6 +433,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "<!-- END FAKE_SLOT BLOCK -->" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
@@ -479,6 +485,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
@@ -561,6 +568,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
@@ -602,9 +610,15 @@ class AlTwigTemplateWriterTest extends TestCase
         return $language;
     }
 
-    private function setUpPageBlocks(array $blocks = null)
+    private function setUpPageBlocks(array $blocks = null, $withLove = true)
     {
-        if(null === $blocks) $blocks = array("logo" => array($this->setUpBlock('my content')));
+        if (null === $blocks) {
+            $blocks = array("logo" => array($this->setUpBlock('my content')));
+        }
+        /*
+        if ($withLove) {
+            $blocks[] = array("alphalemon_love" => array($this->setUpBlock('<a href="http://alphalemon.com">Powered by AlphaLemon CMS</a>')));
+        }*/
 
         $pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
@@ -681,5 +695,19 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->blockManagerFactory->expects($this->exactly($callingTimes))
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
+    }
+    
+    private function addSomeLove()
+    {
+        $content = "{% block internal_header_stylesheets %}" . PHP_EOL;
+        $content .= "  {{ parent() }}" . PHP_EOL . PHP_EOL;
+        $content .= "  <style>.al-credits{width:100%;background-color:#fff;text-align:center;padding:6px;border-top:1px solid #000;margin-top:1px;}.al-credits a{color:#333;}.al-credits a:hover{color:#C20000;}</style>" . PHP_EOL;
+        $content .= "{% endblock %}" . PHP_EOL . PHP_EOL;
+        $content .= "{% block body %}" . PHP_EOL;
+        $content .= "  {{ parent() }}" . PHP_EOL . PHP_EOL;
+        $content .= "  <div class=\"al-credits\"><a href=\"http://alphalemon.com\">Powered by AlphaLemon CMS</div>" . PHP_EOL;
+        $content .= "{% endblock %}" . PHP_EOL;
+        
+        return $content;
     }
 }
