@@ -1,0 +1,42 @@
+UPGRADE TO STABLE RELEASE
+The stable release introduces the stage environment. To enable it in a previous release
+take this steps:
+
+1. Copy the stage.php and stage_dev.php files from vendor/alphalemon/theme-engine-bundle/AlphaLemon/ThemeEngineBundle/Resources/environments/frontcontrollers
+to application's web folder
+2. Under the app/config folder, create the config_stage.yml file and add the following code:
+
+    imports:
+        - { resource: config.yml }
+
+    framework:
+        router:   { resource: "%kernel.root_dir%/config/routing_stage.yml" }
+
+3. Under the app/config folder, create the config_stage_dev.yml file and add the following code:
+
+    imports:
+        - { resource: config_dev.yml }
+
+    framework:
+        router:   { resource: "%kernel.root_dir%/config/routing_stage_dev.yml" }
+
+4. Under the app/config folder, create the routing_stage.yml file and add the following code:
+
+    _AcmeWebSiteBundleStage:
+        resource: "@AcmeWebSiteBundle/Resources/config/site_routing_stage.yml"
+
+5. Under the app/config folder, create the routing_stage_dev.yml file and add the following code:
+
+    _stage_prod:
+        resource: routing_stage.yml
+
+    _stage_dev:
+        resource: routing_dev.yml
+
+6. Clear the cache, or better remove the cache folder
+
+To use the environments in a new browser tab open one of the following:
+
+    http://localhost/stage.php
+    http://localhost/stage_dev.php
+
