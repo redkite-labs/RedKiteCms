@@ -226,13 +226,14 @@ class AlTwigTemplateWriter
     /**
      * Generates the contents section
      */
-    protected function generateContentsSection()
+    private function generateContentsSection()
     {
         // Writes page contentsSection
         $this->contentsSection = $this->writeComment("Contents section");
         $slots = array_keys($this->template->getSlots());
 
         
+        $needsCredits = true;
         $languageName = $this->pageTree->getAlLanguage()->getLanguageName();
         $pageName = $this->pageTree->getAlPage()->getPageName();
         $blocks = $this->pageTree->getPageBlocks()->getBlocks();
@@ -240,7 +241,7 @@ class AlTwigTemplateWriter
             if ( ! in_array($slotName, $slots)) {
                 continue;
             }
-
+            
             $contentMetatags = "";
             $htmlContents = array();
             foreach ($slotBlocks as $block) {
@@ -255,6 +256,10 @@ class AlTwigTemplateWriter
                     
                     $content = $this->rewriteImagesPathForProduction($content);
                     $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
+                    
+                    if ($needsCredits && $slotName == 'alphalemon_love' && preg_match('/\<a[^\>]+href="http:\/\/alphalemon\.com[^\>]+\>powered by alphalemon cms\<\/a\>/is', strtolower($content))) {
+                        $needsCredits = false;
+                    }
                     
                     $metatags = $blockManager->getMetaTags();
                     if (null !== $metatags) {
@@ -282,6 +287,17 @@ class AlTwigTemplateWriter
         foreach ($orphanSlots as $slot) {
             $slotName = $slot->getSlotName();
             $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, ""));
+        }
+        
+        if ($needsCredits) {            
+            $this->contentsSection .= '{% block internal_header_stylesheets %}' . PHP_EOL;
+            $this->contentsSection .= '  {{ parent() }}' . PHP_EOL. PHP_EOL;
+            $this->contentsSection .= '  <style>.al-credits{width:100%;background-color:#fff;text-align:center;padding:6px;border-top:1px solid #000;margin-top:1px;}.al-credits a{color:#333;}.al-credits a:hover{color:#C20000;}</style>' . PHP_EOL;
+            $this->contentsSection .= '{% endblock %}' . PHP_EOL. PHP_EOL;
+            $this->contentsSection .= '{% block body %}' . PHP_EOL;
+            $this->contentsSection .= '  {{ parent() }}' . PHP_EOL. PHP_EOL;
+            $this->contentsSection .= '  <div class="al-credits"><a href="http://alphalemon.com">Powered by AlphaLemon CMS</div>' . PHP_EOL;
+            $this->contentsSection .= '{% endblock %}' . PHP_EOL;
         }
     }
 

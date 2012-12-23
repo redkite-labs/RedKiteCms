@@ -145,14 +145,14 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
-        $this->container->expects($this->at(13))
+        $this->container->expects($this->at(14))
             ->method('get')
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
 
         $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $i = 14;
-        while ($i < 22) {
+        $i = 15;
+        while ($i < 23) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('event_dispatcher')
@@ -160,21 +160,13 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
             $i = $i + 2;
         }
         
-        $i = 15;
-        while ($i < 22) {
+        $i = 16;
+        while ($i < 23) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
                 ->will($this->returnValue($activeTheme));
             $i = $i + 2;
-        }
-        
-        for($i = 22; $i < 26; $i++) {
-            $viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
-            $this->container->expects($this->at($i))
-                ->method('get')
-                ->with('alpha_lemon_cms.view_renderer')
-                ->will($this->returnValue($viewRenderer));
         }
         
         $this->template->expects($this->exactly(4))
@@ -309,22 +301,28 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_theme_engine.deploy.templates_folder')
             ->will($this->returnValue('AlphaLemon'));
         
+        $viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
         $this->container->expects($this->at(9))
+                ->method('get')
+                ->with('alpha_lemon_cms.view_renderer')
+                ->will($this->returnValue($viewRenderer));
+        
+        $this->container->expects($this->at(10))
             ->method('get')
             ->with('alpha_lemon_cms.url_manager')
             ->will($this->returnValue($this->urlManager));
 
-        $this->container->expects($this->at(10))
+        $this->container->expects($this->at(11))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($this->blockManagerFactory));
 
-        $this->container->expects($this->at(11))
+        $this->container->expects($this->at(12))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.views_dir')
             ->will($this->returnValue('Resources/views'));
         
-        $this->container->expects($this->at(12))
+        $this->container->expects($this->at(13))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($this->dispatcher));
