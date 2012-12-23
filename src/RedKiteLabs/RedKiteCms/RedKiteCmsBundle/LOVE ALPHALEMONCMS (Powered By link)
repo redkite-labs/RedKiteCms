@@ -1,0 +1,21 @@
+LOVE ALPHALEMONCMS
+Since AlphaLemon 1.0.0 stable a "Powered By AlphaLemon CMS" link is automatically added
+to each page of the website, when it is deployed.
+
+This is the only advertise to spread the world about AlphaLemon CMS, so if you are
+satisfied with this application, we will be glad if you could give some love to
+AlphaLemon CmS, giving us a link back.
+
+Integration with your website
+You can perfecttly integrate the AlphaLemon CMS link into your website adding a new
+slot to your base template to render it in all the website's pages as follows:
+
+    {% block alphalemon_love %}
+        {# BEGIN-SLOT
+            name: alphalemon_love
+            repeated: site
+            htmlContent: |
+                <a href="http://alphalemon.com">Powered by AlphaLemon CMS</a>
+        END-SLOT #}
+        {{ renderSlot('alphalemon_love') }}
+    {% endblock %}   
