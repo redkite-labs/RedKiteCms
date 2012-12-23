@@ -37,7 +37,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $this->pageRepository = new AlPageRepositoryPropel();
+        $this->pageRepostestAddNewBlockitory = new AlPageRepositoryPropel();
         $this->seoRepository = new AlSeoRepositoryPropel();
         $this->blockRepository = new AlBlockRepositoryPropel();
 
@@ -137,7 +137,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("add-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("insertAfter", $json[1]));
-        $this->assertEquals("block_21", $json[1]["insertAfter"]);
+        $this->assertEquals("block_22", $json[1]["insertAfter"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
@@ -382,7 +382,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("remove-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("blockName", $json[1]));
-        $this->assertEquals("block_25", $json[1]["blockName"]);
+        $this->assertEquals("block_26", $json[1]["blockName"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(1, count($blocks));

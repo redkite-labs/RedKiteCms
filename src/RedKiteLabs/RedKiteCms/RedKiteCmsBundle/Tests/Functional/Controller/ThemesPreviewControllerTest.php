@@ -100,7 +100,7 @@ class ThemesPreviewControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#al_map_rightcolumn')->count());   
         $this->assertEquals(1, $crawler->filter('#al_map_sixboxes')->count());
         $this->assertEquals(1, $crawler->filter('#al_map_logo')->count());        
-        $this->assertEquals(31, $crawler->filter('.al_slot')->count());
+        $this->assertEquals(32, $crawler->filter('.al_slot')->count());
         
         // Checks one slot per page
         $this->assertEquals(1, $crawler->filter('#al_slot_repeated_slots_logo')->count()); 

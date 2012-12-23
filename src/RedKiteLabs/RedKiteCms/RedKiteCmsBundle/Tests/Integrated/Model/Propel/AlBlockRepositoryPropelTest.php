@@ -60,7 +60,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveAllPageContents()
     {
         $blocks = $this->blockRepository->retrieveContents(array(1, 2), array(1, 2));
-        $this->assertEquals(22, count($blocks));
+        $this->assertEquals(23, count($blocks));
     }
 
     public function testRetrieveSlotContents()
@@ -97,7 +97,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveAllContentsByLanguageId()
     {
         $blocks = $this->blockRepository->fromLanguageId(array(1, 2));
-        $this->assertEquals(23, count($blocks));
+        $this->assertEquals(24, count($blocks));
     }
 
     public function testRetrieveContentsByPageId()
@@ -109,7 +109,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveAllContentsByPageId()
     {
         $blocks = $this->blockRepository->fromPageId(array(1, 2));
-        $this->assertEquals(42, count($blocks));
+        $this->assertEquals(43, count($blocks));
     }
 
     public function testRetrieveContentsByContent()
@@ -127,12 +127,12 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text');
-        $this->assertCount(30, $blocks);
+        $this->assertCount(31, $blocks);
     }
 
     public function testRetrieveNumberOfContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text', 'count');
-        $this->assertEquals(30, $blocks);
+        $this->assertEquals(31, $blocks);
     }
 }
