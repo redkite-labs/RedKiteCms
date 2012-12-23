@@ -163,7 +163,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#block_1')->count());
         $this->assertEquals(1, $crawler->filter('#block_32')->count());
-        $this->assertEquals(22, $crawler->filter('.al_editable')->count());
+        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
     }
 
     public function testPageJustAddedSeoAttributes()
@@ -267,7 +267,7 @@ class PagesControllerTest extends WebTestCaseFunctional
     public function testEditPage()
     {
         // Saves a link that contains the permalink we are going to change
-        $block = $this->blockRepository->fromPK(14);
+        $block = $this->blockRepository->fromPK(15);
         $block->setContent('<a href="page-2">Go to page 2</a>');
         $block->save();
 

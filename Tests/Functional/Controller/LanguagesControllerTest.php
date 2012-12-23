@@ -115,7 +115,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#block_1')->count());
         $this->assertEquals(1, $crawler->filter('#block_32')->count());
-        $this->assertEquals(22, $crawler->filter('.al_editable')->count());
+        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
     }
 
     public function testRequestingPageFromPermalink()
@@ -125,7 +125,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#block_1')->count());
         $this->assertEquals(1, $crawler->filter('#block_32')->count());
-        $this->assertEquals(22, $crawler->filter('.al_editable')->count());
+        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
     }
     
     public function testLoadLanguageAttributes()

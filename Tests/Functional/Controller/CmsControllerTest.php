@@ -117,7 +117,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('.al_top_section_2')->count());
         $this->assertEquals(1, $crawler->filter('#block_11')->count());
         $this->assertEquals(1, $crawler->filter('.al_copyright_box')->count());
-        $this->assertEquals(22, $crawler->filter('.al_editable')->count());
+        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
     }
 
     public function testMovingThroughPages()
@@ -166,7 +166,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('.al_page_content')->count());
         $this->assertEquals(1, $crawler->filter('#block_11')->count());
         $this->assertEquals(1, $crawler->filter('.al_copyright_box')->count());
-        $this->assertEquals(12, $crawler->filter('.al_editable')->count());
+        $this->assertEquals(13, $crawler->filter('.al_editable')->count());
 
         $link = $crawler->selectLink('home')->link();
         $crawler = $this->client->click($link);
