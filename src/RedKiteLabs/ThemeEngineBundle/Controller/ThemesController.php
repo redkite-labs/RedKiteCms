@@ -58,7 +58,7 @@ class ThemesController extends ContainerAware
 
         $screenshotPath = 'images/screenshot.png';
         $fileName = \sprintf('%s/Resources/public/%s', $asset->getRealPath(), $screenshotPath);
-        $info["screenshot"] = (file_exists($fileName)) ? $asset->getAbsolutePath() . $screenshotPath : $this->retriveDefaultScreenshot();
+        $info["screenshot"] = (file_exists($fileName)) ? "/" . $asset->getAbsolutePath() . "/" . $screenshotPath : $this->retriveDefaultScreenshot();
 
         if ($buttons) $info['buttons'] = $buttons;
 
