@@ -133,7 +133,7 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->assertCount(0, $templateAssets['external_stylesheets_cms']);
         $this->assertCount(0, $templateAssets['external_javascripts_cms']);
         $this->assertTrue(array_key_exists('slots', $template));
-        $this->assertCount(11, $template['slots']);
+        $this->assertCount(12, $template['slots']);
 
         $template = $information['home.html.twig'];
         $this->assertTrue(array_key_exists('assets', $template));

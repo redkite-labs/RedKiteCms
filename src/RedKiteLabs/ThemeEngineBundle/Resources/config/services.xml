@@ -31,9 +31,13 @@
         <parameter key="alpha_lemon_theme_engine.template_assets.class">AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets</parameter>
         <parameter key="alpha_lemon_theme_engine.template_slots.class">AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots</parameter>
         <parameter key="alpha_lemon_theme_engine.404_error_handler.class">AlphaLemon\ThemeEngineBundle\Core\Listener\NotFoundErrorHandlerListener</parameter>
+        <parameter key="alpha_lemon_theme_engine.registed_listeners.class">AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListenersCollection\AlThemeEngineListenersCollection</parameter>        
     </parameters>
 
     <services>
+        <service id="alpha_lemon_theme_engine.registed_listeners" class="%alpha_lemon_theme_engine.registed_listeners.class%">
+        </service>
+        
         <service id="alpha_lemon_theme_engine.themes" class="%alpha_lemon_theme_engine.themes.class%">
         </service>
 

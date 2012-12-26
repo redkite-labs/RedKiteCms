@@ -61,6 +61,7 @@ abstract class BasePageRenderingListener
         $response = $event->getResponse();
 
         $slotContents = $this->renderSlotContents();
+        
         if (!is_array($slotContents)) {
             throw new \InvalidArgumentException('"renderSlotContents" method must return an array');
         }
