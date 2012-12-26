@@ -670,6 +670,8 @@ class AlPageTreeTest extends TestCase
         $this->template->expects($this->once())
             ->method('getSlots')
             ->will($this->returnValue(array('logo' => 'slot')));
+        
+        $this->initRegistedListeners();
 
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
@@ -700,6 +702,8 @@ class AlPageTreeTest extends TestCase
             ->method('getSlots')
             ->will($this->returnValue(array('logo' => 'slot')));
 
+        $this->initRegistedListeners();
+        
         $themeAssets = array('some code retrieved from template');
         $this->setUpAssetsCollection($themeAssets);
 
@@ -736,6 +740,11 @@ class AlPageTreeTest extends TestCase
             ->with('business_website_theme.home.external_stylesheets.cms')
             ->will($this->returnValue($appAssets));
 
+        $this->container->expects($this->at(5))
+            ->method('get')
+            ->with('alpha_lemon_theme_engine.registed_listeners')
+            ->will($this->returnValue(array()));
+        
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
 
@@ -772,6 +781,8 @@ class AlPageTreeTest extends TestCase
             ->with('fancyapp.external_stylesheets')
             ->will($this->returnValue($appAssets));
 
+        $this->initRegistedListeners();
+        
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
 
@@ -808,6 +819,8 @@ class AlPageTreeTest extends TestCase
             ->with('fancyapp.external_stylesheets.cms')
             ->will($this->returnValue($appAssets));
 
+        $this->initRegistedListeners();
+        
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
 
@@ -815,6 +828,61 @@ class AlPageTreeTest extends TestCase
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->setup();
         $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
+    }
+    
+    public function testPageTreeSetsUpExternalAssetsFromListener()
+    {
+        $this->initValidPageTree();
+        $this->language->expects($this->once())
+            ->method('getLanguageName')
+            ->will($this->returnValue('en'));
+        
+        $this->page->expects($this->once())
+            ->method('getPageName')
+            ->will($this->returnValue('current-page'));
+        
+        $this->setUpTemplateAttributes();
+
+        $this->pageBlocks->expects($this->once())
+            ->method('getBlocks')
+            ->will($this->returnValue(array()));
+        
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array('logo' => 'slot')));
+
+        $listeners = array('alpha_lemon_demo.demo_listener' => 'alpha_lemon_demo.demo_listener');
+        $this->initRegistedListeners($listeners);
+        
+        $this->container->expects($this->exactly(4))
+            ->method('hasParameter')
+            ->will($this->onConsecutiveCalls(false, true, true, true));
+        
+        $appAssets = array('page-listener-stylesheet.css');
+        $this->container->expects($this->at(6))
+            ->method('getParameter')
+            ->with('alpha_lemon_demo.demo_listener.page.external_stylesheets')
+            ->will($this->returnValue($appAssets));
+        
+        $appAssets = array('language-listener-stylesheet.css');
+        $this->container->expects($this->at(8))
+            ->method('getParameter')
+            ->with('alpha_lemon_demo.demo_listener.en.external_stylesheets')
+            ->will($this->returnValue($appAssets));
+        
+        $appAssets = array('current-page-listener-stylesheet.css');
+        $this->container->expects($this->at(10))
+            ->method('getParameter')
+            ->with('alpha_lemon_demo.demo_listener.current-page.external_stylesheets')
+            ->will($this->returnValue($appAssets));
+        
+        $themeAssets = array('theme-stylesheet.css');
+        $this->setUpAssetsCollection($themeAssets);
+
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $pageTree->getExternalStylesheets();
+        //$this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
     }
 
     public function testPageTreeHasNotBeenRefreshedBecauseThemeIsNull()
@@ -1082,5 +1150,13 @@ class AlPageTreeTest extends TestCase
                     ->method('dispatch')
                     ->with($afterEvent);
         }
+    }
+    
+    private function initRegistedListeners($listeners = array())
+    {
+        $this->container->expects($this->at(4))
+            ->method('get')
+            ->with('alpha_lemon_theme_engine.registed_listeners')
+            ->will($this->returnValue($listeners));
     }
 }

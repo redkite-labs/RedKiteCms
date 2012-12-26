@@ -70,7 +70,7 @@ class AlPageTree extends BaseAlPageTree
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->dispatcher = $container->get('event_dispatcher');
-
+        
         parent::__construct($container);
     }
 
@@ -315,6 +315,22 @@ class AlPageTree extends BaseAlPageTree
             $extensionAlias = Container::underscore($themeBasename);
             $parameter = sprintf('%s.%s.%s_%s', $extensionAlias, $template->getTemplateName(), $type, $assetType);
             $this->addExtraAssets($assetsCollection, $parameter);
+            
+            // merges assets for theme engine registered listeners
+            $registeredListeners = $this->container->get('alpha_lemon_theme_engine.registed_listeners');
+            foreach ($registeredListeners as $registeredListener) {
+                // Assets from page_renderer.before_page_rendering listeners
+                $parameter = sprintf('%s.page.%s_%s', $registeredListener, $type, $assetType);
+                $this->addAssetsFromContainer($assetsCollection, $parameter);
+                
+                // Assets from page_renderer.before_[language]_rendering listeners
+                $parameter = sprintf('%s.%s.%s_%s', $registeredListener, $this->alLanguage->getLanguageName(), $type, $assetType);
+                $this->addAssetsFromContainer($assetsCollection, $parameter);
+                
+                // Assets from page_renderer.before_[page]_rendering listeners
+                $parameter = sprintf('%s.%s.%s_%s', $registeredListener, $this->alPage->getPageName(), $type, $assetType);
+                $this->addAssetsFromContainer($assetsCollection, $parameter);
+            }
 
             // merges assets from installed apps
             $templateSlots = array_keys($template->getSlots());
