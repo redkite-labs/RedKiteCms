@@ -45,6 +45,11 @@
     "alphalemon/business-website-theme-bundle": "dev-master",
     "doctrine/common": "dev-bugfix as 2.3.0"
   },
+  "extra": {
+    "branch-alias": {
+        "dev-master": "1.0.x-dev"
+    }
+  },
   "require-dev": {    
     "willdurand/propel-typehintable-behavior": "dev-master",  
     "mikey179/vfsStream": "dev-master"
