@@ -30,24 +30,28 @@ class EventListenersRegistrator
         if (!$container->hasDefinition('event_dispatcher')) {
             return;
         }
-
+        
         $definition = $container->getDefinition('event_dispatcher');
-
+        $registedListenersDefinition = $container->getDefinition('alpha_lemon_theme_engine.registed_listeners');
         foreach ($container->findTaggedServiceIds($tagServiceId) as $id => $events) {
             foreach ($events as $event) {
                 $priority = isset($event['priority']) ? $event['priority'] : 0;
-
+                
                 if (!isset($event['event'])) {
                     throw new \InvalidArgumentException(sprintf('Service "%s" must define the "event" attribute on "%s" tags.', $id, $tagServiceId));
                 }
-
+                
                 if (!isset($event['method'])) {
                     $event['method'] = 'on'.preg_replace(array(
                         '/(?<=\b)[a-z]/ie',
                         '/[^a-z0-9]/i'
                     ), array('strtoupper("\\0")', ''), $event['event']);
                 }
-
+                
+                if ($tagServiceId == 'alpha_lemon_theme_engine.event_listener') {
+                    $registedListenersDefinition->addMethodCall('addListenerId', array($id));
+                }
+                
                 $definition->addMethodCall('addListenerService', array($event['event'], array($id, $event['method']), $priority));
             }
         }
