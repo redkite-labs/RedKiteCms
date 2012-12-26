@@ -1,3 +1,20 @@
+Stable Release (2012-12-27)
+4f4efd4 improved to add assets from the theme engine registered listeners for the alpha_lemon_theme_engine.event_listener tag
+f6eb502 refactored deploy action
+472a43a added the blockContentToHtml method to render a block's content
+fec5be2 grouped command buttons in the toolbar
+154accb added new events dispatched when a page tree has been set up and when it has been refreshed
+2b3d924 added new events when a template is populated and blocks are cleared
+220fa61 renamed deploy events
+a5d433e added getEventDispatcher method to AlEventsHandlerInterface
+632397f added a new abstract class to initialize ElFinder options
+a0c36df added the stage environment
+1ae7ce9 improved the getFrontcontroller method
+6e611a4 added twitter bootstrap dropdown and changed the deploy link to a dropdown menu to deploy for stage and production environments
+83808cf improved login form to be more extensible
+6f6623f renamed firewall
+967f8fe added assetic configuration
+
 RC7 Release (2012-12-09)
 * [many]  api frozen (still in progress)
 * 0e1dd82 fixed docblock documentation
