@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>AlphaLemon CMS Bundle</title>
+    <parser>
+        <target>output</target>
+        <markers>
+            <item>TODO</item>
+            <item>FIXME</item>
+        </markers>
+        <extensions>
+            <extension>php</extension>
+        </extensions>
+        <visibility></visibility>
+    </parser>
+    <transformer>
+        <target>output</target>
+    </transformer>
+    <logging>
+        <level>warn</level>
+        <paths>
+            <default>{APP_ROOT}/data/log/{DATE}.log</default>
+            <errors>{APP_ROOT}/data/log/{DATE}.errors.log</errors>
+        </paths>
+    </logging>
+    <transformations>
+        <template name="responsive" />
+    </transformations>
+    <files>
+        <ignore>Resources/*</ignore>
+        <ignore>Tests/*</ignore>
+        <ignore>Core/vendor/*</ignore>
+        <ignore>Core/Exception/*</ignore>
+        <ignore>Command/Update/*</ignore>
+        <ignore>Bundle/AlphaLemon/Block/*/Tests*</ignore>
+    </files>
+</phpdoc>
