@@ -26,7 +26,7 @@
     "symfony/framework-bundle": ">=2.1,<2.3-dev",
     "imagine/Imagine": ">=0.2",
     "propel/propel-bundle": "1.1.*",
-    "propel/propel1": "1.6.*",
+    "propel/propel1": "1.6.7",
     "phing/phing": "2.4.12",
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
