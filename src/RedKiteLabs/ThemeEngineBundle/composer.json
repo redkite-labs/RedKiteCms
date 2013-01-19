@@ -13,9 +13,10 @@
   ],
   "require": {
     "php": ">=5.3.3",    
-    "symfony/framework-bundle": ">=2.1,<2.3-dev"
+    "symfony/framework-bundle": ">=2.1,<2.3-dev",
   },
   "require-dev": {
+    "sensio/generator-bundle": "2.1.*",
     "mikey179/vfsStream": "dev-master",
     "alphalemon/business-website-theme-bundle": "dev-master"
   },
