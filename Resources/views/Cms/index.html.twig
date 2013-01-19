@@ -69,7 +69,9 @@
 
 {% block internal_header_stylesheets %}
     {{ parent() }}
+    <style>
     {{ internal_stylesheets|raw }}
+    </style>
 {% endblock %}
 
 {% block external_stylesheets %}
@@ -85,16 +87,18 @@
                                                 'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
                                                 'bundles/alphalemoncms/vendor/vendor-adapter.css'
                                                 'bundles/alphalemoncms/css/skins/alphaLemon/skin.css'
-                                                'bundles/alphalemoncms/vendor/bootstrap/css/bootstrap.min.css' %}
+                                                'bundles/alphalemoncms/vendor/bootstrap/css/bootstrap.min.css' 
+    %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
 {% else %}
-    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/vendor/bootstrap/css/bootstrap.min.css'
-                                       'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
+    {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
                                        'bundles/alphalemoncms/vendor/medialize/css/*'
                                        'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
                                        'bundles/alphalemoncms/vendor/vendor-adapter.css'
-                                       'bundles/alphalemoncms/css/skins/alphaLemon/skin.css' %}
+                                       'bundles/alphalemoncms/css/skins/alphaLemon/skin.css'
+                                       'bundles/alphalemoncms/vendor/bootstrap/css/bootstrap.min.css' 
+    %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
     {% endstylesheets %}
 {% endif %}
@@ -111,7 +115,8 @@
                                      'bundles/alphalemonthemeengine/js/vendor/jquery.ui.position.js'
                                      'bundles/alphalemoncms/vendor/medialize/js/*'
                                      'bundles/alphalemoncms/vendor/pageguide/js/pageguide.js'
-                                     'bundles/alphalemoncms/js/*' %}
+                                     'bundles/alphalemoncms/js/*' 
+    %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% else %}
@@ -122,7 +127,8 @@
                     'bundles/alphalemonthemeengine/js/vendor/jquery.ui.position.js'
                     'bundles/alphalemoncms/vendor/medialize/js/*'
                     'bundles/alphalemoncms/vendor/pageguide/js/pageguide.js'
-                    'bundles/alphalemoncms/js/*' %}
+                    'bundles/alphalemoncms/js/*' 
+    %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% endif %}
