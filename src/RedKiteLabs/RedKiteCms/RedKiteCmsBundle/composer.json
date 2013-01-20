@@ -25,12 +25,13 @@
     "php": ">=5.3.3",
     "imagine/Imagine": ">=0.2",
     "propel/propel-bundle": "1.1.*",
-    "propel/propel1": "dev-master",
+    "propel/propel1": "1.6.7",
     "phing/phing": "2.4.12",
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
-    "doctrine/common": "dev-bugfix as 2.3.0"
+    "doctrine/common": "dev-bugfix as 2.3.0",
+    "alphalemon/business-website-theme-bundle": "dev-master"
   },
   "require-dev": {    
     "symfony/symfony": "2.1.*",
@@ -47,7 +48,7 @@
     "jms/di-extra-bundle": "1.1.*",
     "kriswallsmith/assetic": "1.1.*@dev",  
     "willdurand/propel-typehintable-behavior": "dev-master",  
-    "mikey179/vfsStream": "dev-master"
+    "mikey179/vfsStream": "1.1.0"
   },
   "minimum-stability": "dev",
   "autoload": {
