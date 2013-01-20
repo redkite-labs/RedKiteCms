@@ -27,9 +27,9 @@
     "sensio/generator-bundle": "2.1.*",
     "jms/security-extra-bundle": "1.2.*",
     "jms/di-extra-bundle": "1.1.*",
-    "kriswallsmith/assetic": "1.1.*@dev",   
-    "mikey179/vfsStream": "dev-master",
-    "alphalemon/business-website-theme-bundle": "dev-master"
+    "kriswallsmith/assetic": "1.1.*@dev",
+    "alphalemon/business-website-theme-bundle": "dev-master",
+    "mikey179/vfsStream": "1.1.0"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
