@@ -19,6 +19,10 @@
       {
           "type": "git",
           "url": "https://github.com/alphalemon/common"
+      },
+      {
+          "type": "git",
+          "url": "https://github.com/alphalemon/Propel"
       }
   ],
   "require": {
