@@ -1,4 +1,10 @@
-Stable Release (2012-12-27)
+Stable Release 1.0.1 (2013-01-20)
+5d60ed7 lowered the panel's zindex to properly display the bootstrap dropdownmenu when the panel is opened
+ca5324f added cssrewrite filter to stylesheets which misses when yuicompressor is not enabled
+bfc1172 added phpdoc configuration file
+-many-  fixed composer dependencies 
+
+Stable Release 1.0.0 (2012-12-27)
 4f4efd4 improved to add assets from the theme engine registered listeners for the alpha_lemon_theme_engine.event_listener tag
 f6eb502 refactored deploy action
 472a43a added the blockContentToHtml method to render a block's content
