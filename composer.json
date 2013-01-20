@@ -27,8 +27,8 @@
   ],
   "require": {
     "php": ">=5.3.3",
-    "imagine/Imagine": ">=0.2",
-    "propel/propel-bundle": "1.1.*",
+    "imagine/Imagine": ">=0.4.1",
+    "propel/propel-bundle": "1.1.7",
     "propel/propel1": "dev-master",
     "phing/phing": "2.4.12",
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
