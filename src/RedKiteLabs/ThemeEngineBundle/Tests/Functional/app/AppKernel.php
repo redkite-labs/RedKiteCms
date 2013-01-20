@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
+            new Sensio\Bundle\DistributionBundle\SensioDistributionBundle(),
             new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
         );
         
