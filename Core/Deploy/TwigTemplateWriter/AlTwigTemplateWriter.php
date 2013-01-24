@@ -204,14 +204,18 @@ class AlTwigTemplateWriter
         $internalStylesheet = $this->pageTree->getInternalStylesheets();
         $internalJavascript = $this->pageTree->getInternalJavascripts();
         $this->assetsSection = $this->writeComment("Assets section");
+        $container = $this->pageTree->getContainer();
+        $yuiEnabled = $container->getParameter('alpha_lemon_cms.enable_yui_compressor');
         if (!empty($externalStylesheets)) {
-            $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';
-            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, '?yui_css,cssrewrite'));
+            $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';            
+            $filter = $yuiEnabled ? '?yui_css,cssrewrite' : '?cssrewrite';            
+            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, $filter));
         }
 
         if (!empty($externalJavascripts)) {
             $sectionContent = '<script src="{{ asset_url }}"></script>';
-            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, '?yui_js'));
+            $filter = $yuiEnabled ? '?yui_js' : '';
+            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, $filter));
         }
 
         if (!empty($internalStylesheet)) {

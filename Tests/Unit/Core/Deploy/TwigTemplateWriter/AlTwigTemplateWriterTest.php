@@ -58,6 +58,11 @@ class AlTwigTemplateWriterTest extends TestCase
             ->method('getAlLanguage')
             ->will($this->returnValue($this->setUpLanguage('en')));
         
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->pageTree->expects($this->once())
+            ->method('getContainer')
+            ->will($this->returnValue($this->container));
+        
         $this->viewRenderer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer')
                                     ->disableOriginalConstructor()
                                     ->getMock();
@@ -165,7 +170,45 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
 
-    public function testJustTheExternalJavascriptsSectionIsCreated()
+    public function testExternalJavascriptsWithoutYuiCompresssor()
+    {
+        $this->setUpTemplateSlots();
+        $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array('javascript1.js', 'javascript2.js'), '', '');
+        $this->setUpPageBlocks(null, false);
+        $this->setUpBlockManagerFactory();
+
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"\" %}" . PHP_EOL;
+        $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
+        $section .= "  {% endjavascripts %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+
+        $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
+    }
+
+    public function testExternalStylesheetsWithoutYuiCompresssor()
+    {
+        $this->setUpTemplateSlots();
+        $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array(), '', '');
+        $this->setUpPageBlocks(null, false);
+        $this->setUpBlockManagerFactory();
+
+        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+
+        $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?cssrewrite\" %}" . PHP_EOL;
+        $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
+        $section .= "  {% endstylesheets %}" . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+
+        $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
+    }
+
+    public function testExternalStylesheetsWithoutYuiCompresssortestJustTheExternalJavascriptsSectionIsCreated()
     {
         $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array('javascript1.js', 'javascript2.js'), '', '');
@@ -207,7 +250,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array(), array(), '', 'some js code');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
-
+        
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
@@ -610,15 +653,11 @@ class AlTwigTemplateWriterTest extends TestCase
         return $language;
     }
 
-    private function setUpPageBlocks(array $blocks = null, $withLove = true)
+    private function setUpPageBlocks(array $blocks = null, $yuiEnabled = true)
     {
         if (null === $blocks) {
             $blocks = array("logo" => array($this->setUpBlock('my content')));
         }
-        /*
-        if ($withLove) {
-            $blocks[] = array("alphalemon_love" => array($this->setUpBlock('<a href="http://alphalemon.com">Powered by AlphaLemon CMS</a>')));
-        }*/
 
         $pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
@@ -630,6 +669,11 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->pageTree->expects($this->once())
             ->method('getPageBlocks')
             ->will($this->returnValue($pageBlocks));
+        
+        $this->container->expects($this->once())
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.enable_yui_compressor')
+            ->will($this->returnValue($yuiEnabled));
     }
 
     private function setUpMetatagsAndAssets($title, $description, $keywords, $externalStylesheets, $externalJavascripts, $internalStylesheets, $internalJavascripts)
