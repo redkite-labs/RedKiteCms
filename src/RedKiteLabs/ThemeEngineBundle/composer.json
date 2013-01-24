@@ -12,12 +12,24 @@
     }
   ],
   "require": {
-    "php": ">=5.3.3",    
-    "symfony/framework-bundle": ">=2.1,<2.3-dev"
+    "php": ">=5.3.3"
   },
   "require-dev": {
-    "mikey179/vfsStream": "dev-master",
-    "alphalemon/business-website-theme-bundle": "dev-master"
+    "symfony/symfony": "2.1.*",
+    "doctrine/orm": ">=2.2.3,<2.4-dev",
+    "doctrine/doctrine-bundle": "1.1.*",
+    "twig/extensions": "1.0.*@dev",
+    "symfony/assetic-bundle": "2.1.*",
+    "symfony/swiftmailer-bundle": "2.1.*",
+    "symfony/monolog-bundle": "2.1.*",
+    "sensio/distribution-bundle": "2.1.*",
+    "sensio/framework-extra-bundle": "2.1.*",
+    "sensio/generator-bundle": "2.1.*",
+    "jms/security-extra-bundle": "1.2.*",
+    "jms/di-extra-bundle": "1.1.*",
+    "kriswallsmith/assetic": "1.1.*@dev",
+    "alphalemon/business-website-theme-bundle": "dev-master",
+    "mikey179/vfsStream": "1.1.0"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
