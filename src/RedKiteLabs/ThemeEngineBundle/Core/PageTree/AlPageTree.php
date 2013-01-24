@@ -59,7 +59,7 @@ class AlPageTree
     /**
      * Constructor
      *
-     * @param ContainerInterface $container
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param AlPageBlocksInterface $pageBlocks
      */
     public function __construct(ContainerInterface $container, AlPageBlocksInterface $pageBlocks = null)
@@ -67,6 +67,16 @@ class AlPageTree
         $this->container = $container;
         $this->pageBlocks = $pageBlocks;
         $this->activeTheme = $this->container->get('alphalemon_theme_engine.active_theme');
+    }
+    
+    /**
+     * Returns the container 
+     * 
+     * @return Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
     }
 
     /**
