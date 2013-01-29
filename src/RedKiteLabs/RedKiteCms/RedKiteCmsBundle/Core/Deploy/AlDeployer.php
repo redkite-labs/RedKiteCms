@@ -231,6 +231,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $homePage = "";
         $mainLanguage = "";
         $routes = array();
+        $sitemap = array();
         $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages();
         foreach ($seoAttributes as $seoAttribute) {
             
@@ -252,11 +253,36 @@ abstract class AlDeployer implements AlDeployerInterface
             // Generate only a route for the home page
             $permalink = ($homePage != $pageName || $mainLanguage != $language) ? $seoAttribute->getPermalink() : "";
             $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName), $controllerPrefix, $environmentPrefix);
+            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n</url>", "http://alphalemon.com/" . $permalink);
                 
         }
         // Defines the main route
         $routes[] = \sprintf($schema, '', $mainLanguage, $homePage, 'home', $controllerPrefix, $prefix);
+        
+        @file_put_contents($this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
 
         return @file_put_contents(sprintf('%s/site_routing%s.yml', $this->configDir, $environmentPrefix), implode("\n\n", $routes));
+    }
+    
+    protected function generateSitemap()
+    {
+        /*
+        <?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <url>
+
+      <loc>http://www.example.com/</loc>
+
+      <lastmod>2005-01-01</lastmod>
+
+      <changefreq>monthly</changefreq>
+
+      <priority>0.8</priority>
+
+   </url>
+
+</urlset> */
     }
 }
