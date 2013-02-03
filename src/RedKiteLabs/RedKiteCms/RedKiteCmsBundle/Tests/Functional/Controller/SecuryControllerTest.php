@@ -56,7 +56,7 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('.al_items_list')->count() == 1);
+        $this->assertTrue($crawler->filter('.al_security_list')->count() == 1);
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 1);
         $this->assertTrue($crawler->filter('.al_delete_user')->count() == 0);
         $this->assertTrue($crawler->filter('html:contains("admin")')->count() == 1);
