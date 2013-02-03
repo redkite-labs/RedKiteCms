@@ -54,7 +54,7 @@ class SlotRendererExtensionTest extends TestCase
         $this->slotRenderer->renderSlot(array());
     }
 
-    public function testRenderTheEmptySlot()
+    public function testRenderAnEmptySlot()
     {
         $this->setUpContainer();
         $this->pageTree->expects($this->once())
@@ -453,7 +453,7 @@ class SlotRendererExtensionTest extends TestCase
     {
         $expectedValue = '<div class="al_logo">' . PHP_EOL;
         $expectedValue .= '<!-- BEGIN LOGO BLOCK -->' . PHP_EOL;
-        $expectedValue .= '<div class="al_editable {id: \'0\', slotName: \'logo\'}">This slot has any content inside. Use the contextual menu to add a new one</div>' . PHP_EOL;
+        $expectedValue .= '<div class="al_editable {id: \'0\', slotName: \'logo\'}" data-toggle="context" data-target="#al_context_menu">This slot has any content inside. Use the contextual menu to add a new one</div>' . PHP_EOL;
         $expectedValue .= '<!-- END LOGO BLOCK -->' . PHP_EOL;
         $expectedValue .= '</div>';
 
