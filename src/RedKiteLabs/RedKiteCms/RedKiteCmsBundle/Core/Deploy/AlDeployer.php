@@ -111,7 +111,13 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->fileSystem->remove($this->deployFolder);
         $this->checkTargetFolders();
         $this->copyAssets();
-        $result = ($this->generateRoutes() && $this->savePages()) ? true :false;
+        $seoAttributes = $this->fetchPublishedPages();
+        
+        $result = ($this->generateRoutes($seoAttributes) && $this->savePages()) ? true :false;
+        
+        if ($this->getRoutesPrefix() == "") {
+            $this->generateSitemap($seoAttributes);
+        }
         
         $dispatcher->dispatch(Deploy\DeployEvents::AFTER_DEPLOY, new Deploy\AfterDeployEvent($this));
         
@@ -211,7 +217,7 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @return boolean
      */
-    protected function generateRoutes()
+    protected function generateRoutes($seoAttributes)
     {
         $prefix = $this->getRoutesPrefix();
         
@@ -231,16 +237,8 @@ abstract class AlDeployer implements AlDeployerInterface
         $homePage = "";
         $mainLanguage = "";
         $routes = array();
-        $sitemap = array();
-        $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages();
-        foreach ($seoAttributes as $seoAttribute) {
-            
-            $alPage = $seoAttribute->getAlPage();            
-            if ( ! $alPage->getIsPublished()) {
-                continue;
-            }
-            
-            $pageName = $alPage->getPageName();
+        foreach ($seoAttributes as $seoAttribute) {            
+            $pageName = $seoAttribute->getAlPage()->getPageName();
             if ($seoAttribute->getAlPage()->getIsHome()) {
                 $homePage = $pageName;
             }
@@ -253,36 +251,40 @@ abstract class AlDeployer implements AlDeployerInterface
             // Generate only a route for the home page
             $permalink = ($homePage != $pageName || $mainLanguage != $language) ? $seoAttribute->getPermalink() : "";
             $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName), $controllerPrefix, $environmentPrefix);
-            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n</url>", "http://alphalemon.com/" . $permalink);
                 
         }
         // Defines the main route
         $routes[] = \sprintf($schema, '', $mainLanguage, $homePage, 'home', $controllerPrefix, $prefix);
-        
-        @file_put_contents($this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
-
+                 
         return @file_put_contents(sprintf('%s/site_routing%s.yml', $this->configDir, $environmentPrefix), implode("\n\n", $routes));
     }
     
-    protected function generateSitemap()
+    protected function generateSiteMap($seoAttributes)
     {
-        /*
-        <?xml version="1.0" encoding="UTF-8"?>
-
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-   <url>
-
-      <loc>http://www.example.com/</loc>
-
-      <lastmod>2005-01-01</lastmod>
-
-      <changefreq>monthly</changefreq>
-
-      <priority>0.8</priority>
-
-   </url>
-
-</urlset> */
+        $sitemap = array();
+        foreach ($seoAttributes as $seoAttribute) {
+            $permalink = $seoAttribute->getPermalink();
+            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", "http://alphalemon.com/" . $permalink, $seoAttribute->getSitemapChangefreq(), $seoAttribute->getSitemapPriority());
+                
+        }
+         
+        return @file_put_contents($this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
+    }
+    
+    protected function fetchPublishedPages()
+    {
+        $pages = array();
+        $seoAttributes = $this->seoRepository->fetchSeoAttributesWithPagesAndLanguages();
+        foreach ($seoAttributes as $seoAttribute) {
+            
+            $alPage = $seoAttribute->getAlPage();            
+            if ( ! $alPage->getIsPublished()) {
+                continue;
+            }
+            
+            $pages[] = $seoAttribute;
+        }
+        
+        return $pages;
     }
 }
