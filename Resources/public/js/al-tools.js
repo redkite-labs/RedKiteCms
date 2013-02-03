@@ -25,4 +25,28 @@
             $(this).find("textarea").val("");
         });
     };
+    
+    $.fn.center = function(parent, xGap, yGap) 
+    {
+        if (parent) {
+            parent = this.parent();
+        } else {
+            parent = window;
+        }
+        
+        if (xGap == null) {
+            xGap = 0;
+        }
+        
+        if (yGap == null) {
+            yGap = 0;
+        }
+        
+        this.css({
+            "position": "absolute",
+            "top": (((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop()) + yGap + "px"),
+            "left": (((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft()) + xGap + "px")
+        });
+        return this;
+    };
 })($);

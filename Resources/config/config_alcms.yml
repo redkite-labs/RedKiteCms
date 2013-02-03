@@ -50,6 +50,7 @@ assetic:
             jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
 
 alpha_lemon_cms:
+    skin: bootstrap
     enable_yui_compressor: true
 
 alpha_lemon_theme_engine:

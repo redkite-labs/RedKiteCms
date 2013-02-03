@@ -1,0 +1,43 @@
+// This file is part of the AlphaLemon CMS Application and it is distributed
+// under the GPL LICENSE Version 2.0. To use this application you must leave
+// intact this copyright notice.
+//
+// Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+//
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// For extra documentation and help please visit http://www.alphalemon.com
+//
+// @license    GPL LICENSE Version 2.0
+
+@import "compass/typography/lists/inline-block-list"
+
+.al_items_list, .al_commands_box
+    ul
+        +inline-block-list
+
+    li
+        :margin-right 6px
+
+.al_commands_box
+    :padding 4px
+
+.al_items_list
+    :border 2px solid #ccc
+    :overflow auto
+    :margin-bottom 10px
+
+    li
+        :width 100%
+        :border-bottom 1px dotted #a5a5a5
+        :padding 6px
+
+    .row
+        :background-color #fff
+
+    .alternate_row
+        :background-color #f3f5f5
+
+    .al_selected_item
+        :background-color #d5dbdb

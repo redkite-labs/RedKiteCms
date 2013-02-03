@@ -19,9 +19,9 @@
 <table>
     <tr>
         {% if theme_values.buttons is defined %}            
-            <td><a id="al_theme_selector" href="{{ path('_preview_theme', {'languageName': app.request.get('language'), 'pageName': app.request.get('page'), 'themeName' : theme_values.theme_title}) }}" class="input button link_button">{{ "Preview and Activate" | trans([], domain) }}</a></td>
-            <td><a href="#" class="input button link_button al_themes_fixer {themeName: '{{ theme_values.theme_title }}'}">{{ "Activate" | trans([], domain) }}</a></td>
-            <td><a href="#" class="input button link_button al_start_from_theme {themeName: '{{ theme_values.theme_title }}'}">{{ "Start from this Theme" | trans([], domain) }}</a></td>
+            <td><a id="al_theme_selector" href="{{ path('_preview_theme', {'languageName': app.request.get('language'), 'pageName': app.request.get('page'), 'themeName' : theme_values.theme_title}) }}" class="btn">{{ "Preview and Activate" | trans([], domain) }}</a></td>
+            <td><a href="#" class="btn al_themes_fixer {themeName: '{{ theme_values.theme_title }}'}">{{ "Activate" | trans([], domain) }}</a></td>
+            <td><a href="#" class="btn btn-danger al_start_from_theme {themeName: '{{ theme_values.theme_title }}'}">{{ "Start from this Theme" | trans([], domain) }}</a></td>
         {% endif %}
     </tr>
 </table>

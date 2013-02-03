@@ -19,12 +19,12 @@
     { 
         this.each(function()
         {
-            $(this).change(function()
+            $(this).click(function()
             {
                 $(this).SaveTemplateMapping();
-                var template = $('#al_templates_selector option:selected').text();
+                var template = $(this).text();
 
-                location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/al_previewTheme/' + $('#al_referal_language').text() + '/' + $('#al_referal_page').text() + '/' +  $('#al_current_theme').text() + '/' + template;
+                location.href = frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_previewTheme/' + $('#al_referal_language').text() + '/' + $('#al_referal_page').text() + '/' +  $('#al_current_theme').text() + '/' + template;
             });
         });
 
@@ -317,7 +317,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_saveActiveTheme',
+                    url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_saveActiveTheme',
                     data: {
                         'data': $.param(obj)
                     },
@@ -327,7 +327,7 @@
                     },
                     success: function(html)
                     {
-                        location.href = frontController + 'backend/' + $('#al_available_languages').val() + '/' + $('#al_referal_page').text();
+                        location.href = frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/' + $('#al_referal_page').text();
                     },
                     error: function(err)
                     {
@@ -374,7 +374,7 @@ function getCurrentTemplateName()
 function ObserveThemesPreviewCommands()
 {
     try {
-        $('#al_templates_selector').ChangeTemplate();
+        $('.al_template').ChangeTemplate();
         $('.al_template_slot').ActivateSlot();
         $('.al_slot').InjectContent();
         $('#al_active_template_selector').ShowTemplateSlots();
@@ -384,7 +384,7 @@ function ObserveThemesPreviewCommands()
         $('#al_reset').ResetMapping();
 
         $('body').RestoreTemplateMapping(getRepeatedSlotStorageKey()).RestoreTemplateMapping(getCurrentTemplateStorageKey());
-
+$('#al_active_theme').show();
     } catch (e) {alert(e)}
 }
 

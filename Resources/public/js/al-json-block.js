@@ -62,10 +62,10 @@
             {
                 $.ajax({
                     type: 'GET',
-                    url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_listJsonItems',
+                    url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_listJsonItems',
                     data: {
-                        'page' :  $('#al_pages_navigator option:selected').text(),
-                        'language' : $('#al_languages_navigator option:selected').text(),
+                        'page' :  $('#al_pages_navigator').html(),
+                        'language' : $('#al_languages_navigator').html(),
                         'blockId' : blockId
                     },
                     beforeSend: function()
@@ -100,10 +100,10 @@ function showItemForm(blockId, id)
 
     $.ajax({
       type: 'GET',
-      url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showJsonItem',
+      url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_showJsonItem',
       data: {
-        'page' :  $('#al_pages_navigator option:selected').text(),
-        'language' : $('#al_languages_navigator option:selected').text(),
+        'page' :  $('#al_pages_navigator').html(),
+        'language' : $('#al_languages_navigator').html(),
         'blockId' : blockId,
         'itemId' : id
       },
@@ -134,10 +134,10 @@ function deleteItem(blockId, id)
     {
         $.ajax({
             type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deleteJsonItem',
+            url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_deleteJsonItem',
             data: {
-                'page' :  $('#al_pages_navigator option:selected').text(),
-                'language' : $('#al_languages_navigator option:selected').text(),
+                'page' :  $('#al_pages_navigator').html(),
+                'language' : $('#al_languages_navigator').html(),
                 'blockId' : blockId,
                 'RemoveItem' : id
             },

@@ -28,38 +28,61 @@
 
     {{ form_errors(form) }}
 
-    <table id="al_attributes_form" border="0">
-        <tr>
-          <td colspan="4"><h2>{{ "Language attributes" | trans([], domain) }}</h2></td>
-        </tr>
-        <tr>
-          <td>{{ form_label(form.language, "Language" | trans([], domain)) }}</td>
-          <td colspan="3">{{ form_errors(form.language) }} {{ form_widget(form.language, { 'attr': {'class' : 'input select panel_input', 'title': "Choose the language" | trans([], domain)}}) }} </td>
-        </tr>
-        <tr>
-          <td>{{ form_label(form.isMain, "Is Main" | trans([], domain)) }}</td>
-          <td colspan="3">{{ form_errors(form.isMain) }} {{ form_widget(form.isMain, { 'attr': {'class' : 'input select panel_input', 'title': "When checked, promotes the language as the website's main language, which is the one displayed when any language has been given" | trans([], domain)}}) }}</td>
-        </tr>
-        <tr>
-          <td>
+    <div>        
+        <h2>{{ "Language attributes" | trans([], domain) }}</h2>
+        <form id="al_languages_form" class="form-horizontal">
+            <div class="control-group bootstrap-form-item-margin-fixer">
+                {{ form_label(form.language, "Language" | trans([], domain), { 'label_attr': {'class': 'control-label'} }) }}
+                <div class="controls">
+                {{ form_errors(form.language) }} {{ form_widget(form.language, { 'attr': {'title': "Choose the language" | trans([], domain) } }) }}
+                </div>
+            </div>                
+            <div class="control-group">
+                <label class="checkbox pull-right">                
+                    {{ form_errors(form.isMain) }} {{ form_widget(form.isMain, { 'attr': {'title': "When checked, promotes the language as the website's main language, which is the one displayed when any language has been given" | trans([], domain) } }) }}
+                    {{ form_label(form.isMain, "Is Main" | trans([], domain)) }}
+                </label> 
+            </div>
             {{ form_rest(form) }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4" align="right">
-            <input id="al_language_saver" type="submit" value="{{ "Save" | trans([], "al_commands") }}" class="input panel_input button" />
-          </td>
-        </tr>
-    </table>
+        </form>
+        
+        <input id="al_language_saver" type="submit" value="{{ "Save" | trans([], "al_commands") }}" class="btn btn-primary pull-right" />
+        {#
+        <table id="al_attributes_form" border="0">
+            <tr>
+              <td colspan="4"></td>
+            </tr>
+            <tr>
+              <td>{{ form_label(form.language, "Language" | trans([], domain)) }}</td>
+              <td colspan="3">{{ form_errors(form.language) }} {{ form_widget(form.language, { 'attr': {'title': "Choose the language" | trans([], domain)}}) }} </td>
+            </tr>
+            <tr>
+              <td>{{ form_label(form.isMain, "Is Main" | trans([], domain)) }}</td>
+              <td colspan="3">{{ form_errors(form.isMain) }} {{ form_widget(form.isMain, { 'attr': {'title': "When checked, promotes the language as the website's main language, which is the one displayed when any language has been given" | trans([], domain)}}) }}</td>
+            </tr>
+            <tr>
+              <td>
+                {{ form_rest(form) }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" align="right">
+                <input id="al_language_saver" type="submit" value="{{ "Save" | trans([], "al_commands") }}" class="btn btn-primary" />
+              </td>
+            </tr>
+        </table>#}
+    </div>
 </div>
 {% endblock %}
 
 {% block al_sidebar_right_inside %}
-    <div id="al_pages_box" class="al_panel_box">
-        <h3>{{ "Languages selector" | trans([], domain) }}</h3>
+    <div id="al_pages_box" class="al_panel_box">        
+        <div class="al_panel_box_header">
+            <span class="al_panel_box_header_title white-text-shadow">{{ "Languages selector" | trans([], domain) }}</span>
+        </div>
         <div id="al_languages_list"  class="al_panel_list">
             {% include 'AlphaLemonCmsBundle:Languages:languages_list.html.twig' %}
         </div>
     </div>
-    <input id="al_languages_remover" class="al_float_right input panel_input button" type="submit" value="{{ "Delete" | trans([], "al_commands") }}" />
+    <input id="al_languages_remover" class="btn btn-danger pull-right" type="submit" value="{{ "Delete" | trans([], "al_commands") }}" />
 {% endblock %}

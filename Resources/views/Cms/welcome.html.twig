@@ -26,6 +26,6 @@
     </ul>
     {% if app.session.hasFlash('message') %}
     <p style="font-weight: bold">The action you made returns this response:</p>
-    <p class="al_error">{{ app.session.flash('message') }}</p>
+    <p class="text-error">{{ app.session.flash('message') }}</p>
     {% endif %}
 {% endblock %}

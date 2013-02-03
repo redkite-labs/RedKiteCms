@@ -32,7 +32,7 @@
     {% endif %}
     </form>
     <div id="al_activate_button_container"><input id="al_activate_theme" type="submit" value="Activate" class="input button al_large {themeName: '{{ themeName }}'}" /></div>
-    <div id="al_error">{{ error }}</div>
+    <div id="text-error">{{ error }}</div>
 </div>
 
 
@@ -41,7 +41,7 @@
     $('#al_theme_fixer_form').submit(function() {
       $.ajax({
           type: 'POST',
-          url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_fixTheme',
+          url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_fixTheme',
           data: {
               'themeName': '{{ themeName }}',
               'data' : $(this).serialize()
@@ -57,7 +57,7 @@
           },
           error: function(err)
           {
-            $('#al_error').html(err.responseText);
+            $('#text-error').html(err.responseText);
           },
           complete: function()
           {

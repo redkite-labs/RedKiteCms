@@ -324,12 +324,16 @@ class AlPageTree extends BaseAlPageTree
                 $this->addAssetsFromContainer($assetsCollection, $parameter);
                 
                 // Assets from page_renderer.before_[language]_rendering listeners
-                $parameter = sprintf('%s.%s.%s_%s', $registeredListener, $this->alLanguage->getLanguageName(), $type, $assetType);
-                $this->addAssetsFromContainer($assetsCollection, $parameter);
+                if (null !== $this->alLanguage) {
+                    $parameter = sprintf('%s.%s.%s_%s', $registeredListener, $this->alLanguage->getLanguageName(), $type, $assetType);
+                    $this->addAssetsFromContainer($assetsCollection, $parameter);
+                }
                 
                 // Assets from page_renderer.before_[page]_rendering listeners
-                $parameter = sprintf('%s.%s.%s_%s', $registeredListener, $this->alPage->getPageName(), $type, $assetType);
-                $this->addAssetsFromContainer($assetsCollection, $parameter);
+                if (null !== $this->alPage) {
+                    $parameter = sprintf('%s.%s.%s_%s', $registeredListener, $this->alPage->getPageName(), $type, $assetType);
+                    $this->addAssetsFromContainer($assetsCollection, $parameter);
+                }
             }
 
             // merges assets from installed apps

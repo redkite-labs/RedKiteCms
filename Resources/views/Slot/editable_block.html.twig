@@ -1,3 +1,3 @@
-<div id="block_{{ block_id }}" class="{{ hide_in_edit_mode }} al_editable {id: '{{ block_id }}', slotName: '{{ slot_name }}', type: '{{ type }}', editorWidth: '{{ editor_width }}'}">
+<div id="block_{{ block_id }}"  data-target="#al_context_menu" class="{{ hide_in_edit_mode }} al_editable {id: '{{ block_id }}', slotName: '{{ slot_name }}', type: '{{ type }}', editorWidth: '{{ editor_width }}'}">
     {% include "AlphaLemonCmsBundle:Slot:_block.html.twig" %}
-</div>
+</div> {# data-toggle="context" data-target="#al_context_menu" #}

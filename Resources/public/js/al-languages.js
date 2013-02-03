@@ -55,12 +55,12 @@ function InitLanguagesCommands()
         var isMain = ($('#languages_isMain').is(':checked')) ? 1 : 0;
         $.ajax({
             type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_saveLanguage',
+            url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_saveLanguage',
             data: {
                 'languageId' : retrieveIdLanguage(),
                 'newLanguage' : $('#languages_language  option:selected').val(),
-                'page' :  $('#al_pages_navigator option:selected').text(),
-                'language' : $('#al_languages_navigator option:selected').text(),
+                'page' :  $('#al_pages_navigator').html(),
+                'language' : $('#al_languages_navigator').html(),
                 'isMain' : isMain
             },
             beforeSend: function()
@@ -74,7 +74,7 @@ function InitLanguagesCommands()
             },
             error: function(err)
             {
-                $('body').showDialog(err.responseText);
+                $('body').showAlert(err.responseText, 0, 'alert-error');
             },
             complete: function()
             {
@@ -90,11 +90,11 @@ function InitLanguagesCommands()
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deleteLanguage',
+                url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_deleteLanguage',
                 data: {
                     'languageId' : retrieveIdLanguage(),
-                    'page' :  $('#al_pages_navigator option:selected').text(),
-                    'language' : $('#al_languages_navigator option:selected').text()
+                    'page' :  $('#al_pages_navigator').html(),
+                    'language' : $('#al_languages_navigator').html()
                 },
                 beforeSend: function()
                 {
@@ -107,7 +107,7 @@ function InitLanguagesCommands()
                 },
                 error: function(err)
                 {
-                    $('body').showDialog(err.responseText);
+                    $('body').showAlert(err.responseText, 0, 'alert-error');
                 },
                 complete: function()
                 {
@@ -131,7 +131,7 @@ function UpdateLanguagesJSon(response)
         switch(item.key)
         {
             case "message":
-                $('body').showAutoCloseDialog(item.value);
+                $('body').showAlert(item.value);
                 break;
             case "languages":
                 var idSelectedLanguage = $('#al_languages_list .al_element_selected').attr('ref');
@@ -163,7 +163,7 @@ function LoadLanguageAttributes(idLanguage)
     //$("#al_attributes_form").ResetFormElements();
     $.ajax({
         type: 'POST',
-        url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadLanguageAttributes',
+        url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_loadLanguageAttributes',
         data: {'languageId' : retrieveIdLanguage()},
         beforeSend: function()
         {
@@ -194,7 +194,7 @@ function LoadLanguageAttributes(idLanguage)
         },
         error: function(err)
         {
-            $('body').showDialog(err.responseText);
+            $('body').showAlert(err.responseText, 0, 'alert-error');
         },
         complete: function()
         {

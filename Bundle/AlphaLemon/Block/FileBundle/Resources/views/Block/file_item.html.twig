@@ -19,9 +19,9 @@
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_showFileMediaLibrary',
-                data: {'page' :  $('#al_pages_navigator option:selected').text(),
-                       'language' : $('#al_languages_navigator option:selected').text(),
+                url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_showFileMediaLibrary',
+                data: {'page' :  $('#al_pages_navigator').html(),
+                       'language' : $('#al_languages_navigator').html(),
                 },
                 beforeSend: function()
                 {
@@ -29,7 +29,7 @@
                 },
                 success: function(html)
                 {
-                    $('body').showAutoCloseDialog(html);
+                    $('body').showAlert(html);
                 },
                 error: function(err)
                 {

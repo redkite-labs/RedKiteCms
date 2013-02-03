@@ -93,33 +93,36 @@
 
     $.fn.List = function(route)
     {
-        var dialogOptions = {
-            width: 400
-        };
-        InitDialog('al_security_dialog', dialogOptions);
-
         this.each(function()
         {
             $(this).click(function()
             {
                 $.ajax({
-                    type: 'GET',
-                    url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/' + route,
-                    data: {},
+                    type: 'POST',
+                    url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/' + route,
+                    data: {
+                        'page' :  $('#al_pages_navigator').html(),
+                        'language' : $('#al_languages_navigator').html()
+                    },
                     beforeSend: function()
                     {
                         $('body').AddAjaxLoader();
                     },
                     success: function(html)
                     {
-                        $('#al_security_dialog').html(html);
-                        $('#al_security_dialog').dialog('open');
-                        ObserveSecurity();
+                        if ( ! $('#al_panel').is(":visible")) {
+                            html = '<div id="al_user_panel">' + html  + '</div>';
+                            $('#al_panel').OpenPanel(html, function(){
+                                ObserveSecurity();
+                            });
+                        } else {
+                            $('#al_user_panel').html(html);
+                            ObserveSecurity();
+                        }
                     },
                     error: function(err)
                     {
-                        $('#al_security_dialog').html(err.responseText);
-                        $('#al_security_dialog').dialog('open');
+                        $('body').showDialog(err.responseText);
                     },
                     complete: function()
                     {
@@ -174,7 +177,7 @@ function show(route, id)
 {
     $.ajax({
       type: 'GET',
-      url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/' + route,
+      url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/' + route,
       data: {'id' : id },
       beforeSend: function()
       {
@@ -182,7 +185,7 @@ function show(route, id)
       },
       success: function(html)
       {
-        $('#al_security_dialog').html(html);
+        $('#al_user_panel').html(html);
       },
       error: function(err)
       {
@@ -199,7 +202,7 @@ function remove(route, id)
 {
     $.ajax({
       type: 'GET',
-      url: frontController + 'backend/users/' + $('#al_available_languages').val() + '/' + route,
+      url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/' + route,
       data: {'id' : id },
       beforeSend: function()
       {
@@ -207,7 +210,7 @@ function remove(route, id)
       },
       success: function(html)
       {
-        $('#al_security_dialog').html(html);
+        $('#al_user_panel').html(html);
         ObserveSecurity();
       },
       error: function(err)

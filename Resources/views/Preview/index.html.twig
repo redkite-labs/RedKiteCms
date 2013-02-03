@@ -57,18 +57,18 @@
     {% endfor %}
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
-        {% stylesheets filter='?yui_css,cssrewrite' 'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
-                                                    'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
-                                                    'bundles/alphalemoncms/vendor/vendor-adapter.css'
-                                                    'bundles/alphalemoncms/css/skins/alphaLemon/skin.css'
+        {% stylesheets filter='?yui_css,cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
+                                                    'components/pageguide/css/pageguide.min.css'
+                                                    'bundles/alphalemoncms/vendor/vendor-adapter.css' 
+                                                    'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
         %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
         {% endstylesheets %}
     {% else %}
-        {% stylesheets filter='cssrewrite' 'bundles/alphalemoncms/vendor/smoothness/jquery-ui.css'
-                                           'bundles/alphalemoncms/vendor/pageguide/css/pageguide.min.css'
-                                           'bundles/alphalemoncms/vendor/vendor-adapter.css'
-                                           'bundles/alphalemoncms/css/skins/alphaLemon/skin.css'
+        {% stylesheets filter='?cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
+                                            'components/pageguide/css/pageguide.min.css'
+                                            'bundles/alphalemoncms/vendor/vendor-adapter.css' 
+                                            'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
         %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
         {% endstylesheets %}
@@ -79,21 +79,25 @@
     {{ parent() }}
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
-    {% javascripts  filter='?yui_js' 'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
-                                     'bundles/alphalemonthemeengine/js/vendor/jquery-ui.min.js'
+    {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
+                                     'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
+                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js'
+                                     'components/pageguide/js/pageguide.js' 
                                      'bundles/alphalemoncms/js/al-dialog.js'
                                      'bundles/alphalemoncms/js/al-ajax-loader.js'
                                      'bundles/alphalemoncms/js/al-themes-preview.js'
-                                     'bundles/alphalemoncms/vendor/pageguide/js/pageguide.js' %}
+    %}    
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% else %}
-    {% javascripts  'bundles/alphalemonthemeengine/js/vendor/jquery/jquery-last.min.js'
-                    'bundles/alphalemonthemeengine/js/vendor/jquery-ui.min.js'
+    {% javascripts  'components/jquery/jquery.min.js'
+                    'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
+                    'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js'
+                    'components/pageguide/js/pageguide.js' 
                     'bundles/alphalemoncms/js/al-dialog.js'
                     'bundles/alphalemoncms/js/al-ajax-loader.js'
-                    'bundles/alphalemoncms/js/al-themes-preview.js'
-                    'bundles/alphalemoncms/vendor/pageguide/js/pageguide.js' %}
+                    'bundles/alphalemoncms/js/al-themes-preview.js' 
+    %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% endif %}
@@ -104,48 +108,43 @@
 {% endblock %}
 
 {% block body %}
-<div id="al_toolbar">
-    <div class="al_float_left al_boxes_margins small_logo"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" /></div>
-    <div id="al_menu" class="al_float_left">
-        <table>
-            <tr>
-                <td><span class="al_caption">Theme:</span></td>
-                <td><span id="al_current_theme">{{ theme_name }}</span></td>
-                <td><span class="al_caption">Template:</span></td>
-                <td><span id="al_current_template">{{ template_name }}</span></td>
-            </tr>
-        </table>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <a class="brand" href="#"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" />AlphaLemon CMS</a>
+        <p class="nav navbar-text">Theme:</p>
+        <p class="nav navbar-text" id="al_current_theme">{{ theme_name }}</p>
+        <p class="nav navbar-text">Template:</p>
+        <p class="nav navbar-text" id="al_current_template">{{ template_name }}</p>
+        
+        <span class="pull-right">
+            <div class="btn-group dropdown-zindex">
+                <button class="btn">Change template</button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-height pull-right dropdown-zindex">
+                    {% for template in templates %}
+                    <li><a href="#" class="al_template">{{ template.getTemplateName }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="btn-group dropdown-zindex">
+                <button class="btn">Commands</button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-height pull-right dropdown-zindex">
+                    <li><a id="al_active_theme_toggler" href="#">Show panel</a></li>
+                    <li><a id="al_reset" href="#">Reset</a></li>
+                    <li><a id="al_save" href="#">Save and activate</a></li>
+                    <li><a id="al_back" href="/{{ app.environment }}.php/backend/{{ app.request.get('languageName')}}/{{app.request.get('pageName')}}">Return to CMS</a></li>
+                </ul>
+            </div>              
+            {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'text' : 'English', 'value' : 'en', 'button_type' : 'btn-primary', 'type' : 'al_site_language_item'}  %}
+            <span id="al_referal_language" class="al_hidden">{{ app.request.get('languageName') }}</span>
+            <span id="al_referal_page" class="al_hidden">{{ app.request.get('pageName') }}</span>
+        </span>
     </div>
-    <div id="al_navigator" class="al_float_right al_boxes_margins">
-        <table>
-            <tr>
-                <td><span class="al_caption">Available templates</span></td>
-                <td>
-                    <select id="al_templates_selector" class="input select">
-                        <option value=""></option>
-                        {% for template in templates %}
-                        <option value="{{ template.getTemplateName }}">{{ template.getTemplateName }}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-                <td>
-                    <ul>
-                        <li><a id="al_active_theme_toggler" href="#">Show panel</a></li>
-                        <li><a id="al_reset" href="#">Reset</a></li>
-                        <li><a id="al_save" href="#">Save and activate</a></li>
-                        <li><a id="al_back" href="/{{ app.environment }}.php/backend/{{ app.request.get('languageName')}}/{{app.request.get('pageName')}}">Return to CMS</a></li>
-                    </ul>
-                </td>
-                <td>
-                    <span id="al_referal_language" class="al_hidden">{{ app.request.get('languageName') }}</span>
-                    <span id="al_referal_page" class="al_hidden">{{ app.request.get('pageName') }}</span>
-                </td>
-                <td class="al_caption">Languages</td>
-                <td>{% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages}  %}</td>
-            </tr>
-        </table>
-    </div>
-    <div style="clear:both;"></div>
 </div>
 
 <div id="al_cms_contents">

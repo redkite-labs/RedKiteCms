@@ -54,8 +54,38 @@ class SeoForm extends AbstractType
         $builder->add('title', 'textarea');
         $builder->add('description', 'textarea');
         $builder->add('keywords', 'textarea');
+        $builder->add('sitemapChangeFreq', 'choice', array(
+            'choices' => array(
+                '' => '-', 
+                'always' => 'always',
+                'hourly' => 'hourly',
+                'daily' => 'daily',
+                'weekly' => 'weekly',
+                'monthly' => 'monthly',
+                'yearly' => 'yearly',
+                'never' => 'never',
+            )
+        ));
+        $builder->add('sitemapPriority', 'choice', array(
+            'choices' => array(
+                '0.0' => '0.0',
+                '0.1' => '0.1',
+                '0.2' => '0.2',
+                '0.3' => '0.3',
+                '0.4' => '0.4',
+                '0.5' => '0.5',
+                '0.6' => '0.6',
+                '0.7' => '0.7',
+                '0.8' => '0.8',
+                '0.9' => '0.9',
+                '1.0' => '1.0',
+            ),
+            'data' => '0.5'
+        ));
     }
 
+    
+    
     /**
      * {@inheritdoc}
      */

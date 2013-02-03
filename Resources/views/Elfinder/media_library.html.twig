@@ -36,9 +36,12 @@
 {% block javascript_files %}
 {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts filter='?yui_js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.min.js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
     %}
+    {# javascripts filter='?yui_js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.min.js'
+        'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
+    #}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% else %}

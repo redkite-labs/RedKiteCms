@@ -1,9 +1,14 @@
-<div class="al_items_list">
-    <table>
+<div class="al_security_list">
+    <h2>Users</h2>
+    <table class="table">
+        <thead>
+            <th>Username</th>
+            <th>Email</th>
+        </thead>
     {% for user in users %}
-        <tr class="{{ cycle(['alternate_row', 'row'], loop.index) }}">
-            <td width="100%">{{ user.username }}</td>
-            <td>{{ user.email }}</td>
+        <tr>
+            <td width="50%">{{ user.username }}</td>
+            <td width="30%">{{ user.email }}</td>
             <td><a href="#" rel="{{ user.id }}" class="al_edit_user">Edit</a></td>
 
             <td>
@@ -18,8 +23,9 @@
     </table>
 </div>
 <div class="al_security_commands_box">
-    <ul>
-        <li><input type="submit" value="New" class="al_add_user input button al_large" /></li>
-        <li><input type="submit" value="Roles" class="al_list_roles input button al_large" /></li>
+    <ul class="inline pull-right">
+        <li><input type="submit" value="New" class="al_add_user btn btn-primary" /></li>
+        <li><input type="submit" value="Roles" class="al_list_roles btn btn-info" /></li>
     </ul>
+    <div class="clearfix"></div>
 </div>
