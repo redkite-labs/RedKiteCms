@@ -95,7 +95,6 @@ class CmsControllerTest extends WebTestCaseFunctional
 
         $expectedJavascripts = array
         (
-            "/bundles/alphalemoncms/vendor/bootstrap/js/bootstrap.min.js",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js/al-cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
@@ -124,21 +123,21 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         $menu = '<ul class="business-menu">
             <li><a href="this-is-a-website-fake-page">home</a></li>
-            <li><a href="page1">page1</a></li>
+            <li><a href="page1">Another page</a></li>
         </ul>';
 
         $block = $this->blockRepository->fromPK(2);
         $block->setType('Text');
         $block->setContent($menu);
         $block->save();
-
-        $crawler = $this->client->request('GET', 'backend/en/index');
+        
+        $crawler = $this->client->request('GET', '/backend/en/index');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-
-        $link = $crawler->selectLink('page1')->link();
+        
+        $link = $crawler->selectLink('Another page')->link();
         $crawler = $this->client->click($link);
-
+        
         $expectedStylesheets = array
         (
             "/bundles/businesswebsitetheme/css/reset.css",
@@ -149,15 +148,15 @@ class CmsControllerTest extends WebTestCaseFunctional
 
         $expectedJavascripts = array
         (
-            "/bundles/alphalemoncms/vendor/bootstrap/js/bootstrap.min.js",
             "/bundles/businesswebsitetheme/js/cufon-yui.js",
             "/bundles/businesswebsitetheme/js//al-cufon-replace.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
             "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_700.font.js",
             "/bundles/businesswebsitetheme/js/tabs.js",
         );
-
-        $this->checkCms($crawler, $expectedStylesheets, $expectedJavascripts);
+        
+        $this->checkStylesheets($crawler, $expectedStylesheets);
+        $this->checkJavascripts($crawler, $expectedJavascripts);
         $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() == 0);
         $this->assertEquals(1, $crawler->filter('#block_1')->count());
         $this->assertEquals(1, $crawler->filter('.al_logo')->count());
@@ -168,8 +167,8 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('.al_copyright_box')->count());
         $this->assertEquals(13, $crawler->filter('.al_editable')->count());
 
-        $link = $crawler->selectLink('home')->link();
-        $crawler = $this->client->click($link);
+        //$link = $crawler->selectLink('home')->link();
+        //$crawler = $this->client->click($link);
     }
 
     public function testOpenPageFromPermalink()
@@ -188,7 +187,7 @@ class CmsControllerTest extends WebTestCaseFunctional
 
     private function checkToolbar($crawler)
     {
-        $this->assertEquals(1, $crawler->filter('#al_toolbar')->count());
+        $this->assertEquals(1, $crawler->filter('.navbar-inverse')->count());
         $this->check($crawler, '#al_start_editor', "Edit");
         $this->check($crawler, '#al_stop_editor', "Stop");
         $this->check($crawler, '#al_open_pages_panel', "Pages");
@@ -198,7 +197,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->check($crawler, '#al_languages_navigator', "en");        
         $el = $crawler->filter('.al_deployer');
         $this->assertEquals(2, $el->count());
-        $this->check($crawler, '#al_pages_navigator', "indexpage1");
+        $this->check($crawler, '#al_pages_navigator', "index");
         $this->check($crawler, '#al_available_languages', "English");
     }
 

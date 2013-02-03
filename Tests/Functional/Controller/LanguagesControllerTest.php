@@ -90,9 +90,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<select[^\>]+id=\"al_languages_navigator\"[^\>]+\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"en\"[^\>]+\>en\<\/option\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"fr\"[^\>]+\>fr\<\/option\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<button id=\"al_languages_navigator\"[^\>]+\>en/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"2\" class=\"al_language_item dropdown-zindex\" rel=\"en\"\>\<a href=\"#\"\>en/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"3\" class=\"al_language_item dropdown-zindex\" rel=\"fr\"\>\<a href=\"#\"\>fr/s", $json[2]["value"]);
 
         $language = $this->languageRepository->fromPk(3);
         $this->assertNotNull($language);
@@ -263,9 +263,8 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<select[^\>]+id=\"al_languages_navigator\"[^\>]+\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"it\"[^\>]+\>it\<\/option\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"es\"[^\>]+\>es\<\/option\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"3\" class=\"al_language_item dropdown-zindex\" rel=\"it\"\>\<a href=\"#\"\>it/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"4\" class=\"al_language_item dropdown-zindex\" rel=\"es\"\>\<a href=\"#\"\>es/s", $json[2]["value"]);
 
         $page = $this->languageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());

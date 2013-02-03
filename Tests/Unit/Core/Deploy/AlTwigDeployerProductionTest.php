@@ -190,7 +190,7 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
                 )
             )
         ;
-        
+        //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
         $this->deployer = new AlTwigDeployerProduction($this->container);
         $this->assertTrue($this->deployer->deploy());//print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
 

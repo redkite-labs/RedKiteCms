@@ -137,9 +137,9 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("pages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<select[^\>]+id=\"al_pages_navigator\"[^\>]+\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"index\"[^\>]+\>index\<\/option\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"page1\"[^\>]+\>page1\<\/option\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<button id=\"al_pages_navigator\"[^\>]+\>index/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"2\" class=\"al_page_item dropdown-zindex\" rel=\"index\"\>\<a href=\"#\"\>index/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"3\" class=\"al_page_item dropdown-zindex\" rel=\"page1\"\>\<a href=\"#\"\>page1/s", $json[2]["value"]);
 
         $page = $this->pageRepository->fromPk(3);
         $this->assertNotNull($page);
@@ -450,9 +450,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("pages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<select[^\>]+id=\"al_pages_navigator\"[^\>]+\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"page1\"[^\>]+\>page1\<\/option\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option[^\>]+rel=\"page2-edited\"[^\>]+\>page2-edited\<\/option\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"5\" class=\"al_page_item dropdown-zindex\" rel=\"another-page\"\>\<a href=\"#\"\>another-page/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"3\" class=\"al_page_item dropdown-zindex\" rel=\"page1\"\>\<a href=\"#\"\>page1/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"4\" class=\"al_page_item dropdown-zindex\" rel=\"page2-edited\"\>\<a href=\"#\"\>page2-edited/s", $json[2]["value"]);
+
 
         $page = $this->pageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());

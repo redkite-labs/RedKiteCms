@@ -74,14 +74,14 @@ class ThemesPreviewControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         
-        $this->assertEquals(1, $crawler->filter('#al_toolbar')->count());    
+        $this->assertEquals(1, $crawler->filter('.navbar-inverse')->count());    
         $this->assertEquals(1, $crawler->filter('#al_current_theme')->count());
         $this->assertEquals('BusinessWebsiteThemeBundle', $crawler->filter('#al_current_theme')->text());  
         $this->assertEquals(1, $crawler->filter('#al_current_template')->count());
         $this->assertEquals('home', $crawler->filter('#al_current_template')->text());  
-        $this->assertEquals(4, $crawler->filter('.al_caption')->count());
-        $this->assertEquals(1, $crawler->filter('#al_templates_selector')->count());
-        $this->assertEquals('homefullpagerightcolumnsixboxes', $crawler->filter('#al_templates_selector')->text());
+        $this->assertEquals(4, $crawler->filter('.navbar-text')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Change template")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Commands")')->count());
         $this->assertEquals(1, $crawler->filter('#al_save')->count());
         $this->assertEquals('Save and activate', $crawler->filter('#al_save')->text());
         $this->assertEquals(1, $crawler->filter('#al_back')->count());
