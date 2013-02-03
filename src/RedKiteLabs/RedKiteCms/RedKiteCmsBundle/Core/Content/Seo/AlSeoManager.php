@@ -255,7 +255,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $className = $this->seoRepository->getRepositoryObjectClassName();
                 $this->alSeo = new $className();
             }
-
+            
             $result = $this->seoRepository
                     ->setRepositoryObject($this->alSeo)
                     ->save($values);
@@ -332,12 +332,13 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (isset($values['MetaKeywords']) && $values['MetaKeywords'] == $this->alSeo->getMetaKeywords()) {
                 unset($values['MetaKeywords']);
             }
-
+            
             $this->validator->checkEmptyParams($values);
-            $this->validator->checkOnceValidParamExists(array('Permalink' => '', 'MetaTitle' => '', 'MetaDescription' => '', 'MetaKeywords' => ''), $values);
+            $this->validator->checkOnceValidParamExists(array('Permalink' => '', 'MetaTitle' => '', 'MetaDescription' => '', 'MetaKeywords' => '', 'SitemapChangefreq' => '', 'SitemapPriority' => ''), $values);
 
             $this->seoRepository->startTransaction();
             $this->seoRepository->setRepositoryObject($this->alSeo);
+
             $result = (!empty($values)) ? $this->seoRepository->save($values) : true;
 
             if (false !== $result) {

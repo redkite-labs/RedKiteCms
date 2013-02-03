@@ -53,7 +53,9 @@ class LanguagesController extends Base\BaseController
             $parameters = array('MainLanguage' => $request->get('isMain'),
                                 'LanguageName' => $request->get('newLanguage'));
             if ($languageManager->save($parameters)) {
-                return $this->buildJSonHeader('The language has been successfully saved');
+                $language = (null === $alLanguage) ? $languageManager->get() : $alLanguage;
+                
+                return $this->buildJSonHeader('The language has been successfully saved', $language);
             }
 
             // @codeCoverageIgnoreStart
@@ -77,7 +79,7 @@ class LanguagesController extends Base\BaseController
                 if ($result) {
                     $message = $this->container->get('translator')->trans('The language has been successfully removed');
 
-                    return $this->buildJSonHeader($message);
+                    return $this->buildJSonHeader($message, $alLanguage);
                 }
 
                 // @codeCoverageIgnoreStart
@@ -109,14 +111,15 @@ class LanguagesController extends Base\BaseController
         return $response;
     }
 
-    protected function buildJSonHeader($message)
+    protected function buildJSonHeader($message, $language = null)
     {
+        $request = $this->container->get('request');
         $languages = ChoiceValues::getLanguages($this->createLanguageRepository());
 
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Languages:languages_list.html.twig', array('languages' => $languages)));
-        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_combo.html.twig', array('id' => 'al_languages_navigator', 'selected' => $this->container->get('request')->get('language'), 'items' => $languages)));
+        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_combo.html.twig', array('id' => 'al_languages_navigator', 'type' => 'al_language_item', 'value' => (null !== $language) ? $language->getId() : 0, 'text' => $request->get('language'), 'items' => $languages)));
 
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');

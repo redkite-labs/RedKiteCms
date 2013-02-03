@@ -1,0 +1,174 @@
+// This file is part of the AlphaLemon CMS Application and it is distributed
+// under the GPL LICENSE Version 2.0. To use this application you must leave
+// intact this copyright notice.
+//
+// Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+//
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// For extra documentation and help please visit http://www.alphalemon.com
+//
+// @license    GPL LICENSE Version 2.0
+
+
+$panel-shadow-white: $white
+$panel-shadow-gray: #ccc
+$panel-zindex: 900
+
+#al_panel
+  :width 100%
+  :position fixed
+  :top 43
+  :left 0
+  :background $panelBackgroundColor
+  :text-align left
+  :display none
+  :z-index $panel-zindex
+
+  p
+    :padding 0
+    :margin 0 0 6px 0
+    :font inherit
+
+#al_panel_body
+  :border-bottom 1px solid $darkGray
+
+#al_panel_contents
+  :margin 0 auto
+  :width 1000px
+  :font $panelFont
+  :color $panelTextColor
+  :margin-bottom 10px
+
+  td
+    :vertical-align top
+
+  h1, h2, h3, h4
+    :padding 0
+    :margin 0 0 10px 0
+    :color $darkGray
+    +text-shadow(rgba($panel-shadow-gray, .2) 1px 1px 0, rgba($panel-shadow-gray, .2) 1px 1px 0, rgba($panel-shadow-gray, .2) 1px 1px 0)
+
+  h1
+    :font $panelFontH1
+
+  h2
+    :font $panelFontH2
+
+  h3
+    :font $panelFontH3
+
+  h4
+    :margin 0
+    :font $panelFontH4
+
+  .panel_input
+    :height auto
+    :border 1px solid #CCC
+    :margin-bottom 10px
+    :padding 2px
+    +box-shadow(#999 3px 3px 3px)
+
+  .al_panel_note
+    :font $panelNoteFont
+
+
+#al_panel_closer
+  :width 100%
+  :height 16px
+  :background-color $panelCloserBackgroundColor
+  :padding 2px 0 6px 0
+  :font $panelFontH3
+  :text-align center
+  :cursor pointer
+  :color $panelCloserTextColor
+  :border-top $panelCloserBorderTop
+  :border-bottom $panelCloserBorderBottom  
+  +background-image(linear-gradient(#ccc, #888))
+
+#al_panel_header
+  :width 100%
+
+//#al_sidebar_left
+//  :width $panelLeftSidebarWidth
+//  :min-height 400px
+//  :padding 0 10px
+//  :float left
+
+#al_sidebar_right
+  a
+    :text-decoration none
+
+  .al_element_selector
+    :font-weight normal
+    :color $panelElementSelectorColor
+
+  .al_element_selected
+    :font-weight bold
+    :color $panelElementSelectedColor
+
+#al_sidebar_middle
+  :width $panelMiddleSidebarWidth
+  :min-height 400px
+  :overflow auto
+  :padding 0 10px
+  :float left
+
+  h3
+    :padding 0
+    :margin 0
+    :float left
+
+  .al_btn_add_content
+    :float right
+
+  .al_contents_separator
+    :text-align right
+    :border-bottom 1px dotted #525252
+    :margin-bottom 6px
+
+  .al_content_body
+    :display none
+
+  .al_slot_name
+    :cursor pointer
+
+#al_sidebar_right
+  :width $panelRightSidebarWidth
+  :min-height 400px
+  :padding 0 10px
+  :float right
+
+.al_panel_box
+  :border 1px solid $panelBoxBorderColor
+  +box-shadow(#999 3px 3px 3px)
+  +border-radius(8px)
+  :margin 20px 0
+
+.al_panel_box_header
+  :border-bottom 1px solid #cfcfcf
+  +background-image(linear-gradient(#eee, #999))
+  +border-radius(8px 8px 0 0)
+  :padding 4px 8px
+
+.al_panel_box_header_title
+  :font $panelFontBoxHeaderTitle
+
+.al_panel_list
+  :max-height 304px
+  :overflow auto
+  :padding 2px
+  :margin-bottom 10px
+  :border-top 1px solid $panelBoxBorderColor
+
+#al_select_languages_reminder
+  :display none
+  :font-weight bold
+  :color $panelLanguagesReminderColor
+
+.white-text-shadow
+  +text-shadow(rgba($panel-shadow-white, .2) 1px 1px 0, rgba($panel-shadow-white, .2) 1px 1px 0, rgba($panel-shadow-white, .2) 1px 1px 0)
+
+.bootstrap-form-item-margin-fixer
+  :margin-bottom 8px !important

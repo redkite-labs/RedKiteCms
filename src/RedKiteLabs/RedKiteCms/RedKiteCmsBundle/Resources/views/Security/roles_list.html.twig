@@ -1,13 +1,18 @@
-<div class="al_items_list">
-    <table>
+<div class="al_security_list">
+    <h2>Roles</h2>
+    <table class="table">
+        <thead>
+            <th>Rolename</th>
+        </thead>
     {% for role in roles %}
-        <tr class="{{ cycle(['alternate_row', 'row'], loop.index) }}"><td width="100%">{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">Edit</a></td><td><a href="#" class="al_delete_role" rel="{{ role.id }}">Delete</a></td></tr>
+        <tr><td width="100%">{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">Edit</a></td><td><a href="#" class="al_delete_role" rel="{{ role.id }}">Delete</a></td></tr>
     {% endfor %}
     </table>
 </div>
 <div class="al_security_commands_box">
-    <ul>
-        <li><input type="submit" value="New" class="al_add_role input button al_large" /></li>
-        <li><input type="submit" value="Users" class="al_list_users input button al_large" /></li>
+    <ul class="inline pull-right">
+        <li><input type="submit" value="New" class="al_add_role btn btn-primary" /></li>
+        <li><input type="submit" value="Users" class="al_list_users btn btn-info" /></li>
     </ul>
+    <div class="clearfix"></div>
 </div>

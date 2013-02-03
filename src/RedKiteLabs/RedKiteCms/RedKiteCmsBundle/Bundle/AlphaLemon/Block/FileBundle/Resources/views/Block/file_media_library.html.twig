@@ -19,7 +19,7 @@
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
         $('<div/>').dialogelfinder({
-                url : frontController + 'backend/' + $('#al_available_languages').val() + '/al_elFinderFileConnect',
+                url : frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_elFinderFileConnect',
                 lang : 'en',
                 width : 840,
                 destroyOnClose : true,

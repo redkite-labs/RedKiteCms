@@ -12,113 +12,126 @@
 
    @license    GPL LICENSE Version 2.0
 #}
-
+{% set tabs = 0 %}
 {% if editor_settings.html_editor is defined and editor_settings.html_editor == true %}
 {% set showHtmlEditor = true %}
+{% set tabs = tabs + 1 %}
 {% else %}
 {% set showHtmlEditor = false %}
 {% endif %}
 
 {% if editor_settings.rich_editor is defined and editor_settings.rich_editor == true %}
 {% set showRichEditor = true %}
+{% set tabs = tabs + 1 %}
 {% else %}
 {% set showRichEditor = false %}
 {% endif %}
 
 {% if editor_settings.internal_js is defined and editor_settings.internal_js == true %}
 {% set showInternalJsEditor = true %}
+{% set tabs = tabs + 1 %}
 {% else %}
 {% set showInternalJsEditor = false %}
 {% endif %}
 
 {% if editor_settings.external_js is defined and editor_settings.external_js == true %}
 {% set showExternalJsEditor = true %}
+{% set tabs = tabs + 1 %}
 {% else %}
 {% set showExternalJsEditor = false %}
 {% endif %}
 
 {% if editor_settings.internal_css is defined and editor_settings.internal_css == true %}
 {% set showInternalCssEditor = true %}
+{% set tabs = tabs + 1 %}
 {% else %}
 {% set showInternalCssEditor = false %}
 {% endif %}
 
 {% if editor_settings.external_css is defined and editor_settings.external_css == true %}
 {% set showExternalCssEditor = true %}
+{% set tabs = tabs + 1 %}
 {% else %}
 {% set showExternalCssEditor = false %}
 {% endif %}
 
-<div id="al_editor_tabs">
-    <ul>
-        {% if showHtmlEditor or showRichEditor %}<li><a href="#al-editor-tab-1">Html Code</a></li>{% endif %}
-        {% if showInternalJsEditor %}<li><a href="#al-editor-tab-2">Int. Js</a></li>{% endif %}
-        {% if showExternalJsEditor  %}<li><a href="#al-editor-tab-3">Ext. Js</a></li>{% endif %}
-        {% if showInternalCssEditor  %}<li><a href="#al-editor-tab-4">Int. Css</a></li>{% endif %}
-        {% if showExternalCssEditor  %}<li><a href="#al-editor-tab-5">Ext. Css</a></li>{% endif %}
+<div id="al_editor_tabs">    
+    
+    {% if tabs > 1 %}
+    <ul class="nav nav-tabs">
+        {% if showHtmlEditor or showRichEditor %}<li class="active"><a href="#al-editor-tab-1" data-toggle="tab">Html Code</a></li>{% endif %}
+        {% if showInternalJsEditor %}<li><a href="#al-editor-tab-2" data-toggle="tab">Int. Js</a></li>{% endif %}
+        {% if showExternalJsEditor  %}<li><a href="#al-editor-tab-3" data-toggle="tab">Ext. Js</a></li>{% endif %}
+        {% if showInternalCssEditor  %}<li><a href="#al-editor-tab-4" data-toggle="tab">Int. Css</a></li>{% endif %}
+        {% if showExternalCssEditor  %}<li><a href="#al-editor-tab-5" data-toggle="tab">Ext. Css</a></li>{% endif %}
     </ul>
+    {% endif %}
 
-    {% if showHtmlEditor or showRichEditor  %}
-    <div id="al-editor-tab-1">
-        {% block html_editor %}
-        {% if showRichEditor  %}
-        <form onsubmit="saveContent(); return false;">
-            <textarea id="al_html_editor" name="al_html_editor" class="input editor_inputs">
-                {{ alContent.getContentForEditor }}
-            </textarea>
-        </form>
-        {% elseif showHtmlEditor %}
-        <textarea id="al_html_editor" name="al_html_editor" class="input editor_inputs">{{ alContent.getContentForEditor }}</textarea>
-        <input id="al_html_saver" type="submit" value = "Save" class="input button" />
+    <div class="tab-content">
+        {% if showHtmlEditor or showRichEditor  %}
+        <div id="al-editor-tab-1" class="tab-pane active">
+            {% block html_editor %}
+            {% if showRichEditor  %}
+            <form onsubmit="saveContent(); return false;">
+                <textarea id="al_html_editor" name="al_html_editor">
+                    {{ alContent.getContentForEditor }}
+                </textarea>
+            </form>
+            {% elseif showHtmlEditor %}
+            <textarea id="al_html_editor" name="al_html_editor" class="editor-textarea">{{ alContent.getContentForEditor }}</textarea>
+            <input id="al_html_saver" type="submit" value = "Save" class="btn btn-primary" />
+            {% endif %}
+            {% endblock %}
+        </div>
         {% endif %}
-        {% endblock %}
-    </div>
-    {% endif %}
 
-    {% if showInternalJsEditor %}
-    <div id="al-editor-tab-2">
-        {% block internal_javascript_editor %}
-        <div class="editor-contents">
-            <textarea id="al_internal_javascript" class="input editor_inputs">{{ alContent.getInternalJavascript(false) }}</textarea>
+        {% if showInternalJsEditor %}
+        <div id="al-editor-tab-2" class="tab-pane">
+            {% block internal_javascript_editor %}
+            <div class="editor-contents">
+                <textarea id="al_internal_javascript" class="editor-textarea">{{ alContent.getInternalJavascript(false) }}</textarea>
+            </div>
+            <div class="editor-commands">
+                <input id="al_internal_javascript_saver" type="submit" value = "Save" class="btn btn-primary" />
+            </div>
+            {% endblock %}
         </div>
-        <div class="editor-commands">
-            <input id="al_internal_javascript_saver" type="submit" value = "Save" class="input button" />
-        </div>
-        {% endblock %}
-    </div>
-    {% endif %}
+        {% endif %}
 
-    {% if showExternalJsEditor  %}
-    <div id="al-editor-tab-3">
-        {% block external_javascript_editor %}
-        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : alContent.getExternalJavascript, 'files' : jsFiles } %}
-        {% endblock %}
-    </div>
-    {% endif %}
-
-    {% if showInternalCssEditor %}
-    <div id="al-editor-tab-4">
-        {% block internal_stylesheet_editor %}
-        <div class="editor-contents">
-            <textarea id="al_internal_stylesheet" class="input editor_inputs">{{ alContent.getInternalStylesheet }}</textarea>
+        {% if showExternalJsEditor  %}
+        <div id="al-editor-tab-3" class="tab-pane">
+            {% block external_javascript_editor %}
+            {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : alContent.get.getExternalJavascript, 'files' : jsFiles } %}
+            {% endblock %}
         </div>
-        <div class="editor-commands">
-            <input id="al_internal_stylesheet_saver" type="submit" value = "Save" class="input button" />
-        </div>
-        {% endblock %}
-    </div>
-    {% endif %}
+        {% endif %}
 
-    {% if showExternalCssEditor  %}
-    <div id="al-editor-tab-5">
-        {% block external_stylesheet_editor %}
-        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : alContent.getExternalStylesheet, 'files' : cssFiles } %}
-        {% endblock %}
+        {% if showInternalCssEditor %}
+        <div id="al-editor-tab-4" class="tab-pane">
+            {% block internal_stylesheet_editor %}
+            <div class="editor-contents">
+                <textarea id="al_internal_stylesheet" class="editor-textarea">{{ alContent.getInternalStylesheet }}</textarea>
+            </div>
+            <div class="editor-commands">
+                <input id="al_internal_stylesheet_saver" type="submit" value = "Save" class="btn btn-primary" />
+            </div>
+            {% endblock %}
+        </div>
+        {% endif %}
+
+        {% if showExternalCssEditor  %}
+        <div id="al-editor-tab-5" class="tab-pane">
+            {% block external_stylesheet_editor %}
+            {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : alContent.get.getExternalStylesheet, 'files' : cssFiles } %}
+            {% endblock %}
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
 
     {% if alContent.getReloadSuggested  %}
-        <div class="al_error">Warning: After adding or editing this kind of block, a page reload might be required, to properly display it</div>
+    <div class="text-error" style="margin-top: 10px">
+        <strong>Warning: After adding or editing this kind of block, a page reload might be required, to properly display it</strong>
+    </div>
     {% endif %}
 </div>
 
@@ -137,8 +150,8 @@
 </script>
 <script type="text/javascript">
     tinyMCE.init({
-        width : "740",
-        height : "350",
+        width : "780",
+        height : "400",
         mode : "none",
         elements : "al_html_editor",
         plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
@@ -162,7 +175,6 @@
     {% endif %}
 <script type="text/javascript">
     {% if showRichEditor  %} $('#al_html_editor').AddTinyMCE(); {% endif %}
-    $('#al_editor_tabs').tabs();
 
     {% if showRichEditor  %}
     function saveContent()

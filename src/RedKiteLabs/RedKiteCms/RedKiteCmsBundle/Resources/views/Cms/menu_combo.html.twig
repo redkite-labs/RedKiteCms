@@ -13,24 +13,14 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-<select id="{{ id }}" class="input select">
+<div class="btn-group dropdown-zindex">
+    <button id="{{ id }}" class="btn {{ button_type is defined ? button_type : '' }} input-auto" {% if value is defined %}rel="{{ value }}"{% endif %}>{{ text }}</button>
+    <button class="btn {{ button_type is defined ? button_type : '' }} dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu dropdown-height pull-right dropdown-zindex">
     {% for id, name in items %}
-    <option value="{{ id }}" rel="{{ name }}" {% if(selected is defined and (selected == id or selected == name)) %} selected="selected" {% endif %}>{{ name }}</option>
-    {% endfor %}
-</select>
-
-{#
-<ul class="nav">
-    <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-    Account
-    <b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu">
-    {% for id, name in items %}
-    <li value="{{ id }}" rel="{{ name }}">{{ name }}</li>
+        <li id="{{ id }}" class="{{ type }} dropdown-zindex" rel="{{ name }}"><a href="#">{{ name }}</a></li>
     {% endfor %}
     </ul>
-    </li>
-</ul>
-#}
+</div>

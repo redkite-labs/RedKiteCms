@@ -61,6 +61,7 @@ class ThemePreviewController extends AlCmsController
             'templateJavascripts' => $this->fixAssets($this->pageTree->getExternalJavascripts()),
             'templates' => $theme->getTemplates(),
             'frontController' => $this->getFrontcontroller(),
+            'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
         );
 
         $params = array_merge($baseParams, $this->renderActiveThemePanel($languageName));

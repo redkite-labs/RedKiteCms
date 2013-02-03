@@ -47,7 +47,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             }
 
             if (count($slotContents) == 0 && $pageTree->isCmsMode()) {
-                $slotContents[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
+                $slotContents[] = sprintf('<div class="al_editable {id: \'0\', slotName: \'%s\'}" data-toggle="context" data-target="#al_context_menu">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
             }
 
             $content = implode(PHP_EOL, $slotContents);

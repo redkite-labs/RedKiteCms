@@ -25,13 +25,13 @@
     {{ form_errors(pageAttributesForm) }}
 
     <ul class="nav nav-tabs">
-        <li><a href="#page" data-toggle="tab">Page</a></li>
+        <li class="active"><a href="#page" data-toggle="tab">Page</a></li>
         <li><a href="#seo" data-toggle="tab">Seo</a></li>
         <li><a href="#sitemap" data-toggle="tab">Sitemap</a></li>
     </ul>
     
     <div class="tab-content">
-        <div class="tab-pane active" id="page">
+        <div class="tab-pane active tab-height-page" id="page">
             <div id="al_pages_attributes_section">
                 <table id="al_page_form" border="0">
                     <tr>
@@ -39,74 +39,83 @@
                     </tr>
                     <tr>
                       <td>{{ form_label(pagesForm.pageName, "Page name" | trans([], domain)) }}</td>
-                      <td>{{ form_errors(pagesForm.pageName) }} {{ form_widget(pagesForm.pageName, { 'attr': {'class' : 'input panel_input', 'title': "The name of the page. It must be unique" | trans([], domain)}}) }} </td>
+                      <td>{{ form_errors(pagesForm.pageName) }} {{ form_widget(pagesForm.pageName, { 'attr': {'title': "The name of the page. It must be unique" | trans([], domain)}}) }} </td>
                     </tr>
 
                     <tr>
                       <td>{{ form_label(pagesForm.template, "Template" | trans([], domain)) }}</td>
                       <td>
-                        {{ form_errors(pagesForm.template) }} {{ form_widget(pagesForm.template, { 'attr': {'class' : 'input select panel_input', 'title': "Choose one template from the current theme" | trans([], domain)}}) }}
+                        {{ form_errors(pagesForm.template) }} {{ form_widget(pagesForm.template, { 'attr': {'title': "Choose one template from the current theme" | trans([], domain)}}) }}
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="2">
-                          <table width="100%">
-                              <tr>
-                                  <td width="40%">{{ form_label(pagesForm.isHome, "Home page" | trans([], domain)) }}</td>
-                                  <td width="10%">{{ form_errors(pagesForm.isHome) }} {{ form_widget(pagesForm.isHome, { 'attr': {'class' : 'input panel_input', 'title': "Set the page as the home page of your website. This is the page displayed when any specific page has been requested" | trans([], domain)}}) }}</td>
-
-                                  <td width="40%">{{ form_label(pagesForm.isPublished, "Published" | trans([], domain)) }}</td>
-                                  <td width="10%">{{ form_errors(pagesForm.isPublished) }} {{ form_widget(pagesForm.isPublished, { 'attr': {'class' : 'input panel_input', 'title': "When checked the page will be published" | trans([], domain)}}) }}</td>
-                                </tr>
-                          </table>
+                      <td>{{ form_label(pagesForm.isHome, "Home page" | trans([], domain)) }}</td>
+                      <td>
+                        {{ form_errors(pagesForm.isHome) }} {{ form_widget(pagesForm.isHome, { 'attr': {'title': "Set the page as the home page of your website. This is the page displayed when any specific page has been requested" | trans([], domain)}}) }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{{ form_label(pagesForm.isPublished, "Published" | trans([], domain)) }}</td>
+                      <td>
+                        {{ form_errors(pagesForm.isPublished) }} {{ form_widget(pagesForm.isPublished, { 'attr': {'title': "When checked the page will be published" | trans([], domain)}}) }}
                       </td>
                     </tr>
                 </table>
             </div>
         </div>
-    </div>
     
-    <div class="tab-content">
-        <div class="tab-pane active" id="seo">
+        <div class="tab-pane tab-height-page" id="seo">
             <div id="al_pages_seo_attributes_section">
                 <table id="al_attributes_form" border="0">
                     <tr>
-                      <td colspan="2"><h3>{{ "SEO - Search Engines Optimization" | trans([], domain) }}</h3></td>
+                      <td colspan="2"><h2>{{ "SEO - Search Engines Optimization" | trans([], domain) }}</h2></td>
                     </tr>
                     <tr>
                       <td>{{ form_label(pageAttributesForm.permalink, "Permalink" | trans([], domain)) }}</td>
-                      <td>{{ form_errors(pageAttributesForm.permalink) }} {{ form_widget(pageAttributesForm.permalink, { 'attr': {'class' : 'input panel_input', 'title': "The displayed link name for the current language" | trans([], domain)}}) }}</td>
+                      <td>{{ form_errors(pageAttributesForm.permalink) }} {{ form_widget(pageAttributesForm.permalink, { 'attr': {'rows': '2', 'class': 'input-xlarge', 'title': "The displayed link name for the current language" | trans([], domain)}}) }}</td>
                     </tr>
                     <tr>
                       <td>{{ form_label(pageAttributesForm.title, "Meta-Title" | trans([], domain)) }}</td>
-                      <td>{{ form_errors(pageAttributesForm.title) }} {{ form_widget(pageAttributesForm.title, { 'attr': {'class' : 'input panel_input', 'title': "The page title. It should be max 60 chars" | trans([], domain)}}) }}</td>
+                      <td>{{ form_errors(pageAttributesForm.title) }} {{ form_widget(pageAttributesForm.title, { 'attr': {'rows': '2', 'class': 'input-xlarge', 'title': "The page title. It should be max 60 chars" | trans([], domain)}}) }}</td>
                     </tr>
                     <tr>
                       <td>{{ form_label(pageAttributesForm.description, "Meta-Description" | trans([], domain)) }}</td>
-                      <td>{{ form_errors(pageAttributesForm.description) }}  {{ form_widget(pageAttributesForm.description, { 'attr': {'class' : 'input panel_input', 'rows': '4', 'cols': '28', 'title': "A brief description of the page" | trans([], domain)}}) }}</td>
+                      <td>{{ form_errors(pageAttributesForm.description) }}  {{ form_widget(pageAttributesForm.description, { 'attr': {'rows': '3', 'class': 'input-xlarge', 'title': "A brief description of the page" | trans([], domain)}}) }}</td>
                     </tr>
                     <tr>
                       <td>{{ form_label(pageAttributesForm.keywords, "Meta-Keywords" | trans([], domain)) }}</td>
-                      <td>{{ form_errors(pageAttributesForm.keywords) }} {{ form_widget(pageAttributesForm.keywords, { 'attr': {'class' : 'input panel_input', 'rows': '3', 'cols': '28', 'title': "Deprecated by several Search Engines (It's strongly suggested to leave it blank)" | trans([], domain)}}) }}</td>
+                      <td>{{ form_errors(pageAttributesForm.keywords) }} {{ form_widget(pageAttributesForm.keywords, { 'attr': {'rows': '3', 'class': 'input-xlarge', 'title': "Deprecated by several Search Engines (It's strongly suggested to leave it blank)" | trans([], domain)}}) }}</td>
                     </tr>
                     <tr>
                       <td>
                         {{ form_rest(pagesForm) }}
                       </td>
                     </tr>
+                </table>
+            </div>
+        </div>
+    
+        <div class="tab-pane tab-height-page" id="sitemap">
+            <div id="al_pages_site_map_section">
+                <table id="al_sitemp_form" border="0">
                     <tr>
-                      <td colspan="2" align="right">
-                        <input id="al_page_saver" type="submit" value="{{ "Save" | trans([], "al_commands") }}" class="input panel_input button"  />
-                      </td>
+                      <td colspan="2"><h2>{{ "Site map" | trans([], domain) }}</h2></td>
+                    </tr>
+                    <tr>
+                      <td>{{ form_label(pageAttributesForm.sitemapChangeFreq, "Change Frequency" | trans([], domain)) }}</td>
+                      <td>{{ form_errors(pageAttributesForm.sitemapChangeFreq) }} {{ form_widget(pageAttributesForm.sitemapChangeFreq) }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ form_label(pageAttributesForm.sitemapPriority, "Priority" | trans([], domain)) }}</td>
+                      <td>{{ form_errors(pageAttributesForm.sitemapPriority) }} {{ form_widget(pageAttributesForm.sitemapPriority) }}</td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    
-    <div class="tab-content">
-        <div class="tab-pane active" id="sitemap"></div>
-    <div>
+</div>
+<div class="pull-right">
+    <input id="al_page_saver" type="submit" value="{{ "Save" | trans([], "al_commands") }}" class="btn btn-primary" />
 </div>
 {% endblock %}
 
@@ -114,19 +123,20 @@
     <h2>{{ "Pages selector" | trans([], domain) }}</h2>
     <div>
         {{ form_label(pageAttributesForm.idLanguage, "Languages" | trans([], domain)) }}
-        {{ form_errors(pageAttributesForm.idLanguage) }} {{ form_widget(pageAttributesForm.idLanguage, { 'attr': {'class' : 'input select panel_input'} }) }}
+        {{ form_errors(pageAttributesForm.idLanguage) }} {{ form_widget(pageAttributesForm.idLanguage) }}
         {{ form_rest(pageAttributesForm) }}
     </div>
 
     <div id="al_pages_box" class="al_panel_box">
-        <h3>{{ "Site pages" | trans([], domain) }}</h3>
-
+        <div class="al_panel_box_header">
+            <span class="al_panel_box_header_title white-text-shadow">{{ "Site pages" | trans([], domain) }}</span>
+        </div>
         <div id="al_pages_list" class="al_panel_list">
             {% include 'AlphaLemonCmsBundle:Pages:pages_list.html.twig' %}
         </div>
     </div>
 
-    <input id="al_pages_remover" class="al_float_right input panel_input button" type="submit" value="{{ "Delete" | trans([], "al_commands") }}" />
+    <input id="al_pages_remover" class="btn btn-danger pull-right" type="submit" value="{{ "Delete" | trans([], "al_commands") }}" />
 
     <div id="al_select_languages_reminder">{{ "And now select the language or remove the page!" | trans([], domain) }}</div>
 {% endblock %}

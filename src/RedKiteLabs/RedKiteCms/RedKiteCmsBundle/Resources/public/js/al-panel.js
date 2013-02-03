@@ -35,6 +35,7 @@
 
                 var panelCloser = document.createElement("DIV");
                             panelCloser.id = "al_panel_closer";
+                            $(panelCloser).attr('class', "white-text-shadow");
                             panel.appendChild(panelCloser);
 
                 $(panelCloser).html("Click me to close the panel").click(function()

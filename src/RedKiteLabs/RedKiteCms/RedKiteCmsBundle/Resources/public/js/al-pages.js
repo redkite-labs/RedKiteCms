@@ -55,8 +55,8 @@ function ResetWholeForm()
 {
     $("#al_page_form").ResetFormElements();
     $("#al_attributes_form").ResetFormElements();
+    $("#al_sitemp_form").ResetFormElements();
 }
-
 
 function InitPagesCommands()
 {
@@ -66,9 +66,9 @@ function InitPagesCommands()
         var isPublished = ($('#pages_isPublished').is(':checked')) ? 1 : 0;
         $.ajax({
             type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_savePage',
-            data: {'language' : $('#al_languages_navigator option:selected').text(),
-                   'page' : $('#al_pages_navigator option:selected').text(),
+            url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_savePage',
+            data: {'language' : $('#al_languages_navigator').html(),
+                   'page' : $('#al_pages_navigator').html(),
                    'pageId' : $('#seo_attributes_idPage').val(),
                    'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
                    'pageName' : $('#pages_pageName').val(),
@@ -78,7 +78,9 @@ function InitPagesCommands()
                    'isPublished' : isPublished,
                    'title' : $('#seo_attributes_title').val(),
                    'description' : $('#seo_attributes_description').val(),
-                   'keywords' : $('#seo_attributes_keywords').val()
+                   'keywords' : $('#seo_attributes_keywords').val(),
+                   'sitemapChangeFreq' : $('#seo_attributes_sitemapChangeFreq').val(),
+                   'sitemapPriority' : $('#seo_attributes_sitemapPriority').val()                   
                },
             beforeSend: function()
             {
@@ -86,12 +88,14 @@ function InitPagesCommands()
             },
             success: function(response)
             {
-                if($('#seo_attributes_idPage').val() == '') ResetWholeForm();
+                if ($('#seo_attributes_idPage').val() == '') {
+                    ResetWholeForm();
+                }
                 UpdatePagesJSon(response);
             },
             error: function(err)
             {
-                $('body').showDialog(err.responseText);
+                $('body').showAlert(err.responseText, 0, 'alert-error');
             },
             complete: function()
             {
@@ -106,9 +110,9 @@ function InitPagesCommands()
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_deletePage',
-                data: {'language' : $('#al_languages_navigator option:selected').text(),
-                       'page' : $('#al_pages_navigator option:selected').text(),
+                url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_deletePage',
+                data: {'language' : $('#al_languages_navigator').html(),
+                       'page' : $('#al_pages_navigator').html(),
                        'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
                        'pageId' : $('#seo_attributes_idPage').val()
                    },
@@ -132,7 +136,7 @@ function InitPagesCommands()
                 },
                 error: function(err)
                 {
-                    $('body').showDialog(err.responseText);
+                    $('body').showAlert(err.responseText, 0, 'alert-error');
                 },
                 complete: function()
                 {
@@ -169,7 +173,8 @@ function UpdatePagesJSon(response)
         switch(item.key)
         {
             case "message":
-                $('body').showAutoCloseDialog(item.value);
+                $('body').showAlert(item.value);
+                
             case "pages":
                 var idSelectedPage = $('#al_pages_list .al_element_selected').attr('ref');
                 $('#al_pages_list').html(item.value);
@@ -209,9 +214,9 @@ function LoadSeoAttributes(idPage)
     $('#seo_attributes_idPage').val(idPage);
     $.ajax({
         type: 'POST',
-        url: frontController + 'backend/' + $('#al_available_languages').val() + '/al_loadSeoAttributes',
-        data: {'language' : $('#al_languages_navigator option:selected').text(),
-               'page' : $('#al_pages_navigator option:selected').text(),
+        url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_loadSeoAttributes',
+        data: {'language' : $('#al_languages_navigator').html(),
+               'page' : $('#al_pages_navigator').html(),
                'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
                'pageId' : idPage},
         beforeSend: function()
