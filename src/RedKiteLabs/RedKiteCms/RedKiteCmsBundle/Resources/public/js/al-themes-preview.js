@@ -384,7 +384,6 @@ function ObserveThemesPreviewCommands()
         $('#al_reset').ResetMapping();
 
         $('body').RestoreTemplateMapping(getRepeatedSlotStorageKey()).RestoreTemplateMapping(getCurrentTemplateStorageKey());
-$('#al_active_theme').show();
     } catch (e) {alert(e)}
 }
 
