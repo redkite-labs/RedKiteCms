@@ -169,6 +169,11 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
             $i = $i + 2;
         }
         
+        $this->container->expects($this->at(27))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.web_folder_full_path')
+            ->will($this->returnValue(vfsStream::url('root')));
+        
         $this->template->expects($this->exactly(4))
             ->method('getTemplateSlots')
             ->will($this->returnValue($this->templateSlots));
@@ -223,6 +228,34 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
         $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:show, _locale: en, page: index }";
         $this->assertEquals($siteRouting, file_get_contents(vfsStream::url('root\AcmeWebSiteBundle\Resources\config\site_routing.yml')));
 
+        $sitemap = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+        $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
+        $sitemap .= '<url>' . PHP_EOL;
+        $sitemap .= '	<loc>http://alphalemon.com/homepage</loc>' . PHP_EOL;
+        $sitemap .= '	<changefreq></changefreq>' . PHP_EOL;
+        $sitemap .= '	<priority></priority>' . PHP_EOL;
+        $sitemap .= '</url>' . PHP_EOL;
+        $sitemap .= '<url>' . PHP_EOL;
+        $sitemap .= '	<loc>http://alphalemon.com/</loc>' . PHP_EOL;
+        $sitemap .= '	<changefreq></changefreq>' . PHP_EOL;
+        $sitemap .= '	<priority></priority>' . PHP_EOL;
+        $sitemap .= '</url>' . PHP_EOL;
+        $sitemap .= '<url>' . PHP_EOL;
+        $sitemap .= '	<loc>http://alphalemon.com/</loc>' . PHP_EOL;
+        $sitemap .= '	<changefreq></changefreq>' . PHP_EOL;
+        $sitemap .= '	<priority></priority>' . PHP_EOL;
+        $sitemap .= '</url>' . PHP_EOL;
+        $sitemap .= '<url>' . PHP_EOL;
+        $sitemap .= '	<loc>http://alphalemon.com/</loc>' . PHP_EOL;
+        $sitemap .= '	<changefreq></changefreq>' . PHP_EOL;
+        $sitemap .= '	<priority></priority>' . PHP_EOL;
+        $sitemap .= '</url>' . PHP_EOL;
+        $sitemap .= '</urlset>';
+
+        $sitemapFile = vfsStream::url('root\sitemap.xml');
+        $this->assertFileExists($sitemapFile);
+        $this->assertEquals($sitemap, file_get_contents($sitemapFile));
+        
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('views'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild('AlphaLemon'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->hasChild('en'));

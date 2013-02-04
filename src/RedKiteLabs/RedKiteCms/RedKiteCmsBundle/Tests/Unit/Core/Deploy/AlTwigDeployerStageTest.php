@@ -222,6 +222,8 @@ class AlTwigDeployerStageTest extends AlPageTreeCollectionBootstrapper
         $siteRouting .= "  pattern: /\n";
         $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: index }";
         $this->assertEquals($siteRouting, file_get_contents(vfsStream::url('root\AcmeWebSiteBundle\Resources\config\site_routing_stage.yml')));
+        
+        $this->assertFileNotExists(vfsStream::url('root\sitemap.xml'));
 
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('views'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild('AlphaLemon'));
