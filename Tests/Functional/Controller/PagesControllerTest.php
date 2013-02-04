@@ -55,6 +55,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#seo_attributes_title')->count());
         $this->assertEquals(1, $crawler->filter('#seo_attributes_description')->count());
         $this->assertEquals(1, $crawler->filter('#seo_attributes_keywords')->count());
+        $this->assertEquals(1, $crawler->filter('#seo_attributes_sitemapChangeFreq')->count());
+        $this->assertEquals(1, $crawler->filter('#seo_attributes_sitemapPriority')->count());
         $this->assertEquals(1, $crawler->filter('#seo_attributes_idLanguage')->count());
         $this->assertEquals(1, $crawler->filter('#al_page_saver')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_list')->count());
