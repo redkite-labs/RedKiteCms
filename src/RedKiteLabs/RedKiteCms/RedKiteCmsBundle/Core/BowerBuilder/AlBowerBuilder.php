@@ -68,6 +68,9 @@ class AlBowerBuilder
             $componentPath = $bundle->getPath() . '/component.json';
             if (file_exists(($componentPath))) {
                 $bundleComponents = json_decode(@file_get_contents($componentPath), true);
+                if (null === $bundleComponents) {
+                    throw new \InvalidArgumentException(sprintf('File %s has an error: please check the syntax consistency', $componentPath));
+                }
                 $components = ($bundle->getName() == "AlphaLemonCmsBundle") ? $bundleComponents['dependencies'] + $components : array_merge($components, $bundleComponents['dependencies']);
             }
         }

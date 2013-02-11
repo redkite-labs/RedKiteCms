@@ -264,8 +264,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $sitemap = array();
         foreach ($seoAttributes as $seoAttribute) {
             $permalink = $seoAttribute->getPermalink();
-            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", "http://alphalemon.com/" . $permalink, $seoAttribute->getSitemapChangefreq(), $seoAttribute->getSitemapPriority());
-                
+            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", "http://alphalemon.com/" . $permalink, $seoAttribute->getSitemapChangefreq(), $seoAttribute->getSitemapPriority());                
         }
          
         return @file_put_contents($this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
