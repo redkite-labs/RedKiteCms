@@ -46,7 +46,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
             $content = $block->getContent();
             $blockType = $block->getType();
         }
-
+        
         $content = json_decode($content, $assoc);
         if (null === $content) {
             $blockTypeInfo = (null !== $blockType) ? ' for the block ' . $blockType . ' ' : '';

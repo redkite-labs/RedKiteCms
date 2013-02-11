@@ -16,12 +16,18 @@
 {% extends 'AlphaLemonCmsBundle:Block:base_editor.html.twig' %}
 
 {% block html_editor %}
-<div class="editor_contents al_images_list">
-    {% include 'AlphaLemonCmsBundle:Block:images_list.html.twig' with {'alContent' : alContent } %}
-</div>
-<div class="al_images_selector_commands">
-    <input class="input button al_add_images" type="submit" value="Add images" />
-    <input class="input button al_remove_images" type="submit" value="Remove images" />
+<div>
+    <div class="al_images_list">
+        {% if images_editor_template is defined %}
+        {% include images_editor_template with {'alContent' : alContent } %}
+        {% else %}
+        {% include 'AlphaLemonCmsBundle:Block:Images/images_list.html.twig' with {'alContent' : alContent } %}
+        {% endif %}
+    </div>
+    <div class="al_images_selector_commands">
+        <input class="al_add_images btn btn-primary" type="submit" value="Add images" />
+        <input class="al_remove_images btn btn-danger" type="submit" value="Remove images" />
+    </div>
 </div>
 
 <script type="text/javascript">

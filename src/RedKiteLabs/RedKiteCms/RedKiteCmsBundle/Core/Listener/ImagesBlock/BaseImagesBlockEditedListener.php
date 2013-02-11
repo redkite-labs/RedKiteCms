@@ -29,10 +29,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManager
  * 
  * @api
  */
-class ImagesBlockEditedListener
+abstract class BaseImagesBlockEditedListener
 {
     protected $templateEngine;
 
+    protected abstract function configure();
+    
     /**
      * Contructor
      * 
@@ -56,7 +58,14 @@ class ImagesBlockEditedListener
     {
         $blockManager = $event->getBlockManager();
         if ($blockManager instanceof AlBlockManagerImages) {
-            $template = $this->templateEngine->render('AlphaLemonCmsBundle:Block:images_list.html.twig', array("alContent" => $blockManager));
+            
+            $templateName = 'AlphaLemonCmsBundle:Block:Images/images_list.html.twig';
+            $options = $this->configure();
+            if (array_key_exists('images_editor_template', $options)) {
+                $templateName = $options['images_editor_template'];
+            }
+            
+            $template = $this->templateEngine->render($templateName, array("alContent" => $blockManager));
             $values = array(
                 array("key" => "images-list", "value" => $template),
                 array("key" => "message", "value" => "The content has been successfully edited"),
