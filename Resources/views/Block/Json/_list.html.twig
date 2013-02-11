@@ -16,11 +16,11 @@
 {% block list %}
  <div class="al_items_list">
     {% if items is defined and items|length > 0 %}
-    <table>
+    <table class="table">
     {% for key, item in items %} 
-         <tr class="{{ cycle(['alternate_row', 'row'], loop.index) }}">
+         <tr>
             {% for value in item %}
-                <td>{{ value }}</td>
+            <td width="100%">{{ value }}</td>
             {% endfor %}
             <td><a href="#" rel="{{ key }}" class="al_edit_item">Edit</a></td>
             <td><a href="#" class="al_delete_item" rel="{{ key }}">Delete</a></td>
@@ -36,7 +36,7 @@
 {% block commands %}
 <div class="al_commands_box">
     <ul>
-        <li><input type="submit" value="New" class="al_add_item input button al_large" /></li>
+        <li><input type="submit" value="New" class="al_add_item btn-primary" /></li>
     </ul>
 </div>
 {% endblock %}

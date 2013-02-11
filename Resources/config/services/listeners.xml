@@ -3,8 +3,7 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="alpha_lemon_cms.images_block_edited.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener</parameter>
+    <parameters>        
         <parameter key="alpha_lemon_cms.cms_bootstrap_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
         <parameter key="alpha_lemon_cms.resource_free_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\ResourceFreeListener</parameter>
         <parameter key="alpha_lemon_cms.access_deniend_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
@@ -21,11 +20,6 @@
     </parameters>
 
     <services>
-        <service id="alpha_lemon_cms.images_block_edited" class="%alpha_lemon_cms.images_block_edited.class%">
-            <tag name="alcms.event_listener" event="actions.block_edited" method="onBlockEdited" priority="0" />
-            <argument type="service" id="templating" />
-        </service>
-
         <service id="alpha_lemon_cms.cms_bootstrap_listener" class="%alpha_lemon_cms.cms_bootstrap_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
             <argument type="service" id="service_container" />

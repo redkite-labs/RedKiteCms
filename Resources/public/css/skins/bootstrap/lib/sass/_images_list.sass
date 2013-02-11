@@ -11,14 +11,27 @@
 //
 // @license    GPL LICENSE Version 2.0
 
-@import "variables"
-@import "panel"
-@import "common"
-@import "cms"
-@import "editor"
-@import "items_list"
-@import "pages"
-@import "security"
-@import "theme_preview"
-@import "images_list"
-@import "custom_bootstrap"
+.al_images_list
+    :border 2px solid #ccc
+    :padding 6px
+    :height 450px
+    :max-height 450px
+    :overflow auto
+
+    .al_image
+        :float left
+        :padding 2px
+
+    .al_image img
+        :border 5px solid #c9c9c9
+        +border-radius(6px 6px 6px 6px)
+
+    .al_image_selected img
+        :border 5px solid #ff9900
+        +border-radius(6px 6px 6px 6px)
+
+.images_contents
+    :width 620px
+
+.al_images_selector_commands
+    :padding 6px

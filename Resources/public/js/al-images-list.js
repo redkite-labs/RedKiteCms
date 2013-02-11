@@ -33,7 +33,7 @@
         {
             $(this).click(function()
             {
-                $(this).EditBlock('RemoveFile', $('.al_image_selected img').attr('rel'));
+                $(this).EditBlock('RemoveFile', $('.al_img_selected').find('img').attr('src'));
 
                 return false;
             });
