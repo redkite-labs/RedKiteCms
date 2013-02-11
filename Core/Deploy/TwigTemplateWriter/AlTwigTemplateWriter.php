@@ -186,6 +186,9 @@ class AlTwigTemplateWriter
         $this->metatagsSection .= $this->writeInlineBlock('keywords', $this->pageTree->getMetaKeywords());
     }
     
+    /**
+     * Adds extra metatags than the default ones
+     */
     protected function generateAddictionalMetaTagsSection()
     {
         if ( ! empty($this->metatagsExtraContents)) {
