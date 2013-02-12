@@ -154,17 +154,44 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      */
     public function getBlocks()
     {
-        $blockGroups = array();
+        $blockGroups = array(); 
         foreach ($this->blockManagersItems as $blockManager) {
-            $blockGroups[$blockManager->getGroup()][$blockManager->getType()] = $blockManager->getDescription();
+            $group = $blockManager->getGroup();
+            if ($group != "") {
+                $groups = explode(",", $group);
+            } else {
+                $groups = array('none');
+            }
+            
+            $blockGroup = array($blockManager->getType() => $blockManager->getDescription());
+            foreach (array_reverse($groups) as $key) {
+               $blockGroup = array(trim($key) => $blockGroup);
+            }
+            $blockGroups = array_merge_recursive($blockGroups, $blockGroup);
         }
-
-        $blocks = $this->extractGroup('alphalemon_internals', $blockGroups);
+        
+        // First displayed group
+        $alphaLemonBlocks = $this->extractGroup('alphalemon_internals', $blockGroups);        
+        // Last displayed group
         $notGrouped = $this->extractGroup('none', $blockGroups);
+        
+        // Sorts
+        $this->recurKsort($alphaLemonBlocks);
+        $alphaLemonBlocks[0] = "menu-divider";
+        if (count($notGrouped) > 0) {
+            $this->recurKsort($notGrouped);
+            $notGrouped = array_merge(array("menu-divider"), $notGrouped);
+        }
+        
+        // Exstracts and sorts all other groups
+        $blocks = array();
         foreach ($blockGroups as $blockGroup) {
-            asort($blockGroup);
             $blocks = array_merge($blocks, $blockGroup);
         }
+        $this->recurKsort($blocks);
+        
+        // Merges blocks
+        $blocks = array_merge($alphaLemonBlocks, $blocks);
         $blocks = array_merge($blocks, $notGrouped);
 
         return $blocks;
@@ -192,10 +219,17 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 
         $blocks = $groups[$group];
         if (!empty($blocks)) {
-            asort($blocks);
             unset($groups[$group]);
         }
 
         return $blocks;
+    }
+    
+    private function recurKsort(&$array) {
+        foreach ($array as &$value) {
+            if (is_array($value)) $this->recurKsort($value);
+        }
+        
+        return ksort($array);
     }
 }

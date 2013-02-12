@@ -178,23 +178,21 @@
     </div>
 </div>
 
-
 <div id="al_panel"></div>
-
 <div id="al_context_menu">
+    
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">   
         <li class="dropdown-submenu">
             <a tabindex="-1" href="#">Add</a>
             <ul class="dropdown-menu">
-                {% for item, description in available_blocks %}
-                <li><a tabindex="-1" href="#" rel="{{ item }}" class="al_context_menu_item">{{ description }}</a></li>
-                {% endfor %}
+            {% include "AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
             </ul>
         </li>
         <li class="divider"></li>
         <li><a id="al_context_menu_edit" tabindex="-1" href="#">Edit</a></li>
         <li><a id="al_context_menu_delete" tabindex="-1" href="#">Delete</a></li>
     </ul>
+    
 </div>
 
 <div id="al_cms_contents" class="{page: '{{ page }}', language: '{{ language }}'}">
