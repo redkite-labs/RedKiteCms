@@ -57,7 +57,8 @@ abstract class BaseImagesBlockEditedListener
     public function onBlockEdited(BlockEditedEvent $event)
     {
         $blockManager = $event->getBlockManager();
-        if ($blockManager instanceof AlBlockManagerImages) {
+        $blockType = $blockManager->get()->getType();
+        if ($blockType == $this->getManagedBlockType()) {
             
             $templateName = 'AlphaLemonCmsBundle:Block:Images/images_list.html.twig';
             $options = $this->configure();

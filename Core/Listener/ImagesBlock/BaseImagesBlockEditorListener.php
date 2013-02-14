@@ -27,19 +27,16 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  * 
  * @api
  */
-abstract class BaseImagesBlockEditorListener
+abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
 {
-    protected abstract function configure();
-    
     /**
      * {@inheritdoc}
      */
     public function onBlockEditorRendering(BlockEditorRenderingEvent $event)
     {
         $alBlockManager = $event->getBlockManager();
-        if ($alBlockManager instanceof AlBlockManagerImages) {
-            $blockType = $alBlockManager->get()->getType();
-
+        $blockType = $alBlockManager->get()->getType();
+        if ($blockType == $this->getManagedBlockType()) {
             $container = $event->getContainer();
             $request = $container->get('request');
             $template = sprintf('%sBundle:Block:%s_editor.html.twig', $blockType, strtolower($blockType));
