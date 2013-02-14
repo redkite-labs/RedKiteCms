@@ -471,25 +471,9 @@
   max-height: 450px;
   overflow: auto;
 }
-.al_images_list .al_image {
-  float: left;
-  padding: 2px;
-}
-.al_images_list .al_image img {
-  border: 5px solid #c9c9c9;
-  -webkit-border-radius: 6px 6px 6px 6px;
-  -moz-border-radius: 6px 6px 6px 6px;
-  -ms-border-radius: 6px 6px 6px 6px;
-  -o-border-radius: 6px 6px 6px 6px;
-  border-radius: 6px 6px 6px 6px;
-}
-.al_images_list .al_image_selected img {
-  border: 5px solid #ff9900;
-  -webkit-border-radius: 6px 6px 6px 6px;
-  -moz-border-radius: 6px 6px 6px 6px;
-  -ms-border-radius: 6px 6px 6px 6px;
-  -o-border-radius: 6px 6px 6px 6px;
-  border-radius: 6px 6px 6px 6px;
+
+.al_img_selected {
+  border: 2px solid #ff9900;
 }
 
 .images_contents {
