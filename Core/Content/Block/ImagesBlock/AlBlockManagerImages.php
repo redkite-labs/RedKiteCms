@@ -50,4 +50,9 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
         
         return parent::edit($values);
     }
+    
+    protected function getEditorWidth()
+    {
+        return 1000;
+    }
 }
