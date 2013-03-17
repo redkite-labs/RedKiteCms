@@ -134,4 +134,13 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->filterByToDelete(0)
                 ->$operation();
     }
+    
+    public function deleteIncludedBlocks($key)
+    {
+        return AlBlockQuery::create()
+                ->filterBySlotName($key . '%')
+                ->filterByToDelete(0)
+                ->update(array('ToDelete' => '1'));
+                //->delete();
+    }
 }

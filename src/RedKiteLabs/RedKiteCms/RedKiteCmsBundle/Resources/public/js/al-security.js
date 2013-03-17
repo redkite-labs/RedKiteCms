@@ -99,7 +99,7 @@
             {
                 $.ajax({
                     type: 'POST',
-                    url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/' + route,
+                    url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
                     data: {
                         'page' :  $('#al_pages_navigator').html(),
                         'language' : $('#al_languages_navigator').html()
@@ -177,7 +177,7 @@ function show(route, id)
 {
     $.ajax({
       type: 'GET',
-      url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/' + route,
+      url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
       data: {'id' : id },
       beforeSend: function()
       {
@@ -202,7 +202,7 @@ function remove(route, id)
 {
     $.ajax({
       type: 'GET',
-      url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/' + route,
+      url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
       data: {'id' : id },
       beforeSend: function()
       {

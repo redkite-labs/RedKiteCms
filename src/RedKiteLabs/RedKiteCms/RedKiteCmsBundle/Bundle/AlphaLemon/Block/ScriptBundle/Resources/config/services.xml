@@ -3,7 +3,11 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
+    <parameters>        
+        <parameter key="script.external_javascripts" type="collection">
+            <parameter>@ScriptBundle/Resources/public/js/script_editor.js</parameter>
+        </parameter>
+        
         <parameter key="script.block.class">AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript</parameter>
 
         <parameter key="script.editor_settings" type="collection">
@@ -17,7 +21,7 @@
 
     <services>
         <service id="script.block" class="%script.block.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
+            <argument type="service" id="service_container" />
             <tag name="alphalemon_cms.blocks_factory.block" description="Script block" type="Script" group="alphalemon_internals" />
         </service>
     </services>

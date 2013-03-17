@@ -365,7 +365,7 @@ class AlSlotManager extends AlTemplateBase
                   "SlotName"        => $this->slot->getSlotName(),
                   "Type"            => $type,
                   "ContentPosition" => $position,
-                  'CreatedAt'       => date("Y-m-d H:i:s")
+                  "CreatedAt"       => date("Y-m-d H:i:s"),
                 );
 
                 if ($this->forceSlotAttributes) {

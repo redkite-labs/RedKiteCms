@@ -17,28 +17,71 @@
 
 namespace AlphaLemon\Block\ScriptBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 
 /**
  * ScriptExtension
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerScript extends AlBlockManager
+class AlBlockManagerScript extends AlBlockManagerContainer
 {
     /**
      * {@inheritdoc}
      */
     public function getDefaultValue()
     {
-        return array('Content' => '',
+        return array('Content' => '<p>This is a default script content</p>',
                      'InternalJavascript' => '',
                      'ExternalJavascript' => '');
     }
 
+    protected function replaceHtmlCmsActive()
+    {
+        return array('RenderView' => array(
+            'view' => 'ScriptBundle:Editor:scriptblock_editor.html.twig',            
+            'options' => array(
+                'blockManager' => $this,
+                "jsFiles" => explode(",", $this->alBlock->getExternalJavascript()),
+                "cssFiles" => explode(",", $this->alBlock->getExternalStylesheet()),
+                'editor_settings' => $this->container->getParameter('script.editor_settings'),
+            ),
+        ));
+        
+        /*
+        $items = $this->decodeJsonContent($this->alBlock);
+        $item = $items[0];
+        $file = $item['file'];
+        
+        $item['opened'] = array_key_exists('opened', $item) ? filter_var($item['opened'], FILTER_VALIDATE_BOOLEAN) : false; 
+        
+        $options = ($item['opened'])
+            ? 
+                array(
+                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+                    'filename' => $file,
+                )
+            :
+                array(
+                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+                    'filename' => $file,
+                    'filepath' => basename($file),
+                )
+        ;
+        
+        $formClass = $this->container->get('file.form');
+        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);        
+        $options = array_merge($options, array('form' => $buttonForm->createView()));
+        
+        return array('RenderView' => array(
+            'view' => 'FileBundle:Editor:fileblock_editor.html.twig',
+            'options' => $options,
+        ));*/
+    }
+
     /**
      * {@inheritdoc}
-     */
+     *
     public function getHideInEditMode()
     {
         return true;
@@ -46,9 +89,9 @@ class AlBlockManagerScript extends AlBlockManager
 
     /**
      * {@inheritdoc}
-     */
+     *
     public function getReloadSuggested()
     {
         return true;
-    }
+    }*/
 }

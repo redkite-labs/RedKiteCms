@@ -58,7 +58,7 @@
 <div id="al_editor_tabs">    
     
     {% if tabs > 1 %}
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" id="myTab">
         {% if showHtmlEditor or showRichEditor %}<li class="active"><a href="#al-editor-tab-1" data-toggle="tab">Html Code</a></li>{% endif %}
         {% if showInternalJsEditor %}<li><a href="#al-editor-tab-2" data-toggle="tab">Int. Js</a></li>{% endif %}
         {% if showExternalJsEditor  %}<li><a href="#al-editor-tab-3" data-toggle="tab">Ext. Js</a></li>{% endif %}
@@ -71,16 +71,8 @@
         {% if showHtmlEditor or showRichEditor  %}
         <div id="al-editor-tab-1" class="tab-pane active">
             {% block html_editor %}
-            {% if showRichEditor  %}
-            <form onsubmit="saveContent(); return false;">
-                <textarea id="al_html_editor" name="al_html_editor">
-                    {{ alContent.getContentForEditor }}
-                </textarea>
-            </form>
-            {% elseif showHtmlEditor %}
-            <textarea id="al_html_editor" name="al_html_editor" class="editor-textarea">{{ alContent.getContentForEditor }}</textarea>
+            <textarea id="al_html_editor" name="al_html_editor" class="editor-textarea">{{ blockManager.get.Content }}</textarea>
             <input id="al_html_saver" type="submit" value = "Save" class="btn btn-primary" />
-            {% endif %}
             {% endblock %}
         </div>
         {% endif %}
@@ -89,7 +81,7 @@
         <div id="al-editor-tab-2" class="tab-pane">
             {% block internal_javascript_editor %}
             <div class="editor-contents">
-                <textarea id="al_internal_javascript" class="editor-textarea">{{ alContent.getInternalJavascript(false) }}</textarea>
+                <textarea id="al_internal_javascript" class="editor-textarea">{{ blockManager.getInternalJavascript(false) }}</textarea>
             </div>
             <div class="editor-commands">
                 <input id="al_internal_javascript_saver" type="submit" value = "Save" class="btn btn-primary" />
@@ -101,7 +93,7 @@
         {% if showExternalJsEditor  %}
         <div id="al-editor-tab-3" class="tab-pane">
             {% block external_javascript_editor %}
-            {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : alContent.get.getExternalJavascript, 'files' : jsFiles } %}
+            {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : blockManager.get.getExternalJavascript, 'files' : jsFiles } %}
             {% endblock %}
         </div>
         {% endif %}
@@ -110,7 +102,7 @@
         <div id="al-editor-tab-4" class="tab-pane">
             {% block internal_stylesheet_editor %}
             <div class="editor-contents">
-                <textarea id="al_internal_stylesheet" class="editor-textarea">{{ alContent.getInternalStylesheet }}</textarea>
+                <textarea id="al_internal_stylesheet" class="editor-textarea">{{ blockManager.getInternalStylesheet }}</textarea>
             </div>
             <div class="editor-commands">
                 <input id="al_internal_stylesheet_saver" type="submit" value = "Save" class="btn btn-primary" />
@@ -122,86 +114,40 @@
         {% if showExternalCssEditor  %}
         <div id="al-editor-tab-5" class="tab-pane">
             {% block external_stylesheet_editor %}
-            {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : alContent.get.getExternalStylesheet, 'files' : cssFiles } %}
+            {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : blockManager.get.getExternalStylesheet, 'files' : cssFiles } %}
             {% endblock %}
         </div>
         {% endif %}
     </div>
 
-    {% if alContent.getReloadSuggested  %}
+    {% if blockManager.getReloadSuggested  %}
     <div class="text-error" style="margin-top: 10px">
         <strong>Warning: After adding or editing this kind of block, a page reload might be required, to properly display it</strong>
     </div>
     {% endif %}
 </div>
 
-{% block static_header_javascripts %}
-{% if showRichEditor  %}
-    {% block tinymce_init_script %}
+{# block static_header_javascripts %}
 <script type="text/javascript">
-    /*
-    tinyMCE_GZ.init({
-        plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
-        theme : "advanced",
-        languages : "en",
-        disk_cache : true,
-        debug : false
-    });*/
-</script>
-<script type="text/javascript">
-    tinyMCE.init({
-        width : "780",
-        height : "400",
-        mode : "none",
-        elements : "al_html_editor",
-        plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
-        theme : "advanced",
-        theme_advanced_buttons1 : "code,save,|,bold,italic,underline,strikethrough,removeformat,|,justifyleft,justifycenter,justifyright,justifyfull,|,link,unlink,|,bullist,link,unlink,|,image,media,|,table",
-        theme_advanced_buttons2 : "formatselect,styleselect",
-        theme_advanced_buttons3 : "",
-        theme_advanced_buttons4 : "",
-        theme_advanced_toolbar_location : "top",
-        theme_advanced_toolbar_align : "left",
-        theme_advanced_statusbar_location : "bottom",
-        theme_advanced_resizing : true,
-        relative_urls : true,
-        convert_urls : false,
-        //content_css : '/bundles/alphalemon2012theme/css/style.css',
-        external_image_list_url : '{{ path('_create_images_list') }}',
-        external_link_list_url : '{{ path('_create_links_list', { 'language': language }) }}'
-    });
-</script>
-    {% endblock %}
-    {% endif %}
-<script type="text/javascript">
-    {% if showRichEditor  %} $('#al_html_editor').AddTinyMCE(); {% endif %}
-
-    {% if showRichEditor  %}
-    function saveContent()
-    {
-        $('#al_html_editor').EditBlock('Content');
-    };
-    {% endif %}
-
     {% if showRichEditor == false or showHtmlEditor  %}
-    $('#al_html_saver').click(function()
+    $("#al_html_saver").click(function()
     {
-        $('#al_html_editor').EditBlock('Content');
+        $("#al_html_editor").EditBlock("Content");
     });
     {% endif %}
 
     {% if showInternalJsEditor  %}
-    $('#al_internal_javascript_saver').click(function()
+    $("#al_internal_javascript_saver").click(function()
     {
-        $('#al_internal_javascript').EditBlock('InternalJavascript');
+        $("#al_internal_javascript").EditBlock("InternalJavascript");
     });
     {% endif %}
 
     {% if showInternalCssEditor  %}
-    $('#al_internal_stylesheet_saver').click(function()
+    $("#al_internal_stylesheet_saver").click(function()
     {
-        $('#al_internal_stylesheet').EditBlock('InternalStylesheet');
+        $("#al_internal_stylesheet").EditBlock("InternalStylesheet");
     });
     {% endif %}
 </script>
-{% endblock %}
+{% endblock #}

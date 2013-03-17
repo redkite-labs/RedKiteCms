@@ -40,9 +40,11 @@
 
                 $(panelCloser).html("Click me to close the panel").click(function()
                 {
+                    $(panel).slideUp(400, function(){ $(this).empty(); });
+                    /*
                     $(panel).animate({
                     height: "hide"
-                    }, 1000, 'easeInOutCirc', function(){$(this).empty();});
+                    }, 1000, 'easeInOutCirc', function(){$(this).empty();});*/
                 });
             }
             else {
@@ -50,9 +52,11 @@
                 panel.hide().html(html);
             }
 
+            $(panel).slideDown(400, callback);
+/*
             $(panel).animate({
                 height: 'show'
-                }, 750, 'easeInExpo', callback);
+                }, 750, 'easeInExpo', callback);*/
         });
     };
 })($);

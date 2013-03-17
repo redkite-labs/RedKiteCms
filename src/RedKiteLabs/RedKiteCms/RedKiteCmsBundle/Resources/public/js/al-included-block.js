@@ -1,0 +1,6 @@
+/*(function( $ ){
+    $.fn.StartToEdit = function()
+    {
+    
+    }
+});*/

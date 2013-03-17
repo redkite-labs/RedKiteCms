@@ -23,6 +23,18 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
      */
     protected function edit(array $values)
     {
+        $values["Content"] = $this->arrangeImages($values);
+        
+        return $this->doBaseEdit($values);
+    }
+    
+    protected function doBaseEdit(array $values)
+    {
+        return parent::edit($values);
+    }
+
+    protected function arrangeImages(array $values)
+    {
         if ( ! array_key_exists('Content', $values)) {
             $images = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);
             $savedImages = array_map(function($el){ return $el['image']; }, $images);
@@ -45,12 +57,13 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
                     unset($images[$key]);
                 }
             }
-            $values["Content"] = json_encode($images);
+            
+            return json_encode($images);
         }
-        
-        return parent::edit($values);
+
+        return $values['Content'];
     }
-    
+
     protected function getEditorWidth()
     {
         return 1000;

@@ -1,0 +1,23 @@
+{% block body %}
+{% set i = 1 %}
+{% for image in images %}
+{% if i == 1 %}
+<ul class="thumbnails"> 
+{% endif %}
+    <li class="span2">
+        {% set attributes = "" %}
+        {% for name, value in image %}
+        {% set attributeName = form_name ~ '_' ~ name %}
+        {% set attributes = attributes ~ attributeName ~ ": '" ~ value ~ "'," %}
+        {% endfor %}
+        <a href="#" class="thumbnail al_img { {{ attributes }} }">
+            {% include "ImageBundle:Image:image.html.twig" with {"image" : image } %}
+        </a>
+    </li>  
+{% if i == 4 %}
+</ul>
+{% set i = 0 %}
+{% endif %}
+{% set i = i + 1 %}
+{% endfor %}
+{% endblock %}

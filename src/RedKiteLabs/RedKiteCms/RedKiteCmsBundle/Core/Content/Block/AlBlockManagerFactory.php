@@ -143,6 +143,16 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 
         return null;
     }
+    
+    public function getAvailableBlocks()
+    {
+        $blockManagers = array();
+        foreach ($this->blockManagersItems as $blockManager) {
+            $blockManagers[] = $blockManager->getType();
+        }
+        
+        return $blockManagers;
+    }
 
     /**
      * Returns an array that contains the blocks description objects that can be created by the
@@ -171,7 +181,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         }
         
         // First displayed group
-        $alphaLemonBlocks = $this->extractGroup('alphalemon_internals', $blockGroups);        
+        $alphaLemonBlocks = array("Default" => $this->extractGroup('alphalemon_internals', $blockGroups));        
         // Last displayed group
         $notGrouped = $this->extractGroup('none', $blockGroups);
         
@@ -193,7 +203,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         // Merges blocks
         $blocks = array_merge($alphaLemonBlocks, $blocks);
         $blocks = array_merge($blocks, $notGrouped);
-
+        
         return $blocks;
     }
 

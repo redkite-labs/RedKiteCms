@@ -23,7 +23,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         '{
             "0" : {
                 "file" : "Click to load a file",
-                "opened" : "0"
+                "opened" : false
             }
         }';
 
@@ -31,11 +31,11 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             'Content' => $value,
         );
     }
-
+/*
     public function getHideInEditMode()
     {
         return true;
-    }
+    }*/
 
     public function getHtml()
     {
@@ -46,9 +46,12 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
         $deployBundleAsset = new AlAsset($this->container->get('kernel'), $deployBundle);
 
+        return "AlBlockManagerFile->FIX ME!";
+        
+        /*
         return ($item['opened'])
             ? sprintf("{%% set file = kernel_root_dir ~ '/../web/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
-            : $this->formatLink($file);
+            : $this->formatLink($file);*/
     }
 
     protected function replaceHtmlCmsActive()
@@ -56,21 +59,30 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
         $file = $item['file'];
-
-        return ($item['opened'])
-            ? @file_get_contents($this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $file)
-            : $this->formatLink($file);
-    }
-
-    protected function getEditorWidth()
-    {
-        return 270;
-    }
-
-    private function formatLink($file)
-    {
-        $uploadsPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
-
-        return sprintf('<a href="/%s/%s" />%s</a>', $uploadsPath, $file, basename($file));
+        
+        $item['opened'] = array_key_exists('opened', $item) ? filter_var($item['opened'], FILTER_VALIDATE_BOOLEAN) : false; 
+        
+        $options = ($item['opened'])
+            ? 
+                array(
+                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+                    'filename' => $file,
+                )
+            :
+                array(
+                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+                    'filename' => $file,
+                    'filepath' => basename($file),
+                )
+        ;
+        
+        $formClass = $this->container->get('file.form');
+        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);        
+        $options = array_merge($options, array('form' => $buttonForm->createView()));
+        
+        return array('RenderView' => array(
+            'view' => 'FileBundle:Editor:fileblock_editor.html.twig',
+            'options' => $options,
+        ));
     }
 }

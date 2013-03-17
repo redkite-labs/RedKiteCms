@@ -76,7 +76,7 @@
       
       $.ajax({
           type: 'POST',
-          url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/al_showUser',
+          url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/al_showUser',
           data: {'id' : userId,
                  'al_username' : $('#al_user_username').val(),
                  'al_password' : $('#al_user_password').val(),

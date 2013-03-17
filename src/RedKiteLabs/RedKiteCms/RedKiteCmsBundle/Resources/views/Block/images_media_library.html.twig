@@ -15,11 +15,11 @@
 
 {% extends 'AlphaLemonCmsBundle:Elfinder:media_library.html.twig' %}
 
-{% block init_script %}
+{# block init_script %}
 <script type="text/javascript" charset="utf-8">
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         $('<div/>').dialogelfinder({
-                url : frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_elFinderMediaConnect',
+                url : frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_elFinderMediaConnect',
                 lang : 'en',
                 width : 840,
                 destroyOnClose : true,
@@ -29,9 +29,10 @@
                     }
                 },
                 getFileCallback : function(file, fm) {
-                    $('body').AddImage(file.path);
+                    var image = '/{{ assets_folder }}/' + file.path;
+                    $('#al_json_block_src').val(image);
                 }
         }).dialogelfinder('instance');
-    });
+    });*/
 </script>
-{% endblock %}
+{% endblock #}

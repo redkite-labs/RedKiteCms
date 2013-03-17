@@ -1,0 +1,46 @@
+{#
+ This file is part of the BusinessCarouselBundle and it is distributed
+ under the GPL LICENSE Version 2.0. To use this application you must leave
+ intact this copyright notice.
+
+    Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+ For the full copyright and license information, please view the LICENSE
+ file that was distributed with this source code.
+
+ For extra documentation and help please visit http://www.alphalemon.com
+
+    @license    GPL LICENSE Version 2.0
+#}
+
+{% block list %}
+ <div class="al_items_list">
+    {% if items is defined and items|length > 0 %}  
+    <form id="{{ form.getName }}">
+        <table class="table">
+    {% for key, item in items %} 
+         <tr id="{{ key }}">
+            {% set attributes = '' %}
+            {% for name, value in item %}
+                {% set attributeName = form.getName ~ '_' ~ name %}
+                {% set attributes = attributes ~ attributeName ~ ": '" ~ value ~ "'," %}                
+                {% set hidden = '' %} 
+                {% if block_manager.isColumnVisible(name) == false %}
+                {% set hidden = 'al_hidden' %} 
+                {% endif %}
+            <td id="{{ key ~ "_" ~ name }}" name="{{ name }}" rel="{{ attributeName }}" class="al-column {{ hidden }}" width="100%">{{ value }}</td>            
+                
+            {% endfor %} 
+            <td><a href="#" rel="{{ key }}" class="al_edit_item { {{ attributes[0:-1] }} }">Edit</a></td>
+            <td><a href="#" class="al_delete_item" rel="{{ key }}">Delete</a></td>
+        </tr>
+    {% endfor %}
+        </table>
+    </form>
+    {% else %}
+    <p>Any item has been added. You can add a new item clicking the <b>New</b> button here below</p>
+    {% endif %}
+</div>
+{% endblock %} 
+
+

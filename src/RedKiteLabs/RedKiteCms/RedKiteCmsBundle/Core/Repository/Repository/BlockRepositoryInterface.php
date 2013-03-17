@@ -83,4 +83,6 @@ interface BlockRepositoryInterface
      * @return object A collection of objects
      */
     public function fromType($className, $operation = 'find');
+    
+    public function deleteIncludedBlocks($key);
 }

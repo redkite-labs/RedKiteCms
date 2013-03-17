@@ -1,0 +1,62 @@
+<div id="al_blocks_list">
+    <div class="column pull-left">
+    {% set number_of_items = 10 %}
+    {% set counter = 0 %}
+    {% for block_name, block_value in blocks %}
+        <ul>
+        {% if block_value|keys  %}
+            {% if counter == number_of_items - 1 %}
+                </ul>
+                </div>
+                <div class="column pull-left">
+                <ul>
+                {% set counter = 0 %}
+            {% endif %}
+            <li class="al_block_header">{{ block_name }}</li>
+
+            {% set counter = counter + 1 %}
+            {% for block_type, value in block_value %}
+
+            {% if counter == number_of_items %}
+                </ul>
+                </div>
+                <div class="column pull-left">
+                <ul>
+                {% set counter = 0 %}
+            {% endif %}
+
+            {% if value != "menu-divider" %}
+            <li><a href="#" rel="{{ block_type }}" class="al_block_adder">{{ value }}</a></li>
+            {% else %}
+            <li class="divider"></li>
+            {% endif %}
+            {% set counter = counter + 1 %}
+            {% endfor %}
+        {% endif %}
+        </ul>
+    {% endfor %}
+    </div>
+    <div class="clearfix"></div>
+    <div>
+        <a id="al_close_block_menu" class="btn pull-right">Close</a>
+    </div>    
+</div>
+
+
+{#
+<ul class="nav nav-list">
+{% for block_name, block_value in blocks %}
+    {% if block_value|keys  %}
+        <li class="nav-header">{{ block_name }}</li>
+       
+        {% for value in block_value %}
+        {% if value != "menu-divider" %}
+        <li><a href="#" rel="{{ block_name }}" class="al_context_menu_item">{{ value }}</a></li>
+        {% else %}
+        <li class="divider"></li>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+</ul>
+#}

@@ -75,6 +75,13 @@ class BlocksController extends Base\BaseController
             return $this->renderDialogMessage($e->getMessage());
         }
     }
+    
+    public function showAvailableBlocksAction()
+    {
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig', array(
+            'blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks()
+        ));
+    }
 
     public function addBlockAction()
     {
@@ -82,16 +89,47 @@ class BlocksController extends Base\BaseController
             $this->checkPageIsValid();
 
             $request = $this->container->get('request');
-            $slotManager = $this->fetchSlotManager($request);
-
-            $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
-            $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
-            if (!$res) {
-                // @codeCoverageIgnoreStart
-                throw new \RuntimeException('The content has not been added because something goes wrong during the operation');
-                // @codeCoverageIgnoreEnd
+            
+            $slotName = $request->get('slotName');  
+            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+            $blockRepository = $factoryRepository->createRepository('Block');
+            
+            $options = $request->get('options');
+            if(count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && (array_key_exists('included', $options) && filter_var($options['included'], FILTER_VALIDATE_BOOLEAN)))
+            {
+                throw new \RuntimeException('You cannot add more than one block into an including block');
             }
-
+            
+            $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
+            $slotManager = $this->fetchSlotManager($request);
+            if (null !== $slotManager) {
+                $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
+                if (!$res) {
+                    // @codeCoverageIgnoreStart
+                    throw new \RuntimeException('The content has not been added because something goes wrong during the operation');
+                    // @codeCoverageIgnoreEnd
+                }
+                
+                $template = 'AlphaLemonCmsBundle:Cms:render_block.html.twig';
+                $block = $slotManager->lastAdded()->toArray();
+            } else {
+                $template = 'AlphaLemonCmsBundle:Cms:render_included_block.html.twig';
+                                   
+                $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+                $blockManager = $blockManagerFactory->createBlockManager($contentType);
+                    
+                $values = array(
+                  "PageId"          => $request->get('pageId'),
+                  "LanguageId"      => $request->get('languageId'),
+                  "SlotName"        => $slotName,
+                  "Type"            => $contentType,
+                  "ContentPosition" => 0,
+                  'CreatedAt'       => date("Y-m-d H:i:s")
+                );            
+                $blockManager->save($values);
+                $block = $blockManager->toArray();
+            }
+            
             $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
             $values = array(
                 array(
@@ -101,10 +139,10 @@ class BlocksController extends Base\BaseController
                 array(
                     "key" => "add-block",
                     "insertAfter" => "block_" . $idBlock,
-                    "slotName" => 'al_' . $request->get('slotName'),
+                    "slotName" => 'al_' . $block["Block"]["SlotName"], 
                     "value" => $this->container->get('templating')->render(
-                            'AlphaLemonCmsBundle:Cms:render_block.html.twig',
-                            array("block" => $slotManager->lastAdded()->toArray(), 'add' => true)
+                            $template,
+                            array("block" => $block, 'add' => true)
                         )
                     )
                 );
@@ -125,7 +163,9 @@ class BlocksController extends Base\BaseController
 
             $value = urldecode($request->get('value'));
             $values = array($request->get('key') => $value);
-            if(null !== $request->get('options') && is_array($request->get('options'))) $values = array_merge($values, $request->get('options'));
+            if (null !== $request->get('options') && is_array($request->get('options'))) {
+                $values = array_merge($values, $request->get('options'));
+            }
             $result = $slotManager->editBlock($request->get('idBlock'), $values);
             if (false === $result) {
                 // @codeCoverageIgnoreStart
@@ -205,7 +245,12 @@ class BlocksController extends Base\BaseController
                 throw new \RuntimeException($this->container->get('translator')->trans('The key param is mandatory to open the right file manager'));
             }
 
-            return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), array('enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor')));
+            $params = array(
+                'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
+                'assets_folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+            );
+            
+            return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), $params);
         } catch (\Exception $e) {
             return $this->renderDialogMessage($e->getMessage());
         }
@@ -348,9 +393,9 @@ class BlocksController extends Base\BaseController
         if(null === $request) $request = $this->container->get('request');
 
         $slotManager = $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));
-        if (null === $slotManager) {
+        /*if (null === $slotManager) {
             throw new \RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
-        }
+        }*/
 
         return $slotManager;
     }

@@ -29,6 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
 abstract class RenderingListEditorListener extends BaseRenderingEditorListener
 {
     protected $alBlockManager = null;
+    protected $container;
 
     /**
      * {@inheritdoc}
@@ -54,11 +55,68 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
      */
     protected function doRenderEditor(BlockEditorRenderingEvent $event)
     {
+        $this->container = $event->getContainer();
+                
         $block = $this->alBlockManager->get();
         $className =$block->getType();
         $items = json_decode($block->getContent(), true);
+        $form = $this->setUpForm($block->getId(), -1); //, $request->get('itemId')
         $template = sprintf('%sBundle:Block:%s_list.html.twig', $className, strtolower($className));
+        
+        return $event->getContainer()->get('templating')->render($template, 
+                array(
+                    "items" => $items, 
+                    "block_manager" => $this->alBlockManager, 
+                    "block_id" => $block->getId(), 
+                    'form' => $form->createView()
+                )
+        );
+    }
+    
+    /**
+     * Sets up the form that manages the json item
+     *
+     * @param int The block id
+     * @param int The item id
+     * @return Form
+     */
+    protected function setUpForm($blockId, $itemId)
+    {
+        $item = null;
+        $block = $this->fetchBlock($blockId);
+        if ($itemId != -1) {
+            $content = json_decode($block->getContent(), true);
 
-        return $event->getContainer()->get('templating')->render($template, array("items" => $items, "block_id" => $block->getId()));
+            if (!array_key_exists($itemId, $content)) {
+                throw new \InvalidArgumentException('It seems that the item requested does not exist anymore');
+            }
+
+            $item = $content[$itemId];
+            $item['id'] = $itemId;
+        }
+
+        $formName = sprintf('%s.form', strtolower($block->getType()));
+        $formClass = $this->container->get($formName);
+
+        return $this->container->get('form.factory')->create($formClass, $item);
+    }
+    
+    /**
+     * Retrieves the block
+     *
+     * @param int The block id
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
+     */
+    protected function fetchBlock($blockId)
+    {
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $repository = $factoryRepository->createRepository('Block');
+        $block = $repository->fromPk($blockId);
+
+        if (null == $block) {
+            throw new \InvalidArgumentException('It seems that the block to edit does not exist anymore');
+        }
+
+        return $block;
     }
 }

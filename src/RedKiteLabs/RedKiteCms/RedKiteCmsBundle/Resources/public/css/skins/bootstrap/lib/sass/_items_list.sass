@@ -24,20 +24,31 @@
     :padding 4px
 
 .al_items_list
-    :border 2px solid #ccc
+    :border 1px solid $darkGray
     :overflow auto
     :margin-bottom 10px
+    :background-color $white
+    :color $darkGray
+
+    table
+        :width 450px
 
     li
         :width 100%
         :border-bottom 1px dotted #a5a5a5
         :padding 6px
+     
+    a
+        color: $darkenGray
 
     .row
-        :background-color #fff
+        :background-color $white
 
     .alternate_row
         :background-color #f3f5f5
 
     .al_selected_item
         :background-color #d5dbdb
+
+.al_active_row
+    :background-color #d5dbdb
