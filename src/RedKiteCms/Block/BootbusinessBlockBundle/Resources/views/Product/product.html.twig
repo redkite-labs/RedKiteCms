@@ -1,0 +1,23 @@
+<ul class="thumbnails al-data-list">
+    {% if values|length > 0 %}
+    {% for key, image in values %}
+    {% set baseKey = parent.getId ~ "-" ~ key %} 
+    <li{% if image.width is defined and image.width != "none" %} class="{{ image.width }}"{% endif %} data-item="{{ key }}" data-key="{{ baseKey }}">
+        <div class="thumbnail">
+            {% set blockKey = baseKey ~ "-0" %}  
+            {{ renderIncludedBlock(blockKey, parent, "Image", true) }}
+            <div class="caption">
+                {% set blockKey = baseKey ~ "-1" %}   
+                {{ renderIncludedBlock(blockKey, parent, "Text", true) }}
+            </div>
+            <div class="widget-footer">
+                {% set blockKey = baseKey ~ "-2" %}   
+                {{ renderIncludedBlock(blockKey, parent, "Text", true) }}
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+    {% else %}
+    <li class="al-empty">Any item added</li>
+    {% endif %}
+</ul>

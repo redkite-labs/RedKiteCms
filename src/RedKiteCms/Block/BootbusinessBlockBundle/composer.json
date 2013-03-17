@@ -1,0 +1,8 @@
+{
+    "autoload": {
+        "psr-0": { "AlphaLemon\\Block\\BootbusinessProductBlockBundle": ""
+        }
+    },
+    "target-dir" : "AlphaLemon/Block/BootbusinessProductBlockBundle",
+    "minimum-stability": "dev"
+}
