@@ -1,0 +1,35 @@
+{
+  "name": "alphalemon/bootbusiness-theme-bundle",
+  "description": "AlphaLemon CMS Bootsiness Website Theme porting",
+  "keywords": ["alphalemon", "cms", "app", "theme"],
+  "homepage": "http://alphalemon.com",
+  "type": "alphalemon-theme-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "AlphaLemon",
+      "email": "info@alphalemon.com"
+    }
+  ],
+  "repositories": [ 
+      { 
+          "type": "composer", 
+          "url": "http://apps.alphalemon.com/" 
+      } 
+  ],
+  "require": {
+    "alphalemon/app-bootbusiness-product-bundle": "dev-master",
+    "alphalemon/app-bootstrap-button-bundle": "dev-master",
+    "alphalemon/app-bootstap-buttons-group-bundle": "dev-master",
+    "alphalemon/app-bootstrap-dropdown-button-bundle": "dev-master",
+    "alphalemon/app-bootstrap-slider-bundle": "dev-master",
+    "alphalemon/app-bootstrap-split-dropdown-button-bundle": "dev-master",
+    "alphalemon/app-bootstrap-thumbnail-bundle": "dev-master"
+  },
+  "autoload": {
+    "psr-0": { "AlphaLemon\\Theme\\BootbusinessThemeBundle": ""
+    }
+  },
+  "target-dir" : "AlphaLemon/Theme/BootbusinessThemeBundle",
+  "minimum-stability": "dev"
+}

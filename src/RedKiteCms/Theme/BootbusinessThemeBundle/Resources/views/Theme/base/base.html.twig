@@ -1,0 +1,299 @@
+{% extends base_template %}
+
+{% block body %}
+<!-- Start: HEADER -->
+<header>
+  <!-- Start: Navigation wrapper-->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        {% block logo1 %}
+            {# BEGIN-SLOT
+                name: logo1
+                repeated: site
+                htmlContent: |
+                    <a href="index.html" class="brand brand-bootbus">Bootbusiness</a>
+            END-SLOT #}
+            {{ renderSlot('logo1') }}
+        {% endblock %} 
+        
+        <!-- Below button used for responsive navigation -->
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- Start: Primary navigation -->
+        <div class="nav-collapse collapse">
+            {% block main_menu %}
+                {# BEGIN-SLOT
+                    name: main_menu
+                    repeated: language
+                    htmlContent: |
+                        <ul class="nav pull-right">
+                            <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Products and Services<b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li class="nav-header">PRODUCTS</li>
+                                <li><a href="product.html">Product1</a></li>
+                                <li><a href="product.html">Product2</a></li>
+                                <li><a href="product.html">Product3</a></li>
+                                <li><a href="all_products.html">All products</a></li>             
+                                <li class="divider"></li>
+                                <li class="nav-header">SERVICES</li>
+                                <li><a href="service.html">Service1</a></li>
+                                <li><a href="service.html">Service2</a></li>
+                                <li><a href="service.html">Service3</a></li>
+                                <li><a href="all_services.html">All services</a></li>
+                              </ul>                  
+                            </li>
+                            <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="our_works.html">Our works</a></li>
+                                <li><a href="patnerships.html">Parnerships</a></li>
+                                <li><a href="leadership.html">Leadership</a></li>
+                                <li><a href="news.html">News</a></li>
+                                <li><a href="events.html">Events</a></li>
+                                <li><a href="blog.html">Blog</a></li>
+                              </ul>
+                            </li>
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="contact_us.html">Contact us</a></li>
+                            <li><a href="signup.html">Sign up</a></li>
+                            <li><a href="signin.html">Sign in</a></li>
+                        </ul>
+                END-SLOT #}
+                {{ renderSlot('main_menu') }}
+            {% endblock %} 
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End: Navigation wrapper -->   
+</header>
+{% block contents %}
+{% endblock %}
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="span2">
+        {% block footer_title_1 %}
+            {# BEGIN-SLOT
+                name: footer_title_1
+                repeated: language
+                htmlContent: |
+                    <h4><i class="icon-star icon-white"></i> Products</h4>
+            END-SLOT #}
+            {{ renderSlot('footer_title_1') }}
+        {% endblock %} 
+        <nav>
+            {% block footer_body_1 %}
+                {# BEGIN-SLOT
+                    name: footer_body_1
+                    repeated: language
+                    htmlContent: |
+                        <ul class="quick-links">
+                            <li><a href="product.html">Product1</a></li>
+                            <li><a href="product.html">Product2</a></li>
+                            <li><a href="product.html">Product3</a></li>
+                            <li><a href="all_products.html">All products</a></li>
+                        </ul>
+                END-SLOT #}
+                {{ renderSlot('footer_body_1') }}
+            {% endblock %} 
+        </nav>
+        {% block footer_title_2 %}
+            {# BEGIN-SLOT
+                name: footer_title_2
+                repeated: language
+                htmlContent: |
+                    <h4><i class="icon-cogs icon-white"></i> Services</h4>
+            END-SLOT #}
+            {{ renderSlot('footer_title_2') }}
+        {% endblock %} 
+        <nav>
+            {% block footer_body_2 %}
+                {# BEGIN-SLOT
+                    name: footer_body_2
+                    repeated: language
+                    htmlContent: |
+                        <ul class="quick-links">
+                            <li><a href="service.html">Service1</a></li>
+                            <li><a href="service.html">Service2</a></li>
+                            <li><a href="service.html">Service3</a></li>
+                            <li><a href="all_services.html">All services</a></li>              
+                        </ul>
+                END-SLOT #}
+                {{ renderSlot('footer_body_2') }}
+            {% endblock %} 
+        </nav>
+      </div>
+      <div class="span2">
+        {% block footer_title_3 %}
+            {# BEGIN-SLOT
+                name: footer_title_3
+                repeated: language
+                htmlContent: |
+                    <h4><i class="icon-beaker icon-white"></i> About</h4>
+            END-SLOT #}
+            {{ renderSlot('footer_title_3') }}
+        {% endblock %}
+        <nav>
+            {% block footer_body_3 %}
+                {# BEGIN-SLOT
+                    name: footer_body_3
+                    repeated: language
+                    htmlContent: |
+                        <ul class="quick-links">
+                            <li><a href="our_works.html">Our works</a></li>
+                            <li><a href="patnerships.html">Patnerships</a></li>
+                            <li><a href="leadership.html">Leadership</a></li>
+                            <li><a href="news.html">News</a></li>
+                            <li><a href="events.html">Events</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                        </ul>
+                END-SLOT #}
+                {{ renderSlot('footer_body_3') }}
+            {% endblock %} 
+        </nav>          
+      </div>
+      <div class="span2">
+        {% block footer_title_4 %}
+            {# BEGIN-SLOT
+                name: footer_title_4
+                repeated: language
+                htmlContent: |
+                    <h4><i class="icon-thumbs-up icon-white"></i> Support</h4>
+            END-SLOT #}
+            {{ renderSlot('footer_title_4') }}
+        {% endblock %}
+        <nav>
+            {% block footer_body_4 %}
+                {# BEGIN-SLOT
+                    name: footer_body_4
+                    repeated: language
+                    htmlContent: |
+                        <ul class="quick-links">
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="contact_us.html">Contact us</a></li>            
+                        </ul>
+                END-SLOT #}
+                {{ renderSlot('footer_body_4') }}
+            {% endblock %} 
+        </nav>
+        {% block footer_title_5 %}
+            {# BEGIN-SLOT
+                name: footer_title_5
+                repeated: language
+                htmlContent: |
+                    <h4><i class="icon-legal icon-white"></i> Legal</h4>
+            END-SLOT #}
+            {{ renderSlot('footer_title_5') }}
+        {% endblock %}
+        <nav>
+            {% block footer_body_5 %}
+                {# BEGIN-SLOT
+                    name: footer_body_5
+                    repeated: language
+                    htmlContent: |
+                        <ul class="quick-links">
+                            <li><a href="#">License</a></li>
+                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Security</a></li>      
+                        </ul>
+                END-SLOT #}
+                {{ renderSlot('footer_body_5') }}
+            {% endblock %}
+        </nav>            
+      </div>
+      <div class="span3">
+        {% block footer_title_6 %}
+            {# BEGIN-SLOT
+                name: footer_title_6
+                repeated: language
+                htmlContent: |
+                    <h4>Get in touch</h4>
+            END-SLOT #}
+            {{ renderSlot('footer_title_6') }}
+        {% endblock %}
+        <div class="social-icons-row">
+            {% block footer_social_1 %}
+                {# BEGIN-SLOT
+                    name: footer_social_1
+                    repeated: language
+                    htmlContent: |
+                        <a href="#"><i class="icon-twitter"></i></a>
+                        <a href="#"><i class="icon-facebook"></i></a>
+                        <a href="#"><i class="icon-linkedin"></i></a>   
+                END-SLOT #}
+                {{ renderSlot('footer_social_1') }}
+            {% endblock %}                     
+        </div>
+        <div class="social-icons-row">
+            {% block footer_social_2 %}
+                {# BEGIN-SLOT
+                    name: footer_social_2
+                    repeated: language
+                    htmlContent: |
+                        <a href="#"><i class="icon-google-plus"></i></a>              
+                        <a href="#"><i class="icon-github"></i></a>
+                        <a href="mailto:soundar.rathinasamy@gmail.com"><i class="icon-envelope"></i></a>    
+                END-SLOT #}
+                {{ renderSlot('footer_social_2') }}
+            {% endblock %}               
+        </div>
+        <div class="social-icons-row">
+            {% block footer_social_3 %}
+                {# BEGIN-SLOT
+                    name: footer_social_3
+                    repeated: language
+                    htmlContent: |
+                        <i class="icon-phone icon-large phone-number"></i> +919750227877 
+                END-SLOT #}
+                {{ renderSlot('footer_social_3') }}
+            {% endblock %}            
+        </div>
+      </div>      
+      <div class="span3">
+        {% block contacts_title_1 %}
+            {# BEGIN-SLOT
+                name: contacts_title_1
+                repeated: language
+                htmlContent: |
+                    <h4>Get updated by email</h4>
+            END-SLOT #}
+            {{ renderSlot('contacts_title_1') }}
+        {% endblock %} 
+        {% block contacts_body_1 %}
+            {# BEGIN-SLOT
+                name: contacts_body_1
+                repeated: language
+                htmlContent: |
+                    <form>
+                      <input type="text" name="email" placeholder="Email address">
+                      <input type="submit" class="btn btn-primary" value="Subscribe">
+                    </form>
+            END-SLOT #}
+            {{ renderSlot('contacts_body_1') }}
+        {% endblock %} 
+      </div>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <div class="container">
+    <p>
+        {% block coopyright %}
+            {# BEGIN-SLOT
+                name: coopyright
+                repeated: site
+                htmlContent: |
+                    &copy; 2012-3000 Bootbusiness, Inc. All Rights Reserved.
+            END-SLOT #}
+            {{ renderSlot('coopyright') }}
+        {% endblock %}          
+    </p>
+  </div>
+</footer>
+{% endblock %}

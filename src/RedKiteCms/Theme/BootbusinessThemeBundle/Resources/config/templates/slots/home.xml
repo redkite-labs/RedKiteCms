@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bootbusiness_theme.theme.template.home.slots.slider_box" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">slider_box</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<div id="heroSlider" class="carousel slide"><div class="carousel-inner"><div class="active item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR BUSINESS AND CORPORATE.</h1><p>
+We are Bootbusiness and we are awesome.We solve your technology problems by our awesome products.
+We are Bootbusiness and we are awesome.We solve your technology problems by our awesome products.
+            </p><h3><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="/bundles/bootbusinesstheme/css/img/placeholder.jpg" class="thumbnail"></div></div></div></div><div class="item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR NATURE OF WORK</h1><p>
+We are Bootbusiness and we design ultimate website applications.
+We are Bootbusiness and we design ultimate website applications.
+            </p><h3><a href="service.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="/bundles/bootbusinesstheme/css/img/placeholder.jpg" class="thumbnail"></div></div></div></div><div class="item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR PRODUCT</h1><p>
+Get excited about our products.We build awesome products in mobile.
+We build awesome products in mobile.We build awesome products in mobile.
+            </p><h3><a href="#" class="btn btn-primary">Buy now</a><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="/bundles/bootbusinesstheme/css/img/placeholder.jpg" class="thumbnail"></div></div></div></div><div class="item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR ANOTHER PRODUCT</h1><p>
+Get excited about our products.We build awesome products in mobile.
+We build awesome products in mobile.We build awesome products in mobile.
+            </p><h3><a href="#" class="btn btn-primary">Buy now</a><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="/bundles/bootbusinesstheme/css/img/placeholder.jpg" class="thumbnail"></div></div></div></div></div><a class="left carousel-control" href="#heroSlider" data-slide="prev">�</a><a class="right carousel-control" href="#heroSlider" data-slide="next">�</a></div>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.home.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.home.slots.content_title_1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">content_title_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Our products</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.home.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.home.slots.content_body_1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">content_body_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapThumbnailBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.home.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.home.slots.content_title_2" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">content_title_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Our Services</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.home.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.home.slots.content_body_2" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">content_body_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapThumbnailBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.home.slots" />
+        </service>
+    </services>
+</container>

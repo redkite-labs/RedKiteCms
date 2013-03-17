@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bootbusiness_theme.theme.template.base.slots.logo1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">logo1</argument>
+            <argument type="collection" >
+                <argument key="repeated">site</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<a href="index.html" class="brand brand-bootbus">Bootbusiness</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.main_menu" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">main_menu</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="nav pull-right"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Products and Services<b class="caret"></b></a><ul class="dropdown-menu"><li class="nav-header">PRODUCTS</li><li><a href="product.html">Product1</a></li><li><a href="product.html">Product2</a></li><li><a href="product.html">Product3</a></li><li><a href="all_products.html">All products</a></li><li class="divider"></li><li class="nav-header">SERVICES</li><li><a href="service.html">Service1</a></li><li><a href="service.html">Service2</a></li><li><a href="service.html">Service3</a></li><li><a href="all_services.html">All services</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a><ul class="dropdown-menu"><li><a href="our_works.html">Our works</a></li><li><a href="patnerships.html">Parnerships</a></li><li><a href="leadership.html">Leadership</a></li><li><a href="news.html">News</a></li><li><a href="events.html">Events</a></li><li><a href="blog.html">Blog</a></li></ul></li><li><a href="faq.html">FAQ</a></li><li><a href="contact_us.html">Contact us</a></li><li><a href="signup.html">Sign up</a></li><li><a href="signin.html">Sign in</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_title_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-star icon-white"></i> Products</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_body_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="product.html">Product1</a></li><li><a href="product.html">Product2</a></li><li><a href="product.html">Product3</a></li><li><a href="all_products.html">All products</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_2" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_title_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-cogs icon-white"></i> Services</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_2" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_body_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="service.html">Service1</a></li><li><a href="service.html">Service2</a></li><li><a href="service.html">Service3</a></li><li><a href="all_services.html">All services</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_3" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_title_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-beaker icon-white"></i> About</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_3" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_body_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="our_works.html">Our works</a></li><li><a href="patnerships.html">Patnerships</a></li><li><a href="leadership.html">Leadership</a></li><li><a href="news.html">News</a></li><li><a href="events.html">Events</a></li><li><a href="blog.html">Blog</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_4" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_title_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-thumbs-up icon-white"></i> Support</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_4" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_body_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="faq.html">FAQ</a></li><li><a href="contact_us.html">Contact us</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_5" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_title_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-legal icon-white"></i> Legal</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_5" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_body_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="#">License</a></li><li><a href="#">Terms of Use</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Security</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_6" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_title_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4>Get in touch</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_social_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><i class="icon-twitter"></i></a><a href="#"><i class="icon-facebook"></i></a><a href="#"><i class="icon-linkedin"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_2" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_social_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><i class="icon-google-plus"></i></a><a href="#"><i class="icon-github"></i></a><a href="mailto:soundar.rathinasamy@gmail.com"><i class="icon-envelope"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_3" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">footer_social_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<i class="icon-phone icon-large phone-number"></i> +919750227877]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.contacts_title_1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">contacts_title_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4>Get updated by email</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.contacts_body_1" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">contacts_body_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<form><input type="text" name="email" placeholder="Email address"><input type="submit" class="btn btn-primary" value="Subscribe"></form>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.coopyright" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">coopyright</argument>
+            <argument type="collection" >
+                <argument key="repeated">site</argument>
+                <argument key="htmlContent">
+                    <![CDATA[&copy; 2012-3000 Bootbusiness, Inc. All Rights Reserved.]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
+    </services>
+</container>

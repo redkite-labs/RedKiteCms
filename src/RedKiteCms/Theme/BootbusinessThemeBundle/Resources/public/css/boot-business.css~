@@ -1,0 +1,302 @@
+/* Start : Override Bootstrap navigation */
+.navbar-inner, footer {
+  border: none;
+  padding: 15px 0;
+  background: #4A9B9E;
+}
+.navbar .brand-bootbus {
+	font-size: 25px;
+	cursor: pointer;
+	text-shadow: none;
+	color: white;
+  text-shadow: 0 1px 0 #ccc,
+             0 2px 0 #c9c9c9,
+             0 3px 0 #bbb,
+             0 4px 0 #b9b9b9,
+             0 5px 0 #aaa,
+             0 6px 1px rgba(0,0,0,.1),
+             0 0 5px rgba(0,0,0,.1),
+             0 1px 3px rgba(0,0,0,.3),
+             0 3px 5px rgba(0,0,0,.2),
+             0 5px 10px rgba(0,0,0,.25),
+             0 10px 10px rgba(0,0,0,.2),
+             0 20px 20px rgba(0,0,0,.15);
+}
+.navbar .nav li.dropdown > .dropdown-toggle .caret {
+	border-top-color: white;
+	border-bottom-color: white;
+}
+.navbar .nav > li > a {
+	text-shadow: none;
+	color: white;
+	font-size: 17px;
+  font-weight: bold;
+  -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+         border-radius: 3px;
+}
+.navbar .nav > li > a:hover,
+.navbar .nav > li > a:focus {
+	color: white !important;
+	background: #198589 !important;
+}
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus,
+.dropdown-submenu:hover > a {
+	background: #4A9B9E;
+}
+/* End : Override Bootstrap navigation */
+
+/* Start : Override Bootstrap hero unit */
+.hero-unit {
+	background: none;
+	padding: 60px 60px 0 60px;
+	margin: 0;
+}
+.hero-unit h1 {
+  margin: 10px 0 10px 0;
+}
+/* Start : Override Bootstrap hero unit */
+
+/* Start : Override Bootstrap carousel */
+.carousel-control {
+	background: none;
+	border: none;
+	opacity: 1;
+	color: #4A9B9E;
+}
+.carousel-control:hover {
+	color: #4A9B9E;
+}
+/* End : Override Bootstrap carousel */
+
+/* Start: Override Bootstrap Accordian */
+
+.accordion-group,
+.accordion-inner {
+  border: none;
+}
+
+/* Start: Override Bootstrap Accordian */
+
+/* Start: Bootbusiness specific CSS */
+.content {
+  padding: 30px 0;
+}
+.active-link {
+  background-color: #198589;
+}
+.page-header {
+  margin: 0 0 30px;
+}
+.marketting-info {
+	margin-top: 50px !important;
+}
+.slider {
+	border-bottom:  1px solid #ddd;
+}
+.widget-header {
+  border: 1px solid #DDD;
+  padding: 20px 5px;
+  text-align: center;
+  margin: 0;
+  border-bottom: 0;
+  background-color: #EEEEEC;
+  -webkit-border-radius: 5px 5px 0 0;
+     -moz-border-radius: 5px 5px 0 0;
+          border-radius: 5px 5px 0 0;
+}
+.widget-body {
+  font-size: 16px;
+  padding: 30px 0 20px 0;
+  border: 1px solid #DDD;
+  -webkit-border-radius: 0 0 5px 5px;
+     -moz-border-radius: 0 0 5px 5px;
+          border-radius: 0 0 5px 5px;
+}
+.features {
+  margin-top: 10px;
+  list-style: none;
+}
+.features > li {
+  line-height: 30px;
+}
+.features > li > i {
+  margin-right: 10px;
+}
+.icon-dark-green {
+  color: #4A9B9E;
+}
+.center-align {
+  text-align: center;
+}
+.article {
+  font-size: 15px;
+  line-height: 22px;
+}
+.team-member-description {
+  padding-top: 60px;
+}
+.bottom-space {
+  margin-bottom: 30px;
+}
+.bottom-space-less {
+  margin-bottom: 10px;
+}
+.post-row {
+  padding-bottom: 10px;
+  border-bottom:  1px solid #eee;
+}
+.sidebar {
+  padding: 20px 0;
+}
+.circle {
+  width: 75px;
+  height: 75px;
+  background-color: #4A9B9E;
+  color: white;
+  text-align: center;
+  font-size: 25px;
+  -webkit-border-radius: 75px;
+    -moz-border-radius: 75px;
+         border-radius: 75px;
+}
+.event-date {
+  padding-top: 13px;
+  display: block;
+  line-height: 25px;
+}
+.counter {
+  display: block;  
+  padding-top: 25px;
+}
+.signin-with-list {
+  list-style: none;
+}
+.signin-with-list > li {
+  margin-top: 20px;
+}
+.signin-with-list > li > a {
+  color: white;
+  padding: 8px;
+  display: inline-block;
+  cursor: pointer;
+}
+.signin-with-list .divider {
+  border-right: 1px solid white;
+  margin-right: 10px;
+}
+.btn-facebook {
+  background: #3679EA;
+  -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+         border-radius: 3px;
+}
+.btn-twitter {
+  background: #53cbe9;
+  -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+         border-radius: 3px;
+}
+.btn-google {
+  background: #7288de;
+  -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+         border-radius: 3px;
+}
+.btn-github {
+  background: #888A85;
+  -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+         border-radius: 3px;
+}
+.btn-facebook:hover, .btn-twitter:hover,
+.btn-google:hover, .btn-github:hover {
+  text-decoration: none;
+}
+.form-signin-signup input[type="text"],
+.form-signin-signup input[type="password"] {
+  width: 70%;
+  height: 30px;
+}
+.form-signin-signup input {
+  margin-bottom: 15px;
+}
+.remember-me {
+  margin: 0 auto;
+  width: 70%;
+}
+.remember-me a {
+  font-size: 15px;
+}
+.contact-mail,
+.contact-mail:hover {
+  color: black;
+  text-decoration: none;
+}
+.form-contact-us input[type="text"],
+.form-contact-us textarea {
+  margin-bottom: 20px;
+  width: 70%;
+}
+.form-contact-us input[type="text"] {
+  height: 25px;
+}
+.form-contact-us textarea {
+  height: 100px;
+}
+
+footer {
+  color: white;
+  padding-top: 20px;
+}
+.quick-links {
+  list-style: none;
+}
+.quick-links > li {
+  line-height: 30px;
+}
+.quick-links > li > a {
+  color: white;
+}
+.social-icons-row {
+  margin-top: 50px;
+}
+.social-icons-row > a {
+  color: white;
+  font-size: 30px;
+  margin-left: 25px;
+}
+.social-icons-row > a:hover,
+.social-icons-row > a:focus {
+  color: orange;
+  text-decoration: none;
+}
+.phone-number {
+  margin-left: 25px;
+}
+.footer-divider {
+  border-top: 0;  
+  border-bottom: 1px solid #15787b;
+}
+/* End: Bootbusiness specific CSS */
+
+/* Start: Responsive CSS section */
+@media (max-width: 979px) {
+  .nav-collapse .dropdown-menu a {
+    color: white;
+  }
+  .nav-collapse .dropdown-menu a:hover {
+    background-color: #198589;
+  }
+  .nav-collapse .nav-header,
+  .nav-collapse .dropdown-submenu > a {
+    display: none;
+  }
+}
+@media (min-width: 1200px) {
+  body {
+    padding-top: 70px;
+  }
+}
+/* End : Responsive CSS section */

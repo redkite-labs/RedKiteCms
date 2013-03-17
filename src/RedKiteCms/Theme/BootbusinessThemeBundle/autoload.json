@@ -1,0 +1,7 @@
+{
+    "bundles" : {
+        "AlphaLemon\\Theme\\BootbusinessThemeBundle\\BootbusinessThemeBundle" : {
+            "environments" : ["all"]
+        }
+    }
+}
