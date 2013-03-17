@@ -1,0 +1,2 @@
+imports:
+- { resource: "@ImageBundle/Resources/config/config_alcms.yml" }

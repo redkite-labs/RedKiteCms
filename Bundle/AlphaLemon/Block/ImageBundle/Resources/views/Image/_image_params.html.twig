@@ -1,0 +1,24 @@
+{% set data_src = "" %}
+{% if image.src is defined and image.src != "" %}
+    {% set src = image.src %}
+{% else %}
+    {% set src = "" %}
+    {% if image.data_src is defined and image.data_src != "" %}
+    {% set data_src = image.data_src %}
+    {% endif %}
+{% endif %}
+
+{% if image.alt is defined and image.alt != "" %}
+    {% set alt = image.alt %}
+{% else %}
+    {% set alt = "" %}
+{% endif %}
+
+{% if image.title is defined and image.title != "" %}
+    {% set title = image.title %}
+{% else %}
+    {% set title = "" %}
+{% endif %}
+
+{% block body %}
+{% endblock %}
