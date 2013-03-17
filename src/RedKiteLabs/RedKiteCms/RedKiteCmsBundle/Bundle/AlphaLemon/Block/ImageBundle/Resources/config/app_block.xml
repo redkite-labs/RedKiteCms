@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>        
+        <parameter key="image.external_javascripts" type="collection">
+            <parameter>@ImageBundle/Resources/public/js/image_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="image.block.class">AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage</parameter>
+        <parameter key="image.form.class">AlphaLemon\Block\ImageBundle\Core\Form\AlImageType</parameter>
+    </parameters>
+
+    <services>
+        <service id="image.block" class="%image.block.class%">
+            <tag name="alphalemon_cms.blocks_factory.block" description="Image block" type="Image" group="alphalemon_internals" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="image.form" class="%image.form.class%">
+        </service>
+    </services>
+</container>
