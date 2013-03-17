@@ -1,4 +1,17 @@
 {
+    "name": "alphalemon/app-bootbusiness-product-bundle",
+    "description": "An AlphaLemon CMS app-block to add a complex html content to represent a product in BootbusinessTheme",
+    "keywords": ["alphalemon", "cms", "app"],
+    "homepage": "http://alphalemon.com",
+    "type": "alphalemon-block-bundle",
+    "license": "MIT",
+    "authors": [{
+      "name": "AlphaLemon",
+      "email": "info@alphalemon.com"
+    }],
+    "require-dev": {
+        "alphalemon/alphalemon-cms-bundle": "dev-master"
+    },
     "autoload": {
         "psr-0": { "AlphaLemon\\Block\\BootbusinessProductBlockBundle": ""
         }
