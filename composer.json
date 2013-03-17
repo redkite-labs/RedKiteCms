@@ -35,7 +35,7 @@
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
     "doctrine/common": "dev-bugfix as 2.3.0",
-    "alphalemon/business-website-theme-bundle": "dev-master"
+    "alphalemon/bootbusiness-theme-bundle": "dev-master"
   },
   "require-dev": {    
     "symfony/symfony": "2.1.*",
@@ -52,7 +52,8 @@
     "jms/di-extra-bundle": "1.1.*",
     "kriswallsmith/assetic": "1.1.*@dev",  
     "willdurand/propel-typehintable-behavior": "dev-master",  
-    "mikey179/vfsStream": "1.1.0"
+    "mikey179/vfsStream": "1.1.0",
+    "alphalemon/business-website-theme-bundle": "dev-master"
   },
   "minimum-stability": "dev",
   "autoload": {
