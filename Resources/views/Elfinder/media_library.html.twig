@@ -18,14 +18,14 @@
 {% block stylesheet_files %}
 {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% stylesheets filter='?yui_css,cssrewrite'
-        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.min.css'
         'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% else %}
     {% stylesheets filter='cssrewrite'
-        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.css'
+        'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.min.css'
         'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
     %}
     <script src="{{ asset_url }}"></script>
@@ -38,15 +38,10 @@
     {% javascripts filter='?yui_js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
     %}
-    {# javascripts filter='?yui_js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.min.js'
-        'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
-    #}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% else %}
     {% javascripts
-        'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.min.js'
         'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
     %}
     <script src="{{ asset_url }}"></script>
@@ -57,4 +52,5 @@
 {% block elfinder_html %}
 <div id="elfinder">Please wait while the Media Library is loading...</div>
 <input id="al_file" type="hidden" />
+{% if(assets_folder is defined) %}<input id="al_assets_path" type="hidden" value="{{ assets_folder }}" />{% endif %}
 {% endblock %}

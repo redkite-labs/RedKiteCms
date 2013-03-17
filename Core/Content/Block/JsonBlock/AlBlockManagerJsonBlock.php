@@ -69,8 +69,8 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
         if (array_key_exists('Content', $values)) {
             $unserializedData = array();
             $serializedData = $values['Content'];
-            parse_str($serializedData, $unserializedData);
-
+            parse_str($serializedData, $unserializedData); 
+            
             $commonMessageText = 'The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you';
 
             if (!array_key_exists("al_json_block", $unserializedData)) {
@@ -83,6 +83,8 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
             }
 
             $content = $this->decodeJsonContent($this->alBlock);
+            $content[0] = $item; 
+            /*
             $itemId = $item["id"];
             unset($item["id"]);
             if ($itemId != "") {
@@ -90,7 +92,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
                 $content[$itemId] = $item;
             } else {
                 $content[] = $item;
-            }
+            }*/
 
             $values['Content'] = json_encode($content);
         }
@@ -104,7 +106,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
 
             $values['Content'] = json_encode($content);
         }
-
+        
         return parent::edit($values);
     }
 

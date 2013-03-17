@@ -20,11 +20,12 @@
     <input class="al_{{ section }}_file_manager btn btn-primary" type="submit" value="Manage external files" />
     <input class="al_{{ section }}_item_remover btn btn-danger" type="submit" value="Remove selected file" />
 </div>
-
+{#
 <script type="text/javascript">
     $(document).ready(function()
     {
-        $('.al_{{ section }}_item_remover').RemoveExternalFile('External{{ section }}');
-        $('.al_{{ section }}_file_manager').ShowExternalFilesManager('{{ section|lower }}');
+        $(".al_{{ section }}_item_remover").RemoveExternalFile("External{{ section }}");
+        $(".al_{{ section }}_file_manager").ShowExternalFilesManager("{{ section|lower }}");
     });
 </script>
+#}

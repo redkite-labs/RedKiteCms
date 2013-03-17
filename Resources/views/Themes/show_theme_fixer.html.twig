@@ -41,7 +41,7 @@
     $('#al_theme_fixer_form').submit(function() {
       $.ajax({
           type: 'POST',
-          url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_fixTheme',
+          url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_fixTheme',
           data: {
               'themeName': '{{ themeName }}',
               'data' : $(this).serialize()

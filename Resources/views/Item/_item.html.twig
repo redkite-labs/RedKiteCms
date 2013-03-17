@@ -1,0 +1,25 @@
+{#
+   This file is part of the BusinessSliderBundle and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.alphalemon.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+<div>
+    {% include "AlphaLemonCmsBundle:Item:_attributes_form.html.twig" %}
+</div>
+<div class="pull-right">
+    {% block commands %}
+    <input id="al_add_item" type="submit" class="btn" value="New" />
+    <input id="al_save_item" type="submit" class="btn btn-primary" value="Save" />
+    {% endblock %}
+</div>
+<div id="al_save_item_errors"></div>

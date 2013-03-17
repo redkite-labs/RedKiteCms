@@ -1,0 +1,34 @@
+{#
+   This file is part of the BusinessSliderBundle and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.alphalemon.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% if widget_class is not defined %}
+{% set widget_class = 'al_form_item' %}
+{% endif %}
+
+{% for item in form %}
+    {%if(item.vars.block_prefixes.2 != "hidden") %}
+    <tr>
+        <td>{{ form_label(item) }}</td>
+        <td>{{ form_errors(item) }}
+        {% if(item.vars.block_prefixes.3 == "textarea") %}
+            {{ form_widget(item, { 'attr': {'class' : 'textarea ' ~ widget_class }}) }}
+        {% else %}
+            {{ form_widget(item, { 'attr': {'class' : 'input-medium ' ~ widget_class }}) }}
+        {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+{% endfor %}
+{{ form_rest(form) }}

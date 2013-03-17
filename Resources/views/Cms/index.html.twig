@@ -18,7 +18,6 @@
 {% block internal_header_javascripts %}
 {{ parent() }}
 <script>
-
     function cmsStartInternalJavascripts(){
         try
         {
@@ -38,16 +37,10 @@
             {
                 "pg_caption": "Help"
             }
-        );     
-        
-        // Workaroud to close the twitter bootstrap dropdown when a menu item is clicked
-        $('.dropdown-menu li a').each(function(){
-            $(this).click(function(){
-                $('.dropdown').removeClass('open');
-            });
-        });
+        ); 
         
         cmsStartInternalJavascripts();
+        CKEDITOR.disableAutoInline = true;
     });
 </script>
 {% endblock %}
@@ -72,7 +65,7 @@
                                                 'components/pageguide/css/pageguide.min.css'
                                                 'bundles/alphalemoncms/vendor/vendor-adapter.css' 
                                                 'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
-    %}
+    %} 
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
 {% else %}
@@ -93,11 +86,12 @@
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
                                      'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
-                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js'
+                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.js'
                                      'components/sydcanem-bootstrap-contextmenu/bootstrap-contextmenu.js'
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/jquery-metadata/jquery.metadata.js'
                                      'components/pageguide/js/pageguide.min.js'
+                                     'components/holder/holder.js'
                                      'bundles/alphalemoncms/js/*' 
     %} 
     
@@ -111,89 +105,94 @@
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/jquery-metadata/jquery.metadata.js'
                     'components/pageguide/js/pageguide.min.js'
+                    'components/holder/holder.js'
                     'bundles/alphalemoncms/js/*' 
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% endif %}
-
-    <script src="/js/tiny_mce/tiny_mce.js"></script>
+    
     {% for value in templateJavascripts %}
     <script src="{{ asset(value) }}"></script>
     {% endfor %}
 {% endblock %}
 
 {% block body %}
+<div id="al_control_panel">
+    <div id="al_control_panel_body">
+        <div id="al_commands" class="pull-left">
+            <ul class="inline al-brand pull-left">
+                <li>AlphaLemon CMS</li>
+            </ul>
+            <ul class="inline al-commands pull-left">
+                <li><a href="#" id="al_open_pages_panel">Pages</a></li>
+                <li><a href="#" id="al_open_languages_panel">Languages</a></li>
+                <li><a href="#" id="al_open_themes_panel">Themes</a></li>
+                <li><a href="#" id="al_open_media_library">Media Library</a></li>
+                <li><a href="#" class="al_deployer" rel="stage">Deploy Stage</a></li>
+                <li><a href="#" class="al_deployer" rel="local">Deploy Prod</a></li>
+                {% if is_secure %}
+                <li><a href="#" id="al_open_users_manager">Users</a></li>
+                <li><a href="#" id="al_logout">Logout</a></li>
+                {% endif %} 
+            </ul>
+        </div>
+        <div id="al_languages" class="pull-right"> 
+            {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages}  %}
+            {# include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'text' : 'English', 'value' : 'en', 'button_type' : 'btn-primary', 'type' : 'al_site_language_item'}  #}
+        </div>
+    </div>
+    <div class="clearfix"></div>    
+</div>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <a class="brand" href="#"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" />AlphaLemon CMS</a>
-        <ul class="nav" >
-            <li><a href="#" id="al_start_editor">Edit</a></li>
-            <li><a href="#" id="al_stop_editor">Stop</a></li>
-        </ul>
-        <ul class="nav"> 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Website<b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#" id="al_open_pages_panel">Pages</a></li>
-                    <li><a href="#" id="al_open_languages_panel">Languages</a></li>
-                    <li><a href="#" id="al_open_themes_panel">Themes</a></li>
-                    <li><a href="#" id="al_open_media_library">Media Library</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Deploy<b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="al_deployer" rel="stage">Stage</a></li>
-                    <li><a href="#" class="al_deployer" rel="local">Production</a></li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="nav"> 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Security<b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#" id="al_open_users_manager">Users</a></li>
-                    <li><a href="#" id="al_logout">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-            
-        <span class="pull-right">
-            <span id="al_languages_navigator_box">
-                {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}               
-            </span>
-            <span id="al_pages_navigator_box">
-                {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}
-            </span>
-            {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'text' : 'English', 'value' : 'en', 'button_type' : 'btn-primary', 'type' : 'al_site_language_item'}  %}
-        </span>   
+
+<div id="al_tab">
+    <div class="al_tab al_tab_open">&nbsp;</div>
+    <div class="al_tab al_tab_close" style="display: none">&nbsp;</div>
+</div>
+    
+<div id="al_main_commands">
+    <div id="al_toggle_edit_buttons">
+        <a href="#" id="al_start_editor">
+            <span class="al_img_edit al_tab_text pull-left"><p>Edit</p></span>
+        </a>
+        <a href="#" id="al_stop_editor" style="display: none">
+            <span class="al_img_stop_edit al_tab_text pull-left"><p>Stop</p></span>
+        </a>
+        <div class="clearfix"></div>    
+    </div>
+        
+    <div>
+        <div id="al_toggle_nav_button" class="pull-left">
+            <ul class="inline al-navigation">
+                <li>{% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}</li>
+                <li>{% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}</li>                
+            </ul>
+        </div>
+        <div class="pull-left">
+            <a href="#" id="al_show_navigation">
+                <span class="al_img_nav pull-left al_tab_text"><p>Nav</p></span>
+            </a>
+        </div>
     </div>
 </div>
+   
+<div id="al_block_menu_top" class="al_block_menu"></div>
+<div id="al_block_menu_bottom" class="al_block_menu"></div>
+<div id="al_block_menu_left" class="al_block_menu"></div>    
+<div id="al_block_menu_right" class="al_block_menu"></div>    
 
 <div id="al_panel"></div>
-<div id="al_context_menu">
-    
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">   
-        <li class="dropdown-submenu">
-            <a tabindex="-1" href="#">Add</a>
-            <ul class="dropdown-menu">
-            {% include "AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
-            </ul>
-        </li>
-        <li class="divider"></li>
-        <li><a id="al_context_menu_edit" tabindex="-1" href="#">Edit</a></li>
-        <li><a id="al_context_menu_delete" tabindex="-1" href="#">Delete</a></li>
-    </ul>
-    
+<div id="al_block_menu_toolbar" class="pull-right">
+    <ul class="inline">
+        <li><a id="al_block_menu_add" href="#"><img src="/bundles/alphalemoncms/css/skins/bootstrap/images/block_menu/add.png" /></a></li>
+        <li><a id="al_block_menu_move" href="#"><img src="/bundles/alphalemoncms/css/skins/bootstrap/images/block_menu/move.png" /></a></li>
+        <li><a id="al_block_menu_delete" href="#"><img src="/bundles/alphalemoncms/css/skins/bootstrap/images/block_menu/delete.png" /></a></li>
+    </ul>    
 </div>
+
+
+{% include "AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
 
 <div id="al_cms_contents" class="{page: '{{ page }}', language: '{{ language }}'}">
 {{ parent() }}

@@ -1,0 +1,116 @@
+// This file is part of the AlphaLemon CMS Application and it is distributed
+// under the GPL LICENSE Version 2.0. To use this application you must leave
+// intact this copyright notice.
+//
+// Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+//
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// For extra documentation and help please visit http://www.alphalemon.com
+//
+// @license    GPL LICENSE Version 2.0
+
+
+
+#al_control_panel
+    :position fixed
+    :top 0
+    :left 0
+    :width 100%
+    :z-index 102000
+
+#al_control_panel_body   
+    :height 40px
+    :display none
+    :background-color #333
+
+#al_commands
+    :height 20px
+    :padding 10px
+
+    a
+        color: white
+
+    a:hover
+        color: #FF9900
+
+    .al-brand 
+        :font-size 20px
+        :font-weight bold
+        :color #fff
+        :margin-right 8px
+
+#al_languages
+    :height 15px
+    :padding 4px 14px 0  0
+
+#al_main_commands
+    :position fixed
+    :top 120px
+    :left 0
+    :display block
+    :z-index 102010
+
+    .al_img_edit
+        :width 93px
+        :height 47px
+        :background transparent url('images/toolbar/edit.png') top left no-repeat
+
+        p
+            :padding-left 38px
+            :padding-top 10px
+    
+    .al_img_stop_edit
+        :width 93px
+        :height 47px
+        :background transparent url('images/toolbar/stop.png') top left no-repeat
+
+        p
+            :padding-left 34px
+            :padding-top 10px
+
+    .al_img_nav
+        :width 93px
+        :height 47px
+        :background transparent url('images/toolbar/nav.png') top left no-repeat
+
+        p
+            :padding-left 38px
+            :padding-top 10px
+
+    .al_tab_text
+        :font $panelFontH3
+        :color white
+
+#al_toggle_nav_button
+    :padding 5px 6px
+    :height 47px
+    :background transparent url('images/toolbar/nav-body.png') top left repeat-x
+    :display none
+    
+#al_tab
+    :position fixed
+    :top 0
+    :left 0
+    :width 100%
+    :height 2px
+    :background-color #333
+    :border-bottom 1px solid #ccc
+    +box-shadow(#333 3px 3px 3px)   
+    :z-index 102020     
+
+    .al_tab
+        :position relative
+        :top 2px
+        :width 68px   
+        :margin 0 auto
+        :background-color trasparent
+        :height 30px 
+        :cursor pointer
+
+    .al_tab_open
+        :background transparent url('images/toolbar/tab.png') top left no-repeat
+    
+    .al_tab_close
+        :background transparent url('images/toolbar/tab-close.png') top left no-repeat

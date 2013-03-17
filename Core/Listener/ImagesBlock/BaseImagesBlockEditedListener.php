@@ -55,7 +55,7 @@ abstract class BaseImagesBlockEditedListener
      * @api
      */
     public function onBlockEdited(BlockEditedEvent $event)
-    {
+    {return;
         $blockManager = $event->getBlockManager();
         $blockType = $blockManager->get()->getType();
         if ($blockType == $this->getManagedBlockType()) {
@@ -66,7 +66,11 @@ abstract class BaseImagesBlockEditedListener
                 $templateName = $options['images_editor_template'];
             }
             
-            $template = $this->templateEngine->render($templateName, array("alContent" => $blockManager));
+            $block = $blockManager->get();
+            $items = json_decode($block->getContent(), true);
+            $form = $this->setUpForm($block->getId(), -1);
+            
+            $template = $this->templateEngine->render($templateName, array("alContent" => $blockManager, 'items' => $items, 'form' => $form));
             $values = array(
                 array("key" => "images-list", "value" => $template),
                 array("key" => "message", "value" => "The content has been successfully edited"),
@@ -80,5 +84,39 @@ abstract class BaseImagesBlockEditedListener
             $response->headers->set('Content-Type', 'application/json');
             $event->setResponse($response);
         }
+    }
+    
+    protected function setUpForm($blockId, $itemId)
+    {
+        $item = null;
+        $block = $this->fetchBlock($blockId);
+        if ($itemId != -1) {
+            $content = json_decode($block->getContent(), true);
+
+            if (!array_key_exists($itemId, $content)) {
+                throw new \InvalidArgumentException('It seems that the item requested does not exist anymore');
+            }
+
+            $item = $content[$itemId];
+            $item['id'] = $itemId;
+        }
+
+        $formName = sprintf('%s.form', strtolower($block->getType()));
+        $formClass = $this->container->get($formName);
+
+        return $this->container->get('form.factory')->create($formClass, $item);
+    }
+    
+    protected function fetchBlock($blockId)
+    {
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $repository = $factoryRepository->createRepository('Block');
+        $block = $repository->fromPk($blockId);
+
+        if (null == $block) {
+            throw new \InvalidArgumentException('It seems that the block to edit does not exist anymore');
+        }
+
+        return $block;
     }
 }

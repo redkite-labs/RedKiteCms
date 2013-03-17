@@ -170,6 +170,16 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         $this->pageTree = $v;
     }
+    
+    /**
+     * Edits the block using an inline editor
+     * 
+     * @return boolean
+     */
+    protected function editInline()
+    {
+        return false;
+    }
 
     /**
      * Defines when a content is rendered or not in edit mode.
@@ -227,7 +237,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getHtml()
     {
-        return (null !== $this->alBlock) ? $this->alBlock->getContent() : "";
+        return array('RenderView' => array(
+            'view' => 'AlphaLemonCmsBundle:Block:base_block.html.twig',
+            'options' => array(
+                'block' => $this->alBlock,
+            ),
+        ));
+        
+        //return (null !== $this->alBlock) ? $this->alBlock->getContent() : "";
     }
     
     /**
@@ -437,6 +454,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
         $editorWidth = $this->getEditorWidth();
         $blockManager["EditorWidth"] = ($editorWidth != null && (int)$editorWidth > 0) ? $editorWidth : self::EDITOR_WIDTH;
+        $blockManager["EditInline"] = $this->editInline();
         $blockManager["Block"] = $this->alBlock->toArray();
         
         return $blockManager;

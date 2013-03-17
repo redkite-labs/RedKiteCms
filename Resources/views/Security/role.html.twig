@@ -48,7 +48,7 @@
       
       $.ajax({
           type: 'POST',
-          url: frontController + 'backend/users/' + $('#al_available_languages').attr('rel') + '/al_showRole',
+          url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/al_showRole',
           data: {'id' : roleId,
                  'al_rolename' : $('#al_role_role').val(),
              },

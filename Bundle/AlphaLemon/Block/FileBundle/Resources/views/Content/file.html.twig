@@ -1,0 +1,11 @@
+{% if filepath is defined %}
+<a href="/{{ folder }}/{{ filepath }}">{{ filename }}</a>
+{% else %}
+
+{% if max_length is not defined %}
+{% set max_length = null %}
+{% endif %}
+
+{% set file = kernel_root_dir ~ '/../web/' ~ folder ~ '/' ~ filename %} 
+{{ file_open(file, max_length) }}
+{% endif %}

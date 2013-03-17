@@ -22,7 +22,7 @@
             $(this).click(function()
             {
                 var data = $(this).metadata();
-                location.href = frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator').html() + '/' + $('#al_pages_navigator').html();
+                location.href = frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator').html() + '/' + $('#al_pages_navigator').html();
             });
         });
     };
@@ -37,7 +37,7 @@
 
                 $.ajax({
                   type: 'POST',
-                  url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_showThemeFixer',
+                  url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeFixer',
                   data: {
                       'themeName' : data.themeName
                   },
@@ -78,7 +78,7 @@
 
                 $.ajax({
                   type: 'POST',
-                  url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/startFromTheme',
+                  url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/startFromTheme',
                   data: {
                       'themeName' : data.themeName
                   },
@@ -89,7 +89,7 @@
                   success: function(html)
                   {
                     $('body').showAlert(html);
-                    location.href = frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator').html() + '/' + $('#al_pages_navigator').html();
+                    location.href = frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator').html() + '/' + $('#al_pages_navigator').html();
                   },
                   error: function(err)
                   {

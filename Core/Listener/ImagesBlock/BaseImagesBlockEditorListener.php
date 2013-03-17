@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
 
 /**
@@ -29,6 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  */
 abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
 {
+    protected $container;
     /**
      * {@inheritdoc}
      */
@@ -37,17 +37,22 @@ abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
         $alBlockManager = $event->getBlockManager();
         $blockType = $alBlockManager->get()->getType();
         if ($blockType == $this->getManagedBlockType()) {
-            $container = $event->getContainer();
-            $request = $container->get('request');
+            $this->container = $event->getContainer();
+            $request = $this->container->get('request');
             $template = sprintf('%sBundle:Block:%s_editor.html.twig', $blockType, strtolower($blockType));
-
+            
             $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($blockType));
-            $editorSettings = ($container->hasParameter($editorSettingsParamName)) ? $container->getParameter($editorSettingsParamName) : array();
+            $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
+            $blockId = $alBlockManager->get()->getId();
+            $form = $this->setUpForm($blockId, -1);
             $parameters = array(
                 "alContent" => $alBlockManager,
                 "language" => $request->get('languageId'),
                 "page" => $request->get('pageId'),
                 "editor_settings" => $editorSettings,
+                "form" => $form->createView(),
+                "block_manager" => $alBlockManager, 
+                "block_id" => $blockId, 
             );
 
             $options = $this->configure();
@@ -55,9 +60,56 @@ abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
                 $parameters['images_editor_template'] = $options['images_editor_template'];
             }
 
-            $editor = $container->get('templating')->render($template, $parameters);
+            $editor = $this->container->get('templating')->render($template, $parameters);
 
             $event->setEditor($editor);
         }
+    }
+    
+    /**
+     * Sets up the form that manages the json item
+     *
+     * @param int The block id
+     * @param int The item id
+     * @return Form
+     */
+    protected function setUpForm($blockId, $itemId)
+    {
+        $item = null;
+        $block = $this->fetchBlock($blockId);
+        if ($itemId != -1) {
+            $content = json_decode($block->getContent(), true);
+
+            if (!array_key_exists($itemId, $content)) {
+                throw new \InvalidArgumentException('It seems that the item requested does not exist anymore');
+            }
+
+            $item = $content[$itemId];
+            $item['id'] = $itemId;
+        }
+
+        $formName = sprintf('%s.form', strtolower($block->getType()));
+        $formClass = $this->container->get($formName);
+
+        return $this->container->get('form.factory')->create($formClass, $item);
+    }
+    
+    /**
+     * Retrieves the block
+     *
+     * @param int The block id
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
+     */
+    protected function fetchBlock($blockId)
+    {
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $repository = $factoryRepository->createRepository('Block');
+        $block = $repository->fromPk($blockId);
+
+        if (null == $block) {
+            throw new \InvalidArgumentException('It seems that the block to edit does not exist anymore');
+        }
+
+        return $block;
     }
 }

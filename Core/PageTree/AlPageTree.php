@@ -335,11 +335,46 @@ class AlPageTree extends BaseAlPageTree
                     $this->addAssetsFromContainer($assetsCollection, $parameter);
                 }
             }
-
+            
             // merges assets from installed apps
+            $availableBlocks = $this->container->get('alpha_lemon_cms.block_manager_factory')->getAvailableBlocks();
+            foreach ($availableBlocks as $className) {
+                if (!in_array($className, $appsAssets)) {
+                    $parameterSchema = '%s.%s_%s';
+                    $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
+                    $this->addAssetsFromContainer($assetsCollection, $parameter);
+                    $this->addExtraAssets($assetsCollection, $parameter);
+
+                    $appsAssets[] = $className;
+                }
+            }
+            
             $templateSlots = array_keys($template->getSlots());
             $blocks = $this->pageBlocks->getBlocks();
             foreach ($blocks as $slotName => $slotBlocks) {
+                
+                if ( ! in_array($slotName, $templateSlots)) {
+                    continue;
+                }
+                
+                foreach ($slotBlocks as $block) {
+                    $className = $block->getType();
+                    $method = 'get'. ucfirst($type) . ucfirst($assetType);
+                    $method = substr($method, 0, - 1);
+                    $assets = $block->$method();
+                    if ($type == "external") {
+                        $assetsCollection->addRange(explode(',', $assets));
+                    } else {
+                        $assetsCollection->add($assets);
+                    }
+                }
+            }
+            
+            /*
+            $templateSlots = array_keys($template->getSlots());
+            $blocks = $this->pageBlocks->getBlocks();
+            foreach ($blocks as $slotName => $slotBlocks) {
+                
                 if ( ! in_array($slotName, $templateSlots)) {
                     continue;
                 }
@@ -364,7 +399,7 @@ class AlPageTree extends BaseAlPageTree
                         $assetsCollection->add($assets);
                     }
                 }
-            }
+            }*/
 
             return $assetsCollection;
         }

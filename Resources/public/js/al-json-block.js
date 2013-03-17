@@ -54,7 +54,7 @@
         });
     };
 
-    $.fn.ListItems = function(blockId)
+    $.fn.ListItems = function(blockId, element)
     {
         this.each(function()
         {
@@ -62,7 +62,7 @@
             {
                 $.ajax({
                     type: 'GET',
-                    url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_listJsonItems',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_listJsonItems',
                     data: {
                         'page' :  $('#al_pages_navigator').html(),
                         'language' : $('#al_languages_navigator').html(),
@@ -73,8 +73,13 @@
                         $('body').AddAjaxLoader();
                     },
                     success: function(html)
-                    {
-                        $('#al_editor_dialog').html(html);
+                    {alert(element);
+                        if (element == null) {
+                            $('#al_editor_dialog').html(html);
+                        }
+                        else {
+                            $(element).html(html);
+                        }
                         $('#al_editor_dialog').dialog('open');
                     },
                     error: function(err)
@@ -100,7 +105,7 @@ function showItemForm(blockId, id)
 
     $.ajax({
       type: 'GET',
-      url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_showJsonItem',
+      url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showJsonItem',
       data: {
         'page' :  $('#al_pages_navigator').html(),
         'language' : $('#al_languages_navigator').html(),
@@ -134,7 +139,7 @@ function deleteItem(blockId, id)
     {
         $.ajax({
             type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_deleteJsonItem',
+            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_deleteJsonItem',
             data: {
                 'page' :  $('#al_pages_navigator').html(),
                 'language' : $('#al_languages_navigator').html(),

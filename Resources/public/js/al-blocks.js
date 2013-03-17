@@ -34,70 +34,7 @@ var isEditorOpened = false;
         return this;
     };
 
-    $.fn.ShowBlockEditor =function()
-    {
-        this.each(function()
-        {
-            $(this).click(function()
-            {
-                $(this).OpenEditor();
-            });
-        });
-
-        return this;
-    };
-
-    $.fn.OpenEditor =function()
-    {
-        if(isEditorOpened)
-        {
-            return;
-        }
-
-        var editableData = $(this).metadata();
-        var idBlock = editableData.id;
-        var slotName = editableData.slotName;
-        var editorWidth = editableData.editorWidth;
-        $.ajax({
-            type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/al_showBlocksEditor',
-            data: {'page' :  $('#al_pages_navigator').html(),
-                   'language' : $('#al_languages_navigator').html(),
-                   'pageId' :  $('#al_pages_navigator').attr('rel'),
-                   'languageId' : $('#al_languages_navigator').attr('rel'),
-                   'idBlock' : idBlock,
-                   'slotName' : slotName},
-            beforeSend: function()
-            {
-                $('body').AddAjaxLoader();
-            },
-            success: function(response)
-            {
-                try
-                {
-                    $.parseJSON(response);
-                    updateContentsJSon(response, editorWidth);
-                }
-                catch(e)
-                {
-                    showMediaLibrary(response);
-                }
-
-                $('body').data('idBlock', idBlock).data('slotName', slotName);
-                isEditorOpened = true;
-            },
-            error: function(err)
-            {
-                $('body').showAlert(err.responseText, 0, 'alert-error');
-            },
-            complete: function()
-            {
-                $('body').RemoveAjaxLoader();
-            }
-        });
-    }
-
-    $.fn.AddBlock =function(type)
+    $.fn.AddBlock =function(type, options, successCallback)
     {
         this.each(function()
         {
@@ -107,14 +44,15 @@ var isEditorOpened = false;
             var contentType = (type == null) ? data.contentType : type;
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/addBlock',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/addBlock',
                 data: {'page' :  $('#al_pages_navigator').html(),
                        'language' : $('#al_languages_navigator').html(),
                        'pageId' :  $('#al_pages_navigator').attr('rel'),
                        'languageId' : $('#al_languages_navigator').attr('rel'),
                        'idBlock' : idBlock,
                        'slotName' : slotName,
-                       'contentType': contentType},
+                       'contentType': contentType,
+                       'options': options},
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();
@@ -122,6 +60,10 @@ var isEditorOpened = false;
                 success: function(response)
                 {
                     updateContentsJSon(response);
+                    
+                    if (successCallback != null) {
+                        successCallback();
+                    }
                 },
                 error: function(err)
                 {
@@ -137,15 +79,15 @@ var isEditorOpened = false;
         });
     };
 
-    $.fn.EditBlock =function(key, value, options)
+    $.fn.EditBlock =function(key, value, options, successCallback)
     {
         this.each(function()
         {
             value = (value == null) ? encodeURIComponent($(this).val()) : value;
-
+            
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/editBlock',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/editBlock',
                 data: {'page' :  $('#al_pages_navigator').html(),
                        'language' : $('#al_languages_navigator').html(),
                        'pageId' :  $('#al_pages_navigator').attr('rel'),
@@ -161,7 +103,11 @@ var isEditorOpened = false;
                 },
                 success: function(response)
                 {
+                    var activeBlock = $('body').data('activeBlock');
                     updateContentsJSon(response);
+                    if (successCallback != null) {
+                        successCallback(activeBlock);
+                    }
                 },
                 error: function(err)
                 {
@@ -177,7 +123,7 @@ var isEditorOpened = false;
         });
     };
 
-    $.fn.ShowExternalFilesManager =function(key)
+    $.fn.ShowExternalFilesManager =function(key, successCallback)
     {
         this.each(function()
         {
@@ -185,7 +131,7 @@ var isEditorOpened = false;
             {
                 $.ajax({
                     type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/showExternalFilesManager',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/showExternalFilesManager',
                     data: {'page' :  $('#al_pages_navigator').html(),
                            'language' : $('#al_languages_navigator').html(),
                            'pageId' :  $('#al_pages_navigator').attr('rel'),
@@ -198,6 +144,10 @@ var isEditorOpened = false;
                     success: function(html)
                     {
                         showMediaLibrary(html);
+                        
+                        if (successCallback != null) {
+                            successCallback();
+                        }
                     },
                     error: function(err)
                     {
@@ -220,7 +170,7 @@ var isEditorOpened = false;
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/addExternalFile',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/addExternalFile',
                 data: {'page' :  $('#al_pages_navigator').html(),
                        'language' : $('#al_languages_navigator').html(),
                        'pageId' :  $('#al_pages_navigator').attr('rel'),
@@ -251,17 +201,6 @@ var isEditorOpened = false;
         });
     };
 
-    function showMediaLibrary(html)
-    {
-        if($('body').find("al_media_lib").length == 0)
-        {
-            $('<div id="al_media_lib"></div>')
-                    .css("display", "none")
-                    .appendTo('body');
-        }
-        $('#al_media_lib').html(html);
-    }
-
     $.fn.RemoveExternalFile =function(field)
     {
         this.each(function()
@@ -270,7 +209,7 @@ var isEditorOpened = false;
             {
                 $.ajax({
                     type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/removeExternalFile',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/removeExternalFile',
                     data: {'page' :  $('#al_pages_navigator').html(),
                            'language' : $('#al_languages_navigator').html(),
                            'pageId' :  $('#al_pages_navigator').attr('rel'),
@@ -317,40 +256,51 @@ var isEditorOpened = false;
 
     $.fn.DeleteBlock =function()
     {
-        var editableData = $(this).metadata();
-        var idBlock = editableData.id;
-        var slotName = editableData.slotName;
+        if (confirm('Are you sure to remove the active block')) {
+            var editableData = $(this).metadata();
+            var idBlock = editableData.id;
+            var slotName = editableData.slotName;
 
-        $.ajax({
-            type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages').attr('rel') + '/deleteBlock',
-            data: {'page' :  $('#al_pages_navigator').html(),
-                   'language' : $('#al_languages_navigator').html(),
-                   'pageId' :  $('#al_pages_navigator').attr('rel'),
-                   'languageId' : $('#al_languages_navigator').attr('rel'),
-                   'slotName' : slotName,
-                   'idBlock' : idBlock},
-            beforeSend: function()
-            {
-                $('body').AddAjaxLoader();
-            },
-            success: function(response)
-            {
-                updateContentsJSon(response);
-            },
-            error: function(err)
-            {
-                $('body').showAlert(err.responseText, 0, 'alert-error');
-            },
-            complete: function()
-            {
-                $('body').RemoveAjaxLoader();
-            }
-        });
+            $.ajax({
+                type: 'POST',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/deleteBlock',
+                data: {'page' :  $('#al_pages_navigator').html(),
+                       'language' : $('#al_languages_navigator').html(),
+                       'pageId' :  $('#al_pages_navigator').attr('rel'),
+                       'languageId' : $('#al_languages_navigator').attr('rel'),
+                       'slotName' : slotName,
+                       'idBlock' : idBlock},
+                beforeSend: function()
+                {
+                    $('body').AddAjaxLoader();
+                },
+                success: function(response)
+                {
+                    updateContentsJSon(response);
+                },
+                error: function(err)
+                {
+                    $('body').showAlert(err.responseText, 0, 'alert-error');
+                },
+                complete: function()
+                {
+                    $('body').RemoveAjaxLoader();
+                }
+            });
+        }        
     };
-
 })($);
 
+function showMediaLibrary(html)
+{
+    if($('body').find("al_media_lib").length == 0)
+    {
+        $('<div id="al_media_lib"></div>')
+                .css("display", "none")
+                .appendTo('body');
+    }
+    $('#al_media_lib').html(html);
+}
 
 function updateContentsJSon(response, editorWidth)
 {
@@ -361,11 +311,13 @@ function updateContentsJSon(response, editorWidth)
         {
             case "message":
                 $('body').showAlert(item.value);
+                
                 break;
             case "redraw-slot":
                 slot = '.' + item.slotName;
                 $(slot).html(item.value);
                 $(slot).find('.al_editable').StartToEdit();
+                
                 break;
             case "add-block":
                 slot = '.' + item.slotName;
@@ -376,17 +328,26 @@ function updateContentsJSon(response, editorWidth)
                 }
                 else
                 {
-                    $(item.value).insertAfter('#' + item.insertAfter).StartToEdit();
+                    $(item.value).insertAfter('#' + item.insertAfter).StartToEdit().find('.al_editable').StartToEdit();
                 }
+                
                 break;
-            case "edit-block":
-                $('#' + item.blockName).html(item.value).StartToEdit();
+            case "edit-block": 
+                var newElement = $('#' + item.blockName);
+                newElement
+                    .html(item.value)
+                    .StartToEdit()
+                    .find('.al_inline_editable')
+                    .StartInlineEditor(newElement)
+                ;
+                
                 break;
             case "remove-block":
                 $('#' + item.blockName).remove();
                 break;
             case "images-list":
                 $('.al_images_list').html(item.value);
+                
                 break;
             case "editor":
                 var openEditor = (item.openEditor != null) ? item.openEditor : true;
@@ -399,7 +360,6 @@ function updateContentsJSon(response, editorWidth)
                         close: function(event, ui)
                         {
                             isEditorOpened = false;
-                            if(tinyMCE != null) $('#al_html_editor').RemoveTinyMCE();
                             $('#al_editor_dialog').dialog('destroy').remove();
                         }
                     };
@@ -407,9 +367,6 @@ function updateContentsJSon(response, editorWidth)
                     InitDialog('al_editor_dialog', dialogOptions);
                     $('#al_editor_dialog').html(item.value);
                     $('#al_editor_dialog').dialog('open');
-                     /*                       
-                    var editor = InitDialog('al_editor_dialog');                    
-                    $(editor).showDialog('Editor Contents', item.value);*/
                 }
 
                 break;
