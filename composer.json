@@ -35,7 +35,8 @@
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
     "doctrine/common": "dev-bugfix as 2.3.0",
-    "alphalemon/bootbusiness-theme-bundle": "dev-master"
+    "alphalemon/bootbusiness-theme-bundle": "dev-master",
+    "alphalemon/app-ckeditor-block-bundle": "dev-master"
   },
   "require-dev": {    
     "symfony/symfony": "2.1.*",
