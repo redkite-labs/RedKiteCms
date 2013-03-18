@@ -109,7 +109,7 @@ class PopulateCommand extends ContainerAwareCommand
 
         $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
         $themes = $this->getContainer()->get('alphalemon_theme_engine.themes');
-        $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
+        $theme = $themes->getTheme('BootbusinessThemeBundle');
         $template = $theme->getTemplate('home');
 
         $pageContentsContainer = new AlPageBlocks($factoryRepository);
