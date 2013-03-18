@@ -39,6 +39,12 @@ var stopBlocksMenu = false;
         this.each(function()
         {
             var $this = $(this);
+                   
+            $this       
+                .find('.al_inline_editable')
+                .StartInlineEditor($this)
+            ;
+                   
             $this
                 .unbind()
                 .HideContentsForEditMode()
@@ -55,8 +61,9 @@ var stopBlocksMenu = false;
                     var blockHeight = $this.outerHeight();
                     $('#al_block_menu_top')
                         .width(blockWidth)
-                        .css('top', position.top + 'px')
-                        .css('left', position.left + 'px')   
+                        .css('top', position.top - 1 + 'px')
+                        .css('left', position.left + 'px')    
+                        .addClass('highlight') 
                         .show()
                     ;                    
                     
@@ -64,18 +71,21 @@ var stopBlocksMenu = false;
                         .width(blockWidth)
                         .css('top', position.top + blockHeight + 'px')
                         .css('left', position.left + 'px')  
+                        .addClass('highlight')
                         .show()
                     ;
                     $('#al_block_menu_left')
                         .height(blockHeight)
-                        .css('top', position.top + 'px')
-                        .css('left', position.left + 'px')  
+                        .css('top', position.top  + 'px')
+                        .css('left', position.left - 1 + 'px')  
+                        .addClass('highlight')  
                         .show()
                     ;
                     $('#al_block_menu_right')
                         .height(blockHeight)
                         .css('top', position.top + 'px')
-                        .css('left', position.left + blockWidth + 'px')  
+                        .css('left', position.left - 1 + blockWidth + 'px')    
+                        .addClass('highlight')
                         .show()
                     ;                   
                     
@@ -86,7 +96,7 @@ var stopBlocksMenu = false;
                     
                     $(this).css('cursor', 'pointer');
                 })
-                .click(function(event){
+                .click(function(event){                
                     event.stopPropagation(); 
                     
                     if(stopBlocksMenu) {
@@ -94,7 +104,26 @@ var stopBlocksMenu = false;
                     }
                     stopBlocksMenu = true;  
                     
-                    $this.find('.al_inline_editable').StartInlineEditor($this);
+                    $('#al_block_menu_top')
+                        .addClass('on-editing')
+                        .removeClass('highlight')
+                    ;                    
+                    
+                    $('#al_block_menu_bottom')
+                        .addClass('on-editing')
+                        .removeClass('highlight')
+                    ;
+                    
+                    $('#al_block_menu_left')
+                        .addClass('on-editing')
+                        .removeClass('highlight')
+                    ;
+                    
+                    $('#al_block_menu_right')
+                        .addClass('on-editing')
+                        .removeClass('highlight')
+                    ;
+                    
                     $this.find('.al-data-list').StartListEditing();
                     
                     var editableData = $this.metadata();
@@ -124,6 +153,15 @@ var stopBlocksMenu = false;
                 activeBlock.StopEditBlock();
             }
             
+            $('body')
+                .find('.al_inline_editable')
+                .each(function(){                                    
+                    $(this)
+                        .popover('destroy')
+                    ;
+                })
+            ;
+            
             if(closeEditor == null) {
                 closeEditor = true;
                 $("#al_cms_contents a").unbind();
@@ -149,16 +187,41 @@ var stopBlocksMenu = false;
     {
         if (stopBlocksMenu) {
             stopBlocksMenu = false;  
-            $(this)
+            var $this = $(this);
+            $this
                 .find('.al_inline_editable')
-                .each(function(){                
-                    $(this).popover('destroy');
-                })
+                .each(function(){                                    
+                    $(this)
+                        .popover('destroy')
+                    ;
+                })    
+                        .StartInlineEditor($this)           
                 .find('.al-data-list')
-                .StopListEditing()
+                .StopListEditing();
             ;
             
-            $(document).trigger("blockStopEditing", [ this ]);                              
+            $(document).trigger("blockStopEditing", [ this ]);
+            
+            $('#al_block_menu_top')
+                .addClass('highlight')
+                .removeClass('on-editing')
+            ;                    
+
+            $('#al_block_menu_bottom')
+                .addClass('highlight')
+                .removeClass('on-editing')
+            ;
+
+            $('#al_block_menu_left')
+                .addClass('highlight')
+                .removeClass('on-editing')
+            ;
+
+            $('#al_block_menu_right')
+                .addClass('highlight')
+                .removeClass('on-editing')
+            ;
+            
             $('.al_block_menu').hide();
         }
         
