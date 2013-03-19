@@ -102,7 +102,7 @@ var stopBlocksMenu = false;
                     if(stopBlocksMenu) {
                         return;
                     }
-                    stopBlocksMenu = true;  
+                    stopBlocksMenu = true;
                     
                     $('#al_block_menu_top')
                         .addClass('on-editing')
@@ -123,16 +123,14 @@ var stopBlocksMenu = false;
                         .addClass('on-editing')
                         .removeClass('highlight')
                     ;
-                    
-                    $this.find('.al-data-list').StartListEditing();
-                    
+                                        
                     var editableData = $this.metadata();
                     var idBlock = editableData.id;
                     var slotName = editableData.slotName;
                     $('body').data('idBlock', idBlock).data('slotName', slotName).data('activeBlock', $this);                    
                     $('#al_block_menu_toolbar').hide();
                     
-                    $(document).trigger("blockEditing", [ this ]);
+                    $(document).trigger("blockEditing", [ this, editableData.type ]);
                 })
             ;
             
@@ -195,12 +193,11 @@ var stopBlocksMenu = false;
                         .popover('destroy')
                     ;
                 })    
-                        .StartInlineEditor($this)           
-                .find('.al-data-list')
-                .StopListEditing();
+                .StartInlineEditor($this) 
             ;
             
-            $(document).trigger("blockStopEditing", [ this ]);
+            var editableData = $this.metadata();
+            $(document).trigger("blockStopEditing", [ this, editableData.type ]);
             
             $('#al_block_menu_top')
                 .addClass('highlight')
@@ -242,10 +239,17 @@ var stopBlocksMenu = false;
 
                     return "top";
                 },
+                trigger: 'manual',
                 template: '<div class="popover al-popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>'
             }
             $this.popover(options).click(function()
             {
+                if(stopBlocksMenu) {
+                    return;
+                }
+                
+                $this.popover('show');
+                    
                 $('.al-popover:visible').each(function(){
                     var pos = $this.offset();
                     var popover = $(this);
