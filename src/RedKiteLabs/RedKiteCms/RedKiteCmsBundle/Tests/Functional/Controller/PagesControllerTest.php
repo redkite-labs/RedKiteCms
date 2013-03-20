@@ -110,15 +110,19 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testAddPage()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "page1",
-                        'templateName' => "home",
-                        'permalink' => "page 1",
-                        'isPublished' => "0",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageName' => "page1",
+            'templateName' => "home",
+            'permalink' => "page 1",
+            'isPublished' => "0",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
@@ -139,9 +143,9 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("pages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<button id=\"al_pages_navigator\"[^\>]+\>index/s", $json[2]["value"]);
-        $this->assertRegExp("/\<li id=\"2\" class=\"al_page_item dropdown-zindex\" rel=\"index\"\>\<a href=\"#\"\>index/s", $json[2]["value"]);
-        $this->assertRegExp("/\<li id=\"3\" class=\"al_page_item dropdown-zindex\" rel=\"page1\"\>\<a href=\"#\"\>page1/s", $json[2]["value"]);
+        $this->assertRegExp("/\<select id=\"al_pages_navigator\"[^\>]+\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"2\" rel=\"index\" \>index/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"3\" rel=\"page1\" \>page1/s", $json[2]["value"]);
 
         $page = $this->pageRepository->fromPk(3);
         $this->assertNotNull($page);
@@ -195,15 +199,19 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testAddPageFailsWhenThePageNameAlreadyExists()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "page1",
-                        'templateName' => "home",
-                        'isPublished' => "0",
-                        'permalink' => "page 1",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageName' => "page1",
+            'templateName' => "home",
+            'isPublished' => "0",
+            'permalink' => "page 1",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
@@ -213,19 +221,23 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testAddANewHomePage()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "page2",
-                        'templateName' => "home",
-                        'isPublished' => "0",
-                        'isHome' => '1',
-                        'permalink' => "page 2",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageName' => "page2",
+            'templateName' => "home",
+            'isPublished' => "0",
+            'isHome' => '1',
+            'permalink' => "page 2",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
-        $response = $this->client->getResponse();
+        $response = $this->client->getResponse(); 
         $this->assertEquals(200, $response->getStatusCode());
 
         $this->assertEquals(3, count($this->pageRepository->activePages()));
@@ -245,15 +257,19 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testAddNewPageWithATemplateDifferentThanTheOneOfCurrentPage()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "another-page",
-                        'templateName' => "fullpage",
-                        'permalink' => "another-page",
-                        'isPublished' => "0",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageName' => "another-page",
+            'templateName' => "fullpage",
+            'permalink' => "another-page",
+            'isPublished' => "0",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -452,10 +468,9 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("pages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<li id=\"5\" class=\"al_page_item dropdown-zindex\" rel=\"another-page\"\>\<a href=\"#\"\>another-page/s", $json[2]["value"]);
-        $this->assertRegExp("/\<li id=\"3\" class=\"al_page_item dropdown-zindex\" rel=\"page1\"\>\<a href=\"#\"\>page1/s", $json[2]["value"]);
-        $this->assertRegExp("/\<li id=\"4\" class=\"al_page_item dropdown-zindex\" rel=\"page2-edited\"\>\<a href=\"#\"\>page2-edited/s", $json[2]["value"]);
-
+        $this->assertRegExp("/\<option value=\"5\" rel=\"another-page\" \>another-page/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"3\" rel=\"page1\" \>page1/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"4\" rel=\"page2-edited\" \>page2-edited/s", $json[2]["value"]);
 
         $page = $this->pageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());
@@ -468,15 +483,19 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testAddSomePages()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "another-page-1",
-                        'templateName' => "fullpage",
-                        'isPublished' => "0",
-                        'permalink' => "internal page 1",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageName' => "another-page-1",
+            'templateName' => "fullpage",
+            'isPublished' => "0",
+            'permalink' => "internal page 1",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
@@ -485,15 +504,19 @@ class PagesControllerTest extends WebTestCaseFunctional
         $json = json_decode($response->getContent(), true);
         $this->assertEquals("The page has been successfully saved", $json[0]["value"]);
 
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "another-page-2",
-                        'templateName' => "fullpage",
-                        'isPublished' => "0",
-                        'permalink' => "internal page 2",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageName' => "another-page-2",
+            'templateName' => "fullpage",
+            'isPublished' => "0",
+            'permalink' => "internal page 2",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
@@ -519,15 +542,19 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testAddAPagePublishedByDefault()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "another-page-3",
-                        'templateName' => "home",
-                        'permalink' => "page 1",
-                        'isPublished' => "1",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageName' => "another-page-3",
+            'templateName' => "home",
+            'permalink' => "page 1",
+            'isPublished' => "1",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();

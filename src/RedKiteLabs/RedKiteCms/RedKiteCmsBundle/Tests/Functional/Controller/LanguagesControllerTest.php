@@ -89,10 +89,10 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>fr\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<button id=\"al_languages_navigator\"[^\>]+\>en/s", $json[2]["value"]);
-        $this->assertRegExp("/\<li id=\"2\" class=\"al_language_item dropdown-zindex\" rel=\"en\"\>\<a href=\"#\"\>en/s", $json[2]["value"]);
-        $this->assertRegExp("/\<li id=\"3\" class=\"al_language_item dropdown-zindex\" rel=\"fr\"\>\<a href=\"#\"\>fr/s", $json[2]["value"]);
+        $this->assertTrue(array_key_exists("value", $json[2]));        
+        $this->assertRegExp("/\<select id=\"al_languages_navigator\"[^\>]+\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"2\" rel=\"en\" \>en/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"3\" rel=\"fr\" \>fr/s", $json[2]["value"]);
 
         $language = $this->languageRepository->fromPk(3);
         $this->assertNotNull($language);
@@ -262,9 +262,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<a[^\>]+ref=\"4\"\>es\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<li id=\"3\" class=\"al_language_item dropdown-zindex\" rel=\"it\"\>\<a href=\"#\"\>it/s", $json[2]["value"]);
-        $this->assertRegExp("/\<li id=\"4\" class=\"al_language_item dropdown-zindex\" rel=\"es\"\>\<a href=\"#\"\>es/s", $json[2]["value"]);
+        $this->assertTrue(array_key_exists("value", $json[2]));        
+        $this->assertRegExp("/\<option value=\"3\" rel=\"it\" \>it/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"4\" rel=\"es\" \>es/s", $json[2]["value"]);
 
         $page = $this->languageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());

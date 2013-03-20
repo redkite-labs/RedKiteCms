@@ -187,7 +187,7 @@ class CmsControllerTest extends WebTestCaseFunctional
 
     private function checkToolbar($crawler)
     {
-        $this->assertEquals(1, $crawler->filter('.navbar-inverse')->count());
+        $this->assertEquals(1, $crawler->filter('#al_control_panel')->count());
         $this->check($crawler, '#al_start_editor', "Edit");
         $this->check($crawler, '#al_stop_editor', "Stop");
         $this->check($crawler, '#al_open_pages_panel', "Pages");
@@ -205,23 +205,21 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         $assets = $crawler->filter('link')->extract(array('href'));
         $assets = array_filter($assets, 'self::ignoreAssetic');
-        $this->assertEquals(count($expectedAssets), count($assets));
-        $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
+        $this->assertEquals(0, count(array_diff($expectedAssets, $assets)));
     }
 
     private function checkJavascripts($crawler, $expectedAssets)
     {
         $assets = array_filter($crawler->filter('script')->extract(array('src')));
         $assets = array_filter($assets, 'self::ignoreAssetic');
-        $this->assertEquals(count($expectedAssets), count($assets));
-        $this->assertEquals(0, count(array_diff($assets, $expectedAssets)));
+        $this->assertEquals(0, count(array_diff($expectedAssets, $assets)));
     }
 
     private function check($crawler, $element, $value)
     {
         $el = $crawler->filter($element);
         $this->assertEquals(1, $el->count());
-        $this->assertEquals($value, $el->text());
+        $this->assertEquals($value, trim($el->text()));
     }
 
     private static function ignoreAssetic($key)
