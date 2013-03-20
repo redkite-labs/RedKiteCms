@@ -239,7 +239,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         'languageId' => '2',
                         'slotName' => 'left_sidebar_content',
                         "key" => "Content",
-                        "value" => "This is the default text for a new text content",
+                        "value" => "<p>This is the default text for a new text content</p>",
                         "idBlock" => $blockId);
 
         $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
@@ -382,7 +382,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("remove-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("blockName", $json[1]));
-        $this->assertEquals("block_26", $json[1]["blockName"]);
+        $this->assertEquals("block_27", $json[1]["blockName"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
         $this->assertEquals(1, count($blocks));
