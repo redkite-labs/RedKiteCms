@@ -41,7 +41,8 @@ var isEditorOpened = false;
             var data = $(this).metadata();
             var idBlock = data.id;
             var slotName = data.slotName;
-            var contentType = (type == null) ? data.contentType : type;
+            var contentType = (type == null) ? data.contentType : type;                 
+            var included = data.included != null ? data.included : false;
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/addBlock',
@@ -52,6 +53,7 @@ var isEditorOpened = false;
                        'idBlock' : idBlock,
                        'slotName' : slotName,
                        'contentType': contentType,
+                       'included': included,
                        'options': options},
                 beforeSend: function()
                 {
@@ -259,7 +261,8 @@ var isEditorOpened = false;
         if (confirm('Are you sure to remove the active block')) {
             var editableData = $(this).metadata();
             var idBlock = editableData.id;
-            var slotName = editableData.slotName;
+            var slotName = editableData.slotName;                
+            var included = editableData.included != null ? editableData.included : false;
 
             $.ajax({
                 type: 'POST',
@@ -269,6 +272,7 @@ var isEditorOpened = false;
                        'pageId' :  $('#al_pages_navigator').attr('rel'),
                        'languageId' : $('#al_languages_navigator').attr('rel'),
                        'slotName' : slotName,
+                       'included': included,
                        'idBlock' : idBlock},
                 beforeSend: function()
                 {

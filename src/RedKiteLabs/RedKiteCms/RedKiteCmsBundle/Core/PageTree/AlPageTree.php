@@ -198,7 +198,7 @@ class AlPageTree extends BaseAlPageTree
             if (!$this->pageName || $this->pageName == "" || $this->pageName == "backend") {
                 return null;
             }
-
+            
             $this->alSeo = $this->seoRepository->fromPermalink($this->pageName);
             $this->alLanguage = $this->setupLanguage();
             

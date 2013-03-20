@@ -126,8 +126,12 @@ var stopBlocksMenu = false;
                                         
                     var editableData = $this.metadata();
                     var idBlock = editableData.id;
-                    var slotName = editableData.slotName;
-                    $('body').data('idBlock', idBlock).data('slotName', slotName).data('activeBlock', $this);                    
+                    var slotName = editableData.slotName;   
+                    $('body')
+                        .data('idBlock', idBlock)
+                        .data('slotName', slotName)
+                        .data('activeBlock', $this)
+                    ;
                     $('#al_block_menu_toolbar').hide();
                     
                     $(document).trigger("blockEditing", [ this, editableData.type ]);

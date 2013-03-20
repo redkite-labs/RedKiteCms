@@ -13,4 +13,8 @@
    @license    GPL LICENSE Version 2.0
 #}
 
+{% if included %}
+{{ renderIncludedBlock(slotName) }}
+{% else %}
 {{ renderSlot(slotName) }}
+{% endif %}
