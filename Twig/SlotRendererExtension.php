@@ -119,7 +119,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         );
     }
     
-    public function renderIncludedBlock($key, $parent, $type = "Text", $addWhenEmpty = false)
+    public function renderIncludedBlock($key, $parent = null, $type = "Text", $addWhenEmpty = false)
     {
         $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
@@ -149,7 +149,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 $content = $this->doRender($blockManager->toArray(), false, '_included_block.html.twig');
             }
             else {
-                $content = sprintf('<div class="al_editable al_included {id: \'0\', slotName: \'%s\'}">%s</div>', $key, 'ADD');
+                $content = sprintf('<div class="al_editable al_included {id: \'0\', slotName: \'%s\', included: true}">%s</div>', $key, 'This slot has any content inside. Use the contextual menu to add a new one');
             }
         }
         

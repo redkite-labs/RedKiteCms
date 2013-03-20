@@ -113,6 +113,9 @@ class BlocksController extends Base\BaseController
                 $template = 'AlphaLemonCmsBundle:Cms:render_block.html.twig';
                 $block = $slotManager->lastAdded()->toArray();
             } else {
+                if ( ! $request->get('included')) {
+                    throw new \RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
+                }
                 $template = 'AlphaLemonCmsBundle:Cms:render_included_block.html.twig';
                                    
                 $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
@@ -160,12 +163,17 @@ class BlocksController extends Base\BaseController
 
             $request = $this->container->get('request');
             $slotManager = $this->fetchSlotManager($request);
+            
+            if (null === $slotManager) {
+                throw new \RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
+            }
 
             $value = urldecode($request->get('value'));
             $values = array($request->get('key') => $value);
             if (null !== $request->get('options') && is_array($request->get('options'))) {
                 $values = array_merge($values, $request->get('options'));
             }
+            
             $result = $slotManager->editBlock($request->get('idBlock'), $values);
             if (false === $result) {
                 // @codeCoverageIgnoreStart
@@ -225,7 +233,7 @@ class BlocksController extends Base\BaseController
                 } else {
                     $values[] = array("key" => "redraw-slot",
                           "slotName" => 'al_' . $request->get('slotName'),
-                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'))));
+                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => $request->get('included'))));
                 }
 
                 return $this->buildJSonResponse($values);
@@ -392,12 +400,7 @@ class BlocksController extends Base\BaseController
     {
         if(null === $request) $request = $this->container->get('request');
 
-        $slotManager = $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));
-        /*if (null === $slotManager) {
-            throw new \RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
-        }*/
-
-        return $slotManager;
+        return $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));        
     }
 
     private function getSectionFromKeyParam()
