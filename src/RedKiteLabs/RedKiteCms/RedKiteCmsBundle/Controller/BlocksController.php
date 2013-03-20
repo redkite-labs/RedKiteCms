@@ -95,13 +95,13 @@ class BlocksController extends Base\BaseController
             $blockRepository = $factoryRepository->createRepository('Block');
             
             $options = $request->get('options');
-            if(count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && (array_key_exists('included', $options) && filter_var($options['included'], FILTER_VALIDATE_BOOLEAN)))
+            if(null !== $options && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && (array_key_exists('included', $options) && filter_var($options['included'], FILTER_VALIDATE_BOOLEAN)))
             {
                 throw new \RuntimeException('You cannot add more than one block into an including block');
             }
             
             $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
-            $slotManager = $this->fetchSlotManager($request);
+            $slotManager = $this->fetchSlotManager($request, false);
             if (null !== $slotManager) {
                 $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
                 if (!$res) {
@@ -163,10 +163,6 @@ class BlocksController extends Base\BaseController
 
             $request = $this->container->get('request');
             $slotManager = $this->fetchSlotManager($request);
-            
-            if (null === $slotManager) {
-                throw new \RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
-            }
 
             $value = urldecode($request->get('value'));
             $values = array($request->get('key') => $value);
@@ -180,7 +176,7 @@ class BlocksController extends Base\BaseController
                 throw new \RuntimeException('The content has not been edited because something goes wrong during the operation');
                 // @codeCoverageIgnoreEnd
             }
-
+            
             if (null === $result) {
                 throw new \RuntimeException('It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made');
             }
@@ -219,7 +215,6 @@ class BlocksController extends Base\BaseController
 
             $request = $this->container->get('request');
             $slotManager = $this->fetchSlotManager($request);
-
             $res = $slotManager->deleteBlock($request->get('idBlock'));
             if (null !== $res) {
                 $message = ($res) ? $this->container->get('translator')->trans('The content has been successfully removed') : $this->container->get('translator')->trans('The content has not been removed');
@@ -228,8 +223,10 @@ class BlocksController extends Base\BaseController
                 if($message != null) $values[] = array("key" => "message", "value" => $message);
 
                 if ($slotManager->length() > 0) {
-                    $values[] = array("key" => "remove-block",
-                                  "blockName" => "block_" . $request->get('idBlock'));
+                    $values[] = array(
+                        "key" => "remove-block",
+                        "blockName" => "block_" . $request->get('idBlock')
+                    );
                 } else {
                     $values[] = array("key" => "redraw-slot",
                           "slotName" => 'al_' . $request->get('slotName'),
@@ -396,11 +393,16 @@ class BlocksController extends Base\BaseController
         }
     }
 
-    private function fetchSlotManager(Request $request = null)
+    private function fetchSlotManager(Request $request = null, $throwExceptionWhenNull = true)
     {
         if(null === $request) $request = $this->container->get('request');
+        
+        $slotManager = $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));
+        if ($throwExceptionWhenNull && null === $slotManager) {
+            throw new \RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
+        }
 
-        return $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));        
+        return $slotManager;
     }
 
     private function getSectionFromKeyParam()
