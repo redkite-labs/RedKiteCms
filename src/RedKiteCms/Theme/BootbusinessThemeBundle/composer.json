@@ -20,10 +20,6 @@
   "require": {
     "alphalemon/app-bootbusiness-product-bundle": "dev-master",
     "alphalemon/app-bootstrap-button-bundle": "dev-master",
-    "alphalemon/app-bootstap-buttons-group-bundle": "dev-master",
-    "alphalemon/app-bootstrap-dropdown-button-bundle": "dev-master",
-    "alphalemon/app-bootstrap-slider-bundle": "dev-master",
-    "alphalemon/app-bootstrap-split-dropdown-button-bundle": "dev-master",
     "alphalemon/app-bootstrap-thumbnail-bundle": "dev-master"
   },
   "autoload": {
