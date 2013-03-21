@@ -157,9 +157,10 @@ var stopBlocksMenu = false;
             
             $('body')
                 .find('.al_inline_editable')
-                .each(function(){                                    
+                .each(function(){             
                     $(this)
                         .popover('destroy')
+                        .unbind()
                     ;
                 })
             ;
@@ -231,7 +232,7 @@ var stopBlocksMenu = false;
             
     $.fn.StartInlineEditor = function(parent)
     {
-        this.each(function(){
+        this.each(function(){console.log('a');
             var $this = $(this);
             var options = {
                 placement: function () {
@@ -251,7 +252,7 @@ var stopBlocksMenu = false;
                 if(stopBlocksMenu) {
                     return;
                 }
-                
+                console.log('c');
                 $this.popover('show');
                     
                 $('.al-popover:visible').each(function(){
