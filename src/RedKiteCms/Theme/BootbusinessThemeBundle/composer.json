@@ -20,6 +20,7 @@
   "require": {
     "alphalemon/app-bootbusiness-product-bundle": "dev-master",
     "alphalemon/app-bootstrap-button-bundle": "dev-master",
+    "alphalemon/app-bootstrap-label-bundle": "dev-master",
     "alphalemon/app-bootstrap-slider-bundle": "dev-master",
     "alphalemon/app-bootstrap-thumbnail-bundle": "dev-master"
   },
