@@ -252,7 +252,7 @@ var stopBlocksMenu = false;
                 if(stopBlocksMenu) {
                     return;
                 }
-                console.log('c');
+                
                 $this.popover('show');
                     
                 $('.al-popover:visible').each(function(){
