@@ -232,7 +232,7 @@ var stopBlocksMenu = false;
             
     $.fn.StartInlineEditor = function(parent)
     {
-        this.each(function(){console.log('a');
+        this.each(function(){
             var $this = $(this);
             var options = {
                 placement: function () {
