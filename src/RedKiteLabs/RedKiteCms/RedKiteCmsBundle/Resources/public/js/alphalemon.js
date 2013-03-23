@@ -96,7 +96,7 @@ var stopBlocksMenu = false;
                     
                     $(this).css('cursor', 'pointer');
                 })
-                .click(function(event){                
+                .click(function(event){
                     event.stopPropagation(); 
                     
                     if(stopBlocksMenu) {
