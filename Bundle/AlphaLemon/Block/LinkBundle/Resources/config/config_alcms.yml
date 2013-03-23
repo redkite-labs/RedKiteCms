@@ -1,0 +1,2 @@
+imports:
+- { resource: "@LinkBundle/Resources/config/app_block.xml" }

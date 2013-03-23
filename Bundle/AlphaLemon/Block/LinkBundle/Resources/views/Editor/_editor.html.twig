@@ -1,0 +1,29 @@
+<form id="al_item_form">
+    <table>
+        {# include "AlphaLemonCmsBundle:Item:_form_renderer.html.twig" #}
+        
+        <tr>
+            <td>{{ form_label(form.href, "Href") }}</td>
+            <td>
+                <select id="al_page_name" class="input-mini">
+                    {% for page in pages %}
+                    <option value="{{ page }}">{{ page }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>{{ form_errors(form.href) }} {{ form_widget(form.href) }} </td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form.value, "Displayed value") }}</td>
+            <td colspan="2">                
+                {{ form_errors(form.value) }} {{ form_widget(form.value) }}
+            </td>
+        </tr>
+        {{ form_rest(form) }}
+        <tr>
+            <td colspan="3" style="text-align: right">
+                <a class="al_editor_save btn btn-primary" href="#" >Save</a>
+            </td>
+        </tr>
+    </table>
+</form>

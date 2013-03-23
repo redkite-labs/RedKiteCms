@@ -1,0 +1,8 @@
+{
+    "autoload": {
+        "psr-0": { "AlphaLemon\\Block\\LinkBundle": ""
+        }
+    },
+    "target-dir" : "AlphaLemon/Block/LinkBundle",
+    "minimum-stability": "dev"
+}
