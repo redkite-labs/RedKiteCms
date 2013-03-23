@@ -80,10 +80,17 @@ class LockedResourcesTest extends BaseSecured
         $this->assertCount(1, $this->lockedResourceRepository->fetchResources());
     }
     
+    public function testPagesLocking()
+    {
+        $this->markTestSkipped(
+            'Pages must be locked because contents locking has been removed. This test must be removed'
+        );
+    }
+    
     public function routesProvider()
     {
         return array(
-            array(
+           /* array(
                 '/backend/en/al_showBlocksEditor', 
                 '/backend/en/al_showBlocksEditor', 
                 array("idBlock" => 2),
@@ -112,7 +119,7 @@ class LockedResourcesTest extends BaseSecured
                 '/backend/en/al_showBlocksEditor', 
                 '/backend/en/removeExternalFile', 
                 array("idBlock" => 2),
-            ),            
+            ),    */        
             array(
                 '/backend/en/al_loadLanguageAttributes', 
                 '/backend/en/al_loadLanguageAttributes', 
