@@ -104,14 +104,14 @@ class BlocksController extends Base\BaseController
             $slotManager = $this->fetchSlotManager($request, false);
             if (null !== $slotManager) {
                 $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
-                if (!$res) {
+                if ( ! $res) {
                     // @codeCoverageIgnoreStart
                     throw new \RuntimeException('The content has not been added because something goes wrong during the operation');
                     // @codeCoverageIgnoreEnd
                 }
                 
                 $template = 'AlphaLemonCmsBundle:Cms:render_block.html.twig';
-                $block = $slotManager->lastAdded()->toArray();
+                $blockManager = $slotManager->lastAdded(); // ->toArray()
             } else {
                 if ( ! $request->get('included')) {
                     throw new \RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
@@ -130,7 +130,7 @@ class BlocksController extends Base\BaseController
                   'CreatedAt'       => date("Y-m-d H:i:s")
                 );            
                 $blockManager->save($values);
-                $block = $blockManager->toArray();
+                //$block = $blockManager->toArray();
             }
             
             $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
@@ -142,10 +142,11 @@ class BlocksController extends Base\BaseController
                 array(
                     "key" => "add-block",
                     "insertAfter" => "block_" . $idBlock,
-                    "slotName" => 'al_' . $block["Block"]["SlotName"], 
+                    "blockId" => "block_" . $blockManager->get()->getId(), 
+                    "slotName" => $blockManager->get()->getSlotName(), 
                     "value" => $this->container->get('templating')->render(
                             $template,
-                            array("block" => $block, 'add' => true)
+                            array("blockManager" => $blockManager, 'add' => true)
                         )
                     )
                 );
@@ -197,7 +198,7 @@ class BlocksController extends Base\BaseController
                     array("key" => "message", "value" => "The content has been successfully edited"),
                     array("key" => "edit-block",
                           "blockName" => "block_" . $blockManager->get()->getId(),
-                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))));
+                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("blockManager" => $blockManager))));
 
                 $response = $this->buildJSonResponse($values);
             }
@@ -228,9 +229,12 @@ class BlocksController extends Base\BaseController
                         "blockName" => "block_" . $request->get('idBlock')
                     );
                 } else {
-                    $values[] = array("key" => "redraw-slot",
-                          "slotName" => 'al_' . $request->get('slotName'),
-                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => $request->get('included'))));
+                    $values[] = array(
+                        "key" => "redraw-slot",
+                        "slotName" => $request->get('slotName'),
+                        "blockId" => 'block_' . $request->get('idBlock'),
+                        "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => $request->get('included')))
+                    );
                 }
 
                 return $this->buildJSonResponse($values);

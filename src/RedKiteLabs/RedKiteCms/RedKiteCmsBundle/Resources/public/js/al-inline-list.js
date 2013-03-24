@@ -50,7 +50,7 @@
                 
                 $('body').EditBlock("Content", settings.addValue, null, function(activeBlock)
                 {
-                    activeBlock.StopEditBlock().find('.al_editable').StartToEdit();   
+                    activeBlock.StopEditBlock().find('[data-editor="enabled"]').blocksEditor('start');   
                     Holder.run();
                 });            
             });
@@ -59,7 +59,7 @@
                 if (confirm('Are you sure to remove the active block')) {
                     $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "key": "' + $(this).attr('data-key') + '"}', null, function(activeBlock)
                     {
-                        activeBlock.StopEditBlock().find('.al_editable').StartToEdit();
+                        activeBlock.StopEditBlock().find('[data-editor="enabled"]').blocksEditor('start');
                         Holder.run();
                     });
                 }

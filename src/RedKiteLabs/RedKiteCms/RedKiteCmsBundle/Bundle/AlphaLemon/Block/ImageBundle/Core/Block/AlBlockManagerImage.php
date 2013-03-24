@@ -41,6 +41,21 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
         ));
     }
     
+    public function editorParameters()
+    {
+        $items = $this->decodeJsonContent($this->alBlock->getContent());
+        $item = $items[0];
+        
+        $formClass = $this->container->get('image.form');
+        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);
+        
+        return array(
+            "template" => "ImageBundle:Editor:_editor.html.twig",
+            "title" => "Image editor",
+            "form" => $buttonForm->createView(),
+        );
+    }
+    /*
     protected function replaceHtmlCmsActive()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
@@ -56,5 +71,5 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
                 'form' => $buttonForm->createView(),
             ),
         ));
-    }
+    }*/
 }

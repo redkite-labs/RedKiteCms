@@ -13,231 +13,65 @@
  * @license    GPL LICENSE Version 2.0
  *
  */
- 
-var stopBlocksMenu = false;
 
 (function( $ ){
-    $.fn.PlaceTopRight = function(target)
-    {
-        var $this = $(this);
-        var position = target.offset();
-        var left = (position.left + target.outerWidth()) - $this.width();
-        $this
-            .css('position', 'absolute')
-            .css('top', position.top)
-            .css('left', left)  
-            .data('parent',target)
-        ;
-        
-        return this;
-    };
+    var stopBlocksMenu = false;
     
-    $.fn.StartToEdit = function()
-    {
-        $('body').addClass('cms_started');
-
-        this.each(function()
+    var methods = {
+        start: function() 
         {
-            var $this = $(this);
-                   
-            $this       
-                .find('.al_inline_editable')
-                .StartInlineEditor($this)
-            ;
-                   
-            $this
-                .unbind()
-                .HideContentsForEditMode()
-                .addClass('al_edit_on')
-                .mouseenter(function(event)
-                {
-                    event.stopPropagation(); 
-                    if (stopBlocksMenu) {
-                        return;
-                    }
-                    
-                    var position = $this.offset();
-                    var blockWidth = $this.outerWidth();
-                    var blockHeight = $this.outerHeight();
-                    $('#al_block_menu_top')
-                        .width(blockWidth)
-                        .css('top', position.top - 1 + 'px')
-                        .css('left', position.left + 'px')    
-                        .addClass('highlight') 
-                        .show()
-                    ;                    
-                    
-                    $('#al_block_menu_bottom')
-                        .width(blockWidth)
-                        .css('top', position.top + blockHeight + 'px')
-                        .css('left', position.left + 'px')  
-                        .addClass('highlight')
-                        .show()
-                    ;
-                    $('#al_block_menu_left')
-                        .height(blockHeight)
-                        .css('top', position.top  + 'px')
-                        .css('left', position.left - 1 + 'px')  
-                        .addClass('highlight')  
-                        .show()
-                    ;
-                    $('#al_block_menu_right')
-                        .height(blockHeight)
-                        .css('top', position.top + 'px')
-                        .css('left', position.left - 1 + blockWidth + 'px')    
-                        .addClass('highlight')
-                        .show()
-                    ;                   
-                    
-                    $('#al_block_menu_toolbar')
-                        .PlaceTopRight($this)
-                        .show()
-                    ;
-                    
-                    $(this).css('cursor', 'pointer');
-                })
-                .click(function(event){
-                    event.stopPropagation(); 
-                    
-                    if(stopBlocksMenu) {
-                        return;
-                    }
-                    stopBlocksMenu = true;
-                    
-                    $('#al_block_menu_top')
-                        .addClass('on-editing')
-                        .removeClass('highlight')
-                    ;                    
-                    
-                    $('#al_block_menu_bottom')
-                        .addClass('on-editing')
-                        .removeClass('highlight')
-                    ;
-                    
-                    $('#al_block_menu_left')
-                        .addClass('on-editing')
-                        .removeClass('highlight')
-                    ;
-                    
-                    $('#al_block_menu_right')
-                        .addClass('on-editing')
-                        .removeClass('highlight')
-                    ;
-                                        
-                    var editableData = $this.metadata();
-                    var idBlock = editableData.id;
-                    var slotName = editableData.slotName;   
-                    $('body')
-                        .data('idBlock', idBlock)
-                        .data('slotName', slotName)
-                        .data('activeBlock', $this)
-                    ;
-                    $('#al_block_menu_toolbar').hide();
-                    
-                    $(document).trigger("blockEditing", [ this, editableData.type ]);
-                })
-            ;
+            $('body').addClass('cms_started');
+            startEditElement($(this));
             
-            $(this).find("a").unbind().click(function(event) {
-                event.preventDefault();
-            });            
-        });
-        
-        return this;
-    };
-    
-    $.fn.StopToEdit = function(closeEditor)
-    {        
-        if($('body').hasClass('cms_started'))
+            return this;
+        },
+        stop: function()
         {
-            var activeBlock = $('body').data('activeBlock');
-            if (activeBlock  != null) {
-                activeBlock.StopEditBlock();
-            }
-            
-            $('body')
-                .find('.al_inline_editable')
-                .each(function(){             
-                    $(this)
-                        .popover('destroy')
-                        .unbind()
-                    ;
-                })
-            ;
-            
-            if(closeEditor == null) {
-                closeEditor = true;
+            if($('body').hasClass('cms_started'))
+            {
                 $("#al_cms_contents a").unbind();
-            }
-
-            $('.al_hide_edit_mode').ShowHiddenContentsFromEditMode();
-            if (closeEditor) {
-                $('#al_editor_dialog').dialog('close');
-            }
-
-            this.each(function() {
-                $(this).unbind().removeClass('al_edit_on');  
-            });
-
-            cmsStartInternalJavascripts();
-            $('body').removeClass('cms_started');
-        }
-
-        return this;
-    };
-    
-    $.fn.StopEditBlock = function()
-    {
-        if (stopBlocksMenu) {
-            stopBlocksMenu = false;  
-            var $this = $(this);
-            $this
-                .find('.al_inline_editable')
-                .each(function(){                                    
+                showHiddenContentsFromEditMode('.al_hide_edit_mode');
+                
+                this.each(function() {
                     $(this)
                         .popover('destroy')
-                    ;
-                })    
-                .StartInlineEditor($this) 
-            ;
-            
-            var editableData = $this.metadata();
-            $(document).trigger("blockStopEditing", [ this, editableData.type ]);
-            
-            $('#al_block_menu_top')
-                .addClass('highlight')
-                .removeClass('on-editing')
-            ;                    
+                        .removeClass('al_edit_on')
+                        .unbind()
+                    ;  
+                });
 
-            $('#al_block_menu_bottom')
-                .addClass('highlight')
-                .removeClass('on-editing')
-            ;
-
-            $('#al_block_menu_left')
-                .addClass('highlight')
-                .removeClass('on-editing')
-            ;
-
-            $('#al_block_menu_right')
-                .addClass('highlight')
-                .removeClass('on-editing')
-            ;
+                cmsStartInternalJavascripts();
+                $('body').removeClass('cms_started');
+                
+                stopBlocksMenu = false;
+            }
             
-            $('.al_block_menu').hide();
+            return this;
+        },
+        startEditElement: function()
+        {     
+            startEditElement($(this));
+                
+            return this;
+        },
+        stopEditElement: function()
+        {     
+            stopEditElement($(this));
+                
+            return this;
         }
-        
-        return this;
     };
-            
-    $.fn.StartInlineEditor = function(parent)
+    
+    function startEditElement(element)
     {
-        this.each(function(){
+        element.each(function()
+        {
             var $this = $(this);
-            var options = {
+
+            var popoverOptions = {
                 placement: function () {
                     var position = $this.position();
-                    
+
                     if (position.top + 400 < $('#al_cms_contents').height()){
                         return "bottom";
                     }
@@ -247,74 +81,241 @@ var stopBlocksMenu = false;
                 trigger: 'manual',
                 template: '<div class="popover al-popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>'
             }
-            $this.popover(options).click(function()
-            {
-                if(stopBlocksMenu) {
-                    return;
-                }
-                
-                $this.popover('show');
-                    
-                $('.al-popover:visible').each(function(){
-                    var pos = $this.offset();
-                    var popover = $(this);
-                    
-                    var actualWidth = popover.width();
-                    var actualLeft = pos.left;
-                    
-                    if (actualLeft + actualWidth < $('#al_cms_contents').width()) {
-                        popover.offset({left: actualLeft}).find('.arrow').css('left', '10%');
-                    } else {
-                        popover.offset({left: actualLeft + (actualWidth / 5) - actualWidth}).find('.arrow').css('left', '90%');
-                    }
-                });
-                
-                $('.al_editor_save').each(function(){ 
-                    var $this = $(this);
-                    $this.unbind().click(function(){
-                        $('body').EditBlock('Content', $('#al_item_form').serialize());
+            
+            var hasPopover = ($this.attr('rel') == 'popover');            
+            if (hasPopover) {
+                $this.popover(popoverOptions);
+            }
 
-                        return false;
-                    });
-                });
-                var data = parent.metadata();
-                $(document).trigger("popoverShow", [ data.id, data.type ]);
-            });
+            hideContentsForEditMode($this);                
+            $this
+                .unbind()
+                .addClass('al_edit_on')
+                .mouseenter(function(event)
+                {
+                    event.stopPropagation(); 
+                    if (stopBlocksMenu) {
+                        return;
+                    }
+
+                    highlightElement($this);
+                    placeBottomRight($this);
+
+                    $(this).css('cursor', 'pointer');
+                })
+                .click(function(event)
+                {   
+                    event.stopPropagation(); 
+                   
+                    var $this = $(this);
+                    if ($(document).find('.al-popover:visible').length > 0 && $this.attr('id') == 'block_' + $('body').data('idBlock')) {
+                        if (stopBlocksMenu) {
+                            stopEditElement($this);
+                            
+                            return;
+                        }
+                    }
+
+                    if(stopBlocksMenu) {
+                        return;
+                    }
+                    stopBlocksMenu = true;
+
+                    startEdit($this);
+                    if (hasPopover) {
+                        showPopover($this);
+                    }
+                })
+            ;
+
+            $(this).find("a").unbind().click(function(event) {
+                event.preventDefault();
+            });            
+        });
+    }
+    
+    function highlightElement(element)
+    {
+        var position = element.offset();
+        var blockWidth = element.outerWidth();
+        var blockHeight = element.outerHeight();
+        $('#al_block_menu_top')
+            .width(blockWidth)
+            .css('top', position.top - 1 + 'px')
+            .css('left', position.left + 'px')    
+            .addClass('highlight') 
+            .show()
+        ;                    
+
+        $('#al_block_menu_bottom')
+            .width(blockWidth)
+            .css('top', position.top + blockHeight + 'px')
+            .css('left', position.left + 'px')  
+            .addClass('highlight')
+            .show()
+        ;
+        $('#al_block_menu_left')
+            .height(blockHeight)
+            .css('top', position.top  + 'px')
+            .css('left', position.left - 1 + 'px')  
+            .addClass('highlight')  
+            .show()
+        ;
+        $('#al_block_menu_right')
+            .height(blockHeight)
+            .css('top', position.top + 'px')
+            .css('left', position.left - 1 + blockWidth + 'px')    
+            .addClass('highlight')
+            .show()
+        ;   
+    }
+    
+    function placeBottomRight(target)
+    {
+        var element = $('#al_block_menu_toolbar');
+        var position = target.offset();
+        var top = position.top + target.outerHeight();
+        var left = (position.left + target.outerWidth()) - element.width();
+                             
+        element
+            .css('position', 'absolute')
+            .css('top', top)
+            .css('left', left)  
+            .data('parent',target)
+            .show()
+        ;
+    }
+    
+    function startEdit(element)
+    {
+        $('#al_block_menu_top')
+            .addClass('on-editing')
+            .removeClass('highlight')
+        ;                    
+
+        $('#al_block_menu_bottom')
+            .addClass('on-editing')
+            .removeClass('highlight')
+        ;
+
+        $('#al_block_menu_left')
+            .addClass('on-editing')
+            .removeClass('highlight')
+        ;
+
+        $('#al_block_menu_right')
+            .addClass('on-editing')
+            .removeClass('highlight')
+        ;
+
+        var idBlock = element.attr('data-block-id');
+        var slotName = element.attr('data-slot-name');   
+
+        $('body')
+            .data('idBlock', idBlock)
+            .data('slotName', slotName)
+            .data('activeBlock', element)
+        ;
+        $('#al_block_menu_toolbar').hide();
+
+        $(document).trigger("blockEditing", [ element ]);
+    }
+    
+    function stopEditElement(element)
+    {
+        stopBlocksMenu = false;  
+
+        $('#al_block_menu_top')
+            .addClass('highlight')
+            .removeClass('on-editing')
+        ;                    
+
+        $('#al_block_menu_bottom')
+            .addClass('highlight')
+            .removeClass('on-editing')
+        ;
+
+        $('#al_block_menu_left')
+            .addClass('highlight')
+            .removeClass('on-editing')
+        ;
+
+        $('#al_block_menu_right')
+            .addClass('highlight')
+            .removeClass('on-editing')
+        ;
+
+        $('.al_block_menu').hide();
+
+        element.each(function(){   
+            var $this = $(this);
+            $this.popover('destroy');
+            startEditElement($this);
         });
 
-        return this;
-    };
-        
-    $.fn.HideContentsForEditMode = function()
+        $(document).trigger("blockStopEditing", [ element ]);
+    }
+    
+    function showPopover(element)
     {
-        this.each(function() {
+        element.addClass('popover-zindex').popover('show');
+
+        $('.al-popover:visible').each(function(){
+            var pos = element.offset();
+            var popover = $(this);
+
+            var actualWidth = popover.width();
+            var actualLeft = pos.left;
+
+            if (actualLeft + actualWidth < $('#al_cms_contents').width()) {
+                popover.offset({left: actualLeft}).find('.arrow').css('left', '10%');
+            } else {
+                popover.offset({left: actualLeft + (actualWidth / 5) - actualWidth}).find('.arrow').css('left', '90%');
+            }
+        });
+
+        $('.al_editor_save').each(function(){ 
+            var $this = $(this);
+            $this.unbind().click(function(){
+                $('body').EditBlock('Content', $('#al_item_form').serialize());
+
+                return false;
+            });
+        });
+        
+        $(document).trigger("popoverShow", [ element.attr('data-block-id'), $(this).attr('data-type') ]);
+    }
+    
+    function hideContentsForEditMode(element)
+    {
+        element.each(function() {
             if($(this).hasClass('al_hide_edit_mode')) {
                 var data = $(this).metadata();
                 $(this).html('<p>A ' + data.type  + ' block is not renderable in edit mode</p>').addClass('is_hidden_in_edit_mode');
             }
         });
+    }
 
-        return this;
-    };
-
-    $.fn.ShowHiddenContentsFromEditMode = function()
+    function showHiddenContentsFromEditMode(element)
     {
-        this.each(function()
-        {
+        return; //FIXME
+        element.each(function() {
             if($(this).hasClass('is_hidden_in_edit_mode'))
             {
                 $(this).removeClass('is_hidden_in_edit_mode').html(decodeURIComponent($(this).data('block')));
             }
         });
-    };
-
-    function ChangeSitePage()
-    {
-        this.each(function()
-        {
-            Navigate();
-        });
     }
+    
+    $.fn.blocksEditor = function( method, options ) {        
+        if ( methods[method] ) {
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+        }   
+    };
 })( jQuery );
 
 function Navigate(language, page)
@@ -324,14 +325,16 @@ function Navigate(language, page)
 
 $(document).ready(function(){
     try
-    {        
+    {   
         $('#al_cms_contents').click(function(){
-            var activeBlock = $('body').data('activeBlock');
-            if (activeBlock  != null) {
-                activeBlock.StopEditBlock();
+            var block = $('body').data('activeBlock');
+            if (block.attr('rel') == 'popover') {
+                return;
             }
+            
+            block.blocksEditor('stopEditElement');
         });
-
+        
         $('.al_language_item').each(function(){
             $(this).click(function()
             {
@@ -352,14 +355,17 @@ $(document).ready(function(){
             
         $('#al_start_editor').click(function()
         {
-            $('.al_editable').StartToEdit();
+            //$('[data-editor="enabled"]').StartToEdit();
+            $('[data-editor="enabled"]').blocksEditor('start');
+            //$('.al_editable').StartToEdit();
 
             return false;
         });
 
         $('#al_stop_editor').click(function()
         {
-            $('.al_editable').trigger("editorStapping").StopToEdit();
+            //$('.al_editable').trigger("editorStapping").StopToEdit();
+            $('[data-editor="enabled"]').trigger("editorStapping").blocksEditor('stop');
             $('.al_block_menu').each(function(){ $(this).hide() });
             $('#al_block_menu_toolbar').hide();
             $('#al_blocks_list').hide();
