@@ -39,9 +39,7 @@ var isEditorOpened = false;
         this.each(function()
         {
             var data = $(this).metadata();
-            var idBlock = data.id;
-            var slotName = data.slotName;
-            var contentType = (type == null) ? data.contentType : type;                 
+            var contentType = (type == null) ? $(this).attr('data-type') : type;              
             var included = data.included != null ? data.included : false;
             $.ajax({
                 type: 'POST',
@@ -50,8 +48,8 @@ var isEditorOpened = false;
                        'language' : $('#al_languages_navigator').html(),
                        'pageId' :  $('#al_pages_navigator').attr('rel'),
                        'languageId' : $('#al_languages_navigator').attr('rel'),
-                       'idBlock' : idBlock,
-                       'slotName' : slotName,
+                       'idBlock' : $(this).attr('data-block-id'),
+                       'slotName' : $(this).attr('data-slot-name'),
                        'contentType': contentType,
                        'included': included,
                        'options': options},
@@ -259,9 +257,7 @@ var isEditorOpened = false;
     $.fn.DeleteBlock =function()
     {
         if (confirm('Are you sure to remove the active block')) {
-            var editableData = $(this).metadata();
-            var idBlock = editableData.id;
-            var slotName = editableData.slotName;                
+            var editableData = $(this).metadata();          
             var included = editableData.included != null ? editableData.included : false;
 
             $.ajax({
@@ -270,10 +266,11 @@ var isEditorOpened = false;
                 data: {'page' :  $('#al_pages_navigator').html(),
                        'language' : $('#al_languages_navigator').html(),
                        'pageId' :  $('#al_pages_navigator').attr('rel'),
-                       'languageId' : $('#al_languages_navigator').attr('rel'),
-                       'slotName' : slotName,
-                       'included': included,
-                       'idBlock' : idBlock},
+                       'languageId' : $('#al_languages_navigator').attr('rel'),                       
+                       'idBlock' : $(this).attr('data-block-id'),
+                       'slotName' : $(this).attr('data-slot-name'),
+                       'included': included
+                },
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();
@@ -318,61 +315,65 @@ function updateContentsJSon(response, editorWidth)
                 
                 break;
             case "redraw-slot":
-                slot = '.' + item.slotName;
-                $(slot).html(item.value);
-                $(slot).find('.al_editable').StartToEdit();
+                slot = $('.al_' + item.slotName);
+                if (slot.length > 0) {
+                    slot
+                        .html(item.value)
+                        .find('[data-editor="enabled"]')
+                        .blocksEditor('start')
+                    ;
+                } else {
+                    var element = $('#' + item.blockId);
+                    var parent = element.parent();
+                    element.replaceWith(item.value);
+                    $(parent)
+                        .find('[data-editor="enabled"]')
+                        .blocksEditor('start')
+                    ;
+                }
                 
                 break;
-            case "add-block":
-                slot = '.' + item.slotName;
+            case "add-block":                
                 if(item.insertAfter == 'block_0')
                 {
-                    $(slot).empty().append(item.value);
-                    $(slot).find('.al_editable').StartToEdit();
+                    var slot = $('.al_' + item.slotName);
+                    if (slot.length > 0) {
+                        slot
+                            .empty()
+                            .append(item.value)
+                        ;
+                    } else {console.log('[data-slot-name="' + item.slotName + '"]',$('[data-slot-name="' + item.slotName + '"]'));
+                        $('[data-slot-name="' + item.slotName + '"]')
+                            .replaceWith(item.value);
+                    }
                 }
                 else
                 {
-                    $(item.value).insertAfter('#' + item.insertAfter).StartToEdit().find('.al_editable').StartToEdit();
+                    $(item.value)
+                        .insertAfter('#' + item.insertAfter)
+                    ;
                 }
                 
+                $("#" + item.blockId).blocksEditor('start');
+                
                 break;
-            case "edit-block": 
-                var newElement = $('#' + item.blockName);
-                newElement
-                    .html(item.value)
-                    .StartToEdit()
-                    .find('.al_inline_editable')
-                    .StartInlineEditor(newElement)
-                ;
+            case "edit-block":
+                $('#' + item.blockName)
+                    .blocksEditor('stopEditElement')
+                    .replaceWith(item.value);
+                $('#' + item.blockName).blocksEditor('startEditElement');
                 
                 break;
             case "remove-block":
-                $('#' + item.blockName).remove();
+                $('#' + item.blockName)
+                    .unbind()
+                    .remove()
+                ;
+                
                 break;
             case "images-list":
                 $('.al_images_list').html(item.value);
                 
-                break;
-            case "editor":
-                var openEditor = (item.openEditor != null) ? item.openEditor : true;
-                if(openEditor) {
-                    var dialogOptions = {
-                        buttons:{},
-                        width: editorWidth,
-                        zIndex: 120000,
-                        title: 'AlphaLemon CMS - Editor Contents',
-                        close: function(event, ui)
-                        {
-                            isEditorOpened = false;
-                            $('#al_editor_dialog').dialog('destroy').remove();
-                        }
-                    };
-
-                    InitDialog('al_editor_dialog', dialogOptions);
-                    $('#al_editor_dialog').html(item.value);
-                    $('#al_editor_dialog').dialog('open');
-                }
-
                 break;
             case "externalAssets":
                 $('.al_' + item.section  + '_list').html(item.value);

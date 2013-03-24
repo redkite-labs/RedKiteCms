@@ -13,8 +13,4 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% if(add is not defined) %}
-{% set add = false %}
-{% endif %}
-
-{{ renderIncludedBlock(block.Block.SlotName, block) }}
+{{ renderIncludedBlock(blockManager.get.SlotName, blockManager.get) }}
