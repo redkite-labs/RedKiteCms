@@ -35,48 +35,27 @@ class AlBlockManagerScript extends AlBlockManagerContainer
                      'InternalJavascript' => '',
                      'ExternalJavascript' => '');
     }
-
-    protected function replaceHtmlCmsActive()
+    
+    public function getHtml()
     {
         return array('RenderView' => array(
-            'view' => 'ScriptBundle:Editor:scriptblock_editor.html.twig',            
+            'view' => 'ScriptBundle:Content:script.html.twig',
             'options' => array(
-                'blockManager' => $this,
-                "jsFiles" => explode(",", $this->alBlock->getExternalJavascript()),
-                "cssFiles" => explode(",", $this->alBlock->getExternalStylesheet()),
-                'editor_settings' => $this->container->getParameter('script.editor_settings'),
+                'block' => $this->alBlock
             ),
         ));
-        
-        /*
-        $items = $this->decodeJsonContent($this->alBlock);
-        $item = $items[0];
-        $file = $item['file'];
-        
-        $item['opened'] = array_key_exists('opened', $item) ? filter_var($item['opened'], FILTER_VALIDATE_BOOLEAN) : false; 
-        
-        $options = ($item['opened'])
-            ? 
-                array(
-                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
-                    'filename' => $file,
-                )
-            :
-                array(
-                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
-                    'filename' => $file,
-                    'filepath' => basename($file),
-                )
-        ;
-        
-        $formClass = $this->container->get('file.form');
-        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);        
-        $options = array_merge($options, array('form' => $buttonForm->createView()));
-        
-        return array('RenderView' => array(
-            'view' => 'FileBundle:Editor:fileblock_editor.html.twig',
-            'options' => $options,
-        ));*/
+    }
+    
+    public function editorParameters()
+    {
+    
+        return array(
+            "template" => "ScriptBundle:Editor:_editor.html.twig",
+            "title" => "Script editor",
+            "blockManager" => $this,
+            "jsFiles" => explode(",", $this->alBlock->getExternalJavascript()),
+            "cssFiles" => explode(",", $this->alBlock->getExternalStylesheet())
+        );
     }
 
     /**

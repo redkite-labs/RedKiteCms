@@ -1,0 +1,6 @@
+{% if edit_inline %}contenteditable="true"{% endif %} data-name="block_{{ block_id }}" data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-included="{{ included }}" data-hide-when.edit="false" {{ extra_attributes }}
+
+{% if editor|length > 0 %}
+{% set form = editor.form is defined ? editor.form : "" %}
+data-title="{{ editor.title }}" rel="popover" data-html="true" data-content='{% include editor.template %}' 
+{% endif %}
