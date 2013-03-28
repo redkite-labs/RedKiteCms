@@ -39,7 +39,7 @@ var isEditorOpened = false;
         this.each(function()
         {
             var data = $(this).metadata();
-            var contentType = (type == null) ? $(this).attr('data-type') : type;              
+            var contentType = (type == null) ? $(this).attr('data-type') : type;
             var included = data.included != null ? data.included : false;
             $.ajax({
                 type: 'POST',
@@ -60,7 +60,6 @@ var isEditorOpened = false;
                 success: function(response)
                 {
                     updateContentsJSon(response);
-                    
                     if (successCallback != null) {
                         successCallback();
                     }
@@ -96,7 +95,9 @@ var isEditorOpened = false;
                        'slotName'   : $('body').data("slotName"),
                        'key'        : key,
                        'value'      : value,
-                       'options'    : options},
+                       'included'   : $('body').data('included'),
+                       'options'    : options
+                },
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();
@@ -105,6 +106,7 @@ var isEditorOpened = false;
                 {
                     var activeBlock = $('body').data('activeBlock');
                     updateContentsJSon(response);
+                    Holder.run();
                     if (successCallback != null) {
                         successCallback(activeBlock);
                     }
@@ -323,7 +325,7 @@ function updateContentsJSon(response, editorWidth)
                         .blocksEditor('start')
                     ;
                 } else {
-                    var element = $('#' + item.blockId);
+                    var element = $('[data-name="' + item.blockId + '"]');
                     var parent = element.parent();
                     element.replaceWith(item.value);
                     $(parent)
@@ -349,23 +351,22 @@ function updateContentsJSon(response, editorWidth)
                 }
                 else
                 {
-                    $(item.value)
-                        .insertAfter('#' + item.insertAfter)
-                    ;
+                    $(item.value).insertAfter('[data-name="' + item.insertAfter + '"]');
                 }
                 
-                $("#" + item.blockId).blocksEditor('start');
+                $('[data-name="' + item.blockId + '"]').blocksEditor('start');
                 
                 break;
-            case "edit-block":
-                $('#' + item.blockName)
+            case "edit-block": 
+                var blockName = '[data-name="' + item.blockName + '"]';
+                $(blockName)
                     .blocksEditor('stopEditElement')
                     .replaceWith(item.value);
-                $('#' + item.blockName).blocksEditor('startEditElement');
+                $(blockName).blocksEditor('startEditElement');
                 
                 break;
             case "remove-block":
-                $('#' + item.blockName)
+                $('[data-name="' + item.blockName + '"]')
                     .unbind()
                     .remove()
                 ;
@@ -381,7 +382,6 @@ function updateContentsJSon(response, editorWidth)
             case "editorContents":
                 $('.editor_contents').html(item.value);
                 break;
-
         }
     });
 }

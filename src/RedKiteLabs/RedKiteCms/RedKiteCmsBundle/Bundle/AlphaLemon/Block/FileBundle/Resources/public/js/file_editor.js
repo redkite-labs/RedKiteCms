@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $(document).on("popoverShow", function(event, idBlock, blockType){
-        if (blockType != 'File') {
+    $(document).on("popoverShow", function(event, element){
+        if (element.attr('data-type') != 'File') {
             return;
         }
         
@@ -32,7 +32,7 @@ $(document).ready(function() {
                         getFileCallback : function(file, fm) {
                             $('#al_json_block_file').val(file.path);
                             
-                            alert('File has been added');
+                            $('body').showAlert('File has been added');
                         }
                     }).dialogelfinder('instance');
                 },

@@ -31,12 +31,12 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             'Content' => $value,
         );
     }
-/*
-    public function getHideInEditMode()
+    private function formatLink($file)
     {
-        return true;
-    }*/
+        $uploadsPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
 
+        return sprintf('<a href="/%s/%s" />%s</a>', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'), $file, basename($file));
+    }
     public function getHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock);
@@ -46,43 +46,67 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
         $deployBundleAsset = new AlAsset($this->container->get('kernel'), $deployBundle);
 
-        return "AlBlockManagerFile->FIX ME!";
-        
-        /*
         return ($item['opened'])
-            ? sprintf("{%% set file = kernel_root_dir ~ '/../web/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
-            : $this->formatLink($file);*/
+            ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('alpha_lemon_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
+            : sprintf('<a href="/%s/%s" />%s</a>', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'), $file, basename($file));        
     }
-
+        
+    public function editorParameters()
+    {        
+        $items = $this->decodeJsonContent($this->alBlock);
+        $item = $items[0];
+        $item['opened'] = $this->itemOpenedToBool($item);
+        
+        $file = $item['file'];        
+        $formClass = $this->container->get('file.form');
+        $form = $this->container->get('form.factory')->create($formClass, $item); 
+        
+        return array(
+            "template" => 'FileBundle:Editor:file_editor.html.twig',
+            "title" => "Files editor",
+            'form' => $form->createView(),
+        );
+    }
+    
     protected function replaceHtmlCmsActive()
+    {
+        $options = $this->getOptions();        
+        $options["max_length"] = 500;
+
+        return array('RenderView' => array(
+            'view' => 'FileBundle:Content:file.html.twig',
+            'options' => $options,
+        ));
+    }
+    
+    private function getOptions()
     {
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
+        $item['opened'] = $this->itemOpenedToBool($item);
         $file = $item['file'];
-        
-        $item['opened'] = array_key_exists('opened', $item) ? filter_var($item['opened'], FILTER_VALIDATE_BOOLEAN) : false; 
-        
+
         $options = ($item['opened'])
             ? 
                 array(
+                    'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
                     'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
                     'filename' => $file,
                 )
             :
                 array(
+                    'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
                     'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
                     'filename' => $file,
                     'filepath' => basename($file),
                 )
         ;
         
-        $formClass = $this->container->get('file.form');
-        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);        
-        $options = array_merge($options, array('form' => $buttonForm->createView()));
-        
-        return array('RenderView' => array(
-            'view' => 'FileBundle:Editor:fileblock_editor.html.twig',
-            'options' => $options,
-        ));
+        return $options;
+    }
+    
+    private function itemOpenedToBool($item)
+    {
+        return array_key_exists('opened', $item) ? filter_var($item['opened'], FILTER_VALIDATE_BOOLEAN) : false;
     }
 }

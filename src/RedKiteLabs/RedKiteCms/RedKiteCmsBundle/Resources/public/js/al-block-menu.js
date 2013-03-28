@@ -15,14 +15,13 @@
  */
 
 (function( $ ){
-    var stopBlocksMenu = false;
 
     var methods = {
         add: function() 
         {
             $(this).click(function()
             {
-                stopBlocksMenu = true;
+                $('body').blocksEditor('lockBlocksMenu');
                 var $this = $(this);
                 var position = $this.offset();
                 var top = position.top;
@@ -50,7 +49,8 @@
         {
             $(this).click(function()
             {
-                $($('#al_block_menu_toolbar').data('parent')).DeleteBlock(); 
+                var parent = $('#al_block_menu_toolbar').data('parent');
+                $(parent).DeleteBlock(); 
             
                 return false;
             });
@@ -59,10 +59,11 @@
         {
             this.each(function(){
                 $(this).click(function(){
-                    $($('#al_block_menu_toolbar').data('parent')).AddBlock($(this).attr('rel'), {'included': $('#al_block_menu_toolbar').data('parent').hasClass('al_included')}, function(){Holder.run();}); 
-
-                    stopBlocksMenu = false;
-                $('#al_blocks_list').hide();
+                    var parent = $('#al_block_menu_toolbar').data('parent');
+                    $(parent).AddBlock($(this).attr('rel'), {'included': parent.hasClass('al_included')}, function(){ Holder.run(); }); 
+                    $('#al_blocks_list').hide();
+                    $('body').blocksEditor('unlockBlocksMenu');
+                    
                     return false;
                 });
             });
@@ -71,7 +72,7 @@
         {
             $(this).click(function()
             {
-                stopBlocksMenu = false;
+                $('body').blocksEditor('unlockBlocksMenu');
 
                 $('#al_blocks_list').hide();
             });

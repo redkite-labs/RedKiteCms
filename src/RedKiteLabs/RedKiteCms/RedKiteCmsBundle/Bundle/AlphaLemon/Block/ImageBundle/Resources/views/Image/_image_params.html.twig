@@ -1,3 +1,5 @@
+{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+
 {% set data_src = "" %}
 {% if image.src is defined and image.src != "" %}
     {% set src = image.src %}
@@ -19,6 +21,3 @@
 {% else %}
     {% set title = "" %}
 {% endif %}
-
-{% block body %}
-{% endblock %}

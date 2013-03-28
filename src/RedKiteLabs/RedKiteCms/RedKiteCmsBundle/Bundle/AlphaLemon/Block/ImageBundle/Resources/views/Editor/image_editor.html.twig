@@ -1,5 +1,0 @@
-{% extends "ImageBundle:Image:_image_params.html.twig" %}
-
-{% block body %}
-<img data-title="Image editor" rel="popover" data-html="true" data-content='{% include "ImageBundle:Editor:_editor.html.twig" %}' class="al_inline_editable popover-zindex" {% if src != "" %}src="{{ src }}"{% endif %} {% if data_src != "" %}data-src="{{ data_src }}"{% endif %} title="{{ title }}" alt="{{ alt }}" />
-{% endblock %}

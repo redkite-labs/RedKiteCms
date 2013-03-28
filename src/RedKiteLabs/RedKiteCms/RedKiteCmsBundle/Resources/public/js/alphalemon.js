@@ -13,7 +13,7 @@
  * @license    GPL LICENSE Version 2.0
  *
  */
-
+ 
 (function( $ ){
     var stopBlocksMenu = false;
     
@@ -21,7 +21,7 @@
         start: function() 
         {
             $('body').addClass('cms_started');
-            startEditElement($(this));
+            doStartEdit($(this));
             
             return this;
         },
@@ -39,6 +39,10 @@
                         .unbind()
                     ;  
                 });
+                var activeInlineList = $('body').data('al-active-inline-list');
+                if (activeInlineList != null) {
+                    activeInlineList.inlinelist('stop');
+                }
 
                 cmsStartInternalJavascripts();
                 $('body').removeClass('cms_started');
@@ -50,7 +54,7 @@
         },
         startEditElement: function()
         {     
-            startEditElement($(this));
+            doStartEdit($(this));
                 
             return this;
         },
@@ -59,8 +63,28 @@
             stopEditElement($(this));
                 
             return this;
+        },
+        lockBlocksMenu: function()
+        {     
+            stopBlocksMenu = true;
+                
+            return this;
+        },
+        unlockBlocksMenu: function()
+        {     
+            stopBlocksMenu = false;
+                
+            return this;
         }
     };
+    
+    function doStartEdit(element)
+    {
+        startEditElement(element);
+            
+        // Starts the ditor for included blocks
+        startEditElement(element.find('[data-editor="enabled"]'));
+    }
     
     function startEditElement(element)
     {
@@ -86,7 +110,7 @@
             if (hasPopover) {
                 $this.popover(popoverOptions);
             }
-
+            
             hideContentsForEditMode($this);                
             $this
                 .unbind()
@@ -99,32 +123,41 @@
                     }
 
                     highlightElement($this);
-                    placeBottomRight($this);
+                    $('#al_block_menu_toolbar').position({
+                            my: "right top",
+                            at: "right bottom",
+                            of: $this
+                        })                      
+                        .data('parent', $this)
+                        .show()
+                    ;
 
                     $(this).css('cursor', 'pointer');
                 })
                 .click(function(event)
                 {   
-                    event.stopPropagation(); 
-                   
-                    var $this = $(this);
-                    if ($(document).find('.al-popover:visible').length > 0 && $this.attr('id') == 'block_' + $('body').data('idBlock')) {
+                    event.stopPropagation();
+                    
+                    var $this = $(this); 
+                    if ($(document).find('.al-popover:visible').length > 0 && $this.attr('data-name') == 'block_' + $('body').data('idBlock')) {
                         if (stopBlocksMenu) {
                             stopEditElement($this);
                             
-                            return;
+                            return false;
                         }
                     }
 
                     if(stopBlocksMenu) {
-                        return;
-                    }
+                        return false;
+                    }                    
                     stopBlocksMenu = true;
 
                     startEdit($this);
                     if (hasPopover) {
                         showPopover($this);
                     }
+                    
+                    return false;
                 })
             ;
 
@@ -170,22 +203,6 @@
         ;   
     }
     
-    function placeBottomRight(target)
-    {
-        var element = $('#al_block_menu_toolbar');
-        var position = target.offset();
-        var top = position.top + target.outerHeight();
-        var left = (position.left + target.outerWidth()) - element.width();
-                             
-        element
-            .css('position', 'absolute')
-            .css('top', top)
-            .css('left', left)  
-            .data('parent',target)
-            .show()
-        ;
-    }
-    
     function startEdit(element)
     {
         $('#al_block_menu_top')
@@ -207,13 +224,11 @@
             .addClass('on-editing')
             .removeClass('highlight')
         ;
-
-        var idBlock = element.attr('data-block-id');
-        var slotName = element.attr('data-slot-name');   
-
+        
         $('body')
-            .data('idBlock', idBlock)
-            .data('slotName', slotName)
+            .data('idBlock', element.attr('data-block-id'))
+            .data('slotName', element.attr('data-slot-name'))            
+            .data('included', element.attr('data-included'))
             .data('activeBlock', element)
         ;
         $('#al_block_menu_toolbar').hide();
@@ -283,7 +298,7 @@
             });
         });
         
-        $(document).trigger("popoverShow", [ element.attr('data-block-id'), $(this).attr('data-type') ]);
+        $(document).trigger("popoverShow", [ element ]);
     }
     
     function hideContentsForEditMode(element)
@@ -328,7 +343,7 @@ $(document).ready(function(){
     {   
         $('#al_cms_contents').click(function(){
             var block = $('body').data('activeBlock');
-            if (block.attr('rel') == 'popover') {
+            if (block == null || block.attr('rel') == 'popover') {
                 return;
             }
             

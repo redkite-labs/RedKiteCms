@@ -21,49 +21,10 @@
     var methods = {
         start: function() 
         {
-            var $this = $(this); 
-            $this.find(settings.target).each(function(){
-                var $this = $(this);
-                if ($this.hasClass('al-empty')) {
-                    return;
-                }
-                
-                var removeButton = document.createElement("div");
-                $(removeButton)
-                    .addClass("al-delete-item-list")
-                    .attr('data-item', $this.attr('data-item'))
-                    .attr('data-key', $this.attr('data-key'))
-                    .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
-                    .appendTo($this) 
-                ;
-                             
-                $(removeButton).PlaceTopRight($this).PlaceTopRight($this);
-            });
+            var $this = $(this);
+            initList($this);
             
-            $this.append('<li class="al-add-item-list"><a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a></li>');
-            
-            $('.al-add-item-list').click(function(){
-                if (settings.addValue == null) {
-                    alert('Any value specified');
-                    return;
-                }
-                
-                $('body').EditBlock("Content", settings.addValue, null, function(activeBlock)
-                {
-                    activeBlock.StopEditBlock().find('[data-editor="enabled"]').blocksEditor('start');   
-                    Holder.run();
-                });            
-            });
-            
-            $('.al-delete-item-list').click(function(){
-                if (confirm('Are you sure to remove the active block')) {
-                    $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "key": "' + $(this).attr('data-key') + '"}', null, function(activeBlock)
-                    {
-                        activeBlock.StopEditBlock().find('[data-editor="enabled"]').blocksEditor('start');
-                        Holder.run();
-                    });
-                }
-            });
+            $('body').data('al-active-inline-list', $this);
             
             return this;
         },    
@@ -71,16 +32,117 @@
         {
             $('.al-add-item-list').unbind().remove();        
             $('.al-delete-item-list').unbind().remove();
+            $('body').data('al-active-inline-list', null);
             
             return this;
         }
     };
     
+    function initList(element)
+    {
+        var last;
+        element.find(settings.target).each(function(){
+            var $this = $(this);
+            if ($this.hasClass('al-empty')) {
+                return;
+            }
+            
+            var removeButton = document.createElement("div");
+            $(removeButton)
+                .addClass("al-delete-item-list")
+                .attr('data-item', $this.attr('data-item'))
+                .attr('data-slot-name', $this.attr('data-slot-name'))
+                .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
+                .css('width', '24px')
+                .css('position', 'absolute')                
+                .css('z-index', '999999999')
+                .appendTo(element) 
+            ;
+            
+            $(removeButton).position({
+                    my: "right-5 top",
+                    at: "right bottom",
+                    of: $this
+                })     
+                .show()
+            ;
+            
+            last = $this;
+        });
+        
+        element.append('<div class="al-add-item-list"><a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a></div>');
+        
+        $('.al-add-item-list')
+            .css('position', 'absolute')                  
+            .css('z-index', '999999999')
+            .position({
+                my: "left top",
+                at: "right+10 top",
+                of: last
+            })    
+        ;
+        
+        
+        if (settings.addValue == null) {
+            
+            // Adds an included block
+            $('.al-add-item-list').blocksMenu('add');
+            $('.al_block_adder').unbind().each(function(){
+                $(this).click(function(){
+                    var value = '{"operation": "add", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
+                    $('body').EditBlock("Content", value, null, function(activeBlock)
+                    {
+                        activeBlock
+                            .blocksEditor('stopEditElement')
+                            .find('[data-editor="enabled"]')
+                            .blocksEditor('startEditElement')
+                        ;   
+                        Holder.run();
+                    }); 
+                                     
+                    stopBlocksMenu = false;
+                    $('#al_blocks_list').hide();
+                    
+                    return false;
+                });
+            });
+        }
+        else {
+        
+            // Adds a custom value
+            $('.al-add-item-list').click(function() {                    
+                $('body').EditBlock("Content", settings.addValue, null, function(activeBlock)
+                {
+                    activeBlock
+                        .blocksEditor('stopEditElement')
+                        .find('[data-editor="enabled"]')
+                        .blocksEditor('startEditElement')
+                    ;   
+                    Holder.run();
+                });            
+            });
+        }
+        
+        $('.al-delete-item-list').click(function(){
+            if (confirm('Are you sure to remove the active block')) {
+                $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "slotName": "' + $(this).attr('data-slot-name') + '"}', null, function(activeBlock)
+                {
+                    activeBlock
+                        .blocksEditor('stopEditElement')
+                        .find('[data-editor="enabled"]')
+                        .blocksEditor('startEditElement')
+                    ;
+                    Holder.run();
+                });
+            }
+        });
+    }
+    
     $.fn.inlinelist = function( method, options ) {    
     
         settings = $.extend( {
-          'target'         : 'li',
-          'addValue'       : null
+          target         : 'li',
+          addValue       : null
         }, options);
     
         if ( methods[method] ) {
@@ -92,58 +154,3 @@
         }   
     };
 })($);
-
-/*
-(function($){
-    $.fn.StartListEditing =function()
-    {
-        var $this = $(this);
-        $this.find('li').each(function(){
-            var $this = $(this);
-            if ($this.hasClass('al-empty')) {
-                return;
-            }
-            
-            var removeButton = document.createElement("div");
-            $(removeButton)
-                .addClass("al-delete-item-list")
-                .attr('data-item', $this.attr('data-item'))
-                .attr('data-key', $this.attr('data-key'))
-                .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
-                .appendTo($this) 
-            ;
-                         
-            $(removeButton).PlaceTopRight($this).PlaceTopRight($this);
-        });
-        
-        $this.append('<li class="al-add-item-list"><a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a></li>');
-        
-        $('.al-add-item-list').click(function(){
-            $('body').EditBlock("Content", '{"operation": "add", "value": { "width": "span3" }}', null, function(activeBlock)
-            {
-                activeBlock.StopEditBlock().find('.al_editable').StartToEdit();   
-                Holder.run();
-            });            
-        });
-        
-        $('.al-delete-item-list').click(function(){
-            if (confirm('Are you sure to remove the active block')) {
-                $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "key": "' + $(this).attr('data-key') + '"}', null, function(activeBlock)
-                {
-                    activeBlock.StopEditBlock().find('.al_editable').StartToEdit();
-                    Holder.run();
-                });
-            }
-        });
-        
-        return this;
-    };
-    
-    $.fn.StopListEditing =function()
-    {
-        $('.al-add-item-list').unbind().remove();        
-        $('.al-delete-item-list').unbind().remove();
-        
-        return this;
-    };
-})($);*/

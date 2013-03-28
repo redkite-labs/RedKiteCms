@@ -12,6 +12,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJs
  */
 class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
 {
+    protected $blockTemplate = 'ImageBundle:Image:image.html.twig';  
+    protected $editorTemplate = 'ImageBundle:Editor:_editor.html.twig';
+     
     public function getDefaultValue()
     {
         $value = 
@@ -34,7 +37,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         
         return array('RenderView' => array(
-            'view' => 'ImageBundle:Image:image.html.twig',
+            'view' => $this->blockTemplate,
             'options' => array(
                 'image' => $items[0],
             ),
@@ -47,29 +50,12 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
         $item = $items[0];
         
         $formClass = $this->container->get('image.form');
-        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);
+        $form = $this->container->get('form.factory')->create($formClass, $item);
         
         return array(
-            "template" => "ImageBundle:Editor:_editor.html.twig",
+            "template" => $this->editorTemplate,
             "title" => "Image editor",
-            "form" => $buttonForm->createView(),
+            "form" => $form->createView(),
         );
     }
-    /*
-    protected function replaceHtmlCmsActive()
-    {
-        $items = $this->decodeJsonContent($this->alBlock->getContent());
-        $item = $items[0];
-        
-        $formClass = $this->container->get('image.form');
-        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);
-        
-        return array('RenderView' => array(
-            'view' => 'ImageBundle:Editor:image_editor.html.twig',
-            'options' => array(
-                'image' => $item, 
-                'form' => $buttonForm->createView(),
-            ),
-        ));
-    }*/
 }
