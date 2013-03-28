@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $(document).on("popoverShow", function(event, idBlock, blockType){
-        if (blockType != 'Script') {
+    $(document).on("popoverShow", function(event, element){
+        if (element.attr('data-type') != 'Script') {
             return;
         }
         

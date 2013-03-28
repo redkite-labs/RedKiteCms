@@ -1,0 +1,11 @@
+{% if contents_hidden_script != "" or internal_javascript != "" %}
+<script type="text/javascript">
+    {% spaceless %}
+    $(document).ready(function()
+    {
+        {{ contents_hidden_script|raw }}
+        {{ internal_javascript|raw }}
+    });
+    {% endspaceless %}
+</script>
+{% endif %}

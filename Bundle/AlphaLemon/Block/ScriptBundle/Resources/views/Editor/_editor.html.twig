@@ -1,1 +1,50 @@
-{% extends 'AlphaLemonCmsBundle:Block:base_editor.html.twig' %}
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#al-editor-tab-1" data-toggle="tab">Html Code</a></li>
+    <li><a href="#al-editor-tab-2" data-toggle="tab">Internal Javascript</a></li>
+    <li><a href="#al-editor-tab-3" data-toggle="tab">External Javascripts</a></li>
+    <li><a href="#al-editor-tab-4" data-toggle="tab">Internal Stylesheet</a></li>
+    <li><a href="#al-editor-tab-5" data-toggle="tab">External Stylesheets</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="al-editor-tab-1" class="tab-pane active">
+        <div>
+            <textarea id="al_html_editor" name="al_html_editor" class="editor-textarea">{{ editor.blockManager.get.Content }}</textarea>
+        </div>
+        <div>
+            <input id="al_html_saver" type="submit" value = "Save" class="btn btn-primary" />
+        </div>
+    </div>
+    
+    <div id="al-editor-tab-2" class="tab-pane">
+        <div class="editor-contents">
+            <textarea id="al_internal_javascript" class="editor-textarea">{{ editor.blockManager.getInternalJavascript(false) }}</textarea>
+        </div>
+        <div class="editor-commands">
+            <input id="al_internal_javascript_saver" type="submit" value = "Save" class="btn btn-primary" />
+        </div>
+    </div>
+
+    <div id="al-editor-tab-3" class="tab-pane">
+        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Javascript', 'value' : editor.blockManager.get.getExternalJavascript, 'files' : editor.jsFiles } %}            
+    </div>
+
+    <div id="al-editor-tab-4" class="tab-pane">
+        <div class="editor-contents">
+            <textarea id="al_internal_stylesheet" class="editor-textarea">{{ editor.blockManager.getInternalStylesheet }}</textarea>
+        </div>
+        <div class="editor-commands">
+            <input id="al_internal_stylesheet_saver" type="submit" value = "Save" class="btn btn-primary" />
+        </div>
+    </div>
+
+    <div id="al-editor-tab-5" class="tab-pane">
+        {% include 'AlphaLemonCmsBundle:Block:external_files_editor.html.twig' with {'section' : 'Stylesheet', 'value' : editor.blockManager.get.getExternalStylesheet, 'files' : editor.cssFiles } %}
+    </div>
+</div>
+
+{% if editor.blockManager.getReloadSuggested  %}
+<div class="text-error" style="margin-top: 10px">
+    <strong>Warning: After adding or editing this kind of block, a page reload might be required, to properly display it</strong>
+</div>
+{% endif %}

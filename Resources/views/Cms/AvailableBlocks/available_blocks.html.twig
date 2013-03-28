@@ -1,10 +1,10 @@
 <div id="al_blocks_list">
     <div class="column pull-left">
-    {% set number_of_items = 10 %}
+    {% set number_of_items = 11 %}
     {% set counter = 0 %}
     {% for block_name, block_value in blocks %}
         <ul>
-        {% if block_value|keys  %}
+        {% if block_value|keys  %} 
             {% if counter == number_of_items - 1 %}
                 </ul>
                 </div>
@@ -17,7 +17,7 @@
             {% set counter = counter + 1 %}
             {% for block_type, value in block_value %}
 
-            {% if counter == number_of_items %}
+            {% if counter == number_of_items %} 
                 </ul>
                 </div>
                 <div class="column pull-left">

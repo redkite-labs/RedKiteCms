@@ -12,13 +12,8 @@ class AlImageType extends JsonBlockType
         parent::buildForm($builder, $options);
         
         $builder->add('src');
+        $builder->add('data_src', 'hidden');
         $builder->add('title');
         $builder->add('alt');
     }
-    
-    /*
-    public function getName()
-    {
-        return 'image';
-    }*/
 }

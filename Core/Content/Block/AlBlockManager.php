@@ -172,13 +172,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
     
     /**
-     * Edits the block using an inline editor
+     * Defines the parameters passed to the block's editor
      * 
-     * @return boolean
+     * @return array
      */
-    protected function editInline()
+    public function editorParameters()
     {
-        return false;
+        return array();
     }
 
     /**
@@ -243,8 +243,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 'block' => $this->alBlock,
             ),
         ));
-        
-        //return (null !== $this->alBlock) ? $this->alBlock->getContent() : "";
     }
     
     /**
@@ -458,6 +456,16 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["Block"] = $this->alBlock->toArray();
         
         return $blockManager;
+    }
+    
+    /**
+     * Edits the block using an inline editor
+     * 
+     * @return boolean
+     */
+    protected function editInline()
+    {
+        return false;
     }
 
     /**
