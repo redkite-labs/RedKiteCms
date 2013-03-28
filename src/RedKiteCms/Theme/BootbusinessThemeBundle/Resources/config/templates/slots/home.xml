@@ -40,7 +40,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             <argument type="string">content_body_1</argument>
             <argument type="collection" >
                 <argument key="repeated">page</argument>
-                <argument key="blockType">BootstrapThumbnailBlock</argument>
+                <argument key="blockType">BootstrapThumbnailsBlock</argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>
@@ -58,7 +58,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             <argument type="string">content_body_2</argument>
             <argument type="collection" >
                 <argument key="repeated">page</argument>
-                <argument key="blockType">BootstrapThumbnailBlock</argument>
+                <argument key="blockType">BootstrapThumbnailsBlock</argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>

@@ -4,23 +4,11 @@
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="bootbusiness_theme.theme.template.base.slots.logo1" class="%alpha_lemon_theme_engine.slot.class%">
-            <argument type="string">logo1</argument>
+        <service id="bootbusiness_theme.theme.template.base.slots.navbar" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">navbar</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
-                <argument key="htmlContent">
-                    <![CDATA[<a href="index.html" class="brand brand-bootbus">Bootbusiness</a>]]>
-                </argument>
-            </argument>
-            <tag name="bootbusiness_theme.theme.template.base.slots" />
-        </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.main_menu" class="%alpha_lemon_theme_engine.slot.class%">
-            <argument type="string">main_menu</argument>
-            <argument type="collection" >
-                <argument key="repeated">language</argument>
-                <argument key="htmlContent">
-                    <![CDATA[<ul class="nav pull-right"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Products and Services<b class="caret"></b></a><ul class="dropdown-menu"><li class="nav-header">PRODUCTS</li><li><a href="product.html">Product1</a></li><li><a href="product.html">Product2</a></li><li><a href="product.html">Product3</a></li><li><a href="all_products.html">All products</a></li><li class="divider"></li><li class="nav-header">SERVICES</li><li><a href="service.html">Service1</a></li><li><a href="service.html">Service2</a></li><li><a href="service.html">Service3</a></li><li><a href="all_services.html">All services</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a><ul class="dropdown-menu"><li><a href="our_works.html">Our works</a></li><li><a href="patnerships.html">Parnerships</a></li><li><a href="leadership.html">Leadership</a></li><li><a href="news.html">News</a></li><li><a href="events.html">Events</a></li><li><a href="blog.html">Blog</a></li></ul></li><li><a href="faq.html">FAQ</a></li><li><a href="contact_us.html">Contact us</a></li><li><a href="signup.html">Sign up</a></li><li><a href="signin.html">Sign in</a></li></ul>]]>
-                </argument>
+                <argument key="blockType">BootstrapNavbarBlock</argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>

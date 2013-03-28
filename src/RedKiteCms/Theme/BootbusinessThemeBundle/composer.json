@@ -22,7 +22,8 @@
     "alphalemon/app-bootstrap-button-bundle": "dev-master",
     "alphalemon/app-bootstrap-label-bundle": "dev-master",
     "alphalemon/app-bootstrap-slider-bundle": "dev-master",
-    "alphalemon/app-bootstrap-thumbnail-bundle": "dev-master"
+    "alphalemon/app-bootstrap-thumbnail-bundle": "dev-master",
+    "alphalemon/app-bootstrap-navbar-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": { "AlphaLemon\\Theme\\BootbusinessThemeBundle": ""
