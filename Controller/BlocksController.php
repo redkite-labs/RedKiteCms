@@ -194,11 +194,14 @@ class BlocksController extends Base\BaseController
             }
 
             if (null === $response) {
+            
+                $template = ($request->get('included')) ? 'AlphaLemonCmsBundle:Cms:render_included_block.html.twig' :  'AlphaLemonCmsBundle:Cms:render_block.html.twig';
+            
                 $values = array(
                     array("key" => "message", "value" => "The content has been successfully edited"),
                     array("key" => "edit-block",
                           "blockName" => "block_" . $blockManager->get()->getId(),
-                          "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("blockManager" => $blockManager))));
+                          "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager))));
 
                 $response = $this->buildJSonResponse($values);
             }

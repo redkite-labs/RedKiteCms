@@ -31,7 +31,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
     /**
      * Overrides the base renderSlot method
      */
-    public function renderSlot($slotName = null)
+    public function renderSlot($slotName = null, $extraAttributes = "")
     {
         $this->checkSlotName($slotName);
 
@@ -41,15 +41,13 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
             $blockManagers = $pageTree->getBlockManagers($slotName);
 
-            //$isFirst = true;
             foreach ($blockManagers as $blockManager) {
                 if (null === $blockManager) continue;
 
-                $slotContents[] = $this->renderBlock($blockManager); // ($isFirst) ? $this->renderBlock($blockManager, true, null) : sprintf('<div>%s</div>', $this->renderBlock($blockManager, true, null));
-                //$isFirst = false;
+                $slotContents[] = $this->renderBlock($blockManager, null, false, $extraAttributes);
             }
 
-            if (count($slotContents) == 0 && $pageTree->isCmsMode()) { //class="al_editable {id: \'0\', slotName: \'%s\'}"
+            if (count($slotContents) == 0 && $pageTree->isCmsMode()) {
                 $slotContents[] = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
             }
 
@@ -71,7 +69,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function renderBlock(AlBlockManager $blockManager, $template = null)
+    public function renderBlock(AlBlockManager $blockManager, $template = null, $included = false, $extraAttributes = '', $t = 0)
     {
         try {
             $block = $blockManager->toArray();
@@ -103,22 +101,22 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 $template = '_block.html.twig';
             }
             
-            preg_match('/data\-editor="enabled"/s', $content, $matches);
-            if ( ! empty($matches)) {
+            if (preg_match('/data\-editor="true"/s', $content)) { 
                 $cmsAttributes = $templating->render('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', array(
                     'block_id' => $block['Block']["Id"],
                     'hide_in_edit_mode' => $hideInEditMode,
                     'slot_name' => $slotName,
                     'type' => $block['Block']['Type'],
-                    'editor_width' => $block['EditorWidth'],
                     'content' => $content,
                     'contents_hidden_script' => $scriptToHideContents,
                     'internal_javascript' => $internalJavascript,
                     'edit_inline' => $block['EditInline'],
                     'editor' => $blockManager->editorParameters(),
+                    'extra_attributes' => $extraAttributes,
+                    'included' => $included,
                 ));
                 
-                $content = preg_replace('/data\-editor="enabled"/', $cmsAttributes . ' data-editor="enabled"', $content);
+                $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
             }
             
             return $templating->render('AlphaLemonCmsBundle:Slot:' . $template, array(
@@ -178,7 +176,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         );
     }
     
-    public function renderIncludedBlock($key, $parent = null, $type = "Text", $addWhenEmpty = false)
+    public function renderIncludedBlock($key, $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $extraAttributes = "")
     {
         $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
@@ -190,7 +188,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $blockManager = $blockManagerFactory->createBlockManager($alBlock->getType());
             $blockManager->set($alBlock);
             
-            $content = $this->renderBlock($blockManager, '_included_block.html.twig');
+            $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, 1);
         } else {
             if (true === $addWhenEmpty) {
                 $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
@@ -204,88 +202,19 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                   "ContentPosition" => 1,
                   'CreatedAt'       => date("Y-m-d H:i:s")
                 );            
+                
+                if ( ! empty($defaultContent)) {
+                    $values["Content"] = $defaultContent;
+                }
+                
                 $blockManager->save($values);
-                $content = $this->renderBlock($blockManager, '_included_block.html.twig');
+                $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, 1);
             }
             else {
-                $content = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s">%s</div>', $key, 'This slot has any content inside. Use the contextual menu to add a new one');
+                $content = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" data-included="1">%s</div>', $key, 'This slot has any content inside. Use the contextual menu to add a new one');
             }
         }
         
-        return $content; //sprintf('<div class="al_%s">%s</div>', $key, $content);
+        return $content;
     }
-
-    /**
-     * Renders the slot
-     *
-     * @param array $block
-     * @param boolean $add
-     * @return string
-     * @throws Exception
-     
-    protected function doRender(array $block = array(), $add = false, $template = null, $blockManager = null)
-    {
-        try {
-            if (empty($block)) {
-                return "";
-            }
-            
-            $templating = $this->container->get('templating');
-            $slotName = $block["Block"]["SlotName"];
-            $content = $this->blockContentToHtml($block['Content']);
-            
-            /* TODO???
-            if (strpos($content, '<script') !== false) {
-                $content = "A script content is not rendered in editor mode";
-            }*
-
-            if (null === $block['Block']["Id"]) {
-                return $templating->render('AlphaLemonCmsBundle:Slot:map_slot.html.twig', array(
-                    'slot_name' => $slotName,
-                    'content' => $content,
-                ));
-            }
-            
-            $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-            $scriptToHideContents = ($hideInEditMode != '') ? sprintf("$('#block_%s').data('block', '%s');", $block['Block']["Id"], rawurlencode($content)) : '';
-            $internalJavascript = (string)$block["InternalJavascript"];
-            $internalJavascript = ($internalJavascript != "" && (bool)$block["ExecuteInternalJavascript"]) ? $internalJavascript : '';
-            if (null === $template) {
-                $template = ($add) ? 'editable_block.html.twig' : '_block.html.twig';
-            }
-            
-            preg_match('/data\-editor="enabled"/s', $content, $matches);
-            if ( ! empty($matches)) {
-                //print_r($matches);
-                $cmsAttributes = $templating->render('AlphaLemonCmsBundle:Slot:_included_block_attributes.html.twig', array(
-                    'block_id' => $block['Block']["Id"],
-                    'hide_in_edit_mode' => $hideInEditMode,
-                    'slot_name' => $slotName,
-                    'type' => $block['Block']['Type'],
-                    'editor_width' => $block['EditorWidth'],
-                    'content' => $content,
-                    'contents_hidden_script' => $scriptToHideContents,
-                    'internal_javascript' => $internalJavascript,
-                    'edit_inline' => $block['EditInline'],
-                    'editor' => $blockManager->editorParameters(),
-                ));
-                //echo "A".htmlentities (preg_replace('/data\-editor="enabled"/s', $cmsAttributes, $content))."B"; return;
-                return preg_replace('/data\-editor="enabled"/', $cmsAttributes . ' data-editor="enabled"', $content);
-            }
-            
-            return $templating->render('AlphaLemonCmsBundle:Slot:' . $template, array(
-                'block_id' => $block['Block']["Id"],
-                'hide_in_edit_mode' => $hideInEditMode,
-                'slot_name' => $slotName,
-                'type' => $block['Block']['Type'],
-                'editor_width' => $block['EditorWidth'],
-                'content' => $content,
-                'contents_hidden_script' => $scriptToHideContents,
-                'internal_javascript' => $internalJavascript,
-                'edit_inline' => $block['EditInline']
-            ));
-        } catch (\Exception $ex) {
-            throw $ex;
-        }
-    }*/
 }

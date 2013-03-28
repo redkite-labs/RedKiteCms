@@ -1,5 +1,7 @@
 {% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
 
 {% block body %}
-<a href="{{ link.href }}" {{ editor|raw }}>{{ link.value }}</a>
+<div {{ editor|raw }}>
+{% include 'AlphaLemonCmsBundle:Block:base_block.html.twig' %}
+</div>
 {% endblock %}

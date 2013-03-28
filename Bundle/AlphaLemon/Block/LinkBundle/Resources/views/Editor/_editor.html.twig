@@ -6,7 +6,7 @@
             <td>{{ form_label(form.href, "Href") }}</td>
             <td>
                 <select id="al_page_name" class="input-mini">
-                    {% for page in pages %}
+                    {% for page in editor.pages %}
                     <option value="{{ page }}">{{ page }}</option>
                     {% endfor %}
                 </select>

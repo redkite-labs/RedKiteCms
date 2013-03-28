@@ -31,30 +31,28 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     public function getHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
+        $link = $items[0];
         
         return array('RenderView' => array(
             'view' => 'LinkBundle:Content:link.html.twig',
-            'options' => array('data' => $items[0]),
+            'options' => array('link' => $link),
         ));
     }
     
-    protected function replaceHtmlCmsActive()
+    public function editorParameters()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
         
         $formClass = $this->container->get('bootstrap_link.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
-        
         $pagesRepository = $this->container->get('alpha_lemon_cms.factory_repository')->createRepository('Page');
-                
-        return array('RenderView' => array(
-            'view' => 'LinkBundle:Editor:link_editor.html.twig',
-            'options' => array(
-                'link' => $item, 
-                'form' => $form->createView(),
-                'pages' => ChoiceValues::getPages($pagesRepository),
-            ),
-        ));
+        
+        return array(
+            "template" => "LinkBundle:Editor:_editor.html.twig",
+            "title" => "Link editor",
+            "form" => $form->createView(),
+            'pages' => ChoiceValues::getPages($pagesRepository),
+        );
     }
 }

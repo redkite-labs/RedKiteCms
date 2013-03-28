@@ -1,11 +1,6 @@
-id="block_{{ block_id }}" {% if edit_inline %}contenteditable="true"{% endif %}  data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-hide-when.edit="false" 
+{% if edit_inline %}contenteditable="true"{% endif %} data-name="block_{{ block_id }}" data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-included="{{ included }}" data-hide-when.edit="false" {{ extra_attributes }}
+
 {% if editor|length > 0 %}
-data-title="{{ editor.title }}" rel="popover" data-html="true" data-content='{% include editor.template with { 'form' : editor.form } %}' 
+{% set form = editor.form is defined ? editor.form : "" %}
+data-title="{{ editor.title }}" rel="popover" data-html="true" data-content='{% include editor.template %}' 
 {% endif %}
-
-
-{# if editor|length > 0 %}
-id="block_{{ block_id }}" {% if edit_inline %}contenteditable="true"{% endif %} data-title="{{ editor.title }}" rel="popover" data-html="true" data-content='{% include editor.template with { 'form' : editor.form } %}' data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-hide-when.edit="false" {#class="{{ hide_in_edit_mode }}"#}
-{# else %}
-id="block_{{ block_id }}" {% if edit_inline %}contenteditable="true"{% endif %}  data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-hide-when.edit="false" 
-{% endif #}

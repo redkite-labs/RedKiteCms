@@ -243,8 +243,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 'block' => $this->alBlock,
             ),
         ));
-        
-        //return (null !== $this->alBlock) ? $this->alBlock->getContent() : "";
     }
     
     /**

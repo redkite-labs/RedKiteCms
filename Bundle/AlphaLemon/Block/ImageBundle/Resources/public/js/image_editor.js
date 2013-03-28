@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $(document).on("popoverShow", function(event, idBlock, blockType){
-        if (blockType != 'Image') {
+    $(document).on("popoverShow", function(event, element){
+        if (element.attr('data-type') != 'Image') {
             return;
         }
     
@@ -19,7 +19,7 @@ $(document).ready(function() {
                         var image = '/' + $('#al_assets_path').val() + '/' + file.path;
                         $('#al_json_block_src').val(image);
                         
-                        alert('Image has been added');
+                        $('body').showAlert('Image has been selected');
                     }
             }).dialogelfinder('instance');
         });

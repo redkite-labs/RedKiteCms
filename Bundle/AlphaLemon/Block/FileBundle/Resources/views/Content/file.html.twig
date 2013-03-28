@@ -1,11 +1,17 @@
+{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+
+{% block body %}
 {% if filepath is defined %}
-<a href="/{{ folder }}/{{ filepath }}">{{ filename }}</a>
+<a href="/{{ folder }}/{{ filepath }}" {{ editor|raw }}>{{ filename }}</a>
 {% else %}
 
 {% if max_length is not defined %}
 {% set max_length = null %}
 {% endif %}
 
-{% set file = kernel_root_dir ~ '/../web/' ~ folder ~ '/' ~ filename %} 
+{% set file = kernel_root_dir ~ '/../' ~ webfolder ~ '/' ~ folder ~ '/' ~ filename %} 
+<div {{ editor|raw }}>
 {{ file_open(file, max_length) }}
+</div>
 {% endif %}
+{% endblock %}
