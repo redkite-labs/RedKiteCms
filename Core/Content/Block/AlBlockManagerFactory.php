@@ -147,8 +147,12 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     public function getAvailableBlocks()
     {
         $blockManagers = array();
-        foreach ($this->blockManagersItems as $blockManager) {
-            $blockManagers[] = $blockManager->getType();
+        foreach ($this->blockManagersItems as $blockManagerItem) {
+            if ($blockManagerItem->getBlockManager()->getIsInternalBlock()) {
+                continue;
+            }
+            
+            $blockManagers[] = $blockManagerItem->getType();
         }
         
         return $blockManagers;
@@ -165,15 +169,20 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     public function getBlocks()
     {
         $blockGroups = array(); 
-        foreach ($this->blockManagersItems as $blockManager) {
-            $group = $blockManager->getGroup();
+        foreach ($this->blockManagersItems as $blockManagerItem) {
+            
+            if ($blockManagerItem->getBlockManager()->getIsInternalBlock()) {
+                continue;
+            }
+            
+            $group = $blockManagerItem->getGroup();
             if ($group != "") {
                 $groups = explode(",", $group);
             } else {
                 $groups = array('none');
             }
             
-            $blockGroup = array($blockManager->getType() => $blockManager->getDescription());
+            $blockGroup = array($blockManagerItem->getType() => $blockManagerItem->getDescription());
             foreach (array_reverse($groups) as $key) {
                $blockGroup = array(trim($key) => $blockGroup);
             }
