@@ -5,14 +5,29 @@
 
 namespace AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block;
 
-use AlphaLemon\Block\BootstrapThumbnailBlockBundle\Core\Block\AlBlockManagerBootstrapThumbnailBlock;
+use AlphaLemon\Block\BootstrapThumbnailBlockBundle\Core\Block\AlBlockManagerBootstrapThumbnailsBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
 
 /**
  * Description of AlBlockManagerBootbusinessProductBlock
  */
-class AlBlockManagerBootbusinessProductBlock extends AlBlockManagerBootstrapThumbnailBlock
+class AlBlockManagerBootbusinessProductBlock extends AlBlockManagerBootstrapThumbnailsBlock
 {
+    public function getDefaultValue()
+    {        
+        $value = '
+            {
+                "0" : {
+                    "type": "BootbusinessProductThumbnailBlock"
+                },
+                "1" : {
+                    "type": "BootbusinessProductThumbnailBlock"
+                }
+            }';
+        
+        return array('Content' => $value);
+    }
+    
     public function getHtml()
     {
         $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());

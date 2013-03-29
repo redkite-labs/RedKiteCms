@@ -3,24 +3,25 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="bootbusinessproductblock.editor_settings" type="collection">
-            <parameter key="rich_editor">true</parameter>
+    <parameters>    
+        <parameter key="bootbusinessproductblock.external_javascripts.cms" type="collection">
+            <parameter>@BootbusinessProductBlockBundle/Resources/public/js/bootbusiness_product.js</parameter>
         </parameter>
-
-        <parameter key="bootbusiness_product_block.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessProductBlock</parameter>
-        <parameter key="bootbusiness_product_block_rendering.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Listener\ProductBlockEditorListener</parameter>
+        
+        <parameter key="bootbusiness_product.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessProductBlock</parameter>
+        <parameter key="bootbusiness_product_thumbnail.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessProductThumbnailBlock</parameter>
         <parameter key="bootbusinessproductblock.form.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Form\AlButtonType</parameter>
     </parameters>
 
     <services>
-        <service id="bootbusiness_product_block.block" class="%bootbusiness_product_block.block.class%">
+        <service id="bootbusiness_product.block" class="%bootbusiness_product.block.class%">
             <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Product" type="BootbusinessProductBlock" group="Bootbusiness,Bootbusiness product" />
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="bootbusiness_product_block_rendering" class="%bootbusiness_product_block_rendering.class%">
-            <tag name="alcms.event_listener" event="actions.block_editor_rendering" method="onBlockEditorRendering" priority="0" />
+        <service id="bootbusiness_product_thumbnail.block" class="%bootbusiness_product_thumbnail.block.class%">
+            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Product Thumbnail" type="BootbusinessProductThumbnailBlock" group="Bootbusiness,Bootbusiness product" />
+            <argument type="service" id="service_container" />
         </service>
         
         <service id="bootbusinessproductblock.form" class="%bootbusinessproductblock.form.class%">
