@@ -182,6 +182,19 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
+     * Defines when a block is internal, so it must not be available in the add blocks 
+     * menu
+     *
+     * @return boolean
+     * 
+     * @api
+     */
+    public function getIsInternalBlock()
+    {
+        return false;
+    }
+
+    /**
      * Defines when a content is rendered or not in edit mode.
      *
      * By default the content is rendered when the edit mode is active. To hide the content, simply override
