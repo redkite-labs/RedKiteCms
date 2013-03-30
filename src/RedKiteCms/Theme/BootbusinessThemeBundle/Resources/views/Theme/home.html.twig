@@ -1,16 +1,25 @@
 {% extends 'BootbusinessThemeBundle:Theme:base/base.html.twig' %}
 
+{% block external_stylesheets %}
+    {% stylesheets  filter='?yui_css,cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css' 
+                                                 'components/alphalemoncms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+    %}        
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+    {% endstylesheets %}
+{% endblock %}
 
-{% block extra_external_stylesheets %}
-    {{ parent() }}
-    {#<link href="/bundles/bootbusinesstheme/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/bundles/bootbusinesstheme/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" media="all" />#}
+{% block post_external_stylesheets %}
     <link href="/bundles/bootbusinesstheme/css/font-awesome.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/bundles/bootbusinesstheme/css/font-awesome-ie7.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/bundles/bootbusinesstheme/css/boot-business.css" rel="stylesheet" type="text/css" media="all" />
-    {# stylesheets  filter='?yui_css css_rewrite' '/bundles/bootbusinesstheme/css/boot-business.css' %}
-         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
-    {% endstylesheets #}
+{% endblock %}
+
+{% block external_javascripts %}
+    {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js' 
+                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js' 
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 {% block contents %}
@@ -133,7 +142,7 @@
             {# BEGIN-SLOT
                 name: content_body_1
                 repeated: page
-                blockType: BootstrapThumbnailsBlock
+                blockType: BootbusinessProductBlock
             END-SLOT #}
             {{ renderSlot('content_body_1') }}
         {% endblock %}
@@ -155,7 +164,7 @@
                 name: content_body_2
                 repeated: page
                 
-                blockType: BootstrapThumbnailsBlock
+                blockType: BootbusinessProductBlock
             END-SLOT #}
             {{ renderSlot('content_body_2') }}   
         {% endblock %}     

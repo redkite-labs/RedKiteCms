@@ -1,14 +1,15 @@
 {% extends base_template %}
 
 {% block body %}
-<!-- Start: HEADER -->
 <header>
+{% block navbar %}
 {# BEGIN-SLOT
     name: navbar
     repeated: site
     blockType: BootstrapNavbarBlock
 END-SLOT #}
 {{ renderSlot('navbar') }}
+{% endblock %} 
 </header>
 {% block contents %}
 {% endblock %}
