@@ -31,9 +31,14 @@ class FileExtension extends \Twig_Extension
         );
     }
 
-    public function openFile($file)
+    public function openFile($file, $maxLength = null)
     {
-        return file_get_contents($file);
+        $contents = file_get_contents($file);
+        if (null !== $maxLength) {
+            $contents = substr($contents, 0, $maxLength) . ' ...<br /><span class="label label-info">AlphaLemon CMS: File content truncated</span>';
+        }
+        
+        return $contents;
     }
 
     public function getName()
