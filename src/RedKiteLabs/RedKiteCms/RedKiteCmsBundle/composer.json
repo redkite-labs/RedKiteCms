@@ -29,7 +29,7 @@
     "php": ">=5.3.3",
     "imagine/Imagine": ">=0.4.1",
     "propel/propel-bundle": "1.1.7",
-    "propel/propel1": "dev-master",
+    "propel/propel1": "1.6.*",
     "phing/phing": "2.4.12",
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
