@@ -53,9 +53,6 @@
                 .attr('data-item', $this.attr('data-item'))
                 .attr('data-slot-name', $this.attr('data-slot-name'))
                 .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
-                .css('width', '24px')
-                .css('position', 'absolute')                
-                .css('z-index', '999999999')
                 .appendTo(element) 
             ;
             
@@ -73,15 +70,12 @@
         element.append('<div class="al-add-item-list"><a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a></div>');
         
         $('.al-add-item-list')
-            .css('position', 'absolute')                  
-            .css('z-index', '999999999')
             .position({
                 my: "left top",
                 at: "right+10 top",
                 of: last
             })    
         ;
-        
         
         if (settings.addValue == null) {
             
