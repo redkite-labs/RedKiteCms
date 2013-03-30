@@ -24,22 +24,22 @@
         {% block metatags %}        
         {% endblock %}
         
-        {% block external_stylesheets %}
-            {% if stylesheets_template is defined and stylesheets_template != "" %}
-                {% include(stylesheets_template) %}
-            {% endif %}
+        {% block pre_external_stylesheets %}
         {% endblock %}
         
-        {% block extra_external_stylesheets %}
+        {% block external_stylesheets %}
+        {% endblock %}
+        
+        {% block post_external_stylesheets %}
+        {% endblock %}
+        
+        {% block pre_external_javascripts %}
         {% endblock %}
         
         {% block external_javascripts %}
-            {% if javascripts_template is defined and javascripts_template != "" %}
-                {% include(javascripts_template) %}
-            {% endif %}
         {% endblock %}
         
-        {% block extra_external_javascripts %}
+        {% block post_external_javascripts %}
         {% endblock %}
         
         {% block internal_header_javascripts %}{% endblock %}
