@@ -31,12 +31,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             'Content' => $value,
         );
     }
-    private function formatLink($file)
-    {
-        $uploadsPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
-
-        return sprintf('<a href="/%s/%s" />%s</a>', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'), $file, basename($file));
-    }
+    
     public function getHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock);
@@ -66,6 +61,11 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             "title" => "Files editor",
             'form' => $form->createView(),
         );
+    }
+    
+    public function getHideInEditMode()
+    {
+        return true;
     }
     
     protected function replaceHtmlCmsActive()
@@ -108,5 +108,12 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     private function itemOpenedToBool($item)
     {
         return array_key_exists('opened', $item) ? filter_var($item['opened'], FILTER_VALIDATE_BOOLEAN) : false;
+    }
+    
+    private function formatLink($file)
+    {
+        $uploadsPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
+
+        return sprintf('<a href="/%s/%s" />%s</a>', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'), $file, basename($file));
     }
 }
