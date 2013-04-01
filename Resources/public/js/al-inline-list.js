@@ -135,7 +135,7 @@
     $.fn.inlinelist = function( method, options ) {    
     
         settings = $.extend( {
-          target         : 'li',
+          target         : '> li',
           addValue       : null
         }, options);
     
