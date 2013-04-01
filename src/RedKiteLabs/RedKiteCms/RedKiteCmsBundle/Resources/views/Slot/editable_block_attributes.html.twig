@@ -1,4 +1,4 @@
-{% if edit_inline %}contenteditable="true"{% endif %} data-name="block_{{ block_id }}" data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-included="{{ included }}" data-hide-when.edit="false" {{ extra_attributes }}
+{% if edit_inline %}data-content-editable="true"{% endif %} data-name="block_{{ block_id }}" data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-included="{{ included }}" data-hide-when-edit="{{ hide_in_edit_mode }}" {{ extra_attributes }}
 
 {% if editor|length > 0 %}
 {% set form = editor.form is defined ? editor.form : "" %}
