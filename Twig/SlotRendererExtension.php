@@ -93,8 +93,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 ));
             }
             
-            $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'al_hide_edit_mode' : '';
-            $scriptToHideContents = ($hideInEditMode != '') ? sprintf("$('#block_%s').data('block', '%s');", $block['Block']["Id"], rawurlencode($content)) : '';
+            $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'true' : 'false';
             $internalJavascript = (string)$block["InternalJavascript"];
             $internalJavascript = ($internalJavascript != "" && (bool)$block["ExecuteInternalJavascript"]) ? $internalJavascript : '';
             if (null === $template) {
@@ -108,7 +107,6 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     'slot_name' => $slotName,
                     'type' => $block['Block']['Type'],
                     'content' => $content,
-                    'contents_hidden_script' => $scriptToHideContents,
                     'internal_javascript' => $internalJavascript,
                     'edit_inline' => $block['EditInline'],
                     'editor' => $blockManager->editorParameters(),
@@ -121,12 +119,10 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             
             return $templating->render('AlphaLemonCmsBundle:Slot:' . $template, array(
                 'block_id' => $block['Block']["Id"],
-                'hide_in_edit_mode' => $hideInEditMode,
                 'slot_name' => $slotName,
                 'type' => $block['Block']['Type'],
                 'editor_width' => $block['EditorWidth'],
                 'content' => $content,
-                'contents_hidden_script' => $scriptToHideContents,
                 'internal_javascript' => $internalJavascript,
                 'edit_inline' => $block['EditInline']
             ));

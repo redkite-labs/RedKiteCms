@@ -30,7 +30,8 @@
             if($('body').hasClass('cms_started'))
             {
                 $("#al_cms_contents a").unbind();
-                showHiddenContentsFromEditMode('.al_hide_edit_mode');
+                deactivateEditableInlineContents();
+                showHiddenContentsFromEditMode();
                 
                 this.each(function() {
                     $(this)
@@ -88,6 +89,10 @@
     
     function startEditElement(element)
     {
+        if ( ! $('body').hasClass('cms_started')) {
+            return;
+        }
+        
         element.each(function()
         {
             var $this = $(this);
@@ -111,6 +116,7 @@
                 $this.popover(popoverOptions);
             }
             
+            activateEditableInlineContents();
             hideContentsForEditMode($this);                
             $this
                 .unbind()
@@ -138,7 +144,7 @@
                 {   
                     event.stopPropagation();
                     
-                    var $this = $(this); 
+                    var $this = $(this);                     
                     if ($(document).find('.al-popover:visible').length > 0 && $this.attr('data-name') == 'block_' + $('body').data('idBlock')) {
                         if (stopBlocksMenu) {
                             stopEditElement($this);
@@ -301,24 +307,36 @@
         $(document).trigger("popoverShow", [ element ]);
     }
     
+    function activateEditableInlineContents()
+    {          
+        $(document)
+            .find('[data-content-editable="true"]')
+            .attr('contenteditable', true)
+            .addClass('al-editable-inline')
+        ;
+    }
+    
+    function deactivateEditableInlineContents()
+    {
+        $('.al-editable-inline').removeAttr('contenteditable');
+    }
+    
     function hideContentsForEditMode(element)
     {
         element.each(function() {
-            if($(this).hasClass('al_hide_edit_mode')) {
-                var data = $(this).metadata();
-                $(this).html('<p>A ' + data.type  + ' block is not renderable in edit mode</p>').addClass('is_hidden_in_edit_mode');
+            var $this = $(this);
+            if($this.attr('data-hide-when-edit') == "true") {
+                var html = $this.html();
+                $this.html('<p>A ' + $this.attr('data-type')  + ' block is not rendered when the editor is active</p>').data('html', html).addClass('is_hidden_in_edit_mode');
             }
         });
     }
 
-    function showHiddenContentsFromEditMode(element)
+    function showHiddenContentsFromEditMode()
     {
-        return; //FIXME
-        element.each(function() {
-            if($(this).hasClass('is_hidden_in_edit_mode'))
-            {
-                $(this).removeClass('is_hidden_in_edit_mode').html(decodeURIComponent($(this).data('block')));
-            }
+        $('.is_hidden_in_edit_mode').each(function() {
+            var $this = $(this);
+            $this.removeClass('is_hidden_in_edit_mode').html($this.data('html')); 
         });
     }
     
@@ -370,18 +388,15 @@ $(document).ready(function(){
             
         $('#al_start_editor').click(function()
         {
-            //$('[data-editor="enabled"]').StartToEdit();
             $('[data-editor="enabled"]').blocksEditor('start');
-            //$('.al_editable').StartToEdit();
 
             return false;
         });
 
         $('#al_stop_editor').click(function()
         {
-            //$('.al_editable').trigger("editorStapping").StopToEdit();
-            $('[data-editor="enabled"]').trigger("editorStapping").blocksEditor('stop');
-            $('.al_block_menu').each(function(){ $(this).hide() });
+            $('[data-editor="enabled"]').trigger("editorStopping").blocksEditor('stop');
+            $('.al_block_menu').hide(); //each(function(){ $(this).hide() });
             $('#al_block_menu_toolbar').hide();
             $('#al_blocks_list').hide();
 
