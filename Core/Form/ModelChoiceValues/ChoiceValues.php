@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
@@ -65,5 +66,20 @@ class ChoiceValues
         }
 
         return $templates;
+    }
+    
+    public static function getPermalinks(SeoRepositoryInterface $seoRepository, $languageId, $withNoneOption = true)
+    {
+        $seoAttributes = $seoRepository->fromLanguageId($languageId);
+
+        $permalinks = array();
+        if ($withNoneOption) $permalinks["none"] = " ";
+        foreach ($seoAttributes as $seoAttribute) {
+            $permalink = $seoAttribute->getPermalink();
+            $permalinks[$permalink] = $permalink;
+        }
+        sort($permalinks);
+
+        return $permalinks;
     }
 }

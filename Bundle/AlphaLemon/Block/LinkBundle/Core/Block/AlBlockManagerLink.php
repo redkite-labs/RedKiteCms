@@ -46,13 +46,15 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         
         $formClass = $this->container->get('bootstrap_link.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
-        $pagesRepository = $this->container->get('alpha_lemon_cms.factory_repository')->createRepository('Page');
+                
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $seoRepository = $factoryRepository->createRepository('Seo');
         
         return array(
             "template" => "LinkBundle:Editor:_editor.html.twig",
             "title" => "Link editor",
             "form" => $form->createView(),
-            'pages' => ChoiceValues::getPages($pagesRepository),
+            'pages' => ChoiceValues::getPermalinks($seoRepository, $this->alBlock->getLanguageId()),
         );
     }
 }
