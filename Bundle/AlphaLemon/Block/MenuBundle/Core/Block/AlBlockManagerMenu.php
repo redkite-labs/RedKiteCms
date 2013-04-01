@@ -17,21 +17,67 @@
 
 namespace AlphaLemon\Block\MenuBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
 
 /**
  * AlBlockManagerMenu
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerMenu extends AlBlockManager
+class AlBlockManagerMenu extends AlBlockManagerContainer
 {
+    protected $blocksTemplate = 'MenuBundle:Content:menu.html.twig';
+    
     /**
      * @see AlBlockManager::getDefaultValue()
      *
      */
     public function getDefaultValue()
     {
-        return array("Content" => "<ul><li>Link 1</li><li>Link 2</li><li>Link 3</li></ul>");
+        $value = '
+            {
+                "0": {
+                    "blockType" : "Link"
+                },
+                "1": {
+                    "blockType" : "Link"
+                }
+            }';
+        
+        return array("Content" => $value);
+    }
+    
+    public function getHtml()
+    {
+        $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
+        
+        return array('RenderView' => array(
+            'view' => $this->blocksTemplate,
+            'options' => array( 'items' => $items, 'parent' => $this->alBlock),
+        ));
+    }
+    
+    protected function edit(array $values)
+    {
+        $data = json_decode($values['Content'], true); 
+        $savedValues = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);
+        
+        if ($data["operation"] == "add") {
+            $savedValues[] = $data["value"];
+            $values = array("Content" => json_encode($savedValues));
+        }
+        
+        if ($data["operation"] == "remove") {
+            unset($savedValues[$data["item"]]);
+            
+            $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+            $repository = $blocksRepository->createRepository('Block');
+            $repository->deleteIncludedBlocks($data["slotName"]);
+            
+            $values = array("Content" => json_encode($savedValues));
+        }
+        
+        return parent::edit($values);
     }
 }

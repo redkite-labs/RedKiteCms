@@ -1,0 +1,21 @@
+{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+
+{% block body %}
+<div {{ editor|raw }}>
+    <ul class="nav nav-pills al-menu-list">
+    {% if items|length > 0 %}
+    {% for key, item in items %}
+        {% set baseKey = parent.getId ~ "-" ~ key %}    
+        {% if item.blockType != 'BootstrapNavbarDropdownBlock' %}
+        <li data-item="{{ key }}" data-slot-name="{{ baseKey }}">{{ renderIncludedBlock(baseKey, parent, item.blockType, true) }}</li>
+        {% else %}
+        {% set attributes = 'data-item=' ~ key ~ ' data-slot-name=' ~ baseKey  %}
+        {{ renderIncludedBlock(baseKey, parent, item.blockType, true, '', attributes) }}
+        {% endif %}
+    {% endfor %}
+    {% else %}
+        <li class="al-empty">Any link added</li>
+    {% endif %}
+    </ul>
+</div>
+{% endblock %}
