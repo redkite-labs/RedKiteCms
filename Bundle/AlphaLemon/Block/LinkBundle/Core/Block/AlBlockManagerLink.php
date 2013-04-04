@@ -28,14 +28,17 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         return array('Content' => $value);
     }
     
-    public function getHtml()
+    protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $link = $items[0];
         
         return array('RenderView' => array(
             'view' => 'LinkBundle:Content:link.html.twig',
-            'options' => array('link' => $link),
+            'options' => array(
+                'link' => $link, 
+                'block_manager' => $this,
+            ),
         ));
     }
     

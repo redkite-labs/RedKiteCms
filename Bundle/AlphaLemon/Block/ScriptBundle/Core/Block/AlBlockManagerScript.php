@@ -36,7 +36,7 @@ class AlBlockManagerScript extends AlBlockManagerContainer
                      'ExternalJavascript' => '');
     }
     
-    public function getHtml()
+    protected function renderHtml()
     {
         return array('RenderView' => array(
             'view' => 'ScriptBundle:Content:script.html.twig',

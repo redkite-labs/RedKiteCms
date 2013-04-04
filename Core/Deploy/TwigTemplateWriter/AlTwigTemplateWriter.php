@@ -256,6 +256,7 @@ class AlTwigTemplateWriter
                 $blockManager = $this->blockManagerFactory->createBlockManager($block);
                 if (null !== $blockManager) {
                     $blockManager->setPageTree($this->pageTree);
+                    $blockManager->setEditorDisabled(true);
                     $content = $blockManager->getHtml();
                     if (is_array($content)) {
                         $content = $this->viewRenderer->render($content['RenderView']);

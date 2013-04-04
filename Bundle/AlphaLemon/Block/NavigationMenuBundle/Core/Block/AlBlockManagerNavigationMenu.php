@@ -50,7 +50,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     /**
      *  {@inheritdoc}
      */
-    public function getHtml()
+    protected function renderHtml()
     {
         $content = '';
         $page = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage();

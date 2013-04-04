@@ -66,6 +66,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @var \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
      */
     protected $pageTree = null;
+    
+    /**
+     * @var Boolean
+     */
+    protected $editorDisabled = false;
 
     /**
      * Constructor
@@ -135,6 +140,26 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $this->doSetFactoryRepository($v);
 
         return $this;
+    }
+    
+    /**
+     * Returns editor disabled
+     * 
+     * @return boolean
+     */
+    public function getEditorDisabled()
+    {
+        return $this->editorDisabled;
+    }
+    
+    /**
+     * Sets editor disabled
+     * 
+     * @return boolean
+     */
+    public function setEditorDisabled($v)
+    {
+        $this->editorDisabled = $v;
     }
 
     /**
@@ -239,23 +264,21 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Returns the block's html content
-     * 
-     * This method must be overriden to display an elaborated version of the content
-     * saved for the current Block
+     * Returns the block's html content or an array which contains the view to be
+     * rendered with its options
      *
      * @return string|array
      * 
      * @api
      */
-    public function getHtml()
+    final public function getHtml()
     {
-        return array('RenderView' => array(
-            'view' => 'AlphaLemonCmsBundle:Block:base_block.html.twig',
-            'options' => array(
-                'block' => $this->alBlock,
-            ),
-        ));
+        $result = $this->renderHtml(); 
+        if (is_array($result) && array_key_exists('RenderView', $result)) {
+            $result['RenderView']['options']['block_manager'] = $this;
+        } 
+        
+        return $result;
     }
     
     /**
@@ -512,6 +535,24 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected function formatHtmlCmsActive()
     {
         return replaceHtmlCmsActive();
+    }
+    
+    /**
+     * Default rendered view
+     * 
+     * This method must be overriden to display an elaborated version of the content
+     * saved for the current Block
+     *
+     * @return string|array
+     */
+    protected function renderHtml()
+    {
+        return array('RenderView' => array(
+            'view' => 'AlphaLemonCmsBundle:Block:base_block.html.twig',
+            'options' => array(
+                'block' => $this->alBlock,
+            ),
+        ));
     }
 
     /**

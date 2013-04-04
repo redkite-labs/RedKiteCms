@@ -32,7 +32,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         );
     }
     
-    public function getHtml()
+    protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
