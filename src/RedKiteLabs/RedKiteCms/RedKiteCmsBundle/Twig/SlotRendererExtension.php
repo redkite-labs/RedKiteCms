@@ -69,7 +69,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function renderBlock(AlBlockManager $blockManager, $template = null, $included = false, $extraAttributes = '', $t = 0)
+    public function renderBlock(AlBlockManager $blockManager, $template = null, $included = false, $extraAttributes = '')
     {
         try {
             $block = $blockManager->toArray();
@@ -100,7 +100,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 $template = '_block.html.twig';
             }
             
-            if (preg_match('/data\-editor="true"/s', $content)) { 
+            if ( ! $blockManager->getEditorDisabled() && preg_match('/data\-editor="true"/s', $content)) { 
                 $cmsAttributes = $templating->render('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', array(
                     'block_id' => $block['Block']["Id"],
                     'hide_in_edit_mode' => $hideInEditMode,
@@ -183,16 +183,22 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
             $blockManager = $blockManagerFactory->createBlockManager($alBlock->getType());
             $blockManager->set($alBlock);
+            if (null !== $parent) {
+                $blockManager->setEditorDisabled($parent->getEditorDisabled());
+            }
             
-            $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, 1);
+            $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
         } else {
             if (true === $addWhenEmpty) {
                 $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
                 $blockManager = $blockManagerFactory->createBlockManager($type);
-
+                if (null !== $parent) {
+                    $blockManager->setEditorDisabled($parent->getEditorDisabled());
+                }
+                
                 $values = array(
-                  "PageId"          => $parent->getPageId(),
-                  "LanguageId"      => $parent->getLanguageId(),
+                  "PageId"          => $parent->get()->getPageId(),
+                  "LanguageId"      => $parent->get()->getLanguageId(),
                   "SlotName"        => $key,
                   "Type"            => $type,
                   "ContentPosition" => 1,
@@ -204,7 +210,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 }
                 
                 $blockManager->save($values);
-                $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, 1);
+                $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
             }
             else {
                 $content = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" data-included="1">%s</div>', $key, 'This slot has any content inside. Use the contextual menu to add a new one');
