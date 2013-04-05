@@ -1,3 +1,55 @@
+Preview Release 1.1 Rev 2  (2013-04-05)
+842f4f6 Introduced BC. AlBlockManager's getHtml method has been declared final. To change the default rendered content
+    you must now override the new protected method renderHtml which works exactly as the getHtml method worked
+    before this change.
+    
+    Internal bundles have been updated to reflect this change.
+    
+    Introduced the new property editorDisabled and its getter and setter to control the editor rendering for the
+    AlBlockManager object. By default the editor is rendered. In this way it is possible to avoid rendering the
+    blocks' editor required attributes when the site is deployed.
+    
+    Updated the SlotRendererExtension and the templates to reflect these changes.
+
+d64d722 added new getPermalinks method to ChoiceValues; LinkBundle now displays the permalinks instead of page names
+24fd4d7 fixed default inline list selector
+830ad3a updated internal Menu App-Block to next release
+7180598 enabled to be hidden when editor starts
+a17f7f1 fixed hide contents function when the editor starts
+37c24f7 updated propel requirement
+ea39c7a updated propel requirement
+bdae529 added bootstrap reponsive stylesheet
+1185cf1 styled inline list and updated the jquery plugin according with these changes
+ea86fe5 added support for internal blocks
+4324576 completed blocks inclusion
+
+Preview Release 1.1 Rev 1 (2013-03-28)
+81088f5 removed addictional divs from blocks when a block is being edited; just add the data-editor attribute to a block, to make it editable
+4ae5a7a removed some test no more appliables
+abbd1ff added a new internal block to manage a link
+92a32c4 fixed a bug that shows the editor popover when the editing mode was turned off
+7e2705f updated fetchSlotManager not to thrown an exception by default
+816bb63 added an extra param to detect when a block is included
+c132e7a fixed bug that let edit a different block than the one active for editing; removed al-data-list activation which has been delegated to blocks 
+e3dee7c a block is highligthed using different styles when in edit mode; inline blocks are immediatly edited, before it was required and additional click
+9321eef added class to identify a block when it is enabled for edit
+c4e61b1 fixed holder path
+9d13a6f BootbusinessTheme is the new default theme
+e9b1b02 Block's editors are now rendered into popovers
+    Added a new interface to highlight the block being edited
+    Added a new interface to add a new block
+    Added support to include a block inside another block
+    Redesigned json items and lists
+    Added javascript events to trigger when the edit mode is activated or deactivated
+    Added a new skin due to integration with twitter bootstrap
+bc8ca2c added a new internal block to manage an image
+a2b7c1e Removed tiny mce support files Removed contextual menu Removed several templates which have been refactored
+be51734 ignored all cache skin folders
+33562d1 integrated twitter bootstrap
+fe2de88 added bower to manage client side assets
+8256069 completed sitemaps integration
+0fa6043 removed yui compressor from generated twig templates it is disabled
+
 Stable Release 1.0.1 (2013-01-20)
 5d60ed7 lowered the panel's zindex to properly display the bootstrap dropdownmenu when the panel is opened
 ca5324f added cssrewrite filter to stylesheets which misses when yuicompressor is not enabled
