@@ -105,7 +105,12 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
 
         $map = require $path . '/autoload_namespaces.php';
         foreach ($map as $namespace => $path) {
+            if (substr($path, -1) != '/') { 
+                $path .= '/';
+            }
+            
             $dir = $path . str_replace('\\', '/', $namespace);
+            
             $bundleName = $this->getBundleName($dir);
             $this->addBundle($bundleName, $dir);
         }
