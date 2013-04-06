@@ -1,3 +1,6 @@
+Preview Release 1.1 Rev 3  (2013-04-06)
+0bf30d5 fixed the argument for renderIncludedBlock method
+
 Preview Release 1.1 Rev 2  (2013-04-05)
 842f4f6 Introduced BC. AlBlockManager's getHtml method has been declared final. To change the default rendered content
     you must now override the new protected method renderHtml which works exactly as the getHtml method worked
