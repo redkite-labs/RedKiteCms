@@ -15,17 +15,19 @@
  */
 
 (function($){
+    var settings;
+    
     var methods = {
         addItem: function() {
-            $(this).click(function(){
+            $(this).click(function(){                
                 var imageMarkup = 
-                    '<li class="span2">' + 
+                    '<li class="' + settings.span + '">' + 
                     '<a href="#" class="thumbnail al_img">' +
-                    '<img src="holder.js/400x280" title="" alt=""/>' +
+                    '<img src="holder.js/' + settings.imageDimension + '" title="" alt=""/>' +
                     '</a>' +
                     '</li>'
                 ;
-                $('.images_contents .thumbnails').append(imageMarkup);
+                $('.images_contents .thumbnails:last').append(imageMarkup);
                 
                 var attributes = {};
                 $(".al_form_item").each(function(){
@@ -141,7 +143,12 @@
        return o;
     }
 
-    $.fn.imagesList = function( method ) {    
+    $.fn.imagesList = function( method, options ) {    
+        settings = $.extend( {
+          imageDimension  : '140x60',
+          span: 'span2'
+        }, options);
+        
         if ( methods[method] ) {
             return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
         } else if ( typeof method === 'object' || ! method ) {
