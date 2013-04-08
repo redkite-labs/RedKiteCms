@@ -8,7 +8,7 @@
         {% set attributes = "" %}
         {% for name, value in image %}
         {% set attributeName = form_name ~ '_' ~ name %}
-        {% set attributes = attributes ~ attributeName ~ ": '" ~ value ~ "'," %}
+        {% set attributes = attributes ~ attributeName ~ ": '" ~ value|escape('url') ~ "'," %}
         {% endfor %}
         <a href="#" class="thumbnail al_img { {{ attributes }} }">
             {% include "ImageBundle:Image:image.html.twig" with {"image" : image } %}

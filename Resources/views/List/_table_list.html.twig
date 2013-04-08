@@ -23,7 +23,7 @@
             {% set attributes = '' %}
             {% for name, value in item %}
                 {% set attributeName = form.getName ~ '_' ~ name %}
-                {% set attributes = attributes ~ attributeName ~ ": '" ~ value ~ "'," %}                
+                {% set attributes = attributes ~ attributeName ~ ": '" ~ value|escape('url') ~ "'," %}                
                 {% set hidden = '' %} 
                 {% if block_manager.isColumnVisible(name) == false %}
                 {% set hidden = 'al_hidden' %} 
