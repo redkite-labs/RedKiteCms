@@ -35,7 +35,7 @@
                 });
                 
                 var element = $('.al_img:last');
-                element.data('attributes', attributes); //console.log(element.data('attributes'));
+                element.data('attributes', attributes); 
                 
                 editItem(element);
                 Holder.run();
@@ -81,7 +81,7 @@
             }
 
             $.each(attributes, function(key, value){
-                $('#' + key).val(value);
+                $('#' + key).val(decodeURIComponent(value));
             });
             
             selectActiveItem($this);  

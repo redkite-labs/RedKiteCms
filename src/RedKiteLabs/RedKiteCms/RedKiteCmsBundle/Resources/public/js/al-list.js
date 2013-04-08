@@ -1,7 +1,7 @@
 (function($){
     var methods = {
         addItem: function() {
-            $(this).click(function(){    
+            $(this).click(function(){     
                 $('#al_save_item').data('element', null);
                 var columns = $(".al_items_list table tr:last").find('.al-column'); 
                 
@@ -79,7 +79,7 @@
             }
 
             $.each(attributes, function(key, value){
-                $('#' + key).val(value);
+                $('#' + key).val(decodeURIComponent(value));
             });
             
             $('#al_save_item').data('element', $this); 
