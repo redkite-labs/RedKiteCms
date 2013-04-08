@@ -113,6 +113,11 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     'extra_attributes' => $extraAttributes,
                     'included' => $included,
                 ));
+                                
+                if (preg_match('/data\-encoded\-content=\'(.*?)\'/s', $cmsAttributes, $matches))
+                {
+                    $cmsAttributes = preg_replace('/data\-content=\'(.*?)\'/s', 'data-encoded-content=\'' . rawurlencode($matches[1]) . '\'', $cmsAttributes);
+                }
                 
                 $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
             }

@@ -96,7 +96,7 @@
         element.each(function()
         {
             var $this = $(this);
-
+            var decodedContent = decodeURIComponent($this.attr('data-encoded-content'));
             var popoverOptions = {
                 placement: function () {
                     var position = $this.position();
@@ -108,6 +108,7 @@
                     return "top";
                 },
                 trigger: 'manual',
+                content: decodedContent,
                 template: '<div class="popover al-popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>'
             }
             
@@ -294,7 +295,7 @@
                 popover.offset({left: actualLeft + (actualWidth / 5) - actualWidth}).find('.arrow').css('left', '90%');
             }
         });
-
+        
         $('.al_editor_save').each(function(){ 
             var $this = $(this);
             $this.unbind().click(function(){
