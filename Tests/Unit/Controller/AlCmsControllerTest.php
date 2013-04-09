@@ -108,7 +108,7 @@ class AlCmsControllerTest extends TestCase
         $this->controller->showAction();        
     }
     
-    public function testAFlashMessageIsSetWhenPageTreeIsNul1l()
+    public function testAFlashMessageIsSetWhenTemplateDoesNotExist()
     {
         $pageTree = 
             $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
@@ -161,7 +161,7 @@ class AlCmsControllerTest extends TestCase
             ->with('session')
             ->will($this->returnValue($session));
         
-        $this->container->expects($this->at(9))
+        $this->container->expects($this->at(10))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($blockManagerFactory));
@@ -206,10 +206,6 @@ class AlCmsControllerTest extends TestCase
             ->method('get')
             ->with('alpha_lemon_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
-        
-        
-        
-        
     }
     
     private function initFactoryRepository()

@@ -139,7 +139,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("insertAfter", $json[1]));
         $this->assertEquals("block_22", $json[1]["insertAfter"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
-        $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
+        $this->assertEquals("left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
 
@@ -175,7 +175,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("insertAfter", $json[1]));
         $this->assertEquals("block_0", $json[1]["insertAfter"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
-        $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
+        $this->assertEquals("left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
         
@@ -338,7 +338,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("redraw-slot", $json[1]["key"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
-        $this->assertEquals("al_left_sidebar_content", $json[1]["slotName"]);
+        $this->assertEquals("left_sidebar_content", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/This slot has any content inside. Use the contextual menu to add a new one/s", $json[1]["value"]);
 
