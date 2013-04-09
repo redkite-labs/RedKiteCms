@@ -47,24 +47,6 @@ class AlBlockManagerMenu extends AlBlockManagerContainer
         
         return array("Content" => $value);
     }
-    /*
-    protected function renderHtml()
-    {
-        $result = $this->renderHtml();
-        $result['RenderView']['options']['block_manager'] = $this;
-        
-        return $result;
-           
-        $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
-        
-        return array('RenderView' => array(
-            'view' => $this->blocksTemplate,
-            'options' => array(
-                'items' => $items, 
-                'block_manager' => $this,
-            ),
-        ));
-    }*/
     
     protected function renderHtml()
     {

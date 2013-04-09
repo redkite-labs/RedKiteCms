@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $(document).on("blockEditing", function(event, element){
-        if (element.attr('data-type') != 'Menu') {
+        if (element.attr('data-type') != 'Menu' && element.attr('data-type') != 'MenuVertical') {
             return;
         }
         
@@ -11,7 +11,7 @@ $(document).ready(function() {
     });
     
     $(document).on("blockStopEditing", function(event, element){ 
-        if (element.attr('data-type') != 'Menu') {
+        if (element.attr('data-type') != 'Menu' && element.attr('data-type') != 'MenuVertical') {
             return;
         }
                 

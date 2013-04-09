@@ -9,12 +9,18 @@
         </parameter>
         
         <parameter key="menu.block.class">AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu</parameter>
+        <parameter key="menu_vertical.block.class">AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenuVertical</parameter>
     </parameters>
 
     <services>
         <service id="menu.block" class="%menu.block.class%">
             <argument type="service" id="service_container" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Menu block" type="Menu" group="alphalemon_internals" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Menu" type="Menu" group="alphalemon_internals" />
+        </service>
+        
+        <service id="menu_vertical.block" class="%menu_vertical.block.class%">
+            <argument type="service" id="service_container" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Vertical Menu" type="MenuVertical" group="alphalemon_internals" />
         </service>
     </services>
 </container>
