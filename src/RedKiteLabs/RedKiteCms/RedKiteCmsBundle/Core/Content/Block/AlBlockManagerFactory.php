@@ -196,10 +196,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         
         // Sorts
         $this->recurKsort($alphaLemonBlocks);
-        $alphaLemonBlocks[0] = "menu-divider";
         if (count($notGrouped) > 0) {
             $this->recurKsort($notGrouped);
-            $notGrouped = array_merge(array("menu-divider"), $notGrouped);
         }
         
         // Exstracts and sorts all other groups

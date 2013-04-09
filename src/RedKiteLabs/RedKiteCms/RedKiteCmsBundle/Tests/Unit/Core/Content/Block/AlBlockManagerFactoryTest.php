@@ -54,7 +54,10 @@ class AlBlockManagerFactoryTest extends TestCase
     public function testANewBlockManagerAsBeenAddedToFactory()
     {
         $this->initBlockManager();
-        $this->assertCount(1, $this->blockManagerFactory->getBlocks());
+        $blocks = $this->blockManagerFactory->getBlocks();
+        $this->assertCount(2, $blocks);
+        $this->assertTrue(array_key_exists('Default', $blocks));        
+        $this->assertTrue(array_key_exists('Text', $blocks));
     }
 
     public function testNothigIsCreatedWhenAnyBlockHasBeenAddedToFactory()
@@ -126,6 +129,7 @@ class AlBlockManagerFactoryTest extends TestCase
             'Script' => 'Script block',
             'Text' => 'Text block',
             'Menu' => 'Menu block',
+            'Default' => array(),
         );
 
         $this->assertEquals($expectedValue, $this->blockManagerFactory->getBlocks());
