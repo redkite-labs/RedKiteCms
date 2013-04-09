@@ -1,0 +1,22 @@
+{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+
+{% block body %}
+<div class="row bottom-space" {{ editor|raw }}>
+  <div class="span1 offset1">
+    <div class="circle">
+      <span class="event-date">
+        {% spaceless %}
+        {% set baseSlotName = block_manager.get.getId ~ "-0" %} 
+        {{ renderIncludedBlock(baseSlotName, block_manager, 'Text', true, "Aug") }}
+        {% set baseSlotName = block_manager.get.getId ~ "-1" %} 
+        {{ renderIncludedBlock(baseSlotName, block_manager, 'Text', true, "17") }}
+        {% endspaceless %}
+      </span>
+    </div>
+  </div>
+  <div class="span9">
+    {% set baseSlotName = block_manager.get.getId ~ "-2" %} 
+    {{ renderIncludedBlock(baseSlotName, block_manager, 'Text', true, '<h4><a href="#">Link to the event</a></h4><p>An awesome event</p>') }}    
+  </div>
+</div>
+{% endblock %}
