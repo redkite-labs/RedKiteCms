@@ -127,6 +127,11 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
         $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
+        
+        $blockManager->expects($this->exactly(4))
+            ->method('setEditorDisabled')
+            ->with(true);
+        
         $blockManager->expects($this->exactly(4))
             ->method('getHtml')
             ->will($this->returnValue('Formatted content for deploying'));

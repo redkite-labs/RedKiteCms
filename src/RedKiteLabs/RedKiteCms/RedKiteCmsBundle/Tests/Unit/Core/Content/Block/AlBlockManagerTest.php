@@ -120,23 +120,23 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testGetContentForEditor()
     {
-        $this->assertEmpty($this->blockManager->getContentForEditor());
+        $this->assertEquals($this->blockManager->getContentForEditor(), $this->blockManager->getHtml());
     }
 
-    public function testHtmlCmsActiveReturnsTheBlockContentWhenTheInternalJavascriptIsNotSetAndTheContentIsNotHideInEditMode()
+    public function testDefaultContentIsReturnedWhenTheInternalJavascriptIsNotSetAndTheContentIsNotHideInEditMode()
     {
-        $htmlContent = '<p>A great App-Bundle</p>';
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue($htmlContent));
         $this->blockManager->set($block);       
         $blockManagerArray = $this->blockManager->toArray();
-        $this->assertEquals($htmlContent, $blockManagerArray['Content']);
+        $this->assertEquals($this->blockManager->getHtml(), $blockManagerArray['Content']);
     }
-/*
+
     public function testHtmlCmsActiveReturnsTheBlockContentAndTheInternalJavascript()
     {
+        $this->markTestSkipped(
+            'This test will be reviewed'
+        );
+        
         $htmlContent = '<p>A great App-Bundle</p>';
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
@@ -156,11 +156,18 @@ class AlBlockManagerTest extends AlContentManagerBase
         $extraJavascript .= 'alert(\'The javascript added to the slot  has been generated an error, which reports: \' + e);' . PHP_EOL;
         $extraJavascript .= '}' . PHP_EOL;
         $extraJavascript .= '});</script>';
-        $this->assertEquals($htmlContent . $extraJavascript, $blockManager->getHtmlCmsActive());
+            
+        $blockManagerArray = $blockManager->toArray();
+        print_r($blockManagerArray);exit;
+        $this->assertEquals($htmlContent . $extraJavascript, $blockManagerArray);
     }
 
     public function testHtmlCmsActiveReturnsJustTheBlockContentBecauseExecuteInternalJavascriptIsFalse()
     {
+        $this->markTestSkipped(
+            'This test will be reviewed'
+        );
+        
         $htmlContent = '<p>A great App-Bundle</p>';
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
@@ -180,6 +187,10 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testGetInternalJavascriptSafeMode()
     {
+        $this->markTestSkipped(
+            'This test will be reviewed'
+        );
+        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $block->expects($this->once())
@@ -197,6 +208,10 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testGetInternalJavascriptUnsafeMode()
     {
+        $this->markTestSkipped(
+            'This test will be reviewed'
+        );
+        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $block->expects($this->once())
@@ -205,7 +220,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('a great javascript', $blockManager->getInternalJavascript(false));
-    }*/
+    }
 
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
@@ -942,10 +957,6 @@ class AlBlockManagerTest extends AlContentManagerBase
     public function testAlBlockToArray()
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->any())
-                ->method('getContent')
-                ->will($this->returnValue('my fancy content'));
-
         $this->blockManager->set($block);
         $array = $this->blockManager->toArray();
 
@@ -955,9 +966,8 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->assertTrue(array_key_exists('InternalJavascript', $array));
         $this->assertTrue(array_key_exists('ExternalStylesheet', $array));
         $this->assertTrue(array_key_exists('InternalStylesheet', $array));
-        $this->assertTrue(array_key_exists('EditorWidth', $array));
         $this->assertTrue(array_key_exists('Block', $array));   
 
-        $this->assertEquals('my fancy content', $array['Content']);
+        $this->assertTrue(is_array($array['Content']));
     }
 }
