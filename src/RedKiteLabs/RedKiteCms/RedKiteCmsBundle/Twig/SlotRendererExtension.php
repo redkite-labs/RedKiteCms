@@ -126,7 +126,6 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 'block_id' => $block['Block']["Id"],
                 'slot_name' => $slotName,
                 'type' => $block['Block']['Type'],
-                'editor_width' => $block['EditorWidth'],
                 'content' => $content,
                 'internal_javascript' => $internalJavascript,
                 'edit_inline' => $block['EditInline']
