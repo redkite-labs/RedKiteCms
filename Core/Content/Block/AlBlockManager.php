@@ -486,8 +486,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
         $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
-        $editorWidth = $this->getEditorWidth();
-        $blockManager["EditorWidth"] = ($editorWidth != null && (int)$editorWidth > 0) ? $editorWidth : self::EDITOR_WIDTH;
         $blockManager["EditInline"] = $this->editInline();
         $blockManager["Block"] = $this->alBlock->toArray();
         
@@ -508,12 +506,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Returns the width of the editor that manages the block
      *
      * @return int
+     * @deprecated
      * 
      * @api
      */
     protected function getEditorWidth()
     {
-        return self::EDITOR_WIDTH;
+        throw new \RuntimeException("getEditorWidth is no longer used so it has been deprecated");
     }
 
     /**
@@ -534,7 +533,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     protected function formatHtmlCmsActive()
     {
-        return replaceHtmlCmsActive();
+        throw new \RuntimeException("formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
     
     /**
@@ -587,7 +586,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             }
 
             $mergedValues = array_merge($values, $defaults);
-            $availableOptions = array('Content' => '', 'InternalJavascript' => '', 'ExternalJavascript' => '', 'InternalStylesheet' => '', 'ExternalStylesheet' => '');
+            $availableOptions = array(
+                'Content' => '', 
+                'InternalJavascript' => '', 
+                'ExternalJavascript' => '', 
+                'InternalStylesheet' => '', 
+                'ExternalStylesheet' => '',
+            );
             $this->validator->checkOnceValidParamExists($availableOptions, $mergedValues);
             $values = $mergedValues;
         }
