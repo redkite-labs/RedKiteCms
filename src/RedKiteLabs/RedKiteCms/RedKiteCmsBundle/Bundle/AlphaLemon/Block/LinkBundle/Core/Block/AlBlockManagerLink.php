@@ -53,11 +53,13 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $seoRepository = $factoryRepository->createRepository('Seo');
         
+        $request = $this->container->get('request');
+        
         return array(
             "template" => "LinkBundle:Editor:_editor.html.twig",
             "title" => "Link editor",
             "form" => $form->createView(),
-            'pages' => ChoiceValues::getPermalinks($seoRepository, $this->alBlock->getLanguageId()),
+            'pages' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
         );
     }
 }
