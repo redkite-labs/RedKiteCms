@@ -90,10 +90,9 @@ GetTopMost = function()
         return this;
     };
 
-    $.fn.showDialog = function(title, content, width)
+    $.fn.showDialog = function(content, width)
     {
-        
-        if (width == null) width = 800;
+        if (width == null) width = 400;
 
         var zIndexDialog = GetTopMost();
         var options = {
@@ -103,7 +102,7 @@ GetTopMost = function()
         };
         InitDialog('al_dialog', options);
         $('#al_dialog')
-            .html(html)
+            .html(content)
             .dialog('open');
 
         return this;

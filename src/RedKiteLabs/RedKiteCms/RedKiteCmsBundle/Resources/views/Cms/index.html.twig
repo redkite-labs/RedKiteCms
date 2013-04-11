@@ -164,7 +164,7 @@
         <div id="al_toggle_nav_button" class="pull-left">
             <ul class="inline al-navigation">
                 <li>{% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}</li>
-                <li>{% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}</li>                
+                <li id="al_pages_navigator_box">{% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}</li>                
             </ul>
         </div>
         <div class="pull-left">
@@ -189,8 +189,8 @@
     </ul>    
 </div>
 
-
 {% include "AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
+{% include "AlphaLemonCmsBundle:Pages:permalink_select.html.twig" with { pages: permalinks } %}
 
 <div id="al_cms_contents" class="{page: '{{ page }}', language: '{{ language }}'}">
 {{ parent() }}

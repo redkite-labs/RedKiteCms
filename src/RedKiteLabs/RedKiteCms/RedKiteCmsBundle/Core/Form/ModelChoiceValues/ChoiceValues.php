@@ -68,9 +68,9 @@ class ChoiceValues
         return $templates;
     }
     
-    public static function getPermalinks(SeoRepositoryInterface $seoRepository, $languageId, $withNoneOption = true)
+    public static function getPermalinks(SeoRepositoryInterface $seoRepository, $language, $withNoneOption = true)
     {
-        $seoAttributes = $seoRepository->fromLanguageId($languageId);
+        $seoAttributes = (is_numeric($language)) ? $seoRepository->fromLanguageId($language) : $seoRepository->fromLanguageName($language);
 
         $permalinks = array();
         if ($withNoneOption) $permalinks["none"] = " ";

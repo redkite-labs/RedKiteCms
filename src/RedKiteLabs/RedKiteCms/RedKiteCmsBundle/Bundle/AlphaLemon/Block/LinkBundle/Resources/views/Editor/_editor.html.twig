@@ -1,16 +1,8 @@
 <form id="al_item_form">
     <table>
-        {# include "AlphaLemonCmsBundle:Item:_form_renderer.html.twig" #}
-        
         <tr>
             <td>{{ form_label(form.href, "Href") }}</td>
-            <td>
-                <select id="al_page_name" class="input-mini">
-                    {% for page in editor.pages %}
-                    <option value="{{ page }}">{{ page }}</option>
-                    {% endfor %}
-                </select>
-            </td>
+            <td class="al_pages_selector"></td>
             <td>{{ form_errors(form.href) }} {{ form_widget(form.href) }} </td>
         </tr>
         <tr>
