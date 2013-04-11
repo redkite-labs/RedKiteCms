@@ -49,7 +49,8 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
         $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->dispatcher = $this->getMock('\Symfony\Component\EventsDispatcher\EventDispatcherInterface', array('dispatch'));
-
+        $this->viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
+        
         $folders = array('app' => array(),
                          'web' => array('uploads'
                                     => array('assets'
@@ -132,8 +133,8 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
             ->method('setEditorDisabled')
             ->with(true);
         
-        $blockManager->expects($this->exactly(4))
-            ->method('getHtml')
+        $this->viewRenderer->expects($this->exactly(4))
+            ->method('render')
             ->will($this->returnValue('Formatted content for deploying'));
 
         $this->blockManagerFactory->expects($this->exactly(4))
@@ -339,11 +340,10 @@ class AlTwigDeployerProductionTest extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_theme_engine.deploy.templates_folder')
             ->will($this->returnValue('AlphaLemon'));
         
-        $viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
         $this->container->expects($this->at(9))
                 ->method('get')
                 ->with('alpha_lemon_cms.view_renderer')
-                ->will($this->returnValue($viewRenderer));
+                ->will($this->returnValue($this->viewRenderer));
         
         $this->container->expects($this->at(10))
             ->method('get')
