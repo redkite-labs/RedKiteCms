@@ -361,8 +361,9 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
-
+        
         $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -500,12 +501,35 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
 
-        $blockManager1 = $this->setUpBlockManager('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
-        $blockManager2 = $this->setUpBlockManager('<div>A new content</div>');
-        $blockManager3 = $this->setUpBlockManager('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>');
-        $this->blockManagerFactory->expects($this->any())
+        $blockManager1 = $this->setUpBlockManager(null);
+        $blockManager2 = $this->setUpBlockManager(null);
+        $blockManager3 = $this->setUpBlockManager(null);
+        
+        $this->blockManagerFactory->expects($this->at(0))
             ->method('createBlockManager')
-            ->will($this->onConsecutiveCalls($blockManager1, $blockManager2, $blockManager3));
+            ->will($this->returnValue($blockManager1));
+        $this->blockManagerFactory->expects($this->at(1))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager2));
+        $this->blockManagerFactory->expects($this->at(2))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager3));
+        
+        $this->viewRenderer
+                ->expects($this->at(0))
+                ->method('render')
+                ->will($this->returnValue('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">'))
+            ;
+        $this->viewRenderer
+                ->expects($this->at(1))
+                ->method('render')
+                ->will($this->returnValue('<div>A new content</div>'))
+            ;
+        $this->viewRenderer
+                ->expects($this->at(2))
+                ->method('render')
+                ->will($this->returnValue('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>'))
+            ;
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
@@ -559,13 +583,51 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
-        $blockManager1 = $this->setUpBlockManager('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
-        $blockManager2 = $this->setUpBlockManager('<div>A new content</div>');
-        $blockManager3 = $this->setUpBlockManager('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>');
-        $blockManager4 = $this->setUpBlockManager('<div>Lorem ipsum <ul><li><a href="my-awesome-page">Fancy page</a></li></ul></div>');
+        
+        $blockManager1 = $this->setUpBlockManager(null);
+        $blockManager2 = $this->setUpBlockManager(null);
+        $blockManager3 = $this->setUpBlockManager(null);
+        $blockManager4 = $this->setUpBlockManager(null);
+        
         $this->blockManagerFactory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->onConsecutiveCalls($blockManager1, $blockManager2, $blockManager3, $blockManager4));
+        
+        
+        
+        $this->blockManagerFactory->expects($this->at(0))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager1));
+        $this->blockManagerFactory->expects($this->at(1))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager2));
+        $this->blockManagerFactory->expects($this->at(2))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager3));
+        $this->blockManagerFactory->expects($this->at(3))
+            ->method('createBlockManager')
+            ->will($this->returnValue($blockManager4));
+        
+        $this->viewRenderer
+                ->expects($this->at(0))
+                ->method('render')
+                ->will($this->returnValue('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">'))
+            ;
+        $this->viewRenderer
+                ->expects($this->at(1))
+                ->method('render')
+                ->will($this->returnValue('<div>A new content</div>'))
+            ;
+        $this->viewRenderer
+                ->expects($this->at(2))
+                ->method('render')
+                ->will($this->returnValue('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>'))
+            ;
+        $this->viewRenderer
+                ->expects($this->at(3))
+                ->method('render')
+                ->will($this->returnValue('<div>Lorem ipsum <ul><li><a href="my-awesome-page">Fancy page</a></li></ul></div>'))
+            ;
 
         $section = "{% extends 'FakeTheme:Theme:Home.html.twig' %}" . PHP_EOL;
         $section .= "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
@@ -724,11 +786,20 @@ class AlTwigTemplateWriterTest extends TestCase
         $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-
-        $blockManager->expects($this->exactly($callingTimes))
-            ->method('getHtml')
-            ->will($this->returnValue($deployContent));
-
+        if ($callingTimes > 0) {
+            $blockManager->expects($this->exactly($callingTimes))
+                ->method('setEditorDisabled')
+                ->with(true);
+        }
+        
+        if (null !== $deployContent) {
+            $this->viewRenderer
+                ->expects($this->exactly($callingTimes))
+                ->method('render')
+                ->will($this->returnValue($deployContent))
+            ;
+        }
+        
         return $blockManager;
     }
 
