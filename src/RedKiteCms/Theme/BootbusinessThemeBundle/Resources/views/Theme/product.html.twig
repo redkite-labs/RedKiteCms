@@ -1,0 +1,145 @@
+{% extends 'BootbusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% block contents %}
+<div class="content">    
+  <div class="container">
+    <!-- Start: Product description -->
+    <airticle class="article">
+      <div class="row bottom-space">
+        <div class="span12">
+          <div class="page-header">
+            {% block product_title %}
+            {# BEGIN-SLOT
+                name: product_title
+                htmlContent: |
+                    <h1>Product <small>Caption for the product</small></h1>
+            END-SLOT #}
+            {{ renderSlot('product_title') }}
+            {% endblock %} 
+          </div>
+        </div>
+        <div class="span12 center-align">
+            {% block product_image %}
+            {# BEGIN-SLOT
+                name: product_image
+                blockType: Image
+            END-SLOT #}
+            {{ renderSlot('product_image') }}
+            {% endblock %}       
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10 offset1">
+            {% block product_description %}
+            {# BEGIN-SLOT
+                name: product_description
+                htmlContent: |
+                    <p>
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                    </p>
+                    <p>
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                    </p>
+                    <p>
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                        Detailed description about the product that how it makes the customer's life easy.
+                    </p>   
+            END-SLOT #}
+            {{ renderSlot('product_description') }}
+            {% endblock %}                
+          <div class="span8 offset1">
+            {% block product_features %}
+            {# BEGIN-SLOT
+                name: product_features
+                htmlContent: |
+                    <h3>Fetures of product1</h3>
+                    <ul class="features">
+                      <li>
+                        <i class="icon-ok "></i>24 hrs support
+                      </li>
+                      <li>
+                        <i class="icon-ok "></i>unlimited download
+                      </li>
+                      <li>
+                        <i class="icon-ok "></i>unlimited download
+                      </li>
+                      <li>
+                        <i class="icon-ok "></i>unlimited download
+                      </li>
+                      <li>
+                        <i class="icon-ok "></i>unlimited download
+                      </li>
+                      <li>
+                        <i class="icon-ok "></i>unlimited download
+                      </li>
+                      <li>
+                        <i class="icon-ok "></i>unlimited download
+                      </li>
+                      <li>
+                        <i class="icon-ok "></i>unlimited download
+                      </li>                  
+                    </ul>
+            END-SLOT #}
+            {{ renderSlot('product_features') }}
+            {% endblock %}                
+          </div>                                              
+        </div>      
+      </div>
+      <div class="row">
+        <div class="span10 offset1">
+          <hr>
+          <div class="span3">
+            {% block product_buy %}
+            {# BEGIN-SLOT
+                name: product_buy
+                htmlContent: |
+                    <p>
+                      Ready to start the innovation?
+                    </p>
+                    <a class="btn btn-large btn-block" href="#">Buy now</a>
+            END-SLOT #}
+            {{ renderSlot('product_buy') }}
+            {% endblock %}  
+          </div>
+          <div class="span3">
+            {% block product_contact %}
+            {# BEGIN-SLOT
+                name: product_contact
+                htmlContent: |
+                    <p>
+                      Got confused?
+                    </p>
+                    <a class="btn btn-large btn-block" href="contact_us.html">Contact us</a>
+            END-SLOT #}
+            {{ renderSlot('product_contact') }}
+            {% endblock %}              
+          </div>
+          <div class="span3">
+            {% block product_faq %}
+            {# BEGIN-SLOT
+                name: product_faq
+                htmlContent: |
+                    <p>
+                      Check frequently asked question
+                    </p>
+                    <a class="btn btn-large btn-block" href="faq.html">FAQ</a>
+            END-SLOT #}
+            {{ renderSlot('product_faq') }}
+            {% endblock %}                
+          </div>              
+        </div>
+      </div>
+    </airticle>
+    <!-- End: Product description -->
+  </div>
+</div>
+</div>
+{% endblock %}

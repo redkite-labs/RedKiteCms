@@ -1,5 +1,27 @@
 {% extends base_template %}
 
+{% block external_stylesheets %}
+    {% stylesheets  filter='?yui_css,cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css' 
+                                                 'components/alphalemoncms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+    %}        
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block post_external_stylesheets %}
+    <link href="/bundles/bootbusinesstheme/css/font-awesome.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/bundles/bootbusinesstheme/css/font-awesome-ie7.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/bundles/bootbusinesstheme/css/boot-business.css" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}
+
+{% block external_javascripts %}
+    {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js' 
+                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js' 
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
 {% block body %}
 <header>
 {% block navbar %}

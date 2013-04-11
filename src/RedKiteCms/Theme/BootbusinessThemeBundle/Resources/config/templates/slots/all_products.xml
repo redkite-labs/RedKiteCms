@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bootbusiness_theme.theme.template.all_products.slots.products_title" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">products_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Our products</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.all_products.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.all_products.slots.products" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">products</argument>
+            <argument type="collection" >
+                <argument key="blockType">BootbusinessProductBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.all_products.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.all_products.slots.products_pagination" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">products_pagination</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<ul><li class="disabled"><a href="#">&laquo;</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="#">6</a></li><li><a href="#">&raquo;</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.all_products.slots" />
+        </service>
+    </services>
+</container>

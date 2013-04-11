@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bootbusiness_theme.theme.template.product.slots.product_title" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">product_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h1>Product <small>Caption for the product</small></h1>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.product.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.product.slots.product_image" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">product_image</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.product.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.product.slots.product_description" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">product_description</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+</p><p>
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+</p><p>
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+</p>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.product.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.product.slots.product_features" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">product_features</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Fetures of product1</h3><ul class="features"><li><i class="icon-ok "></i>24 hrs support
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.product.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.product.slots.product_buy" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">product_buy</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+  Ready to start the innovation?
+</p><a class="btn btn-large btn-block" href="#">Buy now</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.product.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.product.slots.product_contact" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">product_contact</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+  Got confused?
+</p><a class="btn btn-large btn-block" href="contact_us.html">Contact us</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.product.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.product.slots.product_faq" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">product_faq</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+  Check frequently asked question
+</p><a class="btn btn-large btn-block" href="faq.html">FAQ</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.product.slots" />
+        </service>
+    </services>
+</container>

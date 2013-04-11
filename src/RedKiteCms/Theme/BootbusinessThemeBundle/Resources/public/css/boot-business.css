@@ -270,13 +270,13 @@ footer {
 .social-icons-row {
   margin-top: 50px;
 }
-.social-icons-row > a {
+.social-icons-row a {
   color: white;
   font-size: 30px;
   margin-left: 25px;
 }
-.social-icons-row > a:hover,
-.social-icons-row > a:focus {
+.social-icons-row a:hover,
+.social-icons-row a:focus {
   color: orange;
   text-decoration: none;
 }

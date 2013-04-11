@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bootbusiness_theme.theme.template.contacts.slots.contacts_title" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">contacts_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h1>Contact us</h1>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.contacts.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.contacts.slots.contacts_message_title" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">contacts_message_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Quick message</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.contacts.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.contacts.slots.contacts_form" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">contacts_form</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<form class="form-contact-us"><div class="control-group"><div class="controls"><input type="text" id="inputName" placeholder="Name"></div></div><div class="control-group"><div class="controls"><input type="text" id="inputEmail" placeholder="Email"></div></div><div class="control-group"><div class="controls"><textarea id="inputMessage" placeholder="Message"></textarea></div></div><div class="control-group"><div class="controls"><input type="submit" class="btn btn-primary btn-large" value="Send"></div></div></form>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.contacts.slots" />
+        </service>
+    </services>
+</container>

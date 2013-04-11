@@ -1,0 +1,64 @@
+{% extends 'BootbusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% block contents %}
+<div class="content">
+  <!-- Start: PRODUCT LIST -->
+    <div class="container">
+      <div class="page-header">
+        {% block products_title %} 
+            {# BEGIN-SLOT
+                name: products_title
+                htmlContent: |
+                    <h2>Our products</h2>
+            END-SLOT #}
+            {{ renderSlot('products_title') }}
+        {% endblock %}        
+      </div>
+      <div class="row-fluid">
+        {% block products %} 
+            {# BEGIN-SLOT
+                name: products
+                blockType: BootbusinessProductBlock
+            END-SLOT #}
+            {{ renderSlot('products') }}
+        {% endblock %}
+      </div>
+      <div class="pagination pagination-centered">
+        {% block products_pagination %} 
+            {# BEGIN-SLOT
+                name: products_pagination
+                htmlContent: |
+                    <ul>
+                      <li class="disabled">
+                        <a href="#">&laquo;</a>
+                      </li>
+                      <li class="active">
+                        <a href="#">1</a>
+                      </li>
+                      <li>
+                        <a href="#">2</a>
+                      </li>
+                      <li>
+                        <a href="#">3</a>
+                      </li>
+                      <li>
+                        <a href="#">4</a>
+                      </li>
+                      <li>
+                        <a href="#">5</a>
+                      </li>
+                      <li>
+                        <a href="#">6</a>
+                      </li>
+                      <li>
+                        <a href="#">&raquo;</a>
+                      </li>
+                    </ul>                    
+            END-SLOT #}
+            {{ renderSlot('products_pagination') }}
+        {% endblock %}            
+      </div>
+    </div>
+  <!-- End: PRODUCT LIST -->
+</div>
+{% endblock %}
