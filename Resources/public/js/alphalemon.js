@@ -23,6 +23,8 @@
             $('body').addClass('cms_started');
             doStartEdit($(this));
             
+            $(document).trigger("cmsStarted");
+            
             return this;
         },
         stop: function()
@@ -49,6 +51,8 @@
                 $('body').removeClass('cms_started');
                 
                 stopBlocksMenu = false;
+                
+                $(document).trigger("cmsStopped");
             }
             
             return this;
@@ -128,8 +132,16 @@
                     if (stopBlocksMenu) {
                         return;
                     }
-
+                    
                     highlightElement($this);
+                    $(this).css('cursor', 'pointer');
+                    
+                    if ($(this).is('[data-hide-blocks-menu="true"]')) {
+                        $('#al_block_menu_toolbar').hide();
+                        
+                        return;
+                    }
+
                     $('#al_block_menu_toolbar').position({
                             my: "right top",
                             at: "right bottom",
@@ -138,8 +150,6 @@
                         .data('parent', $this)
                         .show()
                     ;
-
-                    $(this).css('cursor', 'pointer');
                 })
                 .click(function(event)
                 {   
@@ -369,22 +379,18 @@ $(document).ready(function(){
             block.blocksEditor('stopEditElement');
         });
         
-        $('.al_language_item').each(function(){
-            $(this).click(function()
-            {
-                Navigate($(this).attr('rel'), $('#al_pages_navigator').html());
-                
-                return false;
-            });
+        $('.al_language_item').click(function()
+        {
+            Navigate($(this).attr('rel'), $('#al_pages_navigator').html());
+            
+            return false;
         });
 
-        $('.al_page_item').each(function(){
-            $(this).click(function()
-            {
-                Navigate($('#al_languages_navigator').html(), $(this).attr('rel'));
-                
-                return false;
-            });
+        $('.al_page_item').click(function()
+        {
+            Navigate($('#al_languages_navigator').html(), $(this).attr('rel'));
+            
+            return false;
         });
             
         $('#al_start_editor').click(function()
