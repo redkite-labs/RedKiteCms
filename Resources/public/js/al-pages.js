@@ -175,7 +175,7 @@ function UpdatePagesJSon(response)
             case "message":
                 $('body').showAlert(item.value);
                 
-            case "pages":
+            case "pages_list":
                 var idSelectedPage = $('#al_pages_list .al_element_selected').attr('ref');
                 $('#al_pages_list').html(item.value);
                 $('#al_pages_list .al_element_selector').each(function(key, item)
@@ -186,13 +186,28 @@ function UpdatePagesJSon(response)
                         return;
                     }
                 });
+                
                 break;
-            case "pages_menu":
+            case "pages":
+                $('#al_pages_navigator_box').html(item.value);
+                $('.al_page_item').click(function()
+                {
+                    Navigate($('#al_languages_navigator').html(), $(this).attr('rel'));
+                    
+                    return false;
+                });
+                
+                break;
+            case "permalinks":
+                $('#al_page_name').remove()
+                $('body').append(item.value);
+                
+                /*
                 $('#al_pages_navigator_box').html(item.value);
                 $('#al_pages_navigator').change(function()
                 {
                     Navigate();
-                });
+                });*/
                 break;
             case "permalink":
                 if($('#seo_attributes_permalink').val() != item.value) $('#seo_attributes_permalink').val(item.value);

@@ -43,7 +43,8 @@ class AlCmsController extends BaseFrontendController
 
         $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
-        $this->pageRepository = $this->factoryRepository->createRepository('Page');
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');        
+        $this->seoRepository = $this->factoryRepository->createRepository('Seo');
 
         $params = array(
             'template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
@@ -57,6 +58,7 @@ class AlCmsController extends BaseFrontendController
             'is_secure' => $isSecure,
             'pages' => ChoiceValues::getPages($this->pageRepository),
             'languages' => ChoiceValues::getLanguages($this->languageRepository),
+            'permalinks' => ChoiceValues::getPermalinks($this->seoRepository, $request->get('_locale')),
             'page' => 0,
             'language' => 0,
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),

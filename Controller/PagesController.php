@@ -198,11 +198,15 @@ class PagesController extends Base\BaseController
         $pages = $this->getPages();
 
         $request = $this->container->get('request');
+        
+        $permalinks = ChoiceValues::getPermalinks($this->createRepository('Seo'), $request->get('_locale'));
+        
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
-        $values[] = array("key" => "pages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Pages:pages_list.html.twig', array('pages' => $pages)));
-        $values[] = array("key" => "pages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_combo.html.twig', array('id' => 'al_pages_navigator', 'type' => 'al_page_item', 'value' => (null !== $page) ? $page->getId() : 0, 'text' => $request->get('page'), 'items' => $pages)));
-
+        $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Pages:pages_list.html.twig', array('pages' => $pages)));
+        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Pages:permalink_select.html.twig', array('pages' => $permalinks)));
+        $values[] = array("key" => "pages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig', array('id' => 'al_pages_navigator', 'type' => 'al_page_item', 'value' => (null !== $page) ? $page->getId() : 0, 'text' => $request->get('page'), 'items' => $pages)));
+           
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
 
