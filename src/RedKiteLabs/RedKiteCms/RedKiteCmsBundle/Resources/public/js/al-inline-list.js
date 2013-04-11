@@ -81,7 +81,8 @@
             
             // Adds an included block
             $('.al-add-item-list').blocksMenu('add');
-            $('.al_block_adder').unbind().each(function(){
+            $('.al_block_adder').unbind().each(function(){ 
+                var addCallback = settings.addItemCallback;  
                 $(this).click(function(){
                     var value = '{"operation": "add", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
                     $('body').EditBlock("Content", value, null, function(activeBlock)
@@ -90,8 +91,11 @@
                             .blocksEditor('stopEditElement')
                             .find('[data-editor="enabled"]')
                             .blocksEditor('startEditElement')
-                        ;   
+                        ; 
+                       
                         Holder.run();
+                    
+                        addItemCallback();  
                     }); 
                                      
                     stopBlocksMenu = false;
@@ -104,7 +108,8 @@
         else {
         
             // Adds a custom value
-            $('.al-add-item-list').click(function() {                    
+            $('.al-add-item-list').click(function() {    
+                var addItemCallback = settings.addItemCallback;         
                 $('body').EditBlock("Content", settings.addValue, null, function(activeBlock)
                 {
                     activeBlock
@@ -113,12 +118,15 @@
                         .blocksEditor('startEditElement')
                     ;   
                     Holder.run();
+                    
+                    addItemCallback();                    
                 });            
             });
         }
         
         $('.al-delete-item-list').click(function(){
-            if (confirm('Are you sure to remove the active block')) {
+            if (confirm('Are you sure to remove the active block')) {    
+                var deleteItemCallback = settings.deleteItemCallback;  
                 $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "slotName": "' + $(this).attr('data-slot-name') + '"}', null, function(activeBlock)
                 {
                     activeBlock
@@ -127,6 +135,8 @@
                         .blocksEditor('startEditElement')
                     ;
                     Holder.run();
+                    
+                    deleteItemCallback();
                 });
             }
         });
@@ -135,8 +145,10 @@
     $.fn.inlinelist = function( method, options ) {    
     
         settings = $.extend( {
-          target         : '> li',
-          addValue       : null
+          target            : '> li',
+          addValue          : null,
+          addItemCallback       : function(){},          
+          deleteItemCallback    : function(){}
         }, options);
     
         if ( methods[method] ) {
