@@ -1,0 +1,23 @@
+{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+
+{% block body %}
+<div {{ editor|raw }}>
+    {% set baseSlotName = block_manager.get.getId ~ "-0" %} 
+    {{ renderIncludedBlock(baseSlotName, block_manager, 'Text', true, '<h3>North America</h3>') }}
+    <div>
+      <address class="pull-left">
+        {% set baseSlotName = block_manager.get.getId ~ "-1" %} 
+        {{ renderIncludedBlock(baseSlotName, block_manager, 'Text', true, '<strong>Bootbusiness, Inc.</strong><br />123 Folsom Ave, Suite 600<br />USA<br />') }}    
+      </address>
+      <div class="pull-right">
+        <div class="bottom-space">      
+          {% set baseSlotName = block_manager.get.getId ~ "-2" %} 
+          {{ renderIncludedBlock(baseSlotName, block_manager, 'Text', true, '<i class="icon-phone icon-large"></i> (123) 123-1234') }}    
+        </div>
+        {% set baseSlotName = block_manager.get.getId ~ "-3" %} 
+        {{ renderIncludedBlock(baseSlotName, block_manager, 'Text', true, '<a href="mailto:contact@bootbusiness.com" class="contact-mail"><i class="icon-envelope icon-large"></i></a> contact@bootbusiness.com') }}    
+      </div>
+      <div class="clearfix"></div>
+    </div>
+</div>
+{% endblock %}

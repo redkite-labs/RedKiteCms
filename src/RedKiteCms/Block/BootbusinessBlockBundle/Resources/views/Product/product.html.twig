@@ -6,7 +6,7 @@
     {% for key, thumbnail in values %}
     {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %} 
     
-    {% set attributes = 'data-item=' ~ key ~ ' data-slot-name=' ~ baseSlotName %}
+    {% set attributes = 'data-hide-blocks-menu=true data-item=' ~ key ~ ' data-slot-name=' ~ baseSlotName %}
     {{ renderIncludedBlock(baseSlotName, block_manager, thumbnail.type, true, "", attributes) }}        
     {% endfor %}
     {% else %}
