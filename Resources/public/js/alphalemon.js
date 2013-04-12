@@ -87,7 +87,7 @@
     {
         startEditElement(element);
             
-        // Starts the ditor for included blocks
+        // Starts the editor for included blocks
         startEditElement(element.find('[data-editor="enabled"]'));
     }
     
@@ -136,6 +136,7 @@
                     highlightElement($this);
                     $(this).css('cursor', 'pointer');
                     
+                    $('#al_block_menu_toolbar').show();
                     if ($(this).is('[data-hide-blocks-menu="true"]')) {
                         $('#al_block_menu_toolbar').hide();
                         
@@ -148,7 +149,6 @@
                             of: $this
                         })                      
                         .data('parent', $this)
-                        .show()
                     ;
                 })
                 .click(function(event)
