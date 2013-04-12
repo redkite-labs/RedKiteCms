@@ -305,8 +305,7 @@ class AlPageTree extends BaseAlPageTree
 
         $assetsCollection = $template->$method();
         if (null !== $assetsCollection) {
-            // When a block has examined, it is saved in this array to avoid parsing it again
-            $appsAssets = array();
+            
             $assetsCollection = clone($assetsCollection);
 
             // merges extra assets from current theme
@@ -318,6 +317,7 @@ class AlPageTree extends BaseAlPageTree
             
             // merges assets for theme engine registered listeners
             $registeredListeners = $this->container->get('alpha_lemon_theme_engine.registed_listeners');
+            $availableBlocks = $this->container->get('alpha_lemon_cms.block_manager_factory')->getAvailableBlocks();
             foreach ($registeredListeners as $registeredListener) {
                 // Assets from page_renderer.before_page_rendering listeners
                 $parameter = sprintf('%s.page.%s_%s', $registeredListener, $type, $assetType);
@@ -336,10 +336,12 @@ class AlPageTree extends BaseAlPageTree
                 }
             }
             
-            // merges assets from installed apps
-            $availableBlocks = $this->container->get('alpha_lemon_cms.block_manager_factory')->getAvailableBlocks();
+            // When a block has examined, it is saved in this array to avoid parsing it again
+            $appsAssets = array();
+            
+            // merges assets from installed apps            
             foreach ($availableBlocks as $className) {
-                if (!in_array($className, $appsAssets)) {
+                if ( ! in_array($className, $appsAssets)) { 
                     $parameterSchema = '%s.%s_%s';
                     $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
                     $this->addAssetsFromContainer($assetsCollection, $parameter);
@@ -349,23 +351,26 @@ class AlPageTree extends BaseAlPageTree
                 }
             }
             
-            $templateSlots = array_keys($template->getSlots());
-            $blocks = $this->pageBlocks->getBlocks();
-            foreach ($blocks as $slotName => $slotBlocks) {
-                
-                if ( ! in_array($slotName, $templateSlots)) {
-                    continue;
-                }
-                
-                foreach ($slotBlocks as $block) {
-                    $className = $block->getType();
-                    $method = 'get'. ucfirst($type) . ucfirst($assetType);
-                    $method = substr($method, 0, - 1);
-                    $assets = $block->$method();
-                    if ($type == "external") {
-                        $assetsCollection->addRange(explode(',', $assets));
-                    } else {
-                        $assetsCollection->add($assets);
+            $slots = $template->getSlots();
+            if (null !== $slots && ! empty($slots)) {
+                $templateSlots = array_keys($slots);
+                $blocks = $this->pageBlocks->getBlocks();
+                foreach ($blocks as $slotName => $slotBlocks) {
+
+                    if ( ! in_array($slotName, $templateSlots)) {
+                        continue;
+                    }
+
+                    foreach ($slotBlocks as $block) {
+                        $className = $block->getType();
+                        $method = 'get'. ucfirst($type) . ucfirst($assetType);
+                        $method = substr($method, 0, - 1);
+                        $assets = $block->$method();
+                        if ($type == "external") {
+                            $assetsCollection->addRange(explode(',', $assets));
+                        } else {
+                            $assetsCollection->add($assets);
+                        }
                     }
                 }
             }
@@ -477,7 +482,12 @@ class AlPageTree extends BaseAlPageTree
      */
     protected function addAssetsFromContainer(&$assetsCollection, $parameter)
     {
-        $assetsCollection->addRange($this->container->hasParameter($parameter) ? $this->container->getParameter($parameter) : array());
+        if ( ! $this->container->hasParameter($parameter)) {
+            return;
+        }
+        
+        $assets = $this->container->getParameter($parameter);        
+        $assetsCollection->addRange($assets);
     }
 
     /**

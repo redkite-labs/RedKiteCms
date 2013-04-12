@@ -28,6 +28,9 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  */
 class AlPageTreeTest extends TestCase
 {
+    private $language;
+    private $page;
+    
     protected function setUp()
     {
         parent::setUp();
@@ -650,243 +653,559 @@ class AlPageTreeTest extends TestCase
         $pageTree->setup();
         $this->assertEquals($themeAssets, $pageTree->getExternalStylesheets());
     }
-
-    public function testPageTreeSetsUpExternalAssetsFromABlock()
+    
+    private function setUpBlock($method, $externalStylesheet, $type = 'Script')
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getType')
-            ->will($this->returnValue('Script'));
-
-        $externalStylesheet = 'fake-stylesheet-1.css,fake-stylesheet-2.css';
+            ->will($this->returnValue($type));
+        
         $block->expects($this->once())
-            ->method('getExternalStylesheet')
-            ->will($this->returnValue($externalStylesheet));
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array('logo' => array($block))));
+            ->method($method)
+            ->will($this->returnValue($externalStylesheet)); 
         
-        $this->template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => 'slot')));
-        
-        $this->initRegistedListeners();
-
-        $themeAssets = array('theme-stylesheet.css');
-        $this->setUpAssetsCollection($themeAssets);
-
-        $this->initValidPageTree();
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, explode(",", $externalStylesheet)), $pageTree->getExternalStylesheets());
-    }
-
-    public function testPageTreeSetsUpInternalAssetsFromABlock()
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue('Script'));
-
-        $internalStylesheet = 'fake javascript code';
-        $block->expects($this->once())
-            ->method('getInternalStylesheet')
-            ->will($this->returnValue($internalStylesheet));
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array('logo' => array($block))));
-        
-        $this->template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => 'slot')));
-
-        $this->initRegistedListeners();
-        
-        $themeAssets = array('some code retrieved from template');
-        $this->setUpAssetsCollection($themeAssets);
-
-        $this->initValidPageTree();
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $pageTree->setup();
-        $this->assertEquals($themeAssets[0] . $internalStylesheet, $pageTree->getInternalStylesheets());
-    }
-
-    public function testPageTreeSetsUpExtraAssetsForCurrentTemplate()
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue('FancyApp'));
-
-        $this->setUpTemplateAttributes();
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array('logo' => array($block))));
-        
-        $this->template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => 'slot')));
-
-        $this->container->expects($this->exactly(3))
-            ->method('hasParameter')
-            ->will($this->onConsecutiveCalls(true, false, false));
-
-        $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->with('business_website_theme.home.external_stylesheets.cms')
-            ->will($this->returnValue($appAssets));
-
-        $this->container->expects($this->at(5))
-            ->method('get')
-            ->with('alpha_lemon_theme_engine.registed_listeners')
-            ->will($this->returnValue(array()));
-        
-        $themeAssets = array('theme-stylesheet.css');
-        $this->setUpAssetsCollection($themeAssets);
-
-        $this->initValidPageTree();
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
-    }
-
-    public function testPageTreeSetsUpExternalAssetsForCurrentAppBlock()
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue('FancyApp'));
-
-        $this->setUpTemplateAttributes();
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array('logo' => array($block))));
-        
-        $this->template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => 'slot')));
-
-        $this->container->expects($this->exactly(3))
-            ->method('hasParameter')
-            ->will($this->onConsecutiveCalls(false, true, false));
-
-        $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->with('fancyapp.external_stylesheets')
-            ->will($this->returnValue($appAssets));
-
-        $this->initRegistedListeners();
-        
-        $themeAssets = array('theme-stylesheet.css');
-        $this->setUpAssetsCollection($themeAssets);
-
-        $this->initValidPageTree();
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
-    }
-
-    public function testPageTreeSetsUpExternalAssetsUsedByTheCmsFromTheParameterDeclaredOnTheBlockConfiguration()
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue('FancyApp'));
-
-        $this->setUpTemplateAttributes();
-
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array('logo' => array($block))));
-        
-        $this->template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => 'slot')));
-
-        $this->container->expects($this->exactly(3))
-            ->method('hasParameter')
-            ->will($this->onConsecutiveCalls(false, false, true));
-
-        $appAssets = array('fake-stylesheet-1.css', 'fake-stylesheet-2.css');
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->with('fancyapp.external_stylesheets.cms')
-            ->will($this->returnValue($appAssets));
-
-        $this->initRegistedListeners();
-        
-        $themeAssets = array('theme-stylesheet.css');
-        $this->setUpAssetsCollection($themeAssets);
-
-        $this->initValidPageTree();
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $pageTree->setup();
-        $this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
+        return $block;
     }
     
-    public function testPageTreeSetsUpExternalAssetsFromListener()
-    {
+    public function fetchAssets()
+    {        
+        return array(        
+            // Image block has any external asset
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(                        
+                        'global' => array(
+                            'exists' => false,
+                        ),  
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                ),
+            ),    
+            // Image block has an external asset
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(                        
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css',
+                            ),
+                        ),  
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css',
+                ),
+            ),    
+            // An asset is not added twice
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(                        
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css',
+                                'image-stylesheet.css',
+                            ),
+                        ),  
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css',
+                ),
+            ),    
+            // Image block has any external cms asset
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(                        
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css'
+                            ),
+                        ),                        
+                        'cms' => array(
+                            'exists' => false,
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css',
+                ),
+            ),
+            // Image block has an external cms asset
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(                        
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css'
+                            ),
+                        ),                        
+                        'cms' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet-cms.css'
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css',
+                    'image-stylesheet-cms.css',
+                ),
+            ),
+            // An asset is not added twice
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(                        
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css'
+                            ),
+                        ),                        
+                        'cms' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css'
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css',
+                ),
+            ),
+            // Added two assets
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                ),
+            ),
+            // Added assets from different blocks
+            array(
+                array('Image', 'Text'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                    'text.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'text-stylesheet.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                    'text-stylesheet.css',
+                ),
+            ),
+            // Added assets and cms assets from different blocks 
+            array(
+                array('Image', 'Text'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                    'text.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'text-stylesheet.css',
+                            ),
+                        ),
+                        'cms' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'text-stylesheet-cms.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                    'text-stylesheet.css',
+                    'text-stylesheet-cms.css',
+                ),
+            ),
+            // An asset is not added twice
+            array(
+                array('Image', 'Text'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css',  // Same assets
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                    'text.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', // Same assets
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                ),
+            ),
+            // Adding assets from one listener
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'site-listener-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                ),
+                array(
+                    'listener' => array('demo'),
+                    'language' => 'en',                    
+                    'page' => 'index',
+                    'assets' => array(
+                        'demo.page.external_stylesheets' => array(
+                            'global' => array(
+                                'exists' => true,
+                                'assets' =>  array('site-listener-stylesheet.css'),
+                            ),
+                        ),
+                        'demo.en.external_stylesheets' => array(                            
+                            'global' => array(
+                                'exists' => false,
+                            ),
+                        ),
+                        'demo.index.external_stylesheets' => array(                            
+                            'global' => array(
+                                'exists' => false,
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            // Adding assets from all listeners
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'site-listener-stylesheet.css',
+                    'language-listener-stylesheet.css',
+                    'page-listener-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                ),
+                array(
+                    'listener' => array('demo'),
+                    'language' => 'en',                    
+                    'page' => 'index',
+                    'assets' => array(
+                        'demo.page.external_stylesheets' => array(
+                            'global' => array(
+                                'exists' => true,
+                                'assets' =>  array('site-listener-stylesheet.css'),
+                            ),
+                        ),
+                        'demo.en.external_stylesheets' => array(                            
+                            'global' => array(
+                                'exists' => true,
+                                'assets' =>  array('language-listener-stylesheet.css'),
+                            ),
+                        ),
+                        'demo.index.external_stylesheets' => array(                            
+                            'global' => array(
+                                'exists' => true,
+                                'assets' =>  array('page-listener-stylesheet.css'),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            // Assets are not added when orphan slot does not match
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                ),
+                array(),
+                array(
+                    'slots' => array(
+                        'logo1' => ''
+                    ),
+                    'blocks' => array(
+                        'logo' => array($this->setUpBlock('getExternalStylesheet', 'fake-stylesheet-1.css,fake-stylesheet-2.css')),
+                    ),
+                ),
+            ),
+            // Assets are added when orphan slot matches
+            array(
+                array('Image'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                                'image-stylesheet-1.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-1.css',
+                    'fake-stylesheet-1.css',
+                    'fake-stylesheet-2.css',
+                ),
+                array(),
+                array(
+                    'slots' => array(
+                        'logo' => ''
+                    ),
+                    'blocks' => array(
+                        'logo' => array($this->setUpBlock('getExternalStylesheet', 'fake-stylesheet-1.css,fake-stylesheet-2.css')),
+                    ),
+                ),
+            ),
+            //full case
+            array(
+                array('Image', 'Text'),
+                array(
+                    'image.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet.css', 
+                            ),
+                        ),
+                        'cms' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'image-stylesheet-cms.css',
+                            ),
+                        ),
+                    ),
+                    'text.external_stylesheets' => array(
+                        'global' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'text-stylesheet.css',
+                            ),
+                        ),
+                        'cms' => array(
+                            'exists' => true,
+                            'assets' => array(
+                                'text-stylesheet-cms.css',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'theme-stylesheet.css',
+                    'site-listener-stylesheet.css',
+                    'language-listener-stylesheet.css',
+                    'page-listener-stylesheet.css',
+                    'image-stylesheet.css', 
+                    'image-stylesheet-cms.css', 
+                    'text-stylesheet.css', 
+                    'text-stylesheet-cms.css', 
+                    'fake-stylesheet-1.css',
+                    'fake-stylesheet-2.css',
+                ),
+                array(
+                    'listener' => array('demo'),
+                    'language' => 'en',                    
+                    'page' => 'index',
+                    'assets' => array(
+                        'demo.page.external_stylesheets' => array(
+                            'global' => array(
+                                'exists' => true,
+                                'assets' =>  array('site-listener-stylesheet.css'),
+                            ),
+                        ),
+                        'demo.en.external_stylesheets' => array(                            
+                            'global' => array(
+                                'exists' => true,
+                                'assets' =>  array('language-listener-stylesheet.css'),
+                            ),
+                        ),
+                        'demo.index.external_stylesheets' => array(                            
+                            'global' => array(
+                                'exists' => true,
+                                'assets' =>  array('page-listener-stylesheet.css'),
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'slots' => array(
+                        'logo' => ''
+                    ),
+                    'blocks' => array(
+                        'logo' => array($this->setUpBlock('getExternalStylesheet', 'fake-stylesheet-1.css,fake-stylesheet-2.css')),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider fetchAssets
+     */
+    public function testPageTreeSetsUpExternalAssetsFromABlock($availableBlocks, $blocksAssets, $result, $externalListeners = array(), $orphanSlots = array())
+    {        
         $this->initValidPageTree();
-        $this->language->expects($this->once())
-            ->method('getLanguageName')
-            ->will($this->returnValue('en'));
         
-        $this->page->expects($this->once())
-            ->method('getPageName')
-            ->will($this->returnValue('current-page'));
+        $blocksManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
         
-        $this->setUpTemplateAttributes();
+        $blocksManagerFactory->expects($this->once())
+            ->method('getAvailableBlocks')
+            ->will($this->returnValue($availableBlocks));
+        
+        $listeners = array();
+        $listenerAssets = array();
+        if ( ! empty($externalListeners)) {
+            $listeners = $externalListeners['listener'];
+            $listenerAssets = $externalListeners['assets'];
+            
+            $this->language->expects($this->once())
+                ->method('getLanguageName')
+                ->will($this->returnValue($externalListeners['language']))
+            ;
+            
+            $this->page->expects($this->once())
+                ->method('getPageName')
+                ->will($this->returnValue($externalListeners['page']))
+            ;
+        }
+        
+        $this->container->expects($this->at(4))
+            ->method('get')
+            ->with('alpha_lemon_theme_engine.registed_listeners')
+            ->will($this->returnValue($listeners));
+        
+        $this->container->expects($this->at(5))
+            ->method('get')
+            ->with('alpha_lemon_cms.block_manager_factory')
+            ->will($this->returnValue($blocksManagerFactory));
+        
+        
+        $startIndex = 6;
+        $this->checkAssets($listenerAssets, $startIndex, true);        
+        $this->checkAssets($blocksAssets, $startIndex);
+        
+        if ( ! empty($orphanSlots)) {            
+            $this->pageBlocks->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue($orphanSlots['blocks']));
+            
+            $this->template->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue($orphanSlots['slots'])); //
+        }
 
-        $this->pageBlocks->expects($this->once())
-            ->method('getBlocks')
-            ->will($this->returnValue(array()));
-        
-        $this->template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => 'slot')));
-
-        $listeners = array('alpha_lemon_demo.demo_listener' => 'alpha_lemon_demo.demo_listener');
-        $this->initRegistedListeners($listeners);
-        
-        $this->container->expects($this->exactly(4))
-            ->method('hasParameter')
-            ->will($this->onConsecutiveCalls(false, true, true, true));
-        
-        $appAssets = array('page-listener-stylesheet.css');
-        $this->container->expects($this->at(6))
-            ->method('getParameter')
-            ->with('alpha_lemon_demo.demo_listener.page.external_stylesheets')
-            ->will($this->returnValue($appAssets));
-        
-        $appAssets = array('language-listener-stylesheet.css');
-        $this->container->expects($this->at(8))
-            ->method('getParameter')
-            ->with('alpha_lemon_demo.demo_listener.en.external_stylesheets')
-            ->will($this->returnValue($appAssets));
-        
-        $appAssets = array('current-page-listener-stylesheet.css');
-        $this->container->expects($this->at(10))
-            ->method('getParameter')
-            ->with('alpha_lemon_demo.demo_listener.current-page.external_stylesheets')
-            ->will($this->returnValue($appAssets));
-        
         $themeAssets = array('theme-stylesheet.css');
         $this->setUpAssetsCollection($themeAssets);
 
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
         $pageTree->setup();
-        $pageTree->getExternalStylesheets();
-        //$this->assertEquals(array_merge($themeAssets, $appAssets), $pageTree->getExternalStylesheets());
+        $this->assertEquals($result, $pageTree->getExternalStylesheets());
     }
 
     public function testPageTreeHasNotBeenRefreshedBecauseThemeIsNull()
-    {return;
+    {
         $this->activeTheme->expects($this->once())
             ->method('getActiveTheme')
             ->will($this->returnValue(null));
@@ -897,8 +1216,9 @@ class AlPageTreeTest extends TestCase
         $this->themesCollectionWrapper->expects($this->never())
             ->method('assignTemplate');
 
-        $this->seoRepository->expects($this->never())
-            ->method('fromPageAndLanguage');
+        $this->seoRepository->expects($this->once())
+            ->method('fromPageAndLanguage')
+            ->will($this->returnValue($this->setUpSeo(2)));
 
         $this->languageRepository->expects($this->any())
             ->method('fromPK')
@@ -907,8 +1227,13 @@ class AlPageTreeTest extends TestCase
         $this->pageRepository->expects($this->any())
             ->method('fromPK')
             ->will($this->returnValue($this->page));
-
+        
         $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('event_dispatcher')
+            ->will($this->returnValue($this->dispatcher));
+        
+        $this->container->expects($this->at(1))
             ->method('get')
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
@@ -1157,6 +1482,51 @@ class AlPageTreeTest extends TestCase
         $this->container->expects($this->at(4))
             ->method('get')
             ->with('alpha_lemon_theme_engine.registed_listeners')
-            ->will($this->returnValue($listeners));
+            ->will($this->returnValue($listeners['listener']));
+    }
+    
+    private function checkAssets($assets, &$startIndex, $ignoreCms = false)
+    {
+        foreach($assets as $parameter => $asset) {
+            
+            $globalAsset = $asset['global']; 
+            $assetDeclared = $globalAsset['exists'];
+            $this->container->expects($this->at($startIndex))
+                ->method('hasParameter')
+                ->with($parameter)
+                ->will($this->returnValue($assetDeclared));
+            
+            $startIndex++;
+            if ($assetDeclared) {
+                $this->container->expects($this->at($startIndex))
+                    ->method('getParameter')
+                    ->with($parameter)
+                    ->will($this->returnValue($globalAsset['assets']));
+                $startIndex++;
+            }
+            
+            if ( ! $ignoreCms) {
+                if (array_key_exists('cms', $asset)) {
+                    $parameter .= '.cms';
+                    $cmsAsset = $asset['cms']; 
+                    $assetDeclared = $cmsAsset['exists'];
+                    $this->container->expects($this->at($startIndex))
+                        ->method('hasParameter')
+                        ->with($parameter)
+                        ->will($this->returnValue($assetDeclared));
+
+                    $startIndex++;
+                    if ($assetDeclared) {
+                        $this->container->expects($this->at($startIndex))
+                            ->method('getParameter')
+                            ->with($parameter)
+                            ->will($this->returnValue($cmsAsset['assets']));
+                        $startIndex++;
+                    }
+                } else {
+                    $startIndex++;
+                }
+            }
+        }
     }
 }
