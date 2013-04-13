@@ -54,85 +54,79 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveContentsWithoutRepeatedOnes()
     {
         $blocks = $this->blockRepository->retrieveContents(2, 2);
-        $this->assertEquals(11, count($blocks));
+        $this->assertCount(5, $blocks);
     }
 
     public function testRetrieveAllPageContents()
     {
         $blocks = $this->blockRepository->retrieveContents(array(1, 2), array(1, 2));
-        $this->assertEquals(23, count($blocks));
+        $this->assertCount(23, $blocks);
     }
 
     public function testRetrieveSlotContents()
     {
-        $blocks = $this->blockRepository->retrieveContents(array(1, 2), array(1, 2), 'logo');
-        $this->assertEquals(1, count($blocks));
-        $this->assertEquals('logo', $blocks[0]->getSlotName());
+        $blocks = $this->blockRepository->retrieveContents(array(1, 2), array(1, 2), 'navbar');
+        $this->assertCount(1, $blocks);
+        $this->assertEquals('navbar', $blocks[0]->getSlotName());
     }
 
     public function testRetrieveContentsRepeatedAtSiteLevelBySlotName()
     {
-        $blocks = $this->blockRepository->retrieveContentsBySlotName('logo');
-        $this->assertEquals(1, count($blocks));
+        $blocks = $this->blockRepository->retrieveContentsBySlotName('navbar');
+        $this->assertCount(1, $blocks);
     }
 
     public function testRetrieveContentsRepeatedAtLanguageLevelBySlotName()
     {
-        $blocks = $this->blockRepository->retrieveContentsBySlotName('nav_menu');
-        $this->assertEquals(2, count($blocks));
+        $blocks = $this->blockRepository->retrieveContentsBySlotName('footer_title_1');
+        $this->assertCount(2, $blocks);
     }
 
     public function testRetrieveContentsRepeatedAtPageLevelBySlotName()
     {
-        $blocks = $this->blockRepository->retrieveContentsBySlotName('right_sidebar_content');
-        $this->assertEquals(2, count($blocks));
+        $blocks = $this->blockRepository->retrieveContentsBySlotName('content_title_1');
+        $this->assertCount(2, $blocks);
     }
 
     public function testRetrieveContentsByLanguageId()
     {
         $blocks = $this->blockRepository->fromLanguageId(2);
-        $this->assertEquals(21, count($blocks));
+        $this->assertCount(23, $blocks);
     }
 
     public function testRetrieveAllContentsByLanguageId()
     {
         $blocks = $this->blockRepository->fromLanguageId(array(1, 2));
-        $this->assertEquals(24, count($blocks));
+        $this->assertCount(25, $blocks);
     }
 
     public function testRetrieveContentsByPageId()
     {
         $blocks = $this->blockRepository->fromPageId(2);
-        $this->assertEquals(22, count($blocks));
+        $this->assertCount(10, $blocks);
     }
 
     public function testRetrieveAllContentsByPageId()
     {
         $blocks = $this->blockRepository->fromPageId(array(1, 2));
-        $this->assertEquals(43, count($blocks));
+        $this->assertCount(44, $blocks);
     }
 
     public function testRetrieveContentsByContent()
     {
         $blocks = $this->blockRepository->fromContent('<h4>');
-        $this->assertEquals(8, count($blocks));
-    }
-
-    public function testRetrieveContentsByStrictContent()
-    {
-        $blocks = $this->blockRepository->fromContent('logo.png');
-        $this->assertEquals(1, count($blocks));
+        $this->assertCount(14, $blocks);
     }
 
     public function testRetrieveContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text');
-        $this->assertCount(31, $blocks);
+        $this->assertCount(43, $blocks);
     }
 
     public function testRetrieveNumberOfContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text', 'count');
-        $this->assertEquals(31, $blocks);
+        $this->assertEquals(43, $blocks);
     }
 }

@@ -39,7 +39,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
                                     'MetaDescription'   => 'page description',
                                     'MetaKeywords'      => 'key'),
                             array('PageName'      => 'page1',
-                                    'TemplateName'  => 'fullpage',
+                                    'TemplateName'  => 'empty',
                                     'Permalink'     => 'page-1',
                                     'MetaTitle'         => 'page 1 title',
                                     'MetaDescription'   => 'page 1 description',
@@ -49,7 +49,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
 
     public function testActiveteThemeWithoutSpecifingThePageToRedirect()
     {
-        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BusinessWebsiteThemeBundle');
+        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BootbusinessThemeBundle');
         $this->client->followRedirect();
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -58,7 +58,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
 
     public function testActiveteThemeSpecifingThePageToRedirect()
     {
-        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BusinessWebsiteThemeBundle/en/page1');
+        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BootbusinessThemeBundle/en/page1');
         $this->client->followRedirect();
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -67,7 +67,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
     
     public function testActiveteThemeRedirectsToHomePageWhenLanguageOrPageAreInvalid()
     {
-        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BusinessWebsiteThemeBundle/foo/bar');
+        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BootbusinessThemeBundle/foo/bar');
         $this->client->followRedirect();
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -76,14 +76,14 @@ class ThemesControllerTest extends WebTestCaseFunctional
 
     public function testThemeFixer()
     {
-        $params = array("themeName" => "BusinessWebsiteThemeBundle");
+        $params = array("themeName" => "BootbusinessThemeBundle");
         $crawler = $this->client->request('POST', 'backend/en/al_showThemeFixer', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $crawler->filter('#al_theme_fixer')->count());
         $this->assertEquals(1, $crawler->filter('#al_theme_fixer_form')->count());
         $this->assertEquals(1, $crawler->filter('#al_template')->count());
-        $this->assertEquals(4, $crawler->filter('#al_template option')->count());
+        $this->assertEquals(6, $crawler->filter('#al_template option')->count());
         $this->assertEquals(1, $crawler->filter('#al_template_changer')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_to_fix_list')->count());
         $this->assertEquals(1, $crawler->filter('#row_2')->count());
@@ -91,13 +91,13 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('html:contains("home")')->count());
         $this->assertEquals(1, $crawler->filter('#row_3')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("page1")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("fullpage")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("empty")')->count());
         $this->assertEquals(1, $crawler->filter('#al_activate_theme')->count());
     }
 
     public function testChangeTemplateFailsWhenAnyPagesHasBeenSelected()
     {
-        $params = array("themeName" => "BusinessWebsiteThemeBundle", "data" => "al_template=fullpage");
+        $params = array("themeName" => "BootbusinessThemeBundle", "data" => "al_template=fullpage");
         $crawler = $this->client->request('POST', 'backend/en/al_fixTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -106,7 +106,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
 
     public function testChangeTemplateFailsWhenThePagesDoesNotExist()
     {
-        $params = array("themeName" => "BusinessWebsiteThemeBundle", "data" => "al_template=fullpage&al_page_to_fix=999");
+        $params = array("themeName" => "BootbusinessThemeBundle", "data" => "al_template=fullpage&al_page_to_fix=999");
         $crawler = $this->client->request('POST', 'backend/en/al_fixTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -118,7 +118,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $pageRepository = new AlPageRepositoryPropel();
         $page = $pageRepository->fromPK(2);
         $this->assertEquals('home', $page->getTemplateName());
-        $params = array("themeName" => "BusinessWebsiteThemeBundle", "data" => "al_template=fullpage&al_page_to_fix=2");
+        $params = array("themeName" => "BootbusinessThemeBundle", "data" => "al_template=fullpage&al_page_to_fix=2");
         $crawler = $this->client->request('POST', 'backend/en/al_fixTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());

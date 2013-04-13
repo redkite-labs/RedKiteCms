@@ -60,9 +60,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
     }
-/* FIX ME
+    
     public function testShowContentsEditor()
     {
+        $this->markTestSkipped(
+            'Does not work correctly the very first time is runned by the full test suite.'
+        );
+        
         $params = array("idBlock" => 3);
         $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse(); echo $crawler->text();
@@ -81,6 +85,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testShowContentsEditorRenderedFromAListener()
     {
+        $this->markTestSkipped(
+            'Does not work correctly the very first time is runned by the full test suite.'
+        );
+        
         $params = array("idBlock" => 2);
         $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
         $response = $this->client->getResponse();
@@ -95,7 +103,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertRegExp('/class="al_items_list"/s', $json[0]["value"]);
         $this->assertRegExp('/\<td\>Home\<\/td\>/s', $json[0]["value"]);
         $this->assertRegExp("/\('\.al_add_item'\)\.AddItem\(2\);/s", $json[0]["value"]);
-    }*/
+    }
 
     public function testAddBlockFailsWhenAnyValidParameterIsGiven()
     {
@@ -114,12 +122,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testAddNewBlock()
     {
-        $referenceBlockId = $this->getLastBlock("left_sidebar_content")->getId();
+        $referenceBlockId = $this->getLastBlock("content_title_1")->getId();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content',
+                        'slotName' => 'content_title_1',
+                        'included' => 'false',
                         'idBlock' => $referenceBlockId);
 
         $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
@@ -137,26 +146,30 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("add-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("insertAfter", $json[1]));
-        $this->assertEquals("block_22", $json[1]["insertAfter"]);
+        $this->assertEquals("block_20", $json[1]["insertAfter"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
-        $this->assertEquals("left_sidebar_content", $json[1]["slotName"]);
+        $this->assertEquals("content_title_1", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
 
-        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(2, $blocks[count($blocks) - 1]->getContentPosition());
     }
 
     public function testAddNewBlockOnEmptySlot()
     {
-        $blocks = $this->getSlotBlocks("left_sidebar_content");
+        $blocks = $this->getSlotBlocks("content_title_1");
         $blocks->delete();
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
+        $this->assertCount(0, $blocks);
 
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content');
+                        'idBlock' => 0,
+                        'included' => 'false',
+                        'slotName' => 'content_title_1');
 
         $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
         $response = $this->client->getResponse();
@@ -175,12 +188,12 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("insertAfter", $json[1]));
         $this->assertEquals("block_0", $json[1]["insertAfter"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
-        $this->assertEquals("left_sidebar_content", $json[1]["slotName"]);
+        $this->assertEquals("content_title_1", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
         
-        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
-        $this->assertEquals(1, $blocks[count($blocks) - 1]->getContentPosition());
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
+        $this->assertCount(1, $blocks);
     }
 
     public function testEditBlockFailsWhenAnyValidParameterIsGiven()
@@ -214,12 +227,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testEditBlockDoesNothingWhenKeyDoesNotMatchAnyBlockFieldName()
     {
-        $blockId = $this->getLastBlock("left_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content',
+                        'slotName' => 'content_title_1',
+                        'included' => 'false',
                         "key" => "fake",
                         "value" => "new content",
                         "idBlock" => $blockId);
@@ -232,12 +246,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testEditBlockDoesNothingWhenTheSameSavedValueIsGiven()
     {
-        $blockId = $this->getLastBlock("left_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content',
+                        'slotName' => 'content_title_1',
+                        'included' => 'false',
                         "key" => "Content",
                         "value" => "<p>This is the default text for a new text content</p>",
                         "idBlock" => $blockId);
@@ -250,12 +265,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testEditBlock()
     {
-        $blockId = $this->getLastBlock("left_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content',
+                        'slotName' => 'content_title_1',
+                        'included' => 'false',
                         "key" => "Content",
                         "value" => "New content",
                         "idBlock" => $blockId);
@@ -279,7 +295,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/New content/s", $json[1]["value"]);
 
-        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(1, $blocks[count($blocks) - 1]->getContentPosition());
     }
 
@@ -314,12 +330,13 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testDeleteBlock()
     {
-        $blockId = $this->getLastBlock("left_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content',
+                        'slotName' => 'content_title_1',
+                        'included' => 'false',
                         "key" => "fake",
                         "value" => "new content",
                         "idBlock" => $blockId);
@@ -338,11 +355,11 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("redraw-slot", $json[1]["key"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
-        $this->assertEquals("left_sidebar_content", $json[1]["slotName"]);
+        $this->assertEquals("content_title_1", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/This slot has any content inside. Use the contextual menu to add a new one/s", $json[1]["value"]);
 
-        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(0, count($blocks));
     }
     
@@ -352,18 +369,21 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content');
+                        'slotName' => 'content_title_1',
+                        'included' => 'false',
+                        );
         $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
         $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
-        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(2, count($blocks));
         
-        $blockId = $this->getLastBlock("left_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => '2',
                         'languageId' => '2',
-                        'slotName' => 'left_sidebar_content',
+                        'slotName' => 'content_title_1',
+                        'included' => 'false',
                         "key" => "fake",
                         "value" => "new content",
                         "idBlock" => $blockId);
@@ -384,7 +404,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("blockName", $json[1]));
         $this->assertEquals("block_27", $json[1]["blockName"]);
 
-        $blocks = $this->blockRepository->retrieveContents(2, 2, "left_sidebar_content");
+        $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(1, count($blocks));
     }
     
@@ -460,7 +480,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "myfile",
             'field' => "ExternalJavascript",
-            "slotName" => "left_sidebar_content"
+            "slotName" => "content_title_1"
         );
         $crawler = $this->browse('/backend/en/addExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("You are trying to add an external file on a content that doesn\'t exist anymore")')->count() > 0);
@@ -468,7 +488,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testExternalFileIsAdded()
     {
-        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array(
             'page' => 'index',
             'language' => 'en',
@@ -476,7 +496,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "myfile",
             'field' => "ExternalJavascript",
-            "slotName" => "right_sidebar_content",
+            "slotName" => "content_title_1",
             "idBlock" => $blockId
         );
         $crawler = $this->client->request('POST', '/backend/en/addExternalFile', $params);
@@ -506,7 +526,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testAnotherExternalFileIsAdded()
     {
-        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array(
             'page' => 'index',
             'language' => 'en',
@@ -514,7 +534,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "another-file",
             'field' => "ExternalJavascript",
-            "slotName" => "right_sidebar_content",
+            "slotName" => "content_title_1",
             "idBlock" => $blockId
         );
         $crawler = $this->client->request('POST', '/backend/en/addExternalFile', $params);
@@ -544,7 +564,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testAnExternalFileCannotBeAddedMoreThanOnce()
     {
-        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array(
             'page' => 'index',
             'language' => 'en',
@@ -552,7 +572,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "another-file",
             'field' => "ExternalJavascript",
-            "slotName" => "right_sidebar_content",
+            "slotName" => "content_title_1",
             "idBlock" => $blockId
         );
         $crawler = $this->browse('/backend/en/addExternalFile', $params);
@@ -600,7 +620,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "myfile",
             'field' => "ExternalJavascript",
-            "slotName" => "right_sidebar_content"
+            "slotName" => "content_title_1"
         );
         $crawler = $this->browse('/backend/en/removeExternalFile', $params);
         $this->assertTrue($crawler->filter('html:contains("You are trying to delete an external file from a content that doesn\'t exist anymore")')->count() > 0);
@@ -608,7 +628,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     
     public function testExternalFileIsDeletedButNotRemovedFromTheDbBecauseItIsNotSavedIn()
     {
-        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array(
             'page' => 'index',
             'language' => 'en',
@@ -616,7 +636,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "not-saved-file",
             'field' => "ExternalJavascript",
-            "slotName" => "right_sidebar_content",
+            "slotName" => "content_title_1",
             "idBlock" => $blockId
         );
         $crawler = $this->client->request('POST', '/backend/en/removeExternalFile', $params);
@@ -634,7 +654,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testExternalFileIsDeleted()
     {
         // Adds a fake-file reference just to check that the result will be a comma separated string
-        $block = $this->getLastBlock("right_sidebar_content");
+        $block = $this->getLastBlock("content_title_1");
         $block->setExternalJavascript($block->getExternalJavascript() . ',fake-file');
         $block->save();
         $blockId = $block->getId();
@@ -645,7 +665,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "myfile",
             'field' => "ExternalJavascript",
-            "slotName" => "right_sidebar_content",
+            "slotName" => "content_title_1",
             "idBlock" => $blockId
         );
         $crawler = $this->client->request('POST', '/backend/en/removeExternalFile', $params);
@@ -668,7 +688,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     public function testDeletesAnotherExternalFile()
     {
-        $blockId = $this->getLastBlock("right_sidebar_content")->getId();
+        $blockId = $this->getLastBlock("content_title_1")->getId();
         $params = array(
             'page' => 'index',
             'language' => 'en',
@@ -676,7 +696,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             'languageId' => '2',
             "file" => "fake-file",
             'field' => "ExternalJavascript",
-            "slotName" => "right_sidebar_content",
+            "slotName" => "content_title_1",
             "idBlock" => $blockId
         );
         $crawler = $this->client->request('POST', '/backend/en/removeExternalFile', $params);
@@ -744,7 +764,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $params = array("page" => "2",
                         "language" => "2",
-                        'slotName' => 'left_sidebar_content');
+                        'slotName' => 'content_title_1');
 
         return $this->browse($route, $params);
     }
@@ -753,7 +773,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $params = array("page" => "2",
                         "language" => "2",
-                        'slotName' => 'left_sidebar_content',
+                        'slotName' => 'content_title_1',
                         'idBlock' => 9999);
 
         return $this->browse($route, $params);

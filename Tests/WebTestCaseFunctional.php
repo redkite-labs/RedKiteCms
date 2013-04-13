@@ -76,7 +76,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         );
 
         $activeThemeManager = $this->client->getContainer()->get('alphalemon_theme_engine.active_theme');
-        $activeThemeManager->writeActiveTheme('BusinessWebsiteThemeBundle');
+        $activeThemeManager->writeActiveTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle
     }
 
     protected static function populateDb()
@@ -88,7 +88,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
             ));
 
         $themes = $client->getContainer()->get('alpha_lemon_theme_engine.themes');
-        $theme = $themes->getTheme('BusinessWebsiteThemeBundle');
+        $theme = $themes->getTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle
         $template = $theme->getTemplate('home');
 
         $eventsHandler = $client->getContainer()->get('alpha_lemon_cms.events_handler');

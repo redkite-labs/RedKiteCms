@@ -224,7 +224,7 @@ class AlTemplateManager extends AlTemplateBase
         if (!is_string($slotName)) {
             return null;
         }
-
+        
         return (array_key_exists($slotName, $this->slotManagers)) ? $this->slotManagers[$slotName] : null;
     }
     

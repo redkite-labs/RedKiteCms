@@ -41,7 +41,7 @@ abstract class BaseModelPropel extends WebTestCaseFunctional
                   'MetaDescription'   => 'page description',
                   'MetaKeywords'      => 'key'),
             array('PageName'      => 'page1',
-                  'TemplateName'  => 'fullpage',
+                  'TemplateName'  => 'empty',
                   'Permalink'     => 'page-1',
                   'MetaTitle'         => 'page 1 title',
                   'MetaDescription'   => 'page 1 description',
