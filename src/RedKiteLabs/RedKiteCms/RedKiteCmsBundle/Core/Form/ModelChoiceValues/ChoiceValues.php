@@ -70,6 +70,10 @@ class ChoiceValues
     
     public static function getPermalinks(SeoRepositoryInterface $seoRepository, $language, $withNoneOption = true)
     {
+        if (empty($language)){
+            return array();   
+        }
+        
         $seoAttributes = (is_numeric($language)) ? $seoRepository->fromLanguageId($language) : $seoRepository->fromLanguageName($language);
 
         $permalinks = array();

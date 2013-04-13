@@ -45,7 +45,7 @@ class CmsControllerTest extends WebTestCaseFunctional
                                     'MetaDescription'   => 'page description',
                                     'MetaKeywords'      => 'key'),
                             array('PageName'      => 'page1',
-                                    'TemplateName'  => 'fullpage',
+                                    'TemplateName'  => 'empty',
                                     'Permalink'     => 'page-1',
                                     'MetaTitle'         => 'page 1 title',
                                     'MetaDescription'   => 'page 1 description',
@@ -78,45 +78,18 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() == 0);
 
-        $expectedStylesheets = array
-        (
-            "/bundles/businesswebsitetheme/css/reset.css",
-            "/bundles/businesswebsitetheme/css/layout.css",
-            "/bundles/businesswebsitetheme/css/style.css",
-            "/bundles/businesswebsitetheme/css/al_fix_style.css",
-            "/bundles/businesswebsitetheme/css/cms_fix.css",
-            "/bundles/businessmenu/css/business-menu.css",
-            "/bundles/businesscarousel/css/business-carousel.css",
-            "/bundles/businesscarousel/css/business-carousel-editor.css",
-            "/bundles/businessslider/css/business-slider.css",
-            "/bundles/businessdropcap/css/business-dropcap.css",
-            "/bundles/businessdropcap/css/business-dropcap-editor.css",
-        );
-
-        $expectedJavascripts = array
-        (
-            "/bundles/businesswebsitetheme/js/cufon-yui.js",
-            "/bundles/businesswebsitetheme/js/al-cufon-replace.js",
-            "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
-            "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_700.font.js",
-            "/bundles/businesswebsitetheme/js/jquery.easing.1.3.js",
-            "/bundles/businesswebsitetheme/js/jcarousellite.js",
-            "/bundles/businesscarousel/js/carousel.js",
-            "/bundles/businessslider/js/tms-0.3.js",
-            "/bundles/businessslider/js/tms_presets.js",
-            "/bundles/businessslider/js/slider.js",
-        );
-
-        $this->checkCms($crawler, $expectedStylesheets, $expectedJavascripts);
-        $this->assertEquals(1, $crawler->filter('#block_1')->count());
-        $this->assertEquals(1, $crawler->filter('.al_logo')->count());
-        $this->assertEquals(1, $crawler->filter('#block_2')->count());
-        $this->assertEquals(1, $crawler->filter('.al_nav_menu')->count());
-        $this->assertEquals(1, $crawler->filter('#block_16')->count());
-        $this->assertEquals(1, $crawler->filter('.al_top_section_2')->count());
-        $this->assertEquals(1, $crawler->filter('#block_11')->count());
-        $this->assertEquals(1, $crawler->filter('.al_copyright_box')->count());
-        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
+        $this->checkCms($crawler);
+        $this->assertCount(1, $crawler->filter('#block_20'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-name="block_20"]'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-editor="enabled"]'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-hide-when-edit="false"]'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-included=""]'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-type="Text"]'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-slot-name="content_title_1"]'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-block-id="20"]'));
+        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-content-editable="true"]'));
+        $this->checkIncludedBlock($crawler);
+        $this->assertCount(42, $crawler->filter('[data-editor="enabled"]'));
     }
 
     public function testMovingThroughPages()
@@ -138,37 +111,18 @@ class CmsControllerTest extends WebTestCaseFunctional
         $link = $crawler->selectLink('Another page')->link();
         $crawler = $this->client->click($link);
         
-        $expectedStylesheets = array
-        (
-            "/bundles/businesswebsitetheme/css/reset.css",
-            "/bundles/businesswebsitetheme/css/layout.css",
-            "/bundles/businesswebsitetheme/css/style.css",
-            "/bundles/businesswebsitetheme/css/al_fix_style.css",
-        );
-
-        $expectedJavascripts = array
-        (
-            "/bundles/businesswebsitetheme/js/cufon-yui.js",
-            "/bundles/businesswebsitetheme/js//al-cufon-replace.js",
-            "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_400.font.js",
-            "/bundles/businesswebsitetheme/js/Swis721_Cn_BT_700.font.js",
-            "/bundles/businesswebsitetheme/js/tabs.js",
-        );
-        
-        $this->checkStylesheets($crawler, $expectedStylesheets);
-        $this->checkJavascripts($crawler, $expectedJavascripts);
         $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() == 0);
-        $this->assertEquals(1, $crawler->filter('#block_1')->count());
-        $this->assertEquals(1, $crawler->filter('.al_logo')->count());
-        $this->assertEquals(1, $crawler->filter('#block_2')->count());
-        $this->assertEquals(1, $crawler->filter('.al_nav_menu')->count());
-        $this->assertEquals(1, $crawler->filter('.al_page_content')->count());
-        $this->assertEquals(1, $crawler->filter('#block_11')->count());
-        $this->assertEquals(1, $crawler->filter('.al_copyright_box')->count());
-        $this->assertEquals(13, $crawler->filter('.al_editable')->count());
-
-        //$link = $crawler->selectLink('home')->link();
-        //$crawler = $this->client->click($link);
+        $this->assertCount(1, $crawler->filter('#block_24'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-name="block_24"]'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-editor="enabled"]'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-hide-when-edit="false"]'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-included=""]'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-type="Text"]'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-slot-name="page_title"]'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-block-id="24"]'));
+        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-content-editable="true"]'));
+        $this->checkIncludedBlock($crawler);
+        $this->assertCount(23, $crawler->filter('[data-editor="enabled"]'));
     }
 
     public function testOpenPageFromPermalink()
@@ -178,11 +132,20 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    private function checkCms($crawler, $expectedStylesheets, $expectedJavascripts)
+    private function checkIncludedBlock($crawler)
+    {
+        $this->assertCount(0, $crawler->filter('#block_27'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_27"]'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_27"]')->filter('[data-included="1"]'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_27"]')->filter('[data-type="Link"]'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_27"]')->filter('[data-slot-name="1-0"]'));
+    }
+    
+    private function checkCms($crawler)
     {
         $this->checkToolbar($crawler);
-        $this->checkStylesheets($crawler, $expectedStylesheets);
-        $this->checkJavascripts($crawler, $expectedJavascripts);
+        $this->checkStylesheets($crawler);
+        $this->checkJavascripts($crawler);
     }
 
     private function checkToolbar($crawler)
@@ -201,18 +164,20 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->check($crawler, '#al_available_languages', "English");
     }
 
-    private function checkStylesheets($crawler, $expectedAssets)
+    private function checkStylesheets($crawler)
     {
         $assets = $crawler->filter('link')->extract(array('href'));
+        $this->assertCount(11, $assets);
         $assets = array_filter($assets, 'self::ignoreAssetic');
-        $this->assertEquals(0, count(array_diff($expectedAssets, $assets)));
+        $this->assertCount(3, $assets);
     }
 
-    private function checkJavascripts($crawler, $expectedAssets)
+    private function checkJavascripts($crawler)
     {
-        $assets = array_filter($crawler->filter('script')->extract(array('src')));
+        $assets = array_filter($crawler->filter('script')->extract(array('src')));        
+        $this->assertCount(38, $assets);
         $assets = array_filter($assets, 'self::ignoreAssetic');
-        $this->assertEquals(0, count(array_diff($expectedAssets, $assets)));
+        $this->assertCount(14, $assets);
     }
 
     private function check($crawler, $element, $value)

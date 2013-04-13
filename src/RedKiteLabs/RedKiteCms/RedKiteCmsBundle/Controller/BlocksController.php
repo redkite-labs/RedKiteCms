@@ -126,11 +126,10 @@ class BlocksController extends Base\BaseController
                   "LanguageId"      => $request->get('languageId'),
                   "SlotName"        => $slotName,
                   "Type"            => $contentType,
-                  "ContentPosition" => 0,
+                  "ContentPosition" => 1,
                   'CreatedAt'       => date("Y-m-d H:i:s")
                 );            
                 $blockManager->save($values);
-                //$block = $blockManager->toArray();
             }
             
             $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
@@ -402,7 +401,9 @@ class BlocksController extends Base\BaseController
 
     private function fetchSlotManager(Request $request = null, $throwExceptionWhenNull = true)
     {
-        if(null === $request) $request = $this->container->get('request');
+        if (null === $request) {
+            $request = $this->container->get('request');
+        }
         
         $slotManager = $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));
         if ($throwExceptionWhenNull && null === $slotManager) {

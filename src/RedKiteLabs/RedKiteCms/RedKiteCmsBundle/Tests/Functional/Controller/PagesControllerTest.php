@@ -130,22 +130,28 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
         $json = json_decode($response->getContent(), true);
-        $this->assertEquals(3, count($json));
+        $this->assertEquals(4, count($json));
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
         $this->assertEquals("The page has been successfully saved", $json[0]["value"]);
         $this->assertTrue(array_key_exists("key", $json[1]));
-        $this->assertEquals("pages", $json[1]["key"]);
+        $this->assertEquals("pages_list", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/\<a[^\>]+ref=\"2\"\>index\<\/a\>/s", $json[1]["value"]);
         $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>page1\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
-        $this->assertEquals("pages_menu", $json[2]["key"]);
+        $this->assertEquals("permalinks", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<select id=\"al_pages_navigator\"[^\>]+\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"2\" rel=\"index\" \>index/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"3\" rel=\"page1\" \>page1/s", $json[2]["value"]);
+        $this->assertRegExp("/\<select id=\"al_page_name\"[^\>]+\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"page-1\"\>page-1/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"this-is-a-website-fake-page\"\>this-is-a-website-fake-page/s", $json[2]["value"]);
+        $this->assertEquals("pages", $json[3]["key"]);
+        $this->assertTrue(array_key_exists("value", $json[3])); //<ul class="dropdown-menu dropdown-height dropdown-zindex">
+        $this->assertRegExp("/\<ul class=\"dropdown-menu[^\>]+\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"none\"[^\>]+\>\<a href=\"#\"\> \<\/a\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"2\"[^\>]+\>\<a href=\"#\"\>index\<\/a\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>page1\<\/a\>/s", $json[3]["value"]);
 
         $page = $this->pageRepository->fromPk(3);
         $this->assertNotNull($page);
@@ -167,9 +173,11 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', '/backend/en/page1');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('#block_1')->count());
-        $this->assertEquals(1, $crawler->filter('#block_32')->count());
-        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
+        $this->assertCount(0, $crawler->filter('#block_20'));
+        $this->assertCount(1, $crawler->filter('#block_25'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-name="block_25"]'));
+        $this->assertCount(0, $crawler->filter('#block_30'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_30"]'));
     }
 
     public function testPageJustAddedSeoAttributes()
@@ -251,8 +259,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertNotNull($seo);
 
         // Repeated contents have not been added
-        $pagesSlots = $this->retrievePageSlots();
-        $this->assertEquals(count($pagesSlots), count($this->blockRepository->retrieveContents(2, 4)));
+        $this->assertCount(8, $this->blockRepository->retrieveContents(2, 4));
     }
 
     public function testAddNewPageWithATemplateDifferentThanTheOneOfCurrentPage()
@@ -261,7 +268,7 @@ class PagesControllerTest extends WebTestCaseFunctional
             'page' => 'index',
             'language' => 'en',
             'pageName' => "another-page",
-            'templateName' => "fullpage",
+            'templateName' => "empty",
             'permalink' => "another-page",
             'isPublished' => "0",
             'title' => 'A title',
@@ -277,9 +284,11 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', '/backend/en/another-page');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('.al_page_content')->count()); //
-        $this->assertTrue($crawler->filter('html:contains("2806Lorem ipsum dolor")')->count() > 0);
-        $this->assertTrue($crawler->filter('html:contains("2506Duis aute irure")')->count() > 0);
+        $this->assertCount(0, $crawler->filter('#block_20'));
+        $this->assertCount(1, $crawler->filter('#block_56'));
+        $this->assertCount(1, $crawler->filter('#block_56')->filter('[data-name="block_56"]'));
+        $this->assertCount(0, $crawler->filter('#block_30'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_30"]'));
     }
 
     public function testEditPage()
@@ -342,7 +351,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                         'language' => 'en',
                         'pageId' => 4,
                         'languageId' => 2,
-                        'templateName' => 'fullpage',
+                        'templateName' => 'empty',
                         'permalink' => "page-2 edited",);
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
@@ -350,7 +359,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
 
         $page = $this->pageRepository->fromPK(4);
-        $this->assertEquals('fullpage', $page->getTemplateName());
+        $this->assertEquals('empty', $page->getTemplateName());
     }
 
     public function testDeletePageFailsBecauseAnyPageIdIsGiven()
@@ -455,23 +464,27 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
         $json = json_decode($response->getContent(), true);
-        $this->assertEquals(3, count($json));
+        $this->assertEquals(4, count($json));
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
         $this->assertEquals("The page has been successfully removed", $json[0]["value"]);
         $this->assertTrue(array_key_exists("key", $json[1]));
-        $this->assertEquals("pages", $json[1]["key"]);
+        $this->assertEquals("pages_list", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
         $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>page1\<\/a\>/s", $json[1]["value"]);
         $this->assertRegExp("/\<a[^\>]+ref=\"4\"\>page2-edited\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
-        $this->assertEquals("pages_menu", $json[2]["key"]);
+        $this->assertEquals("permalinks", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<option value=\"5\" rel=\"another-page\" \>another-page/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"3\" rel=\"page1\" \>page1/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"4\" rel=\"page2-edited\" \>page2-edited/s", $json[2]["value"]);
-
+        $this->assertRegExp("/\<option value=\"another-page\"\>another-page/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"page-2-edited\"\>page-2-edited/s", $json[2]["value"]);$this->assertEquals("pages", $json[3]["key"]);
+        $this->assertTrue(array_key_exists("value", $json[3])); 
+        $this->assertRegExp("/\<li id=\"none\"[^\>]+\>\<a href=\"#\"\> \<\/a\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"5\"[^\>]+\>\<a href=\"#\"\>another-page\<\/a\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>page1\<\/a\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"4\"[^\>]+\>\<a href=\"#\"\>page2-edited\<\/a\>/s", $json[3]["value"]);
+        
         $page = $this->pageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());
 
@@ -487,7 +500,7 @@ class PagesControllerTest extends WebTestCaseFunctional
             'page' => 'index',
             'language' => 'en',
             'pageName' => "another-page-1",
-            'templateName' => "fullpage",
+            'templateName' => "empty",
             'isPublished' => "0",
             'permalink' => "internal page 1",
             'title' => 'A title',
@@ -508,7 +521,7 @@ class PagesControllerTest extends WebTestCaseFunctional
             'page' => 'index',
             'language' => 'en',
             'pageName' => "another-page-2",
-            'templateName' => "fullpage",
+            'templateName' => "empty",
             'isPublished' => "0",
             'permalink' => "internal page 2",
             'title' => 'A title',
@@ -528,14 +541,14 @@ class PagesControllerTest extends WebTestCaseFunctional
         $page = $this->pageRepository->fromPk(6);
         $this->assertNotNull($page);
         $this->assertEquals('another-page-1', $page->getPageName());
-        $this->assertEquals('fullpage', $page->getTemplateName());
+        $this->assertEquals('empty', $page->getTemplateName());
         $this->assertEquals(0, $page->getIsHome());
         $this->assertEquals(0, $page->getIsPublished());
 
         $page = $this->pageRepository->fromPk(7);
         $this->assertNotNull($page);
         $this->assertEquals('another-page-2', $page->getPageName());
-        $this->assertEquals('fullpage', $page->getTemplateName());
+        $this->assertEquals('empty', $page->getTemplateName());
         $this->assertEquals(0, $page->getIsHome());
         $this->assertEquals(0, $page->getIsPublished());
     }

@@ -40,12 +40,11 @@ class AlCmsController extends BaseFrontendController
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
-
         $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');        
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
-
+            
         $params = array(
             'template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
             'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
@@ -56,16 +55,27 @@ class AlCmsController extends BaseFrontendController
             'internal_javascripts' => null,
             'skin_path' => $this->getSkin(),
             'is_secure' => $isSecure,
-            'pages' => ChoiceValues::getPages($this->pageRepository),
-            'languages' => ChoiceValues::getLanguages($this->languageRepository),
-            'permalinks' => ChoiceValues::getPermalinks($this->seoRepository, $request->get('_locale')),
             'page' => 0,
             'language' => 0,
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
             'frontController' => $this->getFrontcontroller($request),
         );
-
+        
         if (null !== $pageTree) {
+            $pageId = 0;
+            $languageId = 0;
+            $pageName = '';
+            $languageName = '';                    
+            if (null !== $pageTree->getAlPage()) {
+                $pageId =  $pageTree->getAlPage()->getId();
+                $pageName = $pageTree->getAlPage()->getPageName();
+            }
+            
+            if (null !== $pageTree->getAlLanguage()) {
+                $languageId =  $pageTree->getAlLanguage()->getId();
+                $languageName = $pageTree->getAlLanguage()->getLanguageName();
+            }
+            
             $template = $this->findTemplate($pageTree);
             $params = array_merge($params, array(
                 'metatitle' => $pageTree->getMetaTitle(),
@@ -74,10 +84,13 @@ class AlCmsController extends BaseFrontendController
                 'internal_stylesheets' => $pageTree->getInternalStylesheets(),
                 'internal_javascripts' => $pageTree->getInternalJavascripts(),
                 'template' => $template,
-                'page' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getId() : 0,
-                'language' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getId() : 0,
-                'page_name' => (null != $pageTree->getAlPage()) ? $pageTree->getAlPage()->getPageName() : '',
-                'language_name' => (null != $pageTree->getAlLanguage()) ? $pageTree->getAlLanguage()->getLanguageName() : '',
+                'pages' => ChoiceValues::getPages($this->pageRepository),
+                'languages' => ChoiceValues::getLanguages($this->languageRepository),
+                'permalinks' => ChoiceValues::getPermalinks($this->seoRepository, $languageId),
+                'page' => $pageId,
+                'language' => $languageId,
+                'page_name' => $pageName,
+                'language_name' => $languageName,
                 'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
@@ -102,8 +115,7 @@ class AlCmsController extends BaseFrontendController
     protected function dispatchCurrentPageEvent(Request $request)
     {
         $pageName = $request->get('page');
-        $seoRepository = $this->factoryRepository->createRepository('Seo');
-        $seo = $seoRepository->fromPermalink($pageName);
+        $seo = $this->seoRepository->fromPermalink($pageName);
         if (null !== $seo) {
             $page = $this->pageRepository->fromPk($seo->getPageId());
             $pageName = $page->getPageName();

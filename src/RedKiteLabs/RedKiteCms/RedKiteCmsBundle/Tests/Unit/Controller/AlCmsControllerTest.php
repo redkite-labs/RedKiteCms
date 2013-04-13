@@ -177,6 +177,14 @@ class AlCmsControllerTest extends TestCase
             ->with('event_dispatcher')
             ->will($this->returnValue($dispatcher));
         
+        $this->languageRepository->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array()));
+        
+        $this->pageRepository->expects($this->once())
+            ->method('activePages')
+            ->will($this->returnValue(array()));
+        
         $this->controller->showAction();        
     }
 
@@ -210,14 +218,6 @@ class AlCmsControllerTest extends TestCase
     
     private function initFactoryRepository()
     {
-        $this->languageRepository->expects($this->once())
-            ->method('activeLanguages')
-            ->will($this->returnValue(array()));
-        
-        $this->pageRepository->expects($this->once())
-            ->method('activePages')
-            ->will($this->returnValue(array()));
-        
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->with('Language')

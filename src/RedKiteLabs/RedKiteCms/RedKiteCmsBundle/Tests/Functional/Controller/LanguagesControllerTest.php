@@ -113,19 +113,15 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', '/backend/fr/index');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('#block_1')->count());
-        $this->assertEquals(1, $crawler->filter('#block_32')->count());
-        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
+        $this->checkPage($crawler);
     }
 
     public function testRequestingPageFromPermalink()
     {
         $crawler = $this->client->request('GET', '/backend/fr-this-is-a-website-fake-page');
         $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('#block_1')->count());
-        $this->assertEquals(1, $crawler->filter('#block_32')->count());
-        $this->assertEquals(23, $crawler->filter('.al_editable')->count());
+        $this->assertEquals(200, $response->getStatusCode());        
+        $this->checkPage($crawler);
     }
     
     public function testLoadLanguageAttributes()
@@ -284,5 +280,15 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $slots = $templateSlots->toArray();
 
         return $slots['page'];
+    }
+    
+    private function checkPage($crawler)
+    {
+        $this->assertCount(0, $crawler->filter('#block_20'));
+        $this->assertCount(1, $crawler->filter('#block_41'));
+        $this->assertCount(1, $crawler->filter('#block_41')->filter('[data-name="block_41"]'));
+        $this->assertCount(0, $crawler->filter('#block_46'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_46"]'));
+        $this->assertCount(42, $crawler->filter('[data-editor="enabled"]'));
     }
 }
