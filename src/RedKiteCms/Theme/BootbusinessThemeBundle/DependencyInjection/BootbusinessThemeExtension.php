@@ -37,12 +37,12 @@ class BootbusinessThemeExtension extends BaseExtension
                             'path' => __DIR__.'/../Resources/config/templates',
                             'configFiles' =>
                             array(
-                                'empty.xml',
+                                'product.xml',
+                                'two_columns.xml',
                                 'home.xml',
                                 'all_products.xml',
-                                'product.xml',
                                 'contacts.xml',
-                                'two_columns.xml',
+                                'empty.xml',
                             ),
                             'configuration' =>
                             array(
@@ -50,13 +50,13 @@ class BootbusinessThemeExtension extends BaseExtension
                                     'path' => __DIR__.'/../Resources/config/templates/slots',
                                     'configFiles' =>
                                     array(
-                                        'empty.xml',
+                                        'product.xml',
+                                        'two_columns.xml',
                                         'home.xml',
                                         'all_products.xml',
-                                        'base.xml',
-                                        'product.xml',
                                         'contacts.xml',
-                                        'two_columns.xml',
+                                        'base.xml',
+                                        'empty.xml',
                                     ),
                                 ),
                             ),
