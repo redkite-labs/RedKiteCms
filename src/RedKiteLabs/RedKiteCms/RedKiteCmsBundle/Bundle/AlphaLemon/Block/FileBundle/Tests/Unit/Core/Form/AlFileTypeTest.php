@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\Block\FileBundle\Tests\Unit\Core\Form;
 
-use AlphaLemon\Block\BusinessDropCapBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\Block\FileBundle\Core\Form\AlFileType;
 
 /**

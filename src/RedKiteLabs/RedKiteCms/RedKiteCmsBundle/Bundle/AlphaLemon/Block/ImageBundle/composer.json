@@ -1,8 +1,0 @@
-{
-    "autoload": {
-        "psr-0": { "AlphaLemon\\Block\\ImageBundle": ""
-        }
-    },
-    "target-dir" : "AlphaLemon/Block/ImageBundle",
-    "minimum-stability": "dev"
-}

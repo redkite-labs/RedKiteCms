@@ -178,7 +178,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $block = $this->initBlock();
         $this->setUpRepositoryBehavior(0, 1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
 
         $this
@@ -196,7 +196,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $block = $this->initBlock();
         $this->setUpRepositoryBehavior(0, 1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block, 'save', false);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block, 'save', false);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertFalse($this->slotManager->addBlock(2, 2));
     }
@@ -206,13 +206,13 @@ class AlSlotManagerTest extends AlContentManagerBase
         $block = $this->initBlock(null, 'Text', 2, 2);
         $this->setUpRepositoryBehavior();
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2));
         
         $blockManagers = $this->slotManager->getBlockManagers();
         $this->assertCount(1, $blockManagers);
-        $this->assertInstanceOf('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $blockManagers[0]);
+        $this->assertInstanceOf('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $blockManagers[0]);
         $this->assertEquals(1, $this->slotManager->length());
         $this->assertEquals(2, $this->slotManager->first()->get()->getLanguageId());
         $this->assertEquals(2, $this->slotManager->first()->get()->getPageId());
@@ -250,7 +250,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         ;
 
         $block = $this->initBlock(1, array('Text', 0), null, null, array(1, 0));
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         
@@ -287,7 +287,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         ;
 
         $block = $this->initBlock(1, 'Text', null, null, 1);
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         
@@ -332,7 +332,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         ;
 
         $block = $this->initBlock(1, 'Text', null, null, 1);
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         
@@ -360,7 +360,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(2);
         
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         $block = $this->initBlock(null, 'Script');
@@ -381,7 +381,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock(null, null, $languageId, $pageId);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => $repeated)), $this->blockRepository, $factory, $this->validator);
         $this->assertTrue($slotManager->addBlock(2, 2, "Text"));
 
@@ -394,7 +394,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock(1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
 
@@ -409,7 +409,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
 
         $this->blockManager
@@ -427,7 +427,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1, null, null, null, null);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block, 'save', false);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block, 'save', false);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block));
         $res = $slotManager->editBlock(1, array('Content' => 'fake'));
@@ -439,7 +439,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock(1, null, null, null, null, 'fake');
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block));
         $res = $slotManager->editBlock(1, array('Content' => 'fake'));
@@ -455,7 +455,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1);
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+        $blockManager = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -481,7 +481,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1);
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+        $blockManager = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -528,7 +528,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->returnValue(true));        
         
         $block1 = $this->initBlock(1, 'Text', null, null, 1);
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -574,7 +574,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block1 = $this->initBlock();
 
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -602,7 +602,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block1 = $this->initBlock();
 
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -630,7 +630,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(1);
         $block1 = $this->initBlock();
 
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText')
+        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -687,7 +687,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
         $this->assertNull($this->slotManager->first());
 
-        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock');
 
         $this->assertEquals('Text', $this->slotManager->first()->get()->getType());
     }
@@ -698,7 +698,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
         $this->assertNull($this->slotManager->last());
 
-        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock');
         $this->assertEquals('Text', $this->slotManager->last()->get()->getType());
 
         $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
@@ -720,7 +720,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertNull($this->slotManager->lastAdded());
         $block = $this->initBlock(1, 'Text');
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, 'Text'));
         $this->assertEquals('Text', $this->slotManager->lastAdded()->get()->getType());
@@ -742,7 +742,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(3);
 
         $this->assertNull($this->slotManager->indexAt(0));
-        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock');
         $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
         $this->addMoreBlocks('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', 'Menu');
         $this->assertNull($this->slotManager->indexAt(-1));
@@ -757,7 +757,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(2);
 
         $this->assertEquals(0, $this->slotManager->length());
-        $this->addMoreBlocks('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText');
+        $this->addMoreBlocks('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock');
         $this->assertEquals(1, $this->slotManager->length());
         $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
         $this->assertEquals(2, $this->slotManager->length());
@@ -771,7 +771,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertNull($this->slotManager->lastAdded());
         
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, 'Text'));
 
@@ -781,7 +781,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     public function testToArray()
     {
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
 
         $this->slotManager->setBlockManagerFactory($factory);
 
@@ -791,7 +791,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertTrue($this->slotManager->addBlock(2, 2));
 
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
 
         $this->slotManager->setBlockManagerFactory($factory);
 
@@ -807,7 +807,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     public function testForceAttributes()
     {
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
 
         $this->blockManager->expects($this->once())
                 ->method('set')
@@ -831,7 +831,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock();
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\TextBundle\Core\Block\AlBlockManagerText', $block);
+        $factory = $this->setUpFactory('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock', $block);
 
         $this->blockManager
             ->expects($this->once())

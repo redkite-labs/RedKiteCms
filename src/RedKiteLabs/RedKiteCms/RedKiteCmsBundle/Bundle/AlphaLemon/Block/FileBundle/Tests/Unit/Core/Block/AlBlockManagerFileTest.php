@@ -19,7 +19,6 @@ namespace AlphaLemon\Block\FileBundle\Tests\Unit\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\Block\FileBundle\Core\Block\AlBlockManagerFile;
-use org\bovigo\vfs\vfsStream;
 
 /**
  * AlBlockManagerFileTest
@@ -34,7 +33,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "Click to load a file",
-                "opened" : "0"
+                "opened" : false
             }
         }';
 
@@ -86,11 +85,14 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         }';
 
         $block = $this->initBlock($value);
-        $this->initContainerWithKernel();
-        $this->container->expects($this->exactly(2))
+        $this->initContainerWithKernel();        
+        $this->initDeployBundle();
+        
+        $this->container->expects($this->at(4))
                         ->method('getParameter')
-                        ->will($this->onConsecutiveCalls('AcmeWebsiteBundle', 'uploads/assets'));
-
+                        ->with('alpha_lemon_cms.upload_assets_dir')
+                        ->will($this->returnValue('uploads/assets'));
+        
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('<a href="/uploads/assets/files/my-file" />my-file</a>', $blockManager->getHtml());
@@ -105,19 +107,23 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 "opened" : "1"
             }
         }';
-
+        
         $block = $this->initBlock($value);
-        $this->initContainerWithKernel();
-        $this->container->expects($this->once())
+        $this->initContainerWithKernel();        
+        $this->initDeployBundle();
+        
+        
+        $this->container->expects($this->at(4))
                         ->method('getParameter')
-                        ->will($this->returnValue('AcmeWebsiteBundle'));
+                        ->with('alpha_lemon_cms.web_folder')
+                        ->will($this->returnValue('web'));
 
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('{% set file = kernel_root_dir ~ \'/../web/bundles/acmewebsite/files/my-file\' %} {{ file_open(file) }}', $blockManager->getHtml());
     }
 
-    public function testContentReplacedWhenOpenedIsFalse()
+    public function testContentReplaced()
     {
         $value =
         '{
@@ -129,41 +135,30 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $block = $this->initBlock($value);
         $this->initContainer();
-        $this->container->expects($this->once())
-                        ->method('getParameter')
-                        ->will($this->returnValue(vfsStream::url('uploads/assets')));
-
+        
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $blockManagerArray = $blockManager->toArray();
-        $this->assertEquals('<a href="/vfs://uploads/assets/files/my-file" />my-file</a>', $blockManagerArray['Content']);
-        $this->assertEquals(270, $blockManagerArray["EditorWidth"]);
+        
+        $expectedResult = array(
+            "RenderView" => array
+            (
+                "view" => "FileBundle:Content:file.html.twig",
+                "options" => array
+                    (
+                        "webfolder" => "",
+                        "folder" => "",
+                        "filename" => "files/my-file",
+                        "filepath" => "my-file",
+                        "max_length" => 500,
+                    )
+
+            )
+        );
+        
+        $this->assertEquals($expectedResult, $blockManagerArray['Content']);
     }
-
-    public function testContentReplacedWhenOpenedIsTrue()
-    {
-        $value =
-        '{
-            "0" : {
-                "file" : "files/my-file",
-                "opened" : "1"
-            }
-        }';
-
-        $root = vfsStream::setup('root', null, array('assets' => array('files' => array('my-file' => '<p>some html content</p>'))));
-
-        $block = $this->initBlock($value);
-        $this->initContainer();
-        $this->container->expects($this->once())
-                        ->method('getParameter')
-                        ->will($this->returnValue(vfsStream::url('root/assets')));
-
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
-        $blockManager->set($block);
-        $blockManagerArray = $blockManager->toArray();
-        $this->assertEquals('<p>some html content</p>', $blockManagerArray['Content']);
-    }
-
+    
     private function initBlock($value)
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
@@ -176,8 +171,21 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
     private function initContainerWithKernel()
     {
-        $this->container->expects($this->exactly(3))
-                        ->method('get')
-                        ->will($this->onConsecutiveCalls($this->eventsHandler, $this->factoryRepository, $this->kernel));
+        $this->initContainer();
+        
+        $this->container
+            ->expects($this->at(2))
+            ->method('get')
+            ->with('kernel')
+            ->will($this->returnValue($this->kernel))
+        ;
+    }
+    
+    private function initDeployBundle()
+    {
+        $this->container->expects($this->at(3))
+                        ->method('getParameter')
+                        ->with('alpha_lemon_theme_engine.deploy_bundle')                
+                        ->will($this->returnValue('AcmeWebsiteBundle'));
     }
 }
