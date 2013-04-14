@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu;
 
 /**
@@ -25,15 +25,24 @@ use AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerMenuTest extends TestCase
+class AlBlockManagerMenuTest extends AlBlockManagerContainerBase
 {
     public function testDefaultValue()
     {
-        $factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
-        $blockManager = new AlBlockManagerMenu($eventsHandler, $factoryRepository);
+        $expectedValue = array(
+            'Content' => '
+            {
+                "0": {
+                    "blockType" : "Link"
+                },
+                "1": {
+                    "blockType" : "Link"
+                }
+            }'
+        );
 
-        $expectedValue = array("Content" => "<ul><li>Link 1</li><li>Link 2</li><li>Link 3</li></ul>");
+        $this->initContainer();
+        $blockManager = new AlBlockManagerMenu($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 }

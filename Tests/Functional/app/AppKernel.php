@@ -23,16 +23,16 @@ class AppKernel extends Kernel
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
             new Propel\PropelBundle\PropelBundle(),
             new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
-            new AlphaLemon\Block\TextBundle\TextBundle(),
+           /* new AlphaLemon\Block\TextBundle\TextBundle(),
             new AlphaLemon\Block\MenuBundle\MenuBundle(),
             new AlphaLemon\Block\ScriptBundle\ScriptBundle(),
-            new AlphaLemon\Block\NavigationMenuBundle\NavigationMenuBundle(),
+            new AlphaLemon\Block\NavigationMenuBundle\NavigationMenuBundle(),*/
         );
 
-        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
+        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles, null, array(__DIR__ . '/../../../Bundle/AlphaLemon/Block'));
         $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
                                 ->getBundles();
-
+        
         $bundles[] = new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle();
 
         return $bundles;

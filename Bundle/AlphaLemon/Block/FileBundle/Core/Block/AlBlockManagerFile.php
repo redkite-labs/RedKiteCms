@@ -37,9 +37,10 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
         $file = $item['file'];
-
+        
+        $kernel = $this->container->get('kernel');
         $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
-        $deployBundleAsset = new AlAsset($this->container->get('kernel'), $deployBundle);
+        $deployBundleAsset = new AlAsset($kernel, $deployBundle);
 
         return ($item['opened'])
             ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('alpha_lemon_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)

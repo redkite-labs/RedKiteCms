@@ -45,6 +45,6 @@ class MenuExtensionTest extends TestCase
     {
         $extension = new MenuExtension();
         $extension->load(array(array()), $this->container);
-        $this->assertEquals(array('rich_editor' => 1), $this->container->getParameter('menu.editor_settings'));
+        $this->assertEquals(array('@MenuBundle/Resources/public/js/menu_editor.js'), $this->container->getParameter('menu.external_javascripts.cms'));
     }
 }

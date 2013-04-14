@@ -167,15 +167,15 @@ class CmsControllerTest extends WebTestCaseFunctional
     private function checkStylesheets($crawler)
     {
         $assets = $crawler->filter('link')->extract(array('href'));
-        $this->assertCount(11, $assets);
+        $this->assertGreaterThanOrEqual(5, $assets);
         $assets = array_filter($assets, 'self::ignoreAssetic');
         $this->assertCount(3, $assets);
     }
 
     private function checkJavascripts($crawler)
     {
-        $assets = array_filter($crawler->filter('script')->extract(array('src')));        
-        $this->assertCount(38, $assets);
+        $assets = array_filter($crawler->filter('script')->extract(array('src')));
+        $this->assertGreaterThanOrEqual(15, $assets);
         $assets = array_filter($assets, 'self::ignoreAssetic');
         $this->assertCount(14, $assets);
     }
