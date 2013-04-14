@@ -31,5 +31,21 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.contacts.slots" />
         </service>
+        <service id="bootbusiness_theme.theme.template.contacts.slots.offices_section_title" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">offices_section_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Offices</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.contacts.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.contacts.slots.offices" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">offices</argument>
+            <argument type="collection" >
+                <argument key="blockType">BootbusinessContactOfficeBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.contacts.slots" />
+        </service>
     </services>
 </container>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bootbusiness_theme.theme.template.two_columns.slots.left_column" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">left_column</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><img src="holder.js/200x100" class="bottom-space-less thumbnail"></a><p>
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+</p>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.two_columns.slots" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.two_columns.slots.right_column" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">right_column</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><img src="holder.js/200x100" class="bottom-space-less thumbnail"></a><p>
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+</p>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.two_columns.slots" />
+        </service>
+    </services>
+</container>

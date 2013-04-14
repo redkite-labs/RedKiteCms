@@ -39,10 +39,10 @@ class BootbusinessThemeExtension extends BaseExtension
                             array(
                                 'empty.xml',
                                 'home.xml',
-                                'two_equal_columns.xml',
                                 'all_products.xml',
                                 'product.xml',
                                 'contacts.xml',
+                                'two_columns.xml',
                             ),
                             'configuration' =>
                             array(
@@ -52,11 +52,11 @@ class BootbusinessThemeExtension extends BaseExtension
                                     array(
                                         'empty.xml',
                                         'home.xml',
-                                        'two_equal_columns.xml',
                                         'all_products.xml',
                                         'base.xml',
                                         'product.xml',
                                         'contacts.xml',
+                                        'two_columns.xml',
                                     ),
                                 ),
                             ),

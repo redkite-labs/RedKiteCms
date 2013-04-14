@@ -58,59 +58,22 @@
       </div>
       <div class="span5 offset1">
         <div class="page-header">
-          <h2>Offices</h2>
+            {% block offices_section_title %}
+                {# BEGIN-SLOT
+                    name: offices_section_title
+                    htmlContent: |
+                        <h2>Offices</h2>
+                END-SLOT #}
+                {{ renderSlot('offices_section_title') }}
+            {% endblock %}  
         </div>
-        <h3>North America</h3>
-        <div>
-          <address class="pull-left">
-            <strong>Bootbusiness, Inc.</strong><br>
-            123 Folsom Ave, Suite 600<br>
-            USA<br>
-          </address>
-          <div class="pull-right">
-            <div class="bottom-space">
-              <i class="icon-phone icon-large"></i> (123) 123-1234
-            </div>
-            <a href="mailto:contact@bootbusiness.com" class="contact-mail">
-              <i class="icon-envelope icon-large"></i>
-            </a> contact@bootbusiness.com
-          </div>
-          <div class="clearfix"></div>
-        </div>
-        <h3>Europe</h3>
-        <div>
-          <address class="pull-left">
-            <strong>Bootbusiness, Inc.</strong><br>
-            123 Folsom Ave, Suite 600<br>
-            UK<br>
-          </address>
-          <div class="pull-right">
-            <div class="bottom-space">
-              <i class="icon-phone icon-large"></i> (123) 123-1234
-            </div>
-            <a href="mailto:contact@bootbusiness.com" class="contact-mail">
-              <i class="icon-envelope icon-large"></i>
-            </a> contact@bootbusiness.com
-          </div>
-          <div class="clearfix"></div>
-        </div>
-        <h3>Asia</h3>
-        <div>
-          <address class="pull-left">
-            <strong>Bootbusiness, Inc.</strong><br>
-            123 Folsom Ave, Suite 600<br>
-            India<br>
-          </address>
-          <div class="pull-right">
-            <div class="bottom-space">
-              <i class="icon-phone icon-large"></i> (123) 123-1234
-            </div>
-            <a href="mailto:contact@bootbusiness.com" class="contact-mail">
-              <i class="icon-envelope icon-large"></i>
-            </a> contact@bootbusiness.com
-          </div>
-          <div class="clearfix"></div>
-        </div>
+        {% block offices %}
+            {# BEGIN-SLOT
+                name: offices
+                blockType: BootbusinessContactOfficeBlock
+            END-SLOT #}
+            {{ renderSlot('offices') }}
+        {% endblock %}  
       </div>
     </div>
   </div>
