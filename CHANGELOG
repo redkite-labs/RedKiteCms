@@ -1,3 +1,18 @@
+1.1 Beta (2013-04-14)
+6ed104d removed TextBundle
+f15e4d3 completed tests updating and fixing
+0a42213 BootbusinessTheme is now used ad default test theme.
+64bcb0b fixed a bug that does not display correctly the toolbar
+c29bada triggered an event when the cms starts and stops; the toolbar menu is now hidden when a block is included into a list
+f277d51 fixed page and permalink lists refresh when pages are managed
+acdc623 fixed permalinks list
+bcf2da3 removed menu-divider
+7a0e0e8 deprecated getEditorWidth
+f227477 added new block VerticalMenu
+d3ccbdc escaped form attribute values
+284bd6e removed data-content attribute from editor popover and replaced by data-encoded-content. When the popover is initialized, the editor is decode
+b2fc661 fixed a bug when adding a new image
+
 Preview Release 1.1 Rev 3  (2013-04-06)
 0bf30d5 fixed the argument for renderIncludedBlock method
 
