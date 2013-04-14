@@ -83,16 +83,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
             }
 
             $content = $this->decodeJsonContent($this->alBlock);
-            $content[0] = $item; 
-            /*
-            $itemId = $item["id"];
-            unset($item["id"]);
-            if ($itemId != "") {
-                $this->checkValidItemId($itemId, $content);
-                $content[$itemId] = $item;
-            } else {
-                $content[] = $item;
-            }*/
+            $content[0] = $item;
 
             $values['Content'] = json_encode($content);
         }
