@@ -9,9 +9,12 @@
 {% endblock %}
 
 {% block post_external_stylesheets %}
-    <link href="/bundles/bootbusinesstheme/css/font-awesome.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/bundles/bootbusinesstheme/css/font-awesome-ie7.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/bundles/bootbusinesstheme/css/boot-business.css" rel="stylesheet" type="text/css" media="all" />
+    {% stylesheets  filter='?yui_css,cssrewrite' 'bundles/bootbusinesstheme/css/font-awesome.css' 
+                                                 'bundles/bootbusinesstheme/css/font-awesome-ie7.css'
+                                                 'bundles/bootbusinesstheme/css/boot-business.css'
+    %}        
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block external_javascripts %}

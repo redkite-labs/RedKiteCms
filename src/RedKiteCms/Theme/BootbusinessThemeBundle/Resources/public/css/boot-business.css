@@ -15,7 +15,7 @@
 .navbar-inner, footer {
   border: none;
   padding: 15px 0;
-  background: url('/bundles/bootbusinesstheme/css/img/header-footer.png');
+  background: url('img/header-footer.png');
 }
 .navbar .brand-bootbus {
 	font-size: 30px;
@@ -84,7 +84,7 @@
 /* Start: Bootbusiness specific CSS */
 .content {
   padding: 30px 0;
-  background: url('/bundles/bootbusinesstheme/css/img/content.png');
+  background: url('img/content.png');
 }
 .thumbnail img {
   width: 100%;
