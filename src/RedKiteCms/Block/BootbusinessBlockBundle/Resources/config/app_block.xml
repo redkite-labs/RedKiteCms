@@ -11,7 +11,7 @@
         <parameter key="bootbusiness_product.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessProductBlock</parameter>
         <parameter key="bootbusiness_product_thumbnail.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessProductThumbnailBlock</parameter>
         <parameter key="bootbusinessproductblock.form.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Form\AlButtonType</parameter>
-        <parameter key="bootbusiness_partner.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessPartnerBlock</parameter>
+        <parameter key="bootbusiness_member.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessMemberBlock</parameter>
         <parameter key="bootbusiness_event.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessEventBlock</parameter>
         <parameter key="bootbusiness_contact_office.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessContactOfficeBlock</parameter>
     </parameters>
@@ -27,8 +27,8 @@
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="bootbusiness_partner.block" class="%bootbusiness_partner.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Partner" type="BootbusinessPartnerBlock" group="Bootbusiness,Bootbusiness product" />
+        <service id="bootbusiness_member.block" class="%bootbusiness_member.block.class%">
+            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Member" type="BootbusinessMemberBlock" group="Bootbusiness,Bootbusiness product" />
             <argument type="service" id="alpha_lemon_cms.events_handler" />
         </service>
         

@@ -10,7 +10,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 /**
  * Description of AlBlockManagerBootbusinessProductBlock
  */
-class AlBlockManagerBootbusinessPartnerBlock extends AlBlockManager
+class AlBlockManagerBootbusinessMemberBlock extends AlBlockManager
 {
     public function getDefaultValue()
     {
