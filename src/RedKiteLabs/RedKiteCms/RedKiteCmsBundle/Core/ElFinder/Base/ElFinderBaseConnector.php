@@ -35,13 +35,19 @@ abstract class ElFinderBaseConnector extends AlphaLemonElFinderBaseConnector
         }
         
         $request = $this->container->get('request');
+        
+        $baseUrl = dirname($request->getBaseUrl());
+        if ($baseUrl == '/') {
+            $baseUrl = "";
+        }
+        
         $options = array(
             'locale' => '',
             'roots' => array(
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
                     'path'          => $assetsPath,         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $folder, // URL to files (REQUIRED)
+                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . $baseUrl . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $folder, // URL to files (REQUIRED)
                     'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
                     'rootAlias'     => $rootAlias             // disable and hide dot starting files (OPTIONAL)
                 )
