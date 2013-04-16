@@ -5,6 +5,7 @@ $(document).ready(function() {
         }
         
         $('#al_page_name')
+            .unbind()
             .on('change', function(){
                 $('#al_json_block_href').val($('#al_page_name option:selected').val());
                 
