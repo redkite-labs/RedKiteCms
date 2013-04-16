@@ -4,7 +4,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 /**
  * AlBlockManagerImages is the base object deputated to handle a content made by a list 
@@ -42,7 +42,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
             if (array_key_exists('AddFile', $values)) { 
                 $file = $values["AddFile"];
 
-                $imageFile = "/" . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
+                $imageFile = "/" . AlAssetsPath::getUploadFolder($this->container) . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
                 if (in_array($imageFile, $savedImages)) {
                     throw new \Exception("The image file has already been added");
                 }

@@ -18,6 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\Base;
 
 use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
+use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 /**
  * Configures the ElFinder library to manage media files, like images, flash, pdf and more
@@ -34,20 +35,14 @@ abstract class ElFinderBaseConnector extends AlphaLemonElFinderBaseConnector
             @mkdir($assetsPath);
         }
         
-        $request = $this->container->get('request');
-        
-        $baseUrl = dirname($request->getBaseUrl());
-        if ($baseUrl == '/') {
-            $baseUrl = "";
-        }
-        
+        $request = $this->container->get('request');        
         $options = array(
             'locale' => '',
             'roots' => array(
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
                     'path'          => $assetsPath,         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . $baseUrl . '/' . $this->container->getParameter('alpha_lemon_cms.upload_assets_dir') . '/' . $folder, // URL to files (REQUIRED)
+                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . AlAssetsPath::getUploadFolder($this->container) . '/' . $folder, // URL to files (REQUIRED)
                     'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
                     'rootAlias'     => $rootAlias             // disable and hide dot starting files (OPTIONAL)
                 )
