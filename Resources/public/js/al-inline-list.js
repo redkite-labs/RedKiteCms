@@ -82,7 +82,7 @@
             // Adds an included block
             $('.al-add-item-list').blocksMenu('add');
             $('.al_block_adder').unbind().each(function(){ 
-                var addCallback = settings.addItemCallback;  
+                var addItemCallback = settings.addItemCallback;  
                 $(this).click(function(){
                     var value = '{"operation": "add", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
                     $('body').EditBlock("Content", value, null, function(activeBlock)
