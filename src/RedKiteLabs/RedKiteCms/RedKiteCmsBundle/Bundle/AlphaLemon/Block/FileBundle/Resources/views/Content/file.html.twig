@@ -5,13 +5,9 @@
 <a href="/{{ folder }}/{{ filepath }}" {{ editor|raw }}>{{ filename }}</a>
 {% else %}
 
-{% if max_length is not defined %}
-{% set max_length = null %}
-{% endif %}
-
 {% set file = kernel_root_dir ~ '/../' ~ webfolder ~ '/' ~ folder ~ '/' ~ filename %} 
 <div {{ editor|raw }}>
-{{ file_open(file, max_length) }}
+{{ file_open(file) }}
 </div>
 {% endif %}
 {% endblock %}

@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\BlockEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\HttpFoundation\Request;
+use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 /**
  * Implements the actions to manage the blocks on a slot's page
@@ -258,7 +259,7 @@ class BlocksController extends Base\BaseController
 
             $params = array(
                 'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
-                'assets_folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+                'assets_folder' => AlAssetsPath::getUploadFolder($this->container),
             );
             
             return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), $params);

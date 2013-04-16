@@ -9,6 +9,7 @@ namespace AlphaLemon\Block\FileBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 /**
  * Description of AlBlockManagerFile
@@ -44,7 +45,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 
         return ($item['opened'])
             ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('alpha_lemon_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
-            : sprintf('<a href="/%s/%s" />%s</a>', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'), $file, basename($file));        
+            : sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, basename($file));        
     }
         
     public function editorParameters()
@@ -91,18 +92,18 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             ? 
                 array(
                     'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
-                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+                    'folder' => AlAssetsPath::getUploadFolder($this->container),
                     'filename' => $file,
                 )
             :
                 array(
                     'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
-                    'folder' => $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'),
+                    'folder' => AlAssetsPath::getUploadFolder($this->container),
                     'filename' => $file,
                     'filepath' => basename($file),
                 )
         ;
-        
+        //print_r($options);exit;
         return $options;
     }
     
@@ -113,8 +114,6 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     
     private function formatLink($file)
     {
-        $uploadsPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_dir');
-
-        return sprintf('<a href="/%s/%s" />%s</a>', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'), $file, basename($file));
+        return sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, basename($file));
     }
 }

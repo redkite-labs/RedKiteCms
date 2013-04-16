@@ -23,6 +23,7 @@ use Symfony\Component\Finder\Finder;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
+use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 /**
  * The object deputated to deploy the website from development, AlphaLemon CMS, to production, 
@@ -91,7 +92,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir');
 
         $this->uploadAssetsFullPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
-        $this->uploadAssetsAbsolutePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_absolute_path');
+        $this->uploadAssetsAbsolutePath = AlAssetsPath::getAbsoluteUploadFolder($this->container);echo $this->uploadAssetsAbsolutePath;exit;
         
         $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
         $this->deployFolder = $this->getTemplatesFolder();
