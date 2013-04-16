@@ -756,6 +756,19 @@
 #al_block_menu_toolbar li {
   padding: 2px;
 }
+#al_block_menu_toolbar .al-img-button {
+  width: 26px;
+  height: 26px;
+}
+#al_block_menu_toolbar .al-img-add-button {
+  background: transparent url("images/block_menu/add.png") top left no-repeat;
+}
+#al_block_menu_toolbar .al-img-move-button {
+  background: transparent url("images/block_menu/move.png") top left no-repeat;
+}
+#al_block_menu_toolbar .al-img-delete-button {
+  background: transparent url("images/block_menu/delete.png") top left no-repeat;
+}
 
 .al_block_menu {
   display: none;
