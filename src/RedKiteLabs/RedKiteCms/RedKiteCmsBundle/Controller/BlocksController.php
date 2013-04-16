@@ -235,10 +235,10 @@ class BlocksController extends Base\BaseController
                         "key" => "redraw-slot",
                         "slotName" => $request->get('slotName'),
                         "blockId" => 'block_' . $request->get('idBlock'),
-                        "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => $request->get('included')))
+                        "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
                     );
                 }
-
+                
                 return $this->buildJSonResponse($values);
             } else {
                 throw new \RuntimeException('The content you tried to remove does not exist anymore in the website');
