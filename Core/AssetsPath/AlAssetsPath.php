@@ -27,8 +27,10 @@ class AlAssetsPath {
     {
         $request = $container->get('request');
         
-        $baseUrl = dirname($request->getBaseUrl());
-        $baseUrl = ($baseUrl != '/') ? $baseUrl . '/' : '';
+        $baseUrl = substr($request->getBaseUrl(), 1);
+        if ( ! empty($baseUrl)) {
+            $baseUrl .= '/';
+        }
         
         return $baseUrl . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
     }
