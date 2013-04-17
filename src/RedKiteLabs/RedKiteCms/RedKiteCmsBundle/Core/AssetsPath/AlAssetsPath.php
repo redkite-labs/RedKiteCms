@@ -27,7 +27,8 @@ class AlAssetsPath {
     {
         $request = $container->get('request');
         
-        $baseUrl = substr($request->getBaseUrl(), 1);
+        $baseUrl = dirname($request->getBaseUrl());
+        $baseUrl = substr($baseUrl, 1);
         if ( ! empty($baseUrl)) {
             $baseUrl .= '/';
         }
