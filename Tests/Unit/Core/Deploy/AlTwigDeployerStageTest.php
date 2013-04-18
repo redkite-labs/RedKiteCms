@@ -150,14 +150,14 @@ class AlTwigDeployerStageTest extends AlPageTreeCollectionBootstrapper
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
-        $this->container->expects($this->at(15))
+        $this->container->expects($this->at(17))
             ->method('get')
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
 
         $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $i = 16;
-        while ($i < 24) {
+        $i = 18;
+        while ($i < 26) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('event_dispatcher')
@@ -165,8 +165,8 @@ class AlTwigDeployerStageTest extends AlPageTreeCollectionBootstrapper
             $i = $i + 2;
         }
         
-        $i = 17;
-        while ($i < 24) {
+        $i = 19;
+        while ($i < 26) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
@@ -293,47 +293,62 @@ class AlTwigDeployerStageTest extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_cms.upload_assets_full_path')
             ->will($this->returnValue(vfsStream::url('root/web/uploads/assets')));
 
+        
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
         $this->container->expects($this->at(6))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_absolute_path')
-            ->will($this->returnValue('/web/uploads/assets'));
+            ->method('get')
+            ->with('request')
+            ->will($this->returnValue($request));
         
         $this->container->expects($this->at(7))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.upload_assets_dir')
+            ->will($this->returnValue('uploads/assets'));
+        
+        $this->container->expects($this->at(8))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.web_folder')
+            ->will($this->returnValue('web'));
+        
+        $this->container->expects($this->at(9))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.controller')
             ->will($this->returnValue('WebSite'));
         
-        $this->container->expects($this->at(8))
+        $this->container->expects($this->at(10))
             ->method('getParameter')
             ->with('alpha_lemon_theme_engine.deploy.stage_templates_folder')
             ->will($this->returnValue('AlphaLemon'));
         
-        $this->container->expects($this->at(9))
+        $this->container->expects($this->at(11))
                 ->method('get')
                 ->with('alpha_lemon_cms.view_renderer')
                 ->will($this->returnValue($this->viewRenderer));
         
-        $this->container->expects($this->at(10))
+        $this->container->expects($this->at(12))
             ->method('get')
             ->with('alpha_lemon_cms.url_manager')
             ->will($this->returnValue($this->urlManager));
 
-        $this->container->expects($this->at(11))
+        $this->container->expects($this->at(13))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($this->blockManagerFactory));
 
-        $this->container->expects($this->at(12))
+        $this->container->expects($this->at(14))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.views_dir')
             ->will($this->returnValue('Resources/views'));
         
-        $this->container->expects($this->at(13))
+        $this->container->expects($this->at(15))
             ->method('get')
             ->with('alpha_lemon_cms.url_manager_stage')
             ->will($this->returnValue($this->urlManager));
         
-        $this->container->expects($this->at(14))
+        $this->container->expects($this->at(16))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($this->dispatcher));

@@ -54,6 +54,15 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         $this->container->expects($this->once())
                         ->method('getParameter');
 
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->container->expects($this->at(2))
+                        ->method('get')
+                        ->with('request')
+                        ->will($this->returnValue($request));
+        
         $block = $this->initBlock();
         $params = array('AddFile' => "/new/path/to/image");
         $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);

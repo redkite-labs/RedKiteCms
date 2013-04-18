@@ -48,6 +48,7 @@ class ElFinderJavascriptsConnectorTest extends TestCase
         $request->expects($this->once())
             ->method('getHttpHost')
             ->will($this->returnValue('example.com'));
+        
 
         $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
         $bundle->expects($this->any())
@@ -57,7 +58,7 @@ class ElFinderJavascriptsConnectorTest extends TestCase
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->once())
+        $container->expects($this->exactly(2))
             ->method('get')
             ->will($this->returnValue($request));
         
@@ -71,7 +72,7 @@ class ElFinderJavascriptsConnectorTest extends TestCase
             ->with('alpha_lemon_cms.upload_assets_full_path')
             ->will($this->returnValue('/full/base/path/to/web/uploads/assets')); 
         
-        $container->expects($this->at(3))
+        $container->expects($this->at(4))
             ->method('getParameter')
             ->with('alpha_lemon_cms.upload_assets_dir')
             ->will($this->returnValue('uploads/assets'));
