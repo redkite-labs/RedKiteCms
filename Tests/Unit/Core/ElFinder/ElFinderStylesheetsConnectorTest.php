@@ -57,7 +57,7 @@ class ElFinderStylesheetsConnectorTest extends TestCase
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->once())
+        $container->expects($this->exactly(2))
             ->method('get')
             ->will($this->returnValue($request));
 
@@ -71,7 +71,7 @@ class ElFinderStylesheetsConnectorTest extends TestCase
             ->with('alpha_lemon_cms.upload_assets_full_path')
             ->will($this->returnValue('/full/base/path/to/web/uploads/assets')); 
         
-        $container->expects($this->at(3))
+        $container->expects($this->at(4))
             ->method('getParameter')
             ->with('alpha_lemon_cms.upload_assets_dir')
             ->will($this->returnValue('uploads/assets'));

@@ -88,7 +88,16 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->initContainerWithKernel();        
         $this->initDeployBundle();
         
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
         $this->container->expects($this->at(4))
+                        ->method('get')
+                        ->with('request')
+                        ->will($this->returnValue($request));
+        
+        $this->container->expects($this->at(5))
                         ->method('getParameter')
                         ->with('alpha_lemon_cms.upload_assets_dir')
                         ->will($this->returnValue('uploads/assets'));
@@ -112,7 +121,6 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->initContainerWithKernel();        
         $this->initDeployBundle();
         
-        
         $this->container->expects($this->at(4))
                         ->method('getParameter')
                         ->with('alpha_lemon_cms.web_folder')
@@ -135,6 +143,15 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $block = $this->initBlock($value);
         $this->initContainer();
+        
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->container->expects($this->at(3))
+                        ->method('get')
+                        ->with('request')
+                        ->will($this->returnValue($request));
         
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
