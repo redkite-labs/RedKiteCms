@@ -1,3 +1,7 @@
+1.1 Beta-1 (2013-04-14)
+693ce20 added a static class to manage the upload folder path
+------- fixed minor bugs
+
 1.1 Beta (2013-04-14)
 6ed104d removed TextBundle
 f15e4d3 completed tests updating and fixing
