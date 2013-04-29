@@ -60,7 +60,7 @@ class DeletePageBlocksListener
         if ($event->isAborted()) {
             return;
         }
-
+        
         $pageManager = $event->getContentManager();
         $pageRepository = $pageManager->getPageRepository();
 
@@ -77,7 +77,7 @@ class DeletePageBlocksListener
                         break;
                     }
                 }
-
+                
                 if (false !== $result) {
                     $pageRepository->commit();
                 } else {

@@ -227,11 +227,16 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();        
-        $request->expects($this->once())
+        $request->expects($this->at(0))
             ->method('get')
             ->with('page')
             ->will($this->returnValue('index'));
-
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+        
         $this->initContainer($request);
 
         $alLanguage = $this->setUpLanguage(2); 
@@ -446,10 +451,15 @@ class AlPageTreeTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $request->expects($this->once())
+        $request->expects($this->at(0))
             ->method('get')
             ->with('page')
             ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
 
         $this->initContainer($request);
 
@@ -1456,10 +1466,10 @@ class AlPageTreeTest extends TestCase
             ->with('alphalemon_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
 
-         $this->container->expects($this->at(2))
-                ->method('get')
-                ->with('request')
-                ->will($this->returnValue($request));
+        $this->container->expects($this->at(2))
+            ->method('get')
+            ->with('request')
+            ->will($this->returnValue($request));
     }
     
     private function initEventsDispatcher($beforeEvent = null, $afterEvent = null)
