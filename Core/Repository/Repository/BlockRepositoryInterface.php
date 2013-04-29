@@ -85,4 +85,6 @@ interface BlockRepositoryInterface
     public function fromType($className, $operation = 'find');
     
     public function deleteIncludedBlocks($key);
+    
+    public function deleteBlocks($idLanguage, $idPage);
 }

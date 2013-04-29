@@ -407,13 +407,13 @@ class AlTemplateManager extends AlTemplateBase
             $result = $this->clearBlocks($skipRepeated);
             $this->pageBlocks = $pageBlocks;
             $this->setUpSlotManagers();
-            
+
             if ($result !== false) {
                 $this->blockRepository->commit();
             } else {
                 $this->blockRepository->rollBack();
             }
-            
+
             return $result;
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -452,7 +452,7 @@ class AlTemplateManager extends AlTemplateBase
         foreach ($slots as $slotName => $slot) {
             $this->slotManagers[$slotName] = $this->createSlotManager($slot);
         }
-
+        
         // Looks for existing slots on previous theme, not included in the theme in use
         $orphanSlots = array_diff(array_keys($this->pageBlocks->getBlocks()), array_keys($slots));
         foreach ($orphanSlots as $slotName) {

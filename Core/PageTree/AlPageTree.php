@@ -374,37 +374,6 @@ class AlPageTree extends BaseAlPageTree
                     }
                 }
             }
-            
-            /*
-            $templateSlots = array_keys($template->getSlots());
-            $blocks = $this->pageBlocks->getBlocks();
-            foreach ($blocks as $slotName => $slotBlocks) {
-                
-                if ( ! in_array($slotName, $templateSlots)) {
-                    continue;
-                }
-                
-                foreach ($slotBlocks as $block) {
-                    $className = $block->getType();
-                    if (!in_array($className, $appsAssets)) {
-                        $parameterSchema = '%s.%s_%s';
-                        $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
-                        $this->addAssetsFromContainer($assetsCollection, $parameter);
-                        $this->addExtraAssets($assetsCollection, $parameter);
-
-                        $appsAssets[] = $className;
-                    }
-
-                    $method = 'get'. ucfirst($type) . ucfirst($assetType);
-                    $method = substr($method, 0, - 1);
-                    $assets = $block->$method();
-                    if ($type == "external") {
-                        $assetsCollection->addRange(explode(',', $assets));
-                    } else {
-                        $assetsCollection->add($assets);
-                    }
-                }
-            }*/
 
             return $assetsCollection;
         }
@@ -417,12 +386,13 @@ class AlPageTree extends BaseAlPageTree
      */
     protected function setupLanguage()
     {
-        if (null !== $this->alSeo) {
+        $request = $this->getRequest();
+        $languageId = $request->get('languageId');
+        
+        if ((null !== $this->alSeo && null === $languageId) || null !== $this->alSeo && $this->alSeo->getAlLanguage()->getId() == $languageId) {
             return $this->alSeo->getAlLanguage();
         }
-        
-        $request = $this->getRequest();
-        $languageId = $request->get('languageId');        
+           
         $alLanguage = (null === $languageId) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
         
         return $alLanguage;

@@ -78,6 +78,18 @@ class AlSiteBootstrapTest extends TestCase
                  ->getMock()
         ;
         
+        $this->blockRepository = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $this->blockManager = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
         $this->template = 
             $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
                  ->disableOriginalConstructor()
@@ -90,12 +102,12 @@ class AlSiteBootstrapTest extends TestCase
                  ->getMock()
         ;
         
-        $this->siteBoostrap = new AlSiteBootstrap($this->languageManager, $this->pageManager, $this->templateManager);
+        $this->siteBoostrap = new AlSiteBootstrap($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
     }
     
     public function testLanguageManagerInjectedBySetters()
     {
-        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->templateManager);
+        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $languageManager = 
             $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager')
                  ->disableOriginalConstructor()
@@ -108,7 +120,7 @@ class AlSiteBootstrapTest extends TestCase
     
     public function testPageManagerInjectedBySetters()
     {
-        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->templateManager);
+        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $pageManager = 
             $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
                  ->disableOriginalConstructor()
@@ -121,7 +133,7 @@ class AlSiteBootstrapTest extends TestCase
     
     public function testTemplateManagerInjectedBySetters()
     {
-        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->templateManager);
+        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $templateManager = 
             $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
                  ->disableOriginalConstructor()
@@ -136,6 +148,7 @@ class AlSiteBootstrapTest extends TestCase
     {   
         $this->initLanguageManager();
         $this->initPageManager();
+        $this->initBlockManager();
         
         $language = $this->initLanguage();
         $language
@@ -168,6 +181,7 @@ class AlSiteBootstrapTest extends TestCase
     {   
         $this->initLanguageManager();
         $this->initPageManager();
+        $this->initBlockManager();
         
         $language = $this->initLanguage();
         $language
@@ -202,6 +216,7 @@ class AlSiteBootstrapTest extends TestCase
     {   
         $this->initLanguageManager();
         $this->initPageManager();
+        $this->initBlockManager();
         
         $language = $this->initLanguage();
         $language
@@ -216,6 +231,7 @@ class AlSiteBootstrapTest extends TestCase
               ->method('delete')
         ;
         $this->initPageRepository(array($page));
+        $this->deleteBlocks();
                 
         $this->languageManager
              ->expects($this->once())
@@ -243,6 +259,7 @@ class AlSiteBootstrapTest extends TestCase
     {   
         $this->initLanguageManager();
         $this->initPageManager();
+        $this->initBlockManager();
         
         $language = $this->initLanguage();
         $language
@@ -257,6 +274,7 @@ class AlSiteBootstrapTest extends TestCase
               ->method('delete')
         ;
         $this->initPageRepository(array($page));
+        $this->deleteBlocks();
                 
         $this->languageManager
              ->expects($this->once())
@@ -296,6 +314,7 @@ class AlSiteBootstrapTest extends TestCase
     {   
         $this->initLanguageManager();
         $this->initPageManager();
+        $this->initBlockManager();
         
         $language = $this->initLanguage();
         $language
@@ -311,6 +330,7 @@ class AlSiteBootstrapTest extends TestCase
               ->method('delete')
         ;
         $this->initPageRepository(array($page));
+        $this->deleteBlocks();
                 
         $this->languageManager
              ->expects($this->once())
@@ -408,6 +428,15 @@ class AlSiteBootstrapTest extends TestCase
         ;
     }
     
+    private function initBlockManager()
+    {
+        $this->blockManager
+             ->expects($this->once())
+             ->method('getBlockRepository')
+             ->will($this->returnValue($this->blockRepository))
+        ;
+    }
+    
     private function initLanguageRepository($languages, $fails)
     {
         $this->languageRepository
@@ -451,6 +480,15 @@ class AlSiteBootstrapTest extends TestCase
              ->expects($this->once())
              ->method('activePages')
              ->will($this->returnValue($values))
+        ;
+    }
+    
+    private function deleteBlocks()
+    {
+        $this->blockRepository
+             ->expects($this->once())
+             ->method('deleteBlocks')
+             ->with(1, 1)
         ;
     }
     
