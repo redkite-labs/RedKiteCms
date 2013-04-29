@@ -141,6 +141,17 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->filterBySlotName($key . '%')
                 ->filterByToDelete(0)
                 ->update(array('ToDelete' => '1'));
-                //->delete();
+    }
+    
+    public function deleteBlocks($idLanguage, $idPage)
+    {
+        AlBlockQuery::create()
+                ->_if($idLanguage)
+                    ->filterByPageId($idLanguage)
+                ->_endif()
+                ->_if($idPage)
+                    ->filterByLanguageId($idPage)
+                ->_endif()
+                ->delete();
     }
 }

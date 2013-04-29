@@ -36,6 +36,7 @@ class AlSiteBootstrap
 {
     protected $languageManager;
     protected $pageManager;
+    protected $blockManager;
     protected $templateManager;
     protected $errorMessage = '';
     
@@ -62,10 +63,12 @@ class AlSiteBootstrap
      */
     public function __construct(AlLanguageManager $languageManager,
                                 AlPageManager $pageManager,
+                                \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager $blockManager,
                                 AlTemplateManager $templateManager = null)
     {
         $this->languageManager = $languageManager;
         $this->pageManager = $pageManager;        
+        $this->blockManager = $blockManager;
         $this->templateManager = $templateManager;
     }
     
@@ -138,6 +141,7 @@ class AlSiteBootstrap
     {
         $languageRepository = $this->languageManager->getLanguageRepository();
         $pageRepository = $this->pageManager->getPageRepository();
+        $blockRepository = $this->blockManager->getBlockRepository();
         
         $languageRepository->startTransaction();
         if ( ! $this->removeActiveLanguages($languageRepository)) {
@@ -147,6 +151,8 @@ class AlSiteBootstrap
         if ( ! $this->removeActivePages($pageRepository)) {
             return $this->fails($languageRepository);
         }
+        
+        $blockRepository->deleteBlocks(1, 1);
         
         if ( ! $this->addLanguage()) {
             return $this->fails($languageRepository);
