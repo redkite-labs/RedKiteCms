@@ -171,6 +171,7 @@
         <service id="alpha_lemon_cms.site_bootstrap" class="%alpha_lemon_cms.site_bootstrap.class%">
             <argument type="service" id="alpha_lemon_cms.language_manager" />
             <argument type="service" id="alpha_lemon_cms.page_manager" />
+            <argument type="service" id="alpha_lemon_cms.block_manager" />
         </service>
     </services>
 </container>

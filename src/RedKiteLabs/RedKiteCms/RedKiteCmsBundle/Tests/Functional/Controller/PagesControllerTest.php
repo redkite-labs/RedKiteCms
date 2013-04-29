@@ -451,6 +451,14 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     public function testDeletePage()
     {
+        $page = $this->pageRepository->fromPk(2);
+        $this->assertEquals(0, $page->getToDelete());
+        
+        $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
+        $this->assertNotNull($seo);
+        
+        $this->assertCount(21, $this->blockRepository->retrieveContents(2, 2));
+        
         $params = array('page' => 'page-2-edited',
                         'language' => 'en',
                         'pageId' => 2,
@@ -491,7 +499,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNull($seo);
 
-        $this->assertEquals(0, count($this->blockRepository->retrieveContents(2, 2)));
+        $this->assertCount(0, $this->blockRepository->retrieveContents(2, 2));
     }
 
     public function testAddSomePages()
