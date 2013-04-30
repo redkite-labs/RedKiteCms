@@ -26,74 +26,137 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
  */
 abstract class AlPageTreeCollectionBootstrapper extends TestCase
 {
-    protected $page1;
-    protected $page2;
-    protected $language1;
-    protected $language2;
-    protected $languageRepository;
-    protected $pageRepository;
+    protected $pages;
+    protected $languages;
     protected $themeRepository;
-    protected $seoRepository;
     protected $template;    
     protected $templateManager;
     protected $pageBlocks;
     protected $themes;
     protected $factoryRepository;
     protected $themesCollectionWrapper;
-
-    protected function initSomeLangugesAndPages()
+    protected $cycles;
+    
+    protected function setUpLanguagesAndPages($languages, $pages, $seo = array())
     {
-        // Prepares page and languages
-        $this->page1 = $this->setUpPage('index', true);
-        $this->page2 = $this->setUpPage('page-1');
-        $this->page3 = $this->setUpPage('page-2', false, false);
-        $this->language1 = $this->setUpLanguage('en', true);
-        $this->language2 = $this->setUpLanguage('es');
-
-        $this->initSeoRepository();
-        $this->initLanguageRepository();
-        $this->languageRepository->expects($this->exactly(4))
-            ->method('fromPK')
-            ->will($this->onConsecutiveCalls($this->language1, $this->language1, $this->language2, $this->language2));
-
-        $this->initPageRepository();
-        $this->pageRepository->expects($this->exactly(4))
-            ->method('fromPK')
-            ->will($this->onConsecutiveCalls($this->page1, $this->page2, $this->page1, $this->page2));
-
-        $this->initPageBlocks();
+        foreach ($languages as $language) {
+            $alLanguage = $this->setUpLanguage($language['language'], $language['isMain']);
+            $this->languages[$language['language']] = $alLanguage;
+        }
+        
+        $publishedPages = 0;
+        foreach ($pages as $page) {
+            $alPage = $this->setUpPage($page['page'], $page['isHome'], $page['published']);
+            $this->pages[$page['page']] = $alPage;
+            if ($page['published']) {
+                $publishedPages++;
+            }
+        }
+        
+        $this->seo = array();
+        foreach ($seo as $seoAttributes) {
+            $alSeo = $this->setUpSeo($seoAttributes['permalink'], $this->languages[$seoAttributes['language']], $this->pages[$seoAttributes['page']]);
+            $key = $seoAttributes['language'] . '-' . $seoAttributes['page'];
+            $this->seo[$key] = $alSeo;
+        }
+        
+        $this->cycles = count($languages) * $publishedPages;
+    
+        $this->initPageBlocks($this->cycles);
         $this->initTemplateManager();
+        $this->initThemesCollectionWrapper($this->cycles);
+        
+        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+                
+        $languageRepository = $this->initLanguageRepository();                                
+        $languageRepository->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue($this->languages));
+        
+        $pageRepository = $this->initPageRepository();       
+        $pageRepository->expects($this->once())
+            ->method('activePages')
+            ->will($this->returnValue($this->pages));
+        
+        $counter = 0;
+        $this->setUpCreateRepositoryMethod($languageRepository, $pageRepository, $counter);
+        
+        foreach($this->languages as $languageName => $language) {
+            $languageRepository = $this->initLanguageRepository();
+            $languageRepository->expects($this->exactly($publishedPages))
+                    ->method('fromPK')
+                    ->will($this->returnValue($language));
+                    
+            foreach($this->pages as $pageName => $page) { 
+                if( ! $page->getIsPublished()) {
+                    continue;
+                }
+                
+                $pageRepository = $this->initPageRepository();                
+                $pageRepository->expects($this->once())
+                    ->method('fromPK')
+                    ->will($this->returnValue($page));
+                
+                $key = $languageName . '-' . $pageName;
+                $seo = array_key_exists($key, $this->seo) ? $this->seo[$key] : null;
+                $seoRepository = $this->initSeoRepository();     
+                
+                if (null !== $seo) {           
+                    $seoRepository->expects($this->once())
+                        ->method('fromPageAndLanguage')
+                        ->will($this->returnValue($seo));
+                }
+                    
+                $this->setUpCreateRepositoryMethod($languageRepository, $pageRepository, $counter, $seoRepository); 
+            }       
+        }
+    }
+        
+    protected function setUpCreateRepositoryMethod($languageRepository, $pageRepository, &$counter, $seoRepository = null)
+    {
+        $this->factoryRepository->expects($this->at($counter))
+                ->method('createRepository')
+                ->with('Language')
+                ->will($this->returnValue($languageRepository));
+        $counter++;
+        
+        $this->factoryRepository->expects($this->at($counter))
+            ->method('createRepository')
+            ->with('Page')
+            ->will($this->returnValue($pageRepository));
+        $counter++;
+        
+        if (null !== $seoRepository) {
+            $this->factoryRepository->expects($this->at($counter))
+                ->method('createRepository')
+                ->with('Seo')
+                ->will($this->returnValue($seoRepository));
+            $counter++;
+        }
     }
     
     protected function initSeoRepository()
     {
-        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
+        return $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
+                    ->disableOriginalConstructor()
+                    ->getMock();
     }
     
     protected function initLanguageRepository()
     {
-        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $this->languageRepository->expects($this->once())
-            ->method('activeLanguages')
-            ->will($this->returnValue(array($this->language1, $this->language2)));
+        return $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+                    ->disableOriginalConstructor()
+                    ->getMock();
     }
     
     protected function initPageRepository()
     {
-        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $this->pageRepository->expects($this->once())
-            ->method('activePages')
-            ->will($this->returnValue(array($this->page1, $this->page2, $this->page3)));
+        return $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+                    ->disableOriginalConstructor()
+                    ->getMock();
     }
     
-    protected function initPageBlocks($expects = 4)
+    protected function initPageBlocks($expects)
     {
         // Prepares the pageBlocks object
         $this->pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
@@ -147,7 +210,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->will($this->returnSelf());
     }
     
-    protected function initThemesCollectionWrapper($expected = 4)
+    protected function initThemesCollectionWrapper($expected)
     {
         $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
@@ -220,7 +283,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         return $language;
     }
 
-    protected function setUpSeo($permalink, $page, $language)
+    protected function setUpSeo($permalink, $language, $page)
     {
         $seo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
         $seo->expects($this->any())
@@ -228,12 +291,12 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->will($this->onConsecutiveCalls($permalink));
 
         $seo->expects($this->any())
-            ->method('getAlPage')
-            ->will($this->returnValue($page));
-
-        $seo->expects($this->any())
             ->method('getAlLanguage')
             ->will($this->returnValue($language));
+            
+        $seo->expects($this->any())
+            ->method('getAlPage')
+            ->will($this->returnValue($page));
 
         return $seo;
     }

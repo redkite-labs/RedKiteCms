@@ -32,126 +32,251 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
     }
-
-    public function testPageTreeCollectionHasBeenPopulated()
-    {
-        $this->initSomeLangugesAndPages();
-        $this->initThemesCollectionWrapper();
-
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $this->factoryRepository->expects($this->any())
-            ->method('createRepository')
-            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository));
-
-        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
-        $activeTheme->expects($this->any())
-            ->method('getActiveTheme')
-            ->will($this->returnValue('BusinessWebsiteTheme'));
-        
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('alpha_lemon_cms.themes_collection_wrapper')
-            ->will($this->returnValue($this->themesCollectionWrapper));
-        
-        $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        
-        $i = 1;
-        while ($i < 9) {
-            $this->container->expects($this->at($i))
-                ->method('get')
-                ->with('event_dispatcher')
-                ->will($this->returnValue($dispatcher));
-        
-            $i = $i + 2;
-        }
-        
-        $i = 2;
-        while ($i < 9) {
-            $this->container->expects($this->at($i))
-                ->method('get')
-                ->with('alphalemon_theme_engine.active_theme')
-                ->will($this->returnValue($activeTheme));  
-        
-            $i = $i + 2; 
-        }
-        
-        $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
-        $this->assertEquals(4, count($pageTreeCollection));
-
-        $pageTree = $pageTreeCollection->at(0);
-        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguageName());
-        $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
-
-        $pageTree = $pageTreeCollection->at(1);
-        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguageName());
-        $this->assertEquals('page-1', $pageTree->getAlPage()->getPageName());
-
-        $pageTree = $pageTreeCollection->at(2);
-        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguageName());
-        $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
-
-        $pageTree = $pageTreeCollection->at(3);
-        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguageName());
-        $this->assertEquals('page-1', $pageTree->getAlPage()->getPageName());
-        
-        $this->assertNull($pageTreeCollection->at(4));
-        $this->assertEquals(0, $pageTreeCollection->key(0));
-    }
     
-    public function testPageTreeCollectionHasSkippedThePagesWhichHasNotToBePublished()
-    {
-        $this->page1 = $this->setUpPage('index', true);
-        $this->page2 = $this->setUpPage('page-1', false, false);
-        $this->page3 = $this->setUpPage('page-2', false, false);
-        $this->language1 = $this->setUpLanguage('en', true);
-        $this->language2 = $this->setUpLanguage('es');
+    public function pages() {
+        return array( 
+            array(
+                array(
+                    array(
+                        'language' => 'en', 
+                        'isMain' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'page' => 'index', 
+                        'isHome' => true,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-1',
+                        'isHome' => false,
+                        'published' => true,
+                    ),
+                ),
+            ),    
+            array(
+                array(
+                    array(
+                        'language' => 'en', 
+                        'isMain' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'page' => 'index', 
+                        'isHome' => true,
+                        'published' => true,
+                    ),
+                ),
+            ),    
+            array(
+                array(
+                    array(
+                        'language' => 'en', 
+                        'isMain' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'page' => 'index', 
+                        'isHome' => true,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-1',
+                        'isHome' => false,
+                        'published' => false,
+                    ),
+                    array(
+                        'page' => 'page-2',
+                        'isHome' => false,
+                        'published' => true,
+                    ),
+                ),
+            ),    
+            array(
+                array(
+                    array(
+                        'language' => 'en', 
+                        'isMain' => true,
+                    ),
+                    array(
+                        'language' => 'es', 
+                        'isMain' => false,
+                    ),
+                ),
+                array(
+                    array(
+                        'page' => 'index', 
+                        'isHome' => true,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-1',
+                        'isHome' => false,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-2',
+                        'isHome' => false,
+                        'published' => false,
+                    ),
+                ),
+            ),    
+            array(
+                array(
+                    array(
+                        'language' => 'en', 
+                        'isMain' => true,
+                    ),
+                    array(
+                        'language' => 'es', 
+                        'isMain' => false,
+                    ),
+                ),
+                array(
+                    array(
+                        'page' => 'index', 
+                        'isHome' => true,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-1',
+                        'isHome' => false,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-2',
+                        'isHome' => false,
+                        'published' => false,
+                    ),
+                    array(
+                        'page' => 'page-3',
+                        'isHome' => false,
+                        'published' => true,
+                    ),
+                ),
+            ),      
+            array(
+                array(
+                    array(
+                        'language' => 'en', 
+                        'isMain' => false,
+                    ),
+                    array(
+                        'language' => 'es', 
+                        'isMain' => true,
+                    ),
+                    array(
+                        'language' => 'it', 
+                        'isMain' => false,
+                    ),
+                ),
+                array(
+                    array(
+                        'page' => 'index', 
+                        'isHome' => true,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-1',
+                        'isHome' => false,
+                        'published' => true,
+                    ),
+                    array(
+                        'page' => 'page-2',
+                        'isHome' => false,
+                        'published' => false,
+                    ),
+                    array(
+                        'page' => 'page-3',
+                        'isHome' => false,
+                        'published' => true,
+                    ),
+                ),
+            ),                   
+            
+        );
+    }
 
-        $this->initSeoRepository();
-        $this->initLanguageRepository();
-        $this->languageRepository->expects($this->exactly(2))
-            ->method('fromPK')
-            ->will($this->onConsecutiveCalls($this->language1, $this->language2));
-
-        $this->initPageRepository();
-        $this->pageRepository->expects($this->exactly(2))
-            ->method('fromPK')
-            ->will($this->returnValue($this->page1));
-
-        $this->initPageBlocks(2);
-        $this->initTemplateManager();        
-        $this->initThemesCollectionWrapper(2); 
+    /**
+     * @dataProvider pages
+     */
+    public function testPageTreeCollectionHasBeenPopulated($languages, $pages)
+    {     
+        $this->setUpLanguagesAndPages($languages, $pages);
+        /*
+        foreach ($languages as $language) {
+            $alLanguage = $this->setUpLanguage($language['language'], $language['isMain']);
+            $this->languages[] = $alLanguage;
+        }
+        
+        $publishedPages = 0;
+        foreach ($pages as $page) {
+            $alPage = $this->setUpPage($page['page'], $page['isHome'], $page['published']);
+            $this->pages[] = $alPage;
+            if ($page['published']) {
+                $publishedPages++;
+            }
+        }
+        
+        $cycles = count($languages) * $publishedPages;
+    
+        $this->initPageBlocks($cycles);
+        $this->initTemplateManager();
+        $this->initThemesCollectionWrapper($cycles);
         
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $this->factoryRepository->expects($this->any())
-            ->method('createRepository')
-            ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository,
-                    $this->languageRepository, $this->pageRepository, $this->seoRepository));
+                
+        $languageRepository = $this->initLanguageRepository();                                
+        $languageRepository->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue($this->languages));
+        
+        $pageRepository = $this->initPageRepository();       
+        $pageRepository->expects($this->once())
+            ->method('activePages')
+            ->will($this->returnValue($this->pages));
+        
+        $counter = 0;
+        $this->setUpCreateRepositoryMethod($languageRepository, $pageRepository, $counter);
+        
+        foreach($this->languages as $language) {
+            $languageRepository = $this->initLanguageRepository();
+            $languageRepository->expects($this->exactly($publishedPages))
+                    ->method('fromPK')
+                    ->will($this->returnValue($language));
+                    
+            foreach($this->pages as $page) { 
+                if( ! $page->getIsPublished()) {
+                    continue;
+                }
+                
+                $pageRepository = $this->initPageRepository();                
+                $pageRepository->expects($this->once())
+                    ->method('fromPK')
+                    ->will($this->returnValue($page));
+                
+                $this->setUpCreateRepositoryMethod($languageRepository, $pageRepository, $counter); 
+            }       
+        }*/
 
+        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme->expects($this->any())
+            ->method('getActiveTheme')
+            ->will($this->returnValue('BusinessWebsiteTheme'));
+        
         $this->container->expects($this->at(0))
             ->method('get')
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
         
         $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('event_dispatcher')
-            ->will($this->returnValue($dispatcher));
         
-        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
-        $activeTheme->expects($this->any())
-            ->method('getActiveTheme')
-            ->will($this->returnValue('BusinessWebsiteTheme'));
-        
+        $numberOfCalls = ($this->cycles * 2);
         $i = 1;
-        while ($i < 4) {
+        while ($i < $numberOfCalls) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('event_dispatcher')
@@ -161,7 +286,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         }
         
         $i = 2;
-        while ($i < 6) {
+        while ($i < $numberOfCalls + 1) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
@@ -171,14 +296,24 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         }
         
         $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
-        $this->assertEquals(2, count($pageTreeCollection));
-
-        $pageTree = $pageTreeCollection->at(0);
-        $this->assertEquals('en', $pageTree->getAlLanguage()->getLanguageName());
-        $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
+        $this->assertEquals($this->cycles, count($pageTreeCollection));
         
-        $pageTree = $pageTreeCollection->at(1);
-        $this->assertEquals('es', $pageTree->getAlLanguage()->getLanguageName());
-        $this->assertEquals('index', $pageTree->getAlPage()->getPageName());
+        $counter = 0;
+        foreach ($languages as $language) {
+            foreach ($pages as $page) {
+                if ( ! $page['published']) {
+                    continue;
+                }
+                
+                $pageTree = $pageTreeCollection->at($counter);
+                $this->assertEquals($language['language'], $pageTree->getAlLanguage()->getLanguageName());
+                $this->assertEquals($page['page'], $pageTree->getAlPage()->getPageName());
+                
+                $counter++;
+            }
+        }
+        
+        $this->assertNull($pageTreeCollection->at($this->cycles));
+        $this->assertEquals(0, $pageTreeCollection->key(0));
     }
 }

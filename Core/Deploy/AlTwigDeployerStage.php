@@ -19,6 +19,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterBase;
 
 /**
  * AlTwigDeployer extends the base deployer class to deploy the website for stage environment
@@ -40,7 +41,7 @@ class AlTwigDeployerStage extends AlTwigDeployer
 
         $this->urlManager = $this->container->get('alpha_lemon_cms.url_manager_stage');
     }
-    
+        
     /**
      * {@inheritdoc}
      */
