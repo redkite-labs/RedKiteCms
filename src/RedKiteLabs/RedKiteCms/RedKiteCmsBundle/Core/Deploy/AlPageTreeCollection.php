@@ -38,7 +38,6 @@ class AlPageTreeCollection implements \Iterator, \Countable
     private $languageRepository = null;
     private $pageRepository = null;
     private $themesCollectionWrapper = null;
-    private $seoRepository = null;
 
     /**
      * Constructor
@@ -58,7 +57,6 @@ class AlPageTreeCollection implements \Iterator, \Countable
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
-        $this->seoRepository = $this->factoryRepository->createRepository('Seo');
 
         $this->setUp();
     }

@@ -117,6 +117,7 @@ class ThemesController extends BaseController
         $result = $siteBootstrap
                     ->setTemplateManager($templateManager)
                     ->bootstrap();
+        
         if ($result) {
             $message = "The site has been bootstrapped with the new theme. This page is reloading";
             $statusCode = 200;

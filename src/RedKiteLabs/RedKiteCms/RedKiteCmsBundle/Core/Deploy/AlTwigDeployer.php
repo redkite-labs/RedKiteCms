@@ -20,7 +20,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterBase;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterPages;
 
 /**
  * AlTwigDeployer extends the base deployer class to save the PageTree as a twig template
@@ -63,14 +64,36 @@ abstract class AlTwigDeployer extends AlDeployer
     /**
      * @inheritDoc
      */
-    protected function save(AlPageTree $pageTree)
+    protected function save(AlPageTree $pageTree, $type)
     {
         $imagesPath = array(
             'backendPath' => $this->uploadAssetsAbsolutePath,
             'prodPath' => $this->deployBundleAsset->getAbsolutePath()
         );
         
-        $twigTemplateWriter = new AlTwigTemplateWriter($pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewsRenderer, $imagesPath);
+        switch($type)
+        {
+            case 'Base':
+                $twigTemplateWriter = new AlTwigTemplateWriterBase(
+                    $pageTree, 
+                    $this->blockManagerFactory, 
+                    $this->urlManager, 
+                    $this->viewsRenderer, 
+                    $imagesPath
+                );
+                break;
+            case 'Pages':
+                $twigTemplateWriter = new AlTwigTemplateWriterPages(
+                    $pageTree, 
+                    $this->blockManagerFactory, 
+                    $this->urlManager,
+                    $this->deployBundle,
+                    $this->getTemplatesFolder(), 
+                    $this->viewsRenderer, 
+                    $imagesPath
+                );
+                break;
+        }
 
         return $twigTemplateWriter->writeTemplate($this->viewsDir);
     }

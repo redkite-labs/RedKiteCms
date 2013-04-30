@@ -156,7 +156,7 @@ class AlTwigTemplateWriter
     /**
      * Generates the template's subsections and the full template itself
      */
-    protected function generateTemplate()
+    /*protected function generateTemplate()
     {
         $this->generateTemplateSection();
         $this->generateMetaTagsSection();
@@ -165,7 +165,7 @@ class AlTwigTemplateWriter
         $this->generateAddictionalMetaTagsSection();
 
         $this->twigTemplate = $this->templateSection . $this->metatagsSection . $this->metatagsExtraSection . $this->assetsSection . $this->contentsSection;
-    }
+    }*/
 
     /**
      * Generates the template extension section
@@ -233,17 +233,18 @@ class AlTwigTemplateWriter
     /**
      * Generates the contents section
      */
-    private function generateContentsSection()
+    protected function generateContentsSection($filter = null)
     {
         // Writes page contentsSection
         $this->contentsSection = $this->writeComment("Contents section");
         $slots = array_keys($this->template->getSlots());
 
-        
         $needsCredits = true;
         $languageName = $this->pageTree->getAlLanguage()->getLanguageName();
         $pageName = $this->pageTree->getAlPage()->getPageName();
-        $blocks = $this->pageTree->getPageBlocks()->getBlocks();
+        $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
+        
+        $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;
         foreach ($blocks as $slotName => $slotBlocks) {
             if ( ! in_array($slotName, $slots)) {
                 continue;
@@ -252,7 +253,7 @@ class AlTwigTemplateWriter
             $contentMetatags = "";
             $htmlContents = array();
             foreach ($slotBlocks as $block) {
-                $content = "";
+                $content = ""; 
                 $blockManager = $this->blockManagerFactory->createBlockManager($block);
                 if (null !== $blockManager) {
                     $blockManager->setPageTree($this->pageTree);
@@ -278,7 +279,7 @@ class AlTwigTemplateWriter
                 $htmlContents[] = $content;
             }
             
-            if ( ! empty($contentMetatags)) {
+            if ( ! empty($contentMetatags)) { 
                 $this->metatagsExtraContents .= $contentMetatags;
             }
             $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $htmlContents)));
@@ -291,10 +292,12 @@ class AlTwigTemplateWriter
 
         $templateSlots = $template->getTemplateSlots();
         $slots = $templateSlots->getSlots();
-        $orphanSlots = array_diff_key($slots, $blocks);
-        foreach ($orphanSlots as $slot) {
-            $slotName = $slot->getSlotName();
-            $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, ""));
+        if (null !== $slots) {
+            $orphanSlots = array_diff_key($slots, $pageBlocks);
+            foreach ($orphanSlots as $slot) {
+                $slotName = $slot->getSlotName();
+                $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, ""));
+            }
         }
         
         if ($needsCredits) {            
@@ -474,5 +477,26 @@ class AlTwigTemplateWriter
         }
 
         return implode(PHP_EOL, $formattedContents);
+    }
+    
+    protected function filterBlocks(array $blocks, array $filter)
+    {
+        $template = $this->template;
+        
+        return array_filter($blocks, function($slotBlocks)use($template, $filter){ 
+            
+            if (count($slotBlocks) == 0) {
+                return false;
+            }
+            
+            $slotName = $slotBlocks[0]->getSlotName();     
+            $slot = $template->getSlot($slotName);
+            
+            if (null === $slot) {
+                return false;
+            }
+                        
+            return in_array($slot->getRepeated(), $filter);         
+        });
     }
 }
