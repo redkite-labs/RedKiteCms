@@ -206,61 +206,6 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
     public function testPageTreeCollectionHasBeenPopulated($languages, $pages)
     {     
         $this->setUpLanguagesAndPages($languages, $pages);
-        /*
-        foreach ($languages as $language) {
-            $alLanguage = $this->setUpLanguage($language['language'], $language['isMain']);
-            $this->languages[] = $alLanguage;
-        }
-        
-        $publishedPages = 0;
-        foreach ($pages as $page) {
-            $alPage = $this->setUpPage($page['page'], $page['isHome'], $page['published']);
-            $this->pages[] = $alPage;
-            if ($page['published']) {
-                $publishedPages++;
-            }
-        }
-        
-        $cycles = count($languages) * $publishedPages;
-    
-        $this->initPageBlocks($cycles);
-        $this->initTemplateManager();
-        $this->initThemesCollectionWrapper($cycles);
-        
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-                
-        $languageRepository = $this->initLanguageRepository();                                
-        $languageRepository->expects($this->once())
-            ->method('activeLanguages')
-            ->will($this->returnValue($this->languages));
-        
-        $pageRepository = $this->initPageRepository();       
-        $pageRepository->expects($this->once())
-            ->method('activePages')
-            ->will($this->returnValue($this->pages));
-        
-        $counter = 0;
-        $this->setUpCreateRepositoryMethod($languageRepository, $pageRepository, $counter);
-        
-        foreach($this->languages as $language) {
-            $languageRepository = $this->initLanguageRepository();
-            $languageRepository->expects($this->exactly($publishedPages))
-                    ->method('fromPK')
-                    ->will($this->returnValue($language));
-                    
-            foreach($this->pages as $page) { 
-                if( ! $page->getIsPublished()) {
-                    continue;
-                }
-                
-                $pageRepository = $this->initPageRepository();                
-                $pageRepository->expects($this->once())
-                    ->method('fromPK')
-                    ->will($this->returnValue($page));
-                
-                $this->setUpCreateRepositoryMethod($languageRepository, $pageRepository, $counter); 
-            }       
-        }*/
 
         $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())

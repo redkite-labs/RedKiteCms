@@ -17,25 +17,26 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy\TwigTemplateWriter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterPages;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlTwigTemplateWriterTest
+ * AlTwigTemplateWriterPagesTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlTwigTemplateWriterTest extends TestCase
+class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 {
-    private $pageTree;
-    private $urlManager;
-    private $template;
-
     protected function setUp()
     {
         parent::setUp();
+        
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->pageTree->expects($this->once())
+            ->method('getContainer')
+            ->will($this->returnValue($this->container));
 
+        /*
         $this->pageTree = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
                                     ->disableOriginalConstructor()
                                     ->getMock();
@@ -73,20 +74,23 @@ class AlTwigTemplateWriterTest extends TestCase
             ->will($this->returnSelf());
 
         $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        
+        $this->deployBundle = "AcmeWebsiteBundle";
+        $this->templatesFolder = 'AlphaLemon';
 
-        $this->root = vfsStream::setup('root');
+        $this->root = vfsStream::setup('root');*/
     }
 
-    public function testExtendsDirectiveHasBeenCreatedForTheGivenTemplate()
+    public function testExtendsDirectiveHasBeenCreatedForTheCurrentPage()
     {
         $this->setUpTemplateSlots();
         $this->setUpMetatagsAndAssets(null, null, null, array(), array(), '', '');
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
-        $this->assertEquals("{% extends 'FakeTheme:Theme:Home.html.twig' %}" . PHP_EOL, $twigTemplateWriter->getTemplateSection());
+        $this->assertEquals("{% extends 'AcmeWebsiteBundle:AlphaLemon:en/base/home.html.twig' %}" . PHP_EOL, $twigTemplateWriter->getTemplateSection());
     }
 
     public function testJustTheMetaTagsTitleSectionIsCreated()
@@ -96,7 +100,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
@@ -111,7 +115,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;
@@ -126,7 +130,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block keywords %}some,keywords{% endblock %}" . PHP_EOL;
@@ -141,7 +145,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
@@ -158,7 +162,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
@@ -177,7 +181,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks(null, false);
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
@@ -196,7 +200,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks(null, false);
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
@@ -215,7 +219,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
@@ -234,7 +238,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
@@ -251,7 +255,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
         
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
@@ -273,7 +277,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
 
         $jsCode = 'doSomething({
                                 images:[
@@ -296,7 +300,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
@@ -321,9 +325,13 @@ class AlTwigTemplateWriterTest extends TestCase
 
     public function testWhenTheBlockManagerIsNotCreatedTheBlockIsIgnored()
     {
-        $this->setUpTemplateSlots();
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+        );
+        $this->setUpTemplateSlots($slots);
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
+        
         $this->blockManagerFactory->expects($this->once())
             ->method('createBlockManager')
             ->will($this->returnValue(null));
@@ -339,16 +347,19 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
-    public function testContentsSectionWithOneBlockHaveBeenCreated()
+    public function testContentsSectionWithOneBlockHasBeenCreated()
     {
-        $this->setUpTemplateSlots();
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+        );
+        $this->setUpTemplateSlots($slots);
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $this->setUpBlockManagerFactory();
+        $this->setUpBlockManagerFactory($deployContent = 'Formatted content for deploying', 1);
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
@@ -362,17 +373,20 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
         
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
         
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
     public function testContentsSectionWithOneBlockAndImagesReplaceHaveBeenCreated()
     {
-        $this->setUpTemplateSlots();
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+        );
+        $this->setUpTemplateSlots($slots);
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $this->setUpBlockManagerFactory('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">');
+        $this->setUpBlockManagerFactory('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">', 1);
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
@@ -392,20 +406,23 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
     public function testContentsSectionWithOneBlockAndLinkNotReplaceBecauseNotRecognizedAsInternalRouteHaveBeenCreated()
     {
-        $this->setUpTemplateSlots();
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+        );
+        $this->setUpTemplateSlots($slots);
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
             ->will($this->returnValue(null));
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $this->setUpBlockManagerFactory('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>');
+        $this->setUpBlockManagerFactory('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>', 1);
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
@@ -419,20 +436,23 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
     public function testContentsSectionWithOneBlockAndLinkReplaceHaveBeenCreated()
     {
-        $this->setUpTemplateSlots();
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+        );
+        $this->setUpTemplateSlots($slots);
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
             ->will($this->returnValue('_en_index'));
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $this->setUpBlockManagerFactory('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>');
+        $this->setUpBlockManagerFactory('<ul><li><a href="my-awesome-page">Fancy page</a></li></ul>', 1);
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
@@ -446,7 +466,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -458,8 +478,12 @@ class AlTwigTemplateWriterTest extends TestCase
         $slot->expects($this->once())
             ->method('getSlotName')
             ->will($this->returnValue('fake_slot'));
+        
+        $this->templateSlots->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue(array($slot)));
 
-        $this->setUpTemplateSlots(array($slot));
+        $this->setUpTemplateSlots();
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
             ->will($this->returnValue('_en_index'));
@@ -479,7 +503,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -488,16 +512,21 @@ class AlTwigTemplateWriterTest extends TestCase
         $blocks = array(
             "logo" =>
                 array(
-                    $this->setUpBlock()
+                    $this->setUpBlock('logo')
                 ),
             "nav-menu" =>
                 array(
-                    $this->setUpBlock(),
-                    $this->setUpBlock()
+                    $this->setUpBlock('nav-menu'),
+                    $this->setUpBlock('nav-menu')
                 )
             );
+        
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+            'nav-menu' => array('repeated' => 'page'),
+        );
 
-        $this->setUpTemplateSlots();
+        $this->setUpTemplateSlots($slots);
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
 
@@ -557,7 +586,7 @@ class AlTwigTemplateWriterTest extends TestCase
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
 
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -566,21 +595,26 @@ class AlTwigTemplateWriterTest extends TestCase
         $blocks = array(
             "logo" =>
                 array(
-                    $this->setUpBlock()
+                    $this->setUpBlock('logo')
                 ),
             "nav-menu" =>
                 array(
-                    $this->setUpBlock(),
-                    $this->setUpBlock(),
-                    $this->setUpBlock()
+                    $this->setUpBlock('nav-menu'),
+                    $this->setUpBlock('nav-menu'),
+                    $this->setUpBlock('nav-menu')
                 )
-            );
+        );
+        
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+            'nav-menu' => array('repeated' => 'page'),
+        );
 
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
             ->will($this->returnValue('_en_index'));
 
-        $this->setUpTemplateSlots();
+        $this->setUpTemplateSlots($slots);
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks($blocks);
         
@@ -592,8 +626,6 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->blockManagerFactory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->onConsecutiveCalls($blockManager1, $blockManager2, $blockManager3, $blockManager4));
-        
-        
         
         $this->blockManagerFactory->expects($this->at(0))
             ->method('createBlockManager')
@@ -629,7 +661,7 @@ class AlTwigTemplateWriterTest extends TestCase
                 ->will($this->returnValue('<div>Lorem ipsum <ul><li><a href="my-awesome-page">Fancy page</a></li></ul></div>'))
             ;
 
-        $section = "{% extends 'FakeTheme:Theme:Home.html.twig' %}" . PHP_EOL;
+        $section = "{% extends 'AcmeWebsiteBundle:AlphaLemon:en/base/home.html.twig' %}" . PHP_EOL;
         $section .= "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
         $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;
@@ -677,7 +709,7 @@ class AlTwigTemplateWriterTest extends TestCase
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer, $imagesPath);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
         $this->assertEquals($section, $twigTemplateWriter->getTwigTemplate());
     }
 
@@ -689,140 +721,19 @@ class AlTwigTemplateWriterTest extends TestCase
         $this->setUpBlockManagerFactory();
 
         $this->assertFalse($this->root->hasChild('en'));
-        $twigTemplateWriter = new AlTwigTemplateWriter($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer);
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
         $twigTemplateWriter->writeTemplate(vfsStream::url('root'));
         $this->assertTrue($this->root->hasChild('en'));
         $this->assertTrue($this->root->getChild('en')->hasChild('index.html.twig'));
     }
-
-    private function setUpPage($pageName)
+    
+    protected function setUpPageBlocks(array $blocks = null, $yuiEnabled = true)
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $page->expects($this->any())
-            ->method('getPageName')
-            ->will($this->returnValue($pageName));
-
-        return $page;
-    }
-
-    private function setUpLanguage($languageName)
-    {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
-        $language->expects($this->any())
-            ->method('getLanguageName')
-            ->will($this->returnValue($languageName));
-
-        return $language;
-    }
-
-    private function setUpPageBlocks(array $blocks = null, $yuiEnabled = true)
-    {
-        if (null === $blocks) {
-            $blocks = array("logo" => array($this->setUpBlock('my content')));
-        }
-
-        $pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $pageBlocks->expects($this->any())
-            ->method('getBlocks')
-            ->will($this->returnValue($blocks));
-
-        $this->pageTree->expects($this->once())
-            ->method('getPageBlocks')
-            ->will($this->returnValue($pageBlocks));
+        parent::setUpPageBlocks($blocks, $yuiEnabled);
         
         $this->container->expects($this->once())
             ->method('getParameter')
             ->with('alpha_lemon_cms.enable_yui_compressor')
             ->will($this->returnValue($yuiEnabled));
-    }
-
-    private function setUpMetatagsAndAssets($title, $description, $keywords, $externalStylesheets, $externalJavascripts, $internalStylesheets, $internalJavascripts)
-    {
-        $this->pageTree->expects($this->any())
-                ->method('__call')
-                ->will($this->onConsecutiveCalls($title, $description, $keywords, $externalStylesheets, $externalJavascripts, $internalStylesheets, $internalJavascripts));
-    }
-
-    private function setUpTemplate()
-    {
-        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-
-        $this->template->expects($this->once())
-            ->method('getThemeName')
-            ->will($this->returnValue('FakeTheme'));
-
-        $this->template->expects($this->once())
-            ->method('getTemplateName')
-            ->will($this->returnValue('Home'));
-
-        $slots = array(
-            'logo' => array('repeated' => 'site'),
-            'nav-menu' => array('repeated' => 'language')
-        );
-
-        $this->template->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue($slots));
-    }
-
-    private function setUpTemplateSlots($slots = array())
-    {
-        $this->templateSlots->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue($slots));
-    }
-
-    private function setUpBlock()
-    {
-        return $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-    }
-
-    private function setUpBlockManager($deployContent = 'Formatted content for deploying', $callingTimes = 1)
-    {
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        if ($callingTimes > 0) {
-            $blockManager->expects($this->exactly($callingTimes))
-                ->method('setEditorDisabled')
-                ->with(true);
-        }
-        
-        if (null !== $deployContent) {
-            $this->viewRenderer
-                ->expects($this->exactly($callingTimes))
-                ->method('render')
-                ->will($this->returnValue($deployContent))
-            ;
-        }
-        
-        return $blockManager;
-    }
-
-    private function setUpBlockManagerFactory($deployContent = 'Formatted content for deploying', $callingTimes = 1)
-    {
-        $blockManager = $this->setUpBlockManager($deployContent, $callingTimes);
-
-        $this->blockManagerFactory->expects($this->exactly($callingTimes))
-            ->method('createBlockManager')
-            ->will($this->returnValue($blockManager));
-    }
-    
-    private function addSomeLove()
-    {
-        $content = "{% block internal_header_stylesheets %}" . PHP_EOL;
-        $content .= "  {{ parent() }}" . PHP_EOL . PHP_EOL;
-        $content .= "  <style>.al-credits{width:100%;background-color:#fff;text-align:center;padding:6px;border-top:1px solid #000;margin-top:1px;}.al-credits a{color:#333;}.al-credits a:hover{color:#C20000;}</style>" . PHP_EOL;
-        $content .= "{% endblock %}" . PHP_EOL . PHP_EOL;
-        $content .= "{% block body %}" . PHP_EOL;
-        $content .= "  {{ parent() }}" . PHP_EOL . PHP_EOL;
-        $content .= "  <div class=\"al-credits\"><a href=\"http://alphalemon.com\">Powered by AlphaLemon CMS</div>" . PHP_EOL;
-        $content .= "{% endblock %}" . PHP_EOL;
-        
-        return $content;
     }
 }

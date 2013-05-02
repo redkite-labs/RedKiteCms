@@ -36,6 +36,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected $factoryRepository;
     protected $themesCollectionWrapper;
     protected $cycles;
+    protected $publishedPages;
     
     protected function setUpLanguagesAndPages($languages, $pages, $seo = array())
     {
@@ -46,12 +47,14 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         
         $publishedPages = 0;
         foreach ($pages as $page) {
-            $alPage = $this->setUpPage($page['page'], $page['isHome'], $page['published']);
+            $template = (array_key_exists('template', $page)) ? $page['template'] : null;
+            $alPage = $this->setUpPage($page['page'], $page['isHome'], $page['published'], $template);
             $this->pages[$page['page']] = $alPage;
             if ($page['published']) {
                 $publishedPages++;
             }
         }
+        $this->publishedPages = $publishedPages;
         
         $this->seo = array();
         foreach ($seo as $seoAttributes) {
@@ -101,7 +104,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
                 $seo = array_key_exists($key, $this->seo) ? $this->seo[$key] : null;
                 $seoRepository = $this->initSeoRepository();     
                 
-                if (null !== $seo) {           
+                if (null !== $seo) {
                     $seoRepository->expects($this->once())
                         ->method('fromPageAndLanguage')
                         ->will($this->returnValue($seo));
@@ -239,7 +242,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->will($this->returnValue($themesCollection));
     }
 
-    protected function setUpPage($pageName, $isHome = false, $isPublished = true)
+    protected function setUpPage($pageName, $isHome = false, $isPublished = true, $template = 'home')
     {
         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
         $page->expects($this->any())
@@ -260,7 +263,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
 
         $page->expects($this->any())
             ->method('getTemplateName')
-            ->will($this->returnValue('home'));
+            ->will($this->returnValue($template));
 
         return $page;
     }
@@ -288,7 +291,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $seo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
         $seo->expects($this->any())
             ->method('getPermalink')
-            ->will($this->onConsecutiveCalls($permalink));
+            ->will($this->returnValue($permalink));
 
         $seo->expects($this->any())
             ->method('getAlLanguage')

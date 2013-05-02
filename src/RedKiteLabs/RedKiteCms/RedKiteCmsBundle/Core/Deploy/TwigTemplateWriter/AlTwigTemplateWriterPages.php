@@ -42,6 +42,7 @@ class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
         
         parent::__construct($pageTree, $blockManagerFactory, $urlManager, $viewRenderer, $replaceImagesPaths);        
     }
+    
     /**
      * Generates the template's subsections and the full template itself
      */
@@ -61,6 +62,6 @@ class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
      */
     protected function generateTemplateSection()
     {
-        $this->templateSection = sprintf("{%% extends '%s:%s:%s/base/%s.html.twig' %%}" . PHP_EOL, $this->deployBundle, $this->templatesFolder, $this->pageTree->getAlLanguage()->getLanguageName(), $this->template->getTemplateName());
+        $this->templateSection = sprintf("{%% extends '%s:%s:%s/base/%s.html.twig' %%}" . PHP_EOL, $this->deployBundle, $this->templatesFolder, $this->pageTree->getAlLanguage()->getLanguageName(), $this->pageTree->getAlPage()->getTemplateName());
     }
 }

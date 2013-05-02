@@ -25,332 +25,82 @@ use org\bovigo\vfs\vfsStream;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlTwigDeployerStageTest extends AlPageTreeCollectionBootstrapper
+class AlTwigDeployerStageTest extends AlTwigDeployer
 {
-    private $container;
-    private $dispatcher;
-    private $templateSlots;
-
     protected function setUp()
     {
+        $this->templatesFolder = 'AlphaLemonStage';
+        $this->siteRoutingFile = 'site_routing_stage.yml';
+        
         parent::setUp();
-
-        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->kernel->expects($this->any())
-            ->method('locateResource')
-            ->will($this->onConsecutiveCalls(vfsStream::url('AcmeWebSiteBundle'), vfsStream::url('AlphaLemonCmsBundle')));
-
-        $this->kernel->expects($this->any())
-            ->method('getRootDir')
-            ->will($this->returnValue(vfsStream::url('app')));
-
-        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->dispatcher = $this->getMock('\Symfony\Component\EventsDispatcher\EventDispatcherInterface', array('dispatch'));
-        $this->viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
-        
-        $folders = array('app' => array(),
-                         'web' => array('uploads'
-                                    => array('assets'
-                                        => array('media' => array('image1.png' => '', 'image2.png' => ''),
-                                                'js' => array('code.js' => ''),
-                                                'css' => array('style.css' => ''),
-                                                )
-                                            )
-                                        ),
-                         'AcmeWebSiteBundle' => array('Resources' => array()),
-                         'AlphaLemonCmsBundle' => array(),
-                        );
-        $this->root = vfsStream::setup('root', null, $folders);
     }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testAnExceptionIsThrownWhenATargetDirectoryDoesNotExist()
+    
+    protected function checkSiteMap($seo)
     {
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $this->factoryRepository->expects($this->any())
-            ->method('createRepository')
-            ->will($this->returnValue($this->seoRepository));
-
-        $this->initContainer();
-
-        $folders = array('AcmeWebSiteBundle' => array(), 'AlphaLemonCmsBundle' => array('Resources'));
-        $this->root = vfsStream::setup('root', null, $folders);
-
-        vfsStream::newDirectory('Resources', 0444)->at($this->root->getChild('AcmeWebSiteBundle'));
-
-        $this->deployer = new AlTwigDeployerStage($this->container);
-        $this->deployer->deploy();
+        $sitemapFile = vfsStream::url('root\sitemap.xml');
+        $this->assertFileNotExists($sitemapFile);
     }
-
-    public function testDeploy()
+    
+    protected function getDeployer()
     {
-        $this->initSomeLangugesAndPages();              
-        $this->initThemesCollectionWrapper(); 
-
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $this->factoryRepository->expects($this->any())
-            ->method('createRepository')
-            ->will($this->onConsecutiveCalls(
-                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
-                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
-                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
-                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
-                    $this->seoRepository, $this->languageRepository, $this->pageRepository, 
-                    $this->seoRepository));
-
-        $seo1 = $this->setUpSeo('homepage', $this->page1, $this->language1);
-        $seo2 = $this->setUpSeo('my-awesome-page', $this->page2, $this->language1);
-        $seo3 = $this->setUpSeo('es-homepage', $this->page1, $this->language2);
-        $seo4 = $this->setUpSeo('es-my-awesome-page', $this->page2, $this->language2);
-        $seo5= $this->setUpSeo('es-homepage', $this->page3, $this->language1);
-        $seo6 = $this->setUpSeo('es-my-awesome-page', $this->page3, $this->language2);
-        $this->seoRepository->expects($this->once())
-            ->method('fetchSeoAttributesWithPagesAndLanguages')
-            ->will($this->returnValue(array($seo1, $seo2, $seo3, $seo4, $seo5, $seo6)));
-
-        $this->template->expects($this->exactly(4))
-            ->method('getSlots')
-            ->will($this->returnValue(array('logo' => array('repeated' => 'site'))));
-
-        $this->template->expects($this->exactly(4))
-            ->method('getThemeName')
-            ->will($this->returnValue('BusinessWebsiteThemeBundle'));
-
-        $this->template->expects($this->exactly(4))
-            ->method('getTemplateName')
-            ->will($this->onConsecutiveCalls('home', 'fullpage', 'home', 'fullpage'));
-
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $blockManager->expects($this->exactly(4))
-            ->method('setEditorDisabled')
-            ->with(true);
-        
-        $this->viewRenderer->expects($this->exactly(4))
-            ->method('render')
-            ->will($this->returnValue('Formatted content for deploying'));
-
-        $this->blockManagerFactory->expects($this->exactly(4))
-            ->method('createBlockManager')
-            ->will($this->returnValue($blockManager));
-
-        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
-        $activeTheme->expects($this->any())
-            ->method('getActiveTheme')
-            ->will($this->returnValue('BusinessWebsiteTheme'));
-
-        $this->initContainer();
-
-        $this->dispatcher->expects($this->exactly(2))
-            ->method('dispatch');
-        
-        $this->container->expects($this->at(17))
-            ->method('get')
-            ->with('alpha_lemon_cms.themes_collection_wrapper')
-            ->will($this->returnValue($this->themesCollectionWrapper));
-
-        $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $i = 18;
-        while ($i < 26) {
-            $this->container->expects($this->at($i))
-                ->method('get')
-                ->with('event_dispatcher')
-                ->will($this->returnValue($dispatcher));
-            $i = $i + 2;
-        }
-        
-        $i = 19;
-        while ($i < 26) {
-            $this->container->expects($this->at($i))
-                ->method('get')
-                ->with('alphalemon_theme_engine.active_theme')
-                ->will($this->returnValue($activeTheme));
-            $i = $i + 2;
-        }
-        
-        $this->template->expects($this->exactly(4))
-            ->method('getTemplateSlots')
-            ->will($this->returnValue($this->templateSlots));
-        
-        $this->templateSlots->expects($this->exactly(4))
-            ->method('getSlots')
-            ->will($this->returnValue(array()));
-        
-        $this
-            ->pageBlocks
-            ->expects($this->exactly(4))
-            ->method('getBlocks')
-            ->will($this->returnValue(
-                    array(
-                        "logo" => array(
-                            $this->setUpBlock('my content')
-                        )
-                    )
-                )
-            )
-        ;
-        
-        $this->deployer = new AlTwigDeployerStage($this->container);
-        $this->assertTrue($this->deployer->deploy());
-
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('config')->hasChild('site_routing_stage.yml'));
-
-        $siteRouting = "# Route <<  >> generated for language << en >> and page << index >>\n";
-        $siteRouting .= "_stage_en_index:\n";
-        $siteRouting .= "  pattern: /\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: index }\n";
-        $siteRouting .= "\n";
-        $siteRouting .= "# Route << my-awesome-page >> generated for language << en >> and page << page-1 >>\n";
-        $siteRouting .= "_stage_en_page_1:\n";
-        $siteRouting .= "  pattern: /my-awesome-page\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: page-1 }\n";
-        $siteRouting .= "\n";
-        $siteRouting .= "# Route << es-homepage >> generated for language << es >> and page << index >>\n";
-        $siteRouting .= "_stage_es_index:\n";
-        $siteRouting .= "  pattern: /es-homepage\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: es, page: index }\n";
-        $siteRouting .= "\n";
-        $siteRouting .= "# Route << es-my-awesome-page >> generated for language << es >> and page << page-1 >>\n";
-        $siteRouting .= "_stage_es_page_1:\n";
-        $siteRouting .= "  pattern: /es-my-awesome-page\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: es, page: page-1 }\n";
-        $siteRouting .= "\n";
-        $siteRouting .= "# Route <<  >> generated for language << en >> and page << index >>\n";
-        $siteRouting .= "stage_home:\n";
-        $siteRouting .= "  pattern: /\n";
-        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: index }";
-        $this->assertEquals($siteRouting, file_get_contents(vfsStream::url('root\AcmeWebSiteBundle\Resources\config\site_routing_stage.yml')));
-        
-        $this->assertFileNotExists(vfsStream::url('root\sitemap.xml'));
-
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('views'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild('AlphaLemon'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->hasChild('en'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('en')->hasChild('index.html.twig'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('en')->hasChild('page-1.html.twig'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->hasChild('es'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('es')->hasChild('index.html.twig'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->getChild('AlphaLemon')->getChild('es')->hasChild('page-1.html.twig'));
-
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('public'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('media'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->getChild('media')->hasChild('image1.png'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->getChild('media')->hasChild('image2.png'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('js'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->getChild('js')->hasChild('code.js'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('css'));
-        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->getChild('css')->hasChild('style.css'));
-
-        $this->checkTemplateSection('en', 'index', 'home');
-        $this->checkTemplateSection('en', 'page-1', 'fullpage');
-        $this->checkTemplateSection('es', 'index', 'home');
-        $this->checkTemplateSection('es', 'page-1', 'fullpage');
+        return new AlTwigDeployerStage($this->container);    
     }
-
-    private function checkTemplateSection($language, $page, $template)
+    
+    protected function initContainer()
     {
-        $contents = file_get_contents(vfsStream::url(sprintf('root/AcmeWebSiteBundle/Resources/views/AlphaLemon/%s/%s.html.twig', $language, $page)));
-
-        $this->assertRegExp("/\'BusinessWebsiteThemeBundle\:Theme\:$template\.html\.twig\'/s", $contents);
-    }
-
-    private function initContainer()
-    {
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('kernel')
-            ->will($this->returnValue($this->kernel));
-
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('alpha_lemon_cms.factory_repository')
-            ->will($this->returnValue($this->factoryRepository));
-
-        $this->container->expects($this->at(2))
-            ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy_bundle')
-            ->will($this->returnValue('AcmeWebSiteBundle'));
-
-        $this->container->expects($this->at(3))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.config_dir')
-            ->will($this->returnValue('Resources/config'));
-
-        $this->container->expects($this->at(4))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.assets_base_dir')
-            ->will($this->returnValue('Resources/public/'));
-
-        $this->container->expects($this->at(5))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_full_path')
-            ->will($this->returnValue(vfsStream::url('root/web/uploads/assets')));
-
-        
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        
-        $this->container->expects($this->at(6))
-            ->method('get')
-            ->with('request')
-            ->will($this->returnValue($request));
-        
-        $this->container->expects($this->at(7))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_dir')
-            ->will($this->returnValue('uploads/assets'));
-        
-        $this->container->expects($this->at(8))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.web_folder')
-            ->will($this->returnValue('web'));
-        
-        $this->container->expects($this->at(9))
-            ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.controller')
-            ->will($this->returnValue('WebSite'));
+        parent::initContainer();
         
         $this->container->expects($this->at(10))
             ->method('getParameter')
             ->with('alpha_lemon_theme_engine.deploy.stage_templates_folder')
-            ->will($this->returnValue('AlphaLemon'));
-        
-        $this->container->expects($this->at(11))
-                ->method('get')
-                ->with('alpha_lemon_cms.view_renderer')
-                ->will($this->returnValue($this->viewRenderer));
-        
-        $this->container->expects($this->at(12))
-            ->method('get')
-            ->with('alpha_lemon_cms.url_manager')
-            ->will($this->returnValue($this->urlManager));
-
-        $this->container->expects($this->at(13))
+            ->will($this->returnValue($this->templatesFolder));
+         
+        $this->container->expects($this->at(15))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($this->blockManagerFactory));
 
-        $this->container->expects($this->at(14))
+        $this->container->expects($this->at(16))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.views_dir')
             ->will($this->returnValue('Resources/views'));
         
-        $this->container->expects($this->at(15))
+        
+        $this->container->expects($this->at(17))
             ->method('get')
             ->with('alpha_lemon_cms.url_manager_stage')
             ->will($this->returnValue($this->urlManager));
-        
-        $this->container->expects($this->at(16))
+                
+        $this->container->expects($this->at(18))
             ->method('get')
-            ->with('event_dispatcher')
-            ->will($this->returnValue($this->dispatcher));
+            ->with('alpha_lemon_cms.themes_collection_wrapper')
+            ->will($this->returnValue($this->themesCollectionWrapper));
+        
+        $this->containerAtSequenceAfterObjectCreation = 19;
+    }
+    
+    protected function buildExpectedRoutes($seo)
+    {
+        $routes = array();
+        foreach($seo as $seoAttributes) {
+            $language = $seoAttributes["language"];
+            $page = $seoAttributes["page"];
+            $permalink = ( ! $seoAttributes["homepage"]) ? $seoAttributes["permalink"] : "" ;
+            $siteRouting = "# Route << %s >> generated for language << %s >> and page << %s >>\n";
+            $siteRouting .= "_stage_%s_%s:\n";
+            $siteRouting .= "  pattern: /%s\n";
+            $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: %s, page: %s }\n";
+
+            $routes[] = sprintf($siteRouting, $permalink, $language, $page, $language, str_replace('-', '_', $page), $permalink, $language, $page);
+        }
+        
+        $siteRouting = "# Route <<  >> generated for language << en >> and page << index >>\n";
+        $siteRouting .= "stage_home:\n";
+        $siteRouting .= "  pattern: /\n";
+        $siteRouting .= "  defaults: { _controller: AcmeWebSiteBundle:WebSite:stage, _locale: en, page: index }";
+        
+        $routes[] = $siteRouting;
+        
+        return (implode("\n", $routes));
     }
 }

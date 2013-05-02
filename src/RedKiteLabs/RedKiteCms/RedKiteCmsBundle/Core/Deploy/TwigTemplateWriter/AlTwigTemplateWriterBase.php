@@ -18,11 +18,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
-
 /**
  * AlTwigTemplateWriter generates a twig template from a PageTree object
  *
@@ -41,7 +36,7 @@ class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
             mkdir($fileDir);
         }
 
-        return @file_put_contents($fileDir . '/' . $this->template->getTemplateName() . '.html.twig', $this->twigTemplate);
+        return @file_put_contents($fileDir . '/' . $this->pageTree->getAlPage()->getTemplateName() . '.html.twig', $this->twigTemplate);
     }
 
     /**
@@ -61,6 +56,6 @@ class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
      */
     protected function generateTemplateSection()
     {
-        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->template->getTemplateName());
+        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());
     }
 }

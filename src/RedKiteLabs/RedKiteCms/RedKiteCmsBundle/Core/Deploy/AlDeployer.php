@@ -45,7 +45,9 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $fileSystem = null;
     protected $deployController = null;
     protected $deployFolder = null;
-    protected $viewsRenderer;
+    protected $viewsRenderer = null;
+    protected $dispatcher = null;
+    private $webFolderPath = null;
     private $pageTreeCollection = null;
 
     /**
@@ -96,6 +98,8 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
         $this->deployFolder = $this->getTemplatesFolder();
         $this->viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
+        $this->webFolderPath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path');
+        $this->dispatcher = $this->container->get('event_dispatcher');
         
         $this->fileSystem = new Filesystem();
     }
@@ -105,8 +109,7 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     public function deploy()
     {
-        $dispatcher = $this->container->get('event_dispatcher');
-        $dispatcher->dispatch(Deploy\DeployEvents::BEFORE_DEPLOY, new Deploy\BeforeDeployEvent($this));
+        $this->dispatcher->dispatch(Deploy\DeployEvents::BEFORE_DEPLOY, new Deploy\BeforeDeployEvent($this));
         
         $this->fileSystem->remove($this->deployFolder);
         $this->checkTargetFolders();
@@ -115,13 +118,13 @@ abstract class AlDeployer implements AlDeployerInterface
         if (null === $this->pageTreeCollection) {
             $this->pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
         }
-        $result = ($this->generateRoutes() && $this->savePages()) ? true :false;
+        $result = ($this->savePages() && $this->generateRoutes()) ? true : false;
         
         if ($this->getRoutesPrefix() == "") {
             $this->generateSitemap();
         }
         
-        $dispatcher->dispatch(Deploy\DeployEvents::AFTER_DEPLOY, new Deploy\AfterDeployEvent($this));
+        $this->dispatcher->dispatch(Deploy\DeployEvents::AFTER_DEPLOY, new Deploy\AfterDeployEvent($this));
         
         return $result;
     }
@@ -192,15 +195,22 @@ abstract class AlDeployer implements AlDeployerInterface
                 return false;
             }
             
-            $templateName = $pageTree->getTemplate()->getTemplateName();
-            if ( !array_key_exists($templateName, $pagesByTemplate)) {
-                $pagesByTemplate[$templateName] = $pageTree;
+            $languageName = $pageTree->getAlLanguage()->getLanguageName();
+            $templateName = $pageTree->getAlPage()->getTemplateName();
+            if ( ! array_key_exists($languageName, $pagesByTemplate)) {
+                $pagesByTemplate[$languageName] = array();                
+            }
+            
+            if ( ! array_key_exists($templateName, $pagesByTemplate[$languageName])) {
+                $pagesByTemplate[$languageName][$templateName] = $pageTree;
             }
         }
         
-        foreach ($pagesByTemplate as $pageTree) {
-            if ( ! $this->save($pageTree, 'Base')) {
-                return false;
+        foreach ($pagesByTemplate as $pageTrees) {
+            foreach ($pageTrees as $pageTree) {
+                if ( ! $this->save($pageTree, 'Base')) {
+                    return false;
+                }
             }
         }
 
@@ -291,6 +301,6 @@ abstract class AlDeployer implements AlDeployerInterface
             $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", "http://alphalemon.com/" . $seo->getPermalink(), $seo->getSitemapChangefreq(), $seo->getSitemapPriority());                
         }
          
-        return @file_put_contents($this->container->getParameter('alpha_lemon_cms.web_folder_full_path') . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
+        return @file_put_contents($this->webFolderPath . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
     }
 }
