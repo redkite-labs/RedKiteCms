@@ -30,7 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
  * 
  * @api
  */
-class AlTwigTemplateWriter
+abstract class AlTwigTemplateWriter
 {
     protected $pageTree;
     protected $urlManager;
@@ -172,7 +172,7 @@ class AlTwigTemplateWriter
      */
     protected function generateTemplateSection()
     {
-        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->template->getTemplateName());
+        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());
     }
 
     /**
@@ -483,13 +483,13 @@ class AlTwigTemplateWriter
     {
         $template = $this->template;
         
-        return array_filter($blocks, function($slotBlocks)use($template, $filter){ 
+        return array_filter($blocks, function($slotBlocks) use($template, $filter){ 
             
             if (count($slotBlocks) == 0) {
                 return false;
             }
             
-            $slotName = $slotBlocks[0]->getSlotName();     
+            $slotName = $slotBlocks[0]->getSlotName();
             $slot = $template->getSlot($slotName);
             
             if (null === $slot) {

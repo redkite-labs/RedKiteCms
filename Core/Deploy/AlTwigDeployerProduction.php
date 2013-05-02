@@ -30,9 +30,7 @@ class AlTwigDeployerProduction extends AlTwigDeployer
     
     /**
      * {@inheritdoc}
-     */
-    
-    
+     */    
     protected function getTemplatesFolder()
     {
         return $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');

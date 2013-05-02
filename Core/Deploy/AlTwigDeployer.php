@@ -88,7 +88,7 @@ abstract class AlTwigDeployer extends AlDeployer
                     $this->blockManagerFactory, 
                     $this->urlManager,
                     $this->deployBundle,
-                    $this->getTemplatesFolder(), 
+                    $this->deployFolder, 
                     $this->viewsRenderer, 
                     $imagesPath
                 );
