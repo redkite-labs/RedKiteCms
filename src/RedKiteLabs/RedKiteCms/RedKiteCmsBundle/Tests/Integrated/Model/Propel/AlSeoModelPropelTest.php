@@ -100,4 +100,16 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
         $this->assertEquals(1, count($seo->getAlLanguage()));
         $this->assertEquals(1, count($seo->getAlPage()));
     }
+    
+    public function testRetrieveSeoObjectsFromPagesAndLanguages()
+    {
+        $seoAttributes = $this->seoRepository->fromPageAndLanguage(2, 2);
+        $this->assertEquals(1, count($seoAttributes));
+    }
+    
+    public function testRetrieveSeoObjectsFromLanguageName()
+    {
+        $seoAttributes = $this->seoRepository->fromLanguageName('en');
+        $this->assertEquals(2, count($seoAttributes));
+    }
 }

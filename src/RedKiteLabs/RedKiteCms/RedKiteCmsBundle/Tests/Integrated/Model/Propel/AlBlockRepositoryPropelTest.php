@@ -129,4 +129,16 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
         $blocks = $this->blockRepository->fromType('Text', 'count');
         $this->assertEquals(43, $blocks);
     }
+    
+    public function testDeleteIncludedBlocks()
+    {
+        $blocks = $this->blockRepository->deleteIncludedBlocks('footer'); // assumes that footer is an included block
+        $this->assertEquals(28, $blocks);
+    }
+    
+    public function testDeleteBlocks()
+    {
+        $this->blockRepository->deleteBlocks(2, 2);
+        $this->assertCount(0, $this->blockRepository->retrieveContents(2, 2));
+    }
 }

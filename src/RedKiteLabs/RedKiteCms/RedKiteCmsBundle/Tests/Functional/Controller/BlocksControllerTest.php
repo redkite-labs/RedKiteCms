@@ -60,50 +60,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
     }
-    
-    public function testShowContentsEditor()
-    {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
-        $params = array("idBlock" => 3);
-        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
-
-        $json = json_decode($response->getContent(), true);
-        $this->assertEquals(1, count($json));
-        $this->assertTrue(array_key_exists("key", $json[0]));
-        $this->assertEquals("editor", $json[0]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertRegExp('/id="al_editor_tabs"/s', $json[0]["value"]);
-        $this->assertRegExp('/id="al_html_editor"/s', $json[0]["value"]);
-        $this->assertRegExp("/tinyMCE.init/s", $json[0]["value"]);
-    }
-
-    public function testShowContentsEditorRenderedFromAListener()
-    {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
-        $params = array("idBlock" => 2);
-        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
-
-        $json = json_decode($response->getContent(), true);
-        $this->assertEquals(1, count($json));
-        $this->assertTrue(array_key_exists("key", $json[0]));
-        $this->assertEquals("editor", $json[0]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertRegExp('/class="al_items_list"/s', $json[0]["value"]);
-        $this->assertRegExp('/\<td\>Home\<\/td\>/s', $json[0]["value"]);
-        $this->assertRegExp("/\('\.al_add_item'\)\.AddItem\(2\);/s", $json[0]["value"]);
-    }
 
     public function testAddBlockFailsWhenAnyValidParameterIsGiven()
     {

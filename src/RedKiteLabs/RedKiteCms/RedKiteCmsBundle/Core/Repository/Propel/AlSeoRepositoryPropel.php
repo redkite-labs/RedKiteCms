@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Seo;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeoQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;

@@ -17,8 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Content;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
@@ -135,6 +133,9 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->$operation();
     }
     
+    /**
+     * {@inheritdoc}
+     */
     public function deleteIncludedBlocks($key)
     {
         return AlBlockQuery::create()
@@ -143,6 +144,9 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->update(array('ToDelete' => '1'));
     }
     
+    /**
+     * {@inheritdoc}
+     */
     public function deleteBlocks($idLanguage, $idPage)
     {
         AlBlockQuery::create()

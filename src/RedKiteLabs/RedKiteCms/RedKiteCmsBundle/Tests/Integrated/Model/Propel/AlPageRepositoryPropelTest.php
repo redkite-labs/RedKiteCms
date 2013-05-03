@@ -83,4 +83,16 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
         $page = $this->pageRepository->homePage();
         $this->assertEquals('index', $page->getPageName());
     }
+    
+    public function testPagesAreRetrievedFromTemplateName()
+    {
+        $page = $this->pageRepository->fromTemplateName('home');
+        $this->assertCount(1, $page);
+    }
+    
+    public function testOnlyFirstPageIsRetrievedFromTemplateName()
+    {
+        $page = $this->pageRepository->fromTemplateName('home', true);
+        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage', $page);
+    }
 }
