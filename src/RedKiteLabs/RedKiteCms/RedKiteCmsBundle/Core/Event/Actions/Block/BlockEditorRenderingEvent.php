@@ -28,6 +28,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
  * @author alphalemon <webmaster@alphalemon.com>
  * 
  * @api
+ * @deprecated since 1.1.0
+ * @codeCoverageIgnore
  */
 class BlockEditorRenderingEvent extends Event
 {

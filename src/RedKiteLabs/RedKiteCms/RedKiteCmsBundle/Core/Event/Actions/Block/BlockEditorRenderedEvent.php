@@ -25,6 +25,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
  * Defines the BlockEditorRenderedEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * @deprecated since 1.1.0
+ * @codeCoverageIgnore
  */
 class BlockEditorRenderedEvent extends Event
 {

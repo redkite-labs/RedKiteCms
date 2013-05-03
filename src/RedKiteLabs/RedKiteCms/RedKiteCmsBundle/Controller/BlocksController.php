@@ -30,6 +30,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
  */
 class BlocksController extends Base\BaseController
 {
+    /**
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
     public function showBlocksEditorAction()
     {
         try {
