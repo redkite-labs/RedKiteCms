@@ -44,6 +44,11 @@ abstract class AlTwigTemplateWriter
     protected $blockManagerFactory;
     protected $metatagsExtraContents = "";
     protected $viewRenderer;
+    
+    /**
+     * Generates the template's subsections and the full template itself
+     */
+    abstract protected function generateTemplate();
 
     /**
      * Constructor
@@ -154,25 +159,11 @@ abstract class AlTwigTemplateWriter
     }
 
     /**
-     * Generates the template's subsections and the full template itself
-     */
-    /*protected function generateTemplate()
-    {
-        $this->generateTemplateSection();
-        $this->generateMetaTagsSection();
-        $this->generateAssetsSection();
-        $this->generateContentsSection();
-        $this->generateAddictionalMetaTagsSection();
-
-        $this->twigTemplate = $this->templateSection . $this->metatagsSection . $this->metatagsExtraSection . $this->assetsSection . $this->contentsSection;
-    }*/
-
-    /**
      * Generates the template extension section
      */
     protected function generateTemplateSection()
     {
-        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());
+        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());        
     }
 
     /**
@@ -247,10 +238,12 @@ abstract class AlTwigTemplateWriter
         $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;
         foreach ($blocks as $slotName => $slotBlocks) {
             if ( ! in_array($slotName, $slots)) {
+                // @codeCoverageIgnoreStart
                 continue;
+                // @codeCoverageIgnoreEnd
             }
             
-            $contentMetatags = "";
+            $contentMetatags = array();
             $htmlContents = array();
             foreach ($slotBlocks as $block) {
                 $content = ""; 
@@ -267,12 +260,14 @@ abstract class AlTwigTemplateWriter
                     $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
                     
                     if ($needsCredits && $slotName == 'alphalemon_love' && preg_match('/\<a[^\>]+href="http:\/\/alphalemon\.com[^\>]+\>powered by alphalemon cms\<\/a\>/is', strtolower($content))) {
+                        // @codeCoverageIgnoreStart
                         $needsCredits = false;
                     }
+                    // @codeCoverageIgnoreEnd
                     
                     $metatags = $blockManager->getMetaTags();
                     if (null !== $metatags) {
-                        $contentMetatags = (is_array($metatags)) ? $this->viewRenderer->render($metatags['RenderView']) : $metatags;
+                        $contentMetatags[] = (is_array($metatags)) ? $this->viewRenderer->render($metatags['RenderView']) : $metatags;
                     }
                 }
 
@@ -280,14 +275,16 @@ abstract class AlTwigTemplateWriter
             }
             
             if ( ! empty($contentMetatags)) { 
-                $this->metatagsExtraContents .= $contentMetatags;
+                $this->metatagsExtraContents = implode("\n", $contentMetatags);
             }
             $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $htmlContents)));
         }
 
         $template = $this->pageTree->getTemplate();
         if (null === $template) {
+            // @codeCoverageIgnoreStart
             return;
+            // @codeCoverageIgnoreEnd
         }
 
         $templateSlots = $template->getTemplateSlots();
@@ -370,7 +367,9 @@ abstract class AlTwigTemplateWriter
     protected function writeBlock($blockName, $blockContent)
     {
         if (empty($blockContent)) {
+            // @codeCoverageIgnoreStart
             return "";
+            // @codeCoverageIgnoreEnd
         }
 
         $block = "{% block $blockName %}" . PHP_EOL;
@@ -486,7 +485,9 @@ abstract class AlTwigTemplateWriter
         return array_filter($blocks, function($slotBlocks) use($template, $filter){ 
             
             if (count($slotBlocks) == 0) {
+                // @codeCoverageIgnoreStart
                 return false;
+                // @codeCoverageIgnoreEnd
             }
             
             $slotName = $slotBlocks[0]->getSlotName();

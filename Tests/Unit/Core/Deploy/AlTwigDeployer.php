@@ -873,7 +873,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
                         'homepage' => false,
                     ),
                 )
-            ),   
+            ), 
         );
     }
 }
