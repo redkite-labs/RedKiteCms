@@ -59,6 +59,67 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->assertTrue(array_key_exists('Default', $blocks));        
         $this->assertTrue(array_key_exists('Text', $blocks));
     }
+    
+    /**
+     * @dataProvider blocksProvider
+     */
+    public function testGetBlocks($isInternal, $expectedBlocks)
+    {
+        $this->initBlockManager();
+        
+        $blockManager = $this->createBlockManager();
+        $blockManager->expects($this->once())
+                     ->method('getIsInternalBlock')
+                     ->will($this->returnValue($isInternal));
+
+        $attributes = array('id' => 'app_fake.block', 'description' => 'Script block',  'type' => 'Script', 'group' => 'group_1');
+        $this->blockManagerFactory->addBlockManager($blockManager, $attributes);
+        
+        $blocks = $this->blockManagerFactory->getBlocks();
+        $this->assertCount(count($expectedBlocks), $blocks);
+        $this->assertEquals($expectedBlocks, $blocks);
+    }
+    
+    public function testABlockNotAssignedToAnyGroupIsRenderedAtTheBottomOfTheArray()
+    {
+        $this->initBlockManager();
+        
+        $attributes = array('id' => 'app_not_grouped.block', 'description' => 'Script block',  'type' => 'Script', 'group' => '');
+        $this->blockManagerFactory->addBlockManager($this->createBlockManager(), $attributes);
+        
+        $blocks = $this->blockManagerFactory->getBlocks();
+        $this->assertCount(3, $blocks);
+        
+        $expectedResult = array
+        (
+            "Default" => array(),
+            "Script" => "Script block",
+            "Text" => "Fake block",
+        );
+
+        
+        $this->assertEquals($expectedResult, $blocks);
+    }
+    
+    /**
+     * @dataProvider availableBlocksProvider
+     */
+    public function testAvailableBlocks($isInternal, $expectedBlocks)
+    {
+        $this->initBlockManager();
+        
+        $blockManager = $this->createBlockManager();
+        $blockManager->expects($this->once())
+                     ->method('getIsInternalBlock')
+                     ->will($this->returnValue($isInternal));
+
+        $attributes = array('id' => 'app_fake_1.block', 'description' => 'Script block',  'type' => 'Script', 'group' => 'group_1');
+        $this->blockManagerFactory->addBlockManager($blockManager, $attributes);
+        
+        $blocks = $this->blockManagerFactory->getAvailableBlocks();
+        $this->assertCount(count($expectedBlocks), $blocks);
+        $this->assertEquals($expectedBlocks, $blocks);
+    }
 
     public function testNothigIsCreatedWhenAnyBlockHasBeenAddedToFactory()
     {
@@ -113,31 +174,55 @@ class AlBlockManagerFactoryTest extends TestCase
         $blockManager = $this->blockManagerFactory->createBlockManager($block);
         $this->assertNull($blockManager);
     }
-
-    public function testGetBlocks()
+    
+    public function blocksProvider()
     {
-        $attributes = array('id' => 'app_fake.block', 'description' => 'Text block',  'type' => 'Text', 'group' => 'group_1');
-        $this->blockManagerFactory->addBlockManager($this->createBlockManager(), $attributes);
-
-        $attributes = array('id' => 'app_fake.block', 'description' => 'Menu block',  'type' => 'Menu', 'group' => 'group_2');
-        $this->blockManagerFactory->addBlockManager($this->createBlockManager(), $attributes);
-
-        $attributes = array('id' => 'app_fake.block', 'description' => 'Script block',  'type' => 'Script', 'group' => 'group_1');
-        $this->blockManagerFactory->addBlockManager($this->createBlockManager(), $attributes);
-
-        $expectedValue = array(
-            'Script' => 'Script block',
-            'Text' => 'Text block',
-            'Menu' => 'Menu block',
-            'Default' => array(),
+        return array(
+            array(
+                false,
+                array
+                (
+                    "Default" => array(),
+                    "Script" => "Script block",
+                    "Text" => "Fake block",
+                ),
+            ),array(
+                true,
+                array
+                (
+                    "Default" => array(),
+                    "Text" => "Fake block",
+                ),
+            ),
         );
-
-        $this->assertEquals($expectedValue, $this->blockManagerFactory->getBlocks());
+    }
+    
+    public function availableBlocksProvider()
+    {
+        return array(
+            array(
+                false,
+                array
+                (
+                    "Text",
+                    "Script",
+                ),
+            ),array(
+                true,
+                array
+                (
+                    "Text",
+                ),
+            ),
+        );
     }
 
     private function initBlockManager(array $attributes = null)
     {
-        if (null === $attributes) $attributes = array('id' => 'app_fake.block', 'description' => 'Fake block',  'type' => 'Text');
+        if (null === $attributes) {
+            $attributes = array('id' => 'app_fake.block', 'description' => 'Fake block',  'type' => 'Text');
+        }
+        
         $this->blockManager = $this->createBlockManager();
         $this->blockManager->expects($this->once())
                            ->method('setFactoryRepository')
