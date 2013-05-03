@@ -93,7 +93,7 @@ class SlotRendererExtensionTest extends TestCase
             ->method('getBlockManagers')
             ->will($this->returnValue($blockManagers));
         
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $templating->expects($this->never())
                         ->method('render');
 
@@ -108,21 +108,29 @@ class SlotRendererExtensionTest extends TestCase
     /**
      * @dataProvider renderSlotProvider
      */
-    public function testSlotHasBeenRendered($value, $expected)
+    public function testSlotHasBeenRendered($value, $editorParameters, $contentParameters)
     {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
+        $blockManager = $this->setUpBlockManager($value);
+        $blockManager->expects($this->once())
+            ->method('editorParameters')
+            ->will($this->returnValue(array('foo' => 'bar')));
         
-        $blockManagers = array($this->setUpBlockManager($value));
+        $blockManagers = array($blockManager);
         $this->pageTree->expects($this->once())
             ->method('getBlockManagers')
             ->will($this->returnValue($blockManagers));
         
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $templating->expects($this->once())
+        $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
+        $engine->expects($this->at(0))
                         ->method('render')
-                        ->with('AlphaLemonCmsBundle:Slot:editable_block.html.twig', $expected);
+                        ->with('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
+                        ->will($this->returnValue('data-foo="bar"'))
+        ;
+        
+        $engine->expects($this->at(1))
+                        ->method('render')
+                        ->with('AlphaLemonCmsBundle:Slot:_block.html.twig', $contentParameters)
+        ;
 
         $this->container->expects($this->at(0))
                         ->method('get')
@@ -132,118 +140,48 @@ class SlotRendererExtensionTest extends TestCase
         $this->container->expects($this->at(1))
                         ->method('get')
                         ->with('templating')
-                        ->will($this->returnValue($templating));
+                        ->will($this->returnValue($engine));
         
         $this->slotRenderer->renderSlot('logo');
     }
     
-    public function renderSlotProvider()
+    /**
+     * @dataProvider renderBlockProvider
+     */
+    public function testRenderBlock($value, $editorParameters, $contentParameters, $included, $extraAttributes, $template = null)
     {
-        return array(
-            array(
-                array(
-                    "Block" => array(
-                        "Id" => "10",
-                        "SlotName" => "logo",
-                        "Type" => "Text",
-                    ),
-                    "Content" => "my awesome content",
-                    "InternalJavascript" => "",
-                    "EditorWidth" => 800,
-                ),
-                array(
-                    "block_id" => 10,
-                    "hide_in_edit_mode" => "",
-                    "slot_name" => "logo",
-                    "type" => "Text",
-                    "editor_width" => 800,
-                    "content" => "my awesome content",
-                    "contents_hidden_script" => "",
-                    "internal_javascript" => "",
-                ),
-            ),
-            array(
-                array(
-                    "Block" => array(
-                        "Id" => "10",
-                        "SlotName" => "logo",
-                        "Type" => "Text",
-                    ),
-                    "Content" => "my awesome content",
-                    "InternalJavascript" => "my awesome script",
-                    "EditorWidth" => 800,
-                    "HideInEditMode" => "true",
-                    "ExecuteInternalJavascript" => false,
-                ),
-                array(
-                    "block_id" => 10,
-                    "hide_in_edit_mode" => "al_hide_edit_mode",
-                    "slot_name" => "logo",
-                    "type" => "Text",
-                    "editor_width" => 800,
-                    "content" => "my awesome content",
-                    "contents_hidden_script" => "$('#block_10').data('block', 'my%20awesome%20content');",
-                    "internal_javascript" => "",
-                ),
-            ),
-            array(
-                array(
-                    "Block" => array(
-                        "Id" => "10",
-                        "SlotName" => "logo",
-                        "Type" => "Text",
-                    ),
-                    "Content" => "my awesome content",
-                    "InternalJavascript" => "my awesome script",
-                    "EditorWidth" => 800,
-                    "HideInEditMode" => "true",
-                    "ExecuteInternalJavascript" => true,
-                ),
-                array(
-                    "block_id" => 10,
-                    "hide_in_edit_mode" => "al_hide_edit_mode",
-                    "slot_name" => "logo",
-                    "type" => "Text",
-                    "editor_width" => 800,
-                    "content" => "my awesome content",
-                    "contents_hidden_script" => "$('#block_10').data('block', 'my%20awesome%20content');",
-                    "internal_javascript" => "my awesome script",
-                ),
-            ),
-            array(
-                array(
-                    "Block" => array(
-                        "Id" => "10",
-                        "SlotName" => "logo",
-                        "Type" => "Text",
-                    ),
-                    "Content" => "<script>my awesome script</script>",
-                    "InternalJavascript" => "",
-                    "EditorWidth" => 800,
-                ),
-                array(
-                    "block_id" => 10,
-                    "hide_in_edit_mode" => "",
-                    "slot_name" => "logo",
-                    "type" => "Text",
-                    "editor_width" => 800,
-                    "content" => "A script content is not rendered in editor mode",
-                    "contents_hidden_script" => "",
-                    "internal_javascript" => "",
-                ),
-            ),
-        );
+        $blockManager = $this->setUpBlockManager($value);
+        $blockManager->expects($this->once())
+            ->method('editorParameters')
+            ->will($this->returnValue(array('foo' => 'bar')));
+              
+        $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
+        $engine->expects($this->at(0))
+                        ->method('render')
+                        ->with('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
+                        ->will($this->returnValue($extraAttributes))
+        ;
+        
+        $templateView = (null === $template) ? 'AlphaLemonCmsBundle:Slot:_block.html.twig' : 'AlphaLemonCmsBundle:Slot:' . $template;
+        
+        $engine->expects($this->at(1))
+                        ->method('render')
+                        ->with($templateView, $contentParameters)
+        ;
+
+        $this->container->expects($this->at(0))
+                        ->method('get')
+                        ->with('templating')
+                        ->will($this->returnValue($engine));
+        
+        $this->slotRenderer->renderBlock($blockManager, $template, $included, $extraAttributes);
     }
     
     public function testRenderView()
     {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
         $value = array(
             "Block" => array(
-                "Id" => "10",
+                "Id" => 10,
                 "SlotName" => "logo",
                 "Type" => "Text",
             ),
@@ -252,28 +190,28 @@ class SlotRendererExtensionTest extends TestCase
                 "options" => array("foo" => "bar"),
             )),
             "InternalJavascript" => "",
-            "EditorWidth" => 800,
+            "EditInline" => false,
         );
-        $blockManagers = array($this->setUpBlockManager($value));
+        $blockManager = $this->setUpBlockManager($value);
+        
+        $blockManagers = array($blockManager);
         $this->pageTree->expects($this->once())
             ->method('getBlockManagers')
             ->will($this->returnValue($blockManagers));
         
-        /**/
         $expected = array(
             "block_id" => 10,
-            "hide_in_edit_mode" => "",
             "slot_name" => "logo",
             "type" => "Text",
-            "editor_width" => 800,
             "content" => "",
-            "contents_hidden_script" => "",
             "internal_javascript" => "",
+            "edit_inline" => false,
         );
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $templating->expects($this->once())
                    ->method('render')
-                   ->with("AlphaLemonCmsBundle:Slot:editable_block.html.twig", $expected);
+                   ->with("AlphaLemonCmsBundle:Slot:_block.html.twig", $expected)
+        ;
         
         
         $viewRenderer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer')
@@ -331,7 +269,7 @@ class SlotRendererExtensionTest extends TestCase
             "slot_name" => "logo",
             "content" => "my awesome content",
         );
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $templating->expects($this->once())
                         ->method('render')
                         ->with('AlphaLemonCmsBundle:Slot:map_slot.html.twig', $expected);
@@ -350,70 +288,13 @@ class SlotRendererExtensionTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage renderBlock function requires an array to render its contents. A null block argument has given
-     */
-    public function testAnExceptionIsThrownWhenBlockArgumentIsNull()
-    {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
-        $this->slotRenderer->renderBlock();
-    }
-
-    public function testBlockIsRenderedAsNewBlock()
-    {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
-        $value = array(
-            "Block" => array(
-                "Id" => "10",
-                "SlotName" => "logo",
-                "Type" => "Text",
-            ),
-            "Content" => "my awesome content",
-            "InternalJavascript" => "",
-            "EditorWidth" => 800,
-        );
-        
-        $expected = array(
-            "block_id" => 10,
-            "hide_in_edit_mode" => "",
-            "slot_name" => "logo",
-            "type" => "Text",
-            "editor_width" => 800,
-            "content" => "my awesome content",
-            "contents_hidden_script" => "",
-            "internal_javascript" => "",
-        );
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $templating->expects($this->once())
-                        ->method('render')
-                        ->with('AlphaLemonCmsBundle:Slot:editable_block.html.twig', $expected);
-
-        $this->container->expects($this->once())
-                        ->method('get')
-                        ->with('templating')
-                        ->will($this->returnValue($templating));
-        
-        $this->slotRenderer->renderBlock($value, true);
-    }
-
-    /**
      * @expectedException \RuntimeException
      */
     public function testAnExceptionHasThrownBackWhenSomethingThrowsAnException()
     {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
         $value = array(
             "Block" => array(
-                "Id" => "10",
+                "Id" => 10,
                 "SlotName" => "logo",
                 "Type" => "Text",
             ),
@@ -424,8 +305,9 @@ class SlotRendererExtensionTest extends TestCase
                 )
             ),
         );
+        $blockManager = $this->setUpBlockManager($value);
 
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $templating->expects($this->never())
                         ->method('render');
         
@@ -446,18 +328,621 @@ class SlotRendererExtensionTest extends TestCase
                         ->with('alpha_lemon_cms.view_renderer')
                         ->will($this->returnValue($viewRenderer));
 
-        $this->slotRenderer->renderBlock($value);
+        $this->slotRenderer->renderBlock($blockManager);
     }
+    
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage You must provide a valid AlBlockManager instance to automatically add a new Block
+     */
+    public function testRenderIncludedBlockThrowsAnExceptionWhenANewBlockMustBeAddedAndParentIsNull()
+    {
+        $key = '200-1';
+        
+        $factoryRepository = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $blocksRepository =
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $blocksRepository->expects($this->once())
+            ->method('retrieveContentsBySlotName')
+            ->with($key)
+            ->will($this->returnValue(array()))
+        ;
+        
+        $factoryRepository->expects($this->once())
+            ->method('createRepository')
+            ->with('Block')
+            ->will($this->returnValue($blocksRepository))
+        ;
+        
+        $factoryRepository->expects($this->once())
+            ->method('createRepository')
+            ->with('Block')
+            ->will($this->returnValue($blocksRepository))
+        ;
+        
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('alpha_lemon_cms.factory_repository')
+            ->will($this->returnValue($factoryRepository))
+        ;
+        
+        $this->slotRenderer->renderIncludedBlock($key, null, 'Text', true);
+    }
+    
+    /**
+     * @dataProvider renderIncludedBlockProvider
+     */
+    public function testRenderIncludedBlock($key, $expectedResult, $blocks = array(), $arguments = null)
+    {
+        $factoryRepository = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $blocksRepository =
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $blocksRepository->expects($this->once())
+            ->method('retrieveContentsBySlotName')
+            ->with($key)
+            ->will($this->returnValue($blocks))
+        ;
+        
+        $factoryRepository->expects($this->once())
+            ->method('createRepository')
+            ->with('Block')
+            ->will($this->returnValue($blocksRepository))
+        ;
+        
+        $factoryRepository->expects($this->once())
+            ->method('createRepository')
+            ->with('Block')
+            ->will($this->returnValue($blocksRepository))
+        ;
+        
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('alpha_lemon_cms.factory_repository')
+            ->will($this->returnValue($factoryRepository))
+        ;
+        
+        if (null === $arguments) {
+            $arguments = array(
+                'parent' => null,
+                'type' => 'Text', 
+                'addWhenEmpty' => false, 
+                'defaultContent' => '', 
+                'extraAttributes' => '', 
+            );
+        }
+        
+        if ($arguments["addWhenEmpty"]) {            
+            $values = $expectedResult;  
+            
+            $blockManager = $this->setUpBlockManager();
+            $blockManager->expects($this->once())
+                ->method('save')
+                ->with($values)
+            ;
+            
+            $blockManager->expects($this->once())
+                ->method('setEditorDisabled')
+            ;
+            
+            $blockManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+            ;
+            
+            $blockManagerFactory->expects($this->once())
+                ->method('createBlockManager')
+                ->with($arguments["type"])
+                ->will($this->returnValue($blockManager))
+            ;
 
-    private function setUpBlockManager(array $value)
+            $this->container->expects($this->at(1))
+                ->method('get')
+                ->with('alpha_lemon_cms.block_manager_factory')
+                ->will($this->returnValue($blockManagerFactory))
+            ;
+        }
+        
+        if (count($blocks) > 0) {    
+            $blockManager = $this->setUpBlockManager();
+            $blockManager->expects($this->once())
+                ->method('set')
+                ->with($blocks[0])
+            ;
+            
+            $expectation = (null !== $arguments["parent"]) ? 1 : 0;
+            $blockManager->expects($this->exactly($expectation))
+                ->method('setEditorDisabled')
+            ;
+            
+            $blockManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+            ;
+            
+            $blockManagerFactory->expects($this->once())
+                ->method('createBlockManager')
+                ->will($this->returnValue($blockManager))
+            ;
+
+            $this->container->expects($this->at(1))
+                ->method('get')
+                ->with('alpha_lemon_cms.block_manager_factory')
+                ->will($this->returnValue($blockManagerFactory))
+            ;
+        }
+        
+        $result = $this->slotRenderer->renderIncludedBlock($key, $arguments["parent"], $arguments["type"], $arguments["addWhenEmpty"], $arguments["defaultContent"], $arguments["extraAttributes"]);
+        
+        if (is_string($expectedResult)) {
+            $this->assertEquals($expectedResult, $result);
+        }
+    }
+    
+    public function renderIncludedBlockProvider()
+    {
+        return array(                
+            array(
+                '200-1',
+                '<div data-editor="enabled" data-block-id="0" data-slot-name="200-1" data-included="1">This slot has any content inside. Use the contextual menu to add a new one</div>',
+                array(),
+            ),
+            array(
+                '200-1',
+                array(
+                    "PageId"          => 2,
+                    "LanguageId"      => 2,
+                    "SlotName"        => '200-1',
+                    "Type"            => 'Text',
+                    "ContentPosition" => 1,
+                ),
+                array(),
+                array(
+                    'parent' => $this->createParentBlockManager(),
+                    'type' => 'Text', 
+                    'addWhenEmpty' => true, 
+                    'defaultContent' => '', 
+                    'extraAttributes' => '', 
+                ),
+            ),
+            array(
+                '200-1',
+                array(
+                    "PageId"          => 2,
+                    "LanguageId"      => 2,
+                    "SlotName"        => '200-1',
+                    "Type"            => 'Script',
+                    "ContentPosition" => 1,
+                ),
+                array(),
+                array(
+                    'parent' => $this->createParentBlockManager(),
+                    'type' => 'Script', 
+                    'addWhenEmpty' => true, 
+                    'defaultContent' => '', 
+                    'extraAttributes' => '', 
+                ),
+            ),
+            array(
+                '200-1',
+                array(
+                    "PageId"          => 2,
+                    "LanguageId"      => 2,
+                    "SlotName"        => '200-1',
+                    "Type"            => 'Text',
+                    "ContentPosition" => 1,
+                    'Content' => 'My awesome content',
+                ),
+                array(),
+                array(
+                    'parent' => $this->createParentBlockManager(),
+                    'type' => 'Text', 
+                    'addWhenEmpty' => true, 
+                    'defaultContent' => 'My awesome content', 
+                    'extraAttributes' => '', 
+                ),
+            ),
+            array(
+                '200-1',
+                null,
+                array(
+                    $this->createBlock(),
+                ),
+            ),
+            array(
+                '200-1',
+                null,
+                array(
+                    $this->createBlock(),
+                ),
+                array(
+                    'parent' => $this->createParentBlockManager(),
+                    'type' => 'Text', 
+                    'addWhenEmpty' => false, 
+                    'defaultContent' => '', 
+                    'extraAttributes' => '', 
+                ),
+            ),
+            array(
+                '200-1',
+                null,
+                array(
+                    $this->createBlock('Menu'),
+                    $this->createBlock(),
+                ),
+            ),
+        );
+    }
+    
+    private function createBlock($type = 'Text')
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue($type))
+        ; 
+        
+        return $block;
+    }
+    
+    private function createParentBlockManager()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->at(0))
+            ->method('getPageId')
+            ->will($this->returnValue(2))
+        ;
+        
+        $block->expects($this->at(1))
+            ->method('getLanguageId')
+            ->will($this->returnValue(2))
+        ;
+        
+        $blockManager = $this->setUpBlockManager();
+        $blockManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($block))
+        ;
+        
+        return $blockManager;
+    }
+        
+    public function renderBlockProvider()
+    {
+        return array(
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => 10,
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "",
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    'hide_in_edit_mode' => 'false',
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => '',
+                    'included' => false,
+                ),             
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p  data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                ),
+                false,
+                '',
+                'custom.html.twig',
+            ),
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => 10,
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "",
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    'hide_in_edit_mode' => 'false',
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => '',
+                    'included' => true,
+                ),             
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p  data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                ),
+                true,
+                '',
+            ),
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => 10,
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "",
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    'hide_in_edit_mode' => 'false',
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => 'data-foo="bar"',
+                    'included' => false,
+                ),             
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-foo="bar" data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                ),
+                false,
+                'data-foo="bar"',
+            ),
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => 10,
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "",
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    'hide_in_edit_mode' => 'false',
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => "data-encoded-content='my awesome text'",
+                    'included' => false,
+                ),             
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-encoded-content=\'my%20awesome%20text\' data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                ),
+                false,
+                "data-encoded-content='my awesome text'",
+                null,
+            ),
+        );
+    }
+    
+    public function renderSlotProvider()
+    {
+        return array(
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => "10",
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "",
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    'hide_in_edit_mode' => 'false',
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => '',
+                    'included' => false,
+                ),                
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-foo="bar" data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                ),
+            ),
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => "10",
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "my awesome script",
+                    "HideInEditMode" => false,
+                    "ExecuteInternalJavascript" => false, // This blocks the internal javascript execution
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    'hide_in_edit_mode' => 'false',
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => '',
+                    'included' => false,
+                ),      
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-foo="bar" data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                ),
+            ),
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => "10",
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "my awesome script",
+                    "HideInEditMode" => true,
+                    "ExecuteInternalJavascript" => true,
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    "hide_in_edit_mode" => "true",
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "my awesome script",
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => '',
+                    'included' => false,
+                ),    
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-foo="bar" data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "my awesome script",
+                    "edit_inline" => false,
+                ),
+            ),
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => "10",
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => '<p data-editor="true">my awesome content</p>',
+                    "InternalJavascript" => "",
+                    "HideInEditMode" => false,
+                    "ExecuteInternalJavascript" => false,
+                    "EditInline" => true,
+                ),
+                array(
+                    "block_id" => 10,
+                    "hide_in_edit_mode" => "false",
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-editor="true">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => true,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => '',
+                    'included' => false,
+                ),    
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => '<p data-foo="bar" data-editor="enabled">my awesome content</p>',
+                    "internal_javascript" => "",
+                    "edit_inline" => true,
+                ),
+            ),
+            /* TODO
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => "10",
+                        "SlotName" => "logo",
+                        "Type" => "Text",
+                    ),
+                    "Content" => "<script>my awesome script</script>",
+                    "InternalJavascript" => "",
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    "hide_in_edit_mode" => "",
+                    "slot_name" => "logo",
+                    "type" => "Text",
+                    "content" => "A script content is not rendered in editor mode",
+                    "contents_hidden_script" => "",
+                    "internal_javascript" => "",
+                    "edit_inline" => false,
+                ),
+            ),*/
+        );
+    }
+    
+
+    private function setUpBlockManager(array $value = array())
     {
         $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $blockManager->expects($this->once())
-            ->method('toArray')
-            ->will($this->returnValue($value));
+        if ( ! empty($value)) {
+            $blockManager->expects($this->once())
+                ->method('toArray')
+                ->will($this->returnValue($value));
+        }
 
         return $blockManager;
     }
