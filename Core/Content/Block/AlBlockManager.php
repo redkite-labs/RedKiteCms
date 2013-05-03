@@ -200,6 +200,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Defines the parameters passed to the block's editor
      * 
      * @return array
+     * 
+     * @api
      */
     public function editorParameters()
     {
@@ -298,6 +300,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * can be changed overriding the getExecuteInternalJavascript() method.
      *
      * @deprecated
+     * @codeCoverageIgnore
      * @return string
      */
     final public function getHtmlCmsActive()
@@ -366,7 +369,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getInternalJavascript($safe = true)
     {
         $internalJavascript = '';
-        if (null === $this->alBlock) return $internalJavascript;
+        if (null === $this->alBlock) {
+            return $internalJavascript;
+        }
 
         $savedJavascript = $this->alBlock->getInternalJavascript();
         if (null !== $this->alBlock && trim($savedJavascript) != '') {
@@ -509,6 +514,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @deprecated
      * 
      * @api
+     * @codeCoverageIgnore
      */
     protected function getEditorWidth()
     {
@@ -530,6 +536,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     
     /**
      * @deprecated
+     * @codeCoverageIgnore
      */
     protected function formatHtmlCmsActive()
     {
