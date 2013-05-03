@@ -185,14 +185,12 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     protected function savePages()
     {
-        if (null === $this->pageTreeCollection) {
-            $this->pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
-        }
-        
         $pagesByTemplate = array();        
         foreach ($this->pageTreeCollection as $pageTree) {
             if ( ! $this->save($pageTree, 'Pages')) {
+                // @codeCoverageIgnoreStart
                 return false;
+                // @codeCoverageIgnoreEnd
             }
             
             $languageName = $pageTree->getAlLanguage()->getLanguageName();
@@ -209,7 +207,9 @@ abstract class AlDeployer implements AlDeployerInterface
         foreach ($pagesByTemplate as $pageTrees) {
             foreach ($pageTrees as $pageTree) {
                 if ( ! $this->save($pageTree, 'Base')) {
+                    // @codeCoverageIgnoreStart
                     return false;
+                // @codeCoverageIgnoreEnd
                 }
             }
         }
@@ -262,9 +262,15 @@ abstract class AlDeployer implements AlDeployerInterface
         $mainLanguage = "";
         $routes = array();
         foreach ($this->pageTreeCollection as $pageTree) {     
-            $alPage = $pageTree->getAlPage();     
+            $alPage = $pageTree->getAlPage();
+            
+            // By default the AlPageTreeCollection excluded unpublished pages, but
+            // another custom collection could not implements this control. For this
+            // reason we'll check the page's published status here
             if ( ! $alPage->getIsPublished()) {
+                // @codeCoverageIgnoreStart
                 continue;
+                // @codeCoverageIgnoreEnd
             }
               
             $pageName = $alPage->getPageName();
@@ -293,8 +299,14 @@ abstract class AlDeployer implements AlDeployerInterface
     {
         $sitemap = array();
         foreach ($this->pageTreeCollection as $pageTree) {
+            
+            // By default the AlPageTreeCollection excluded unpublished pages, but
+            // another custom collection could not implements this control. For this
+            // reason we'll check the page's published status here
             if ( ! $pageTree->getAlPage()->getIsPublished()) {
+                // @codeCoverageIgnoreStart
                 continue;
+                // @codeCoverageIgnoreEnd
             }
             
             $seo = $pageTree->getAlSeo();
