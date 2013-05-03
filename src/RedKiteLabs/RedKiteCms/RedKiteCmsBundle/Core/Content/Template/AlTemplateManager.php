@@ -300,7 +300,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function populate($idLanguage, $idPage, $skipRepeated = false)
     {
-        try {               
+        try {            
             $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_POPULATE, new Content\TemplateManager\BeforePopulateEvent($this));
             
             $this->refreshPageBlocks($idLanguage, $idPage);

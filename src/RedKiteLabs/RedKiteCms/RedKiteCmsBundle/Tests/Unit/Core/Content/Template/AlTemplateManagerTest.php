@@ -40,15 +40,15 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('getTemplateSlots')
             ->will($this->returnValue($this->templateSlots));
 
-        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->pageContents->expects($this->any())
+        $this->pageBlocks->expects($this->any())
             ->method('getIdPage')
             ->will($this->returnValue(2));
 
-        $this->pageContents->expects($this->any())
+        $this->pageBlocks->expects($this->any())
             ->method('getIdLanguage')
             ->will($this->returnValue(2));
 
@@ -73,10 +73,74 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->will($this->returnValue($this->blockManager));
     }
     
+    public function testClone()
+    { 
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
+        
+        $this->assertNotSame($templateManager, clone($templateManager));
+    }
+        
+    public function testTemplateInjectedBySetters()
+    {        
+        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                         ->disableOriginalConstructor()
+                         ->getMock();
+        $template->expects($this->any())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($this->templateSlots));
+        
+        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $this->templateSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue($slots));
+        
+        $this->pageBlocks->expects($this->once())
+                ->method('getSlotBlocks')
+                ->will($this->returnValue(array()));
+        
+        $this->pageBlocks->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue(array()));
+        
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
+        
+        $this->assertEquals($templateManager, $templateManager->setTemplate($template));
+        $this->assertEquals($template, $templateManager->getTemplate());
+        $this->assertNotSame($this->template, $templateManager->getTemplate());
+    }
+    
+    public function testNothingIsIntantiatedWhenTemplateIsNull()
+    {   
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
+        $templateManager->refresh();
+        $this->assertEmpty($templateManager->getSlotManagers());
+    }
+    
+    public function testTemplateSlotsInjectedBySetters()
+    {        
+        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
+        
+        $this->assertEquals($templateManager, $templateManager->setTemplateSlots($templateSlots));
+        $this->assertEquals($templateSlots, $templateManager->getTemplateSlots());
+    }
+    
+    public function testPageBlocksInjectedBySetters()
+    {        
+        $pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
+        
+        $this->assertEquals($templateManager, $templateManager->setPageBlocks($pageBlocks));
+        $this->assertEquals($pageBlocks, $templateManager->getPageBlocks());
+        $this->assertNotSame($this->pageBlocks, $templateManager->getPageBlocks());
+    }
+    
     public function testBlockManagerFactoryInjectedBySetters()
     {        
         $blockManagerFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');        
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
         
         $this->assertEquals($templateManager, $templateManager->setBlockManagerFactory($blockManagerFactory));
         $this->assertEquals($blockManagerFactory, $templateManager->getBlockManagerFactory());
@@ -85,7 +149,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     public function testBlockRepositoryInjectedBySetters()
     {
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
         $blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
                                 ->disableOriginalConstructor()
                                 ->getMock();
@@ -94,19 +158,26 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->assertNotSame($this->blockRepository, $templateManager->getBlockRepository());
     }
     
+    public function testGetSlotManagerReturnsNullWhenTheArgumentIsNotAString()
+    {
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
+        $this->assertNull($templateManager->getSlotManager(array()));
+    }
+    
+    
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage slotToArray accepts only strings
      */
     public function testSlotsToArrayAcceptsOnlyStrings()
     {
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->slotToArray(array());
     }
     
     public function testSlotsToArrayReturnsAnEmptyArrayWhenSlotDoesNotExist()
     {
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, null, $this->pageBlocks, $this->factory, $this->validator);
         $this->assertEmpty($templateManager->slotToArray('fake'));
     }
 
@@ -122,7 +193,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('getTemplateSlots')
             ->will($this->returnValue(null));
 
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->refresh();
     }
 
@@ -135,11 +206,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array()));
 
-        $this->pageContents->expects($this->never())
+        $this->pageBlocks->expects($this->never())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array()));
 
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
     }
@@ -151,15 +222,15 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array()));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array()));
 
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -182,15 +253,15 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -212,15 +283,15 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->exactly(2))
+        $this->pageBlocks->expects($this->exactly(2))
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test1' => array($block))));
 
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -231,6 +302,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     public function testPopulateFailsWhenAddingANewBlockFails()
     {
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')),
+                       'test1' => new AlSlot('test1', array('repeated' => 'page')),
                        'test1' => new AlSlot('test1', array('repeated' => 'page')));
 
         $this->templateSlots->expects($this->once())
@@ -247,11 +319,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(2));
 
-        $this->pageContents->expects($this->exactly(2))
+        $this->pageBlocks->expects($this->exactly(2))
                 ->method('getSlotBlocks')
                 ->will($this->onConsecutiveCalls(array($block1), array($block2)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => $block1, 'test1' => $block2)));
 
@@ -261,7 +333,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         
         $this->initEventsDispatcher('template_manager.before_populate', 'template_manager.after_populate', 'template_manager.before_populate_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -290,11 +362,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
@@ -304,24 +376,31 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_populate');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         $templateManager->populate(2, 2);
     }
     
-    public function testPopulate()
+    /**
+     * @dataProvider populateArguments
+     */
+    public function testPopulate($skip, $tt)
     {
-        $this->blockRepository->expects($this->exactly(2))
+        $times = 3 + $tt;
+        $this->blockRepository->expects($this->exactly($times))
             ->method('startTransaction');
 
-        $this->blockRepository->expects($this->exactly(2))
+        $this->blockRepository->expects($this->exactly($times))
             ->method('commit');
 
         $this->blockRepository->expects($this->never())
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array(
+            'content' => new AlSlot('content', array('repeated' => 'page')),
+            'logo' => new AlSlot('logo', array('repeated' => 'site')),
+        );
         $this->templateSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -331,25 +410,26 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->any())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
-        $this->blockManager->expects($this->once())
+        $saveTimes = 2 + $tt;
+        $this->blockManager->expects($this->exactly($saveTimes))
             ->method('save')
             ->will($this->returnValue(true));
 
         $this->initEventsDispatcher('template_manager.before_populate', 'template_manager.after_populate', 'template_manager.before_populate_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
-        $result = $templateManager->populate(2, 2);
+        $result = $templateManager->populate(2, 2, $skip);
         $this->assertTrue($result);
     }
 
@@ -362,7 +442,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array()));
 
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
     }
@@ -388,11 +468,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
@@ -402,7 +482,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -428,11 +508,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
@@ -442,7 +522,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -471,11 +551,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
@@ -485,7 +565,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -517,11 +597,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->exactly(4))
+        $this->pageBlocks->expects($this->exactly(4))
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
@@ -531,7 +611,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -563,11 +643,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->exactly(4))
+        $this->pageBlocks->expects($this->exactly(4))
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
@@ -577,7 +657,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
         
@@ -603,20 +683,20 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->exactly(3))
+        $this->pageBlocks->expects($this->exactly(3))
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->exactly(3))
+        $this->pageBlocks->expects($this->exactly(3))
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('setIdLanguage')
                 ->with(3)
                 ->will($this->returnSelf());
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('setIdPage')
                 ->with(3)
                 ->will($this->returnSelf());
@@ -627,7 +707,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -640,7 +720,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
      */
     public function testClearPageBlocksFailsWhenAnUnexpectedExceptionIsThrown()
     {
-         $this->blockRepository->expects($this->exactly(3))
+        $this->blockRepository->expects($this->exactly(3))
             ->method('startTransaction');
 
         $this->blockRepository->expects($this->exactly(3))
@@ -656,20 +736,20 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->exactly(2))
+        $this->pageBlocks->expects($this->exactly(2))
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->exactly(2))
+        $this->pageBlocks->expects($this->exactly(2))
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('setIdLanguage')
                 ->with(3)
                 ->will($this->returnSelf());
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('setIdPage')
                 ->with(3)
                 ->will($this->returnSelf());
@@ -680,7 +760,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
@@ -709,20 +789,20 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $this->pageContents->expects($this->exactly(3))
+        $this->pageBlocks->expects($this->exactly(3))
                 ->method('getSlotBlocks')
                 ->will($this->returnValue(array($block)));
 
-        $this->pageContents->expects($this->exactly(3))
+        $this->pageBlocks->expects($this->exactly(3))
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('setIdLanguage')
                 ->with(3)
                 ->will($this->returnSelf());
 
-        $this->pageContents->expects($this->once())
+        $this->pageBlocks->expects($this->once())
                 ->method('setIdPage')
                 ->with(3)
                 ->will($this->returnSelf());
@@ -733,12 +813,26 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageContents, $this->factory, $this->validator);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         $templateManager->setTemplateSlots($this->templateSlots)
                 ->refresh();
 
         $result = $templateManager->clearPageBlocks(3, 3);
         $this->assertTrue($result);
+    }
+    
+    public function populateArguments()
+    {
+        return array(
+            array(
+                false,
+                1,
+            ),
+            array(
+                true,
+                0,
+            ),
+        );
     }
     
     private function initEventsDispatcher($beforeEvent = null, $afterEvent = null, $beforeCommitEvent = null)
