@@ -56,6 +56,11 @@ class AlBlockManagerUnitTester extends AlBlockManager
     {
         return (null === $this->executeInternalJavascript) ? parent::getExecuteInternalJavascript() :$this->executeInternalJavascript;
     }
+    
+    public function getPageTree()
+    {
+        return $this->pageTree; 
+    }
 }
 
 /**
@@ -87,7 +92,23 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $this->blockManager->setDefaultValue(array("Content" => "Test value"));
     }
+    
+    public function testEditorDisable()
+    {
+        $this->assertFalse($this->blockManager->getEditorDisabled());
+        $this->blockManager->setEditorDisabled(true);
+        $this->assertTrue($this->blockManager->getEditorDisabled());
+    }
 
+    public function testPageTreeInjectedBySetters()
+    {
+        $pageTree = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $this->assertSame($this->blockManager->getPageTree(), $this->blockManager->setPageTree($pageTree));
+    }
+    
     public function testFactoryRepositoryInjectedBySetters()
     {
         $factoryRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
@@ -96,6 +117,21 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->assertSame($this->blockManager, $this->blockManager->setFactoryRepository($factoryRepository));
         $this->assertSame($factoryRepository, $this->blockManager->getFactoryRepository());
         $this->assertNotSame($this->factoryRepository, $this->blockManager->getFactoryRepository());
+    }
+    
+    public function testEditorParametersIsEmptyByDefault()
+    {
+        $this->assertEmpty($this->blockManager->editorParameters());
+    }
+    
+    public function testBlockManagerIsNotInternalByDefault()
+    {
+        $this->assertFalse($this->blockManager->getIsInternalBlock());
+    }
+    
+    public function testBlockManagerDoesNotContainMetatagsByDefault()
+    {
+        $this->assertNull($this->blockManager->getMetaTags());
     }
 
     public function testGetBlockRepository()
@@ -131,66 +167,15 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->assertEquals($this->blockManager->getHtml(), $blockManagerArray['Content']);
     }
 
-    public function testHtmlCmsActiveReturnsTheBlockContentAndTheInternalJavascript()
-    {
-        $this->markTestSkipped(
-            'This test will be reviewed'
-        );
-        
-        $htmlContent = '<p>A great App-Bundle</p>';
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue($htmlContent));
-
-        $block->expects($this->once())
-            ->method('getInternalJavascript')
-            ->will($this->returnValue('a great javascript'));
+    public function testInternalJavascriptIsEmptyWhenBlockIsNull()
+    {   
         $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
-        $blockManager->set($block);
-
-        $extraJavascript = '<script type="text/javascript">$(document).ready(function(){try {' . PHP_EOL;
-        $extraJavascript .= 'a great javascript' . PHP_EOL;
-        $extraJavascript .= '} catch (e) {' . PHP_EOL;
-        $extraJavascript .= 'alert(\'The javascript added to the slot  has been generated an error, which reports: \' + e);' . PHP_EOL;
-        $extraJavascript .= '}' . PHP_EOL;
-        $extraJavascript .= '});</script>';
-            
-        $blockManagerArray = $blockManager->toArray();
-        print_r($blockManagerArray);exit;
-        $this->assertEquals($htmlContent . $extraJavascript, $blockManagerArray);
-    }
-
-    public function testHtmlCmsActiveReturnsJustTheBlockContentBecauseExecuteInternalJavascriptIsFalse()
-    {
-        $this->markTestSkipped(
-            'This test will be reviewed'
-        );
-        
-        $htmlContent = '<p>A great App-Bundle</p>';
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue($htmlContent));
-
-        $block->expects($this->once())
-            ->method('getInternalJavascript')
-            ->will($this->returnValue('a great javascript'));
-        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
-        $blockManager->set($block);
-        $blockManager->setExecuteInternalJavascript(false);
-
-        $this->assertEquals($htmlContent, $blockManager->getHtmlCmsActive());
+        $blockManager->set(null);
+        $this->assertEmpty($blockManager->getInternalJavascript());
     }
 
     public function testGetInternalJavascriptSafeMode()
-    {
-        $this->markTestSkipped(
-            'This test will be reviewed'
-        );
-        
+    {        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $block->expects($this->once())
@@ -207,11 +192,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     public function testGetInternalJavascriptUnsafeMode()
-    {
-        $this->markTestSkipped(
-            'This test will be reviewed'
-        );
-        
+    {        
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
 
         $block->expects($this->once())

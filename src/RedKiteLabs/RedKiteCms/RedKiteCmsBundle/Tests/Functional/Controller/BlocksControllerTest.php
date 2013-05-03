@@ -69,7 +69,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         
         $params = array("idBlock" => 3);
         $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
-        $response = $this->client->getResponse(); echo $crawler->text();
+        $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
