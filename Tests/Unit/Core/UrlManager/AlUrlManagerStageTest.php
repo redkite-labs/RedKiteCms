@@ -17,20 +17,20 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\UrlManager;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerStage;
 use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
- * AlUrlManagerTest
+ * AlUrlManagerStageTest
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlUrlManagerTest extends BaseAlUrlManager
+class AlUrlManagerStageTest extends BaseAlUrlManager
 {
-    protected $routePrefix = '';
+    protected $routePrefix = '_stage';
     
     protected function getUrlManager(KernelInterface $kernel, AlFactoryRepositoryInterface $factoryRepository) {
-        return new AlUrlManager($kernel, $factoryRepository);
+        return new AlUrlManagerStage($kernel, $factoryRepository);
     }
 }
