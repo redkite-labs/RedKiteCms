@@ -81,7 +81,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $slotName = $block["Block"]["SlotName"];
             $content = $this->blockContentToHtml($block['Content']);
             
-            /* TODO???
+            /* TODO
             if (strpos($content, '<script') !== false) {
                 $content = "A script content is not rendered in editor mode";
             }*/
@@ -93,7 +93,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 ));
             }
             
-            $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'true' : 'false';
+            
             $internalJavascript = (string)$block["InternalJavascript"];
             $internalJavascript = ($internalJavascript != "" && (bool)$block["ExecuteInternalJavascript"]) ? $internalJavascript : '';
             if (null === $template) {
@@ -101,6 +101,9 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             }
             
             if ( ! $blockManager->getEditorDisabled() && preg_match('/data\-editor="true"/s', $content)) { 
+                $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'true' : 'false';
+                $editorParameters = $blockManager->editorParameters();
+                
                 $cmsAttributes = $templating->render('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', array(
                     'block_id' => $block['Block']["Id"],
                     'hide_in_edit_mode' => $hideInEditMode,
@@ -109,14 +112,14 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     'content' => $content,
                     'internal_javascript' => $internalJavascript,
                     'edit_inline' => $block['EditInline'],
-                    'editor' => $blockManager->editorParameters(),
+                    'editor' => $editorParameters,
                     'extra_attributes' => $extraAttributes,
                     'included' => $included,
                 ));
-                                
+                      
                 if (preg_match('/data\-encoded\-content=\'(.*?)\'/s', $cmsAttributes, $matches))
                 {
-                    $cmsAttributes = preg_replace('/data\-encoded\-content=\'(.*?)\'/s', 'data-encoded-content=\'' . rawurlencode($matches[1]) . '\'', $cmsAttributes);
+                    $cmsAttributes = preg_replace('/data\-encoded\-content=\'(.*?)\'/s', 'data-encoded-content=\'' . rawurlencode($matches[1]) . '\'', $cmsAttributes);                    
                 }
                 
                 $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
@@ -128,7 +131,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 'type' => $block['Block']['Type'],
                 'content' => $content,
                 'internal_javascript' => $internalJavascript,
-                'edit_inline' => $block['EditInline']
+                'edit_inline' => $block['EditInline'],
             ));
         } catch (\Exception $ex) {
             throw $ex;
@@ -143,12 +146,12 @@ class SlotRendererExtension extends BaseSlotRendererExtension
      */
     public function blockContentToHtml($content)
     {
-        $result = $content;     
+        $result = $content;    
         if (is_array($content)) {
             $result = "";
             if (\array_key_exists('RenderView', $content)) {
                 $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
-                $result = $viewsRenderer->render($content['RenderView']);
+                $result = $viewsRenderer->render($content['RenderView']); 
             }
         }
 
@@ -176,7 +179,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         );
     }
     
-    public function renderIncludedBlock($key, $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $extraAttributes = "")
+    public function renderIncludedBlock($key, AlBlockManager $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $extraAttributes = "")
     {
         $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
@@ -194,11 +197,13 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
         } else {
             if (true === $addWhenEmpty) {
+                if (null === $parent) {
+                    throw new \RuntimeException("You must provide a valid AlBlockManager instance to automatically add a new Block");
+                }
+                
                 $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
                 $blockManager = $blockManagerFactory->createBlockManager($type);
-                if (null !== $parent) {
-                    $blockManager->setEditorDisabled($parent->getEditorDisabled());
-                }
+                $blockManager->setEditorDisabled($parent->getEditorDisabled());
                 
                 $values = array(
                   "PageId"          => $parent->get()->getPageId(),
@@ -206,7 +211,6 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                   "SlotName"        => $key,
                   "Type"            => $type,
                   "ContentPosition" => 1,
-                  'CreatedAt'       => date("Y-m-d H:i:s")
                 );            
                 
                 if ( ! empty($defaultContent)) {
