@@ -63,9 +63,4 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
 
         return $values['Content'];
     }
-
-    protected function getEditorWidth()
-    {
-        return 1000;
-    }
 }
