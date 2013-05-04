@@ -23,17 +23,17 @@ namespace AlphaLemon\Block\MenuBundle\Tests\Unit\Core\Block;;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerMenuTest extends BaseBlockManagerMenu
+class AlBlockManagerMenuVerticalTest extends BaseBlockManagerMenu
 {
     protected function setUp()
     {
         parent::setUp();
         
-        $this->blocksTemplate = 'MenuBundle:Content:menu.html.twig';
+        $this->blocksTemplate = 'MenuBundle:Content:menu_vertical.html.twig';
     }
     
     protected function getBlockManager()
     {
-        return new \AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu($this->container, $this->validator);
+        return new \AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenuVertical($this->container, $this->validator);
     }
 }

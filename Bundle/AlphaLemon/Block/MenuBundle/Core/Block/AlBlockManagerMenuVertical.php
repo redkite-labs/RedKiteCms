@@ -18,10 +18,9 @@
 namespace AlphaLemon\Block\MenuBundle\Core\Block;
 
 use AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
 
 /**
- * AlBlockManagerMenu
+ * AlBlockManagerMenuVertical
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
