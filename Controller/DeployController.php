@@ -41,7 +41,7 @@ class DeployController extends Base\BaseController
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
             
-            //$this->resetProdEnvironment();
+            $this->resetProdEnvironment();
             
             return $response;
         } catch (\Exception $e) {
