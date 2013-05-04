@@ -17,7 +17,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
@@ -58,16 +57,6 @@ class SecurityController extends Base\BaseController
         $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
         
         return $this->container->get('templating')->renderResponse($template, $params, $response);
-    }
-    
-    public function stageLoginAction()
-    {
-        if ($this->container->has('profiler')) {
-            $this->container->get('profiler')->disable();
-        }
-        $params = $this->checkRequestError();
-
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:stage_login.html.twig', $params);
     }
 
     /**
