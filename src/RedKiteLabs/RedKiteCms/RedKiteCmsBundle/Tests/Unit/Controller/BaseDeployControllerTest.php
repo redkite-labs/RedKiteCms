@@ -26,9 +26,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Controller\DeployController;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class DeployControllerTest extends TestCase
+abstract class BaseDeployControllerTest extends TestCase
 {
+    protected $controller;
     private $response;
+    
+    abstract protected function executeAction();
 
     protected function setUp()
     {
@@ -62,7 +65,7 @@ class DeployControllerTest extends TestCase
             ->method('renderResponse')
             ->will($this->returnValue($this->response));
 
-        $this->assertEquals($this->response, $this->controller->localAction());
+        $this->assertEquals($this->response, $this->executeAction());
     }
 
     public function testAWarningMessageIsDisplayedWhenRenderingTheResponseThrowsAnException()
@@ -92,7 +95,7 @@ class DeployControllerTest extends TestCase
             ->method('deploy')
             ->will($this->returnValue(true));
 
-        $this->assertEquals($this->response, $this->controller->localAction());
+        $this->assertEquals($this->response, $this->executeAction());
     }
 
     public function testSiteHasBeenDeployed()
@@ -119,14 +122,14 @@ class DeployControllerTest extends TestCase
             ->method('renderResponse')
             ->will($this->returnValue($this->response));
 
-        $this->assertEquals($this->response, $this->controller->localAction());
+        $this->assertEquals($this->response, $this->executeAction());
     }
 
     private function initContainer()
     {
         $this->container->expects($this->at(0))
             ->method('get')
-            ->with('alpha_lemon_cms.local_deployer')
+            ->with($this->deployerServiceName)
             ->will($this->returnValue($this->deployer));
 
         $this->container->expects($this->at(1))
