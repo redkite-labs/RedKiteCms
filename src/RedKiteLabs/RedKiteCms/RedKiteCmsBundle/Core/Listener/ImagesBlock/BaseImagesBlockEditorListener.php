@@ -24,7 +24,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  *
  * @author alphalemon <webmaster@alphalemon.com>
  * 
- * @api
+ * @deprecated since 1.1.0
+ * @codeCoverageIgnore
  */
 abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
 {
