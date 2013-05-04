@@ -682,7 +682,7 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->method('save')
                 ->will($this->returnValue(true));
 
-         $this->blockRepository->expects($this->once())
+        $this->blockRepository->expects($this->once())
                 ->method('setRepositoryObject')
                 ->with($block);
 

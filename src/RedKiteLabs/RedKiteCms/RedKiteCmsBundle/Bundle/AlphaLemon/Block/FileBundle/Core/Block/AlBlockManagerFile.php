@@ -53,8 +53,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
         $item['opened'] = $this->itemOpenedToBool($item);
-        
-        $file = $item['file'];        
+             
         $formClass = $this->container->get('file.form');
         $form = $this->container->get('form.factory')->create($formClass, $item); 
         
@@ -72,8 +71,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     
     protected function replaceHtmlCmsActive()
     {
-        $options = $this->getOptions();        
-        $options["max_length"] = 500;
+        $options = $this->getOptions();   
 
         return array('RenderView' => array(
             'view' => 'FileBundle:Content:file.html.twig',
@@ -87,7 +85,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $item = $items[0];
         $item['opened'] = $this->itemOpenedToBool($item);
         $file = $item['file'];
-
+        
         $options = ($item['opened'])
             ? 
                 array(
@@ -103,17 +101,12 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
                     'filepath' => basename($file),
                 )
         ;
-        //print_r($options);exit;
+        
         return $options;
     }
     
     private function itemOpenedToBool($item)
     {
         return array_key_exists('opened', $item) ? filter_var($item['opened'], FILTER_VALIDATE_BOOLEAN) : false;
-    }
-    
-    private function formatLink($file)
-    {
-        return sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, basename($file));
     }
 }
