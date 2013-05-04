@@ -30,57 +30,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
  */
 class BlocksController extends Base\BaseController
 {
-    /**
-     * @deprecated since 1.1.0
-     * @codeCoverageIgnore
-     */
-    public function showBlocksEditorAction()
-    {
-        try {
-            $request = $this->container->get('request');
-            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-            $blockRepository = $factoryRepository->createRepository('Block');
-            $block = $blockRepository->fromPK($request->get('idBlock'));
-            if ($block != null) {
-                $alBlockManager = $this->container->get('alpha_lemon_cms.block_manager_factory')->createBlockManager($block);
-                $dispatcher = $this->container->get('event_dispatcher');
-                if (null !== $dispatcher) {
-                    $event = new Block\BlockEditorRenderingEvent($this->container, $request, $alBlockManager);
-                    $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERING, $event);
-                    $editor = $event->getEditor();
-                }
-
-                if (null === $editor) {
-                    $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getType()));
-                    $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
-                    $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getType(), strtolower($block->getType()));
-                    
-                    $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
-                                                                                           "jsFiles" => explode(",", $block->getExternalJavascript()),
-                                                                                           "cssFiles" => explode(",", $block->getExternalStylesheet()),
-                                                                                           "language" => $request->get('languageId'),
-                                                                                           "page" => $request->get('pageId'),
-                                                                                           "editor_settings" => $editorSettings));
-                }
-
-                $values[] = array("key" => "editor",
-                                  "value" => $editor);
-                $response = $this->buildJSonResponse($values);
-                if (null !== $dispatcher) {
-                    $event = new Block\BlockEditorRenderedEvent($response, $alBlockManager);
-                    $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERED, $event);
-                    $response = $event->getResponse();
-                }
-
-                return $response;
-            } else {
-                throw new \RuntimeException($this->container->get('translator')->trans('The content does not exist anymore or the slot has any content inside'));
-            }
-        } catch (\Exception $e) {
-            return $this->renderDialogMessage($e->getMessage());
-        }
-    }
-    
     public function showAvailableBlocksAction()
     {
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig', array(
@@ -99,14 +48,13 @@ class BlocksController extends Base\BaseController
             $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
             $blockRepository = $factoryRepository->createRepository('Block');
             
-            $options = $request->get('options');
-            if(null !== $options && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && (array_key_exists('included', $options) && filter_var($options['included'], FILTER_VALIDATE_BOOLEAN)))
+            if(null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN))
             {
                 throw new \RuntimeException('You cannot add more than one block into an including block');
             }
             
             $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
-            $slotManager = $this->fetchSlotManager($request, false);
+            $slotManager = $this->fetchSlotManager($request, false); 
             if (null !== $slotManager) {
                 $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
                 if ( ! $res) {
@@ -421,5 +369,57 @@ class BlocksController extends Base\BaseController
     private function getSectionFromKeyParam()
     {
         return str_replace('External', '', $this->container->get('request')->get('field'));
+    }
+    
+    
+    /**
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function showBlocksEditorAction()
+    {
+        try {
+            $request = $this->container->get('request');
+            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+            $blockRepository = $factoryRepository->createRepository('Block');
+            $block = $blockRepository->fromPK($request->get('idBlock'));
+            if ($block != null) {
+                $alBlockManager = $this->container->get('alpha_lemon_cms.block_manager_factory')->createBlockManager($block);
+                $dispatcher = $this->container->get('event_dispatcher');
+                if (null !== $dispatcher) {
+                    $event = new Block\BlockEditorRenderingEvent($this->container, $request, $alBlockManager);
+                    $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERING, $event);
+                    $editor = $event->getEditor();
+                }
+
+                if (null === $editor) {
+                    $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getType()));
+                    $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
+                    $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getType(), strtolower($block->getType()));
+                    
+                    $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
+                                                                                           "jsFiles" => explode(",", $block->getExternalJavascript()),
+                                                                                           "cssFiles" => explode(",", $block->getExternalStylesheet()),
+                                                                                           "language" => $request->get('languageId'),
+                                                                                           "page" => $request->get('pageId'),
+                                                                                           "editor_settings" => $editorSettings));
+                }
+
+                $values[] = array("key" => "editor",
+                                  "value" => $editor);
+                $response = $this->buildJSonResponse($values);
+                if (null !== $dispatcher) {
+                    $event = new Block\BlockEditorRenderedEvent($response, $alBlockManager);
+                    $dispatcher->dispatch(BlockEvents::BLOCK_EDITOR_RENDERED, $event);
+                    $response = $event->getResponse();
+                }
+
+                return $response;
+            } else {
+                throw new \RuntimeException($this->container->get('translator')->trans('The content does not exist anymore or the slot has any content inside'));
+            }
+        } catch (\Exception $e) {
+            return $this->renderDialogMessage($e->getMessage());
+        }
     }
 }
