@@ -43,22 +43,26 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
         $this->blockRepository->fromPK(2);
     }
-
-    public function testEditorReturnsAnErrorMessageWhenTheBlockIdIsNotGiven()
+    
+    public function testShowAvailableBlocks()
     {
-        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor');
+        $crawler = $this->client->request('POST', '/backend/en/al_showAvailableBlocks');
         $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
-    }
-
-    public function testEditorReturnsAnErrorMessageWhenTheBlockIdDoesNotExist()
-    {
-        $params = array("idBlock" => 9999);
-        $crawler = $this->client->request('POST', '/backend/en/al_showBlocksEditor', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The content does not exist anymore or the slot has any content inside")')->count() > 0);
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $this->assertCount(1, $crawler->filter('#al_blocks_list'));
+        
+        $this->assertGreaterThanOrEqual(23, count($crawler->filter('.al_block_adder')));
+        
+        // Tests the internal blocks
+        $this->assertCount(1, $crawler->filter('[rel="File"]'));
+        $this->assertCount(1, $crawler->filter('[rel="Image"]'));
+        $this->assertCount(1, $crawler->filter('[rel="Link"]'));
+        $this->assertCount(1, $crawler->filter('[rel="Menu"]'));
+        $this->assertCount(1, $crawler->filter('[rel="MenuVertical"]'));
+        $this->assertCount(1, $crawler->filter('[rel="NavigationMenu"]'));
+        $this->assertCount(1, $crawler->filter('[rel="Script"]'));
+        $this->assertCount(1, $crawler->filter('[rel="Text"]'));
     }
 
     public function testAddBlockFailsWhenAnyValidParameterIsGiven()
@@ -671,6 +675,94 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
         $block = $this->blockRepository->fromPK($blockId);
         $this->assertEquals('another-file', $block->getExternalJavascript());
+    }
+    
+    public function testAddIncludedBlockFails()
+    {
+        $referenceBlockId = $this->getLastBlock("content_title_1")->getId();
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'contentType' => 'BootstrapThumbnailsBlock',
+            'pageId' => '2',
+            'languageId' => '2',
+            'slotName' => 'content_title_1',
+            'included' => 'false',
+            'idBlock' => $referenceBlockId,
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());        
+        
+        $referenceBlockId = $this->getLastBlock("content_title_1")->getId();  
+        $slotName = $referenceBlockId . '-0';
+        $blocks = $this->blockRepository->retrieveContents(2, 2, $slotName);
+        $this->assertCount(1, $blocks);      
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            'slotName' => $slotName,
+            'included' => 'true',
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+        
+        $this->assertEquals('You cannot add more than one block into an including block', $crawler->text());
+        
+        return $slotName;
+    }
+    
+    /**
+     * @depends testAddIncludedBlockFails
+     */
+    public function testDeleteIncludedBlock($slotName)
+    {
+        $blockId = $this->getLastBlock($slotName)->getId();
+        $params = array('page' => 'index',
+                        'language' => 'en',
+                        'pageId' => '2',
+                        'languageId' => '2',
+                        'slotName' => $slotName,
+                        'included' => 'true',
+                        "key" => "fake",
+                        "value" => "new content",
+                        "idBlock" => $blockId);
+
+        $crawler = $this->client->request('POST', '/backend/en/deleteBlock', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $blocks = $this->blockRepository->retrieveContents(2, 2, $slotName);
+        $this->assertCount(0, $blocks);
+        
+        return $slotName;
+    }
+    
+    /**
+     * @depends testDeleteIncludedBlock
+     */
+    public function testAddNewIncludedBlock($slotName)
+    {
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            'slotName' => $slotName,
+            'included' => 'true',
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/addBlock', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $blocks = $this->blockRepository->retrieveContents(2, 2, $slotName);
+        $this->assertCount(1, $blocks);
     }
 
     private function getSlotBlocks($slotName)
