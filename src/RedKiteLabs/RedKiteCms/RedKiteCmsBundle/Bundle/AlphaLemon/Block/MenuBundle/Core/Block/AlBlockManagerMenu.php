@@ -62,7 +62,7 @@ class AlBlockManagerMenu extends AlBlockManagerContainer
     
     protected function edit(array $values)
     {
-        $data = json_decode($values['Content'], true); 
+        $data = json_decode($values['Content'], true);
         $savedValues = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);
         
         if ($data["operation"] == "add") {
@@ -73,9 +73,8 @@ class AlBlockManagerMenu extends AlBlockManagerContainer
         if ($data["operation"] == "remove") {
             unset($savedValues[$data["item"]]);
             
-            $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-            $repository = $blocksRepository->createRepository('Block');
-            $repository->deleteIncludedBlocks($data["slotName"]);
+            //$repository = $this->factoryRepository->createRepository('Block');
+            $this->blockRepository->deleteIncludedBlocks($data["slotName"]);
             
             $values = array("Content" => json_encode($savedValues));
         }
