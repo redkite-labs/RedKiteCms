@@ -63,7 +63,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "files/my-file",
-                "opened" : "1",
+                "opened" : true,
             }
         }';
 
@@ -80,7 +80,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "files/my-file",
-                "opened" : "0"
+                "opened" : false
             }
         }';
 
@@ -131,17 +131,57 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->assertEquals('{% set file = kernel_root_dir ~ \'/../web/bundles/acmewebsite/files/my-file\' %} {{ file_open(file) }}', $blockManager->getHtml());
     }
 
-    public function testContentReplaced()
+    public function contentReplacedProvider()
     {
-        $value =
-        '{
-            "0" : {
-                "file" : "files/my-file",
-                "opened" : "0"
-            }
-        }';
+        return array(
+            array(
+                '{
+                    "0" : {
+                        "file" : "files/my-file",
+                        "opened" : "0"
+                    }
+                }',
+                array(                    
+                    "RenderView" => array (
+                        "view" => "FileBundle:Content:file.html.twig",
+                        "options" => array (
+                                "webfolder" => "",
+                                "folder" => "",
+                                "filename" => "files/my-file",
+                                "filepath" => "my-file",
+                            )
 
-        $block = $this->initBlock($value);
+                    ),
+                ),
+            ),
+            array(
+                '{
+                    "0" : {
+                        "file" : "files/my-file",
+                        "opened" : "1"
+                    }
+                }',
+                array(                    
+                    "RenderView" => array (
+                        "view" => "FileBundle:Content:file.html.twig",
+                        "options" => array (
+                                "webfolder" => "",
+                                "folder" => "",
+                                "filename" => "files/my-file",
+                            )
+
+                    ),
+                ),
+            ),
+        );
+    }
+    
+    /**
+     * @dataProvider contentReplacedProvider
+     */
+    public function testContentReplaced($blockContent, $expectedResult)
+    {
+        $block = $this->initBlock($blockContent);
         $this->initContainer();
         
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
@@ -156,24 +196,52 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $blockManagerArray = $blockManager->toArray();
-        
-        $expectedResult = array(
-            "RenderView" => array
-            (
-                "view" => "FileBundle:Content:file.html.twig",
-                "options" => array
-                    (
-                        "webfolder" => "",
-                        "folder" => "",
-                        "filename" => "files/my-file",
-                        "filepath" => "my-file",
-                        "max_length" => 500,
-                    )
-
-            )
-        );
-        
+                
         $this->assertEquals($expectedResult, $blockManagerArray['Content']);
+    }
+    
+    public function testContentReplaced1()
+    {
+        $value =
+        '{
+            "0" : {
+                "file" : "files/my-file",
+                "opened" : "0"
+            }
+        }';
+
+        $block = $this->initBlock($value);
+        $this->initContainer();
+        
+        $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
+        $this->container->expects($this->at(2))
+                        ->method('get')
+                        ->with('file.form')
+                        ->will($this->returnValue($formType))
+        ;
+        
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $form->expects($this->once())
+            ->method('createView')
+        ;
+        
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())
+                    ->method('create')
+                    ->will($this->returnValue($form))
+        ;
+        
+        $this->container->expects($this->at(3))
+                        ->method('get')
+                        ->with('form.factory')
+                        ->will($this->returnValue($formFactory))
+        ;
+        
+        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager->set($block);
+        $blockManager->editorParameters();        
     }
     
     private function initBlock($value)
