@@ -20,14 +20,14 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
 
 /**
  * Renders the editor to manage a collection of images
  *
  * @author alphalemon <webmaster@alphalemon.com>
  * 
- * @api
+ * @deprecated since 1.1.0
+ * @codeCoverageIgnore
  */
 abstract class BaseImagesBlockEditedListener
 {
