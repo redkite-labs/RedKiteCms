@@ -2,6 +2,7 @@
 
 {% block body %}
 <div {{ editor|raw }}>
+{% set block = block_manager.get %}
 {% include 'AlphaLemonCmsBundle:Block:base_block.html.twig' %}
 </div>
 {% endblock %}
