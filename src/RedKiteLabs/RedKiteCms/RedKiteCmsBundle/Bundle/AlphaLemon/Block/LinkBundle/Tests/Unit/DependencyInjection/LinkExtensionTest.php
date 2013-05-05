@@ -15,18 +15,18 @@
  *
  */
 
-namespace AlphaLemon\Block\ScriptBundle\Tests\DependencyInjection;
+namespace AlphaLemon\Block\LinkBundle\Tests\Unit\DependencyInjection;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\Block\ScriptBundle\DependencyInjection\ScriptExtension;
+use AlphaLemon\Block\LinkBundle\DependencyInjection\LinkExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * ScriptExtensionTest
+ * LinkExtensionTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class ScriptExtensionTest extends TestCase
+class LinkExtensionTest extends TestCase
 {
     private $container;
 
@@ -37,21 +37,13 @@ class ScriptExtensionTest extends TestCase
 
     public function testAlias()
     {
-        $extension = new ScriptExtension();
-        $this->assertEquals('script', $extension->getAlias());
+        $extension = new LinkExtension();
+        $this->assertEquals('link', $extension->getAlias());
     }
     
     public function testDefaultConfiguration()
     {
-        $extension = new ScriptExtension();
+        $extension = new LinkExtension();
         $extension->load(array(array()), $this->container);
-        $expectedValue = array (
-            'html_editor' => true,
-            'internal_js' => true,
-            'external_js' => true,
-            'external_css' => true,
-            'internal_css' => true,
-        );
-        $this->assertEquals($expectedValue, $this->container->getParameter('script.editor_settings'));
     }
 }

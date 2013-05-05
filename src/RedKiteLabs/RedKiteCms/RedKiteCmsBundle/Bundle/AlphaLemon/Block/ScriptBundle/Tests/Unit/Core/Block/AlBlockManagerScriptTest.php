@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
+namespace AlphaLemon\Block\ScriptBundle\Tests\Unit\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript;
@@ -45,31 +45,53 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
         $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
     }
 
-    public function testContentDisplaysTheContentWhenAnyJavascriptTagExists()
+    public function testHtmlViewOutput()
     {
-        $htmlContent = 'A fancy javascript';
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
         $this->blockManager->set($block);        
-        $result = $this->blockManager->getHtml();
-        $this->assertArrayHasKey('RenderView', $result);
-        $this->assertEquals('ScriptBundle:Content:script.html.twig', $result['RenderView']['view']);
+        $expectedResult = array('RenderView' => array(
+            'view' => 'ScriptBundle:Content:script.html.twig',
+            'options' => array(
+                'block' => $block,
+                'block_manager' => $this->blockManager
+            ),
+        ));
+        
+        $this->assertEquals($expectedResult, $this->blockManager->getHtml());
+    }
+    
+    public function testEditorParameters()
+    {
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+              ->method('getExternalJavascript')
+              ->will($this->returnValue('javascript-1.js,javascript-2.js'))
+        ;
+        $block->expects($this->once())
+              ->method('getExternalStylesheet')
+              ->will($this->returnValue('stylesheet-1.js,stylesheet-2.js'))
+        ;
+        $this->blockManager->set($block);        
+        
+        $expectedResult = array(
+            "template" => "ScriptBundle:Editor:_editor.html.twig",
+            "title" => "Script editor",
+            "blockManager" => $this->blockManager,
+            "jsFiles" => array(
+                "javascript-1.js",
+                "javascript-2.js",
+            ),
+            "cssFiles" => array(
+                "stylesheet-1.js",
+                "stylesheet-2.js",
+            ),
+        );
+        
+        $this->assertEquals($expectedResult, $this->blockManager->editorParameters());
     }
 
     public function testHideInEditMode()
-    {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
+    {   
         $this->assertTrue($this->blockManager->getHideInEditMode());
-    }
-
-    public function testReloadSuggested()
-    {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
-        $this->assertTrue($this->blockManager->getReloadSuggested());
     }
 }

@@ -44,7 +44,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
-    
+    /**
+     * @deprecated since 1.1.0
+     */
     const EDITOR_WIDTH = 800;
 
     /**
