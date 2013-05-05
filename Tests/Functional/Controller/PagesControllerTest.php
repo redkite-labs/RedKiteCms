@@ -498,10 +498,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
         $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNull($seo);
-
-        $this->markTestSkipped(
-            'Next assertion fails because of included blocks'
-        );
+        
         $this->assertCount(0, $this->blockRepository->retrieveContents(2, 2));
     }
 
