@@ -50,9 +50,7 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         $formClass = $this->container->get('bootstrap_link.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
                 
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-        $seoRepository = $factoryRepository->createRepository('Seo');
-        
+        $seoRepository = $this->factoryRepository->createRepository('Seo');        
         $request = $this->container->get('request');
         
         return array(

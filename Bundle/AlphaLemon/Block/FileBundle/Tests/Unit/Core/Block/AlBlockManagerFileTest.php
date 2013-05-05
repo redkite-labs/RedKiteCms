@@ -200,7 +200,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->assertEquals($expectedResult, $blockManagerArray['Content']);
     }
     
-    public function testContentReplaced1()
+    public function testEditorParameters()
     {
         $value =
         '{

@@ -1,0 +1,50 @@
+<?php
+/**
+ * This file is part of the AlphaLemon CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.alphalemon.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
+namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
+
+use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\Block\ImageBundle\Core\Form\AlImageType;
+
+/**
+ * AlImageTypeTest
+ *
+ * @author AlphaLemon <webmaster@alphalemon.com>
+ */
+class AlImageTypeTest extends TestCase
+{
+    public function testForm()
+    {
+        $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        
+        $fields = array(
+            'src',
+            'data_src',
+            'title',
+            'alt',
+        );
+        $builder->expects($this->any())
+            ->method('add')
+            ->will(new \PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls($fields))
+        ;
+        
+        $form = new AlImageType();
+        $form->buildForm($builder, array());
+    }
+}

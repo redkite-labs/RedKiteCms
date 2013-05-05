@@ -48,7 +48,6 @@ class AlBlockManagerScript extends AlBlockManagerContainer
     
     public function editorParameters()
     {
-    
         return array(
             "template" => "ScriptBundle:Editor:_editor.html.twig",
             "title" => "Script editor",
@@ -60,17 +59,9 @@ class AlBlockManagerScript extends AlBlockManagerContainer
 
     /**
      * {@inheritdoc}
-     *
+     */
     public function getHideInEditMode()
     {
         return true;
     }
-
-    /**
-     * {@inheritdoc}
-     *
-    public function getReloadSuggested()
-    {
-        return true;
-    }*/
 }

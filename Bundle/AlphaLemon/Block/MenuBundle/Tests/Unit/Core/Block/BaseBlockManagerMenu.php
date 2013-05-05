@@ -50,7 +50,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
-    public function testOutputHtmlView()
+    public function testHtmlViewOutput()
     {
         $blockContent = 
             '{
