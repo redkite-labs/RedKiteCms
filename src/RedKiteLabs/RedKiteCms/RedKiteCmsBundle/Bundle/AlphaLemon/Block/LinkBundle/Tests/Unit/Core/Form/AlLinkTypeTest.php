@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\Block\LinkBundle\Tests\Unit\Core\Form;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use AlphaLemon\Block\LinkBundle\Core\Form\AlLinkType;
 
 /**
@@ -25,24 +25,19 @@ use AlphaLemon\Block\LinkBundle\Core\Form\AlLinkType;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlLinkTypeTest extends TestCase
+class AlLinkTypeTest extends AlBaseType
 {
-    public function testForm()
+    protected function configureFields()
     {
-        $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-        
-        $fields = array(
+        return array(
+            'id', // Inherithed from JsonBlockType
             'href',
             'value',
         );
-        $builder->expects($this->any())
-            ->method('add')
-            ->will(new \PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls($fields))
-        ;
-        
-        $form = new AlLinkType();
-        $form->buildForm($builder, array());
+    }
+    
+    protected function getForm()
+    {
+        return new AlLinkType();
     }
 }
