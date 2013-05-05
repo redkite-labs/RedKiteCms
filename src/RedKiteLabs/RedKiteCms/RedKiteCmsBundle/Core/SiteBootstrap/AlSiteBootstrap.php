@@ -152,7 +152,7 @@ class AlSiteBootstrap
             return $this->fails($languageRepository);
         }
         
-        $blockRepository->deleteBlocks(1, 1);
+        $blockRepository->deleteBlocks(1, 1, true);
         
         if ( ! $this->addLanguage()) {
             return $this->fails($languageRepository);

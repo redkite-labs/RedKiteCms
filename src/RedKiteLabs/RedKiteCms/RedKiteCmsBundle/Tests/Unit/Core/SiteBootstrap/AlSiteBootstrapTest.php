@@ -488,7 +488,7 @@ class AlSiteBootstrapTest extends TestCase
         $this->blockRepository
              ->expects($this->once())
              ->method('deleteBlocks')
-             ->with(1, 1)
+             ->with(1, 1, true)
         ;
     }
     
