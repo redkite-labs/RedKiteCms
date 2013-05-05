@@ -28,6 +28,7 @@ use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
  * the database
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * @codeCoverageIgnore
  */
 class ChoiceValues
 {
