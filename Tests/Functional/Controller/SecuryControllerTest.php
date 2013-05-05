@@ -213,10 +213,6 @@ class SecurityControllerTest extends BaseSecured
 
     public function testShowEditUserForm()
     {
-        $this->markTestSkipped(
-            'Something wrong retrieving the user.'
-        );
-
         $client = $this->setUpClient();
 
         $user = $this->fetchUser($client, 'username');
@@ -227,14 +223,14 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Username")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("username")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("Password")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("Email")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("text@example.com")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
-        $this->assertTrue($crawler->filter('input')->count() == 6);
-        $this->assertTrue($crawler->filter('select')->count() == 1);
+        $this->assertCount(1, $crawler->filter('html:contains("Username")'));
+        $this->assertCount(1, $crawler->filter('html:contains("username")'));
+        $this->assertCount(1, $crawler->filter('html:contains("Password")'));
+        $this->assertCount(1, $crawler->filter('html:contains("Email")'));
+        $this->assertCount(1, $crawler->filter('#al_user_email')->filter('[value="text@example.com"]'));
+        $this->assertCount(1, $crawler->filter('html:contains("Role")'));
+        $this->assertCount(6, $crawler->filter('input'));
+        $this->assertCount(1, $crawler->filter('select'));
     }
 
     public function testUserHasBeenEdited()
