@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * AlAssetsPath provides the paths for common assets folders
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * @codeCoverageIgnore
  */
 class AlAssetsPath
 {

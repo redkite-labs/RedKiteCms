@@ -302,7 +302,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         try {            
             $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_POPULATE, new Content\TemplateManager\BeforePopulateEvent($this));
-            
+
             $this->refreshPageBlocks($idLanguage, $idPage);
 
             $result = false;
@@ -353,7 +353,8 @@ class AlTemplateManager extends AlTemplateBase
         try {
             $result = null;            
             $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_CLEAR_BLOCKS, new Content\TemplateManager\BeforeClearBlocksEvent($this));
-            
+
+
             $this->blockRepository->startTransaction();
             foreach ($this->slotManagers as $slotManager) {
                 if ($skipRepeated && $slotManager->getSlot()->getRepeated() != 'page') {
@@ -400,7 +401,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         try {
             $this->blockRepository->startTransaction();
-
+            
             $pageBlocks = clone($this->pageBlocks);
             $this->refreshPageBlocks($languageId, $pageId);
 

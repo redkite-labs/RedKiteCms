@@ -11,6 +11,7 @@ use Imagine\Image;
  * ImageThumbnailer creates the thumbnail of the given image
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * @codeCoverageIgnore
  */
 class AlImageThumbnailer
 {
