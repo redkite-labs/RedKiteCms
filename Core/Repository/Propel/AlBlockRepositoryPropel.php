@@ -147,15 +147,22 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     /**
      * {@inheritdoc}
      */
-    public function deleteBlocks($idLanguage, $idPage)
+    public function deleteBlocks($idLanguage, $idPage, $remove = false)
     {
-        AlBlockQuery::create()
+        $blocks = AlBlockQuery::create()
                 ->_if($idLanguage)
                     ->filterByPageId($idLanguage)
                 ->_endif()
                 ->_if($idPage)
                     ->filterByLanguageId($idPage)
-                ->_endif()
-                ->delete();
+                ->_endif();
+        
+        
+        if ($remove) {
+            $blocks->delete();
+        }
+        else {
+            $blocks->update(array('ToDelete' => '1'));
+        }
     }
 }

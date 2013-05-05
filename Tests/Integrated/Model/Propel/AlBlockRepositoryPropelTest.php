@@ -139,6 +139,25 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testDeleteBlocks()
     {
         $this->blockRepository->deleteBlocks(2, 2);
+        
+        $this->assertCount(5, $this->getDeletedBlocks(2, 2));
         $this->assertCount(0, $this->blockRepository->retrieveContents(2, 2));
+    }
+    
+    public function testBlocksAreRemoved()
+    {
+        $this->assertCount(5, $this->getDeletedBlocks(2, 3));
+        $this->blockRepository->deleteBlocks(2, 3, true);
+        $this->assertCount(0, $this->getDeletedBlocks(2, 3));
+    }
+    
+    private function getDeletedBlocks($idLanguage, $idPage)
+    {
+        return \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery::create()
+                ->filterByPageId($idLanguage)
+                ->filterByLanguageId($idPage)
+                ->orderBySlotName()
+                ->orderByContentPosition()
+                ->find();
     }
 }
