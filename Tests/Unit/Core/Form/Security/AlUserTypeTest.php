@@ -18,28 +18,43 @@
 namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use AlphaLemon\Block\ImageBundle\Core\Form\AlImageType;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType;
 
 /**
- * AlImageTypeTest
+ * AlUserTypeFormTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlImageTypeTest extends AlBaseType
+class AlUserTypeFormTest extends AlBaseType
 {
     protected function configureFields()
     {
         return array(
-            'id', // Inherithed from JsonBlockType
-            'src',
-            'data_src',
-            'title',
-            'alt',
+            'id',
+            'username',
+            'password',
+            'email',
+            'AlRole',
         );
     }
     
     protected function getForm()
     {
-        return new AlImageType();
+        return new AlUserType();
+    }
+    
+    public function testDefaultOptions()
+    {
+        $expectedResult = array(
+            'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlUser',
+            'csrf_protection' => false,
+        );
+        
+        $this->assertEquals($expectedResult, $this->getForm()->getDefaultOptions(array()));
+    }
+    
+    public function testGetName()
+    {
+        $this->assertEquals('al_user', $this->getForm()->getName());
     }
 }

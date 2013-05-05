@@ -18,28 +18,39 @@
 namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use AlphaLemon\Block\ImageBundle\Core\Form\AlImageType;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
 
 /**
  * AlImageTypeTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlImageTypeTest extends AlBaseType
+class LanguagesFormTest extends AlBaseType
 {
     protected function configureFields()
     {
         return array(
-            'id', // Inherithed from JsonBlockType
-            'src',
-            'data_src',
-            'title',
-            'alt',
+            'language',
+            'isMain',
         );
     }
     
     protected function getForm()
     {
-        return new AlImageType();
+        return new LanguagesForm();
+    }
+    
+    public function testDefaultOptions()
+    {
+        $expectedResult = array(
+            'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\Language',
+        );
+        
+        $this->assertEquals($expectedResult, $this->getForm()->getDefaultOptions(array()));
+    }
+    
+    public function testGetName()
+    {
+        $this->assertEquals('languages', $this->getForm()->getName());
     }
 }
