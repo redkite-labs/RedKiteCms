@@ -32,6 +32,7 @@ class DeletePageBlocksListener
 {
     private $factoryRepository = null;
     private $languageRepository = null;
+    private $blockRepository = null;
     
     /**
      * Constructor
@@ -43,7 +44,8 @@ class DeletePageBlocksListener
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
-        $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');        
+        $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
     
     /**
@@ -67,23 +69,16 @@ class DeletePageBlocksListener
         try {
             $languages = $this->languageRepository->activeLanguages();
             if (count($languages) > 0) {
-                $result = true;
                 $idPage = $pageManager->get()->getId();
                 $pageRepository->startTransaction();
-                $templateManager = $pageManager->getTemplateManager();
+                
                 foreach ($languages as $alLanguage) {
-                    $result = $templateManager->clearPageBlocks($alLanguage->getId(), $idPage);
-                    if (false === $result) {
-                        break;
-                    }
+                    $this->blockRepository->deleteBlocks($alLanguage->getId(), $idPage);
                 }
                 
-                if (false !== $result) {
-                    $pageRepository->commit();
-                } else {
-                    $pageRepository->rollBack();
-                    $event->abort();
-                }
+                $pageRepository->commit();
+                
+                return true;
             }
         } catch (\Exception $e) {
             $event->abort();
