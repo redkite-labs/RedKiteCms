@@ -40,9 +40,6 @@ class AlBlockManagerScript extends AlBlockManagerContainer
     {
         return array('RenderView' => array(
             'view' => 'ScriptBundle:Content:script.html.twig',
-            'options' => array(
-                'block' => $this->alBlock
-            ),
         ));
     }
     

@@ -52,7 +52,6 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
         $expectedResult = array('RenderView' => array(
             'view' => 'ScriptBundle:Content:script.html.twig',
             'options' => array(
-                'block' => $block,
                 'block_manager' => $this->blockManager
             ),
         ));
