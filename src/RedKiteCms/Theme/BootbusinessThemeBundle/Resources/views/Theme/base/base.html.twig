@@ -24,7 +24,19 @@
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
+        
+{% block internal_header_stylesheets %}
+    {{ parent() }}
+        
+    <style>
+        .alphalemon-love a {
+            color: white;
+        }
+    </style>
+{% endblock %}
 
+        
+        
 {% block body %}
 <header>
 {% block navbar %}
@@ -247,7 +259,7 @@ END-SLOT #}
   </div>
   <hr class="footer-divider">
   <div class="container">
-    <div>
+    <div class="pull-left">
         {% block coopyright %}
             {# BEGIN-SLOT
                 name: coopyright
@@ -258,7 +270,7 @@ END-SLOT #}
             {{ renderSlot('coopyright') }}
         {% endblock %}          
     </div>
-    <div>
+    <div class="pull-right alphalemon-love">
     {% block alphalemon_love %}
         {# BEGIN-SLOT
             name: alphalemon_love
@@ -269,7 +281,6 @@ END-SLOT #}
         {{ renderSlot('alphalemon_love') }}
     {% endblock %}   
     </div>
-    
   </div>
 </footer>
 {% endblock %}
