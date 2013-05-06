@@ -26,7 +26,7 @@ class jsonFormTester extends JsonBlockType
 
 
 /**
- * AlImageTypeTest
+ * JsonBlockTypeTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
