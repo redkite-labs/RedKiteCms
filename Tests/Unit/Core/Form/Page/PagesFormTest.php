@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
 
 /**
- * AlImageTypeTest
+ * PagesFormTest
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
