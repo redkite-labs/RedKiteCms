@@ -247,7 +247,7 @@ END-SLOT #}
   </div>
   <hr class="footer-divider">
   <div class="container">
-    <p>
+    <div>
         {% block coopyright %}
             {# BEGIN-SLOT
                 name: coopyright
@@ -257,7 +257,19 @@ END-SLOT #}
             END-SLOT #}
             {{ renderSlot('coopyright') }}
         {% endblock %}          
-    </p>
+    </div>
+    <div>
+    {% block alphalemon_love %}
+        {# BEGIN-SLOT
+            name: alphalemon_love
+            repeated: site
+            htmlContent: |
+                <a href="http://alphalemon.com">Powered by AlphaLemon CMS</a>
+        END-SLOT #}
+        {{ renderSlot('alphalemon_love') }}
+    {% endblock %}   
+    </div>
+    
   </div>
 </footer>
 {% endblock %}

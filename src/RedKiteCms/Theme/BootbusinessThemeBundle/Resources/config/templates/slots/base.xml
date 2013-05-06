@@ -182,5 +182,15 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
+        <service id="bootbusiness_theme.theme.template.base.slots.alphalemon_love" class="%alpha_lemon_theme_engine.slot.class%">
+            <argument type="string">alphalemon_love</argument>
+            <argument type="collection" >
+                <argument key="repeated">site</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<a href="http://alphalemon.com">Powered by AlphaLemon CMS</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.base.slots" />
+        </service>
     </services>
 </container>
