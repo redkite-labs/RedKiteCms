@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base;
 use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 
 /**
- * AlImageTypeTest
+ * AlBaseType
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
