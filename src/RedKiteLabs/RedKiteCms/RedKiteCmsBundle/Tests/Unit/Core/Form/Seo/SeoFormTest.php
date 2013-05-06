@@ -19,7 +19,7 @@ namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\SeoForm;
-
+ 
 /**
  * SeoFormTest
  *
