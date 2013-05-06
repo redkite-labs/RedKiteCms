@@ -20,3 +20,17 @@ slot to your base template to render it in all the website's pages as follows:
         END-SLOT #}
         {{ renderSlot('alphalemon_love') }}
     {% endblock %}   
+
+Avoid rendering the "Powered by link"
+-------------------------------------
+You might choose to avoid rendering this link, but you must expressly say that you
+don't love AlphaLemon CMS - yes, we're trying to make you feel guilty ;-) -
+
+Simply open the config_alcms.yml and add the following configuration under the alphalemon
+key:
+
+    alphalemon:
+        [...]
+        love: no
+
+Be careful, you have to say exactly no!

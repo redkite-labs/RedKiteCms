@@ -26,7 +26,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplate
  */
 class AlTwigTemplateWriterBaseTest extends BaseAlTwigTemplateWriter
 {
-    public function testGenerateFullTemplate()
+    /**
+     * @dataProvider creditsProvider
+     */
+    public function testGenerateFullTemplate($credits)
     {
         $blocks = array(
             "logo" =>
@@ -145,11 +148,32 @@ class AlTwigTemplateWriterBaseTest extends BaseAlTwigTemplateWriter
         $section .= "    {{ parent() }}" . PHP_EOL;
         $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
-        $section .= $this->addSomeLove();
+        
+        if ($credits) {
+            $section .= $this->addSomeLove();
+        }
 
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
         $twigTemplateWriter = new AlTwigTemplateWriterBase($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->viewRenderer, $imagesPath);
-        $this->assertEquals($section, $twigTemplateWriter->getTwigTemplate());
+        $generatedTemplate = $twigTemplateWriter
+            ->setCredits($credits)
+            ->generateTemplate()
+            ->getTwigTemplate()
+        ;
+        
+        $this->assertEquals($section, $generatedTemplate);
+    }
+    
+    public function creditsProvider()
+    {
+        return array(
+            array(
+                true,
+            ),
+            array(
+                false,
+            ),
+        );
     }
 }

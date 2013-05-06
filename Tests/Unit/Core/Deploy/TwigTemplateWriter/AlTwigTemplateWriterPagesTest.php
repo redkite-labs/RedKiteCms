@@ -45,7 +45,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $this->assertEquals("{% extends 'AcmeWebsiteBundle:AlphaLemon:en/base/home.html.twig' %}" . PHP_EOL, $twigTemplateWriter->getTemplateSection());
     }
 
@@ -57,7 +58,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
         
@@ -72,7 +74,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;
 
@@ -87,7 +90,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block keywords %}some,keywords{% endblock %}" . PHP_EOL;
 
@@ -102,7 +106,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
         $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;
@@ -119,7 +124,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
@@ -138,7 +144,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"\" %}" . PHP_EOL;
@@ -157,7 +164,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?cssrewrite\" %}" . PHP_EOL;
@@ -176,7 +184,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
@@ -195,7 +204,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
         $section .= "<style>some css code</style>" . PHP_EOL;
@@ -212,7 +222,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
         
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
         $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
@@ -234,7 +245,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $jsCode = 'doSomething({
                                 images:[
                  "/bundles/alphalemoncms/uploads/assets/media/screenshots/img01.png",
@@ -257,7 +269,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpBlockManagerFactory();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
-
+        $twigTemplateWriter->generateTemplate();
+        
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
@@ -304,6 +317,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
+        $twigTemplateWriter->generateTemplate();
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -330,6 +344,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= $this->addSomeLove();
         
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
+        $twigTemplateWriter->generateTemplate();
         
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
@@ -363,6 +378,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
+        $twigTemplateWriter->generateTemplate();
+        
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -393,6 +410,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
+        $twigTemplateWriter->generateTemplate();
+        
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -423,6 +442,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
+        $twigTemplateWriter->generateTemplate();
+        
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -460,6 +481,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= $this->addSomeLove();
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
+        $twigTemplateWriter->generateTemplate();
+        
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -543,6 +566,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
             'prodPath' => "/bundles/acmewebsite");
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
+        $twigTemplateWriter->generateTemplate();
+        
         $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
     }
 
@@ -666,6 +691,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
+        $twigTemplateWriter->generateTemplate();
+        
         $this->assertEquals($section, $twigTemplateWriter->getTwigTemplate());
     }
 
@@ -678,6 +705,8 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $this->assertFalse($this->root->hasChild('en'));
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
+        $twigTemplateWriter->generateTemplate();
+        
         $twigTemplateWriter->writeTemplate(vfsStream::url('root'));
         $this->assertTrue($this->root->hasChild('en'));
         $this->assertTrue($this->root->getChild('en')->hasChild('index.html.twig'));

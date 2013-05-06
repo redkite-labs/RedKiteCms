@@ -49,6 +49,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('upload_assets_full_path')->defaultValue('%alpha_lemon_cms.web_folder_full_path%/uploads/assets')->end()
                 ->scalarNode('upload_assets_absolute_path')->defaultValue('/%alpha_lemon_cms.web_folder%%/uploads/assets')->end()
                 ->booleanNode('enable_yui_compressor')->defaultFalse()->end()
+                ->scalarNode('love')->defaultValue('yes')->end()
                 ->arrayNode('deploy_bundle')
                     ->children()
                         ->scalarNode('resources_dir')->defaultValue('Resources')->end()

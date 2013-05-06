@@ -47,6 +47,7 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $deployFolder = null;
     protected $viewsRenderer = null;
     protected $dispatcher = null;
+    protected $credits = null;
     private $webFolderPath = null;
     private $pageTreeCollection = null;
 
@@ -99,7 +100,8 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->deployFolder = $this->getTemplatesFolder();
         $this->viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
         $this->webFolderPath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path');
-        $this->dispatcher = $this->container->get('event_dispatcher');
+        $this->dispatcher = $this->container->get('event_dispatcher'); 
+        $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;
         
         $this->fileSystem = new Filesystem();
     }

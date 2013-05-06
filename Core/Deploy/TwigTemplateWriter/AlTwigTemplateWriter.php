@@ -35,7 +35,7 @@ abstract class AlTwigTemplateWriter
     protected $pageTree;
     protected $urlManager;
     protected $template;
-    protected $twigTemplate;
+    protected $twigTemplate = null;
     protected $templateSection;
     protected $metatagsExtraSection;
     protected $metatagsSection;
@@ -44,11 +44,12 @@ abstract class AlTwigTemplateWriter
     protected $blockManagerFactory;
     protected $metatagsExtraContents = "";
     protected $viewRenderer;
+    protected $credits = true;
     
     /**
      * Generates the template's subsections and the full template itself
      */
-    abstract protected function generateTemplate();
+    abstract public function generateTemplate();
 
     /**
      * Constructor
@@ -76,7 +77,6 @@ abstract class AlTwigTemplateWriter
         $this->viewRenderer = $viewRenderer;
         $this->replaceImagesPaths = $replaceImagesPaths;
         $this->template = $this->pageTree->getTemplate();
-        $this->generateTemplate();
     }
 
     /**
@@ -138,6 +138,19 @@ abstract class AlTwigTemplateWriter
     {
         return $this->contentsSection;
     }
+    
+    /**
+     * Forces the CMS to render the credits or not
+     * 
+     * @param boolean $v
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter
+     */
+    public function setCredits($v)
+    {
+        $this->credits = $v;
+        
+        return $this;
+    }
 
     /**
      * Writes the template
@@ -154,7 +167,7 @@ abstract class AlTwigTemplateWriter
         if (!is_dir($fileDir)) {
             mkdir($fileDir);
         }
-
+        
         return @file_put_contents($fileDir . '/' . $this->pageTree->getAlPage()->getPageName() . '.html.twig', $this->twigTemplate);
     }
 
@@ -230,7 +243,7 @@ abstract class AlTwigTemplateWriter
         $this->contentsSection = $this->writeComment("Contents section");
         $slots = array_keys($this->template->getSlots());
 
-        $needsCredits = true;
+        $needsCredits = $this->credits;
         $languageName = $this->pageTree->getAlLanguage()->getLanguageName();
         $pageName = $this->pageTree->getAlPage()->getPageName();
         $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
@@ -259,8 +272,8 @@ abstract class AlTwigTemplateWriter
                     $content = $this->rewriteImagesPathForProduction($content);
                     $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
                     
+                    // @codeCoverageIgnoreStart
                     if ($needsCredits && $slotName == 'alphalemon_love' && preg_match('/\<a[^\>]+href="http:\/\/alphalemon\.com[^\>]+\>powered by alphalemon cms\<\/a\>/is', strtolower($content))) {
-                        // @codeCoverageIgnoreStart
                         $needsCredits = false;
                     }
                     // @codeCoverageIgnoreEnd

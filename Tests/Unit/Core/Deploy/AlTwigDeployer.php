@@ -384,8 +384,6 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_cms.deploy_bundle.controller')
             ->will($this->returnValue('WebSite'));
         
-       
-        
         $this->container->expects($this->at(11))
                 ->method('get')
                 ->with('alpha_lemon_cms.view_renderer')
@@ -400,6 +398,11 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($this->dispatcher));
+        
+        $this->container->expects($this->at(14))
+            ->method('getParameter')
+            ->with('alpha_lemon_cms.love')
+            ->will($this->returnValue('yes'));
     }
     
     

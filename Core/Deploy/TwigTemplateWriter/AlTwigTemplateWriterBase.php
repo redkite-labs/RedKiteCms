@@ -42,13 +42,15 @@ class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
     /**
      * Generates the template's subsections and the full template itself
      */
-    protected function generateTemplate()
+    public function generateTemplate()
     {
         $this->generateTemplateSection();
         $this->generateContentsSection(array('site', 'language'));
         $this->generateAddictionalMetaTagsSection();
        
         $this->twigTemplate = $this->templateSection . $this->metatagsExtraSection . $this->contentsSection;
+        
+        return $this;
     }
     
     /**
