@@ -45,7 +45,7 @@ abstract class AlTwigDeployer extends AlDeployer
     public function  __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-
+        
         $this->urlManager = $this->container->get('alpha_lemon_cms.url_manager');
         $this->blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
         $this->viewsDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.views_dir') . '/' . $this->deployFolder;
@@ -71,6 +71,7 @@ abstract class AlTwigDeployer extends AlDeployer
             'prodPath' => $this->deployBundleAsset->getAbsolutePath()
         );
         
+        $credits = $this->credits;
         switch($type)
         {
             case 'Base':
@@ -83,6 +84,7 @@ abstract class AlTwigDeployer extends AlDeployer
                 );
                 break;
             case 'Pages':
+                $credits = false;
                 $twigTemplateWriter = new AlTwigTemplateWriterPages(
                     $pageTree, 
                     $this->blockManagerFactory, 
@@ -94,7 +96,11 @@ abstract class AlTwigDeployer extends AlDeployer
                 );
                 break;
         }
-
-        return $twigTemplateWriter->writeTemplate($this->viewsDir);
+        
+        return $twigTemplateWriter
+            ->setCredits($credits)
+            ->generateTemplate()
+            ->writeTemplate($this->viewsDir)
+        ;
     }
 }
