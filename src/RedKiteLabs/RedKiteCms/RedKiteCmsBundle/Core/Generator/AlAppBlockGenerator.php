@@ -30,7 +30,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
 
         $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';
         $extensionAlias = Container::underscore($bundleBasename);
-        $typeLowercase = strtolower($bundleBasename);
+        $typeLowercase = strtolower($bundleBasename);        
         $parameters = array(
             'namespace' => $namespace,
             'namespace_path' => str_replace('\\', '\\\\', $namespace),
@@ -42,9 +42,10 @@ class AlAppBlockGenerator extends AlBaseGenerator
             'extension_alias' => $extensionAlias,
             'description'    => $options["description"],
             'group'    => $options["group"],
-        );
-
+        ); 
+        
         $this->renderFile($blockSkeletonDir, 'Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
+        $this->renderFile($blockSkeletonDir, 'FormType.php', $dir.'/Core/Form/'.$bundleBasename.'Type.php', $parameters);
         $this->renderFile($blockSkeletonDir, 'app_block.xml', $dir.'/Resources/config/app_block.xml', $parameters);
         $this->renderFile($blockSkeletonDir, 'config_alcms.yml', $dir.'/Resources/config/config_alcms.yml', $parameters);
         $this->renderFile($blockSkeletonDir, 'config_alcms_dev.yml', $dir.'/Resources/config/config_alcms_dev.yml', $parameters);
@@ -53,6 +54,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
         if (!array_key_exists("no-strict", $options) || $options["no-strict"] == false) {
             $this->renderFile($blockSkeletonDir, 'composer.json', $dir.'/composer.json', $parameters);
         }
-        $this->filesystem->copy($blockSkeletonDir . '/editor.html.twig', $dir.'/Resources/views/Block/' . $typeLowercase . '_editor.html.twig');
+        $this->filesystem->copy($blockSkeletonDir . '/block.html.twig', $dir.'/Resources/views/Content/' . $typeLowercase . '.html.twig');
+        $this->filesystem->copy($blockSkeletonDir . '/form_editor.html.twig', $dir.'/Resources/views/Editor/' . $typeLowercase . '.html.twig');
     }
 }
