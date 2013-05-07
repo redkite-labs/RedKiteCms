@@ -1,3 +1,7 @@
+1.1 Beta-3 (2013-05-07)
+78d7438 fixed a bug due to missing updated of cms navigation route when starting form a new Theme
+8001b59 updated unit test due to change in base json form
+
 1.1 Beta-2 (2013-05-07)
 259cfee managed backend routes with just one route, improved the current page and language fetching from route and locked page, so a page can be opened just from one user a time
 0d1cba8 added a base block form editor
