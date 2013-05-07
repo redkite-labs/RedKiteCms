@@ -1,3 +1,17 @@
+1.1 Beta-2 (-)
+0d1cba8 added a base block form editor
+6c251d5 added a new configuration parameter to avoid rendering the powered by link
+2e036a0 fixed the listener that removes the page's block when a page is removed
+dac28be improved the deleteBlocks method to delete blocks as usual or remove them definetly
+7ebd694 fixed the retrieving of included block attribute
+7fd074a deprecated listeners used to render json items and list editor
+adcd6e9 fixed the control that avoid to add more than an included block; deprecated showBlocksEditorAction and removed route
+ac105f7 removed JsonBlockController
+e641eb4 changed the way that site is deployed. Now twig templates with common contents are generated into a base folder and pages' templates inherit from them
+81dc0de common blocks are now removed when bootstrapping a site from a new template
+95818f2 fixed a bug that does not retrieve the correct language when working on multilanguages site
+------- updated and fixed unit, functional, integrated tests
+
 1.1 Beta-1 (2013-04-14)
 693ce20 added a static class to manage the upload folder path
 ------- fixed minor bugs
