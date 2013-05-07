@@ -31,7 +31,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
     /**
      * Overrides the base renderSlot method
      */
-    public function renderSlot($slotName = null, $extraAttributes = "")
+    public function renderSlot($slotName = null, $progressive = 1, $extraAttributes = "")
     {
         $this->checkSlotName($slotName);
 
@@ -42,7 +42,9 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $blockManagers = $pageTree->getBlockManagers($slotName);
 
             foreach ($blockManagers as $blockManager) {
-                if (null === $blockManager) continue;
+                if (null === $blockManager) {
+                    continue;
+                }
 
                 $slotContents[] = $this->renderBlock($blockManager, null, false, $extraAttributes);
             }
