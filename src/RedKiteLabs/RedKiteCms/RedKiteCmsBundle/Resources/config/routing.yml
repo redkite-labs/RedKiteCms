@@ -25,14 +25,6 @@ _deploy:
 _al_elfinder:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
 
-_navigation1:
-  pattern:  /backend/{page}
-  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, page: index }
-
-_navigation:
-  pattern:  /backend/{_locale}/{page}
-  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index }
-
-_home:
-  pattern:  /backend
-  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index }
+_cms_navigation:
+  pattern:  /backend/{_locale}/{page}/{locked}
+  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index, locked: pageId }

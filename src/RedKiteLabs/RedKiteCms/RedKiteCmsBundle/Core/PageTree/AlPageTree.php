@@ -194,17 +194,25 @@ class AlPageTree extends BaseAlPageTree
         try { 
             $this->dispatcher->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTree\BeforePageTreeSetupEvent($this));
             
-            $this->pageName = $this->getRequest()->get('page');
-            if (!$this->pageName || $this->pageName == "" || $this->pageName == "backend") {
+            $request = $this->getRequest();            
+            $this->pageName = $request->get('page');
+            if ( ! $this->pageName || $this->pageName == "" || $this->pageName == "backend") {
                 return null;
             }
             
-            $this->alSeo = $this->seoRepository->fromPermalink($this->pageName);
             $this->alLanguage = $this->setupLanguage();
-            
             $this->alPage = $this->setupPage();
             if (null === $this->alLanguage || null === $this->alPage) {
-                return null;
+                $this->alSeo = $this->seoRepository->fromPermalink($this->pageName);
+                if (null === $this->alSeo) {
+                    $permalink = $request->get('_locale');
+                    $this->alSeo = $this->seoRepository->fromPermalink($permalink);
+                    if (null === $this->alSeo) {
+                        return null;
+                    }
+                }
+                $this->alLanguage = $this->alSeo->getAlLanguage();
+                $this->alPage = $this->alSeo->getAlPage();
             }
 
             if (null === $this->initTheme()) {
@@ -393,9 +401,7 @@ class AlPageTree extends BaseAlPageTree
             return $this->alSeo->getAlLanguage();
         }
            
-        $alLanguage = (null === $languageId) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
-        
-        return $alLanguage;
+        return (null === $languageId) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
     }
 
     /**

@@ -249,8 +249,9 @@ class AlPageTreeTest extends TestCase
             ->method('fromPermalink')
             ->will($this->returnValue($alSeo));
         
-        $this->languageRepository->expects($this->never())
-            ->method('fromLanguageName');
+        $this->languageRepository->expects($this->once())
+            ->method('fromLanguageName')
+            ->will($this->returnValue(null));
 
         $this->initEventsDispatcher('page_tree.before_setup');
         
@@ -283,7 +284,7 @@ class AlPageTreeTest extends TestCase
 
         $this->initContainer($request);
 
-        $this->seoRepository->expects($this->once())
+        $this->seoRepository->expects($this->exactly(2))
             ->method('fromPermalink')
             ->will($this->returnValue(null));
 
@@ -331,10 +332,6 @@ class AlPageTreeTest extends TestCase
         $this->initContainer($request);
         $this->configureLanguage();
 
-        $this->seoRepository->expects($this->once())
-            ->method('fromPermalink')
-            ->will($this->returnValue(null));
-
         $this->pageRepository->expects($this->once())
             ->method('fromPageName')
             ->will($this->returnValue(null));
@@ -377,10 +374,6 @@ class AlPageTreeTest extends TestCase
 
         $this->initContainer($request);
         $this->configureLanguage();
-
-        $this->seoRepository->expects($this->once())
-            ->method('fromPermalink')
-            ->will($this->returnValue(null));
 
         $this->pageRepository->expects($this->never())
             ->method('fromPageName');
@@ -426,10 +419,6 @@ class AlPageTreeTest extends TestCase
         $this->initContainer($request);
         $this->configureLanguage();
 
-        $this->seoRepository->expects($this->once())
-            ->method('fromPermalink')
-            ->will($this->returnValue(null));
-
         $alPage = $this->setUpPage(2);
         $this->pageRepository->expects($this->once())
             ->method('fromPageName')
@@ -446,15 +435,16 @@ class AlPageTreeTest extends TestCase
         $this->assertTrue($pageTree->isValid());
     }
 
+    // url: /backend/en/homepage 
     public function testPageIsFetchedFromPermalink()
-    {
+    {   
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $request->expects($this->at(0))
             ->method('get')
             ->with('page')
-            ->will($this->returnValue('index'));
+            ->will($this->returnValue('homepage'));
         
         $request->expects($this->at(1))
             ->method('get')
@@ -476,7 +466,70 @@ class AlPageTreeTest extends TestCase
 
         $this->seoRepository->expects($this->once())
             ->method('fromPermalink')
+            ->with('homepage')
+            ->will($this->returnValue($alSeo));
+
+        $this->pageRepository->expects($this->never())
+            ->method('fromPageName');
+
+        $this->pageRepository->expects($this->never())
+            ->method('fromPK');
+
+        $this->initEventsDispatcher('page_tree.before_setup');
+        
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($alPage, $pageTree->getAlPage());
+        $this->assertTrue($pageTree->isValid());
+    }
+    
+    // url: /backend/homepage
+    public function testPageIsFetchedFromPermalinkWhenLanguageIsNotProvidedInrequestedUrl()
+    {
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $request->expects($this->at(0))
+            ->method('get')
+            ->with('page')
+            ->will($this->returnValue('index'));
+        
+        $request->expects($this->at(1))
+            ->method('get')
+            ->with('languageId')
+            ->will($this->returnValue(null));
+            
+        $request->expects($this->at(2))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue(null));
+            
+        $request->expects($this->at(3))
+            ->method('get')
+            ->with('_locale')
+            ->will($this->returnValue('homepage'));
+
+        $this->initContainer($request);
+
+        $alPage = $this->setUpPage(2);
+        $alLanguage = $this->setUpLanguage(2); 
+        $alSeo = $this->setUpSeo(2);
+        $alSeo->expects($this->once())
+            ->method('getAlLanguage')
+            ->will($this->returnValue($alLanguage));
+        
+        $alSeo->expects($this->once())
+            ->method('getAlPage')
+            ->will($this->returnValue($alPage));
+
+        $this->seoRepository->expects($this->at(0))
+            ->method('fromPermalink')
             ->with('index')
+            ->will($this->returnValue(null));
+            
+        $this->seoRepository->expects($this->at(1))
+            ->method('fromPermalink')
+            ->with('homepage')
             ->will($this->returnValue($alSeo));
 
         $this->pageRepository->expects($this->never())
@@ -531,10 +584,6 @@ class AlPageTreeTest extends TestCase
 
         $alSeo->expects($this->once())
             ->method('getMetaKeywords');
-
-        $this->seoRepository->expects($this->once())
-            ->method('fromPermalink')
-            ->will($this->returnValue(null));
 
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
