@@ -63,19 +63,6 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
     }
     
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidFormConfigurationException
-     */
-    public function testAnExceptionIsThrownWhenTheFormHasNotAnIdFieled()
-    {
-        $block = $this->initBlock();
-
-        $value ="al_json_block[title]=Home&al_json_block[subtitle]=Welcome!&al_json_block[link]=my-link";
-        $params = array('Content' => $value);
-        $this->blockManager->set($block);
-        $this->blockManager->save($params);
-    }
-
-    /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException
      */
     public function testAnExceptionIsThrownWhenTheSavedJsonContentIsNotDecodable()

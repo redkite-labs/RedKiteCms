@@ -72,15 +72,11 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManager
             parse_str($serializedData, $unserializedData); 
             
             $commonMessageText = 'The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you';
-
             if (!array_key_exists("al_json_block", $unserializedData)) {
                 throw new Exception\InvalidFormConfigurationException('There is a configuration error in the form that manages this content: you must name that form "al_json_block". ' . $commonMessageText);
             }
 
             $item = $unserializedData["al_json_block"];
-            if (!array_key_exists("id", $item)) {
-                throw new Exception\InvalidFormConfigurationException('There is a configuration error in the form that manages this content: it must contain an hidden file called "id". ' . $commonMessageText);
-            }
 
             $content = $this->decodeJsonContent($this->alBlock);
             $content[0] = $item;

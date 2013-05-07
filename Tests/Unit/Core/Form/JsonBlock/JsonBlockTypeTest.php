@@ -35,7 +35,6 @@ class JsonBlockTypeTest extends AlBaseType
     protected function configureFields()
     {
         return array(
-            'id'
         );
     }
     
