@@ -176,7 +176,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertCount(0, $crawler->filter('#block_20'));
         $this->assertCount(1, $crawler->filter('#block_25'));
         $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-name="block_25"]'));
-        $this->assertCount(0, $crawler->filter('#block_30'));
+        $this->assertCount(0, $crawler->filter('#block_31'));
         $this->assertCount(1, $crawler->filter('[data-name="block_30"]'));
     }
 
@@ -285,10 +285,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertCount(0, $crawler->filter('#block_20'));
-        $this->assertCount(1, $crawler->filter('#block_56'));
-        $this->assertCount(1, $crawler->filter('#block_56')->filter('[data-name="block_56"]'));
-        $this->assertCount(0, $crawler->filter('#block_30'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_30"]'));
+        $this->assertCount(1, $crawler->filter('#block_57'));
+        $this->assertCount(1, $crawler->filter('#block_57')->filter('[data-name="block_57"]'));
+        $this->assertCount(0, $crawler->filter('#block_31'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_31"]'));
     }
 
     public function testEditPage()

@@ -287,8 +287,8 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertCount(0, $crawler->filter('#block_20'));
         $this->assertCount(1, $crawler->filter('#block_41'));
         $this->assertCount(1, $crawler->filter('#block_41')->filter('[data-name="block_41"]'));
-        $this->assertCount(0, $crawler->filter('#block_46'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_46"]'));
-        $this->assertCount(42, $crawler->filter('[data-editor="enabled"]'));
+        $this->assertCount(0, $crawler->filter('#block_47'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_47"]'));
+        $this->assertCount(43, $crawler->filter('[data-editor="enabled"]'));
     }
 }
