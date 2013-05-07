@@ -4,17 +4,17 @@
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="{{ type_lowercase }}.editor_settings" type="collection">
-            <parameter key="rich_editor">true</parameter>
-        </parameter>
-
         <parameter key="{{ extension_alias }}.block.class">{{ namespace }}\Core\Block\AlBlockManager{{ bundle_basename }}</parameter>
+        <parameter key="{{ extension_alias }}.form.class">{{ namespace }}\Core\Form\Al{{ bundle_basename }}Type</parameter>
     </parameters>
 
     <services>
         <service id="{{ extension_alias }}.block" class="%{{ extension_alias }}.block.class%">
             <tag name="alphalemon_cms.blocks_factory.block" description="{{ description }}" type="{{ bundle_basename }}" group="{{ group }}" />
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="{{ extension_alias }}.form" class="%{{ extension_alias }}.form.class%">
         </service>
     </services>
 </container>
