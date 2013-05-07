@@ -28,16 +28,6 @@ abstract class JsonBlockType extends AbstractType
 {
     /**
      * {@inheritdoc}
-     * 
-     * Adds the id hidden required field
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('id', 'hidden');
-    }
-
-    /**
-     * {@inheritdoc}
      */
     public function getDefaultOptions(array $options)
     {
