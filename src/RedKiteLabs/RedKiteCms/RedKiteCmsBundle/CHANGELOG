@@ -1,4 +1,5 @@
-1.1 Beta-2 (-)
+1.1 Beta-2 (2013-05-07)
+259cfee managed backend routes with just one route, improved the current page and language fetching from route and locked page, so a page can be opened just from one user a time
 0d1cba8 added a base block form editor
 6c251d5 added a new configuration parameter to avoid rendering the powered by link
 2e036a0 fixed the listener that removes the page's block when a page is removed
