@@ -30,7 +30,6 @@ class AlImageTypeTest extends AlBaseType
     protected function configureFields()
     {
         return array(
-            'id', // Inherithed from JsonBlockType
             'src',
             'data_src',
             'title',
