@@ -41,7 +41,7 @@ class LockedResourcesTest extends BaseSecured
     public function testOpenARouteNotLocked()
     {
         $client = $this->setUpClient();
-        $crawler = $client->request('GET', '/backend/en/index');
+        $crawler = $client->request('POST', '/backend/en/al_showAvailableBlocks');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         
@@ -50,7 +50,7 @@ class LockedResourcesTest extends BaseSecured
             'PHP_AUTH_PW' => 'bross',
         );
         $client1 = $this->setUpClient($credentials);
-        $crawler1 = $client1->request('GET', '/backend/en/index');
+        $crawler1 = $client1->request('POST', '/backend/en/al_showAvailableBlocks');
         $response1 = $client1->getResponse();
         $this->assertEquals(200, $response1->getStatusCode());
         
@@ -80,46 +80,24 @@ class LockedResourcesTest extends BaseSecured
         $this->assertCount(1, $this->lockedResourceRepository->fetchResources());
     }
     
-    public function testPagesLocking()
-    {
-        $this->markTestSkipped(
-            'Pages must be locked because contents locking has been removed. This test must be removed'
-        );
-    }
-    
     public function routesProvider()
     {
         return array(
-           /* array(
-                '/backend/en/al_showBlocksEditor', 
-                '/backend/en/al_showBlocksEditor', 
-                array("idBlock" => 2),
-            ),
             array(
-                '/backend/en/al_showBlocksEditor', 
-                '/backend/en/editBlock', 
-                array("idBlock" => 2),
-            ),
+                '/backend/en/index', 
+                '/backend/en/index', 
+                array("pageId" => 2),
+            ),     
             array(
-                '/backend/en/al_showBlocksEditor', 
-                '/backend/en/deleteBlock', 
-                array("idBlock" => 2),
-            ),
+                '/backend/homepage', 
+                '/backend/homepage', 
+                array("pageId" => 2),
+            ),     
             array(
-                '/backend/en/al_showBlocksEditor', 
-                '/backend/en/showExternalFilesManager', 
-                array("idBlock" => 2),
-            ),
-            array(
-                '/backend/en/al_showBlocksEditor', 
-                '/backend/en/addExternalFile', 
-                array("idBlock" => 2),
-            ),
-            array(
-                '/backend/en/al_showBlocksEditor', 
-                '/backend/en/removeExternalFile', 
-                array("idBlock" => 2),
-            ),    */        
+                '/backend', 
+                '/backend', 
+                array("pageId" => 2),
+            ), 
             array(
                 '/backend/en/al_loadLanguageAttributes', 
                 '/backend/en/al_loadLanguageAttributes', 

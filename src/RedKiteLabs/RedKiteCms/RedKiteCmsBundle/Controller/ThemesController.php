@@ -38,7 +38,7 @@ class ThemesController extends BaseController
         $this->getActiveTheme()->writeActiveTheme($themeName);
         
         $router = $this->container->get('router');
-        $url = $router->generate('_navigation', array('_locale' => $languageName, 'page' => $pageName));
+        $url = $router->generate('_cms_navigation', array('_locale' => $languageName, 'page' => $pageName));
         
         // Url must contain all parts otherwise errors could occour
         if (!preg_match('/backend\/[\w]+\/[\w]+/', $url)) {

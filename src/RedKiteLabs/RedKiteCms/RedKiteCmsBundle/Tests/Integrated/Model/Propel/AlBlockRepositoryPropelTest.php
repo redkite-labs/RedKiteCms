@@ -60,7 +60,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveAllPageContents()
     {
         $blocks = $this->blockRepository->retrieveContents(array(1, 2), array(1, 2));
-        $this->assertCount(23, $blocks);
+        $this->assertCount(24, $blocks);
     }
 
     public function testRetrieveSlotContents()
@@ -97,7 +97,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveAllContentsByLanguageId()
     {
         $blocks = $this->blockRepository->fromLanguageId(array(1, 2));
-        $this->assertCount(25, $blocks);
+        $this->assertCount(26, $blocks);
     }
 
     public function testRetrieveContentsByPageId()
@@ -109,7 +109,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveAllContentsByPageId()
     {
         $blocks = $this->blockRepository->fromPageId(array(1, 2));
-        $this->assertCount(44, $blocks);
+        $this->assertCount(45, $blocks);
     }
 
     public function testRetrieveContentsByContent()
@@ -121,13 +121,13 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     public function testRetrieveContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text');
-        $this->assertCount(43, $blocks);
+        $this->assertCount(44, $blocks);
     }
 
     public function testRetrieveNumberOfContentsByType()
     {
         $blocks = $this->blockRepository->fromType('Text', 'count');
-        $this->assertEquals(43, $blocks);
+        $this->assertEquals(44, $blocks);
     }
     
     public function testDeleteIncludedBlocks()

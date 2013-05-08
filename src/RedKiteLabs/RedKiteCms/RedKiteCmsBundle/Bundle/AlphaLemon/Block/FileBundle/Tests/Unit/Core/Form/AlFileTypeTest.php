@@ -33,16 +33,13 @@ class AlFileTypeTest extends TestCase
         
         $formBuilder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
                             ->disableOriginalConstructor()
-                            ->getMock();        
-        $formBuilder->expects($this->at(0))
-                    ->method('add')
-                    ->with('id');
+                            ->getMock();  
         
-        $formBuilder->expects($this->at(1))
+        $formBuilder->expects($this->at(0))
                     ->method('add')
                     ->with('file');
         
-        $formBuilder->expects($this->at(2))
+        $formBuilder->expects($this->at(1))
                     ->method('add')
                     ->with('opened');
         

@@ -79,17 +79,17 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() == 0);
 
         $this->checkCms($crawler);
-        $this->assertCount(1, $crawler->filter('#block_20'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-name="block_20"]'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-editor="enabled"]'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-hide-when-edit="false"]'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-included=""]'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-type="Text"]'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-slot-name="content_title_1"]'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-block-id="20"]'));
-        $this->assertCount(1, $crawler->filter('#block_20')->filter('[data-content-editable="true"]'));
+        $this->assertCount(1, $crawler->filter('#block_21'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-name="block_21"]'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-editor="enabled"]'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-hide-when-edit="false"]'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-included=""]'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-type="Text"]'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-slot-name="content_title_1"]'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-block-id="21"]'));
+        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-content-editable="true"]'));
         $this->checkIncludedBlock($crawler);
-        $this->assertCount(42, $crawler->filter('[data-editor="enabled"]'));
+        $this->assertCount(43, $crawler->filter('[data-editor="enabled"]'));
     }
 
     public function testMovingThroughPages()
@@ -112,17 +112,17 @@ class CmsControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->click($link);
         
         $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() == 0);
-        $this->assertCount(1, $crawler->filter('#block_24'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-name="block_24"]'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-editor="enabled"]'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-hide-when-edit="false"]'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-included=""]'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-type="Text"]'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-slot-name="page_title"]'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-block-id="24"]'));
-        $this->assertCount(1, $crawler->filter('#block_24')->filter('[data-content-editable="true"]'));
+        $this->assertCount(1, $crawler->filter('#block_25'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-name="block_25"]'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-editor="enabled"]'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-hide-when-edit="false"]'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-included=""]'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-type="Text"]'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-slot-name="page_title"]'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-block-id="25"]'));
+        $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-content-editable="true"]'));
         $this->checkIncludedBlock($crawler);
-        $this->assertCount(23, $crawler->filter('[data-editor="enabled"]'));
+        $this->assertCount(24, $crawler->filter('[data-editor="enabled"]'));
     }
 
     public function testOpenPageFromPermalink()
@@ -134,11 +134,11 @@ class CmsControllerTest extends WebTestCaseFunctional
 
     private function checkIncludedBlock($crawler)
     {
-        $this->assertCount(0, $crawler->filter('#block_27'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_27"]'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_27"]')->filter('[data-included="1"]'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_27"]')->filter('[data-type="Link"]'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_27"]')->filter('[data-slot-name="1-0"]'));
+        $this->assertCount(0, $crawler->filter('#block_28'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_28"]'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-included="1"]'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-type="Link"]'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-slot-name="1-0"]'));
     }
     
     private function checkCms($crawler)
