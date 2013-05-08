@@ -1,4 +1,4 @@
-1.1 Beta-3 (2013-05-07)
+1.1 Beta-3 (2013-05-08)
 78d7438 fixed a bug due to missing updated of cms navigation route when starting form a new Theme
 8001b59 updated unit test due to change in base json form
 
