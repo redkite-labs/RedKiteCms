@@ -118,10 +118,17 @@ class AlAsset
         $namespacesFile = $this->kernel->getRootDir() . '/../vendor/composer/autoload_namespaces.php';
         if (file_exists($namespacesFile)) {
             $map = require $namespacesFile;
-            foreach ($map as $namespace => $path) {
-                if (strpos($this->asset, $path) !== false) {
-                    preg_match('/Bundle(.*)/', $this->asset, $matches);
-                    $asset = str_replace("\\", "", $namespace) . $matches[1];
+            foreach ($map as $namespace => $paths) {
+                if ( ! is_array($paths)) {
+                    $paths = array($paths);
+                }
+                
+                foreach($paths as $path) {
+                    if (strpos($this->asset, $path) !== false) {
+                        preg_match('/Bundle(.*)/', $this->asset, $matches);
+                        $asset = str_replace("\\", "", $namespace) . $matches[1];
+                        break;
+                    }
                 }
             }
         }
