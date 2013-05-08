@@ -72,7 +72,7 @@ class BundlesAutoloader
         $this->vendorDir = $this->kernelDir . '/../vendor';
         $this->extraFolders = (null === $extraFolders) ? array($this->kernelDir . '/../src/AlphaLemon/Block', $this->kernelDir . '/../src/AlphaLemon/Theme') : $extraFolders;
         $this->filesystem = new Filesystem();
-
+        
         $this->setupFolders();
 
         $this->scriptFactory = (null === $scriptFactory) ? new Script\Factory\ScriptFactory($this->basePath) : $scriptFactory;

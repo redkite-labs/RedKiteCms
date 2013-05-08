@@ -104,15 +104,21 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
         if (!is_dir($path)) throw new InvalidProjectException('"composer" folder has not been found. Be sure to use this bundle on a project managed by Composer');
 
         $map = require $path . '/autoload_namespaces.php';
-        foreach ($map as $namespace => $path) {
-            if (substr($path, -1) != '/') { 
-                $path .= '/';
+        foreach ($map as $namespace => $paths) {
+            if ( ! is_array($paths)) {
+                $paths = array($paths);
             }
             
-            $dir = $path . str_replace('\\', '/', $namespace);
-            
-            $bundleName = $this->getBundleName($dir);
-            $this->addBundle($bundleName, $dir);
+            foreach ($paths as $path) {
+                if (substr($path, -1) != '/') { 
+                    $path .= '/';
+                }
+
+                $dir = $path . str_replace('\\', '/', $namespace);
+
+                $bundleName = $this->getBundleName($dir);
+                $this->addBundle($bundleName, $dir);
+            }
         }
         
         $this->parseExtraFolders();
