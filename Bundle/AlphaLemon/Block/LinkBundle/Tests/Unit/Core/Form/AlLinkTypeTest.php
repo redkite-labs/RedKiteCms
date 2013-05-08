@@ -30,7 +30,6 @@ class AlLinkTypeTest extends AlBaseType
     protected function configureFields()
     {
         return array(
-            'id', // Inherithed from JsonBlockType
             'href',
             'value',
         );
