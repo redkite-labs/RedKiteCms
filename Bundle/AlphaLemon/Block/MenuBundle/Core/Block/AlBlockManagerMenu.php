@@ -62,21 +62,22 @@ class AlBlockManagerMenu extends AlBlockManagerContainer
     
     protected function edit(array $values)
     {
-        $data = json_decode($values['Content'], true);
-        $savedValues = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);
-        
-        if ($data["operation"] == "add") {
-            $savedValues[] = $data["value"];
-            $values = array("Content" => json_encode($savedValues));
-        }
-        
-        if ($data["operation"] == "remove") {
-            unset($savedValues[$data["item"]]);
-            
-            //$repository = $this->factoryRepository->createRepository('Block');
-            $this->blockRepository->deleteIncludedBlocks($data["slotName"]);
-            
-            $values = array("Content" => json_encode($savedValues));
+        if (array_key_exists('Content', $values)) {
+            $data = json_decode($values['Content'], true);
+            $savedValues = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);
+
+            if ($data["operation"] == "add") {
+                $savedValues[] = $data["value"];
+                $values = array("Content" => json_encode($savedValues));
+            }
+
+            if ($data["operation"] == "remove") {
+                unset($savedValues[$data["item"]]);
+
+                $this->blockRepository->deleteIncludedBlocks($data["slotName"]);
+
+                $values = array("Content" => json_encode($savedValues));
+            }
         }
         
         return parent::edit($values);
