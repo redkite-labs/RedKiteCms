@@ -31,10 +31,10 @@ class SlotRendererExtension extends BaseSlotRendererExtension
     /**
      * Overrides the base renderSlot method
      */
-    public function renderSlot($slotName = null, $progressive = 1, $extraAttributes = "")
+    public function renderSlot($slotName = null, $extraAttributes = "")
     {
         $this->checkSlotName($slotName);
-
+        
         $content = "";
         try {
             $slotContents = array();
