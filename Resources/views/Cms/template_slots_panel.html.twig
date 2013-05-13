@@ -1,0 +1,21 @@
+<ul class="column pull-left">
+{% set number_of_items = 11 %}
+{% set counter = 0 %}
+{% for slotName, value in slots %}
+    {% if counter == number_of_items - 1 %}
+        </ul>
+        <ul class="column pull-left">
+        {% set counter = 0 %}
+    {% endif %}
+                
+    {% set already_used = (value.used == 3) ? ' al-slot-used' : '' %}
+    <li class="al-slot{{ already_used }}" data-content="{{ value.content }}" data-slot-name="{{ slotName }}"><a href="#">{{ slotName }}</a></li>
+    {% set counter = counter + 1 %}
+{% endfor %}
+</ul>
+<div class="clearfix"></div>
+<div class="pull-right">
+    <button id="al-undo-slot-assignment" class="btn btn-info">Undo</button>
+    <button id="al-save-slot-assignment" class="btn btn-primary">Save</button>
+    <button id="al-close-slots-panel" class="btn">Close</button>
+</div>

@@ -14,6 +14,164 @@
  *
  */
 
+(function($){    
+    var methods = {
+        start: function() 
+        {
+            stopBlocksMenu = false;
+            
+            $(this).mouseenter(function(event) {
+                var $this = $(this);
+                if ( ! isIncluded($this)) {
+                    if (stopBlocksMenu) {
+                        return;
+                    }
+
+                    $(this).highligther('render', {
+                        cssClass: 'al-slot-highlighted'
+                    });                    
+                }
+            })
+            .click(function() {
+                var $this = $(this);
+                
+                if ( ! isIncluded($this)) {                
+                    stopBlocksMenu = true;
+                    $('#al_old_slots').position({
+                            my: "right top",
+                            at: "right bottom",
+                            of: $this
+                        })
+                        .show()        
+                        .css('visibility', 'visible')          
+                        .data('parent', $this)
+                    ;
+
+                    $('#al-undo-slot-assignment').data('html', $this.html());
+                    $(this).highligther('toggle',   {
+                        cssClass: 'al-slot-highlighted',
+                        toggleClass: 'al-slot-editing'
+                    });
+                }
+                
+                return false;
+            });
+            
+            initCommands();
+            
+            
+            
+            return this;
+        },
+        stop: function() 
+        {
+            $(this).unbind();
+            $('#al_old_slots').find('.al-slot').unbind();            
+            $('#al-undo-slot-assignment').unbind();            
+            $('#al-close-slots-panel').unbind();            
+            $('#al-save-slot-assignment').unbind();
+            close();
+        }
+    };
+    
+    function isIncluded(element) {
+        return (element.is('[data-included="1"]')) ? true : false;
+    }
+       
+    function close() {
+        $('#al_old_slots').css('visibility', 'hidden');
+        var parent = $('#al_old_slots').data('parent');
+        if (parent != null) {
+            parent.highligther('toggle', {
+                cssClass: 'al-slot-highlighted',
+                toggleClass: 'al-slot-editing'
+            });
+        }
+        stopBlocksMenu = false;
+    }
+    
+    function initCommands() {
+        $('#al_old_slots').find('.al-slot').unbind().click(function(){
+            var $this = $(this);
+            $('#al-save-slot-assignment').data('slot', $this.attr('data-slot-name'));
+            $('#al_old_slots').data('parent').html($this.attr('data-content'));
+
+            return false;
+        });
+        
+        $('#al-undo-slot-assignment').unbind().click(function(){
+            $('#al_old_slots').data('parent').html($(this).data('html'));
+
+            return false;
+        });
+        
+        $('#al-close-slots-panel').unbind().click(function(){
+            close();
+
+            return false;
+        });
+        
+        $('#al-save-slot-assignment').click(function(){
+            var $this = $(this);
+            $.ajax({
+                type: 'POST',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_changeSlot',
+                data: {
+                    'pageId' :  $('#al_pages_navigator').attr('rel'),
+                    'languageId' : $('#al_languages_navigator').attr('rel'),
+                    'sourceSlotName' : $this.data('slot'),
+                    'targetSlotName' : $('#al_old_slots').data('parent').attr('data-slot-name')
+                },
+                beforeSend: function()
+                {
+                    $('body').AddAjaxLoader();
+                },
+                success: function(response)
+                {
+                    $(response).each(function(key, item)
+                    {
+                        switch(item.key)
+                        {
+                            case "message":
+                                $('body').showAlert(item.value);
+                                
+                                break;
+                            case "slots": 
+                                $('#al_old_slots').html(item.value);
+                                initCommands();
+                                
+                                break;
+                        }
+                    });
+                    
+                    close();
+                },
+                error: function(err)
+                {
+                    $('body').showDialog(err.responseText);
+                },
+                complete: function()
+                {
+                    $('body').RemoveAjaxLoader();
+                }
+            });
+
+            return false;
+        });
+    }
+    
+    $.fn.changeTheme = function( method, options ) 
+    {
+        if ( methods[method] ) {
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+        }   
+    };
+})($);
+
 (function($){
     $.fn.activateTheme =function()
     {
@@ -27,7 +185,7 @@
         });
     };
 
-    $.fn.showThemeFixer =function()
+    $.fn.showThemeChanger =function()
     {
         this.each(function()
         {
@@ -37,7 +195,7 @@
 
                 $.ajax({
                   type: 'POST',
-                  url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeFixer',
+                  url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeChanger',
                   data: {
                       'themeName' : data.themeName
                   },
@@ -47,11 +205,11 @@
                   },
                   success: function(html)
                   {
-                    $('body').showDialog(html);
+                    $('body').showDialog(html, {width:300, buttons: null});
                   },
                   error: function(err)
                   {
-                    $('body').showDialog(err.responseText);
+                    $('body').showDialog(err);
                   },
                   complete: function()
                   {
@@ -112,7 +270,7 @@ ObserveThemeCommands =function()
 {
     try {
         $('.al_theme_activator').unbind().activateTheme();
-        $('.al_themes_fixer').unbind().showThemeFixer();
+        $('.al_themes_fixer').unbind().showThemeChanger();
         $('.al_start_from_theme').unbind().startFromTheme();
     } catch (e) {}
 };

@@ -41,7 +41,7 @@ interface BlockRepositoryInterface
      * @param string    The slot name
      * @return object A collection of objects
      */
-    public function retrieveContents($idLanguage, $idPage, $slotName = null);
+    public function retrieveContents($idLanguage, $idPage, $slotName = null, $toDelete = 0);
 
     /**
      * Fetches the block records that belongs the given language

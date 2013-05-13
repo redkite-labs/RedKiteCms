@@ -162,6 +162,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function setEditorDisabled($v)
     {
         $this->editorDisabled = $v;
+        
+        return $this;
     }
 
     /**

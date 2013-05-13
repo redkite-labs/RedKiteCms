@@ -28,8 +28,9 @@
         <parameter key="alpha_lemon_cms.images_thumbnailer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
         <parameter key="alpha_lemon_cms.events_handler.class">AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler</parameter>
         <parameter key="alpha_lemon_cms.resources_locker.class">AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker</parameter>        
-        <parameter key="alpha_lemon_cms.site_bootstrap.class">AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap</parameter>             
-        <parameter key="alpha_lemon_cms.view_renderer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer</parameter>        
+        <parameter key="alpha_lemon_cms.site_bootstrap.class">AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap</parameter>    
+        <parameter key="alpha_lemon_cms.view_renderer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer</parameter>               
+        <parameter key="alpha_lemon_cms.theme_changer.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlThemeChanger</parameter>       
         <parameter key="el_finder.media_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
@@ -172,6 +173,12 @@
             <argument type="service" id="alpha_lemon_cms.language_manager" />
             <argument type="service" id="alpha_lemon_cms.page_manager" />
             <argument type="service" id="alpha_lemon_cms.block_manager" />
+        </service>
+        
+        <service id="alpha_lemon_cms.theme_changer" class="%alpha_lemon_cms.theme_changer.class%">
+            <argument type="service" id="alpha_lemon_cms.template_manager" />
+            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="alpha_lemon_cms.block_manager_factory" />
         </service>
     </services>
 </container>

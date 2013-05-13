@@ -90,16 +90,20 @@ GetTopMost = function()
         return this;
     };
 
-    $.fn.showDialog = function(content, width)
+    $.fn.showDialog = function(content, customOptions)
     {
-        if (width == null) width = 400;
-
         var zIndexDialog = GetTopMost();
         var options = {
-            width: width,
+            width: 400,
             zIndex: zIndexDialog,
             hide: 'explode'
         };
+        
+        
+        if (options !== null) {
+            $.extend (options, customOptions);
+        }
+        
         InitDialog('al_dialog', options);
         $('#al_dialog')
             .html(content)
