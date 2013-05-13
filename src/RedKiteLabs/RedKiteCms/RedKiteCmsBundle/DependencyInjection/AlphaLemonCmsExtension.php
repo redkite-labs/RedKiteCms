@@ -50,7 +50,8 @@ class AlphaLemonCmsExtension extends Extension
         $container->setParameter('alpha_lemon_cms.web_folder_full_path', $config['web_folder_dir_full_path']);
         $container->setParameter('alpha_lemon_cms.upload_assets_dir', $config['upload_assets_dir']);
         $container->setParameter('alpha_lemon_cms.love', $config['love']);
-        $container->setParameter('alpha_lemon_cms.enable_yui_compressor', $config['enable_yui_compressor']);
+        $container->setParameter('alpha_lemon_cms.enable_yui_compressor', $config['enable_yui_compressor']);        
+        $container->setParameter('alpha_lemon_cms.theme_structure_file', $config['theme_structure_file']);
 
         if (isset($config['deploy_bundle'])) {
             $container->setParameter('alpha_lemon_cms.deploy_bundle.resources_dir', $config['deploy_bundle']['resources_dir']);

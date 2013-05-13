@@ -66,7 +66,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
-        $blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory($factoryRepository) : $blockManagerFactory;
+        $blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory($eventsHandler) : $blockManagerFactory;
         parent::__construct($eventsHandler, $blockManagerFactory, $validator);
 
         $this->template = $template;
@@ -206,9 +206,9 @@ class AlTemplateManager extends AlTemplateBase
      * 
      * @api
      */
-    public function getSlotManagers()
+    public function getSlotManagers($removeIncludedSlots = false)
     {
-        return $this->slotManagers;
+        return ( ! $removeIncludedSlots) ? $this->slotManagers : array_intersect_key($this->slotManagers, array_flip(array_keys($this->getTemplateSlots()->getSlots())));
     }
 
     /**

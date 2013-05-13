@@ -111,4 +111,17 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
 
         return ($once) ? $query->findOne() : $query->find();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function templatesInUse()
+    {
+        return AlPageQuery::create('a')
+                    ->groupByTemplateName()
+                    ->where('a.Id > ?', 1)
+                    ->filterByToDelete(0)
+                    ->find()
+        ;
+    }
 }

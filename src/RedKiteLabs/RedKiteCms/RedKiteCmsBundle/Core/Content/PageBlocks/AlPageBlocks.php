@@ -157,9 +157,14 @@ class AlPageBlocks extends AlPageBlocksBase
         }
 
         $this->blocks = array();
-        $alBlocks = $this->blockRepository->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
+        $alBlocks = $this->fetchBlocks();
         foreach ($alBlocks as $alBlock) {
             $this->blocks[$alBlock->getSlotName()][] = $alBlock;
         }
+    }
+    
+    protected function fetchBlocks()
+    {
+        return $this->blockRepository->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
     }
 }

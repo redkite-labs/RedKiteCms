@@ -1,0 +1,72 @@
+<div id="al_theme_fixer">
+    <div>
+        <b>Theme</b> <span id="al-theme">{{ themeName }}</span>
+    </div>    
+    <form id="al_theme_changer_form">
+        <table>
+        {% for current_template in current_templates %}
+            <tr>
+                <td>
+                    {{ current_template }}
+                    <input id="al-template" name="al-template" type="hidden" value="{{ current_template }}" />
+                </td>
+                <td>
+                    <select id="al-mapped-template" name="al-mapped-template" class="input-medium"> 
+                        <option value="">-</option>  
+                        {% for template in templates %} 
+                        {% set selected = (current_template == template) ? " selected" : "" %}
+                        <option value="{{ template }}"{{ selected}}>{{ template }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        <div class="pull-right">
+            <button id="al_template_changer" class="btn btn-primary" value="Change template" >Change</button> 
+            <a href="#" id="al_close_dialog" class="btn" value="Change template" >Close</a> 
+        </div>
+        <div class="clearfix"></div>
+        {% if error is defined and error != "" %}
+        <div id="text-error" class="alert alert-error">{{ error }}</div>
+        {% endif %}
+    </form>
+</div>
+
+<script>
+    $('#al_close_dialog').click(function(){
+        $('#al_dialog').dialog('close');
+    });
+    
+    $('#al_theme_changer_form').submit(function() {
+      $.ajax({
+          type: 'POST',
+          url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_changeTheme',
+          data: {
+              'themeName': '{{ themeName }}',
+              'data' : $(this).serialize()
+          },
+          beforeSend: function()
+          {
+            $('body').AddAjaxLoader();
+          },
+          success: function(html)
+          {
+              $('body').showAlert(html);
+              Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
+          },
+          error: function(err)
+          {
+            $('#al_dialog').html(err.responseText);
+          },
+          complete: function()
+          {
+            $('body').RemoveAjaxLoader();
+          }
+      });
+
+      return false;
+    });
+
+    $('#al_activate_theme').activateTheme();
+</script>

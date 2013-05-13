@@ -133,8 +133,9 @@
                         return;
                     }
                     
-                    highlightElement($this);
+                    $this.highligther('render');
                     $(this).css('cursor', 'pointer');
+                    
                     
                     $('#al_block_menu_toolbar').show();
                     if ($(this).is('[data-hide-blocks-menu="true"]')) {
@@ -184,63 +185,9 @@
         });
     }
     
-    function highlightElement(element)
-    {
-        var position = element.offset();
-        var blockWidth = element.outerWidth();
-        var blockHeight = element.outerHeight();
-        $('#al_block_menu_top')
-            .width(blockWidth)
-            .css('top', position.top - 1 + 'px')
-            .css('left', position.left + 'px')    
-            .addClass('highlight') 
-            .show()
-        ;                    
-
-        $('#al_block_menu_bottom')
-            .width(blockWidth)
-            .css('top', position.top + blockHeight + 'px')
-            .css('left', position.left + 'px')  
-            .addClass('highlight')
-            .show()
-        ;
-        $('#al_block_menu_left')
-            .height(blockHeight)
-            .css('top', position.top  + 'px')
-            .css('left', position.left - 1 + 'px')  
-            .addClass('highlight')  
-            .show()
-        ;
-        $('#al_block_menu_right')
-            .height(blockHeight)
-            .css('top', position.top + 'px')
-            .css('left', position.left - 1 + blockWidth + 'px')    
-            .addClass('highlight')
-            .show()
-        ;   
-    }
-    
     function startEdit(element)
     {
-        $('#al_block_menu_top')
-            .addClass('on-editing')
-            .removeClass('highlight')
-        ;                    
-
-        $('#al_block_menu_bottom')
-            .addClass('on-editing')
-            .removeClass('highlight')
-        ;
-
-        $('#al_block_menu_left')
-            .addClass('on-editing')
-            .removeClass('highlight')
-        ;
-
-        $('#al_block_menu_right')
-            .addClass('on-editing')
-            .removeClass('highlight')
-        ;
+        element.highligther('toggle');
         
         $('body')
             .data('idBlock', element.attr('data-block-id'))
@@ -256,26 +203,7 @@
     function stopEditElement(element)
     {
         stopBlocksMenu = false;  
-
-        $('#al_block_menu_top')
-            .addClass('highlight')
-            .removeClass('on-editing')
-        ;                    
-
-        $('#al_block_menu_bottom')
-            .addClass('highlight')
-            .removeClass('on-editing')
-        ;
-
-        $('#al_block_menu_left')
-            .addClass('highlight')
-            .removeClass('on-editing')
-        ;
-
-        $('#al_block_menu_right')
-            .addClass('highlight')
-            .removeClass('on-editing')
-        ;
+        element.highligther('toggle');
 
         $('.al_block_menu').hide();
 
@@ -370,6 +298,25 @@ function Navigate(language, page)
 $(document).ready(function(){
     try
     {   
+        $('#al_start_slots_management').click(function() {
+            if ($('#al_stop_editor').is(':visible')) {    
+                alert("This operation is not allowed when you are editing the contents");
+                
+                return false;
+            }
+            
+            $('[data-editor="enabled"]').changeTheme('start');
+            
+            return false;
+        });
+        
+        $('#al_stop_slots_management').click(function(){
+            $('[data-editor="enabled"]').changeTheme('stop');
+            $('.al_block_menu').hide();
+            
+            return false;
+        });
+        
         $('#al_cms_contents').click(function(){
             var block = $('body').data('activeBlock');
             if (block == null || block.attr('rel') == 'popover') {
@@ -395,6 +342,12 @@ $(document).ready(function(){
             
         $('#al_start_editor').click(function()
         {
+            if ($('#al_stop_slots_management').is(':visible')) {
+                alert("This operation is not allowed when you are editing the slots");
+                
+                return false;
+            }
+            
             $('[data-editor="enabled"]').blocksEditor('start');
 
             return false;
@@ -403,7 +356,7 @@ $(document).ready(function(){
         $('#al_stop_editor').click(function()
         {
             $('[data-editor="enabled"]').trigger("editorStopping").blocksEditor('stop');
-            $('.al_block_menu').hide(); //each(function(){ $(this).hide() });
+            $('.al_block_menu').hide();
             $('#al_block_menu_toolbar').hide();
             $('#al_blocks_list').hide();
 
@@ -415,21 +368,36 @@ $(document).ready(function(){
             $("#al_tab a").toggle();
                 
             return false;
-	    });
+        });
         
         $("#al_toggle_edit_buttons a").click(function ()
         {
+            if ($('#al_stop_slots_management').is(':visible')) {    
+                return false;
+            }
+            
             $("#al_toggle_edit_buttons a").toggle();
                 
             return false;
-	    });
+        });
+        
+        $("#al_toggle_slots_changer a").click(function ()
+        {
+            if ($('#al_stop_editor').is(':visible')) {    
+                return false;
+            }
+            
+            $("#al_toggle_slots_changer a").toggle();
+                
+            return false;
+        });
         
         $("#al_tab .al_tab").click(function ()
         {
             $(".al_tab").toggle();
                 
             return false;
-	    });
+        });
         
         $(".al_tab_open").click(function ()
         {

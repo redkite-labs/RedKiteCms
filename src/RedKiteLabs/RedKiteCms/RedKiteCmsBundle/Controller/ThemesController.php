@@ -17,85 +17,85 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
 
 class ThemesController extends BaseController
 {
-    public function activateCmsThemeAction($themeName, $languageName, $pageName)
+    public function showThemeChangerAction()
     {
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-        $languageRepository = $factoryRepository->createRepository('Language');                
-        if (null === $languageRepository->fromLanguageName($languageName)) {
-            $languageName = $languageRepository->mainLanguage()->getLanguageName();
-        }
-        
-        $pageRepository = $factoryRepository->createRepository('Page');
-        if (null === $pageRepository->fromPageName($pageName)) {
-            $pageName = $pageRepository->homePage()->getPageName();
-        }
-                
-        $this->getActiveTheme()->writeActiveTheme($themeName);
-        
-        $router = $this->container->get('router');
-        $url = $router->generate('_cms_navigation', array('_locale' => $languageName, 'page' => $pageName));
-        
-        // Url must contain all parts otherwise errors could occour
-        if (!preg_match('/backend\/[\w]+\/[\w]+/', $url)) {
-            $url .= sprintf('/%s/%s', $languageName, $pageName);
-        }
-
-        return new RedirectResponse($url);
+        return $this->renderThemeChanger();
     }
-
-    public function showThemeFixerAction()
+    
+    public function changeSlotAction()
     {
-        return $this->renderThemeFixer();
-    }
+        $request = $this->container->get('request');
+        $sourceSlotName = $request->get('sourceSlotName');        
+        $targetSlotName = $request->get('targetSlotName');
+        
+        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+        $message = $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
+        
+        $templateSlots = new \AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots($this->container);
+        $slots = $templateSlots
+            ->run($request->get('languageId'), $request->get('pageId'))
+            ->getSlots()
+        ;
+        
+        $values = array(
+            array(
+                'key' => 'slots',
+                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:template_slots_panel.html.twig', array('slots' => $slots)),            
+            ),            
+            array(
+                'key' => 'message',
+                'value' => $message,
+            ),
+        );
+        
+        $response = new Response(json_encode($values));
+        $response->headers->set('Content-Type', 'application/json');
 
-    public function fixThemeAction()
+        return $response;
+    }
+    
+    public function changeThemeAction()
     {
         try {
-            $error = null;
+            
             $request = $this->container->get('request');
 
-            $params = array();
+            $map = array();
             $data = explode('&', $request->get('data'));
-            foreach ($data as $value) {
-                $tmp = preg_split('/=/', $value);
-                if ($tmp[0] == 'al_page_to_fix') {
-                    $params[$tmp[0]][] = $tmp[1];
-                } else {
-                    $params[$tmp[0]] = $tmp[1];
+            
+            $c = 0;
+            while($c < count($data)) {
+                $template = preg_split('/=/', $data[$c]);
+                $templateName = $template[1];
+                $mappedTemplate = preg_split('/=/', $data[$c+1]);
+                $mappedTemplateName = $mappedTemplate[1];
+                if (empty($mappedTemplateName)) {
+                    throw new \InvalidArgumentException("It seems you haven't mapped the \"$templateName\" template. To change a theme each template must be mapped with a template from the new theme");
                 }
+                
+                $map[$templateName] = $mappedTemplateName;
+                $c += 2;
             }
-
-            if (empty($params['al_page_to_fix'])) {
-                $error = 'Any page has been selected';
-
-                return $this->renderThemeFixer($error);
-            }
-
-            $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
-            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-            $pagesRepository = $factoryRepository->createRepository('Page');
-            foreach ($params['al_page_to_fix'] as $pageId) {
-                $alPage = $pagesRepository->fromPK($pageId);
-                $pageManager->set($alPage);
-                if (false === $pageManager->save(array('TemplateName' => $params['al_template']))) {
-                    // @codeCoverageIgnoreStart
-                    $error = sprintf('An error occoured when saving the new template for the page %s. Operation aborted', $alPage->getPageName());
-
-                    return $this->renderThemeFixer($error);
-                    // @codeCoverageIgnoreEnd
-                }
-            }
-
-            return $this->renderThemeFixer($error);
-        } catch (\Exception $e) {
-            $error = 'An error occourced: ' . $e->getMessage();
-
-            return $this->renderThemeFixer($error);
+            
+            $themeName = $request->get('themeName');
+            
+            $currentTheme = $this->getActiveTheme();
+            
+            $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+            $themes = $this->container->get('alpha_lemon_theme_engine.themes');            
+            $previousTheme = $themes->getTheme($currentTheme->getActiveTheme());
+            $theme = $themes->getTheme($themeName);
+            $themeChanger->change($previousTheme, $theme, $this->container->getParameter('alpha_lemon_cms.theme_structure_file'), $map);
+            $currentTheme->writeActiveTheme($themeName);
+            
+            return new Response('The theme has been changed. Please wait while your site is reloading', 200);            
+        } catch (\Exception $e) {            
+            return $this->renderThemeChanger($e->getMessage());
         }
     }
     
@@ -132,19 +132,28 @@ class ThemesController extends BaseController
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);        
     }
 
-    protected function renderThemeFixer($error = null)
+    protected function renderThemeChanger($error = null)
     {
         $request = $this->container->get('request');
-        $themeName = $request->get('themeName');
+        $themeName = $request->get('themeName'); 
 
         $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        
+        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $pagesRepository = $factoryRepository->createRepository('Page');
+        
+        $currentTemplates = array();
+        $pages = $pagesRepository->templatesInUse();
+        foreach ($pages as $page) {
+            $currentTemplates[] = $page->getTemplateName();
+        }
+        
         $theme = $themes->getTheme($themeName);
         $templates = array_keys($theme->getTemplates());
 
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-        $pagesRepository = $factoryRepository->createRepository('Page');
-        $pages = $pagesRepository->activePages();
+        $status = null === $error ? 200 : 404;
+        $output = $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:show_theme_changer.html.twig', array('templates' => $templates, 'current_templates' => $currentTemplates, 'themeName' => $themeName, 'error' => $error));
 
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_fixer.html.twig', array('templates' => $templates, 'pages' => $pages, 'themeName' => $themeName, 'error' => $error));
+        return new Response($output, $status);
     }
 }

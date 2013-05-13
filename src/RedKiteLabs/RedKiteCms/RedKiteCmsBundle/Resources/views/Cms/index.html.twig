@@ -156,7 +156,7 @@
         </a>
         <a href="#" id="al_stop_editor" style="display: none">
             <span class="al_img_stop_edit al_tab_text pull-left"><p>Stop</p></span>
-        </a>
+        </a>        
         <div class="clearfix"></div>    
     </div>
         
@@ -173,6 +173,25 @@
             </a>
         </div>
     </div>
+    
+    {% if slots|length > 0 %}
+    <div id="al_toggle_slots_changer">
+        <a href="#" id="al_start_slots_management">
+            <span class="al_img_edit al_tab_text pull-left"><p>Slots</p></span>
+        </a>
+        <a href="#" id="al_stop_slots_management" style="display: none">
+            <span class="al_img_stop_edit al_tab_text pull-left"><p>Stop</p></span>
+        </a>        
+        <div class="clearfix"></div>    
+    </div>
+        
+    <div id="al_toggle_edit_buttons">
+        <a href="#" id="al_finalize_slots">
+            <span class="al_img_edit al_tab_text pull-left"><p>Finalize</p></span>
+        </a>  
+    </div>
+    {% endif %}
+        
 </div>
    
 <div id="al_block_menu_top" class="al_block_menu"></div>
@@ -188,6 +207,12 @@
         <li><a id="al_block_menu_delete" href="#"><div class="al-img-button al-img-delete-button">&nbsp;</div></a></li>
     </ul>    
 </div>
+
+{% if slots|length > 0 %}
+<div id="al_old_slots" class="al_floating_panel al_slots_panel" style="display: none">
+    {% include 'AlphaLemonCmsBundle:Cms:template_slots_panel.html.twig' %}
+</div>
+{% endif %}
 
 {% include "AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
 {% include "AlphaLemonCmsBundle:Pages:permalink_select.html.twig" with { pages: permalinks } %}

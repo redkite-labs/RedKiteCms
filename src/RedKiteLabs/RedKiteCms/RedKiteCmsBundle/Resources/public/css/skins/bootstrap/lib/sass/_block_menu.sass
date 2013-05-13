@@ -48,33 +48,27 @@
     :z-index 100050 
 
 #al_block_menu_top
-    :border-bottom $highligtherBorder
+    :border-bottom-width 1px
+    :border-bottom-style solid
     :height 1px
 
 #al_block_menu_bottom
-    :border-top $highligtherBorder
+    :border-top-width 1px
+    :border-top-style solid
     :height 1px
 
 #al_block_menu_left
-    :border-right $highligtherBorder
+    :border-right-width 1px
+    :border-right-style solid
     :width 1px
 
 #al_block_menu_right
-    :border-left $highligtherBorder
+    :border-left-width 1px
+    :border-left-style solid
     :width 1px
 
-#al_block_menu_top.on-editing
-    :border-bottom $onEditingBorder
-    :height 1px
+.highlight
+    border-color: $highligtherBorderColor
 
-#al_block_menu_bottom.on-editing
-    :border-top $onEditingBorder
-    :height 1px
-
-#al_block_menu_left.on-editing
-    :border-right $onEditingBorder
-    :width 1px
-
-#al_block_menu_right.on-editing
-    :border-left $onEditingBorder
-    :width 1px
+.on-editing
+    border-color: $onEditingBorderColor

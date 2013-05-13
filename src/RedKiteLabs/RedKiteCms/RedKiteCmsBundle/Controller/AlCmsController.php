@@ -21,6 +21,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\HttpFoundation\Request;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocksTemplateChanger;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots;
 
 /**
  * Implements the controller to load AlphaLemon CMS
@@ -76,6 +78,12 @@ class AlCmsController extends BaseFrontendController
                 $languageName = $pageTree->getAlLanguage()->getLanguageName();
             }
             
+            $templateSlots = new AlTemplateSlots($this->container);
+            $slots = $templateSlots
+                ->run($languageId, $pageId)
+                ->getSlots()
+            ;
+            
             $template = $this->findTemplate($pageTree);
             $params = array_merge($params, array(
                 'metatitle' => $pageTree->getMetaTitle(),
@@ -94,7 +102,8 @@ class AlCmsController extends BaseFrontendController
                 'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
-                'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks()
+                'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks(),
+                'slots' => $slots,
                 )
             );
         } else {
