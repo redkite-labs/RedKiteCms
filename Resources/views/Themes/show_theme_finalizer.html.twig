@@ -1,0 +1,60 @@
+<div>
+    <div>
+        <p><b>Finalizes the change of theme</b></p>
+        <p>A Partial finalization removes only the blocks added by the new theme and 
+        replaced by existing blocks.</p>
+        <p>A full finalization removes all the blocks saved from previous theme.</p>
+    </div>
+    <div class="pull-right">
+        <button id="al-partial-finalizer" class="btn btn-info">Partial</button>
+        <button id="al-full-finalizer" class="btn btn-primary">Full</button>
+        <button id="al-close-finalizer" class="btn">Close</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#al-close-finalizer').click(function(){
+            $('#al_dialog').dialog('close');
+        });
+        
+        $('#al-partial-finalizer').click(function() {
+            finalize('partial');
+        });
+        
+        $('#al-full-finalizer').click(function() {
+            finalize('full');
+        });
+    });
+        
+    function finalize(action)
+    {
+        $.ajax({
+          type: 'POST',
+          url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_finalizeTheme',
+          data: {
+            'page' :  $('#al_pages_navigator').html(),
+            'language' : $('#al_languages_navigator').html(),
+            'action': action
+          },
+          beforeSend: function()
+          {
+            $('body').AddAjaxLoader();
+          },
+          success: function(html)
+          {
+              $('body').showAlert(html);
+          },
+          error: function(err)
+          {
+            $('#al_dialog').html(err.responseText);
+          },
+          complete: function()
+          {
+            $('body').RemoveAjaxLoader();
+          }
+      });
+
+      return false;
+    }
+</script>

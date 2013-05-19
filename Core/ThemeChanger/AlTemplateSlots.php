@@ -23,9 +23,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocksTemplateC
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\Exception\ThemeSlotsInvalidConfigurationException;
 
 /**
- * Description of AlThemeSlots
+ * AlTemplateSlots is deputated to fetch the slots from the previous theme structure
+ * and group them by repeated status
  *
- * @author alphalemon
+ * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlTemplateSlots
 {
@@ -35,39 +36,36 @@ class AlTemplateSlots
     private $templateManager;
     private $slots = array();
     
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
     
-    public function setTemplateManager($v)
-    {
-        $this->templateManager = $v;
-    }
-    
-    public function getTemplateManager()
-    {
-        return $this->templateManager;
-    }
-    
-    public function setPageBlocks($v)
-    {
-        $this->pageBlocks = $v;
-    }
-    
-    public function getPageBlocks()
-    {
-        return $this->pageBlocks;
-    }
-    
+    /**
+     * Returns the slots
+     * 
+     * @return array
+     */
     public function getSlots()
     {
         return $this->slots;
     }
     
+    /**
+     * Runs the process
+     * 
+     * @param int $languageId
+     * @param int $pageId
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots
+     */
     public function run($languageId, $pageId)
     {   
-        $previousThemeFile = $this->container->getParameter('kernel.root_dir') . '/Resources/previous_theme';
+        $previousThemeFile = $this->container->getParameter('alpha_lemon_cms.theme_structure_file');
         if (file_exists($previousThemeFile)) {
             $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
             $themes = $this->container->get('alpha_lemon_theme_engine.themes');
@@ -75,11 +73,15 @@ class AlTemplateSlots
             
             $previousThemeStructure = json_decode(file_get_contents($previousThemeFile), true);
             $previousThemeName = $previousThemeStructure['Theme'];
-            $previousTemplateName = $previousThemeStructure["Templates"][$languageId . '-' . $pageId];
+            $templateKey = $languageId . '-' . $pageId;
+            if ( ! array_key_exists($templateKey, $previousThemeStructure["Templates"])) {
+                return array();
+            }
+            $previousTemplateName = $previousThemeStructure["Templates"][$templateKey];
             $previousTheme = $themes->getTheme($previousThemeName);   
-            $template = $previousTheme->getTemplate($previousTemplateName);                    
+            $template = $previousTheme->getTemplate($previousTemplateName);                         
             $this->initTemplateManager($template);
-
+            
             $this->setUpSlots();
         }
         
@@ -123,11 +125,11 @@ class AlTemplateSlots
         foreach($slotManagers as $slotManager) {
             $slotName = $slotManager->getSlotName();
             $blockManagers = $slotManager->getBlockManagers();
-
+            
             if (empty($blockManagers)) {
                 continue;
             }
-
+            
             $toDelete = 0;
             $slotContents = array();
             foreach($blockManagers as $blockManager) {
@@ -141,8 +143,9 @@ class AlTemplateSlots
                     $toDelete = $blockManager->get()->getToDelete();
                 }
             }
-
-            $this->slots[$slotName] = array(
+            
+            $repeated = $slotManager->getRepeated();
+            $this->slots[$repeated][$slotName] = array(
                 'content' => implode("<br />", $slotContents),
                 'used' => $toDelete,
             );

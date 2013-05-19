@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots;
 
 class ThemesController extends BaseController
 {
@@ -36,7 +37,7 @@ class ThemesController extends BaseController
         $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
         $message = $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
         
-        $templateSlots = new \AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots($this->container);
+        $templateSlots = new AlTemplateSlots($this->container);
         $slots = $templateSlots
             ->run($request->get('languageId'), $request->get('pageId'))
             ->getSlots()
@@ -45,7 +46,7 @@ class ThemesController extends BaseController
         $values = array(
             array(
                 'key' => 'slots',
-                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:template_slots_panel.html.twig', array('slots' => $slots)),            
+                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array('slots' => $slots)),            
             ),            
             array(
                 'key' => 'message',
@@ -61,8 +62,7 @@ class ThemesController extends BaseController
     
     public function changeThemeAction()
     {
-        try {
-            
+        try {            
             $request = $this->container->get('request');
 
             $map = array();
@@ -82,10 +82,8 @@ class ThemesController extends BaseController
                 $c += 2;
             }
             
-            $themeName = $request->get('themeName');
-            
-            $currentTheme = $this->getActiveTheme();
-            
+            $themeName = $request->get('themeName');            
+            $currentTheme = $this->getActiveTheme();            
             $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
             $themes = $this->container->get('alpha_lemon_theme_engine.themes');            
             $previousTheme = $themes->getTheme($currentTheme->getActiveTheme());
@@ -126,10 +124,40 @@ class ThemesController extends BaseController
             $message = $siteBootstrap->getErrorMessage();
             $statusCode = 404;
         }
-        $response = new \Symfony\Component\HttpFoundation\Response();
+        $response = new Response();
         $response->setStatusCode($statusCode);
 
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);        
+    }
+    
+    public function showThemesFinalizerAction()
+    {
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_finalizer.html.twig');
+    }
+    
+    public function finalizeThemeAction()
+    {
+        $request = $this->container->get('request');
+        $action = $request->get('action');
+           
+        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+        $result = $themeChanger->finalize($action);        
+        if ($result) {
+            $message = "The theme has been finalized";
+            $statusCode = 200;
+            
+            
+        if ($action == 'full') {
+            unlink($this->container->getParameter('alpha_lemon_cms.theme_structure_file'));
+        }
+            
+        }
+        else {
+            $message = "The theme has not been finalized due to an error occoured when saving to database";
+            $statusCode = 404;
+        }
+
+        return new Response($message, $statusCode);
     }
 
     protected function renderThemeChanger($error = null)

@@ -40,7 +40,9 @@
         );
 
         CmsStartInternalJavascripts();
-        ObserveThemesPreviewCommands();
+        $('.al-template').click(function(){
+            $(this).template('load');
+        });
     });
 </script>
 {% endblock %}
@@ -76,89 +78,66 @@
 {% endblock %}
 
 {% block external_javascripts %}
-    {{ parent() }}
-
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
                                      'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
-                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js'
-                                     'components/pageguide/js/pageguide.js' 
-                                     'bundles/alphalemoncms/js/al-dialog.js'
-                                     'bundles/alphalemoncms/js/al-ajax-loader.js'
-                                     'bundles/alphalemoncms/js/al-themes-preview.js'
-    %}    
+                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.js'
+                                     'components/sydcanem-bootstrap-contextmenu/bootstrap-contextmenu.js'
+                                     'components/jquery-easing/jquery.easing.min.js'
+                                     'components/jquery-metadata/jquery.metadata.js'
+                                     'components/pageguide/js/pageguide.min.js'
+                                     'components/holderjs/holder.js'
+                                     'bundles/alphalemoncms/js/*' 
+    %} 
+    
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% else %}
     {% javascripts  'components/jquery/jquery.min.js'
                     'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js'
-                    'components/pageguide/js/pageguide.js' 
-                    'bundles/alphalemoncms/js/al-dialog.js'
-                    'bundles/alphalemoncms/js/al-ajax-loader.js'
-                    'bundles/alphalemoncms/js/al-themes-preview.js' 
+                    'components/sydcanem-bootstrap-contextmenu/bootstrap-contextmenu.js'
+                    'components/jquery-easing/jquery.easing.min.js'
+                    'components/jquery-metadata/jquery.metadata.js'
+                    'components/pageguide/js/pageguide.min.js'
+                    'components/holderjs/holder.js'
+                    'bundles/alphalemoncms/js/*' 
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% endif %}
-
+    
     {% for value in templateJavascripts %}
     <script src="{{ asset(value) }}"></script>
     {% endfor %}
 {% endblock %}
 
 {% block body %}
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <a class="brand" href="#"><img src="/{{ skin_path }}/images/main_menu/small-logo.png" />AlphaLemon CMS</a>
-        <p class="nav navbar-text">Theme:</p>
-        <p class="nav navbar-text" id="al_current_theme">{{ theme_name }}</p>
-        <p class="nav navbar-text">Template:</p>
-        <p class="nav navbar-text" id="al_current_template">{{ template_name }}</p>
-        
-        <span class="pull-right">
-            <div class="btn-group dropdown-zindex">
-                <button class="btn">Change template</button>
-                <button class="btn dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-height pull-right dropdown-zindex">
-                    {% for template in templates %}
-                    <li><a href="#" class="al_template">{{ template.getTemplateName }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="btn-group dropdown-zindex">
-                <button class="btn">Commands</button>
-                <button class="btn dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-height pull-right dropdown-zindex">
-                    <li><a id="al_active_theme_toggler" href="#">Show panel</a></li>
-                    <li><a id="al_reset" href="#">Reset</a></li>
-                    <li><a id="al_save" href="#">Save and activate</a></li>
-                    <li><a id="al_back" href="/{{ app.environment }}.php/backend/{{ app.request.get('languageName')}}/{{app.request.get('pageName')}}">Return to CMS</a></li>
-                </ul>
-            </div>              
-            {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'text' : 'English', 'value' : 'en', 'button_type' : 'btn-primary', 'type' : 'al_site_language_item'}  %}
-            <span id="al_referal_language" class="al_hidden">{{ app.request.get('languageName') }}</span>
-            <span id="al_referal_page" class="al_hidden">{{ app.request.get('pageName') }}</span>
-        </span>
+
+<div id="al_main_commands">
+    <div>
+        <div id="al_toggle_nav_button" class="pull-left">        
+            {% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_languages_navigator', 'items' : templates, 'text' : template_name, 'type' : 'al-template'}  %}
+            <input id="al-language" type="hidden" value="{{ language_name}}" />
+            <input id="al-page" type="hidden" value="{{ page_name}}" />
+            <input id="al-theme" type="hidden" value="{{ theme_name}}" />
+        </div>
+        <div class="pull-left">
+            <a href="#" id="al_show_navigation">
+                <span class="al_img_nav pull-left al_tab_text"><p>Nav</p></span>
+            </a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <a href="{{ path('_cms_navigation', {'languageName': language_name, 'pageName': page_name }) }}" id="al-back">
+            <span class="al_img_back pull-left"><p>Back</p></span>
+        </a>
     </div>
 </div>
 
 <div id="al_cms_contents">
 {{ parent() }}
-</div>
-
-<div id="al_active_theme">
-    <div>
-        <span class="al_active_templates_caption">Templates</span>
-        {% include 'AlphaLemonCmsBundle:Preview:_active_theme_templates.html.twig' with {'templates': templates}  %}
-    </div>
-    <div id="al_slots">
-        {% include 'AlphaLemonCmsBundle:Preview:_active_theme_slots.html.twig' with {'templates': templates, 'block_managers' : block_managers}  %}
-    </div>
 </div>
 
 {% include "AlphaLemonCmsBundle:Preview:PageGuide/_help.html.twig" %}

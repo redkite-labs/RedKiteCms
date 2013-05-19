@@ -1,7 +1,9 @@
 <ul class="column pull-left">
 {% set number_of_items = 11 %}
 {% set counter = 0 %}
-{% for slotName, value in slots %}
+{% for repeated, grouped_slots in slots %}
+    <li><b>{{ repeated }}</b></li>
+    {% for slotName, value in grouped_slots %}
     {% if counter == number_of_items - 1 %}
         </ul>
         <ul class="column pull-left">
@@ -11,6 +13,7 @@
     {% set already_used = (value.used == 3) ? ' al-slot-used' : '' %}
     <li class="al-slot{{ already_used }}" data-content="{{ value.content }}" data-slot-name="{{ slotName }}"><a href="#">{{ slotName }}</a></li>
     {% set counter = counter + 1 %}
+    {% endfor %}
 {% endfor %}
 </ul>
 <div class="clearfix"></div>

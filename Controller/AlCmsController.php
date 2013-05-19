@@ -21,8 +21,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\HttpFoundation\Request;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocksTemplateChanger;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots;
 
 /**
  * Implements the controller to load AlphaLemon CMS
@@ -78,7 +76,7 @@ class AlCmsController extends BaseFrontendController
                 $languageName = $pageTree->getAlLanguage()->getLanguageName();
             }
             
-            $templateSlots = new AlTemplateSlots($this->container);
+            $templateSlots = $this->container->get('alpha_lemon_cms.template_slots');            
             $slots = $templateSlots
                 ->run($languageId, $pageId)
                 ->getSlots()

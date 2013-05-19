@@ -298,6 +298,35 @@ function Navigate(language, page)
 $(document).ready(function(){
     try
     {   
+        $('#al_finalize_theme').click(function() {  
+            $.ajax({
+                type: 'POST',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemesFinalizer',
+                data: {
+                    'page' :  $('#al_pages_navigator').html(),
+                    'language' : $('#al_languages_navigator').html()
+                },
+                beforeSend: function()
+                {
+                    $('body').AddAjaxLoader();
+                },
+                success: function(html)
+                {
+                    $('body').showDialog(html, {buttons: null});
+                },
+                error: function(err)
+                {
+                    $('body').showDialog(err.responseText);
+                },
+                complete: function()
+                {
+                    $('body').RemoveAjaxLoader();
+                }
+            });
+
+            return false;
+        });
+        
         $('#al_start_slots_management').click(function() {
             if ($('#al_stop_editor').is(':visible')) {    
                 alert("This operation is not allowed when you are editing the contents");
