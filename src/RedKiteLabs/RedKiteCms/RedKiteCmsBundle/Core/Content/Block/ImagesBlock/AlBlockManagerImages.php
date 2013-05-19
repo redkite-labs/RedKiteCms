@@ -37,7 +37,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
     {
         if ( ! array_key_exists('Content', $values)) {
             $images = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);
-            $savedImages = array_map(function($el){ return $el['src']; }, $images);
+            $savedImages = array_map(function($el){ return (array_key_exists('src', $el)) ? $el['src'] : ''; }, $images);
             
             if (array_key_exists('AddFile', $values)) { 
                 $file = $values["AddFile"];
