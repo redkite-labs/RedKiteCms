@@ -47,54 +47,19 @@ class ThemesControllerTest extends WebTestCaseFunctional
         self::populateDb();
     }
 
-    public function testActiveteThemeWithoutSpecifingThePageToRedirect()
-    {
-        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BootbusinessThemeBundle');
-        $this->client->followRedirect();
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp("/Redirecting to \/backend/s", $crawler->text());
-    }
-
-    public function testActiveteThemeSpecifingThePageToRedirect()
-    {
-        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BootbusinessThemeBundle/en/page1');
-        $this->client->followRedirect();
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp("/Redirecting to \/backend\/en\/page1/s", $crawler->text());
-    }
-    
-    public function testActiveteThemeRedirectsToHomePageWhenLanguageOrPageAreInvalid()
-    {
-        $crawler = $this->client->request('GET', 'backend/en/al_activateCmsTheme/BootbusinessThemeBundle/foo/bar');
-        $this->client->followRedirect();
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp("/Redirecting to \/backend\/en\/index/s", $crawler->text());
-    }
-
-    public function testThemeFixer()
+    public function testThemeChanger()
     {
         $params = array("themeName" => "BootbusinessThemeBundle");
-        $crawler = $this->client->request('POST', 'backend/en/al_showThemeFixer', $params);
+        $crawler = $this->client->request('POST', 'backend/en/al_showThemeChanger', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('#al_theme_fixer')->count());
-        $this->assertEquals(1, $crawler->filter('#al_theme_fixer_form')->count());
-        $this->assertEquals(1, $crawler->filter('#al_template')->count());
-        $this->assertEquals(6, $crawler->filter('#al_template option')->count());
-        $this->assertEquals(1, $crawler->filter('#al_template_changer')->count());
-        $this->assertEquals(1, $crawler->filter('#al_pages_to_fix_list')->count());
-        $this->assertEquals(1, $crawler->filter('#row_2')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("index")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("home")')->count());
-        $this->assertEquals(1, $crawler->filter('#row_3')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("page1")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("empty")')->count());
-        $this->assertEquals(1, $crawler->filter('#al_activate_theme')->count());
+        $this->assertCount(1, $crawler->filter('#al_theme_fixer'));
+        $this->assertCount(1, $crawler->filter('#al-theme'));
+        $this->assertCount(1, $crawler->filter('#al_theme_changer_form'));
+        $this->assertCount(1, $crawler->filter('#al_template_changer'));
+        $this->assertCount(1, $crawler->filter('#al_close_dialog'));
     }
-
+/*
     public function testChangeTemplateFailsWhenAnyPagesHasBeenSelected()
     {
         $params = array("themeName" => "BootbusinessThemeBundle", "data" => "al_template=fullpage");
@@ -123,5 +88,5 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('fullpage', $page->getTemplateName());
-    }
+    }*/
 }

@@ -28,38 +28,6 @@ class ThemesController extends BaseController
         return $this->renderThemeChanger();
     }
     
-    public function changeSlotAction()
-    {
-        $request = $this->container->get('request');
-        $sourceSlotName = $request->get('sourceSlotName');        
-        $targetSlotName = $request->get('targetSlotName');
-        
-        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
-        $message = $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
-        
-        $templateSlots = new AlTemplateSlots($this->container);
-        $slots = $templateSlots
-            ->run($request->get('languageId'), $request->get('pageId'))
-            ->getSlots()
-        ;
-        
-        $values = array(
-            array(
-                'key' => 'slots',
-                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array('slots' => $slots)),            
-            ),            
-            array(
-                'key' => 'message',
-                'value' => $message,
-            ),
-        );
-        
-        $response = new Response(json_encode($values));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-    }
-    
     public function changeThemeAction()
     {
         try {            
@@ -95,6 +63,38 @@ class ThemesController extends BaseController
         } catch (\Exception $e) {            
             return $this->renderThemeChanger($e->getMessage());
         }
+    }
+    
+    public function changeSlotAction()
+    {
+        $request = $this->container->get('request');
+        $sourceSlotName = $request->get('sourceSlotName');        
+        $targetSlotName = $request->get('targetSlotName');
+        
+        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+        $message = $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
+        
+        $templateSlots = new AlTemplateSlots($this->container);
+        $slots = $templateSlots
+            ->run($request->get('languageId'), $request->get('pageId'))
+            ->getSlots()
+        ;
+        
+        $values = array(
+            array(
+                'key' => 'slots',
+                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array('slots' => $slots)),            
+            ),            
+            array(
+                'key' => 'message',
+                'value' => $message,
+            ),
+        );
+        
+        $response = new Response(json_encode($values));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
     
     public function startFromThemeAction()

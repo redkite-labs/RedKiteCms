@@ -159,22 +159,32 @@ class LockedResourcesTest extends BaseSecured
             ),
             array(
                 '/backend/en/al_showThemes', 
-                '/backend/en/al_activateTheme/BusinessWebsiteThemeBundle', 
+                '/backend/en/al_showThemeChanger', 
                 array(),
             ),
             array(
                 '/backend/en/al_showThemes', 
-                '/backend/en/al_showThemeFixer', 
+                '/backend/en/al_changeTheme', 
                 array(),
             ),
             array(
                 '/backend/en/al_showThemes', 
-                '/backend/en/al_fixTheme', 
+                '/backend/en/al_changeSlot', 
                 array(),
             ),
             array(
                 '/backend/en/al_showThemes', 
-                '/backend/en/al_activateCmsTheme/FakeThemeBundle/en/index', 
+                '/backend/en/startFromTheme', 
+                array(),
+            ),
+            array(
+                '/backend/en/al_showThemes', 
+                '/backend/en/al_showThemesFinalizer', 
+                array(),
+            ),
+            array(
+                '/backend/en/al_showThemes', 
+                '/backend/en/al_finalizeTheme', 
                 array(),
             ),
         );
