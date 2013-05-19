@@ -173,104 +173,125 @@
 })($);
 
 (function($){
-    $.fn.activateTheme =function()
-    {
-        this.each(function()
+    var methods = {
+        change: function()
         {
-            $(this).click(function()
+            this.each(function()
             {
-                var data = $(this).metadata();
-                location.href = frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator').html() + '/' + $('#al_pages_navigator').html();
-            });
-        });
-    };
+                $(this).click(function()
+                {
+                    var data = $(this).metadata();
 
-    $.fn.showThemeChanger =function()
-    {
-        this.each(function()
-        {
-            $(this).click(function()
-            {
-                var data = $(this).metadata();
+                    $.ajax({
+                      type: 'POST',
+                      url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeChanger',
+                      data: {
+                          'themeName' : data.themeName
+                      },
+                      beforeSend: function()
+                      {
+                        $('body').AddAjaxLoader();
+                      },
+                      success: function(html)
+                      {
+                        $('body').showDialog(html, {width:300, buttons: null});
+                      },
+                      error: function(err)
+                      {
+                        $('body').showDialog(err);
+                      },
+                      complete: function()
+                      {
+                        $('body').RemoveAjaxLoader();
+                      }
+                    });
 
-                $.ajax({
-                  type: 'POST',
-                  url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeChanger',
-                  data: {
-                      'themeName' : data.themeName
-                  },
-                  beforeSend: function()
-                  {
-                    $('body').AddAjaxLoader();
-                  },
-                  success: function(html)
-                  {
-                    $('body').showDialog(html, {width:300, buttons: null});
-                  },
-                  error: function(err)
-                  {
-                    $('body').showDialog(err);
-                  },
-                  complete: function()
-                  {
-                    $('body').RemoveAjaxLoader();
-                  }
+                    return false;
                 });
-
-                return false;
             });
-        });
+        },        
+        scratch: function()
+        {
+            this.each(function()
+            {
+                $(this).click(function()
+                {
+                    if ( ! confirm('WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?')) {
+                        return;
+                    }
+                    
+                    var data = $(this).metadata();
+
+                    $.ajax({
+                      type: 'POST',
+                      url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/startFromTheme',
+                      data: {
+                          'themeName' : data.themeName
+                      },
+                      beforeSend: function()
+                      {
+                        $('body').AddAjaxLoader();
+                      },
+                      success: function(html)
+                      {
+                        $('body').showAlert(html);
+                        location.href = frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator').html() + '/' + $('#al_pages_navigator').html();
+                      },
+                      error: function(err)
+                      {
+                        $('body').showDialog(err.responseText);
+                      },
+                      complete: function()
+                      {
+                        $('body').RemoveAjaxLoader();
+                      }
+                    });
+
+                    return false;
+                });
+            });
+        }
     };
     
-    $.fn.startFromTheme =function()
+    $.fn.manageTheme = function( method, options ) 
     {
-        this.each(function()
-        {
-            $(this).click(function()
-            {
-                if ( ! confirm('WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?')) {
-                    return;
-                }
-                
-                var data = $(this).metadata();
-
-                $.ajax({
-                  type: 'POST',
-                  url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/startFromTheme',
-                  data: {
-                      'themeName' : data.themeName
-                  },
-                  beforeSend: function()
-                  {
-                    $('body').AddAjaxLoader();
-                  },
-                  success: function(html)
-                  {
-                    $('body').showAlert(html);
-                    location.href = frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_activateCmsTheme/' + data.themeName + '/' + $('#al_languages_navigator').html() + '/' + $('#al_pages_navigator').html();
-                  },
-                  error: function(err)
-                  {
-                    $('body').showDialog(err.responseText);
-                  },
-                  complete: function()
-                  {
-                    $('body').RemoveAjaxLoader();
-                  }
-                });
-
-                return false;
-            });
-        });
+        if ( methods[method] ) {
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+        }   
     };
     
 })($);
 
-ObserveThemeCommands =function()
+
+(function($){
+    var methods = {
+        load: function() {
+            location.href = frontController + 'backend/' + $('#al-language').val() + '/al_previewTheme/' + $('#al-language').val() + '/' + $('#al-page').val() + '/' + $('#al-theme').val() + '/' + $(this).attr('rel');
+        }
+    };
+    
+    $.fn.template = function( method, options ) 
+    {
+        if ( methods[method] ) {
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+        }   
+    };
+    
+})($);
+
+
+ObserveThemeCommands = function()
 {
     try {
-        $('.al_theme_activator').unbind().activateTheme();
-        $('.al_themes_fixer').unbind().showThemeChanger();
-        $('.al_start_from_theme').unbind().startFromTheme();
+        $('.al_themes_changer').unbind().manageTheme('change');
+        $('.al_start_from_theme').unbind().manageTheme('scratch');
     } catch (e) {}
 };

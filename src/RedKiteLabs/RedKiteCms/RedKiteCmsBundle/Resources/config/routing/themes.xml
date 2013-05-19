@@ -34,4 +34,16 @@
         <default key="_locale">en</default>
         <default key="locked">themes</default>
     </route>
+    
+    <route id="_show_themes_finalizer" pattern="/backend/{_locale}/al_showThemesFinalizer/{locked}">
+        <default key="_controller">AlphaLemonCmsBundle:Themes:showThemesFinalizer</default>
+        <default key="_locale">en</default>
+        <default key="locked">themes</default>
+    </route>
+    
+    <route id="_finalize_theme" pattern="/backend/{_locale}/al_finalizeTheme/{locked}">
+        <default key="_controller">AlphaLemonCmsBundle:Themes:finalizeTheme</default>
+        <default key="_locale">en</default>
+        <default key="locked">themes</default>
+    </route>
 </routes>

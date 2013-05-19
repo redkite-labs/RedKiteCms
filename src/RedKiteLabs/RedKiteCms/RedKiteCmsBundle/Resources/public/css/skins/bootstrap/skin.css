@@ -336,23 +336,31 @@
   color: white;
   font: bold 16px Arial, Verdana, Helvetica, sans-serif;
 }
-#al_main_commands .al_img_edit {
+#al_main_commands .al_img_edit, #al_main_commands al_img_stop_edit, #al_main_commands .al_img_slots, #al_main_commands .al_img_finalize, #al_main_commands .al_img_back {
   width: 93px;
   height: 47px;
-  background: transparent url("images/toolbar/edit.png") top left no-repeat;
 }
-#al_main_commands .al_img_edit p {
+#al_main_commands .al_img_edit p, #al_main_commands al_img_stop_edit p, #al_main_commands .al_img_slots p, #al_main_commands .al_img_finalize p, #al_main_commands .al_img_back p {
   padding-left: 38px;
   padding-top: 10px;
 }
+#al_main_commands .al_img_edit {
+  background: transparent url("images/toolbar/edit.png") top left no-repeat;
+}
 #al_main_commands .al_img_stop_edit {
-  width: 93px;
-  height: 47px;
   background: transparent url("images/toolbar/stop.png") top left no-repeat;
 }
 #al_main_commands .al_img_stop_edit p {
   padding-left: 34px;
-  padding-top: 10px;
+}
+#al_main_commands .al_img_slots {
+  background: transparent url("images/toolbar/slots.png") top left no-repeat;
+}
+#al_main_commands .al_img_finalize {
+  background: transparent url("images/toolbar/finalize.png") top left no-repeat;
+}
+#al_main_commands .al_img_back {
+  background: transparent url("images/toolbar/back.png") top left no-repeat;
 }
 #al_main_commands .al_img_nav {
   width: 93px;

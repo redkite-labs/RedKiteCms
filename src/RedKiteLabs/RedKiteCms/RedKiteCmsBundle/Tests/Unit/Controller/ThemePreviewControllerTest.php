@@ -28,7 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Controller\ThemePreviewController;
  */
 class ThemePreviewControllerTest extends TestCase
 {
-    private $request;
+    private $kernel;
     private $pageManager;
     private $factoryRepository;
     private $activeTheme;
@@ -39,17 +39,10 @@ class ThemePreviewControllerTest extends TestCase
 
     protected function setUp()
     {
-        $this->request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-        $this->response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         
-        $this->pageManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
-                 ->disableOriginalConstructor()
-                 ->getMock()
-        ;
-        
-        $this->pageRepository =
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->themes = 
+            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -60,10 +53,23 @@ class ThemePreviewControllerTest extends TestCase
                  ->getMock()
         ;
         
+        $this->blockRepository
+             ->expects($this->any())
+             ->method('getRepositoryObjectClassName')
+             ->will($this->returnValue('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock'))
+        ;
+        
         $this->factoryRepository = 
             $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
+        ;
+        
+        $this->factoryRepository
+             ->expects($this->at(0))
+             ->method('createRepository')
+             ->with('Block')
+             ->will($this->returnValue($this->blockRepository))
         ;
         
         $this->blocksFactory = 
@@ -77,12 +83,12 @@ class ThemePreviewControllerTest extends TestCase
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
-
+        
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $this->templating
              ->expects($this->once())
              ->method('renderResponse')
-             ->will($this->returnValue($this->response));
+        ;
         
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         
@@ -90,340 +96,184 @@ class ThemePreviewControllerTest extends TestCase
         $this->controller->setContainer($this->container);
     }
 
-    public function testThemeIsNotSavedWhenAnyTemplateHasBeenIncudedInTheMapping()
+    /**
+     * @dataProvider previewProvider
+     */
+    public function testThemePreview($templateName, $slotArguments)
     {
-        $this->initContainer(false, false);
-        $this->configureDbAndActiveTheme(0, 0, 0, 0);        
-        $this->configureFactoryRepository(false);
         
-        $data = 'theme=BusinessWebsiteThemeBundle';
-        $this->initRequest($data);
+        
+        $blocksSequence = 0;
+        $slots = array();
+        foreach ($slotArguments as $slotArgument) {
+            $type = $slotArgument['type'];
+            $content = $slotArgument['content'];
+            $slots[] = $this->initSlot($type, $content);
+            
+            $this->blocksFactory
+                ->expects($this->at($blocksSequence))
+                ->method('createBlockManager')
+                ->with($type)
+                ->will($this->returnValue($this->initBlockManager($content)))
+            ;
+            
+            $blocksSequence++;
+        }
+        
+        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+             ->disableOriginalConstructor()
+             ->getMock()
+        ;
+        
+        $template
+            ->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue($slots)) 
+        ;
                 
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    public function testThemeIsActivateButAnythigIsSavedWhenTheTemplateHasAnySlot()
-    {
-        $this->initContainer(false);
-        $this->configureDbAndActiveTheme(1, 1, 0, 1);     
-        $this->configureFactoryRepository(false);
+        $method = ($templateName == 'none') ? 'getHomeTemplate' : 'getTemplate';
         
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=home';
-        $this->initRequest($data);
-        
-        $this->pageRepository
-             ->expects($this->never())
-             ->method('fromTemplateName')
+        $theme = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme')
+             ->disableOriginalConstructor()
+             ->getMock()
         ;
+        
+        $theme
+            ->expects($this->once())
+            ->method('getTemplates')
+            ->will($this->returnValue(array('home' => null, 'internal' => null)))
+        ;
+        
+        $theme
+            ->expects($this->once())
+            ->method($method)
+            ->will($this->returnValue($template))
+        ;
+        
+        $themeName = 'BootbusinessThemeBundle';
+        $this->themes 
+             ->expects($this->at(0))
+             ->method('getTheme')
+             ->with($themeName)
+             ->will($this->returnValue($theme))
+        ;        
+        
+        $this->initContainer();
                 
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
+        $this->controller->previewThemeAction('en', 'index', $themeName, $templateName);
     }
     
-    public function testThemeIsActivateButAnythigIsSavedWhenAnyPageHasBeenFetched()
+    public function previewProvider()
     {
-        $this->initContainer(false);
-        $this->configureDbAndActiveTheme(1, 1, 0, 1);     
-        $this->configureFactoryRepository(false);
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=home&templates[0][slots][0][slot_placeholder]=al_slot_home_left_sidebar';
-        $this->initRequest($data);
-        
-        $this->pageRepository
-             ->expects($this->once())
-             ->method('fromTemplateName')
-             ->will($this->returnValue(array()))
+        return array(
+            array(
+                'none',
+                array(
+                    array(
+                        'type' => 'Text',
+                        'content' => 'content 1',
+                    ),
+                ),
+            ),
+            array(
+                'home',
+                array(
+                    array(
+                        'type' => 'Text',
+                        'content' => 'content 1',
+                    ),
+                ),
+            ),
+            array(
+                'home',
+                array(
+                    array(
+                        'type' => 'Text',
+                        'content' => 'content 1',
+                    ),
+                    
+                    array(
+                        'type' => 'Menu',
+                        'content' => 'content 2',
+                    ),
+                )
+            ),
+            array(
+                'home',
+                array(
+                    array(
+                        'type' => 'Text',
+                        'content' => 'content 1',
+                    ),
+                    
+                    array(
+                        'type' => 'Menu',
+                        'content' => null,
+                    ),
+                )
+            ),
+        );
+    }    
+    
+    protected function initSlot($type, $content)
+    {
+        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+             ->disableOriginalConstructor()
+             ->getMock()
         ;
         
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
+        $slot
+            ->expects($this->at(0))
+            ->method('getSlotName')
+        ;
+        
+        $slot
+            ->expects($this->at(1))
+            ->method('getBlockType')
+            ->will($this->returnValue($type))
+        ;
+        
+        $slot
+            ->expects($this->at(2))
+            ->method('getContent')
+            ->will($this->returnValue($content))
+        ;
+        
+        return $slot;
     }
     
-    public function testAnyChangeIsMadeOnTheDbWhenSlotsHaveTheSameName()
+    protected function initBlockManager($content)
     {
-        $this->initContainer();
-        $this->configureDbAndActiveTheme(1, 1, 0, 1);    
-        $this->configureFactoryRepository();
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=home&templates[0][slots][0][slot_placeholder]=al_slot_home_logo&templates[0][slots][0][slot]=al_map_logo';
-        $this->initRequest($data);
-        
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageRepository
-             ->expects($this->once())
-             ->method('fromTemplateName')
-             ->will($this->returnValue(array($page)))
-        ;
-        
-        $this->blockRepository
-             ->expects($this->never())
-             ->method('retrieveContents')
-        ;
-        
-        $this->pageManager
-             ->expects($this->never())
-             ->method('set')
-        ;
-        
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    public function testTheSlotHasNotBeenChangedForABlock()
-    {
-        $this->initContainer(true, false);
-        $this->configureDbAndActiveTheme(1, 0, 1, 0);    
-        $this->configureFactoryRepository();
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=home&templates[0][slots][0][slot_placeholder]=al_slot_home_left_sidebar&templates[0][slots][0][slot]=al_map_top_section_1';
-        $this->initRequest($data);
-        
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageRepository
-             ->expects($this->once())
-             ->method('fromTemplateName')
-             ->will($this->returnValue(array($page)))
-        ;
-        
-        $block = $this->initBlock();
-        $this->blockRepository
-             ->expects($this->once())
-             ->method('retrieveContents')
-             ->will($this->returnValue(array($block)))
-        ;
-        
-        $this->initBlocksFactory($block, false);
-        
-        $this->pageManager
-             ->expects($this->never())
-             ->method('set')
-        ;
-        
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    public function testTheSlotHasBeenChangedForABlock()
-    {
-        $this->initContainer();
-        $this->configureDbAndActiveTheme(1, 1, 0, 1);    
-        $this->configureFactoryRepository();
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=home&templates[0][slots][0][slot_placeholder]=al_slot_home_left_sidebar&templates[0][slots][0][slot]=al_map_top_section_1';
-        $this->initRequest($data);
-        
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageRepository
-             ->expects($this->once())
-             ->method('fromTemplateName')
-             ->will($this->returnValue(array($page)))
-        ;
-        
-        $block = $this->initBlock();
-        $this->blockRepository
-             ->expects($this->once())
-             ->method('retrieveContents')
-             ->will($this->returnValue(array($block)))
-        ;
-        
-        $this->initBlocksFactory($block, true);
-        
-        $this->pageManager
-             ->expects($this->never())
-             ->method('set')
-        ;
-        
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    public function testTheSlotHasNotBeenChangedForARepeatedSlot()
-    {
-        $this->initContainer(true, false);
-        $this->configureDbAndActiveTheme(1, 0, 1, 0);    
-        $this->configureFactoryRepository();
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=repeated_slots&templates[0][slots][0][slot_placeholder]=al_slot_repeated_slots_logo&templates[0][slots][0][slot]=al_map_top_section_1';
-        $this->initRequest($data);
-        
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageRepository
-             ->expects($this->never())
-             ->method('fromTemplateName')
-        ;
-        
-        $block = $this->initBlock();
-        $this->blockRepository
-             ->expects($this->once())
-             ->method('retrieveContents')
-             ->will($this->returnValue(array($block)))
-        ;
-        
-        $this->initBlocksFactory($block, false);
-        
-        $this->pageManager
-             ->expects($this->never())
-             ->method('set')
-        ;
-        
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    public function testTheSlotHasBeenChangedForARepeatedSlot()
-    {
-        $this->initContainer();
-        $this->configureDbAndActiveTheme(1, 1, 0, 1);    
-        $this->configureFactoryRepository();
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=repeated_slots&templates[0][slots][0][slot_placeholder]=al_slot_repeated_slots_logo&templates[0][slots][0][slot]=al_map_top_section_1';
-        $this->initRequest($data);
-        
-        $this->pageRepository
-             ->expects($this->never())
-             ->method('fromTemplateName')
-        ;
-        
-        $block = $this->initBlock();
-        $this->blockRepository
-             ->expects($this->once())
-             ->method('retrieveContents')
-             ->will($this->returnValue(array($block)))
-        ;
-        
-        $this->initBlocksFactory($block, true);
-        
-        $this->pageManager
-             ->expects($this->never())
-             ->method('set')
-        ;
-        
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    
-    public function testPageHasNotBeenSaved()
-    {
-        $this->initContainer(false, false);
-        $this->configureDbAndActiveTheme(1, 0, 1, 0);    
-        $this->configureFactoryRepository(false);
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=homepage&templates[0][slots][0][slot_placeholder]=al_slot_home_left_sidebar&templates[0][slots][0][slot]=al_map_top_section_1';
-        $this->initRequest($data);
-        
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageRepository
-             ->expects($this->once())
-             ->method('fromTemplateName')
-             ->will($this->returnValue(array($page)))
-        ;
-        
-        $this->pageManager
-             ->expects($this->once())
-             ->method('set')
-             ->with($page)
-        ;
-        
-        $this->pageManager
-             ->expects($this->once())
-             ->method('save')
-             ->will($this->returnValue(false))
-        ;
-        
-        $this->blockRepository
-             ->expects($this->never())
-             ->method('retrieveContents')
-        ;
-        
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    public function testPageHasBeenSaved()
-    {
-        $this->initContainer();
-        $this->configureDbAndActiveTheme(1, 1, 0, 1);    
-        $this->configureFactoryRepository();
-        
-        $data = 'theme=BusinessWebsiteThemeBundle&templates[0][new_template]=home&templates[0][old_template]=homepage&templates[0][slots][0][slot_placeholder]=al_slot_home_left_sidebar&templates[0][slots][0][slot]=al_map_top_section_1';
-        $this->initRequest($data);
-        
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $this->pageRepository
-             ->expects($this->once())
-             ->method('fromTemplateName')
-             ->will($this->returnValue(array($page)))
-        ;
-        
-        $this->pageManager
-             ->expects($this->once())
-             ->method('set')
-             ->with($page)
-        ;
-        
-        $this->pageManager
-             ->expects($this->once())
-             ->method('save')
-             ->will($this->returnValue(true))
-        ;
-        
-        $block = $this->initBlock();
-        $this->blockRepository
-             ->expects($this->once())
-             ->method('retrieveContents')
-             ->will($this->returnValue(array($block)))
-        ;
-        
-        $this->initBlocksFactory($block, true);
-        
-        $response = $this->controller->saveActiveThemeAction();
-        $this->assertEquals($this->response, $response);
-    }
-    
-    private function initBlock()
-    {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        
-        return $block;
-    }
-    
-    private function initBlocksFactory($block, $saveResult)
-    {
-        $this->blockManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+        $blockManager = 
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
-        $this->blockManager
-             ->expects($this->once())
-             ->method('save')
-             ->will($this->returnValue($saveResult))
-        ;
+        if (null === $content) {
+            $blockManager 
+                 ->expects($this->once())
+                 ->method('getDefaultValue')
+                 ->will($this->returnValue(array('Content' => 'default content')));
+            ;
+        }
         
-        $this->blocksFactory
-             ->expects($this->once())
-             ->method('createBlockManager')
-             ->with($block)
-             ->will($this->returnValue($this->blockManager))
-        ;
+        return $blockManager;
     }
-    
-    private function initContainer($hasBlockManager = true, $hasActiveTheme = true)
+        
+    protected function initContainer()
     {
         $this->container
              ->expects($this->at(0))
              ->method('get')
-             ->with('request')
-             ->will($this->returnValue($this->request));
+             ->with('kernel')
+             ->will($this->returnValue($this->kernel));
 
         $this->container
              ->expects($this->at(1))
              ->method('get')
-             ->with('alpha_lemon_cms.page_manager')
-             ->will($this->returnValue($this->pageManager));
+             ->with('alpha_lemon_theme_engine.themes')
+             ->will($this->returnValue($this->themes));
 
         $this->container
              ->expects($this->at(2))
@@ -431,80 +281,50 @@ class ThemePreviewControllerTest extends TestCase
              ->with('alpha_lemon_cms.factory_repository')
              ->will($this->returnValue($this->factoryRepository));
         
-        $at = 3;
-        if ($hasBlockManager) {
-            $this->container
-                 ->expects($this->at($at))
-                 ->method('get')
-                 ->with('alpha_lemon_cms.block_manager_factory')
-                 ->will($this->returnValue($this->blocksFactory));
-            $at++;
-        }
-        
-        if ($hasActiveTheme) {
-            $this->container
-                 ->expects($this->at($at))
-                 ->method('get')
-                 ->with('alpha_lemon_theme_engine.active_theme')
-                 ->will($this->returnValue($this->activeTheme));
-            $at++;
-        }
+        $this->container
+             ->expects($this->at(3))
+             ->method('get')
+             ->with('alpha_lemon_cms.block_manager_factory')
+             ->will($this->returnValue($this->blocksFactory));
         
         $this->container
-             ->expects($this->at($at))
+             ->expects($this->at(4))
+             ->method('get')
+             ->with('alpha_lemon_theme_engine.active_theme')
+             ->will($this->returnValue($this->activeTheme));
+        
+        $session =
+            $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        $session
+            ->expects($this->once())
+            ->method('setFlash')
+            ->with('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
+        ;
+                
+        $this->container->expects($this->at(9))
+            ->method('get')
+            ->with('session')
+            ->will($this->returnValue($session));
+        
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request
+            ->expects($this->once())
+            ->method('getBaseUrl')
+            ->will($this->returnValue(''))
+        ;
+        
+        $this->container->expects($this->at(13))
+            ->method('get')
+            ->with('request')
+            ->will($this->returnValue($request));
+        
+        $this->container
+             ->expects($this->at(15))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($this->templating));
-    }
-    
-    private function initRequest($data)
-    {
-        $this->request
-             ->expects($this->once())
-             ->method('get')
-             ->with('data')
-             ->will($this->returnValue($data));
-    }
-    
-    private function configureDbAndActiveTheme($startTransaction = 1, $commit = 1, $rollback = 1, $activeTheme = 1)
-    {
-        $this->pageRepository
-             ->expects($this->exactly($startTransaction))
-             ->method('startTransaction')
-        ;
-        
-        $this->pageRepository
-             ->expects($this->exactly($commit))
-             ->method('commit')
-        ;
-        
-        $this->pageRepository
-             ->expects($this->exactly($rollback))
-             ->method('rollback')
-        ;
-        
-        $this->activeTheme
-             ->expects($this->exactly($activeTheme))
-             ->method('writeActiveTheme')
-        ;
-    }
-    
-    private function configureFactoryRepository($createsBlocksRepository = true)
-    {
-        $this->factoryRepository
-             ->expects($this->at(0))
-             ->method('createRepository')
-             ->with('Page')
-             ->will($this->returnValue($this->pageRepository))
-        ;
-        
-        if ($createsBlocksRepository) {
-            $this->factoryRepository
-                 ->expects($this->at(1))
-                 ->method('createRepository')
-                 ->with('Block')
-                 ->will($this->returnValue($this->blockRepository))
-            ;
-        }
     }
 }

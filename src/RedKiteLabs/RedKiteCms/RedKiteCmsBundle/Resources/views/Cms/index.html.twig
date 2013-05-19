@@ -143,7 +143,6 @@
     <div class="clearfix"></div>    
 </div>
 
-
 <div id="al_tab">
     <div class="al_tab al_tab_open">&nbsp;</div>
     <div class="al_tab al_tab_close" style="display: none">&nbsp;</div>
@@ -177,7 +176,7 @@
     {% if slots|length > 0 %}
     <div id="al_toggle_slots_changer">
         <a href="#" id="al_start_slots_management">
-            <span class="al_img_edit al_tab_text pull-left"><p>Slots</p></span>
+            <span class="al_img_slots al_tab_text pull-left"><p>Slots</p></span>
         </a>
         <a href="#" id="al_stop_slots_management" style="display: none">
             <span class="al_img_stop_edit al_tab_text pull-left"><p>Stop</p></span>
@@ -185,9 +184,9 @@
         <div class="clearfix"></div>    
     </div>
         
-    <div id="al_toggle_edit_buttons">
-        <a href="#" id="al_finalize_slots">
-            <span class="al_img_edit al_tab_text pull-left"><p>Finalize</p></span>
+    <div id="">
+        <a href="#" id="al_finalize_theme">
+            <span class="al_img_finalize al_tab_text pull-left"><p>Finalize</p></span>
         </a>  
     </div>
     {% endif %}
@@ -210,7 +209,7 @@
 
 {% if slots|length > 0 %}
 <div id="al_old_slots" class="al_floating_panel al_slots_panel" style="display: none">
-    {% include 'AlphaLemonCmsBundle:Cms:template_slots_panel.html.twig' %}
+    {% include 'AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig' %}
 </div>
 {% endif %}
 
