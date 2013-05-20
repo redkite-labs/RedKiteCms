@@ -75,7 +75,7 @@ class AlTemplateSlots
             $previousThemeName = $previousThemeStructure['Theme'];
             $templateKey = $languageId . '-' . $pageId;
             if ( ! array_key_exists($templateKey, $previousThemeStructure["Templates"])) {
-                return array();
+                return $this;
             }
             $previousTemplateName = $previousThemeStructure["Templates"][$templateKey];
             $previousTheme = $themes->getTheme($previousThemeName);   
