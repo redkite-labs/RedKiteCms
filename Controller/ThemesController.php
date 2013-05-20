@@ -60,7 +60,7 @@ class ThemesController extends BaseController
             $currentTheme->writeActiveTheme($themeName);
             
             return new Response('The theme has been changed. Please wait while your site is reloading', 200);            
-        } catch (\Exception $e) {            
+        } catch (\Exception $e) {
             return $this->renderThemeChanger($e->getMessage());
         }
     }
@@ -80,21 +80,49 @@ class ThemesController extends BaseController
             ->getSlots()
         ;
         
-        $values = array(
-            array(
-                'key' => 'slots',
-                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array('slots' => $slots)),            
-            ),            
+        $values = array(                       
             array(
                 'key' => 'message',
                 'value' => $message,
             ),
+            array(
+                'key' => 'slots',
+                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array('slots' => $slots)),            
+            ), 
         );
         
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+    
+    public function showThemesFinalizerAction()
+    {
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_finalizer.html.twig');
+    }
+    
+    public function finalizeThemeAction()
+    {
+        $request = $this->container->get('request');
+        $action = $request->get('action');
+           
+        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+        $result = $themeChanger->finalize($action);        
+        if ($result) {
+            $message = "The theme has been finalized";
+            $statusCode = 200;
+            
+            if ($action == 'full') {
+                unlink($this->container->getParameter('alpha_lemon_cms.theme_structure_file'));
+            }
+        }
+        else {
+            $message = "The theme has not been finalized due to an error occoured when saving to database";
+            $statusCode = 404;
+        }
+
+        return new Response($message, $statusCode);
     }
     
     public function startFromThemeAction()
@@ -128,36 +156,6 @@ class ThemesController extends BaseController
         $response->setStatusCode($statusCode);
 
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);        
-    }
-    
-    public function showThemesFinalizerAction()
-    {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_finalizer.html.twig');
-    }
-    
-    public function finalizeThemeAction()
-    {
-        $request = $this->container->get('request');
-        $action = $request->get('action');
-           
-        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
-        $result = $themeChanger->finalize($action);        
-        if ($result) {
-            $message = "The theme has been finalized";
-            $statusCode = 200;
-            
-            
-        if ($action == 'full') {
-            unlink($this->container->getParameter('alpha_lemon_cms.theme_structure_file'));
-        }
-            
-        }
-        else {
-            $message = "The theme has not been finalized due to an error occoured when saving to database";
-            $statusCode = 404;
-        }
-
-        return new Response($message, $statusCode);
     }
 
     protected function renderThemeChanger($error = null)
