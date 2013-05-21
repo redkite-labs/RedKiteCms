@@ -201,13 +201,6 @@ function UpdatePagesJSon(response)
             case "permalinks":
                 $('#al_page_name').remove()
                 $('body').append(item.value);
-                
-                /*
-                $('#al_pages_navigator_box').html(item.value);
-                $('#al_pages_navigator').change(function()
-                {
-                    Navigate();
-                });*/
                 break;
             case "permalink":
                 if($('#seo_attributes_permalink').val() != item.value) $('#seo_attributes_permalink').val(item.value);
