@@ -20,7 +20,7 @@
     {% set class = "" %}
 {% endif %}
   <div>
-      {% if activePage is defined and page == activePage %}
+    {% if active_page is defined and page == active_page %}
         {{ page }}
     {% else %}
         <a href="#" class="al_element_selector {{ class }}" ref="{{ key }}">{{ page }}</a>
