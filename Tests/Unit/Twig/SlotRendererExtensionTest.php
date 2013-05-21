@@ -105,6 +105,46 @@ class SlotRendererExtensionTest extends TestCase
         $this->slotRenderer->renderSlot('logo');
     }
     
+    public function testScriptsAreNotRenderedInEditMode()
+    {
+        $value = array(
+            "Block" => array(
+                "Id" => "10",
+                "SlotName" => "logo",
+                "Type" => "Script",
+            ),
+            "Content" => "<script>my awesome script</script>",
+            "InternalJavascript" => "",
+            "EditInline" => false,
+        );
+                
+        $blockManager = $this->setUpBlockManager($value);
+        $blockManager->expects($this->never())
+            ->method('editorParameters');
+        
+        $blockManagers = array($blockManager);
+        $this->pageTree->expects($this->once())
+            ->method('getBlockManagers')
+            ->will($this->returnValue($blockManagers));
+        
+        $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
+        $engine->expects($this->once())
+                        ->method('render')
+        ;
+        
+        $this->container->expects($this->at(0))
+                        ->method('get')
+                        ->with('alpha_lemon_cms.page_tree')
+                        ->will($this->returnValue($this->pageTree));
+
+        $this->container->expects($this->at(1))
+                        ->method('get')
+                        ->with('templating')
+                        ->will($this->returnValue($engine));
+        
+        $this->slotRenderer->renderSlot('logo');
+    }
+    
     /**
      * @dataProvider renderSlotProvider
      */
@@ -243,46 +283,6 @@ class SlotRendererExtensionTest extends TestCase
                         ->method('get')
                         ->with('alpha_lemon_cms.view_renderer')
                         ->will($this->returnValue($viewRenderer));
-        
-        $this->slotRenderer->renderSlot('logo');
-    }
-    
-    public function testSlotMap()
-    {
-        $this->markTestSkipped(
-            'Does not work correctly the very first time is runned by the full test suite.'
-        );
-        
-        $value = array(
-            "Block" => array(
-                "Id" => null,
-                "SlotName" => "logo",
-            ),
-            "Content" => "my awesome content",
-        );
-        $blockManagers = array($this->setUpBlockManager($value));
-        $this->pageTree->expects($this->once())
-            ->method('getBlockManagers')
-            ->will($this->returnValue($blockManagers));
-        
-        $expected = array(
-            "slot_name" => "logo",
-            "content" => "my awesome content",
-        );
-        $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $templating->expects($this->once())
-                        ->method('render')
-                        ->with('AlphaLemonCmsBundle:Slot:map_slot.html.twig', $expected);
-
-        $this->container->expects($this->at(0))
-                        ->method('get')
-                        ->with('alpha_lemon_cms.page_tree')
-                        ->will($this->returnValue($this->pageTree));
-
-        $this->container->expects($this->at(1))
-                        ->method('get')
-                        ->with('templating')
-                        ->will($this->returnValue($templating));
         
         $this->slotRenderer->renderSlot('logo');
     }
@@ -905,29 +905,6 @@ class SlotRendererExtensionTest extends TestCase
                     "edit_inline" => true,
                 ),
             ),
-            /* TODO
-            array(
-                array(
-                    "Block" => array(
-                        "Id" => "10",
-                        "SlotName" => "logo",
-                        "Type" => "Text",
-                    ),
-                    "Content" => "<script>my awesome script</script>",
-                    "InternalJavascript" => "",
-                    "EditInline" => false,
-                ),
-                array(
-                    "block_id" => 10,
-                    "hide_in_edit_mode" => "",
-                    "slot_name" => "logo",
-                    "type" => "Text",
-                    "content" => "A script content is not rendered in editor mode",
-                    "contents_hidden_script" => "",
-                    "internal_javascript" => "",
-                    "edit_inline" => false,
-                ),
-            ),*/
         );
     }
     

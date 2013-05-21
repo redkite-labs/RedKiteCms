@@ -83,18 +83,9 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             $slotName = $block["Block"]["SlotName"];
             $content = $this->blockContentToHtml($block['Content']);
             
-            /* TODO
             if (strpos($content, '<script') !== false) {
                 $content = "A script content is not rendered in editor mode";
-            }*/
-
-            if (null === $block['Block']["Id"]) {
-                return $templating->render('AlphaLemonCmsBundle:Slot:map_slot.html.twig', array(
-                    'slot_name' => $slotName,
-                    'content' => $content,
-                ));
             }
-            
             
             $internalJavascript = (string)$block["InternalJavascript"];
             $internalJavascript = ($internalJavascript != "" && (bool)$block["ExecuteInternalJavascript"]) ? $internalJavascript : '';
