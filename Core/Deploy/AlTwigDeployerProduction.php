@@ -27,7 +27,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
  */
 class AlTwigDeployerProduction extends AlTwigDeployer
 {
-    
     /**
      * {@inheritdoc}
      */    

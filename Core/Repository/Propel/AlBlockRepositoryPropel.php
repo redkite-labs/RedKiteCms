@@ -56,11 +56,11 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     {
         return AlBlockQuery::create()->findPk($id);
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function retrieveContentsQuery($idLanguage, $idPage, $slotName = null, $toDelete = 0)
+    public function retrieveContents($idLanguage, $idPage, $slotName = null, $toDelete = 0)
     {
         return AlBlockQuery::create()
                 ->_if($idPage)
@@ -71,17 +71,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->_endif()
                 ->_if($slotName)
                     ->filterBySlotName($slotName)
-                ->_endif();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function retrieveContents($idLanguage, $idPage, $slotName = null, $toDelete = 0)
-    {
-        $query = $this->retrieveContentsQuery($idLanguage, $idPage, $slotName, $toDelete);
-        
-        return $query
+                ->_endif()
                 ->filterByToDelete($toDelete)
                 ->orderBySlotName()
                 ->orderByContentPosition()
