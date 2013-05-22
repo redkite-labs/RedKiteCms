@@ -14,9 +14,11 @@
 #}
 
 {% for key, language in languages %}
+    <div>
     {% if active_language is defined and language == active_language %}
         {{ language }}
     {% else %}
-        <div><a href="#" class="al_element_selector" ref="{{ key }}">{{ language }}</a></div>
+        <a href="#" class="al_element_selector" ref="{{ key }}">{{ language }}</a>
     {% endif %}  
+    </div>
 {% endfor %}
