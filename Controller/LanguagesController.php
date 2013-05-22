@@ -119,11 +119,12 @@ class LanguagesController extends Base\BaseController
     protected function buildJSonHeader($message, $language = null)
     {
         $request = $this->container->get('request');
-        $languages = ChoiceValues::getLanguages($this->createLanguageRepository());
-
+        $languages = $languagesList = ChoiceValues::getLanguages($this->createLanguageRepository());
+        unset($languagesList['none']);
+        
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
-        $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Languages:languages_list.html.twig', array('languages' => $languages, 'active_language' => $request->get('language'),)));
+        $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Languages:languages_list.html.twig', array('languages' => $languagesList, 'active_language' => $request->get('language'),)));
         $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig', array('id' => 'al_languages_navigator', 'type' => 'al_language_item', 'value' => (null !== $language) ? $language->getId() : 0, 'text' => $request->get('language'), 'items' => $languages)));
         
         $response = new Response(json_encode($values));

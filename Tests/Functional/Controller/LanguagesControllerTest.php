@@ -85,14 +85,16 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("languages", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<a[^\>]+ref=\"2\"\>en\<\/a\>/s", $json[1]["value"]);
+        $this->assertNotRegExp("/\<a[^\>]+ref=\"2\"\>en\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/en/s", $json[1]["value"]);
         $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>fr\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));        
-        $this->assertRegExp("/\<select id=\"al_languages_navigator\"[^\>]+\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"2\" rel=\"en\" \>en/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"3\" rel=\"fr\" \>fr/s", $json[2]["value"]);
+        $this->assertRegExp("/\<ul class=\"dropdown-menu[^\>]+\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"none\"[^\>]+\>\<a href=\"#\"\> \<\/a\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"2\"[^\>]+\>\<a href=\"#\"\>en\<\/a\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>fr\<\/a\>/s", $json[2]["value"]);
 
         $language = $this->languageRepository->fromPk(3);
         $this->assertNotNull($language);
@@ -258,9 +260,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<a[^\>]+ref=\"4\"\>es\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[2]));        
-        $this->assertRegExp("/\<option value=\"3\" rel=\"it\" \>it/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"4\" rel=\"es\" \>es/s", $json[2]["value"]);
+        $this->assertTrue(array_key_exists("value", $json[2]));    
+        $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>it\<\/a\>/s", $json[2]["value"]);
+        $this->assertRegExp("/\<li id=\"4\"[^\>]+\>\<a href=\"#\"\>es\<\/a\>/s", $json[2]["value"]);
 
         $page = $this->languageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());
