@@ -19,7 +19,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterBase;
 
 /**
  * AlTwigDeployer extends the base deployer class to deploy the website for stage environment

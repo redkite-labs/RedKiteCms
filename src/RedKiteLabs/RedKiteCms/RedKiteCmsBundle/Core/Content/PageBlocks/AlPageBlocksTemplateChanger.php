@@ -17,9 +17,8 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks;
 
-
 /**
- * Extends the AlPageBlocks class to load blocks from the database
+ * Extends the AlPageBlocks class to load blocks of previous theme
  *
  * @author alphalemon <webmaster@alphalemon.com>
  * 

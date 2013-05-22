@@ -65,6 +65,8 @@ abstract class AlDeployer implements AlDeployerInterface
      * Returns the folder where the template files must be written
      * 
      * @return string
+     * 
+     * @api
      */
     abstract protected function getTemplatesFolder();
     
@@ -72,6 +74,8 @@ abstract class AlDeployer implements AlDeployerInterface
      * Returns a prefix for routes
      * 
      * @return string
+     * 
+     * @api
      */
     abstract protected function getRoutesPrefix();
 
