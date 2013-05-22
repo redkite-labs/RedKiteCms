@@ -336,11 +336,11 @@
   color: white;
   font: bold 16px Arial, Verdana, Helvetica, sans-serif;
 }
-#al_main_commands .al_img_edit, #al_main_commands al_img_stop_edit, #al_main_commands .al_img_slots, #al_main_commands .al_img_finalize, #al_main_commands .al_img_back {
+#al_main_commands .al_img_edit, #al_main_commands .al_img_stop_edit, #al_main_commands .al_img_slots, #al_main_commands .al_img_finalize, #al_main_commands .al_img_back {
   width: 93px;
   height: 47px;
 }
-#al_main_commands .al_img_edit p, #al_main_commands al_img_stop_edit p, #al_main_commands .al_img_slots p, #al_main_commands .al_img_finalize p, #al_main_commands .al_img_back p {
+#al_main_commands .al_img_edit p, #al_main_commands .al_img_stop_edit p, #al_main_commands .al_img_slots p, #al_main_commands .al_img_finalize p, #al_main_commands .al_img_back p {
   padding-left: 38px;
   padding-top: 10px;
 }
