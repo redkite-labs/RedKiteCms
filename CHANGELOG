@@ -1,3 +1,11 @@
+1.1 Beta-3 (2013-05-23)
+55b7d35 rewritten the interface and the CMS behavior when the current theme must be changed
+        fixed theme preview
+eb15fe1 enabled the control to disable a javascript code inside a script tag when the edit mode is active and added unit test
+cf6ef7a fixed refresh languages navigation list
+a8e89b7 added block to avoid to change the active language
+------- updated several unit and functional tests
+
 1.1 Beta-3 (2013-05-08)
 78d7438 fixed a bug due to missing updated of cms navigation route when starting form a new Theme
 8001b59 updated unit test due to change in base json form
