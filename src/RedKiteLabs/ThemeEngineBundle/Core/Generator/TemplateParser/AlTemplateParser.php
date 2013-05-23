@@ -14,6 +14,8 @@ use Symfony\Component\Yaml\Yaml;
 class AlTemplateParser
 {
     private $templatesDir;
+    private $kernelDir;
+    private $themeName;
     private $ymlParser;
 
     /**
@@ -21,9 +23,11 @@ class AlTemplateParser
      *
      * @param string $templatesDir
      */
-    public function __construct($templatesDir)
+    public function __construct($templatesDir, $kernelDir, $themeName)
     {
         $this->templatesDir = $templatesDir;
+        $this->kernelDir = $kernelDir;
+        $this->themeName = $themeName;
         $this->ymlParser = new Yaml();
     }
 
@@ -36,8 +40,11 @@ class AlTemplateParser
     public function parse()
     {
         $templates = array();
-        $finder = new Finder();
-        $templateFiles = $finder->files('*.twig')->in($this->templatesDir);
+        $finder = new Finder(); 
+        $templateFiles = $finder->files('*.twig')->in(array(
+            $this->templatesDir, 
+            $this->kernelDir . '/Resources/views/' . $this->themeName)
+        );
         foreach ($templateFiles as $template) {
             $template = (string)$template;
             $templateName = basename($template);
@@ -53,7 +60,9 @@ class AlTemplateParser
             $templates[$templateName]['assets']['external_stylesheets_cms'] = $this->fetchExternalStylesheetsCms($templateContents);
             $templates[$templateName]['assets']['external_javascripts_cms'] = $this->fetchExternalJavascriptsCms($templateContents);
             $templates[$templateName]['slots'] = $slots;
-            $templates[$templateName]['generate_template'] = dirname($template) == $this->templatesDir;
+            if (strpos($template, $this->kernelDir) === false) {
+                $templates[$templateName]['generate_template'] = dirname($template) == $this->templatesDir;
+            }
         }
         
         return $templates;
@@ -157,7 +166,9 @@ class AlTemplateParser
             $attributes = array_intersect_key($parsedAttributes, $validAttributes);
             $wrongAttributes = array_diff_key($parsedAttributes, $validAttributes);
             $slots[$slotName] = $attributes;
-            if (count($wrongAttributes) > 0) $slots[$slotName]['errors'] = $wrongAttributes;
+            if (count($wrongAttributes) > 0) {
+                $slots[$slotName]['errors'] = $wrongAttributes;
+            }
         }
 
         return $slots;

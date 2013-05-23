@@ -34,7 +34,17 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
     {
         parent::setUp();
 
-        $this->root = vfsStream::setup('root', null, array('slots'));
+        $this->root = vfsStream::setup('root', null, array(
+            'slots',
+            'app' => array(
+                'Resources' => array(
+                    'views' => array(
+                        'MyThemeBundle' => array(
+                        ),
+                    ),
+                ),
+            ),
+        ));
         
         $skeletonDir = __DIR__ . '/../../../../Resources/skeleton';
         if ( ! is_dir($skeletonDir)) {

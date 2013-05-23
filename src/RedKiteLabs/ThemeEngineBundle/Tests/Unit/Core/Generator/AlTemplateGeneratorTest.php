@@ -33,7 +33,17 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
     {
         parent::setUp();
 
-        $this->root = vfsStream::setup('root', null, array('template'));
+        $this->root = vfsStream::setup('root', null, array(
+            'template',
+            'app' => array(
+                'Resources' => array(
+                    'views' => array(
+                        'MyThemeBundle' => array(
+                        ),
+                    ),
+                ),
+            ),
+        ));
         vfsStream::copyFromFileSystem(__DIR__ . '/../../../../Resources/skeleton', $this->root);
 
         $this->templateGenerator = new AlTemplateGenerator(vfsStream::url('root/app-theme'));

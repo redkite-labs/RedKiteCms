@@ -37,7 +37,7 @@ class AlGeneratorBase extends TestCase
 
         $this->root = vfsStream::setup('root');
 
-        $this->parser = new AlTemplateParser(vfsStream::url('root'));
+        $this->parser = new AlTemplateParser(vfsStream::url('root'), vfsStream::url('root/app'), 'MyThemeBundle');
     }
 
     protected function importDefaultTheme()

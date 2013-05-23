@@ -35,8 +35,18 @@ class AlTemplateParserTest extends AlGeneratorBase
     {
         parent::setUp();
 
-        $this->root = vfsStream::setup('root', null, array('Theme' => array()));
-        $this->parser = new AlTemplateParser(vfsStream::url('root/Theme'));
+        $this->root = vfsStream::setup('root', null, array(
+            'Theme' => array(),
+            'app' => array(
+                'Resources' => array(
+                    'views' => array(
+                        'MyThemeBundle' => array(
+                        ),
+                    ),
+                ),
+            ),
+        ));
+        $this->parser = new AlTemplateParser(vfsStream::url('root/Theme'), vfsStream::url('root/app'), 'MyThemeBundle');
     }
     
     public function testTemplatesWhichContainsAnySlotAreSkipped()
@@ -187,8 +197,17 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->assertTrue(array_key_exists('slots', $template));
         $this->assertCount(1, $template['slots']);
     }
+    
+    public function testOverrideTemplate()
+    {
+        $this->importDefaultTheme(true);
+        $information = $this->parser->parse();
 
-    protected function importDefaultTheme()
+        $template = $information['home.html.twig'];
+        $this->assertCount(14, $template['slots']);
+    }
+
+    protected function importDefaultTheme($overrideTemplate = false)
     {
         $baseThemeDir = __DIR__ . '/../../../../../../../../business-website-theme-bundle/AlphaLemon/Theme/BusinessWebsiteThemeBundle/Resources/views/Theme';
         if ( ! is_dir($baseThemeDir)) { 
@@ -201,5 +220,22 @@ class AlTemplateParserTest extends AlGeneratorBase
         }
         
         vfsStream::copyFromFileSystem($baseThemeDir, $this->root->getChild('Theme'));
+        
+        if ($overrideTemplate) {
+            $overridingTemplate = vfsStream::url('root/app/Resources/views/MyThemeBundle/home.html.twig');
+
+            copy(vfsStream::url('root/Theme/home.html.twig'), $overridingTemplate);
+            $contents = file_get_contents($overridingTemplate);
+            $contents .= '{% block left_sidebar %}
+                    {# BEGIN-SLOT
+                        name: left_sidebar
+                        htmlContent: |
+                            <h1>Title 1</h1>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.</p>
+                    END-SLOT #}
+                    {{ renderSlot(\'left_sidebar\') }}
+                {% endblock %}';
+            file_put_contents($overridingTemplate, $contents);
+        }
     }
 }
