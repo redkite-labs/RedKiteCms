@@ -352,8 +352,8 @@ class SlotRendererExtensionTest extends TestCase
         ;
         
         $blocksRepository->expects($this->once())
-            ->method('retrieveContentsBySlotName')
-            ->with($key)
+            ->method('retrieveContents')
+            ->with(null, null, $key)
             ->will($this->returnValue(array()))
         ;
         
@@ -396,8 +396,8 @@ class SlotRendererExtensionTest extends TestCase
         ;
         
         $blocksRepository->expects($this->once())
-            ->method('retrieveContentsBySlotName')
-            ->with($key)
+            ->method('retrieveContents')
+            ->with(null, null, $key)
             ->will($this->returnValue($blocks))
         ;
         
