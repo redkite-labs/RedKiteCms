@@ -56,7 +56,7 @@ class AlAssetsPath
     {
         $uploaderFolder = self::getUploadFolder($container);
         $uploaderFolder = (empty($uploaderFolder)) ? '/' : '/' . $uploaderFolder;
-                
-        return '/' . $container->getParameter('alpha_lemon_cms.web_folder') . $uploaderFolder;
+        
+        return $uploaderFolder;
     }
 }
