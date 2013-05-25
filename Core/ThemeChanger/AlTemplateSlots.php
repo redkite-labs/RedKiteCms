@@ -138,7 +138,7 @@ class AlTemplateSlots
                         ->setEditorDisabled(true)
                         ->getHtml()
                     ;
-
+                    
                     $slotContents[] = (is_array($content)) ? $viewsRenderer->render($content['RenderView']) : $content; 
                     $toDelete = $blockManager->get()->getToDelete();
                 }

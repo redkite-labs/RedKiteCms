@@ -127,7 +127,7 @@ class AlThemeChangerTest extends TestCase
     /**
      * @dataProvider slotsProvider
      */
-    public function testChangeSlot($sourceSlotName, $targetSlotName, $sourceBlocks, $targetBlocks, $expectedResult)
+    public function testChangeSlot($sourceSlotName, $targetSlotName, $sourceBlocks, $targetBlocks, $expectedResult, $sourceIncludedBlocks = array(), $targetIncludedBlocks = array())
     {
         $this->blockRepository
              ->expects($this->at(0))
@@ -149,7 +149,22 @@ class AlThemeChangerTest extends TestCase
                 'ToDelete' => 0,
             ), $callingCounter);
         $this->checkSaveResult($sourceBlocks);
-           
+        
+        if ( ! empty($sourceIncludedBlocks)) {
+            $this->blockRepository
+                 ->expects($this->at(5))
+                 ->method('retrieveContentsBySlotName')
+                 ->with('%2%', array(2, 3))
+                 ->will($this->returnValue($this->extractBlocks($sourceIncludedBlocks)))
+            ;
+            if ($result) {
+                $result = $this->initBlocks($sourceIncludedBlocks, array(
+                        'ToDelete' => 0,
+                    ), $callingCounter);
+                $this->checkSaveResult($sourceIncludedBlocks);
+            }
+        }
+        
         if ($result) {
             $this->initBlocks($targetBlocks, array(
                 'SlotName' => $sourceSlotName,
@@ -159,6 +174,22 @@ class AlThemeChangerTest extends TestCase
             $this->checkSaveResult($sourceBlocks, 1);
         }
         
+        if ($result && ! empty($targetIncludedBlocks)) {
+            $this->blockRepository
+                 ->expects($this->at(10))
+                 ->method('retrieveContentsBySlotName')
+                 ->with('%2%', 0)
+                 ->will($this->returnValue($this->extractBlocks($targetIncludedBlocks)))
+            ;
+            
+            if ($result) {
+                $result = $this->initBlocks($targetIncludedBlocks, array(
+                        'ToDelete' => 3,
+                    ), $callingCounter);
+                $this->checkSaveResult($targetIncludedBlocks);
+            }
+        }
+                
         $result = $this->themeChanger->changeSlot($sourceSlotName, $targetSlotName);
         $this->assertEquals($expectedResult, $result);
     }
@@ -296,7 +327,94 @@ class AlThemeChangerTest extends TestCase
                     ),
                 ),
                 "The slot has not been changed due to an error occoured when saving to database",
-            ),
+            ), 
+            array(
+                "logo",
+                "site_logo",
+                array(
+                    array(
+                        'block' => $this->initBlock(2),
+                        'result' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'block' => $this->initBlock(2),
+                        'result' => true,
+                    ),
+                ),
+                "The slot has been changed",
+                array(
+                    array(
+                        'block' => $this->initBlock(),
+                        'result' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'block' => $this->initBlock(),
+                        'result' => true,
+                    ),
+                ),
+            ), 
+            array(
+                "logo",
+                "site_logo",
+                array(
+                    array(
+                        'block' => $this->initBlock(2),
+                        'result' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'block' => $this->initBlock(2),
+                        'result' => true,
+                    ),
+                ),
+                "The slot has not been changed due to an error occoured when saving to database",
+                array(
+                    array(
+                        'block' => $this->initBlock(),
+                        'result' => false,
+                    ),
+                ),
+                array(
+                    array(
+                        'block' => $this->initBlock(),
+                        'result' => true,
+                    ),
+                ),
+            ),  
+            array(
+                "logo",
+                "site_logo",
+                array(
+                    array(
+                        'block' => $this->initBlock(2),
+                        'result' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'block' => $this->initBlock(2),
+                        'result' => true,
+                    ),
+                ),
+                "The slot has not been changed due to an error occoured when saving to database",
+                array(
+                    array(
+                        'block' => $this->initBlock(),
+                        'result' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        'block' => $this->initBlock(),
+                        'result' => false,
+                    ),
+                ),
+            ), 
         );
     }
     
@@ -479,12 +597,6 @@ class AlThemeChangerTest extends TestCase
              ->will($this->returnSelf());
         ;
         
-        $blockManager 
-             ->expects($this->once())
-             ->method('save')
-             ->will($this->returnValue($result));
-        ;
-        
         if (null !== $value) {
             $blockManager 
                  ->expects($this->once())
@@ -589,9 +701,18 @@ class AlThemeChangerTest extends TestCase
         return $page;
     }
     
-    protected function initBlock()
+    protected function initBlock($id = null)
     {
-        return $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');        
+        if (null !== $id) {
+            $block
+                ->expects($this->once())
+                ->method('getId')
+                ->will($this->returnValue($id))
+            ;
+        }
+    
+        return $block;
     }
     
     protected function initTheme($themeName)

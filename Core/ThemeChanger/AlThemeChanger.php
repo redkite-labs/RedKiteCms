@@ -91,6 +91,10 @@ class AlThemeChanger
 
                 return "The slot has not been changed due to an error occoured when saving to database";
             }
+            
+            if ( ! $this->saveIncludedBlocks($sourceBlocks, array(2, 3))) {
+                return "The slot has not been changed due to an error occoured when saving to database";
+            }
 
             $result = $this->saveBlocks($targetBlocks, array(
                 'SlotName' => $sourceSlotName,
@@ -99,6 +103,10 @@ class AlThemeChanger
             if ( ! $result) {
                 $this->blockRepository->rollback();
 
+                return "The slot has not been changed due to an error occoured when saving to database";
+            }
+            
+            if ( ! $this->saveIncludedBlocks($targetBlocks)) {
                 return "The slot has not been changed due to an error occoured when saving to database";
             }
 
@@ -243,6 +251,30 @@ class AlThemeChanger
             $this->blockRepository->commit();
         } else {
             $this->blockRepository->rollback();
+        }
+        
+        return $result;
+    }
+    
+    private function saveIncludedBlocks($blocks, $toDelete = 0)
+    {
+        $result = true;
+        
+        foreach($blocks as $block) {
+            $includedBlocks = $this->blockRepository->retrieveContentsBySlotName('%' . $block->getId() . '%', $toDelete);
+            if (empty($includedBlocks)) {
+                continue;
+            }
+            
+            $result = $this->saveBlocks($includedBlocks, array(
+                'ToDelete' => ($toDelete == 0) ? 3 : 0,
+            ));
+            
+            if ( ! $result) {
+                $this->blockRepository->rollback();
+
+                break;
+            }
         }
         
         return $result;

@@ -176,7 +176,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
     {
         $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
-        $blocks = $repository->retrieveContentsBySlotName($key); 
+        $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3)); 
         
         if (count($blocks) > 0) { 
             $alBlock = $blocks[0];
