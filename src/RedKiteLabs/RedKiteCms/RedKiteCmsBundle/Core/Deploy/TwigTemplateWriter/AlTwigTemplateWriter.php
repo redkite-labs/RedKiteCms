@@ -330,7 +330,7 @@ abstract class AlTwigTemplateWriter
         if (empty($this->replaceImagesPaths) && count(array_diff_key(array('backendPath' => '', 'prodPath' => ''), $this->replaceImagesPaths)) > 0) {
             return $content;
         }
-
+        
         $cmsAssetsFolder = $this->replaceImagesPaths['backendPath'];
         $deployBundleAssetsFolder = $this->replaceImagesPaths['prodPath'];
 
