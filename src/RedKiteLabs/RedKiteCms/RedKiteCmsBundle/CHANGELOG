@@ -1,4 +1,4 @@
-1.1 Beta-3 (2013-05-23)
+1.1 RC (2013-05-23)
 55b7d35 rewritten the interface and the CMS behavior when the current theme must be changed
         fixed theme preview
 eb15fe1 enabled the control to disable a javascript code inside a script tag when the edit mode is active and added unit test
