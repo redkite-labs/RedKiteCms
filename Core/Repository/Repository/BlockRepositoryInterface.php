@@ -60,12 +60,12 @@ interface BlockRepositoryInterface
     public function fromPageId($pageId);
 
     /**
-     * Fetches the block records that belongs the given slot name
+     * Fetches the block records from the given slot name, using the LIKE operator
      *
      * @param string    The slot name
      * @return object A collection of objects
      */
-    public function retrieveContentsBySlotName($slotName);
+    public function retrieveContentsBySlotName($slotName, $toDelete = 0);
 
     /**
      * Fetches the block records from using the Html Content
