@@ -31,6 +31,7 @@ class AlTwigDeployerStageTest extends AlTwigDeployer
     {
         $this->templatesFolder = 'AlphaLemonStage';
         $this->siteRoutingFile = 'site_routing_stage.yml';
+        $this->assetsFolder = 'root\AcmeWebSiteBundle\Resources\public\stage\\';
         
         parent::setUp();
     }
@@ -50,33 +51,33 @@ class AlTwigDeployerStageTest extends AlTwigDeployer
     {
         parent::initContainer();
         
-        $this->container->expects($this->at(10))
+        $this->container->expects($this->at(9))
             ->method('getParameter')
             ->with('alpha_lemon_theme_engine.deploy.stage_templates_folder')
             ->will($this->returnValue($this->templatesFolder));
          
-        $this->container->expects($this->at(16))
+        $this->container->expects($this->at(15))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($this->blockManagerFactory));
 
-        $this->container->expects($this->at(17))
+        $this->container->expects($this->at(16))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.views_dir')
             ->will($this->returnValue('Resources/views'));
         
         
-        $this->container->expects($this->at(18))
+        $this->container->expects($this->at(17))
             ->method('get')
             ->with('alpha_lemon_cms.url_manager_stage')
             ->will($this->returnValue($this->urlManager));
                 
-        $this->container->expects($this->at(19))
+        $this->container->expects($this->at(18))
             ->method('get')
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
         
-        $this->containerAtSequenceAfterObjectCreation = 20;
+        $this->containerAtSequenceAfterObjectCreation = 19;
     }
     
     protected function buildExpectedRoutes($seo)

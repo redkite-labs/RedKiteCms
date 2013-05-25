@@ -214,6 +214,8 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         $this->assertEquals($this->buildExpectedRoutes($seo), file_get_contents(vfsStream::url('root\AcmeWebSiteBundle\Resources\config\\' . $this->siteRoutingFile)));
         $this->checkSiteMap($seo);
         
+        $this->assertFileExists(vfsStream::url($this->assetsFolder));
+        
         $this->checkDirectoryStructure($this->root, $this->buildExpectedStructure($languages, $pages));
         $this->checkTemplateExtension($languages, $pages);
     }
@@ -376,30 +378,25 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $this->container->expects($this->at(8))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.web_folder')
-            ->will($this->returnValue('web'));
-        
-        $this->container->expects($this->at(9))
-            ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.controller')
             ->will($this->returnValue('WebSite'));
         
-        $this->container->expects($this->at(11))
+        $this->container->expects($this->at(10))
                 ->method('get')
                 ->with('alpha_lemon_cms.view_renderer')
                 ->will($this->returnValue($this->viewRenderer));
                 
-        $this->container->expects($this->at(12)) 
+        $this->container->expects($this->at(11)) 
             ->method('getParameter')
             ->with('alpha_lemon_cms.web_folder_full_path')
             ->will($this->returnValue(vfsStream::url('root')));
         
-        $this->container->expects($this->at(13))
+        $this->container->expects($this->at(12))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($this->dispatcher));
         
-        $this->container->expects($this->at(14))
+        $this->container->expects($this->at(13))
             ->method('getParameter')
             ->with('alpha_lemon_cms.love')
             ->will($this->returnValue('yes'));

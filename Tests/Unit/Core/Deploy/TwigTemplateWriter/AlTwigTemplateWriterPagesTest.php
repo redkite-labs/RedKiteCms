@@ -257,7 +257,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
         $section .= "<script>$(document).ready(function(){" . $expectedJsCode . "});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
-
+        
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
 
@@ -357,7 +357,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpTemplateSlots($slots);
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $this->setUpBlockManagerFactory('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">', 1);
+        $this->setUpBlockManagerFactory('<img width="381" height="87" title="Download" alt="download.png" src="/uploads/assets/media/download.png">', 1);
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
@@ -375,7 +375,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
             ->method('getProductionRoute')
             ->will($this->returnValue(null));
 
-        $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
+        $imagesPath = array('backendPath' => "/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
         $twigTemplateWriter->generateTemplate();

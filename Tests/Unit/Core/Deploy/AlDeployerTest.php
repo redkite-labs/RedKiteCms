@@ -129,11 +129,6 @@ class AlDeployerTest extends \AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase
         
         $this->container->expects($this->at(8))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.web_folder')
-            ->will($this->returnValue('web'));
-        
-        $this->container->expects($this->at(9))
-            ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.controller')
             ->will($this->returnValue('WebSite'));
     }
