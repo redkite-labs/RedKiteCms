@@ -88,7 +88,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         ;
         
         if (null === $this->templateParser) {
-            $this->templateParser = new AlTemplateParser($dir . 'Resources/views/Theme');
+            $this->templateParser = new AlTemplateParser($dir . 'Resources/views/Theme', $kernel->getRootDir(), $themeName);
         }
 
         if (null === $this->templateGenerator) {
