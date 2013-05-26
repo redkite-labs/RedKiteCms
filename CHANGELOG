@@ -1,3 +1,9 @@
+1.1 RC1 (2013-05-26)
+0e386c8 changed the behavior of retrieveContentsBySlotName using the LIKE operator
+9a1aa93 included blocks are now correctly chenged when the includer block is recovered
+067f8a2 changed the path where assets are copied when deploying the stage environment. In this way, the production environment is totally isolated from the production one
+b779ab7 fixed getAbsoluteUploadFolder which was not correct
+
 1.1 RC (2013-05-23)
 55b7d35 rewritten the interface and the CMS behavior when the current theme must be changed
         fixed theme preview
