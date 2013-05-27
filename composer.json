@@ -15,14 +15,6 @@
       {
           "type": "composer",
           "url": "http://apps.alphalemon.com/"
-      },
-      {
-          "type": "git",
-          "url": "https://github.com/alphalemon/common"
-      },
-      {
-          "type": "git",
-          "url": "https://github.com/alphalemon/Propel"
       }
   ],
   "require": {
@@ -34,7 +26,6 @@
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
-    "doctrine/common": "dev-bugfix as 2.3.0",
     "alphalemon/bootbusiness-theme-bundle": "dev-master",
     "alphalemon/app-ckeditor-block-bundle": "dev-master"
   },
