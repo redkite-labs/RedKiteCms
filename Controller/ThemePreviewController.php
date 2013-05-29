@@ -69,7 +69,7 @@ class ThemePreviewController extends AlCmsController
             'language_name' => $languageName,
             'page_name' => $pageName,
         );
-
+        
         return $this->render('AlphaLemonCmsBundle:Preview:index.html.twig', $baseParams);
     }
 
