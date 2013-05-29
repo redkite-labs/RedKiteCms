@@ -293,21 +293,41 @@ class ThemePreviewControllerTest extends TestCase
              ->with('alpha_lemon_theme_engine.active_theme')
              ->will($this->returnValue($this->activeTheme));
         
+        $templateManager =
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $templateManager
+             ->expects($this->once())
+             ->method('setTemplate')
+             ->will($this->returnSelf())
+        ;
+        
+        $themesCollectionWrapper =
+            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $themesCollectionWrapper
+             ->expects($this->once())
+             ->method('getTemplateManager')
+             ->will($this->returnValue($templateManager))
+        ;
+        
+        $this->container
+             ->expects($this->at(5))
+             ->method('get')
+             ->with('alpha_lemon_cms.themes_collection_wrapper')
+             ->will($this->returnValue($themesCollectionWrapper));
+        
         $session =
             $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
-        $session
-            ->expects($this->once())
-            ->method('setFlash')
-            ->with('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
-        ;
-                
-        $this->container->expects($this->at(9))
-            ->method('get')
-            ->with('session')
-            ->will($this->returnValue($session));
         
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $request
@@ -316,13 +336,13 @@ class ThemePreviewControllerTest extends TestCase
             ->will($this->returnValue(''))
         ;
         
-        $this->container->expects($this->at(13))
+        $this->container->expects($this->at(12))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request));
         
         $this->container
-             ->expects($this->at(15))
+             ->expects($this->at(14))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($this->templating));
