@@ -49,6 +49,9 @@ class AlPageBlocks extends AlPageBlocksBase
      * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface 
      */
     protected $blockRepository;
+    
+    
+    protected $alBlocks = null;
 
     /**
      * Constructor
@@ -142,6 +145,18 @@ class AlPageBlocks extends AlPageBlocksBase
     }
 
     /**
+     * TODO
+     * {@inheritdoc}
+     */
+    public function setAlBlocks($blocks)
+    {
+        $this->alBlocks = $blocks;
+        $this->arrangeBlocks();
+
+        return $this;
+    }
+    
+    /**
      * Retrieves from the database the contents and arranges them by slots
      *
      * @return array
@@ -156,15 +171,20 @@ class AlPageBlocks extends AlPageBlocksBase
             throw new General\ParameterIsEmptyException("Contents cannot be retrieved because the id page has not been set");
         }
 
-        $this->blocks = array();
-        $alBlocks = $this->fetchBlocks();
-        foreach ($alBlocks as $alBlock) {
-            $this->blocks[$alBlock->getSlotName()][] = $alBlock;
-        }
+        $this->alBlocks = $this->fetchBlocks();
+        $this->arrangeBlocks();
     }
     
     protected function fetchBlocks()
     {
         return $this->blockRepository->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
+    }
+    
+    protected function arrangeBlocks()
+    {
+        $this->blocks = array();
+        foreach ($this->alBlocks as $alBlock) {
+            $this->blocks[$alBlock->getSlotName()][] = $alBlock;
+        }
     }
 }

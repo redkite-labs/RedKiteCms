@@ -37,6 +37,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected $themesCollectionWrapper;
     protected $cycles;
     protected $publishedPages;
+    protected $counterRepositoriesCreation;
     
     protected function setUpLanguagesAndPages($languages, $pages, $seo = array())
     {
@@ -67,7 +68,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     
         $this->initPageBlocks($this->cycles);
         $this->initTemplateManager();
-        $this->initThemesCollectionWrapper($this->cycles);
+        $this->themesCollectionWrapper = $this->initThemesCollectionWrapper($this->cycles);
         
         $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
                 
@@ -113,6 +114,8 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
                 $this->setUpCreateRepositoryMethod($languageRepository, $pageRepository, $counter, $seoRepository); 
             }       
         }
+        
+        $this->counterRepositoriesCreation = $counter;
     }
         
     protected function setUpCreateRepositoryMethod($languageRepository, $pageRepository, &$counter, $seoRepository = null)
@@ -215,15 +218,15 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     
     protected function initThemesCollectionWrapper($expected)
     {
-        $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+        $themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->themesCollectionWrapper->expects($this->any())
+        $themesCollectionWrapper->expects($this->any())
             ->method('assignTemplate')
             ->will($this->returnValue($this->templateManager));
 
-        $this->themesCollectionWrapper->expects($this->exactly($expected))
+        $themesCollectionWrapper->expects($this->exactly($expected))
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
         
@@ -237,9 +240,12 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->method('getTheme')
             ->will($this->returnValue($theme));
 
-        $this->themesCollectionWrapper->expects($this->exactly($expected))
+        $themesCollectionWrapper->expects($this->exactly($expected))
             ->method('getThemesCollection')
             ->will($this->returnValue($themesCollection));
+        
+        
+        return $themesCollectionWrapper;
     }
 
     protected function setUpPage($pageName, $isHome = false, $isPublished = true, $template = 'home')

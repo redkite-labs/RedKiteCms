@@ -77,6 +77,19 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->orderByContentPosition()
                 ->find();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function retrieveRepeatedContents()
+    {
+        return AlBlockQuery::create()
+                ->filterByPageId(1)
+                ->_or()
+                ->filterByLanguageId(1)
+                ->filterByToDelete(0)
+                ->find();
+    }
 
     /**
      * {@inheritdoc}

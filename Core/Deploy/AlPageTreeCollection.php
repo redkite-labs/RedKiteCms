@@ -159,8 +159,8 @@ class AlPageTreeCollection implements \Iterator, \Countable
                 $pageTree
                     ->setExtraAssetsSuffixes()
                     ->refresh(
-                            $language->getId(), 
-                            $page->getId()
+                        $language->getId(), 
+                        $page->getId()
                     );
 
                 $this->pages[] = $pageTree;

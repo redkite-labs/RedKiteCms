@@ -36,7 +36,7 @@ class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
             mkdir($fileDir);
         }
 
-        return @file_put_contents($fileDir . '/' . $this->pageTree->getAlPage()->getTemplateName() . '.html.twig', $this->twigTemplate);
+        return @file_put_contents($fileDir . '/' . $this->template->getTemplateName() . '.html.twig', $this->twigTemplate);
     }
 
     /**
@@ -58,6 +58,6 @@ class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
      */
     protected function generateTemplateSection()
     {
-        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());
+        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->template->getTemplateName());
     }
 }
