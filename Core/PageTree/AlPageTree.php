@@ -25,6 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollecti
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
 use Symfony\Component\DependencyInjection\Container;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\PageTree;
+use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 
 /**
  * {@inheritdoc}
@@ -185,11 +186,22 @@ class AlPageTree extends BaseAlPageTree
     {
         return (null !== $this->alPage && null !== $this->alLanguage) ? true : false;
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setTemplate(AlTemplate $v)
+    {
+        $this->templateManager
+            ->setTemplate($v)
+            ->refresh()
+        ;
+        
+        return $this; 
+    }
 
     /**
-     * Returns the current template
-     *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @inheritdoc
      * 
      * @api
      */
