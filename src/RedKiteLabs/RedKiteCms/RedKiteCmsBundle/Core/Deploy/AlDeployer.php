@@ -24,6 +24,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
 use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * The object deputated to deploy the website from development, AlphaLemon CMS, to production, 
@@ -48,6 +50,8 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $viewsRenderer = null;
     protected $dispatcher = null;
     protected $credits = null;
+    protected $activeTheme = null;
+    protected $themesCollectionWrapper = null;
     private $webFolderPath = null;
     private $pageTreeCollection = null;
 
@@ -105,7 +109,8 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
         $this->webFolderPath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path');
         $this->dispatcher = $this->container->get('event_dispatcher'); 
-        $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;
+        $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;        
+        $this->activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
         
         $this->fileSystem = new Filesystem();
     }
@@ -191,33 +196,12 @@ abstract class AlDeployer implements AlDeployerInterface
      */
     protected function savePages()
     {
-        $pagesByTemplate = array();        
-        foreach ($this->pageTreeCollection as $pageTree) {
-            if ( ! $this->save($pageTree, 'Pages')) {
-                // @codeCoverageIgnoreStart
-                return false;
-                // @codeCoverageIgnoreEnd
-            }
-            
-            $languageName = $pageTree->getAlLanguage()->getLanguageName();
-            $templateName = $pageTree->getAlPage()->getTemplateName();
-            if ( ! array_key_exists($languageName, $pagesByTemplate)) {
-                $pagesByTemplate[$languageName] = array();                
-            }
-            
-            if ( ! array_key_exists($templateName, $pagesByTemplate[$languageName])) {
-                $pagesByTemplate[$languageName][$templateName] = $pageTree;
-            }
+        if ( ! $this->doSavePages()) {
+            return false;
         }
         
-        foreach ($pagesByTemplate as $pageTrees) {
-            foreach ($pageTrees as $pageTree) {
-                if ( ! $this->save($pageTree, 'Base')) {
-                    // @codeCoverageIgnoreStart
-                    return false;
-                // @codeCoverageIgnoreEnd
-                }
-            }
+        if ( ! $this->doSaveBasePages()) {
+            return false;
         }
 
         return true;
@@ -320,5 +304,68 @@ abstract class AlDeployer implements AlDeployerInterface
         }
          
         return @file_put_contents($this->webFolderPath . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
+    }
+    
+    private function doSavePages()
+    {
+        foreach ($this->pageTreeCollection as $pageTree) {
+            if ( ! $this->save($pageTree, 'Pages')) {
+                // @codeCoverageIgnoreStart
+                return false;
+                // @codeCoverageIgnoreEnd
+            }
+        }
+        
+        return true;
+    }
+    
+    private function doSaveBasePages()
+    {
+        $languageRepository = $this->factoryRepository->createRepository('Language');
+        $languages = $languageRepository->activeLanguages();
+        
+        $blockRepository = $this->factoryRepository->createRepository('Block');
+        $blocks = $blockRepository->retrieveRepeatedContents();
+        
+        $themeName = $this->activeTheme->getActiveTheme();
+        $this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
+        $templateManager = $this->themesCollectionWrapper->getTemplateManager();
+        $templates = $this->themesCollectionWrapper->getTheme($themeName)->getTemplates();
+        
+        foreach($languages as $language) {
+            foreach ($templates as $template) {
+                $pageBlocks = new AlPageBlocks($this->factoryRepository);
+                $pageBlocks->setAlBlocks($blocks);
+
+                $templateManager = clone($templateManager);
+                $templateManager
+                    ->setTemplate($template)
+                    ->setPageBlocks($pageBlocks)
+                    ->refresh();
+                $themesCollectionWrapper = new AlThemesCollectionWrapper(
+                    $this->themesCollectionWrapper->getThemesCollection(), 
+                    $templateManager
+                );
+                $themesCollectionWrapper->assignTemplate($themeName, $template->getTemplateName());
+
+                $pageTree = new AlPageTree(
+                    $this->container,
+                    $this->factoryRepository,
+                    $themesCollectionWrapper
+                );
+
+                $pageTree
+                    ->setAlLanguage($language)
+                    ->setPageBlocks($pageBlocks)
+                ;
+                if ( ! $this->save($pageTree, 'Base')) {
+                    // @codeCoverageIgnoreStart
+                    return false;
+                    // @codeCoverageIgnoreEnd
+                }
+            }
+        }
+        
+        return true;
     }
 }

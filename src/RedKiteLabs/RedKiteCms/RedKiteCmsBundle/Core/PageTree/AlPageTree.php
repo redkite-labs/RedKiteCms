@@ -70,6 +70,7 @@ class AlPageTree extends BaseAlPageTree
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->dispatcher = $container->get('event_dispatcher');
+        $this->templateManager = $this->themesCollectionWrapper->getTemplateManager();
         
         parent::__construct($container);
     }
@@ -96,6 +97,20 @@ class AlPageTree extends BaseAlPageTree
     public function getAlLanguage()
     {
         return $this->alLanguage;
+    }
+    
+    public function setAlPage($alPage)
+    {
+        $this->alPage = $alPage;
+        
+        return $this;
+    }
+    
+    public function setAlLanguage($alLanguage)
+    {
+        $this->alLanguage = $alLanguage;
+        
+        return $this;
     }
 
     /**

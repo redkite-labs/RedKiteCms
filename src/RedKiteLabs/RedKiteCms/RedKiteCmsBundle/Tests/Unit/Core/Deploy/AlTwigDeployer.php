@@ -30,6 +30,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
     protected $dispatcher;
     protected $templateSlots;
     protected $containerAtSequenceAfterObjectCreation;
+    protected $templates;
     
     abstract protected function checkSiteMap($seo);
     
@@ -66,6 +67,13 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
                          'AlphaLemonCmsBundle' => array(),
                         );
         $this->root = vfsStream::setup('root', null, $folders);
+        
+        $this->templates = array(
+            'home',
+            'empty',
+            'contacts',
+            'two-columns',
+        );
     }
 
     /**
@@ -97,7 +105,8 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue('BootbusinessTheme'));
 
         $this->initContainer();
-
+        $this->saveBaseTemplates();
+        
         $this->dispatcher->expects($this->exactly(2))
             ->method('dispatch');
         
@@ -124,15 +133,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $this->template->expects($this->any())
             ->method('getSlots')
-            ->will(
-                $this->returnValue(
-                    array(
-                        'logo' => array('repeated' => 'site'),                        
-                        'menu' => array('repeated' => 'language'),
-                        'content' => array('repeated' => 'page'),
-                    )
-                )
-            );
+            ->will($this->returnValue($this->initTemplateSlots()));
         
         $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
                                     ->disableOriginalConstructor()
@@ -170,43 +171,17 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         $this->viewRenderer->expects($this->any())
             ->method('render')   
             ->will($this->returnValue('Just a fake content'));
-                
-        $block = $this->setUpBlock('my content repeated at site level');
-        $block->expects($this->any())
-            ->method('getSlotName')
-            ->will($this->returnValue('logo'));
-            
-        $block1 = $this->setUpBlock('my content repeated at language level');
-        $block1->expects($this->any())
-            ->method('getSlotName')
-            ->will($this->returnValue('menu'));
-            
-        $block2 = $this->setUpBlock('my content repeated at page level');
-        $block2->expects($this->any())
-            ->method('getSlotName')
-            ->will($this->returnValue('content'));
+               
         $this
             ->pageBlocks
             ->expects($this->any())
             ->method('getBlocks')
-            ->will($this->returnValue(
-                    array(
-                        "logo" => array(
-                            $block 
-                        ),
-                        "menu" => array(
-                            $block1 
-                        ),
-                        "content" => array(
-                            $block2 
-                        ),
-                    )
-                )
-            )
+            ->will($this->returnValue($this->setupBlocks()))
         ;
         //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
         //$this->deployer = ;  //new AlTwigDeployerProduction($this->container);
-        $this->assertTrue($this->getDeployer()->deploy()); // print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
+        $this->assertTrue($this->getDeployer()->deploy());
+        //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
 
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
         $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('config')->hasChild($this->siteRoutingFile));
@@ -218,6 +193,109 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $this->checkDirectoryStructure($this->root, $this->buildExpectedStructure($languages, $pages));
         $this->checkTemplateExtension($languages, $pages);
+    }
+    
+    protected function saveBaseTemplates()
+    {
+        $languagesRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
+        $languagesRepository
+            ->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue($this->languages))
+        ;
+        
+        $counter = $this->counterRepositoriesCreation;
+        $this->factoryRepository
+            ->expects($this->at($counter))
+            ->method('createRepository')
+            ->with('Language')
+            ->will($this->returnValue($languagesRepository))
+        ;
+        
+        $blockRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface');
+        $blockRepository
+            ->expects($this->once())
+            ->method('retrieveRepeatedContents')
+            ->will($this->returnValue(array()))
+        ;
+        
+        $counter++;
+        $this->factoryRepository
+            ->expects($this->at($counter))
+            ->method('createRepository')
+            ->with('Block')
+            ->will($this->returnValue($blockRepository))
+        ;
+        
+        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        
+        $c = 1;
+        $templates = array();
+        $templates1 = array();
+        for($i = 0; $i < count($this->languages); $i++) {
+            foreach($this->templates as $templateName) {
+                $template = $this->initTemplate($templateName);
+                $templates[] = $template;                
+                for($d = 0; $d < count($this->languages); $d++) {
+                    $templates1[] = $template;
+                    $templates1[] = $template;
+                    
+                    $theme->expects($this->at($c))
+                        ->method('getTemplate')
+                        ->will($this->returnValue($template))
+                    ;
+                    
+                    $c++;
+                }   
+            }
+        }
+        
+        $templateManager = $this->initLocalTemplateManager();    
+        $templateManager
+            ->expects($this->any()) 
+            ->method('getTemplate')
+            ->will(new \PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls($templates1))
+        ;       
+        
+        $theme->expects($this->once())
+            ->method('getTemplates')
+            ->will($this->returnValue($templates))
+        ;
+
+        $themes = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $themes  
+            ->expects($this->any())
+            ->method('getTheme')
+            ->will($this->returnValue($theme))
+        ;  
+
+        $themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+            ->disableOriginalConstructor()
+            ->getMock();    
+
+        $themesCollectionWrapper->expects($this->any())
+            ->method('getTheme')
+            ->will($this->returnValue($theme));
+
+        $themesCollectionWrapper
+            ->expects($this->any())
+            ->method('getThemesCollection')
+            ->will($this->returnValue($themes))
+        ;
+
+        $themesCollectionWrapper
+            ->expects($this->any())
+            ->method('getTemplateManager')
+            ->will($this->returnValue($templateManager))
+        ;
+        
+        $this->container->expects($this->at($this->containerAtSequenceAfterObjectCreation + $this->counterRepositoriesCreation - 2))
+                ->method('get')
+                ->with('alpha_lemon_cms.themes_collection_wrapper')
+                ->will($this->returnValue($themesCollectionWrapper));
     }
     
     protected function checkTemplateExtension($languages, $pages)
@@ -296,15 +374,14 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
                     continue;
                 }
                 
-                $template = $page['template'];
-                if ( !in_array($template, $templates)) {
-                    $fileName = $template . '.html.twig';  
-                    $structure[$languageName]['base'][$fileName] = '';
-                    $templates[] = $template;
-                }
-                
                 $fileName = $page['page'] . '.html.twig';     
                 $structure[$languageName][$fileName] = '';
+            }
+            
+            foreach ($this->templates as $templateName) {
+                $fileName = $templateName . '.html.twig';  
+                $structure[$languageName]['base'][$fileName] = '';
+                $templates[] = $fileName;
             }
         }
         
@@ -400,9 +477,115 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('getParameter')
             ->with('alpha_lemon_cms.love')
             ->will($this->returnValue('yes'));
+        
+        $activeTheme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme->expects($this->once())
+            ->method('getActiveTheme')
+            ->will($this->returnValue('BootbusinessThemeBundle'));
+            
+        $this->container->expects($this->at(14))
+            ->method('get')
+            ->with('alpha_lemon_theme_engine.active_theme')
+            ->will($this->returnValue($activeTheme));
     }
     
+    private function initLocalTemplateManager()
+    {
+        $templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $templateManager
+            ->expects($this->any())
+            ->method('setTemplate')
+            ->will($this->returnSelf())
+        ;
+
+        $templateManager
+            ->expects($this->any()) 
+            ->method('setPageBlocks')
+            ->will($this->returnSelf())
+        ;
+
+        $templateManager
+            ->expects($this->any()) 
+            ->method('refresh')
+        ;
+
+        return $templateManager;
+    }
     
+    private function initTemplate($templateName)
+    {
+        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $template->expects($this->any())
+            ->method('getSlots')
+            ->will($this->returnValue($this->initTemplateSlots()));
+
+        $template->expects($this->any())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($this->templateSlots));
+
+        $template->expects($this->any()) 
+            ->method('getThemeName')
+            ->will($this->returnValue('BootbusinessThemeBundle'));
+
+        $template->expects($this->any()) 
+            ->method('getTemplateName')
+            ->will($this->returnValue($templateName));
+        
+        return $template;
+    }
+
+
+    private function initTemplateSlots($slots = null)
+    {
+        if (null === $slots) {
+            $slots = array(
+                'logo' => array('repeated' => 'site'),                        
+                'menu' => array('repeated' => 'language'),
+                'content' => array('repeated' => 'page'),
+            );
+        }
+        
+        return $slots;
+    }
+    
+    private function setupBlocks()
+    {
+        $block = $this->setUpBlock('my content repeated at site level');
+        $block->expects($this->any())
+            ->method('getSlotName')
+            ->will($this->returnValue('logo'));
+            
+        $block1 = $this->setUpBlock('my content repeated at language level');
+        $block1->expects($this->any())
+            ->method('getSlotName')
+            ->will($this->returnValue('menu'));
+            
+        $block2 = $this->setUpBlock('my content repeated at page level');
+        $block2->expects($this->any())
+            ->method('getSlotName')
+            ->will($this->returnValue('content'));
+            
+        $blocks = array(
+            "logo" => array(
+                $block 
+            ),
+            "menu" => array(
+                $block1 
+            ),
+            "content" => array(
+                $block2 
+            ),
+        );
+        
+        return $blocks;
+    }
     
     public function pages() {
         return array( 
@@ -464,7 +647,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
                         'permalink' => 'my-awesome-page',
                         'homepage' => false,
                     ),
-                )
+                ),
             ),
             array(
                 array(
@@ -873,7 +1056,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
                         'homepage' => false,
                     ),
                 )
-            ), 
+            ),
         );
     }
 }

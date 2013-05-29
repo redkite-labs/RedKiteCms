@@ -244,8 +244,8 @@ abstract class AlTwigTemplateWriter
         $slots = array_keys($this->template->getSlots());
 
         $needsCredits = $this->credits;
-        $languageName = $this->pageTree->getAlLanguage()->getLanguageName();
-        $pageName = $this->pageTree->getAlPage()->getPageName();
+        //$languageName = $this->pageTree->getAlLanguage()->getLanguageName();
+        //$pageName = $this->pageTree->getAlPage()->getPageName();
         $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
         
         $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;
@@ -270,7 +270,7 @@ abstract class AlTwigTemplateWriter
                     }
                     
                     $content = $this->rewriteImagesPathForProduction($content);
-                    $content = $this->rewriteLinksForProduction($languageName, $pageName, $content);
+                    $content = $this->rewriteLinksForProduction($content);
                     
                     // @codeCoverageIgnoreStart
                     if ($needsCredits && $slotName == 'alphalemon_love' && preg_match('/\<a[^\>]+href="http:\/\/alphalemon\.com[^\>]+\>powered by alphalemon cms\<\/a\>/is', strtolower($content))) {
@@ -337,11 +337,11 @@ abstract class AlTwigTemplateWriter
         return preg_replace_callback('/([\/]?)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')/s', function($matches) use ($deployBundleAssetsFolder) {return $matches[1].$deployBundleAssetsFolder;}, $content);
     }
 
-    protected function rewriteLinksForProduction($languageName, $pageName, $content)
+    protected function rewriteLinksForProduction($content)
     {
         $urlManager = $this->urlManager;
 
-        return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager, $languageName, $pageName) {
+        return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager) {
             $url = $matches[2];
             $route = $urlManager
                 ->fromUrl($url)

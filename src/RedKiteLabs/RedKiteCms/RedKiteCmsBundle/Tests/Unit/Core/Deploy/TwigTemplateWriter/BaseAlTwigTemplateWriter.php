@@ -48,6 +48,10 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
         $this->template->expects($this->any())
             ->method('getTemplateSlots')
             ->will($this->returnValue($this->templateSlots));
+        
+        $this->template->expects($this->any())
+            ->method('getTemplateName')
+            ->will($this->returnValue('home'));
 
         $this->pageTree->expects($this->exactly(2))
             ->method('getTemplate')
