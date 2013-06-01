@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlContentManagerBase extends TestCase
+abstract class AlContentManagerBase extends TestCase
 {
     protected $eventsHandler;
 

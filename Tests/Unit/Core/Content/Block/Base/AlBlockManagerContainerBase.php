@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManager
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerContainerBase extends AlContentManagerBase
+abstract class AlBlockManagerContainerBase extends AlContentManagerBase
 {
     protected $kernel;
     protected $validator;
