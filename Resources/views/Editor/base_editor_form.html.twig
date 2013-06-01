@@ -1,10 +1,14 @@
+{% block editor %}
 <form id="al_item_form">
     <table>
         {% include "AlphaLemonCmsBundle:Item:_form_renderer.html.twig" %}
+        {% block commands %}
         <tr>
             <td colspan="2" style="text-align: right">
                 <a class="al_editor_save btn btn-primary" href="#" >Save</a>
             </td>
         </tr>
+        {% endblock %}
     </table>
 </form>
+{% endblock %}
