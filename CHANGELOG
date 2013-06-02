@@ -1,3 +1,12 @@
+1.1 RC2 (2013-06-02)
+49368d9 fixed theme activation 
+205c55e removed some dependencies from metatada jquery plugin
+af47dd8 templateStylesheets were rendered in the wrong place: fixed
+feecd7f updated dev requirements to symfony 2.1.10
+b5873e2 updated unit test
+d31db87 AlDeployer now generates all the base view files for themes' templates, 
+fe47fc4 removed dependency from doctrine/common dev-bugfix
+
 1.1 RC1 (2013-05-26)
 0e386c8 changed the behavior of retrieveContentsBySlotName using the LIKE operator
 9a1aa93 included blocks are now correctly chenged when the includer block is recovered
