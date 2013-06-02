@@ -38,7 +38,6 @@ var isEditorOpened = false;
     {
         this.each(function()
         {
-            var data = $(this).metadata();
             var contentType = (type == null) ? $(this).attr('data-type') : type;
             var included = $(this).attr('data-included') == "1" ? true : false;
             $.ajax({
@@ -259,9 +258,7 @@ var isEditorOpened = false;
     $.fn.DeleteBlock =function()
     {
         if (confirm('Are you sure to remove the active block')) {
-            var editableData = $(this).metadata();          
-            var included = editableData.included != null ? editableData.included : false;
-
+            var included = $(this).attr('data-included') == "1" ? true : false;
             $.ajax({
                 type: 'POST',
                 url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/deleteBlock',
