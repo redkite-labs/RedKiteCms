@@ -144,7 +144,10 @@ class ThemesController extends BaseController
                     ->setTemplateManager($templateManager)
                     ->bootstrap();
         
-        if ($result) {
+        if ($result) {            
+            $currentTheme = $this->getActiveTheme();    
+            $currentTheme->writeActiveTheme($themeName);
+            
             $message = "The site has been bootstrapped with the new theme. This page is reloading";
             $statusCode = 200;
         }
