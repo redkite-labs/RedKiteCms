@@ -35,6 +35,7 @@ class ThemesControllerTest extends TestCase
     private $templating;
     private $container;
     private $controller;
+    private $themeName = 'BootbusinessThemeBundle';
 
     protected function setUp()
     {
@@ -42,7 +43,7 @@ class ThemesControllerTest extends TestCase
         $this->request
              ->expects($this->once())
              ->method('get')
-             ->will($this->returnValue('BusinessWebsiteThemeBundle'));
+             ->will($this->returnValue($this->themeName));
         
         $this->siteBootstrap = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrapInterface');
                 
@@ -111,14 +112,37 @@ class ThemesControllerTest extends TestCase
              ->method('setTemplateManager')
              ->will($this->returnSelf());
         
-         $this->siteBootstrap
+        $this->siteBootstrap
              ->expects($this->once())
              ->method('bootstrap')
              ->will($this->returnValue($result));
          
-         $this->siteBootstrap
+        $this->siteBootstrap
              ->expects($this->exactly($times))
              ->method('getErrorMessage');
+         
+        $squence = 4;
+        if ($result) {
+            $activeTheme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+            $activeTheme
+                 ->expects($this->once())
+                 ->method('writeActiveTheme')
+                 ->with($this->themeName)
+            ;
+            
+            $this->container
+                 ->expects($this->at($squence))
+                 ->method('get')
+                 ->with('alphalemon_theme_engine.active_theme')
+                 ->will($this->returnValue($activeTheme));
+            $squence++;
+        }
+         
+        $this->container
+             ->expects($this->at($squence))
+             ->method('get')
+             ->with('templating')
+             ->will($this->returnValue($this->templating));
                         
         $response = $this->controller->startFromThemeAction();
         $this->assertEquals($this->response, $response);
@@ -131,8 +155,7 @@ class ThemesControllerTest extends TestCase
             array(true, 0),
         );
     }
-            
-    
+       
     private function initContainer()
     {
         $this->container
@@ -158,11 +181,5 @@ class ThemesControllerTest extends TestCase
              ->method('get')
              ->with('alpha_lemon_cms.site_bootstrap')
              ->will($this->returnValue($this->siteBootstrap));
-        
-        $this->container
-             ->expects($this->at(4))
-             ->method('get')
-             ->with('templating')
-             ->will($this->returnValue($this->templating));
     }
 }
