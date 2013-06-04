@@ -4,7 +4,7 @@
 {% if key is not defined %}
 {% set key = 0 %}
 {% endif %}
-{% set baseSlotName = parent.getId ~ "-" ~ key %} 
+{% set baseSlotName = block_manager.get.getId ~ "-" ~ key %} 
 <li{% if thumbnail.width is defined and thumbnail.width != "none" %} class="{{ thumbnail.width }}"{% endif %} {{ editor|raw }}>
     {% include "BootbusinessProductBlockBundle:Thumbnail:_thumbnail.html.twig" %}
 </li>
