@@ -85,63 +85,6 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
         $this->assertEquals($expectedResult, $blockManager->getHtml());
     }
     
-    public function testAddItem()
-    {
-        $blockContent = 
-            '{
-                "0": {
-                    "blockType" : "Link"
-                },
-                "1": {
-                    "blockType" : "Link"
-                }
-            }';
-        $block = $this->initBlock($blockContent);
-        $this->initBlockManager($block);
-                
-        $blockManager = $this->getBlockManager();
-        $blockManager->set($block);
-        
-        $values = array("Content" => 
-            '{
-                "operation": "add",
-                "value": "Link"
-            }',
-        );
-        $this->assertTrue($blockManager->save($values));
-    }
-    
-    public function testDeleteItem()
-    {
-        $blockContent = 
-            '{
-                "0": {
-                    "blockType" : "Link"
-                },
-                "1": {
-                    "blockType" : "Link"
-                }
-            }';
-        $block = $this->initBlock($blockContent);
-        $this->initBlockManager($block);
-        
-        $this->blockRepository->expects($this->once())
-            ->method('deleteIncludedBlocks')
-        ;
-                
-        $blockManager = $this->getBlockManager();
-        $blockManager->set($block);
-        
-        $values = array("Content" => 
-            '{
-                "operation": "remove",
-                "slotName": "logo",
-                "item": "0"
-            }',
-        );
-        $this->assertTrue($blockManager->save($values));
-    }
-    
     protected function initBlockManager($block)
     {
         $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')

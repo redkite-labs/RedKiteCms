@@ -17,15 +17,14 @@
 
 namespace AlphaLemon\Block\MenuBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
 
 /**
  * AlBlockManagerMenu
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlBlockManagerMenu extends AlBlockManagerContainer
+class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
 {
     protected $blocksTemplate = 'MenuBundle:Content:menu.html.twig';
     
@@ -50,7 +49,7 @@ class AlBlockManagerMenu extends AlBlockManagerContainer
     
     protected function renderHtml()
     {
-        $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
+        $items = $this->decodeJsonContent($this->alBlock->getContent());
         
         return array('RenderView' => array(
             'view' => $this->blocksTemplate,
@@ -58,28 +57,5 @@ class AlBlockManagerMenu extends AlBlockManagerContainer
                 'items' => $items, 
             ),
         ));
-    }
-    
-    protected function edit(array $values)
-    {
-        if (array_key_exists('Content', $values)) {
-            $data = json_decode($values['Content'], true);
-            $savedValues = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock);
-
-            if ($data["operation"] == "add") {
-                $savedValues[] = $data["value"];
-                $values = array("Content" => json_encode($savedValues));
-            }
-
-            if ($data["operation"] == "remove") {
-                unset($savedValues[$data["item"]]);
-
-                $this->blockRepository->deleteIncludedBlocks($data["slotName"]);
-
-                $values = array("Content" => json_encode($savedValues));
-            }
-        }
-        
-        return parent::edit($values);
     }
 }
