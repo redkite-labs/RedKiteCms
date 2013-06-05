@@ -26,7 +26,6 @@
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
     "alphalemon/theme-engine-bundle": "dev-master",
     "alphalemon/elfinder-bundle": "dev-master",
-    "alphalemon/bootbusiness-theme-bundle": "dev-master",
     "alphalemon/app-ckeditor-block-bundle": "dev-master"
   },
   "require-dev": {    
@@ -43,6 +42,7 @@
     "jms/security-extra-bundle": "1.2.*",
     "jms/di-extra-bundle": "1.1.*",
     "kriswallsmith/assetic": "1.1.*@dev",  
+    "alphalemon/bootbusiness-theme-bundle": "dev-master",
     "alphalemon/app-sunshine-theme-bundle": "dev-master",
     "willdurand/propel-typehintable-behavior": "dev-master",  
     "mikey179/vfsStream": "1.1.0"
