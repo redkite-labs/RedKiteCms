@@ -1,3 +1,11 @@
+1.1.NEXT
+f412117 improved the languages navigation menu which now displayes the languages as 
+        an image; added two sets of flags images with different dimensions; the images 
+        path is configurable, so another set of images can be easily used
+0472f6d moved CKEditorBundle dependency to dev
+75967e7 added the AlBlockManagerJsonBlockCollection to manage a json file that handles a collection of objects
+d9a5694 removed dependency from BootbusinessTheme
+
 1.1 RC2 (2013-06-02)
 49368d9 fixed theme activation 
 205c55e removed some dependencies from metatada jquery plugin
