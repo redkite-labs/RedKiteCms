@@ -10,7 +10,7 @@
     <services>
         <service id="navigation_menu.block" class="%navigation_menu.block.class%">
             <argument type="service" id="service_container" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Navigation menu block" type="NavigationMenu" group="alphalemon_internals" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Languages navigation menu" type="NavigationMenu" group="alphalemon_internals" />
         </service>
     </services>
 </container>

@@ -22,6 +22,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\Config\Definition\Processor;
 
 /**
  * NavigationMenuExtension
@@ -34,6 +35,12 @@ class NavigationMenuExtension extends Extension
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        $processor = new Processor();
+        $configuration = new Configuration();
+        $config = $processor->processConfiguration($configuration, $configs);
+        
+        $container->setParameter('alpha_lemon_cms.flags_folder', $config['flags_folder']);
     }
 
     public function getAlias()
