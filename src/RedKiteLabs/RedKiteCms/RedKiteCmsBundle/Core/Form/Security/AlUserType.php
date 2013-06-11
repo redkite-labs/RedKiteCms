@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Implements the form to manage the website users
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlUserType extends AbstractType

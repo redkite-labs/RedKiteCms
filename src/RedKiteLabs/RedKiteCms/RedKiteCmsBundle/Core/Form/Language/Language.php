@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Defines the embedded object mapped with the languages form
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class Language
@@ -41,7 +41,7 @@ class Language
 
     /**
      * Fetches the language
-     * 
+     *
      * @return string
      */
     public function getLanguage()
@@ -51,7 +51,7 @@ class Language
 
     /**
      * Sets the language
-     * 
+     *
      * @return string
      */
     public function setLanguage($v)

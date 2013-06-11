@@ -33,10 +33,10 @@ abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
 
     /**
      * Constructor
-     * 
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator 
-     * 
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                             $container
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     *
      * @api
      */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)

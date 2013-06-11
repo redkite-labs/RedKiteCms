@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
  * AlBlockManagerJson is the base object deputated to handle a json content
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlBlockManagerInlineTextBlock extends AlBlockManager

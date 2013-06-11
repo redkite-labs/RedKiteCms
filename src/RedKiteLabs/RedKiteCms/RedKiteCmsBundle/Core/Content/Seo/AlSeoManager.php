@@ -36,33 +36,33 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
  * and delete that kind of object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlSeoManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo 
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo
      */
     protected $alSeo = null;
-    
+
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface 
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      */
     protected $factoryRepository = null;
-    
+
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface 
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface
      */
     protected $seoRepository = null;
 
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * 
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
@@ -72,13 +72,13 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         $this->factoryRepository = $factoryRepository;
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
     }
-    
+
     /**
      * Sets the seo model object
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface $v
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager
-     * 
+     *
      * @api
      */
     public function setSeoRepository(SeoRepositoryInterface $v)
@@ -92,7 +92,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * Returns the seo model object associated with this object
      *
      * @return SeoRepositoryInterface
-     * 
+     *
      * @api
      */
     public function getSeoRepository()
@@ -130,17 +130,17 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         if (null === $this->alSeo || $this->alSeo->getId() == null) {
             return $this->add($values);
         }
-        
+
         return $this->edit($values);
     }
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
-     * 
+     *
      * @api
      */
     public function delete()
@@ -152,7 +152,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     array(),
                     "The seo deleting action has been aborted"
             );
-            
+
             try {
                 $this->seoRepository->startTransaction();
                 $result = $this->seoRepository
@@ -192,11 +192,11 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
     /**
      * Deletes the seo attribute identified by the given language and page
-     * 
+     *
      * @param  int     $languageId
      * @param  int     $pageId
      * @return boolean
-     * 
+     *
      * @api
      */
     public function deleteSeoAttributesFromLanguage($languageId, $pageId)
@@ -211,15 +211,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
         return $result;
     }
-    
+
     /**
      * Adds a new AlSeo object from the given params
-     * 
-     * @param array $values
+     *
+     * @param  array                                                                                        $values
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
-     * 
+     *
      * @api
      */
     protected function add(array $values)
@@ -231,7 +231,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     $values,
                     "The seo adding action has been aborted"
             );
-        
+
         try {
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('PageId' => '', 'LanguageId' => '', 'Permalink' => ''), $values);
@@ -255,7 +255,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $className = $this->seoRepository->getRepositoryObjectClassName();
                 $this->alSeo = new $className();
             }
-            
+
             $result = $this->seoRepository
                     ->setRepositoryObject($this->alSeo)
                     ->save($values);
@@ -290,14 +290,14 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             throw $e;
         }
     }
-    
+
     /**
      * Edits the managed page attributes object
-     * 
-     * @param array $values
+     *
+     * @param  array                                                                                        $values
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * 
+     *
      * @api
      */
     protected function edit(array $values = array())
@@ -309,7 +309,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     $values,
                     "The seo editing action has been aborted"
             );
-        
+
         try {
             if (isset($values['Permalink'])) {
                 $currentPermalink = $this->alSeo->getPermalink();
@@ -332,7 +332,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (isset($values['MetaKeywords']) && $values['MetaKeywords'] == $this->alSeo->getMetaKeywords()) {
                 unset($values['MetaKeywords']);
             }
-            
+
             $this->validator->checkEmptyParams($values);
             $this->validator->checkOnceValidParamExists(array('Permalink' => '', 'MetaTitle' => '', 'MetaDescription' => '', 'MetaKeywords' => '', 'SitemapChangefreq' => '', 'SitemapPriority' => ''), $values);
 

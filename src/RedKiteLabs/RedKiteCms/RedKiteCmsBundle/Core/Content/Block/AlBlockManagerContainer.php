@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
  * Provides the Container for the AlBlockManager
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlBlockManagerContainer extends AlBlockManager

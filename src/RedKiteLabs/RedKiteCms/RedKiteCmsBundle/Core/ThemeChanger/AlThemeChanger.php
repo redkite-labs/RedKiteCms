@@ -29,19 +29,19 @@ use AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface;
  */
 class AlThemeChanger
 {
-    protected $templateManager; 
+    protected $templateManager;
     protected $factoryRepository;
     protected $blocksFactory;
     protected $languagesRepository;
     protected $pagesRepository;
     protected $blockRepository;
-    
+
     /**
-     * Constructor 
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * Constructor
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager              $templateManager
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blocksFactory
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface    $blocksFactory
      */
     public function __construct(AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blocksFactory)
     {
@@ -52,14 +52,14 @@ class AlThemeChanger
         $this->pagesRepository = $this->factoryRepository->createRepository('Page');
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
-    
+
     /**
      * Changes the current theme
-     * 
+     *
      * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $previousTheme
      * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param string $path
-     * @param array $templatesMap
+     * @param string                                                    $path
+     * @param array                                                     $templatesMap
      */
     public function change(AlThemeInterface $previousTheme, AlThemeInterface $theme, $path, array $templatesMap)
     {
@@ -67,12 +67,12 @@ class AlThemeChanger
         $this->backupBlocks();
         $this->changeTemplate($theme, $templatesMap);
     }
-    
+
     /**
      * Changes the source slot with the target slot
-     * 
-     * @param string $sourceSlotName
-     * @param string $targetSlotName
+     *
+     * @param  string $sourceSlotName
+     * @param  string $targetSlotName
      * @return string
      */
     public function changeSlot($sourceSlotName, $targetSlotName)
@@ -86,12 +86,12 @@ class AlThemeChanger
                 'SlotName' => $targetSlotName,
                 'ToDelete' => 0,
             ));
-            if ( ! $result) {
+            if (! $result) {
                 $this->blockRepository->rollback();
 
                 return "The slot has not been changed due to an error occoured when saving to database";
             }
-            
+
             if ( ! $this->saveIncludedBlocks($sourceBlocks, array(2, 3))) {
                 return "The slot has not been changed due to an error occoured when saving to database";
             }
@@ -100,72 +100,72 @@ class AlThemeChanger
                 'SlotName' => $sourceSlotName,
                 'ToDelete' => 3,
             ));
-            if ( ! $result) {
+            if (! $result) {
                 $this->blockRepository->rollback();
 
                 return "The slot has not been changed due to an error occoured when saving to database";
             }
-            
+
             if ( ! $this->saveIncludedBlocks($targetBlocks)) {
                 return "The slot has not been changed due to an error occoured when saving to database";
             }
 
             $this->blockRepository->commit();
-            
+
             return "The slot has been changed";
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             return $ex->getMessage();
         }
     }
-    
+
     /**
      * Finalizes the theme change. Finalization can be partial or full: when partial
-     * only the swapped slots' contents are removed, full removes all previous slots' 
+     * only the swapped slots' contents are removed, full removes all previous slots'
      * contents
-     * 
-     * @param string $action
+     *
+     * @param  string  $action
      * @return boolean
      */
     public function finalize($action)
     {
-        $value = ($action == 'full') ? array(2, 3) : 3;        
+        $value = ($action == 'full') ? array(2, 3) : 3;
         $blocks = $this->blockRepository->retrieveContents(null, null, null, $value);
-        
+
         $this->blockRepository->startTransaction();
         $result = $this->saveBlocks($blocks, $values = array(
                 'ToDelete' => 1,
         ));
-        if ( ! $result) {
+        if (! $result) {
             $this->blockRepository->rollback();
 
-            return false; 
+            return false;
         }
         $this->blockRepository->commit();
-                
-        return true; 
+
+        return true;
     }
 
     /**
      * Copies the current theme blocks and sets ToDelete field to 2
-     * 
+     *
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\Exception
      */
     protected function backupBlocks()
     {
         try {
             $blocks = $this->blockRepository->retrieveContents(null, null);
-            $this->saveBlocks($blocks, array('ToDelete' => 2));            
+            $this->saveBlocks($blocks, array('ToDelete' => 2));
         } catch (\Exception $ex) {
             throw $ex;
         }
     }
-    
+
     /**
      * Changes the website templates with the new ones provided into the $templatesMap
      * array
-     * 
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param array $templatesMap
+     *
+     * @param  \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param  array                                                     $templatesMap
      * @throws \Exception
      */
     protected function changeTemplate(AlThemeInterface $theme, array $templatesMap)
@@ -173,15 +173,15 @@ class AlThemeChanger
         try {
             $ignoreRepeatedSlots = false;
             foreach ($this->languagesRepository->activeLanguages() as $language) {
-                foreach ($this->pagesRepository->activePages() as $page) {                    
+                foreach ($this->pagesRepository->activePages() as $page) {
                     $templateName = $page->getTemplateName();
                     if ( ! array_key_exists($templateName, $templatesMap)) {
                         continue;
                     }
-                    
+
                     $page->setTemplateName($templatesMap[$templateName]);
                     $page->save();
-                    
+
                     $template = $theme->getTemplate($page->getTemplateName());
                     $this->templateManager
                         ->setTemplate($template)
@@ -195,12 +195,12 @@ class AlThemeChanger
             throw $ex;
         }
     }
-    
+
     /**
      * Saves the current theme structure into a file
-     * 
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param type $themeStructureFile
+     *
+     * @param  \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param  type                                                      $themeStructureFile
      * @throws \Exception
      */
     protected function saveThemeStructure(AlThemeInterface $theme, $themeStructureFile)
@@ -213,70 +213,70 @@ class AlThemeChanger
                     $templates[$key] = $page->getTemplateName();
                 }
             }
-            
+
             $themeName = $theme->getThemeName();
             $currentTheme = array(
                 "Theme" => $themeName,
                 "Templates" => $templates,
             );
-            
+
             file_put_contents($themeStructureFile, json_encode($currentTheme));
         } catch (\Exception $ex) {
             throw $ex;
         }
     }
-    
+
     private function saveBlocks($blocks, $values)
     {
         $result = true;
-        
+
         $this->blockRepository->startTransaction();
         foreach ($blocks as $block) {
             $blockManager = $this->blocksFactory->createBlockManager($block);
-            if (null === $blockManager) { 
+            if (null === $blockManager) {
                continue;
             }
-            
+
             $result = $blockManager
                 ->set($block)
                 ->save($values)
-            ;   
-            
-            if ( ! $result) {
+            ;
+
+            if (! $result) {
                 break;
-            }   
+            }
         }
-        
+
         if ($result) {
             $this->blockRepository->commit();
         } else {
             $this->blockRepository->rollback();
         }
-        
+
         return $result;
     }
-    
+
     private function saveIncludedBlocks($blocks, $toDelete = 0)
     {
         $result = true;
-        
-        foreach($blocks as $block) {
+
+        foreach ($blocks as $block) {
             $includedBlocks = $this->blockRepository->retrieveContentsBySlotName('%' . $block->getId() . '%', $toDelete);
             if (empty($includedBlocks)) {
                 continue;
             }
-            
+
             $result = $this->saveBlocks($includedBlocks, array(
                 'ToDelete' => ($toDelete == 0) ? 3 : 0,
             ));
-            
-            if ( ! $result) {
+
+            if (! $result) {
                 $this->blockRepository->rollback();
 
                 break;
             }
         }
-        
+
         return $result;
     }
 }

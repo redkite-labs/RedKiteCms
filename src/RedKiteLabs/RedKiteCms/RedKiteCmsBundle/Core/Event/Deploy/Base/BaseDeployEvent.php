@@ -21,10 +21,10 @@ use Symfony\Component\EventDispatcher\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployerInterface;
 
 /**
- * Defines the base event raised when the website is deployed 
+ * Defines the base event raised when the website is deployed
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class BaseDeployEvent extends Event
@@ -33,9 +33,9 @@ abstract class BaseDeployEvent extends Event
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployerInterface $deployer
-     * 
+     *
      * @api
      */
     public function __construct(AlDeployerInterface $deployer)
@@ -47,19 +47,19 @@ abstract class BaseDeployEvent extends Event
      * Returns the deployer object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployerInterface
-     * 
+     *
      * @api
      */
     public function getDeployer()
     {
         return $this->deployer;
     }
-    
+
     /**
      * Sets the deployer
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployerInterface $deployer
-     * 
+     *
      * @api
      */
     public function setDeployer(AlDeployerInterface $deployer)

@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
  * AlParametersValidator validates consistence of array parameters
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlParametersValidator extends AlTranslator implements AlParametersValidatorInterface
@@ -32,7 +32,7 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
     /**
      * {@inheritdoc}
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
-     * 
+     *
      * @api
      */
     public function checkEmptyParams(array $values, $message = null)
@@ -49,7 +49,7 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
     /**
      * {@inheritdoc}
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
-     * 
+     *
      * @api
      */
     public function checkOnceValidParamExists(array $requiredParams, array $values, $message = null)
@@ -66,11 +66,11 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
             throw new General\ParameterExpectedException($message);
         }
     }
-    
+
     /**
      * {@inheritdoc}
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
-     * 
+     *
      * @api
      */
     public function checkRequiredParamsExists(array $requiredParams, array $values, $message = null)
@@ -98,7 +98,7 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
     {
         $options = array_keys($params);
         sort($options);
-        
+
         return implode(',', $options);
     }
 }

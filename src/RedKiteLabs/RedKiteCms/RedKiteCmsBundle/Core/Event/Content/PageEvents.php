@@ -23,7 +23,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
  * All those events are tagged as alcms.event_listener
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 final class PageEvents

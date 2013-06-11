@@ -48,7 +48,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
 
         return parent::setRepositoryObject($object);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +58,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
                               ->filterByResourceName($resource)
                               ->findOne();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -69,7 +69,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
                                ->filterByResourceName($resource)
                                ->findOne();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -79,7 +79,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
                                     ->filterByResourceName($resource)
                                     ->delete();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -89,7 +89,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
                                     ->where('a.UpdatedAt <= ?', $expiredTime)
                                     ->delete();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -99,7 +99,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
                                     ->filterByUserId($userId)
                                     ->delete();
     }
-    
+
     /**
      * {@inheritdoc}
      */

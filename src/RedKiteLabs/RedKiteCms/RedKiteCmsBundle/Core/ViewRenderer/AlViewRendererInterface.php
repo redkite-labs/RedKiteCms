@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer;
 
 /**
  * Defines the methods to render a set of views
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 interface AlViewRendererInterface

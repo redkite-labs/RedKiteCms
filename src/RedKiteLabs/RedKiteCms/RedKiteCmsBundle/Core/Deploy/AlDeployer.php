@@ -28,11 +28,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
- * The object deputated to deploy the website from development, AlphaLemon CMS, to production, 
+ * The object deputated to deploy the website from development, AlphaLemon CMS, to production,
  * the deploy bundle.
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlDeployer implements AlDeployerInterface
@@ -60,34 +60,34 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @param  AlPageTree $pageTree
      * @return boolean
-     * 
+     *
      * @api
      */
     abstract protected function save(AlPageTree $pageTree, $type);
-    
+
     /**
      * Returns the folder where the template files must be written
-     * 
+     *
      * @return string
-     * 
+     *
      * @api
      */
     abstract protected function getTemplatesFolder();
-    
+
     /**
      * Returns a prefix for routes
-     * 
+     *
      * @return string
-     * 
+     *
      * @api
      */
     abstract protected function getRoutesPrefix();
 
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * 
+     *
      * @api
      */
     public function  __construct(ContainerInterface $container)
@@ -103,15 +103,15 @@ abstract class AlDeployer implements AlDeployerInterface
 
         $this->uploadAssetsFullPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
         $this->uploadAssetsAbsolutePath = AlAssetsPath::getAbsoluteUploadFolder($this->container);
-        
+
         $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
         $this->deployFolder = $this->getTemplatesFolder();
         $this->viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
         $this->webFolderPath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path');
-        $this->dispatcher = $this->container->get('event_dispatcher'); 
-        $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;        
+        $this->dispatcher = $this->container->get('event_dispatcher');
+        $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;
         $this->activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
-        
+
         $this->fileSystem = new Filesystem();
     }
 
@@ -121,57 +121,57 @@ abstract class AlDeployer implements AlDeployerInterface
     public function deploy()
     {
         $this->dispatcher->dispatch(Deploy\DeployEvents::BEFORE_DEPLOY, new Deploy\BeforeDeployEvent($this));
-        
+
         $this->fileSystem->remove($this->deployFolder);
         $this->checkTargetFolders();
         $this->copyAssets();
-        
+
         if (null === $this->pageTreeCollection) {
             $this->pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);
         }
         $result = ($this->savePages() && $this->generateRoutes()) ? true : false;
-        
+
         if ($this->getRoutesPrefix() == "") {
             $this->generateSitemap();
         }
-        
+
         $this->dispatcher->dispatch(Deploy\DeployEvents::AFTER_DEPLOY, new Deploy\AfterDeployEvent($this));
-        
+
         return $result;
     }
-    
+
     /**
      * Returns the real path of the deploy bundle
-     * 
+     *
      * @return string
-     * 
+     *
      * @api
      */
     public function getDeployBundleRealPath()
     {
         return $this->deployBundleAsset->getRealPath();
     }
-    
+
     /**
      * Sets the pagetree collection
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection $value
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection $value
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployer
-     * 
+     *
      * @api
      */
     public function setPageTreeCollection(AlPageTreeCollection $value)
     {
         $this->pageTreeCollection = $value;
-        
+
         return $this;
     }
-    
+
     /**
      * Fetches the current page tree collection
-     * 
+     *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection
-     * 
+     *
      * @api
      */
     public function getPageTreeCollection()
@@ -199,7 +199,7 @@ abstract class AlDeployer implements AlDeployerInterface
         if ( ! $this->doSavePages()) {
             return false;
         }
-        
+
         if ( ! $this->doSaveBasePages()) {
             return false;
         }
@@ -234,14 +234,14 @@ abstract class AlDeployer implements AlDeployerInterface
     protected function generateRoutes()
     {
         $prefix = $this->getRoutesPrefix();
-        
+
         $controllerPrefix =  'show';
         $environmentPrefix =  '';
         if ( ! empty($prefix)) {
             $controllerPrefix =  $prefix;
             $environmentPrefix =  '_' . $prefix;
         }
-        
+
         // Defines the  schema pattern
         $schema = "# Route << %1\$s >> generated for language << %2\$s >> and page << %3\$s >>\n";
         $schema .= "%6\$s_%4\$s:\n";
@@ -251,9 +251,9 @@ abstract class AlDeployer implements AlDeployerInterface
         $homePage = "";
         $mainLanguage = "";
         $routes = array();
-        foreach ($this->pageTreeCollection as $pageTree) {     
+        foreach ($this->pageTreeCollection as $pageTree) {
             $alPage = $pageTree->getAlPage();
-            
+
             // By default the AlPageTreeCollection excluded unpublished pages, but
             // another custom collection could not implements this control. For this
             // reason we'll check the page's published status here
@@ -262,13 +262,13 @@ abstract class AlDeployer implements AlDeployerInterface
                 continue;
                 // @codeCoverageIgnoreEnd
             }
-              
+
             $pageName = $alPage->getPageName();
             if ($alPage->getIsHome()) {
                 $homePage = $pageName;
             }
 
-            $alLanguage = $pageTree->getAlLanguage(); 
+            $alLanguage = $pageTree->getAlLanguage();
             $language = $alLanguage->getLanguageName();
             if ($alLanguage->getMainLanguage()) {
                 $mainLanguage = $language;
@@ -277,19 +277,19 @@ abstract class AlDeployer implements AlDeployerInterface
             // Generate only a route for the home page $seoAttribute->getPermalink()
             $seo = $pageTree->getAlSeo();
             $permalink = ($homePage != $pageName || $mainLanguage != $language) ? $seo->getPermalink() : "";
-            $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName), $controllerPrefix, $environmentPrefix);                
+            $routes[] = \sprintf($schema, $permalink, $language, $pageName, str_replace('-', '_', $language) . '_' . str_replace('-', '_', $pageName), $controllerPrefix, $environmentPrefix);
         }
         // Defines the main route
         $routes[] = \sprintf($schema, '', $mainLanguage, $homePage, 'home', $controllerPrefix, $prefix);
-                 
+
         return @file_put_contents(sprintf('%s/site_routing%s.yml', $this->configDir, $environmentPrefix), implode("\n\n", $routes));
     }
-    
+
     protected function generateSiteMap()
     {
         $sitemap = array();
         foreach ($this->pageTreeCollection as $pageTree) {
-            
+
             // By default the AlPageTreeCollection excluded unpublished pages, but
             // another custom collection could not implements this control. For this
             // reason we'll check the page's published status here
@@ -298,14 +298,14 @@ abstract class AlDeployer implements AlDeployerInterface
                 continue;
                 // @codeCoverageIgnoreEnd
             }
-            
+
             $seo = $pageTree->getAlSeo();
-            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", "http://alphalemon.com/" . $seo->getPermalink(), $seo->getSitemapChangefreq(), $seo->getSitemapPriority());                
+            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", "http://alphalemon.com/" . $seo->getPermalink(), $seo->getSitemapChangefreq(), $seo->getSitemapPriority());
         }
-         
+
         return @file_put_contents($this->webFolderPath . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
     }
-    
+
     private function doSavePages()
     {
         foreach ($this->pageTreeCollection as $pageTree) {
@@ -315,24 +315,24 @@ abstract class AlDeployer implements AlDeployerInterface
                 // @codeCoverageIgnoreEnd
             }
         }
-        
+
         return true;
     }
-    
+
     private function doSaveBasePages()
     {
         $languageRepository = $this->factoryRepository->createRepository('Language');
         $languages = $languageRepository->activeLanguages();
-        
+
         $blockRepository = $this->factoryRepository->createRepository('Block');
         $blocks = $blockRepository->retrieveRepeatedContents();
-        
+
         $themeName = $this->activeTheme->getActiveTheme();
         $this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
         $templateManager = $this->themesCollectionWrapper->getTemplateManager();
         $templates = $this->themesCollectionWrapper->getTheme($themeName)->getTemplates();
-        
-        foreach($languages as $language) {
+
+        foreach ($languages as $language) {
             foreach ($templates as $template) {
                 $pageBlocks = new AlPageBlocks($this->factoryRepository);
                 $pageBlocks->setAlBlocks($blocks);
@@ -343,7 +343,7 @@ abstract class AlDeployer implements AlDeployerInterface
                     ->setPageBlocks($pageBlocks)
                     ->refresh();
                 $themesCollectionWrapper = new AlThemesCollectionWrapper(
-                    $this->themesCollectionWrapper->getThemesCollection(), 
+                    $this->themesCollectionWrapper->getThemesCollection(),
                     $templateManager
                 );
                 $themesCollectionWrapper->assignTemplate($themeName, $template->getTemplateName());
@@ -365,7 +365,7 @@ abstract class AlDeployer implements AlDeployerInterface
                 }
             }
         }
-        
+
         return true;
     }
 }

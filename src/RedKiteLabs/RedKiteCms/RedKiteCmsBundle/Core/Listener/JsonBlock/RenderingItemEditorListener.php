@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  * Renders the editor to manipulate a Json item
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @deprecated since 1.1.0
  * @codeCoverageIgnore
  */
@@ -48,20 +48,19 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
                 $container = $event->getContainer();
                 $block = $alBlockManager->get();
                 $className = $block->getType();
-                $content = json_decode($block->getContent(), true);      
+                $content = json_decode($block->getContent(), true);
                 $content = $content[0];
                 $content = $this->formatContent($content);
                 $content['id'] = 0;
-                
-                if (array_key_exists('embeddedClass', $params)) {                    
-                    $embeddedClass = new $params['embeddedClass'](); 
+
+                if (array_key_exists('embeddedClass', $params)) {
+                    $embeddedClass = new $params['embeddedClass']();
                     $form = $container->get('form.factory')->create(new $params['formClass'](), $embeddedClass);
                     $form->bind($content);
-                }
-                else {
+                } else {
                     $form = $container->get('form.factory')->create(new $params['formClass'](), $content);
                 }
-                
+
                 $template = sprintf('%sBundle:Block:%s_item.html.twig', $className, strtolower($className));
                 $editor = $container->get('templating')->render($template, array("form" => $form->createView()));
                 $event->setEditor($editor);
@@ -70,12 +69,12 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
             throw $ex;
         }
     }
-    
+
     /**
      * Override this function to format the content in a different way than the saved one
-     * 
-     * @param type AlBlock $block
-     * @return type 
+     *
+     * @param  type AlBlock $block
+     * @return type
      */
     protected function formatContent($content)
     {

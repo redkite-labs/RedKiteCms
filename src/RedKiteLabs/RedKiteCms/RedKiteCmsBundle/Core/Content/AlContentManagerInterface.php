@@ -18,9 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content;
 
 /**
- * The interface used to describe a Content Manager object. 
- * 
- * AlphaLemon CMS defines each entity releated to a web page as a Content, so blocks, 
+ * The interface used to describe a Content Manager object.
+ *
+ * AlphaLemon CMS defines each entity releated to a web page as a Content, so blocks,
  * slots, pages, languages and templates are all Contents
  *
  * @author alphalemon <webmaster@alphalemon.com>
@@ -51,7 +51,7 @@ interface  AlContentManagerInterface
 
     /**
      * Implements the base method to delete the managed object
-     * 
+     *
      * @return boolean
      */
     public function delete();

@@ -28,7 +28,7 @@ use Symfony\Component\EventDispatcher\Event;
  * When an event already exists, it is recreated
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlEventsHandler implements AlEventsHandlerInterface
@@ -40,16 +40,16 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     /**
      * Configures the methods that will be evaluated and valorized when a new
      * event is created
-     * 
+     *
      * @api
      */
     abstract protected function configureMethods();
 
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
-     * 
+     *
      * @api
      */
     public function __construct(EventDispatcherInterface $eventDispatcher)
@@ -68,9 +68,9 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
 
     /**
      * Returns the handled events
-     * 
+     *
      * @return array
-     * 
+     *
      * @api
      */
     public function getEvents()
@@ -85,10 +85,10 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     {
         return $this->fetchEvent($eventName);
     }
-    
+
     /**
      * {@inheritdoc}
-     * 
+     *
      * @throws InvalidParameterException
      * @throws InvalidParameterTypeException
      */
@@ -126,10 +126,10 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
 
         return $this;
     }
-    
+
     /**
      * {@inheritdoc}
-     * 
+     *
      * @throws \RuntimeException
      */
     public function dispatch($eventName = null)
@@ -161,7 +161,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     /**
      * Returns the requested event if exists
      *
-     * @param string $eventName
+     * @param  string                                   $eventName
      * @return \Symfony\Component\EventDispatcher\Event
      */
     protected function fetchEvent($eventName)

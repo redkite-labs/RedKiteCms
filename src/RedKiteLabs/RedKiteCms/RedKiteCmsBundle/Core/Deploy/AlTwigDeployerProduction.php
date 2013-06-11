@@ -26,27 +26,27 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplate
  * AlTwigDeployer extends the base deployer class to deploy the website for production
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlTwigDeployerProduction extends AlTwigDeployer
 {
     /**
      * {@inheritdoc}
-     */    
+     */
     protected function getTemplatesFolder()
     {
         return $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');
     }
-    
+
     /**
      * {@inheritdoc}
-     */    
+     */
     protected function getRoutesPrefix()
     {
         return '';
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -56,33 +56,32 @@ class AlTwigDeployerProduction extends AlTwigDeployer
             'backendPath' => $this->uploadAssetsAbsolutePath,
             'prodPath' => $this->deployBundleAsset->getAbsolutePath()
         );
-        
+
         $credits = $this->credits;
-        switch($type)
-        {
+        switch ($type) {
             case 'Base':
                 $twigTemplateWriter = new AlTwigTemplateWriterBase(
-                    $pageTree, 
-                    $this->blockManagerFactory, 
-                    $this->urlManager, 
-                    $this->viewsRenderer, 
+                    $pageTree,
+                    $this->blockManagerFactory,
+                    $this->urlManager,
+                    $this->viewsRenderer,
                     $imagesPath
                 );
                 break;
             case 'Pages':
                 $credits = false;
                 $twigTemplateWriter = new AlTwigTemplateWriterPages(
-                    $pageTree, 
-                    $this->blockManagerFactory, 
+                    $pageTree,
+                    $this->blockManagerFactory,
                     $this->urlManager,
                     $this->deployBundle,
-                    $this->deployFolder, 
-                    $this->viewsRenderer, 
+                    $this->deployFolder,
+                    $this->viewsRenderer,
                     $imagesPath
                 );
                 break;
         }
-        
+
         return $twigTemplateWriter
             ->setCredits($credits)
             ->generateTemplate()

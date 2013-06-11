@@ -48,10 +48,10 @@ abstract class BaseActionEvent extends Event
     {
         return $this->alManager;
     }
-    
+
     /**
      * Sets the current AlContentManager object
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface $value
      */
     public function setContentManager(AlContentManagerInterface $value)

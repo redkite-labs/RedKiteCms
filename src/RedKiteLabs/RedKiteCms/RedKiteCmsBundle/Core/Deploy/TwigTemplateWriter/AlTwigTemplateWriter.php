@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
  * AlTwigTemplateWriter generates a twig template from a PageTree object
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlTwigTemplateWriter
@@ -45,7 +45,7 @@ abstract class AlTwigTemplateWriter
     protected $metatagsExtraContents = "";
     protected $viewRenderer;
     protected $credits = true;
-    
+
     /**
      * Generates the template's subsections and the full template itself
      */
@@ -62,12 +62,12 @@ abstract class AlTwigTemplateWriter
      *      )
      *
      * When the page is saving, the images' path is replaced
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree                          $pageTree
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface $urlManager
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface $viewRenderer
-     * @param array $replaceImagesPaths
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
+     * @param array                                                                             $replaceImagesPaths
      */
     public function __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, AlViewRendererInterface $viewRenderer, array $replaceImagesPaths = array())
     {
@@ -83,7 +83,7 @@ abstract class AlTwigTemplateWriter
      * Returns the generated template
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getTwigTemplate()
@@ -95,7 +95,7 @@ abstract class AlTwigTemplateWriter
      * Returns the template extend directive
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getTemplateSection()
@@ -107,7 +107,7 @@ abstract class AlTwigTemplateWriter
      * Returns the metatags section
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getMetaTagsSection()
@@ -119,7 +119,7 @@ abstract class AlTwigTemplateWriter
      * Returns the assets section
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getAssetsSection()
@@ -131,24 +131,24 @@ abstract class AlTwigTemplateWriter
      * Returns the contents section
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getContentsSection()
     {
         return $this->contentsSection;
     }
-    
+
     /**
      * Forces the CMS to render the credits or not
-     * 
-     * @param boolean $v
+     *
+     * @param  boolean                                                                             $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter
      */
     public function setCredits($v)
     {
         $this->credits = $v;
-        
+
         return $this;
     }
 
@@ -157,7 +157,7 @@ abstract class AlTwigTemplateWriter
      *
      * @param  string  $dir
      * @return boolean
-     * 
+     *
      * @api
      */
     public function writeTemplate($dir)
@@ -167,7 +167,7 @@ abstract class AlTwigTemplateWriter
         if (!is_dir($fileDir)) {
             mkdir($fileDir);
         }
-        
+
         return @file_put_contents($fileDir . '/' . $this->pageTree->getAlPage()->getPageName() . '.html.twig', $this->twigTemplate);
     }
 
@@ -176,7 +176,7 @@ abstract class AlTwigTemplateWriter
      */
     protected function generateTemplateSection()
     {
-        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());        
+        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());
     }
 
     /**
@@ -189,7 +189,7 @@ abstract class AlTwigTemplateWriter
         $this->metatagsSection .= $this->writeInlineBlock('description', $this->pageTree->getMetaDescription());
         $this->metatagsSection .= $this->writeInlineBlock('keywords', $this->pageTree->getMetaKeywords());
     }
-    
+
     /**
      * Adds extra metatags than the default ones
      */
@@ -214,8 +214,8 @@ abstract class AlTwigTemplateWriter
         $container = $this->pageTree->getContainer();
         $yuiEnabled = $container->getParameter('alpha_lemon_cms.enable_yui_compressor');
         if (!empty($externalStylesheets)) {
-            $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';            
-            $filter = $yuiEnabled ? '?yui_css,cssrewrite' : '?cssrewrite';            
+            $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';
+            $filter = $yuiEnabled ? '?yui_css,cssrewrite' : '?cssrewrite';
             $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, $filter));
         }
 
@@ -247,7 +247,7 @@ abstract class AlTwigTemplateWriter
         //$languageName = $this->pageTree->getAlLanguage()->getLanguageName();
         //$pageName = $this->pageTree->getAlPage()->getPageName();
         $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
-        
+
         $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;
         foreach ($blocks as $slotName => $slotBlocks) {
             if ( ! in_array($slotName, $slots)) {
@@ -255,11 +255,11 @@ abstract class AlTwigTemplateWriter
                 continue;
                 // @codeCoverageIgnoreEnd
             }
-            
+
             $contentMetatags = array();
             $htmlContents = array();
             foreach ($slotBlocks as $block) {
-                $content = ""; 
+                $content = "";
                 $blockManager = $this->blockManagerFactory->createBlockManager($block);
                 if (null !== $blockManager) {
                     $blockManager->setPageTree($this->pageTree);
@@ -268,16 +268,16 @@ abstract class AlTwigTemplateWriter
                     if (is_array($content)) {
                         $content = $this->viewRenderer->render($content['RenderView']);
                     }
-                    
+
                     $content = $this->rewriteImagesPathForProduction($content);
                     $content = $this->rewriteLinksForProduction($content);
-                    
+
                     // @codeCoverageIgnoreStart
                     if ($needsCredits && $slotName == 'alphalemon_love' && preg_match('/\<a[^\>]+href="http:\/\/alphalemon\.com[^\>]+\>powered by alphalemon cms\<\/a\>/is', strtolower($content))) {
                         $needsCredits = false;
                     }
                     // @codeCoverageIgnoreEnd
-                    
+
                     $metatags = $blockManager->getMetaTags();
                     if (null !== $metatags) {
                         $contentMetatags[] = (is_array($metatags)) ? $this->viewRenderer->render($metatags['RenderView']) : $metatags;
@@ -286,8 +286,8 @@ abstract class AlTwigTemplateWriter
 
                 $htmlContents[] = $content;
             }
-            
-            if ( ! empty($contentMetatags)) { 
+
+            if ( ! empty($contentMetatags)) {
                 $this->metatagsExtraContents = implode("\n", $contentMetatags);
             }
             $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $htmlContents)));
@@ -309,8 +309,8 @@ abstract class AlTwigTemplateWriter
                 $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, ""));
             }
         }
-        
-        if ($needsCredits) {            
+
+        if ($needsCredits) {
             $this->contentsSection .= '{% block internal_header_stylesheets %}' . PHP_EOL;
             $this->contentsSection .= '  {{ parent() }}' . PHP_EOL. PHP_EOL;
             $this->contentsSection .= '  <style>.al-credits{width:100%;background-color:#fff;text-align:center;padding:6px;border-top:1px solid #000;margin-top:1px;}.al-credits a{color:#333;}.al-credits a:hover{color:#C20000;}</style>' . PHP_EOL;
@@ -330,7 +330,7 @@ abstract class AlTwigTemplateWriter
         if (empty($this->replaceImagesPaths) && count(array_diff_key(array('backendPath' => '', 'prodPath' => ''), $this->replaceImagesPaths)) > 0) {
             return $content;
         }
-        
+
         $cmsAssetsFolder = $this->replaceImagesPaths['backendPath'];
         $deployBundleAssetsFolder = $this->replaceImagesPaths['prodPath'];
 
@@ -391,7 +391,7 @@ abstract class AlTwigTemplateWriter
 
         return $block;
     }
-    
+
     /**
      * Writes a block section without carriage return
      *
@@ -490,27 +490,27 @@ abstract class AlTwigTemplateWriter
 
         return implode(PHP_EOL, $formattedContents);
     }
-    
+
     protected function filterBlocks(array $blocks, array $filter)
     {
         $template = $this->template;
-        
-        return array_filter($blocks, function($slotBlocks) use($template, $filter){ 
-            
+
+        return array_filter($blocks, function($slotBlocks) use ($template, $filter) {
+
             if (count($slotBlocks) == 0) {
                 // @codeCoverageIgnoreStart
                 return false;
                 // @codeCoverageIgnoreEnd
             }
-            
+
             $slotName = $slotBlocks[0]->getSlotName();
             $slot = $template->getSlot($slotName);
-            
+
             if (null === $slot) {
                 return false;
             }
-                        
-            return in_array($slot->getRepeated(), $filter);         
+
+            return in_array($slot->getRepeated(), $filter);
         });
     }
 }

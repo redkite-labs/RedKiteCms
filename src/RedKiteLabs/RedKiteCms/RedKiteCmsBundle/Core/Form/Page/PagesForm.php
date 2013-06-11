@@ -27,7 +27,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
  * Implements the form to manage the website pages
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class PagesForm extends AbstractType
@@ -36,9 +36,9 @@ class PagesForm extends AbstractType
     private $themes;
 
     /**
-     * Constructor 
-     * 
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme $activeTheme
+     * Constructor
+     *
+     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme                 $activeTheme
      * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
      */
     public function __construct(AlActiveTheme $activeTheme, AlThemesCollection $themes)

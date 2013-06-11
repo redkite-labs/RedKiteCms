@@ -34,8 +34,8 @@ abstract class ElFinderBaseConnector extends AlphaLemonElFinderBaseConnector
         if (!is_dir($assetsPath)) {
             @mkdir($assetsPath);
         }
-        
-        $request = $this->container->get('request');        
+
+        $request = $this->container->get('request');
         $options = array(
             'locale' => '',
             'roots' => array(

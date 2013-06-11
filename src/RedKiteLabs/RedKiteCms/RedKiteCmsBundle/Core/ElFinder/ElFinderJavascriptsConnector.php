@@ -30,7 +30,7 @@ class ElFinderJavascriptsConnector extends ElFinderBaseConnector
     protected function configure()
     {
         $javascripsFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir') ;
-        
+
         return $this->generateOptions($javascripsFolder, 'Javascripts');
     }
 }

@@ -28,7 +28,7 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverIn
  * request
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AccessDeniedListener
@@ -38,10 +38,10 @@ class AccessDeniedListener
 
     /**
      * Construct
-     * 
-     * @param \Symfony\Component\Security\Core\SecurityContextInterface $context
+     *
+     * @param \Symfony\Component\Security\Core\SecurityContextInterface                            $context
      * @param \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface $trustResolver
-     * 
+     *
      * @api
      */
     public function __construct(SecurityContextInterface $context, AuthenticationTrustResolverInterface $trustResolver)
@@ -54,7 +54,7 @@ class AccessDeniedListener
      * Returns a response when is an ajax request and an AccessDeniedException has been thrown
      *
      * @param GetResponseForExceptionEvent $event
-     * 
+     *
      * @api
      */
     public function onKernelException(GetResponseForExceptionEvent $event)

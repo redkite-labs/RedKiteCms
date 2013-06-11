@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpec
  * togheter the blocks that belongs the same group
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlBlockManagerFactoryItem
@@ -39,11 +39,11 @@ class AlBlockManagerFactoryItem
 
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * @param array $attributes
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface                $blockManager
+     * @param  array                                                                                     $attributes
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
-     * 
+     *
      * @api
      */
     public function __construct(AlBlockManagerInterface $blockManager, array $attributes)
@@ -64,7 +64,7 @@ class AlBlockManagerFactoryItem
      * Returns the handled block manager
      *
      * @return AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface
-     * 
+     *
      * @api
      */
     public function getBlockManager()
@@ -76,7 +76,7 @@ class AlBlockManagerFactoryItem
      * Returns the item id
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getId()
@@ -88,7 +88,7 @@ class AlBlockManagerFactoryItem
      * Returns the item id
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getType()
@@ -100,7 +100,7 @@ class AlBlockManagerFactoryItem
      * Returns the item description
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getDescription()
@@ -112,7 +112,7 @@ class AlBlockManagerFactoryItem
      * Returns the item group
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getGroup()

@@ -28,7 +28,7 @@ interface AlSlotConverterInterface
 {
     /**
      * Converts the slot's repeated status
-     * 
+     *
      * @api
      */
     public function convert();

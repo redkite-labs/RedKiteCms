@@ -48,9 +48,9 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * 
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlParametersValidatorInterface $validator = null)
@@ -64,7 +64,7 @@ abstract class AlContentManagerBase extends AlTranslator
      *
      * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
-     * 
+     *
      * @api
      */
     public function setEventsHandler(AlEventsHandlerInterface $eventsHandler)
@@ -79,7 +79,7 @@ abstract class AlContentManagerBase extends AlTranslator
      *
      * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
-     * 
+     *
      * @api
      */
     public function setValidator(AlParametersValidatorInterface $validator)
@@ -88,13 +88,13 @@ abstract class AlContentManagerBase extends AlTranslator
 
         return $this;
     }
-    
+
     /**
      * Sets the tranlator object
-     * 
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase 
-     * 
+     *
+     * @param  \Symfony\Component\Translation\TranslatorInterface                     $translator
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
+     *
      * @api
      */
     public function setTranslator(TranslatorInterface $translator)
@@ -110,7 +110,7 @@ abstract class AlContentManagerBase extends AlTranslator
      * Returns the Event dispatcher object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
-     * 
+     *
      * @api
      */
     public function getEventsHandler()
@@ -122,7 +122,7 @@ abstract class AlContentManagerBase extends AlTranslator
      * Returns the ParameterValidator object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface
-     * 
+     *
      * @api
      */
     public function getValidator()
@@ -133,10 +133,10 @@ abstract class AlContentManagerBase extends AlTranslator
     /**
      * Dispatches a BeforeAction[*] event type
      *
-     * @param string $eventClass
-     * @param string $eventName
-     * @param array $values
-     * @param string $exceptionMessage
+     * @param  string                $eventClass
+     * @param  string                $eventName
+     * @param  array                 $values
+     * @param  string                $exceptionMessage
      * @return array
      * @throws EventAbortedException
      */

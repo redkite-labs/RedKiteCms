@@ -17,13 +17,11 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-
 /**
  * AlBlockManagerJson is the base object deputated to handle a json content
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
@@ -32,7 +30,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
      * {@inheritdoc}
      *
      * Extends the base edit method to manage a json content
-     * 
+     *
      * @api
      */
     protected function edit(array $values)
@@ -40,8 +38,8 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
         if (array_key_exists('Content', $values)) {
             $unserializedData = array();
             $serializedData = $values['Content'];
-            parse_str($serializedData, $unserializedData); 
-            
+            parse_str($serializedData, $unserializedData);
+
             $commonMessageText = 'The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you';
             if (!array_key_exists("al_json_block", $unserializedData)) {
                 throw new Exception\InvalidFormConfigurationException('There is a configuration error in the form that manages this content: you must name that form "al_json_block". ' . $commonMessageText);
@@ -64,7 +62,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
 
             $values['Content'] = json_encode($content);
         }
-        
+
         return parent::edit($values);
     }
 

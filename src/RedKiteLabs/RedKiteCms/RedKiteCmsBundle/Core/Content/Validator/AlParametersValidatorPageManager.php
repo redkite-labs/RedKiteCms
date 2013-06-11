@@ -29,19 +29,19 @@ use Symfony\Component\Translation\TranslatorInterface;
  * inherits from AlParametersValidatorLanguageManager instead of the base validator
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlParametersValidatorPageManager extends AlParametersValidatorLanguageManager
 {
     protected $pageRepository = null;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * 
+     * @param \Symfony\Component\Translation\TranslatorInterface                                   $translator
+     *
      * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository, TranslatorInterface $translator = null)
@@ -50,13 +50,13 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
 
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
     }
-    
+
     /**
      * Sets the page model object
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface $v
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface      $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
-     * 
+     *
      * @api
      */
     public function setPageRepository(PageRepositoryInterface $v)
@@ -70,7 +70,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      * Returns the page model object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface
-     * 
+     *
      * @api
      */
     public function getPageRepository()
@@ -82,9 +82,9 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      * Checks if any page exists. When the min parameter is specified, checks thatthe number of existing pages
      * is greater than the given value
      *
-     * @param  int $min
+     * @param  int     $min
      * @return boolean
-     * 
+     *
      * @api
      */
     public function hasPages($min = 0)
@@ -97,7 +97,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      *
      * @param  int     $pageName
      * @return boolean
-     * 
+     *
      * @api
      */
     public function pageExists($pageName)
