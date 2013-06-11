@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollecti
  * A collection of PageTree objects
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlPageTreeCollection implements \Iterator, \Countable
@@ -41,11 +41,11 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Constructor
-     * 
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                              $container
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
-     * 
+     *
      * @api
      */
     public function  __construct(ContainerInterface $container,
@@ -111,10 +111,10 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Returns the AlPageTree object stored at the requird key
-     * 
-     * @param string $key
+     *
+     * @param  string                                                        $key
      * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
-     * 
+     *
      * @api
      */
     public function at($key)
@@ -133,7 +133,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
     {
         $languages = $this->languageRepository->activeLanguages();
         $pages = $this->pageRepository->activePages();
-        
+
         // Cycles all the website's languages
         foreach ($languages as $language) {
             // Cycles all the website's pages
@@ -141,12 +141,12 @@ class AlPageTreeCollection implements \Iterator, \Countable
                 if ( ! $page->getIsPublished()) {
                     continue;
                 }
-                
+
                 // Clones the current TemplateManager object and adds it to a new instance of
                 // AlThemesCollectionWrapper, which will be passed to the new PageTree object
                 $templateManager = clone($this->themesCollectionWrapper->getTemplateManager());
                 $themesCollectionWrapper = new AlThemesCollectionWrapper(
-                    $this->themesCollectionWrapper->getThemesCollection(), 
+                    $this->themesCollectionWrapper->getThemesCollection(),
                     $templateManager
                 );
 
@@ -155,11 +155,11 @@ class AlPageTreeCollection implements \Iterator, \Countable
                     $this->factoryRepository,
                     $themesCollectionWrapper
                 );
-                
+
                 $pageTree
                     ->setExtraAssetsSuffixes()
                     ->refresh(
-                        $language->getId(), 
+                        $language->getId(),
                         $page->getId()
                     );
 

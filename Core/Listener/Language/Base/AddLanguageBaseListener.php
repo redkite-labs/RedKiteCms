@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Provides a base class to listen to onBeforeAddLanguageCommit event
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AddLanguageBaseListener
@@ -39,7 +39,7 @@ abstract class AddLanguageBaseListener
      * Implement this method to set up the source objects
      *
      * @return A model collection instance depending on the used ORM (i.e PropelCollection)
-     * 
+     *
      * @api
      */
     abstract protected function setUpSourceObjects();
@@ -49,7 +49,7 @@ abstract class AddLanguageBaseListener
      *
      * @param  array   $values
      * @return boolean
-     * 
+     *
      * @api
      */
     abstract protected function copy(array $values);
@@ -58,7 +58,7 @@ abstract class AddLanguageBaseListener
      * Constructor
      *
      * @param Request $request
-     * 
+     *
      * @api
      */
     public function __construct(ContainerInterface $container = null)
@@ -68,14 +68,14 @@ abstract class AddLanguageBaseListener
             $this->request = $container->get('request');
         }
     }
-    
+
     /**
      * Listen the onBeforeAddLanguageCommit event to copy the source object to the new language
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent $event
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent $event
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\Base\Exception
-     * 
+     *
      * @api
      */
     public function onBeforeAddLanguageCommit(BeforeAddLanguageCommitEvent $event)

@@ -23,31 +23,31 @@ use Symfony\Component\Translation\TranslatorInterface;
  * A base class to add translation capabilities to derived objects
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlTranslator implements AlTranslatorInterface
 {
     protected $translator;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * 
+     *
      * @api
      */
     public function __construct(TranslatorInterface $translator = null)
     {
         $this->translator = $translator;
     }
-    
+
     /**
      * Sets the tranlator object
-     * 
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     *
+     * @param  \Symfony\Component\Translation\TranslatorInterface           $translator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
-     * 
+     *
      * @api
      */
     public function setTranslator(TranslatorInterface $translator)
@@ -61,7 +61,7 @@ abstract class AlTranslator implements AlTranslatorInterface
      * Returns the Translator object
      *
      * @return \Symfony\Component\Translation\TranslatorInterface
-     * 
+     *
      * @api
      */
     public function getTranslator()

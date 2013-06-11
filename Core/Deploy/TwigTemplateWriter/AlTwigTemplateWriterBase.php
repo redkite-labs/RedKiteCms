@@ -22,7 +22,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter;
  * AlTwigTemplateWriter generates a twig template from a PageTree object
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
@@ -47,12 +47,12 @@ class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
         $this->generateTemplateSection();
         $this->generateContentsSection(array('site', 'language'));
         $this->generateAddictionalMetaTagsSection();
-       
+
         $this->twigTemplate = $this->templateSection . $this->metatagsExtraSection . $this->contentsSection;
-        
+
         return $this;
     }
-    
+
     /**
      * Generates the template extension section
      */

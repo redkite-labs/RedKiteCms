@@ -21,10 +21,10 @@ use Symfony\Component\EventDispatcher\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 
 /**
- * Defines the base event raised when the website is deployed 
+ * Defines the base event raised when the website is deployed
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class BasePageTreeEvent extends Event
@@ -33,9 +33,9 @@ abstract class BasePageTreeEvent extends Event
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
-     * 
+     *
      * @api
      */
     public function __construct(AlPageTree $pageTree)
@@ -47,19 +47,19 @@ abstract class BasePageTreeEvent extends Event
      * Returns the deployer object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
-     * 
+     *
      * @api
      */
     public function getPageTree()
     {
         return $this->pageTree;
     }
-    
+
     /**
      * Sets the deployer
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
-     * 
+     *
      * @api
      */
     public function setPageTree(AlPageTree $pageTree)

@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\PageTree\Base\BasePageTreeEvent;
  * Defines the BeforePageTreeSetupEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class BeforePageTreeSetupEvent extends BasePageTreeEvent

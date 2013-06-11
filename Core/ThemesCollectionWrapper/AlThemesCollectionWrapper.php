@@ -34,8 +34,8 @@ class AlThemesCollectionWrapper
 
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
+     *
+     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection  $themes
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
      */
     public function __construct(AlThemesCollection $themes, AlTemplateManager $templateManager)
@@ -67,7 +67,7 @@ class AlThemesCollectionWrapper
     /**
      * Returns the theme from its name
      *
-     * @param  string  $themeName
+     * @param  string                                           $themeName
      * @return \AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme
      */
     public function getTheme($themeName)
@@ -78,28 +78,28 @@ class AlThemesCollectionWrapper
     /**
      * Returns the template from theme name and the template name
      *
-     * @param  string     $themeName
-     * @param  string     $templateName
+     * @param  string                                                 $themeName
+     * @param  string                                                 $templateName
      * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function getTemplate($themeName, $templateName)
     {
         $theme = $this->getTheme($themeName);
-        
+
         return $theme->getTemplate($templateName);
     }
 
     /**
      * Assigns the template retrieved from theme name and the template name to the template manager
      *
-     * @param  string            $themeName
-     * @param  string            $templateName
+     * @param  string                                                                  $themeName
+     * @param  string                                                                  $templateName
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
      * @throws NonExistentTemplateException
      */
     public function assignTemplate($themeName, $templateName)
     {
-        $template = $this->getTemplate($themeName, $templateName); 
+        $template = $this->getTemplate($themeName, $templateName);
         if (null === $template) {
             throw new NonExistentTemplateException(sprintf('The template "%s" does not seem to belong the "%s" theme. Please check your template\'s configuration', $templateName, $themeName));
         }

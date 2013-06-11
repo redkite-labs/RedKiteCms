@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPr
  * Defines the page attributes form
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class SeoForm extends AbstractType
@@ -35,7 +35,7 @@ class SeoForm extends AbstractType
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel $languageRepository
      */
     public function __construct(AlLanguageRepositoryPropel $languageRepository)
@@ -56,7 +56,7 @@ class SeoForm extends AbstractType
         $builder->add('keywords', 'textarea');
         $builder->add('sitemapChangeFreq', 'choice', array(
             'choices' => array(
-                '' => '-', 
+                '' => '-',
                 'always' => 'always',
                 'hourly' => 'hourly',
                 'daily' => 'daily',
@@ -84,8 +84,6 @@ class SeoForm extends AbstractType
         ));
     }
 
-    
-    
     /**
      * {@inheritdoc}
      */

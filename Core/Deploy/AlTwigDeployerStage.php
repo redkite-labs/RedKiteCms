@@ -27,14 +27,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplate
  * AlTwigDeployer extends the base deployer class to deploy the website for stage environment
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlTwigDeployerStage extends AlTwigDeployer
 {
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function  __construct(ContainerInterface $container)
@@ -44,7 +44,7 @@ class AlTwigDeployerStage extends AlTwigDeployer
         $this->assetsDir .= '/stage';
         $this->urlManager = $this->container->get('alpha_lemon_cms.url_manager_stage');
     }
-        
+
     /**
      * {@inheritdoc}
      */
@@ -52,7 +52,7 @@ class AlTwigDeployerStage extends AlTwigDeployer
     {
         return $this->container->getParameter('alpha_lemon_theme_engine.deploy.stage_templates_folder');
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -60,7 +60,7 @@ class AlTwigDeployerStage extends AlTwigDeployer
     {
         return 'stage';
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -70,33 +70,32 @@ class AlTwigDeployerStage extends AlTwigDeployer
             'backendPath' => $this->uploadAssetsAbsolutePath,
             'prodPath' => $this->deployBundleAsset->getAbsolutePath() . '/stage',
         );
-        
+
         $credits = $this->credits;
-        switch($type)
-        {
+        switch ($type) {
             case 'Base':
                 $twigTemplateWriter = new AlTwigTemplateWriterBase(
-                    $pageTree, 
-                    $this->blockManagerFactory, 
-                    $this->urlManager, 
-                    $this->viewsRenderer, 
+                    $pageTree,
+                    $this->blockManagerFactory,
+                    $this->urlManager,
+                    $this->viewsRenderer,
                     $imagesPath
                 );
                 break;
             case 'Pages':
                 $credits = false;
                 $twigTemplateWriter = new AlTwigTemplateWriterPages(
-                    $pageTree, 
-                    $this->blockManagerFactory, 
+                    $pageTree,
+                    $this->blockManagerFactory,
                     $this->urlManager,
                     $this->deployBundle,
-                    $this->deployFolder, 
-                    $this->viewsRenderer, 
+                    $this->deployFolder,
+                    $this->viewsRenderer,
                     $imagesPath
                 );
                 break;
         }
-        
+
         return $twigTemplateWriter
             ->setCredits($credits)
             ->generateTemplate()

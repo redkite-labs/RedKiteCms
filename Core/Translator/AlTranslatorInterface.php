@@ -21,13 +21,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Translator;
  * Defines the base interface to translate a message to another language
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 interface AlTranslatorInterface
 {
     /**
-     * Translates the message when the translator has been set or returns the message 
+     * Translates the message when the translator has been set or returns the message
      * when null
      *
      * @param string $message
@@ -36,7 +36,7 @@ interface AlTranslatorInterface
      * @param string $locale
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function translate($message, array $parameters = array(), $domain = 'messages', $locale = null);

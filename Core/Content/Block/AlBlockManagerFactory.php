@@ -46,41 +46,41 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 {
     /**
      * The generable blockManagers
-     * 
+     *
      * @var array $blockManagersItems
-     * 
+     *
      * @api
      */
     private $blockManagersItems = array();
-    
+
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface 
-     * 
+     * @var \Symfony\Component\Translation\TranslatorInterface
+     *
      * @api
      */
     private $translator = null;
-    
+
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface 
-     * 
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     *
      * @api
      */
     private $factoryRepository;
-    
+
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface 
-     * 
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
+     *
      * @api
      */
     private $eventsHandler;
-    
+
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface          $eventsHandler
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * 
+     * @param \Symfony\Component\Translation\TranslatorInterface                                   $translator
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null, TranslatorInterface $translator = null)
@@ -96,7 +96,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      * This method is usually called by the AlBlocksCompilerPass object
      *
      * @param AlBlockManagerInterface $blockManager
-     * @param array $attributes
+     * @param array                   $attributes
      *
      * @api
      */
@@ -143,7 +143,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 
         return null;
     }
-    
+
     public function getAvailableBlocks()
     {
         $blockManagers = array();
@@ -151,10 +151,10 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
             if ($blockManagerItem->getBlockManager()->getIsInternalBlock()) {
                 continue;
             }
-            
+
             $blockManagers[] = $blockManagerItem->getType();
         }
-        
+
         return $blockManagers;
     }
 
@@ -168,29 +168,29 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      */
     public function getBlocks()
     {
-        $blockGroups = array(); 
+        $blockGroups = array();
         foreach ($this->blockManagersItems as $blockManagerItem) {
-            
+
             if ($blockManagerItem->getBlockManager()->getIsInternalBlock()) {
                 continue;
             }
-            
+
             $group = $blockManagerItem->getGroup();
             if ($group != "") {
                 $groups = explode(",", $group);
             } else {
                 $groups = array('none');
             }
-            
+
             $blockGroup = array($blockManagerItem->getType() => $blockManagerItem->getDescription());
             foreach (array_reverse($groups) as $key) {
                $blockGroup = array(trim($key) => $blockGroup);
             }
             $blockGroups = array_merge_recursive($blockGroups, $blockGroup);
         }
-        
+
         // First displayed group
-        $alphaLemonBlocks = array("Default" => $this->extractGroup('alphalemon_internals', $blockGroups));         
+        $alphaLemonBlocks = array("Default" => $this->extractGroup('alphalemon_internals', $blockGroups));
         // Last displayed group
         $notGrouped = $this->extractGroup('none', $blockGroups);
         // Sorts
@@ -198,25 +198,25 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if (count($notGrouped) > 0) {
             $this->recurKsort($notGrouped);
         }
-        
+
         // Exstracts and sorts all other groups
         $blocks = array();
         foreach ($blockGroups as $blockGroup) {
             $blocks = array_merge($blocks, $blockGroup);
         }
         $this->recurKsort($blocks);
-        
+
         // Merges blocks
         $blocks = array_merge($alphaLemonBlocks, $blocks);
         $blocks = array_merge($blocks, $notGrouped);
-        
+
         return $blocks;
     }
 
     /**
      * Removes a block when it is given as parameter to look for but it is not found between
      * any of the available blocks
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
      */
     protected function removeBlock(AlBlock $block)
@@ -240,12 +240,13 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
 
         return $blocks;
     }
-    
-    private function recurKsort(&$array) {
+
+    private function recurKsort(&$array)
+    {
         foreach ($array as &$value) {
             if (is_array($value)) $this->recurKsort($value);
         }
-        
+
         return ksort($array);
     }
 }

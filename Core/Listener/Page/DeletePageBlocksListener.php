@@ -21,11 +21,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommi
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
- * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page 
+ * Listen to the onBeforeDeletePageCommit event to delete page's contents, when a page
  * is removed
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class DeletePageBlocksListener
@@ -33,28 +33,28 @@ class DeletePageBlocksListener
     private $factoryRepository = null;
     private $languageRepository = null;
     private $blockRepository = null;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     *
      * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
-        $this->languageRepository = $this->factoryRepository->createRepository('Language');        
+        $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
-    
+
     /**
      * Deletes the page's contents, for all the languages of the site
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent $event
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent $event
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
-     * 
+     *
      * @api
      */
     public function onBeforeDeletePageCommit(BeforeDeletePageCommitEvent $event)
@@ -62,7 +62,7 @@ class DeletePageBlocksListener
         if ($event->isAborted()) {
             return;
         }
-        
+
         $pageManager = $event->getContentManager();
         $pageRepository = $pageManager->getPageRepository();
 
@@ -71,13 +71,13 @@ class DeletePageBlocksListener
             if (count($languages) > 0) {
                 $idPage = $pageManager->get()->getId();
                 $pageRepository->startTransaction();
-                
+
                 foreach ($languages as $alLanguage) {
                     $this->blockRepository->deleteBlocks($alLanguage->getId(), $idPage);
                 }
-                
+
                 $pageRepository->commit();
-                
+
                 return true;
             }
         } catch (\Exception $e) {

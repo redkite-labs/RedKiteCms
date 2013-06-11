@@ -20,40 +20,40 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
- * This object renders one or more twig templates. 
- * 
+ * This object renders one or more twig templates.
+ *
  * Each template is defined by an array which has two options
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlViewRenderer implements AlViewRendererInterface
 {
     protected $templating;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
      */
     public function __construct(EngineInterface $templating)
     {
         $this->templating = $templating;
     }
-    
+
     /**
      * Renders a set of twig templates.
-     * 
+     *
      * The views are passed as an array argument. Valid arrays are:
-     * 
+     *
      *      array(
      *          "view" => "...",
      *          "options" => array(
      *              "optionName" => "optionValue",
      *          )
      *      )
-     * 
+     *
      * renders the view specified by the homonym key with the given options
-     * 
+     *
      *      array(
      *          "views" => array(
      *              array(
@@ -72,10 +72,10 @@ class AlViewRenderer implements AlViewRendererInterface
      *      )
      *
      * renders the views specified by the views key. The "views" key is mandatory.
-     * 
+     *
      * When the "options" option is not specified an empty array is used as options array.
-     * 
-     * @param array $views
+     *
+     * @param  array $views
      * @return type
      */
     public function render(array $views)
@@ -83,19 +83,19 @@ class AlViewRenderer implements AlViewRendererInterface
         if ( ! array_key_exists('views', $views)) {
             $views['views'] = array($views);
         }
-        
+
         $content = '';
         foreach ($views['views'] as $view) {
             $content .= $this->renderView($view);
         }
-        
+
         return $content;
     }
-    
+
     /**
      * Renders a view
-     * 
-     * @param string $view
+     *
+     * @param  string $view
      * @return string
      */
     protected function renderView(array $view)
@@ -104,7 +104,7 @@ class AlViewRenderer implements AlViewRendererInterface
             return "";
         }
         $options = (array_key_exists('options', $view)) ? $view['options'] : array();
-        
+
         return $this->templating->render($view['view'], $options);
     }
 }

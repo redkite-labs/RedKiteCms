@@ -104,7 +104,7 @@ class AlPropelOrm implements OrmInterface
             if (null !== $modelObject) {
                 $this->modelObject = $modelObject;
             }
-            
+
             $this->startTransaction();
             $this->modelObject->fromArray($values);
             $this->affectedRecords = $this->modelObject->save();

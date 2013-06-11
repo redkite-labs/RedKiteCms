@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent
  * Defines the BeforeLanguageDeletingEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class BeforeLanguageDeletingEvent extends BaseBeforeActionEvent

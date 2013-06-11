@@ -25,7 +25,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * AlParametersValidatorLanguageManager adds specific validations for languages
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlParametersValidatorLanguageManager extends AlParametersValidator
@@ -35,10 +35,10 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * 
+     * @param \Symfony\Component\Translation\TranslatorInterface                                   $translator
+     *
      * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository, TranslatorInterface $translator = null)
@@ -48,13 +48,13 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
 
         parent::__construct($translator);
     }
-    
+
     /**
      * Sets the language model
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface $v
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface                 $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManagerConstructor
-     * 
+     *
      * @api
      */
     public function setLanguageRepository(LanguageRepositoryInterface $v)
@@ -68,7 +68,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      * Gets the language model
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
-     * 
+     *
      * @api
      */
     public function getLanguageRepository()
@@ -80,7 +80,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      * Checks if any language exists
      *
      * @return boolean
-     * 
+     *
      * @api
      */
     public function hasLanguages()
@@ -93,7 +93,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      *
      * @param  string  $laguageName
      * @return boolean
-     * 
+     *
      * @api
      */
     public function languageExists($laguageName)

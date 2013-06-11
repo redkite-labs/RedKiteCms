@@ -29,34 +29,34 @@ class AlAssetsPath
 {
     /**
      * Returns the upload folder path
-     * 
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     *
+     * @param  \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @return string
      */
     public static function getUploadFolder(ContainerInterface $container)
     {
         $request = $container->get('request');
-        
+
         $baseUrl = dirname($request->getBaseUrl());
         $baseUrl = substr($baseUrl, 1);
         if ( ! empty($baseUrl)) {
             $baseUrl .= '/';
         }
-        
+
         return $baseUrl . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
     }
-    
+
     /**
      * Returns the upload folder absolute path
-     * 
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     *
+     * @param  \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @return string
      */
     public static function getAbsoluteUploadFolder(ContainerInterface $container)
     {
         $uploaderFolder = self::getUploadFolder($container);
         $uploaderFolder = (empty($uploaderFolder)) ? '/' : '/' . $uploaderFolder;
-        
+
         return $uploaderFolder;
     }
 }

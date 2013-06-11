@@ -77,7 +77,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->orderByContentPosition()
                 ->find();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -145,7 +145,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->filterByToDelete(0)
                 ->$operation();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -156,7 +156,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->filterByToDelete(0)
                 ->update(array('ToDelete' => '1'));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -169,12 +169,10 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
                 ->_if($idPage)
                     ->filterByLanguageId($idPage)
                 ->_endif();
-        
-        
+
         if ($remove) {
             $blocks->delete();
-        }
-        else {
+        } else {
             $blocks->update(array('ToDelete' => '1'));
         }
     }

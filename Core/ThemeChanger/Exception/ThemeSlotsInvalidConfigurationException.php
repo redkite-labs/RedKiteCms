@@ -18,7 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\Exception;
 
 /**
- * Thrown when a 
+ * Thrown when a
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */

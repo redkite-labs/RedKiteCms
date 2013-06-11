@@ -31,14 +31,14 @@ interface UserRepositoryInterface
      * @return object The fetched object
      */
     public function fromPK($id);
-    
+
     /**
      * Fetches an user record using its primary key
      *
      * @param int       The primary key
      * @return object The fetched object
      */
-    public function fromUserName($userName);    
+    public function fromUserName($userName);
 
     /**
      * Fetches the site's users

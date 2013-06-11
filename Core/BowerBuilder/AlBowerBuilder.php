@@ -29,20 +29,20 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class AlBowerBuilder
 {
     protected $kernel;
-         
+
     /**
      * Constrctor
-     * 
+     *
      * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
      */
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
     }
-    
+
     /**
      * Builds the component.json file
-     * 
+     *
      * @param string $filePath
      */
     public function build($filePath)
@@ -51,13 +51,13 @@ class AlBowerBuilder
             "name" => "AlphaLemon CMS",
             "dependencies" => $this->parse(),
         );
-        
+
         @file_put_contents($filePath, json_encode($components));
     }
-    
+
     /**
      * Parses the registered bundles
-     * 
+     *
      * @return array
      */
     protected function parse()
@@ -74,7 +74,7 @@ class AlBowerBuilder
                 $components = ($bundle->getName() == "AlphaLemonCmsBundle") ? $bundleComponents['dependencies'] + $components : array_merge($components, $bundleComponents['dependencies']);
             }
         }
-        
+
         return $components;
     }
 }

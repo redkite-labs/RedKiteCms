@@ -21,7 +21,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
  * Defines the names for the deploy events
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 final class DeployEvents

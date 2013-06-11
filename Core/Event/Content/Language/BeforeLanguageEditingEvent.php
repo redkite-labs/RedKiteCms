@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent
  * Defines the BeforeLanguageEditingEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class BeforeLanguageEditingEvent extends BaseBeforeActionEvent

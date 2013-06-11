@@ -28,13 +28,13 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParamet
 /**
  * AlSlotManager represents a slot on a page.
  *
- * A slot is the place on the page where one or more blocks lives. 
- * 
- * This object is responsible  to manage the blocks that it contains, adding, editing 
+ * A slot is the place on the page where one or more blocks lives.
+ *
+ * This object is responsible  to manage the blocks that it contains, adding, editing
  * and removing them.
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlSlotManager extends AlTemplateBase
@@ -44,16 +44,16 @@ class AlSlotManager extends AlTemplateBase
     protected $blockManagers = array();
     protected $forceSlotAttributes = false;
     protected $skipSiteLevelBlocks = false;
-    
+
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
-     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot $slot
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot                               $slot
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface   $blockRepository
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * 
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
@@ -63,13 +63,13 @@ class AlSlotManager extends AlTemplateBase
         $this->slot = $slot;
         $this->blockRepository = $blockRepository;
     }
-    
+
     /**
      * Sets the slot object
-     * 
-     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot $v
+     *
+     * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
-     * 
+     *
      * @api
      */
     public function setSlot(AlSlot $v)
@@ -83,20 +83,20 @@ class AlSlotManager extends AlTemplateBase
      * Returns the slot object
      *
      * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
-     * 
+     *
      * @api
      */
     public function getSlot()
     {
         return $this->slot;
     }
-    
+
     /**
      * Sets the block model object
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
-     * 
+     *
      * @api
      */
     public function setBlockRepository(BlockRepositoryInterface $v)
@@ -115,17 +115,17 @@ class AlSlotManager extends AlTemplateBase
     {
         return $this->blockRepository;
     }
-    
+
     /**
      * Sets the slot manager's behavior when a new block is added
      *
      * When true forces the add operation to use the default AlSlot attributes for
      * the new block type
-     * 
-     * @param boolean $v
+     *
+     * @param  boolean                                                         $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      * @throws \InvalidArgumentException
-     * 
+     *
      * @api
      */
     public function setForceSlotAttributes($v)
@@ -138,15 +138,15 @@ class AlSlotManager extends AlTemplateBase
 
         return $this;
     }
-    
+
     /**
-     * Skips adding a new block when the slot is repeated at site level and the block 
+     * Skips adding a new block when the slot is repeated at site level and the block
      * has been already added
-     * 
-     * @param boolean $v
+     *
+     * @param  boolean                                                         $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
      * @throws \InvalidArgumentException
-     * 
+     *
      * @api
      */
     public function setSkipSiteLevelBlocks($v)
@@ -162,9 +162,9 @@ class AlSlotManager extends AlTemplateBase
 
     /**
      * Returns the slot manager's behavior when a new block is added
-     * 
+     *
      * @return boolean
-     * 
+     *
      * @api
      */
     public function getForceSlotAttributes()
@@ -174,9 +174,9 @@ class AlSlotManager extends AlTemplateBase
 
     /**
      * Returns the slot's blocks repeated status
-     * 
+     *
      * @return string
-     * 
+     *
      * @api
      */
     public function getRepeated()
@@ -186,9 +186,9 @@ class AlSlotManager extends AlTemplateBase
 
     /**
      * Returns the name of the slot
-     * 
+     *
      * @return string
-     * 
+     *
      * @api
      */
     public function getSlotName()
@@ -198,9 +198,9 @@ class AlSlotManager extends AlTemplateBase
 
     /**
      * Returns the block managers
-     * 
+     *
      * @return array
-     * 
+     *
      * @api
      */
     public function getBlockManagers()
@@ -212,7 +212,7 @@ class AlSlotManager extends AlTemplateBase
      * Returns the first block manager placed on the slot
      *
      * @return null|AlBlockManager
-     * 
+     *
      * @api
      */
     public function first()
@@ -224,7 +224,7 @@ class AlSlotManager extends AlTemplateBase
      * Returns the last block manager placed on the slot
      *
      * @return null|AlBlockManager
-     * 
+     *
      * @api
      */
     public function last()
@@ -236,7 +236,7 @@ class AlSlotManager extends AlTemplateBase
      * Returns the block manager at the given index.
      *
      * @return null|AlBlockManager
-     * 
+     *
      * @api
      */
     public function indexAt($index)
@@ -248,7 +248,7 @@ class AlSlotManager extends AlTemplateBase
      * Returns the number of block managers managed by the slot manager
      *
      * @return int
-     * 
+     *
      * @api
      */
     public function length()
@@ -260,7 +260,7 @@ class AlSlotManager extends AlTemplateBase
      * Returns the last block manager added to the slot manager
      *
      * @return AlBlockManager object or null
-     * 
+     *
      * @api
      */
     public function lastAdded()
@@ -274,15 +274,15 @@ class AlSlotManager extends AlTemplateBase
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
      *
-     * @param  int                       $idLanguage
-     * @param  type                      $idPage
-     * @param  type                      $type             The block type. By default a Text block is added
-     * @param  type                      $referenceBlockId The id of the reference block. When given, the block is placed below this one
+     * @param  int                                                                                          $idLanguage
+     * @param  type                                                                                         $idPage
+     * @param  type                                                                                         $type             The block type. By default a Text block is added
+     * @param  type                                                                                         $referenceBlockId The id of the reference block. When given, the block is placed below this one
      * @return null|boolean
      * @throws InvalidParameterTypeException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
      * @throws \InvalidArgumentException
-     * 
+     *
      * @api
      */
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
@@ -294,7 +294,7 @@ class AlSlotManager extends AlTemplateBase
         if ((int) $idPage == 0) {
             throw new InvalidParameterTypeException(get_class($this) . ' reports: "idPage parameter must be a valid integer"');
         }
-        
+
         try {
             $repeated = $this->slot->getRepeated();
             switch ($repeated) {
@@ -316,7 +316,7 @@ class AlSlotManager extends AlTemplateBase
                     //idGroup = 1; //TODO
                     break;
             }
-            
+
             // Make sure that a content repeated at site level is never added twice
             if ($this->skipSiteLevelBlocks && $repeated == 'site') {
                 if (count($this->blockRepository->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
@@ -367,16 +367,16 @@ class AlSlotManager extends AlTemplateBase
                   "ContentPosition" => $position,
                   "CreatedAt"       => date("Y-m-d H:i:s"),
                 );
-                
+
                 if ($this->forceSlotAttributes) {
-                    $content = $this->slot->getContent(); 
+                    $content = $this->slot->getContent();
                     if (null !== $content) $values["Content"] = $content;
                 }
 
                 $alBlockManager->set(null);
                 $result = $alBlockManager->save($values);
             }
-            
+
             if ($result !== false) {
                 $this->blockRepository->commit();
             } else {
@@ -403,15 +403,15 @@ class AlSlotManager extends AlTemplateBase
             throw $e;
         }
     }
-    
+
     /**
      * Edits the block
      *
-     * @param int   $idBlock The id of the block to edit
-     * @param array $values  The new values
+     * @param  int                                                                                          $idBlock The id of the block to edit
+     * @param  array                                                                                        $values  The new values
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * 
+     *
      * @api
      */
     public function editBlock($idBlock, array $values)
@@ -438,14 +438,14 @@ class AlSlotManager extends AlTemplateBase
             }
         }
     }
-    
+
     /**
      * Deletes the block from the slot
      *
-     * @param  int     $idBlock The id of the block to remove
+     * @param  int                                                                                          $idBlock The id of the block to remove
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * 
+     *
      * @api
      */
     public function deleteBlock($idBlock)
@@ -487,13 +487,13 @@ class AlSlotManager extends AlTemplateBase
 
         return null;
     }
-    
+
     /**
      * Deletes all the blocks managed by the slot
-     * 
+     *
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * 
+     *
      * @api
      */
     public function deleteBlocks()
@@ -532,10 +532,10 @@ class AlSlotManager extends AlTemplateBase
 
     /**
      * Retrieves the block manager by the block's id
-     * 
-     * @param type $idBlock The id of the block to retrieve
+     *
+     * @param  type                                                                        $idBlock The id of the block to retrieve
      * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface
-     * 
+     *
      * @api
      */
     public function getBlockManager($idBlock)
@@ -550,7 +550,7 @@ class AlSlotManager extends AlTemplateBase
      *
      * @param  int $idBlock The id of the block to retrieve
      * @return int
-     * 
+     *
      * @api
      */
     public function getBlockManagerIndex($idBlock)
@@ -564,7 +564,7 @@ class AlSlotManager extends AlTemplateBase
      * Returns the managed blocks as an array
      *
      * @return array
-     * 
+     *
      * @api
      */
     public function toArray()
@@ -585,7 +585,7 @@ class AlSlotManager extends AlTemplateBase
      * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
      *
      * @param array $alBlocks
-     * 
+     *
      * @api
      */
     public function setUpBlockManagers(array $alBlocks)
@@ -612,7 +612,7 @@ class AlSlotManager extends AlTemplateBase
 
         return null;
     }
-    
+
     /**
      * Adjusts the blocks position on the slot, when a new block is added or a block is deleted.
      *
@@ -621,12 +621,12 @@ class AlSlotManager extends AlTemplateBase
      *
      * When in *del* mode, decrements by 1 the position of the blocks placed below the
      * removing block
-     * 
-     * @param  string $op       The operation to do. It accepts add or del as valid values
-     * @param  array  $managers An array of block managers
+     *
+     * @param  string                                                                                       $op       The operation to do. It accepts add or del as valid values
+     * @param  array                                                                                        $managers An array of block managers
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * @throws \InvalidArgumentException     * 
+     * @throws \InvalidArgumentException                                                                    *
      */
     protected function adjustPosition($op, array $managers)
     {

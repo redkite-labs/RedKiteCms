@@ -24,7 +24,7 @@ class AlSlotConverterToLanguage extends AlSlotConverterBase
      *
      * @return null|boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
-     * 
+     *
      * @api
      */
     public function convert()
