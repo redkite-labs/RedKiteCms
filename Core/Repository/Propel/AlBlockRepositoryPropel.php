@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlockQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the BlockRepositoryInterface to work with Propel
@@ -43,7 +43,11 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
-            throw new InvalidParameterTypeException('AlBlockRepositoryPropel accepts only AlBlock propel objects');
+            $exception = array(
+                'message' => 'AlBlockRepositoryPropel accepts only AlBlock propel objects',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return parent::setRepositoryObject($object);

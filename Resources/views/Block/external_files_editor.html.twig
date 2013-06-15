@@ -17,8 +17,8 @@
     {% include 'AlphaLemonCmsBundle:Block:external_files_renderer.html.twig' %}
 </div>
 <div class="editor-commands">
-    <input class="al_{{ section }}_file_manager btn btn-primary" type="submit" value="Manage external files" />
-    <input class="al_{{ section }}_item_remover btn btn-danger" type="submit" value="Remove selected file" />
+    <input class="al_{{ section }}_file_manager btn btn-primary" type="submit" value="{{ 'Add external files'|trans({}, 'messages', cms_language) }}" />
+    <input class="al_{{ section }}_item_remover btn btn-danger" type="submit" value="{{ 'Remove selected file'|trans({}, 'messages', cms_language) }}" />
 </div>
 {#
 <script type="text/javascript">

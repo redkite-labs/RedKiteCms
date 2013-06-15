@@ -15,13 +15,15 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception;
 
 /**
- * Thrown when any parameter has been given
+ * Defines a generic AlphaLemon Cms exception
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * 
+ * @api
  */
-class EmptyParametersException extends \InvalidArgumentException
+interface AlphaLemonExceptionInterface
 {
 }

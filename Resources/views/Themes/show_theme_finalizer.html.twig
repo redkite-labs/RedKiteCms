@@ -1,14 +1,31 @@
+{#
+   This file is part of the AlphaLemon CMS Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.alphalemon.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'AlphaLemonCmsBundle:Themes:base.html.twig' %}
+
+{% block theme_panel %}
 <div>
     <div>
-        <p><b>Finalizes the change of theme</b></p>
-        <p>A Partial finalization removes only the blocks added by the new theme and 
-        replaced by existing blocks.</p>
-        <p>A full finalization removes all the blocks saved from previous theme.</p>
+        <p><b>{{ "Finalizes the change of theme"|trans({}, themes_controller_domain, cms_language) }}</b></p>
+        <p>{{ "A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme."|trans({}, themes_controller_domain, cms_language) }}</p>
+        <p>{{ "A full finalization removes all the blocks saved from previous theme."|trans({}, themes_controller_domain, cms_language) }}</p>
     </div>
     <div class="pull-right">
-        <button id="al-partial-finalizer" class="btn btn-info">Partial</button>
-        <button id="al-full-finalizer" class="btn btn-primary">Full</button>
-        <button id="al-close-finalizer" class="btn">Close</button>
+        <button id="al-partial-finalizer" class="btn btn-info">{{ "Partial"|trans({}, themes_controller_domain, cms_language) }}</button>
+        <button id="al-full-finalizer" class="btn btn-primary">{{ "Full"|trans({}, themes_controller_domain, cms_language) }}</button>
+        <button id="al-close-finalizer" class="btn">{{ "Close"|trans({}, common_domain, cms_language) }}</button>
     </div>
 </div>
 
@@ -58,3 +75,4 @@
       return false;
     }
 </script>
+{% endblock %}

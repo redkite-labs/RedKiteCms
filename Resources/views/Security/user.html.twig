@@ -1,11 +1,14 @@
+{% extends 'AlphaLemonCmsBundle:Security:base.html.twig' %}
+
+{% block content %}
 <div class="al_security_item">    
-    <h2>Manage user</h2>
+    <h2>{{ "Manage user"|trans({}, security_controller_domain, cms_language) }}</h2>
     <form class="al_security_form">
         <div id="al_user_data">
             <table>
                 <tr>
                     <td>
-                        {{ form_label(form.username, "Username") }}
+                        {{ form_label(form.username, "Username"|trans({}, security_controller_domain, cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.username) }}
@@ -14,7 +17,7 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ form_label(form.password, "Password") }}
+                        {{ form_label(form.password, "Password"|trans({}, security_controller_domain, cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.password) }}
@@ -23,7 +26,7 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ form_label(form.email, "Email") }}
+                        {{ form_label(form.email, "Email"|trans({}, security_controller_domain, cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.email) }}
@@ -32,7 +35,7 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ form_label(form.AlRole, "Role") }}
+                        {{ form_label(form.AlRole, "Role"|trans({}, security_controller_domain, cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.AlRole) }}
@@ -53,8 +56,8 @@
 
     <div class="al_security_commands_box">
         <ul class="inline pull-right">
-            <li><input type="submit" id="al_save_user" value="Save" class="input btn btn-primary" /></li>
-            <li><input type="submit" value="List" class="al_list_users btn btn-info" /></li>
+            <li><input type="submit" id="al_save_user" value="{{ "Save"|trans({}, common_domain, cms_language) }}" class="input btn btn-primary" /></li>
+            <li><input type="submit" value="{{ "Users"|trans({}, security_controller_domain, cms_language) }}" class="al_list_users btn btn-info" /></li>
         </ul>
         <div class="clearfix"></div>
     </div>
@@ -107,3 +110,4 @@
 
     $('.al_list_users').ListUsers();
 </script>
+{% endblock %}

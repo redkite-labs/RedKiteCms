@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
- * Thrown when invoking the same slot's repeated status is not allowed
+ * Thrown when a factory tries to instantiate an object that does not exist
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class ClassNotFoundException extends \InvalidArgumentException
+class ClassNotFoundException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {
 }

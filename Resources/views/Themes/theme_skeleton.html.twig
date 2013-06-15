@@ -13,16 +13,38 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig' %}
+{% extends 'AlphaLemonCmsBundle:Themes:base.html.twig' %}
 
-{% block theme_commands %}
+{% block theme_panel %}
+<h2>{{ theme_values.theme_title }}</h2>
 <table>
-    <tr>
-        {% if theme_values.buttons is defined %}            
-            <td><a id="al_theme_selector" href="{{ path('_preview_theme', {'languageName': app.request.get('language'), 'pageName': app.request.get('page'), 'themeName' : theme_values.theme_title}) }}" class="btn">{{ "Preview" | trans([], domain) }}</a></td>
-            <td><a href="#" class="btn al_themes_changer" data-theme-name="{{ theme_values.theme_title }}">{{ "Activate" | trans([], domain) }}</a></td>
-            <td><a href="#" class="btn btn-danger al_start_from_theme" data-theme-name="{{ theme_values.theme_title }}">{{ "Start from this Theme" | trans([], domain) }}</a></td>
-        {% endif %}
-    </tr>
+{% if theme_values.info is defined %}
+<tr><td rowspan="{{theme_values.info|length + 1}}" width="120"><img src="{{ theme_values.screenshot }}" width="100" height="100" /></td></tr>
+{% for key, value in theme_values.info %}
+<tr><th>{{ key|trans({}, themes_controller_domain, cms_language) }}</th><td>{{ value }}</td></tr>
+{% endfor %}
+{% else %}
+  {% if theme_values.theme_error is defined %}
+  <tr><td colspan="2">{{ theme_values.theme_error }}</td></tr>
+  {% else %}
+  <tr><td colspan="2"><b>{{ "Any information available for this theme" | trans([], domain) }}</b></td></tr>
+  {% endif %}
+{% endif %}
+
+  <tr>
+    <td colspan="3">
+        {% block theme_commands %}
+        <table>
+            <tr>
+                {% if theme_values.buttons is defined %}            
+                    <td><a id="al_theme_selector" rel="tooltip" title="{{ 'Previews the theme'|trans({}, themes_controller_domain, cms_language) }}" href="{{ path('_preview_theme', {'languageName': app.request.get('language'), 'pageName': app.request.get('page'), 'themeName' : theme_values.theme_title}) }}" class="btn">{{ "Preview"|trans({}, themes_controller_domain, cms_language) }}</a></td>
+                    <td><a href="#" rel="tooltip" title="{{ 'Activates the theme'|trans({}, themes_controller_domain, cms_language) }}" class="btn al_themes_changer" data-theme-name="{{ theme_values.theme_title }}">{{ "Activate"|trans({}, themes_controller_domain, cms_language) }}</a></td>
+                    <td><a href="#" rel="tooltip" title="{{ 'Resets and starts using this theme'|trans({}, themes_controller_domain, cms_language) }}" class="btn btn-danger al_start_from_theme" data-theme-name="{{ theme_values.theme_title }}">{{ "Start from this Theme"|trans({}, themes_controller_domain, cms_language) }}</a></td>
+                {% endif %}
+            </tr>
+        </table>
+        {% endblock %}
+    </td>
+  </tr>
 </table>
 {% endblock %}

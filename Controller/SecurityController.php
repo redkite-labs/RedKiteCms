@@ -95,34 +95,30 @@ class SecurityController extends Base\BaseController
         $message = '';
         $errors = array();
         if ('POST' === $request->getMethod()) {
-            try {
-                $alUser = $this->container->get('security.context')->getToken()->getUser();
+            $alUser = $this->container->get('security.context')->getToken()->getUser();
 
-                $user->setRoleId($request->get('al_role_id'));
-                $user->setUsername($request->get('al_username'));
-                $user->setPassword($request->get('al_password'));
-                $user->setEmail($request->get('al_email'));
+            $user->setRoleId($request->get('al_role_id'));
+            $user->setUsername($request->get('al_username'));
+            $user->setPassword($request->get('al_password'));
+            $user->setEmail($request->get('al_email'));
 
-                $validator = $this->container->get('validator');
-                $errors = $validator->validate($user);
-                if (count($errors) == 0) {
-                    $factory = $this->container->get('security.encoder_factory');
-                    $encoder = $factory->getEncoder($alUser);
-                    $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-                    $password = $encoder->encodePassword($request->get('al_password'), $salt);
+            $validator = $this->container->get('validator');
+            $errors = $validator->validate($user);
+            if (count($errors) == 0) {
+                $factory = $this->container->get('security.encoder_factory');
+                $encoder = $factory->getEncoder($alUser);
+                $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+                $password = $encoder->encodePassword($request->get('al_password'), $salt);
 
-                    $user->setSalt($salt);
-                    $user->setPassword($password);
+                $user->setSalt($salt);
+                $user->setPassword($password);
 
-                    $message = ($user->save() > 0) ? "The user has been saved" : "The user has not been saved";
+                $message = ($user->save() > 0) ? "The user has been saved" : "The user has not been saved";
 
-                    // Let's refresh the form with the saved data when the user is edited
-                    if (!$isNewUser) $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
+                // Let's refresh the form with the saved data when the user is edited
+                if ( ! $isNewUser) {
+                    $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
                 }
-            } catch (\Exception $e) {
-                // @codeCoverageIgnoreStart
-                return $this->renderDialogMessage($e->getMessage());
-                // @codeCoverageIgnoreEnd
             }
         }
 
@@ -130,6 +126,7 @@ class SecurityController extends Base\BaseController
             'form' => $form->createView(),
             'errors' => $errors,
             'message' => $message,
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         ));
     }
 
@@ -143,63 +140,46 @@ class SecurityController extends Base\BaseController
         $message = '';
         $errors = array();
         if ('POST' === $request->getMethod()) {
-            try {
-                $roleName = strtoupper($request->get('al_rolename'));
-                $role->setRole($roleName);
-                $validator = $this->container->get('validator');
-                $errors = $validator->validate($role);
-                if (count($errors) == 0) {
-                    $message = ($role->save() > 0) ? "The role has been saved" : "The role has not been saved";
+            $roleName = strtoupper($request->get('al_rolename'));
+            $role->setRole($roleName);
+            $validator = $this->container->get('validator');
+            $errors = $validator->validate($role);
+            if (count($errors) == 0) {
+                $message = ($role->save() > 0) ? "The role has been saved" : "The role has not been saved";
 
-                    // Let's refresh the form with the saved data when the user is edited
-                    if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);
-                }
-            } catch (\Exception $e) {
-                // @codeCoverageIgnoreStart
-                return $this->renderDialogMessage($e->getMessage());
-                // @codeCoverageIgnoreEnd
+                // Let's refresh the form with the saved data when the user is edited
+                if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);
             }
         }
 
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:role.html.twig', array(
             'form' => $form->createView(),
             'errors' => $errors,
-            'message' => $message
+            'message' => $message,
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         ));
     }
 
     public function deleteUserAction()
     {
-        try {
-            $request = $this->container->get('request');
-            if (null !== $request->get('id')) {
-                $user = $this->userRepository()->fromPk($request->get('id'));
-                $user->delete();
-            }
-
-            return $this->loadUsers();
-        } catch (\Exception $e) {
-            // @codeCoverageIgnoreStart
-            return $this->renderDialogMessage($e->getMessage());
-            // @codeCoverageIgnoreEnd
+        $request = $this->container->get('request');
+        if (null !== $request->get('id')) {
+            $user = $this->userRepository()->fromPk($request->get('id'));
+            $user->delete();
         }
+
+        return $this->loadUsers();
     }
 
     public function deleteRoleAction()
     {
-        try {
-            $request = $this->container->get('request');
-            if (null !== $request->get('id')) {
-                $user = $this->roleRepository()->fromPK($request->get('id'));
-                $user->delete();
-            }
-
-            return $this->loadRoles();
-        } catch (\Exception $e) {
-            // @codeCoverageIgnoreStart
-            return $this->renderDialogMessage($e->getMessage());
-            // @codeCoverageIgnoreEnd
+        $request = $this->container->get('request');
+        if (null !== $request->get('id')) {
+            $user = $this->roleRepository()->fromPK($request->get('id'));
+            $user->delete();
         }
+
+        return $this->loadRoles();
     }
     
     protected function checkRequestError()
@@ -208,13 +188,12 @@ class SecurityController extends Base\BaseController
         $session = $request->getSession();
         
         // get the error if any (works with forward and redirect -- see below)
+        $error = '';
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } elseif (null !== $session && $session->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
-            $error = '';
         }
 
         if ($error) {
@@ -235,6 +214,7 @@ class SecurityController extends Base\BaseController
     {
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         ));
     }
 
@@ -242,13 +222,13 @@ class SecurityController extends Base\BaseController
     {
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         ));
     }
 
     private function factoryRepository()
     {
-        if (null === $this->factoryRepository)
-        {
+        if (null === $this->factoryRepository) {
             $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         }
 
@@ -257,8 +237,7 @@ class SecurityController extends Base\BaseController
 
     private function userRepository()
     {
-        if (null === $this->userRepository)
-        {
+        if (null === $this->userRepository) {
             $this->userRepository = $this->factoryRepository()->createRepository('User');
         }
 
@@ -267,8 +246,7 @@ class SecurityController extends Base\BaseController
 
     private function roleRepository()
     {
-        if (null === $this->roleRepository)
-        {
+        if (null === $this->roleRepository) {
             $this->roleRepository = $this->factoryRepository()->createRepository('Role');
         }
 

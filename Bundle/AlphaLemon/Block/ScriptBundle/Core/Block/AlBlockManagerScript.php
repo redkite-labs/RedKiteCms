@@ -50,7 +50,8 @@ class AlBlockManagerScript extends AlBlockManagerContainer
             "title" => "Script editor",
             "blockManager" => $this,
             "jsFiles" => explode(",", $this->alBlock->getExternalJavascript()),
-            "cssFiles" => explode(",", $this->alBlock->getExternalStylesheet())
+            "cssFiles" => explode(",", $this->alBlock->getExternalStylesheet()),
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
     }
 

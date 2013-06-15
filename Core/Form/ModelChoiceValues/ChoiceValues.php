@@ -76,7 +76,7 @@ class ChoiceValues
         }
         
         $seoAttributes = (is_numeric($language)) ? $seoRepository->fromLanguageId($language) : $seoRepository->fromLanguageName($language);
-
+        
         $permalinks = array();
         if ($withNoneOption) $permalinks["none"] = " ";
         foreach ($seoAttributes as $seoAttribute) {

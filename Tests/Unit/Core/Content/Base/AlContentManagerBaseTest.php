@@ -76,11 +76,4 @@ class AlContentManagerBaseTest extends TestCase
         $this->assertSame($validator, $this->contentManager->getValidator());
         $this->assertNotSame($this->validator, $this->contentManager->getValidator());
     }
-
-    public function testTranslator()
-    {
-        $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->assertEquals($this->contentManager, $this->contentManager->setTranslator($translator));
-        $this->assertEquals($translator, $this->contentManager->getTranslator());
-    }
 }

@@ -1,6 +1,10 @@
+{% extends 'AlphaLemonCmsBundle:Item:_languages_support.html.twig' %}
+
+{% block content %}
 {% if edit_inline %}data-content-editable="true"{% endif %} data-name="block_{{ block_id }}" data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-included="{{ included }}" data-hide-when-edit="{{ hide_in_edit_mode }}" {{ extra_attributes }}
 
 {% if editor|length > 0 %}
 {% set form = editor.form is defined ? editor.form : "" %}
-data-title="{{ editor.title }}" rel="popover" data-html="true" data-encoded-content='{% include editor.template %}' 
+data-title="{{ editor.title|trans({}, 'messages', cms_language) }}" rel="popover" data-html="true" data-encoded-content='{% include editor.template %}' 
 {% endif %}
+{% endblock %}

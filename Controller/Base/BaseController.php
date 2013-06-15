@@ -22,11 +22,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseController extends ContainerAware
 {
+    protected $configuration = null;
+    
     protected function renderDialogMessage($message, $statusCode = 404)
     {
         $response = new Response();
         $response->setStatusCode($statusCode);
 
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);
+    }
+    
+    protected function translate($catalogue, $message, array $params = array())
+    {
+        if (null === $this->configuration) {
+            $this->configuration = $this->container->get('alpha_lemon_cms.configuration');
+        }
+        
+        $cmsLanguage = $this->configuration->read('language');
+        return $this->container->get('translator')->trans(
+            $message, 
+            $params, 
+            $cmsLanguage . $catalogue, 
+            $cmsLanguage
+        );
     }
 }

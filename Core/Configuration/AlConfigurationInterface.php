@@ -15,13 +15,29 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Configuration;
 
 /**
- * Thrown when the parameter is not valid
+ * Defines the interface to write/read to/from a parameter -> value entity
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class InvalidParameterException extends \InvalidArgumentException
+interface AlConfigurationInterface
 {
+    /**
+     * Reads a configuration parameter
+     * 
+     * @param string $parameter
+     * @return string
+     */
+    public function read($parameter);
+    
+    /**
+     * Writes the new value for the given parameter
+     * 
+     * @param string $parameter
+     * @param string $value
+     * @return int Affected records
+     */
+    public function write($parameter, $value);
 }

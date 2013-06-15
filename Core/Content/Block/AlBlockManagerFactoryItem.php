@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException;
 
 /**
  * AlBlockManagerFactoryItem saves the block manager, the id used to identify the block
@@ -42,7 +42,7 @@ class AlBlockManagerFactoryItem
      * 
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      * @param array $attributes
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * 
      * @api
      */
@@ -50,7 +50,15 @@ class AlBlockManagerFactoryItem
     {
         $missingAttributes = array_diff_key($this->requiredAttributes, $attributes);
         if (count($missingAttributes) > 0) {
-            throw new ParameterExpectedException(sprintf('AlBlockManagerFactoryItem expects the following attributes: "%s". Check the definition of "%s" object in the bundle that implements it', implode(',', array_keys($missingAttributes)), get_class($blockManager)));
+            $exception = array(
+                'message' => 'AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of "%class%" object in the bundle that implements it',
+                'parameters' => array(
+                    '%attributes%' => implode(',', array_keys($missingAttributes)), 
+                    '%class%' => get_class($blockManager),
+                ),
+                'domain' => 'exceptions',
+            );
+            throw new ArgumentExpectedException(json_encode($exception));
         }
 
         $this->blockManager = $blockManager;

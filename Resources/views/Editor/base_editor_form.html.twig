@@ -5,7 +5,10 @@
         {% block commands %}
         <tr>
             <td colspan="2" style="text-align: right">
-                <a class="al_editor_save btn btn-primary" href="#" >Save</a>
+                {% if cms_language is not defined %}
+                {% set cms_language = app.request.get('_locale') %}
+                {% endif %}
+                <a class="al_editor_save btn btn-primary" href="#" >{{ 'Save'|trans({}, cms_language ~ '_common', cms_language) }}</a>
             </td>
         </tr>
         {% endblock %}

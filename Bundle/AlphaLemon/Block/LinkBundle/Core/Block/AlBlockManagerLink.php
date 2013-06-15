@@ -7,12 +7,25 @@ namespace AlphaLemon\Block\LinkBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Description of AlBlockManagerLink
  */
 class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
 {
+    protected $translator;
+    protected $cmsLanguage;
+    
+    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    {
+        parent::__construct($container, $validator);
+        
+        $this->translator = $this->container->get('translator');
+        $this->cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+    }
+    
     public function getDefaultValue()
     {
         $value = 
@@ -55,9 +68,10 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         
         return array(
             "template" => "LinkBundle:Editor:_editor.html.twig",
-            "title" => "Link editor",
+            "title" => $this->translator->trans('Link editor', array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage),
             "form" => $form->createView(),
             'pages' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
     }
 }

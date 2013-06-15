@@ -80,7 +80,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlPage) {
-            throw new General\InvalidParameterTypeException('AlPageManager is only able to manage only AlPage objects');
+            $exception = array(
+                'message' => 'AlPageManager is able to manage only AlPage objects',
+                'domain' => 'exceptions',
+            );
+            throw new General\InvalidArgumentTypeException(json_encode($exception));
         }
 
         $this->alPage = $object;
@@ -160,58 +164,69 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * 
      * @api
      */
     public function delete()
     {
-        if (null !== $this->alPage) {
-            if (0 === $this->alPage->getIsHome()) {
+        if (null === $this->alPage) {
+            $exception = array(
+                'message' => 'Any page is actually managed, so there is nothing to remove',
+                'domain' => 'exceptions',
+            );
+            throw new General\ArgumentIsEmptyException(json_encode($exception));
+        }
+        
+        if (0 !== $this->alPage->getIsHome()) {
+            $exception = array(
+                'message' => "It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one",
+                'domain' => 'exceptions',
+            );
+            throw new Page\RemoveHomePageException(json_encode($exception));
+        }
+        
+        $this->dispatchBeforeOperationEvent(
+            '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent',
+            PageEvents::BEFORE_DELETE_PAGE,
+            array(),
+            array(
+                'message' => 'The page deleting action has been aborted',
+                'domain' => 'exceptions',
+            )
+        );
 
-                $this->dispatchBeforeOperationEvent(
-                        '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent',
-                        PageEvents::BEFORE_DELETE_PAGE,
-                        array(),
-                        "The page deleting action has been aborted"
-                );
-
-                try {
-                    $this->pageRepository->startTransaction();
-                    $this->pageRepository->setRepositoryObject($this->alPage);
-                    $result = $this->pageRepository->delete();
-                    if ($result) {
-                        $eventName = PageEvents::BEFORE_DELETE_PAGE_COMMIT;
-                        $result = !$this->eventsHandler
-                                        ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent', array($this, array()))
-                                        ->dispatch()
-                                        ->getEvent($eventName)
-                                        ->isAborted();
-                    }
-
-                    if ($result) {
-                        $this->pageRepository->commit();
-
-                        $this->eventsHandler
-                             ->createEvent(PageEvents::AFTER_DELETE_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageDeletedEvent', array($this))
-                             ->dispatch();
-                    } else {
-                        $this->pageRepository->rollBack();
-                    }
-
-                    return $result;
-                } catch (\Exception $e) {
-                    if (isset($this->pageRepository) && $this->pageRepository !== null) {
-                        $this->pageRepository->rollBack();
-                    }
-
-                    throw $e;
-                }
-            } else {
-                throw new Page\RemoveHomePageException($this->translate('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one'));
+        try {
+            $this->pageRepository->startTransaction();
+            $this->pageRepository->setRepositoryObject($this->alPage);
+            $result = $this->pageRepository->delete();
+            if ($result) {
+                $eventName = PageEvents::BEFORE_DELETE_PAGE_COMMIT;
+                $result = !$this->eventsHandler
+                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent', array($this, array()))
+                                ->dispatch()
+                                ->getEvent($eventName)
+                                ->isAborted();
             }
-        } else {
-            throw new General\ParameterIsEmptyException($this->translate('Any page is actually managed, so there\'s nothing to remove'));
+
+            if (false !== $result) {
+                $this->pageRepository->commit();
+
+                $this->eventsHandler
+                     ->createEvent(PageEvents::AFTER_DELETE_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageDeletedEvent', array($this))
+                     ->dispatch();
+                     
+                return $result;
+            }
+            $this->pageRepository->rollBack();
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->pageRepository) && $this->pageRepository !== null) {
+                $this->pageRepository->rollBack();
+            }
+
+            throw $e;
         }
     }
 
@@ -255,7 +270,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * @param array $values
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\PageExistsException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
      * 
@@ -265,10 +280,13 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent',
-                    PageEvents::BEFORE_ADD_PAGE,
-                    $values,
-                    "The page adding action has been aborted"
+                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent',
+                PageEvents::BEFORE_ADD_PAGE,
+                $values,
+                array(
+                    'message' => 'The page adding action has been aborted',
+                    'domain' => 'exceptions',
+                )
             );
 
         try {
@@ -276,19 +294,35 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $this->validator->checkRequiredParamsExists(array('PageName' => '', 'TemplateName' => ''), $values);
 
             if (empty($values['PageName'])) {
-                throw new General\ParameterIsEmptyException($this->translate("The name to assign to the page cannot be null. Please provide a valid page name to add your page"));
+                $exception = array(
+                    'message' => "It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one",
+                    'domain' => 'exceptions',
+                );
+                throw new General\ArgumentIsEmptyException(json_encode($exception));
             }
 
             if (empty($values['TemplateName'])) {
-                throw new General\ParameterIsEmptyException($this->translate("The page requires at least a template. Please provide the template name to add your page"));
+                $exception = array(
+                    'message' => "The page requires at least a template. Please provide the template name to add your page",
+                    'domain' => 'exceptions',
+                );
+                throw new General\ArgumentIsEmptyException(json_encode($exception));
             }
 
             if ($this->validator->pageExists($values['PageName'])) {
-                throw new Page\PageExistsException($this->translate("The web site already contains the page you are trying to add. Please use another name for that page"));
+                $exception = array(
+                    'message' => "The web site already contains the page you are trying to add. Please use another name for that page",
+                    'domain' => 'exceptions',
+                );
+                throw new Page\PageExistsException(json_encode($exception));
             }
 
             if (!$this->validator->hasLanguages()) {
-                throw new Page\AnyLanguageExistsException($this->translate("The web site has any language inserted. Please add a new language before adding a page"));
+                $exception = array(
+                    'message' => "The web site has any language inserted. Please add a new language before adding a page",
+                    'domain' => 'exceptions',
+                );
+                throw new Page\AnyLanguageExistsException(json_encode($exception));
             }
 
             $result = true;
@@ -327,9 +361,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->eventsHandler
                      ->createEvent(PageEvents::AFTER_ADD_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageAddedEvent', array($this))
                      ->dispatch();
-            } else {
-                $this->pageRepository->rollBack();
-            }
+                     
+                return $result;
+            } 
+                
+            $this->pageRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {
@@ -357,7 +393,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent',
                     PageEvents::BEFORE_EDIT_PAGE,
                     $values,
-                    "The page editing action has been aborted"
+                    array(
+                        'message' => 'The page editing action has been aborted',
+                        'domain' => 'exceptions',
+                    )
             );
 
         try {
@@ -414,9 +453,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->eventsHandler
                      ->createEvent(PageEvents::AFTER_EDIT_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageEditedEvent', array($this))
                      ->dispatch();
-            } else {
-                $this->pageRepository->rollBack();
-            }
+                     
+                return $result;
+            } 
+                
+            $this->pageRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {

@@ -65,7 +65,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
@@ -94,7 +94,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
-            ->will($this->throwException(new General\EmptyParametersException()));
+            ->will($this->throwException(new General\EmptyArgumentsException()));
 
         $values = array();
         $this->assertNull($this->seoManager->save($values));
@@ -107,7 +107,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
-            ->will($this->throwException(new General\ParameterExpectedException()));
+            ->will($this->throwException(new General\ArgumentExpectedException()));
 
         $values = array('fake' => 'value');
 
@@ -405,7 +405,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
-            ->will($this->throwException(new General\EmptyParametersException()));
+            ->will($this->throwException(new General\EmptyArgumentsException()));
 
         $this->seoRepository->expects($this->never())
             ->method('save');
@@ -423,7 +423,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkOnceValidParamExists')
-            ->will($this->throwException(new General\ParameterExpectedException()));
+            ->will($this->throwException(new General\ArgumentExpectedException()));
 
         $this->seoRepository->expects($this->never())
             ->method('save');
@@ -695,7 +695,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
-            ->will($this->throwException(new General\EmptyParametersException()));
+            ->will($this->throwException(new General\EmptyArgumentsException()));
 
         $this->seoRepository->expects($this->never())
                 ->method('setRepositoryObject')
@@ -774,7 +774,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testDeleteFailsWhenTheManagedSeoIsNull()
     {

@@ -68,7 +68,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
     protected function checkStrictNamespace($namespace)
     {
         if (preg_match('/^AlphaLemon\\\\Block\\\\[\w]+Bundle/', $namespace) == false) {
-            throw new \RuntimeException('A strict AlphaLemon App-Block namespace must start with AlphaLemon\Block');
+            throw new \RuntimeException('A strict AlphaLemon App-Block namespace must start with AlphaLemon\Block suffix');
         }
     }
 

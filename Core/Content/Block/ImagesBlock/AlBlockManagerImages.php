@@ -5,6 +5,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
 use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * AlBlockManagerImages is the base object deputated to handle a content made by a list 
@@ -44,7 +45,11 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
 
                 $imageFile = "/" . AlAssetsPath::getUploadFolder($this->container) . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
                 if (in_array($imageFile, $savedImages)) {
-                    throw new \Exception("The image file has already been added");
+                    $exception = array(
+                        'message' => 'The image file has already been added',
+                        'domain' => 'exceptions',
+                    );
+                    throw new RuntimeException(json_encode($exception));
                 }
 
                 $images[]['image'] = $imageFile;

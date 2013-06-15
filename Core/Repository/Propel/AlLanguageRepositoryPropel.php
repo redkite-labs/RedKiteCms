@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Language;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the LanguageRepositoryInterface to work with Propel
@@ -44,7 +44,11 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlLanguage) {
-            throw new InvalidParameterTypeException('AlLanguageRepositoryPropel accepts only AlLanguage propel objects');
+            $exception = array(
+                'message' => 'AlLanguageRepositoryPropel accepts only AlLanguage propel objects',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return parent::setRepositoryObject($object);
@@ -79,7 +83,11 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
         }
 
         if (!is_string($languageName)) {
-            throw new \InvalidArgumentException('The name of the laguage must be a string. The language cannot be retrieved');
+            $exception = array(
+                'message' => 'The laguage name must be a string: fromLanguageName cannot retrieve the language',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return AlLanguageQuery::create()

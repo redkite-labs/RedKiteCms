@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLockedResource;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLockedResourceQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the UserRepositoryInterface to work with Propel
@@ -43,7 +43,11 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlLockedResource) {
-            throw new InvalidParameterTypeException('AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects');
+            $exception = array(
+                'message' => 'AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return parent::setRepositoryObject($object);

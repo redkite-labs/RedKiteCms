@@ -18,6 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Translator;
 
 use Symfony\Component\Translation\TranslatorInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface;
 
 /**
  * A base class to add translation capabilities to derived objects
@@ -26,9 +27,10 @@ use Symfony\Component\Translation\TranslatorInterface;
  * 
  * @api
  */
-abstract class AlTranslator implements AlTranslatorInterface
+class AlTranslator implements AlTranslatorInterface
 {
     protected $translator;
+    protected $configuration;
     
     /**
      * Constructor
@@ -37,9 +39,10 @@ abstract class AlTranslator implements AlTranslatorInterface
      * 
      * @api
      */
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(TranslatorInterface $translator = null, AlConfigurationInterface $configuration = null)
     {
         $this->translator = $translator;
+        $this->configuration = $configuration;
     }
     
     /**
@@ -68,12 +71,46 @@ abstract class AlTranslator implements AlTranslatorInterface
     {
         return $this->translator;
     }
+    
+    /**
+     * Sets the configuration object
+     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface $configuration
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
+     */
+    public function setConfiguration(AlConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+
+        return $this;
+    }
+
+    /**
+     * Returns the Configuration object
+     *
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface
+     * 
+     * @api
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function translate($message, array $parameters = array(), $domain = 'messages', $locale = null)
     {
-        return (null !== $this->translator) ? $this->translator->trans($message, $parameters, $domain, $locale) : $message;
+        if (null === $locale && null !== $this->configuration) {
+            $locale = $this->configuration->read('language');
+            $domain = $locale . "_" . $domain;
+        }
+        
+        if (null !== $this->translator) {
+            $message = $this->translator->trans($message, $parameters, $domain, $locale);
+        }
+        
+        return $message;
     }
 }

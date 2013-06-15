@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Listen to the onBeforeEditPageCommit event to edit the seo attributes when a new 
@@ -66,7 +67,11 @@ class EditSeoListener
         $values = $event->getValues();
 
         if (!is_array($values)) {
-            throw new \InvalidArgumentException("The values param is expected to be an array");
+            $exception = array(
+                'message' => 'The parameter "values" must be an array',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
 
         try {
@@ -85,14 +90,15 @@ class EditSeoListener
 
                 if (false !== $result) {
                     $pageRepository->commit();
-                } else {
-                    $pageRepository->rollBack();
-
-                    $event->abort();
+                    
+                    return;
                 }
+                
+                $pageRepository->rollBack();
+                $event->abort();
             }
-        } catch (General\EmptyParametersException $ex) {
-        } catch (General\ParameterExpectedException $ex) {
+        } catch (General\EmptyArgumentsException $ex) {
+        } catch (InvalidArgumentException $ex) {
         } catch (\Exception $e) {
             $event->abort();
 

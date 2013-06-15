@@ -71,14 +71,18 @@ class AlPageBlocks extends AlPageBlocksBase
      *
      * @param  int $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
     public function setIdPage($v)
     {
         if (!is_numeric($v)) {
-            throw new General\InvalidParameterTypeException("The page id must be a numeric value");
+            $exception = array(
+                'message' => 'The page id argument must be a numeric value',
+                'domain' => 'exceptions',
+            );
+            throw new General\InvalidArgumentTypeException(json_encode($exception));
         }
 
         $this->idPage = $v;
@@ -91,14 +95,18 @@ class AlPageBlocks extends AlPageBlocksBase
      *
      * @param  int $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
     public function setIdLanguage($v)
     {
         if (!is_numeric($v)) {
-            throw new General\InvalidParameterTypeException("The language id must be a numeric value");
+            $exception = array(
+                'message' => 'The language id argument must be a numeric value',
+                'domain' => 'exceptions',
+            );
+            throw new General\InvalidArgumentTypeException(json_encode($exception));
         }
 
         $this->idLanguage = $v;
@@ -164,11 +172,19 @@ class AlPageBlocks extends AlPageBlocksBase
     protected function setUpBlocks()
     {
         if (null === $this->idLanguage) {
-            throw new General\ParameterIsEmptyException("Contents cannot be retrieved because the id language has not been set");
+            $exception = array(
+                'message' => 'Contents cannot be retrieved because the id language has not been set',
+                'domain' => 'exceptions',
+            );
+            throw new General\ArgumentIsEmptyException(json_encode($exception));
         }
 
         if (null === $this->idPage) {
-            throw new General\ParameterIsEmptyException("Contents cannot be retrieved because the id page has not been set");
+            $exception = array(
+                'message' => 'Contents cannot be retrieved because the id page has not been set',
+                'domain' => 'exceptions',
+            );
+            throw new General\ArgumentIsEmptyException(json_encode($exception));
         }
 
         $this->alBlocks = $this->fetchBlocks();

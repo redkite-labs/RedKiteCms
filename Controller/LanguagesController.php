@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
 
 class LanguagesController extends Base\BaseController
 {
@@ -27,7 +28,7 @@ class LanguagesController extends Base\BaseController
     {
         // @codeCoverageIgnoreStart
         if (!extension_loaded('intl')) {
-            return $this->renderDialogMessage('To manage languages you must enable the intl extension in your php.ini file. Operation aborted');
+            throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('To manage languages you must enable the intl extension in your php.ini file. Operation aborted', array(), 'languages_controller'));
         }
         // @codeCoverageIgnoreEnd
 
@@ -36,66 +37,63 @@ class LanguagesController extends Base\BaseController
         $languagesForm = new LanguagesForm();
         $form = $this->container->get('form.factory')->create($languagesForm);
 
-        $params = array('base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
-                        'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
-                        'active_language' => $request->get('language'),
-                        'form' => $form->createView());
+        $params = array(
+            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+            'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
+            'active_language' => $request->get('language'),
+            'form' => $form->createView(),
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+        );
 
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
     }
 
     public function saveLanguageAction()
     {
-        try {
-            $request = $this->container->get('request');
-            $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
-            $languageManager->setTranslator($this->container->get('translator'));
-            $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
-            $languageManager->set($alLanguage);
+        $request = $this->container->get('request');            
+        $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
+        $languageManager->setTranslator($this->container->get('translator'));
+        $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
+        $languageManager->set($alLanguage);
 
-            $parameters = array(
-                'MainLanguage' => $request->get('isMain'),
-                'LanguageName' => $request->get('newLanguage'),
-            );
-            if ($languageManager->save($parameters)) {
-                $language = (null === $alLanguage) ? $languageManager->get() : $alLanguage;
-                
-                return $this->buildJSonHeader('The language has been successfully saved', $language);
-            }
-
-            // @codeCoverageIgnoreStart
-            throw new \RuntimeException('An error has been occoured, so the language has not been saved');
-            // @codeCoverageIgnoreEnd
-        } catch (\Exception $e) {
-            return $this->renderDialogMessage($e->getMessage());
+        $parameters = array(
+            'MainLanguage' => $request->get('isMain'),
+            'LanguageName' => $request->get('newLanguage'),
+        );
+        if ($languageManager->save($parameters)) {
+            $language = (null === $alLanguage) ? $languageManager->get() : $alLanguage;
+            $message = $this->translate('_languages_controller', 'The language has been successfully saved');
+                            
+            return $this->buildJSonHeader($message, $language);
         }
+
+        // @codeCoverageIgnoreStart
+        throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('The language has not been saved because an unespected error has been occoured when saving', array(), 'languages_controller'));
+        // @codeCoverageIgnoreEnd
     }
 
     public function deleteLanguageAction()
     {
-        try {
-            $request = $this->container->get('request');
-            $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
-            $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
-            if ($alLanguage != null) {
-                $result = $languageManager
-                            ->set($alLanguage)
-                            ->delete();
-                if ($result) {
-                    $message = $this->container->get('translator')->trans('The language has been successfully removed');
-
-                    return $this->buildJSonHeader($message, $alLanguage);
-                }
-
-                // @codeCoverageIgnoreStart
-                throw new \RuntimeException($this->container->get('translator')->trans('The language has not been deleted'));
-                // @codeCoverageIgnoreEnd
-            }
-
-            throw new \RuntimeException($this->container->get('translator')->trans('Any language has been choosen for removing'));
-        } catch (\Exception $e) {
-            return $this->renderDialogMessage($e->getMessage());
+        $request = $this->container->get('request');
+        $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
+        $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
+        if (null === $alLanguage) {    
+            throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('Any language has been choosen for removing', array(), 'languages_controller'));
         }
+        
+        $result = $languageManager
+            ->set($alLanguage)
+            ->delete()
+        ;
+        if ($result) {      
+            $message = $this->translate('_languages_controller', 'The language has been successfully deleted');              
+            
+            return $this->buildJSonHeader($message, $alLanguage);
+        }
+        
+        // @codeCoverageIgnoreStart
+        throw new \RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('The language has not been deleted', array(), 'languages_controller'));
+        // @codeCoverageIgnoreEnd
     }
     
     public function loadLanguageAttributesAction()

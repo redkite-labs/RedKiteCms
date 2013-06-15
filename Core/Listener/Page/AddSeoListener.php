@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when 
@@ -70,7 +71,11 @@ class AddSeoListener
         $values = $event->getValues();
 
         if (!is_array($values)) {
-            throw new \InvalidArgumentException("The values param is expected to be an array");
+            $exception = array(
+                'message' => 'The parameter "values" must be an array',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
 
         try {
@@ -91,11 +96,12 @@ class AddSeoListener
 
                 if (false !== $result) {
                     $pageRepository->commit();
-                } else {
-                    $pageRepository->rollBack();
-
-                    $event->abort();
+                
+                    return;
                 }
+                
+                $pageRepository->rollBack();
+                $event->abort();
             }
         } catch (\Exception $e) {
             $event->abort();

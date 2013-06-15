@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeoQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the SeoRepositoryInterface to work with Propel
@@ -43,7 +43,11 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
-            throw new InvalidParameterTypeException('AlSeoRepositoryPropel accepts only AlSeo propel objects.');
+            $exception = array(
+                'message' => 'AlSeoRepositoryPropel accepts only AlSeo propel objects',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return parent::setRepositoryObject($object);
@@ -79,7 +83,11 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
         }
 
         if (!is_string($permalink)) {
-            throw new \InvalidArgumentException('The permalink must be a string. The seo attribute cannot be retrieved');
+            $exception = array(
+                'message' => 'The permalink must be a string: fromPermalink cannot retrieve the seo object',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return AlSeoQuery::create('a')

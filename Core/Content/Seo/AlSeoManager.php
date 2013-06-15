@@ -25,7 +25,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\SeoEvents;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 
@@ -114,7 +113,11 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
-            throw new InvalidParameterTypeException('AlSeoManager is only able to manage AlSeo objects');
+            $exception = array(
+                'message' => 'AlSeoManager is able to manage only AlSeo objects',
+                'domain' => 'exceptions',
+            );
+            throw new General\InvalidArgumentTypeException(json_encode($exception));
         }
 
         $this->alSeo = $object;
@@ -138,55 +141,66 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * {@inheritdoc}
      * 
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * 
      * @api
      */
     public function delete()
     {
-        if (null !== $this->alSeo) {
-            $this->dispatchBeforeOperationEvent(
-                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent',
-                    SeoEvents::BEFORE_DELETE_SEO,
-                    array(),
-                    "The seo deleting action has been aborted"
+        if (null === $this->alSeo) {
+            $exception = array(
+                'message' => 'The seo model object is null',
+                'parameters' => array(
+                    '%className%' => get_class($this),
+                ),
+                'domain' => 'exceptions',
             );
-            
-            try {
-                $this->seoRepository->startTransaction();
-                $result = $this->seoRepository
-                            ->setRepositoryObject($this->alSeo)
-                            ->delete();
-                if (false !== $result) {
-                    $eventName = SeoEvents::BEFORE_DELETE_SEO_COMMIT;
-                    $result = !$this->eventsHandler
-                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent', array($this, array()))
-                                ->dispatch()
-                                ->getEvent($eventName)
-                                ->isAborted();
-                }
-
-                if (false !== $result) {
-                    $this->seoRepository->commit();
-
-                    $this->eventsHandler
-                         ->createEvent(SeoEvents::AFTER_DELETE_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoDeletedEvent', array($this))
-                         ->dispatch();
-                } else {
-                    $this->seoRepository->rollBack();
-                }
-
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->seoRepository) && $this->seoRepository !== null) {
-                    $this->seoRepository->rollBack();
-                }
-
-                throw $e;
+            throw new General\ArgumentIsEmptyException(json_encode($exception));
+        }
+        
+        $this->dispatchBeforeOperationEvent(
+            '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent',
+            SeoEvents::BEFORE_DELETE_SEO,
+            array(),
+            array(
+                'message' => 'The seo deleting action has been aborted',
+                'domain' => 'exceptions',
+            )
+        );
+        
+        try {
+            $this->seoRepository->startTransaction();
+            $result = $this->seoRepository
+                        ->setRepositoryObject($this->alSeo)
+                        ->delete();
+            if (false !== $result) {
+                $eventName = SeoEvents::BEFORE_DELETE_SEO_COMMIT;
+                $result = !$this->eventsHandler
+                            ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent', array($this, array()))
+                            ->dispatch()
+                            ->getEvent($eventName)
+                            ->isAborted();
             }
-        } else {
-            throw new General\ParameterIsEmptyException($this->translate('The seo model object is null'));
+
+            if (false !== $result) {
+                $this->seoRepository->commit();
+
+                $this->eventsHandler
+                     ->createEvent(SeoEvents::AFTER_DELETE_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoDeletedEvent', array($this))
+                     ->dispatch();
+                
+                return $result;
+            }
+            $this->seoRepository->rollBack();
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->seoRepository) && $this->seoRepository !== null) {
+                $this->seoRepository->rollBack();
+            }
+
+            throw $e;
         }
     }
 
@@ -217,8 +231,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * 
      * @param array $values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * 
      * @api
      */
@@ -226,10 +240,13 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent',
-                    SeoEvents::BEFORE_ADD_SEO,
-                    $values,
-                    "The seo adding action has been aborted"
+                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent',
+                SeoEvents::BEFORE_ADD_SEO,
+                $values,
+                array(
+                    'message' => 'The seo adding action has been aborted',
+                    'domain' => 'exceptions',
+                )
             );
         
         try {
@@ -237,17 +254,29 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             $this->validator->checkRequiredParamsExists(array('PageId' => '', 'LanguageId' => '', 'Permalink' => ''), $values);
 
             if (empty($values['PageId'])) {
-                throw new General\ParameterIsEmptyException($this->translate("The PageId parameter is mandatory to save a seo object"));
+                $exception = array(
+                    'message' => 'The PageId parameter is mandatory to save a seo object',
+                    'domain' => 'exceptions',
+                );
+                throw new General\ArgumentIsEmptyException(json_encode($exception));
             }
 
             if (empty($values['LanguageId'])) {
-                throw new General\ParameterIsEmptyException($this->translate("The LanguageId parameter is mandatory to save a seo object"));
+                $exception = array(
+                    'message' => 'The LanguageId parameter is mandatory to save a seo object',
+                    'domain' => 'exceptions',
+                );
+                throw new General\ArgumentIsEmptyException(json_encode($exception));
             }
 
             if (empty($values['Permalink'])) {
-                throw new General\ParameterIsEmptyException($this->translate("The Permalink parameter is mandatory to save a seo object"));
+                $exception = array(
+                    'message' => 'The Permalink parameter is mandatory to save a seo object',
+                    'domain' => 'exceptions',
+                );
+                throw new General\ArgumentIsEmptyException(json_encode($exception));
             }
-
+                    
             $values["Permalink"] = AlPageManager::slugify($values["Permalink"]);
 
             $this->seoRepository->startTransaction();
@@ -274,14 +303,16 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->eventsHandler
                      ->createEvent(SeoEvents::AFTER_ADD_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoAddedEvent', array($this))
                      ->dispatch();
-            } else {
-                $this->seoRepository->rollBack();
+                     
+                return $result;
             }
+            
+            $this->seoRepository->rollBack();
 
             return $result;
-        } catch (General\ParameterIsEmptyException $ex) {
-        } catch (General\EmptyParametersException $ex) {
-        } catch (General\ParameterExpectedException $ex) {
+        } catch (General\ArgumentIsEmptyException $ex) {
+        } catch (General\EmptyArgumentsException $ex) {
+        } catch (General\ArgumentExpectedException $ex) {
         } catch (\Exception $e) {
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();
@@ -296,7 +327,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * 
      * @param array $values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -304,10 +335,13 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent',
-                    SeoEvents::BEFORE_EDIT_SEO,
-                    $values,
-                    "The seo editing action has been aborted"
+                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent',
+                SeoEvents::BEFORE_EDIT_SEO,
+                $values,
+                array(
+                    'message' => 'The seo editing action has been aborted',
+                    'domain' => 'exceptions',
+                )
             );
         
         try {
@@ -357,14 +391,14 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                      ->createEvent(SeoEvents::AFTER_EDIT_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoEditedEvent', array($this))
                      ->dispatch();
 
-                return true;
-            } else {
-                $this->seoRepository->rollBack();
+                return $result;
+            } 
+            
+            $this->seoRepository->rollBack();
 
-                return false;
-            }
-        } catch (General\EmptyParametersException $ex) {
-        } catch (General\ParameterExpectedException $ex) {
+            return $result;
+        } catch (General\EmptyArgumentsException $ex) {
+        } catch (General\ArgumentExpectedException $ex) {
         } catch (\Exception $e) {
             if (isset($this->seoRepository) && $this->seoRepository !== null) {
                 $this->seoRepository->rollBack();

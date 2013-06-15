@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * This object is deputaed to format an url to be used when the CMS editor is active or for 
@@ -190,8 +190,12 @@ class AlUrlManager implements AlUrlManagerInterface
 
             return $language;
         }
-
-        throw new InvalidParameterException('The given parameter to fetch a language is not valid');
+        
+        $exception = array(
+            'message' => 'Cannnot fetch a valid language using the provided argument',
+            'domain' => 'exceptions',
+        );
+        throw new InvalidArgumentException(json_encode($exception));
     }
 
     private function fetchAlPage($page)
@@ -216,13 +220,21 @@ class AlUrlManager implements AlUrlManagerInterface
             return $page;
         }
 
-        throw new InvalidParameterException('The given parameter to fetch a page is not valid');
+        $exception = array(
+            'message' => 'Cannnot fetch a valid page using the provided argument',
+            'domain' => 'exceptions',
+        );
+        throw new InvalidArgumentException(json_encode($exception));
     }
 
     private function checkNull($object, $message)
     {
         if (null === $object) {
-            throw new InvalidParameterException($message);
+            $exception = array(
+                'message' => $message,
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
     }
 }

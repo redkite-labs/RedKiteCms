@@ -15,13 +15,15 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General;
+
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 
 /**
- * Thrown when the parameter type is not the one expected
+ * Thrown when an invalid operation is made
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class InvalidParameterTypeException extends \InvalidArgumentException
+class InvalidOperationException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {
 }

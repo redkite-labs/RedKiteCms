@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
  * Thrown when someone tries to remove the website main language
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class RemoveMainLanguageException extends \RuntimeException
+class RemoveMainLanguageException extends \RuntimeException implements AlphaLemonExceptionInterface
 {
 }

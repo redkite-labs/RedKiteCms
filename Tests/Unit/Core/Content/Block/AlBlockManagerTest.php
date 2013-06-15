@@ -204,7 +204,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
@@ -227,7 +227,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
@@ -236,14 +236,14 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
-            ->will($this->throwException(new General\EmptyParametersException()));
+            ->will($this->throwException(new General\EmptyArgumentsException()));
 
         $params = array();
         $this->blockManager->save($params);
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
@@ -254,7 +254,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
-            ->will($this->throwException(new General\ParameterExpectedException()));
+            ->will($this->throwException(new General\ArgumentExpectedException()));
 
         $params = array('Fake' => 'content');
         $this->blockManager->set($block);
@@ -262,7 +262,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testAddFailsWhenOneExpectedParamIsMissing()
     {
@@ -271,7 +271,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
-            ->will($this->throwException(new General\ParameterExpectedException()));
+            ->will($this->throwException(new General\ArgumentExpectedException()));
 
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
@@ -282,7 +282,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testAddFailsWhenTheDefaultValueDoesNotReturnAnArray()
     {
@@ -299,7 +299,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testAddFailsWhenTheDefaultValueHasAnyOfTheRequiredOptions()
     {
@@ -311,7 +311,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkOnceValidParamExists')
-            ->will($this->throwException(new General\ParameterExpectedException()));
+            ->will($this->throwException(new General\ArgumentExpectedException()));
 
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
@@ -549,7 +549,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
@@ -563,7 +563,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
-            ->will($this->throwException(new General\EmptyParametersException()));
+            ->will($this->throwException(new General\EmptyArgumentsException()));
 
         $this->blockRepository->expects($this->never())
                 ->method('setRepositoryObject');
@@ -788,7 +788,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testDeleteBlockFailsWhenAnyBlockIsSet()
     {

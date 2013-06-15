@@ -167,7 +167,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage slotToArray accepts only strings
+     * @expectedExceptionMessage {"message":"slotToArray method accepts only strings","domain":"exceptions"}
      */
     public function testSlotsToArrayAcceptsOnlyStrings()
     {
@@ -182,7 +182,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testAnExceptionIsThrownWhenTheTemplateSlotsObjectIsNull()
     {

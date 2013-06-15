@@ -32,6 +32,8 @@ class AlFileType extends JsonBlockType
         parent::buildForm($builder, $options);
 
         $builder->add('file');
-        $builder->add('opened', 'checkbox');
+        $builder->add('opened', 'checkbox', array(
+            'label' => 'Show opened',
+        ));
     }
 }

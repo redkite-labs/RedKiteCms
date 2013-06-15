@@ -47,7 +47,7 @@ class AlPropelRepositoryTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlPropelRepository accepts only objects derived from propel \BaseObject
      */
     public function testModelObjectRequiresABaseObject()

@@ -36,7 +36,7 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlSeoRepositoryPropel accepts only AlSeo propel objects
      */
     public function testRepositoryAcceptsOnlyAlSeoObjects()

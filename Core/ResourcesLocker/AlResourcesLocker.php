@@ -19,6 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * AlResourcesLocker is responsible to manage the locked resources.
@@ -65,7 +66,11 @@ class AlResourcesLocker
         $resource = $this->lockedResourceRepository->fromResourceNameByUser($userId, $resourceName);
         if (null === $resource) {
             if ( ! $this->isResourceFree($resourceName)) {
-                throw new ResourceNotFreeException('The resource you requested is locked by another user. Please retry in a couple of minutes');
+                $exception = array(
+                    'message' => 'The resource you requested is locked by another user. Please retry in a couple of minutes',
+                    'domain' => 'exceptions',
+                );
+                throw new ResourceNotFreeException(json_encode($exception));
             }
             
             $resourceClass = $this->lockedResourceRepository->getRepositoryObjectClassName();
@@ -87,7 +92,11 @@ class AlResourcesLocker
                        ->setRepositoryObject($resource)
                        ->save($values);
         if (false === $result) {
-            throw new \RuntimeException("The resource has not been locked due to an error occoured during the saving operation");
+            $exception = array(
+                'message' => 'The resource has not been locked due to an error occoured during the saving operation',
+                'domain' => 'exceptions',
+            );
+            throw new RuntimeException(json_encode($exception));
         }
     }
     

@@ -43,7 +43,7 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects
      */
     public function testRepositoryAcceptsOnlyAlLockedResourceObjects()

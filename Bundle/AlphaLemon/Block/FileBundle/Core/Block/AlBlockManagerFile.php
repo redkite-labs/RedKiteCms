@@ -10,6 +10,8 @@ namespace AlphaLemon\Block\FileBundle\Core\Block;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Description of AlBlockManagerFile
@@ -18,15 +20,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
  */
 class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 {
+    protected $translator;
+    protected $cmsLanguage;
+    
+    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    {
+        parent::__construct($container, $validator);
+        
+        $this->translator = $this->container->get('translator');
+        $this->cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+    }
+    
     public function getDefaultValue()
     {
-        $value =
+        $value = sprintf(
         '{
             "0" : {
-                "file" : "Click to load a file",
+                "file" : "%s",
                 "opened" : false
             }
-        }';
+        }', $this->translator->trans("Click to load a file", array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage));
 
         return array(
             'Content' => $value,
@@ -58,9 +71,10 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $form = $this->container->get('form.factory')->create($formClass, $item); 
         
         return array(
-            "template" => 'FileBundle:Editor:file_editor.html.twig',
-            "title" => "Files editor",
+            'template' => 'AlphaLemonCmsBundle:Editor:base_editor_form.html.twig',
+            'title' => $this->translator->trans('Files editor', array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage),
             'form' => $form->createView(),
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
     }
     
