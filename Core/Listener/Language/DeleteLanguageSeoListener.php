@@ -31,7 +31,7 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
      */
     public function __construct(AlSeoManager $seoManager)

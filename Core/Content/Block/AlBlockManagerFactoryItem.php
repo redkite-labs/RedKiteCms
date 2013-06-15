@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpect
  * togheter the blocks that belongs the same group
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlBlockManagerFactoryItem
@@ -72,7 +72,7 @@ class AlBlockManagerFactoryItem
      * Returns the handled block manager
      *
      * @return AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface
-     * 
+     *
      * @api
      */
     public function getBlockManager()
@@ -84,7 +84,7 @@ class AlBlockManagerFactoryItem
      * Returns the item id
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getId()
@@ -96,7 +96,7 @@ class AlBlockManagerFactoryItem
      * Returns the item id
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getType()
@@ -108,7 +108,7 @@ class AlBlockManagerFactoryItem
      * Returns the item description
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getDescription()
@@ -120,7 +120,7 @@ class AlBlockManagerFactoryItem
      * Returns the item group
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getGroup()

@@ -2,7 +2,6 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Generator;
 
-use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 use Symfony\Component\DependencyInjection\Container;
 use AlphaLemon\ThemeEngineBundle\Core\Generator\AlBaseGenerator;
 
@@ -10,7 +9,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Generator\AlBaseGenerator;
  * AlAppBlockGenerator generates an App-Block bundle
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlAppBlockGenerator extends AlBaseGenerator
@@ -30,7 +29,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
 
         $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';
         $extensionAlias = Container::underscore($bundleBasename);
-        $typeLowercase = strtolower($bundleBasename);        
+        $typeLowercase = strtolower($bundleBasename);
         $parameters = array(
             'namespace' => $namespace,
             'namespace_path' => str_replace('\\', '\\\\', $namespace),
@@ -42,8 +41,8 @@ class AlAppBlockGenerator extends AlBaseGenerator
             'extension_alias' => $extensionAlias,
             'description'    => $options["description"],
             'group'    => $options["group"],
-        ); 
-        
+        );
+
         $this->renderFile($blockSkeletonDir, 'Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
         $this->renderFile($blockSkeletonDir, 'FormType.php', $dir.'/Core/Form/'.$bundleBasename.'Type.php', $parameters);
         $this->renderFile($blockSkeletonDir, 'app_block.xml', $dir.'/Resources/config/app_block.xml', $parameters);

@@ -25,7 +25,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
  * Renders the editor to manage a collection of images
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @deprecated since 1.1.0
  * @codeCoverageIgnore
  */
@@ -33,13 +33,13 @@ abstract class BaseImagesBlockEditedListener
 {
     protected $templateEngine;
 
-    protected abstract function configure();
-    
+    abstract protected function configure();
+
     /**
      * Contructor
-     * 
+     *
      * @param \Symfony\Component\Templating\EngineInterface $templateEngine
-     * 
+     *
      * @api
      */
     public function __construct(EngineInterface $templateEngine)
@@ -49,9 +49,9 @@ abstract class BaseImagesBlockEditedListener
 
     /**
      * Renders the editor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent $event
-     * 
+     *
      * @api
      */
     public function onBlockEdited(BlockEditedEvent $event)
@@ -59,17 +59,17 @@ abstract class BaseImagesBlockEditedListener
         $blockManager = $event->getBlockManager();
         $blockType = $blockManager->get()->getType();
         if ($blockType == $this->getManagedBlockType()) {
-            
+
             $templateName = 'AlphaLemonCmsBundle:Block:Images/images_list.html.twig';
             $options = $this->configure();
             if (array_key_exists('images_editor_template', $options)) {
                 $templateName = $options['images_editor_template'];
             }
-            
+
             $block = $blockManager->get();
             $items = json_decode($block->getContent(), true);
             $form = $this->setUpForm($block->getId(), -1);
-            
+
             $template = $this->templateEngine->render($templateName, array("alContent" => $blockManager, 'items' => $items, 'form' => $form));
             $values = array(
                 array("key" => "images-list", "value" => $template),
@@ -85,7 +85,7 @@ abstract class BaseImagesBlockEditedListener
             $event->setResponse($response);
         }
     }
-    
+
     protected function setUpForm($blockId, $itemId)
     {
         $item = null;
@@ -106,7 +106,7 @@ abstract class BaseImagesBlockEditedListener
 
         return $this->container->get('form.factory')->create($formClass, $item);
     }
-    
+
     protected function fetchBlock($blockId)
     {
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');

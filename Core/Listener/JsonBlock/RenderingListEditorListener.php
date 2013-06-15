@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  * Renders the editor to manipulate a Json list of items
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @deprecated since 1.1.0
  * @codeCoverageIgnore
  */
@@ -50,30 +50,30 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
 
     /**
      * Renders the editor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
-     * @return string The rendered editor
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
+     * @return string                                                                             The rendered editor
      */
     protected function doRenderEditor(BlockEditorRenderingEvent $event)
     {
         $this->container = $event->getContainer();
-                
+
         $block = $this->alBlockManager->get();
         $className =$block->getType();
         $items = json_decode($block->getContent(), true);
         $form = $this->setUpForm($block->getId(), -1); //, $request->get('itemId')
         $template = sprintf('%sBundle:Block:%s_list.html.twig', $className, strtolower($className));
-        
-        return $event->getContainer()->get('templating')->render($template, 
+
+        return $event->getContainer()->get('templating')->render($template,
                 array(
-                    "items" => $items, 
-                    "block_manager" => $this->alBlockManager, 
-                    "block_id" => $block->getId(), 
+                    "items" => $items,
+                    "block_manager" => $this->alBlockManager,
+                    "block_id" => $block->getId(),
                     'form' => $form->createView()
                 )
         );
     }
-    
+
     /**
      * Sets up the form that manages the json item
      *
@@ -101,7 +101,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
 
         return $this->container->get('form.factory')->create($formClass, $item);
     }
-    
+
     /**
      * Retrieves the block
      *

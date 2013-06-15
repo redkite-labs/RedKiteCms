@@ -38,8 +38,8 @@ interface RoleRepositoryInterface
      * @param int       The primary key
      * @return object The fetched object
      */
-    public function fromRoleName($roleName); 
-    
+    public function fromRoleName($roleName);
+
     /**
      * Fetches the active roles
      *

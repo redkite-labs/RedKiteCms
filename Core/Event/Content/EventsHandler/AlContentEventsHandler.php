@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler;
  * Implements the AlEventsHandler to hanled events for Content objects
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlContentEventsHandler extends AlEventsHandler
@@ -34,7 +34,7 @@ class AlContentEventsHandler extends AlEventsHandler
     protected function configureMethods()
     {
         return array(
-            "setContentManager", 
+            "setContentManager",
             "setValues",
         );
     }

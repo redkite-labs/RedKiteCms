@@ -30,7 +30,7 @@ interface AlCommandsProcessorInterface
      * @param  string   $cmd
      * @param  \Closure $closure
      * @return int
-     * 
+     *
      * @api
      */
     public function executeCommand($cmd, \Closure $closure = null);
@@ -41,7 +41,7 @@ interface AlCommandsProcessorInterface
      * @param  array             $commands
      * @param  \Closure          $closure  A global closure used when the specific one has not been defined
      * @throws \RuntimeException
-     * 
+     *
      * @api
      */
     public function executeCommands(array $commands, \Closure $closure = null);

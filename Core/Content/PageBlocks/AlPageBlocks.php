@@ -25,39 +25,38 @@ use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks as AlPage
  * Extends the AlPageBlocks class to load blocks from the database
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlPageBlocks extends AlPageBlocksBase
 {
     /**
-     * @var int 
+     * @var int
      */
     protected $idPage = null;
-    
+
     /**
-     * @var int 
+     * @var int
      */
     protected $idLanguage = null;
-    
+
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface 
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      */
     protected $factoryRepository = null;
-    
+
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface 
+     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
      */
     protected $blockRepository;
-    
-    
+
     protected $alBlocks = null;
 
     /**
      * Constructor
      *
      * @param AlFactoryRepositoryInterface $factoryRepository
-     * 
+     *
      * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
@@ -69,7 +68,7 @@ class AlPageBlocks extends AlPageBlocksBase
     /**
      * The id of the page to retrieve
      *
-     * @param  int $v
+     * @param  int                                                                                          $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
@@ -93,7 +92,7 @@ class AlPageBlocks extends AlPageBlocksBase
     /**
      * The id of the language to retrieve
      *
-     * @param  int $v
+     * @param  int                                                                                          $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
@@ -118,7 +117,7 @@ class AlPageBlocks extends AlPageBlocksBase
      * Returns the current page id
      *
      * @return int
-     * 
+     *
      * @api
      */
     public function getIdPage()
@@ -130,7 +129,7 @@ class AlPageBlocks extends AlPageBlocksBase
      * Returns the current language id
      *
      * @return int
-     * 
+     *
      * @api
      */
     public function getIdLanguage()
@@ -142,7 +141,7 @@ class AlPageBlocks extends AlPageBlocksBase
      * Refreshes the blocks
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * 
+     *
      * @api
      */
     public function refresh()
@@ -163,7 +162,7 @@ class AlPageBlocks extends AlPageBlocksBase
 
         return $this;
     }
-    
+
     /**
      * Retrieves from the database the contents and arranges them by slots
      *
@@ -190,12 +189,12 @@ class AlPageBlocks extends AlPageBlocksBase
         $this->alBlocks = $this->fetchBlocks();
         $this->arrangeBlocks();
     }
-    
+
     protected function fetchBlocks()
     {
         return $this->blockRepository->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
     }
-    
+
     protected function arrangeBlocks()
     {
         $this->blocks = array();

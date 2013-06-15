@@ -21,7 +21,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
  * Defines the names for the template manager events
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 final class TemplateManagerEvents
@@ -30,7 +30,7 @@ final class TemplateManagerEvents
     const BEFORE_POPULATE = 'template_manager.before_populate';
     const BEFORE_POPULATE_COMMIT = 'template_manager.before_populate_commit';
     const AFTER_POPULATE = 'template_manager.after_populate';
-    
+
     const BEFORE_CLEAR_BLOCKS = 'template_manager.before_clear_blocks';
     const BEFORE_CLEAR_BLOCKS_COMMIT = 'template_manager.before_clear_blocks_commit';
     const AFTER_CLEAR_BLOCKS = 'template_manager.after_clear_blocks';

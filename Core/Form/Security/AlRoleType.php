@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Implements the form to manage the website roles
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  */
 class AlRoleType extends AbstractType

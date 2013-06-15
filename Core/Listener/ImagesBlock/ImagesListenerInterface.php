@@ -18,13 +18,13 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock;
 
 /**
- * 
+ *
  * @author alphalemon <webmaster@alphalemon.com>
  * @deprecated since 1.1.0
  */
-interface ImagesListenerInterface 
+interface ImagesListenerInterface
 {
     public function configure();
-    
+
     public function getManagedBlockType();
 }

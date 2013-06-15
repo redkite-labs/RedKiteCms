@@ -23,24 +23,24 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
- * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when 
+ * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when
  * a new page is added
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AddSeoListener
 {
     private $seoManager;
     private $languageRepository;
-    
+
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager                        $seoManager
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     *
      * @api
      */
     public function __construct(AlSeoManager $seoManager, AlFactoryRepositoryInterface $factoryRepository)
@@ -48,16 +48,16 @@ class AddSeoListener
         $this->seoManager = $seoManager;
         $this->languageRepository = $factoryRepository->createRepository('Language');
     }
-    
+
     /**
-     * Adds the page's seo attributes when a new page is added, for each language of 
+     * Adds the page's seo attributes when a new page is added, for each language of
      * the site
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
      * @return boolean
      * @throws \InvalidArgumentException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
-     * 
+     *
      * @api
      */
     public function onBeforeAddPageCommit(BeforeAddPageCommitEvent $event)

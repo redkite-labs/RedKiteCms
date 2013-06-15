@@ -21,21 +21,21 @@ use Symfony\Component\EventDispatcher\Event;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
- * Defines the base event raised when the website is deployed 
+ * Defines the base event raised when the website is deployed
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class BasePopulateEvent extends Event
 {
     protected $templateManager;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * 
+     *
      * @api
      */
     public function __construct(AlTemplateManager $templateManager)
@@ -47,19 +47,19 @@ abstract class BasePopulateEvent extends Event
      * Returns the template manager
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * 
+     *
      * @api
      */
     public function getTemplateManager()
     {
         return $this->templateManager;
     }
-    
+
     /**
      * Sets the template manager
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * 
+     *
      * @api
      */
     public function setTemplateManager(AlTemplateManager $templateManager)

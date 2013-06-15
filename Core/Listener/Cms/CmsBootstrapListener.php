@@ -26,7 +26,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
  * Bootstraps AlphaLemon CMS
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class CmsBootstrapListener
@@ -39,7 +39,7 @@ class CmsBootstrapListener
      * Contructor
      *
      * @param ContainerInterface $container
-     * 
+     *
      * @api
      */
     public function __construct(ContainerInterface $container)
@@ -53,7 +53,7 @@ class CmsBootstrapListener
      * Listen to onKernelRequest to check and configure AlphaLemon CMS
      *
      * @param GetResponseEvent $event
-     * 
+     *
      * @api
      */
     public function onKernelRequest(GetResponseEvent $event)
@@ -100,7 +100,7 @@ class CmsBootstrapListener
         if (null === $template) {
             return;
         }
-        
+
         $language = $this->pageTree->getAlLanguage();
         $page = $this->pageTree->getAlPage();
         $languageId = (null !== $language) ? $language->getId() : null;

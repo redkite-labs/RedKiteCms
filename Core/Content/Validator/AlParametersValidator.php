@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
  * AlParametersValidator validates consistence of array parameters
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlParametersValidator implements AlParametersValidatorInterface
@@ -31,7 +31,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
     /**
      * {@inheritdoc}
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * 
+     *
      * @api
      */
     public function checkEmptyParams(array $values, $message = null)
@@ -79,7 +79,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
             throw new General\ArgumentExpectedException($message);
         }
     }
-    
+
     /**
      * {@inheritdoc}
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
@@ -120,7 +120,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
     {
         $options = array_keys($params);
         sort($options);
-        
+
         return implode(',', $options);
     }
 }

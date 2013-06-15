@@ -21,7 +21,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Exception;
  * Thrown when the template has any slot
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class EmptyTemplateSlotsException extends \InvalidArgumentException

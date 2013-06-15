@@ -25,20 +25,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * to the adding language
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 {
     private $blockManager;
 
-    
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager $blockManager
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface         $container
+     *
      * @api
      */
     public function __construct(AlBlockManager $blockManager, ContainerInterface $container = null)

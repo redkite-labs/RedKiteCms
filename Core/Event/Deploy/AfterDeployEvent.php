@@ -17,12 +17,11 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
 
-
 /**
  * Defines the AfterDeployEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AfterDeployEvent extends Base\BaseDeployEvent

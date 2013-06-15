@@ -27,22 +27,22 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
  * AlTwigTemplateWriter generates a twig template from a PageTree object
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
 {
     protected $deployBundle;
     protected $templatesFolder;
-    
+
     public function __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, $deployBundle, $templatesFolder, AlViewRendererInterface $viewRenderer, array $replaceImagesPaths = array())
     {
         $this->deployBundle = $deployBundle;
         $this->templatesFolder = $templatesFolder;
-        
-        parent::__construct($pageTree, $blockManagerFactory, $urlManager, $viewRenderer, $replaceImagesPaths);        
+
+        parent::__construct($pageTree, $blockManagerFactory, $urlManager, $viewRenderer, $replaceImagesPaths);
     }
-    
+
     /**
      * Generates the template's subsections and the full template itself
      */
@@ -55,7 +55,7 @@ class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
         $this->generateAddictionalMetaTagsSection();
 
         $this->twigTemplate = $this->templateSection . $this->metatagsSection . $this->metatagsExtraSection . $this->assetsSection . $this->contentsSection;
-        
+
         return $this;
     }
 

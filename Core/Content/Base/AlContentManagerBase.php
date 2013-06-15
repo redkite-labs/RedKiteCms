@@ -20,7 +20,6 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException;
 
@@ -48,9 +47,9 @@ abstract class AlContentManagerBase
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * 
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlParametersValidatorInterface $validator = null)
@@ -64,7 +63,7 @@ abstract class AlContentManagerBase
      *
      * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
-     * 
+     *
      * @api
      */
     public function setEventsHandler(AlEventsHandlerInterface $eventsHandler)
@@ -79,7 +78,7 @@ abstract class AlContentManagerBase
      *
      * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
-     * 
+     *
      * @api
      */
     public function setValidator(AlParametersValidatorInterface $validator)
@@ -88,12 +87,12 @@ abstract class AlContentManagerBase
 
         return $this;
     }
-    
+
     /**
      * Returns the Event dispatcher object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
-     * 
+     *
      * @api
      */
     public function getEventsHandler()
@@ -105,7 +104,7 @@ abstract class AlContentManagerBase
      * Returns the ParameterValidator object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface
-     * 
+     *
      * @api
      */
     public function getValidator()
@@ -116,10 +115,10 @@ abstract class AlContentManagerBase
     /**
      * Dispatches a BeforeAction[*] event type
      *
-     * @param string $eventClass
-     * @param string $eventName
-     * @param array $values
-     * @param string $exceptionMessage
+     * @param  string                $eventClass
+     * @param  string                $eventName
+     * @param  array                 $values
+     * @param  string                $exceptionMessage
      * @return array
      * @throws EventAbortedException
      */

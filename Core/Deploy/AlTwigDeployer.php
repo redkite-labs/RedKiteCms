@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * AlTwigDeployer extends the base deployer class to save the PageTree as a twig template
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlTwigDeployer extends AlDeployer
@@ -34,15 +34,15 @@ abstract class AlTwigDeployer extends AlDeployer
 
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * 
+     *
      * @api
      */
     public function  __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-        
+
         $this->urlManager = $this->container->get('alpha_lemon_cms.url_manager');
         $this->blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
         $this->viewsDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.views_dir') . '/' . $this->deployFolder;

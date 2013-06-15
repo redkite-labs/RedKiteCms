@@ -24,11 +24,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
- * This object is deputaed to format an url to be used when the CMS editor is active or for 
+ * This object is deputaed to format an url to be used when the CMS editor is active or for
  * the production environment
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlUrlManager implements AlUrlManagerInterface
@@ -43,10 +43,10 @@ class AlUrlManager implements AlUrlManagerInterface
 
     /**
      * Constructor
-     * 
-     * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
+     *
+     * @param \Symfony\Component\HttpKernel\KernelInterface                                        $kernel
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     *
      * @api
      */
     public function __construct(KernelInterface $kernel, AlFactoryRepositoryInterface $factoryRepository)
@@ -152,9 +152,9 @@ class AlUrlManager implements AlUrlManagerInterface
 
     /**
      * Generates an internal route name, from the language and the page
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage $language
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage $page
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage $language
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage     $page
      * @return string
      */
     protected function generateRoute(AlLanguage $language, AlPage $page)

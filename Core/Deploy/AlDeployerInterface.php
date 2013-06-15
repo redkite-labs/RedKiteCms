@@ -17,19 +17,18 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
-
 /**
  * Defines the mehods to deploy a website
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 interface AlDeployerInterface
 {
     /**
      * Deploys all the website's pages
-     * 
+     *
      * @api
      */
     public function deploy();

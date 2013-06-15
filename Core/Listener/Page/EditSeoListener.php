@@ -23,11 +23,11 @@ use \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
- * Listen to the onBeforeEditPageCommit event to edit the seo attributes when a new 
+ * Listen to the onBeforeEditPageCommit event to edit the seo attributes when a new
  * page is edited
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class EditSeoListener
@@ -36,24 +36,24 @@ class EditSeoListener
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
-     * 
+     *
      * @api
      */
     public function __construct(AlSeoManager $seoManager)
     {
         $this->seoManager = $seoManager;
     }
-    
+
     /**
      * Edits the seo attributes when a new page is edited
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent $event
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent $event
      * @return boolean
      * @throws \InvalidArgumentException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
-     * 
+     *
      * @api
      */
     public function onBeforeEditPageCommit(BeforeEditPageCommitEvent $event)

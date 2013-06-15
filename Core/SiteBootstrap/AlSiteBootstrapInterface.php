@@ -22,79 +22,79 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
- * AlSiteBootstrapInterface defines the methos to boostrap an AlphaLemon website from 
+ * AlSiteBootstrapInterface defines the methos to boostrap an AlphaLemon website from
  * the scratch for a given theme
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 interface AlSiteBootstrapInterface
 {
     /**
      * Returns the error message
-     * 
+     *
      * @return string
-     * 
+     *
      * @api
      */
     public function getErrorMessage();
-    
+
     /**
      * Sets the language manager
-     * 
-     * @param AlLanguageManager $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
-     * 
+     *
+     * @param  AlLanguageManager                                                  $value
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     *
      * @api
      */
     public function setLanguageManager(AlLanguageManager $value);
-    
+
     /**
      * Sets the page manager
-     * 
-     * @param AlPageManager $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
-     * 
+     *
+     * @param  AlPageManager                                                      $value
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     *
      * @api
      */
     public function setPageManager(AlPageManager $value);
-    
+
     /**
      * Sets the template manager
-     * 
-     * @param AlTemplateManager $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
-     * 
+     *
+     * @param  AlTemplateManager                                                  $value
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     *
      * @api
      */
     public function setTemplateManager(AlTemplateManager $value);
-    
+
     /**
      * Sets the default language's values used to add the new language
-     * 
-     * @param array $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
-     * 
+     *
+     * @param  array                                                              $value
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     *
      * @api
      */
     public function setDefaultLanguageValues(array $value);
-    
+
     /**
      * Sets the default page's values used to add the new language
-     * 
-     * @param array $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap 
-     * 
+     *
+     * @param  array                                                              $value
+     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     *
      * @api
      */
     public function setDefaultPageValues(array $value);
-    
+
     /**
      * Bootstraps the website
-     * 
-     * @return boolean 
-     * 
+     *
+     * @return boolean
+     *
      * @api
      */
     public function bootstrap();

@@ -61,7 +61,7 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
         return AlRoleQuery::create()
                           ->findPk($id);
     }
-    
+
     /**
      * {@inheritdoc}
      */

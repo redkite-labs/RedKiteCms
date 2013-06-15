@@ -27,7 +27,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentExcepti
  * permalink and replaces it with the new one
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class UpdatePermalinkOnBlocksListener
@@ -38,10 +38,10 @@ class UpdatePermalinkOnBlocksListener
 
     /**
      * Construct
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blocksFactory
-     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface    $blocksFactory
+     *
      * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blocksFactory)
@@ -50,15 +50,15 @@ class UpdatePermalinkOnBlocksListener
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
-    
+
     /**
      * Adds the page attributes when a new page is added, for each language of the site
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent $event
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent $event
      * @return boolean
      * @throws \InvalidArgumentException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo\Exception
-     * 
+     *
      * @api
      */
     public function onBeforeEditSeoCommit(BeforeEditSeoCommitEvent $event)

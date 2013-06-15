@@ -34,9 +34,9 @@ class BlockEditorRenderedEvent extends Event
     private $blockManager = null;
 
     /**
-     * Construct 
-     * 
-     * @param \Symfony\Component\HttpFoundation\Response $response
+     * Construct
+     *
+     * @param \Symfony\Component\HttpFoundation\Response                                 $response
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      */
     public function __construct(Response $response, AlBlockManagerInterface $blockManager)
@@ -47,21 +47,21 @@ class BlockEditorRenderedEvent extends Event
 
     /**
      * Returns the handled response object
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @api
      */
     public function getResponse()
     {
         return $this->response;
     }
-    
+
     /**
      * Sets the response
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Response $v
-     * 
+     *
      * @api
      */
     public function setResponse(Response $v)
@@ -71,9 +71,9 @@ class BlockEditorRenderedEvent extends Event
 
     /**
      * Returns the handled block manager object
-     * 
+     *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface
-     * 
+     *
      * @api
      */
     public function getBlockManager()
@@ -82,10 +82,10 @@ class BlockEditorRenderedEvent extends Event
     }
 
     /**
-     * Sets the block manager 
-     * 
+     * Sets the block manager
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $v
-     * 
+     *
      * @api
      */
     public function setBlockManager(AlBlockManagerInterface $v)

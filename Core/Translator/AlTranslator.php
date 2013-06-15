@@ -24,7 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface;
  * A base class to add translation capabilities to derived objects
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlTranslator implements AlTranslatorInterface
@@ -34,9 +34,9 @@ class AlTranslator implements AlTranslatorInterface
     
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * 
+     *
      * @api
      */
     public function __construct(TranslatorInterface $translator = null, AlConfigurationInterface $configuration = null)
@@ -44,13 +44,13 @@ class AlTranslator implements AlTranslatorInterface
         $this->translator = $translator;
         $this->configuration = $configuration;
     }
-    
+
     /**
      * Sets the tranlator object
-     * 
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     *
+     * @param  \Symfony\Component\Translation\TranslatorInterface           $translator
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
-     * 
+     *
      * @api
      */
     public function setTranslator(TranslatorInterface $translator)
@@ -64,7 +64,7 @@ class AlTranslator implements AlTranslatorInterface
      * Returns the Translator object
      *
      * @return \Symfony\Component\Translation\TranslatorInterface
-     * 
+     *
      * @api
      */
     public function getTranslator()
