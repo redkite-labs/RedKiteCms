@@ -23,7 +23,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * AlSlotManager represents a slot on a page.
@@ -130,8 +131,12 @@ class AlSlotManager extends AlTemplateBase
      */
     public function setForceSlotAttributes($v)
     {
-        if (!is_bool($v)) {
-            throw new \InvalidArgumentException("setForceSlotAttributes accepts only boolean values");
+        if ( ! is_bool($v)) {
+            $exception = array(
+                'message' => 'setForceSlotAttributes accepts only boolean values',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
 
         $this->forceSlotAttributes = $v;
@@ -151,8 +156,12 @@ class AlSlotManager extends AlTemplateBase
      */
     public function setSkipSiteLevelBlocks($v)
     {
-        if (!is_bool($v)) {
-            throw new \InvalidArgumentException("setSkipSiteLevelBlocks accepts only boolean values");
+        if ( ! is_bool($v)) {
+            $exception = array(
+                'message' => 'setSkipSiteLevelBlocks accepts only boolean values',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
 
         $this->skipSiteLevelBlocks = $v;
@@ -279,8 +288,8 @@ class AlSlotManager extends AlTemplateBase
      * @param  type                      $type             The block type. By default a Text block is added
      * @param  type                      $referenceBlockId The id of the reference block. When given, the block is placed below this one
      * @return null|boolean
-     * @throws InvalidParameterTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws InvalidArgumentTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @throws \InvalidArgumentException
      * 
      * @api
@@ -288,11 +297,19 @@ class AlSlotManager extends AlTemplateBase
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
     {
         if ((int) $idLanguage == 0) {
-            throw new InvalidParameterTypeException(get_class($this) . ' reports: "idLanguage parameter must be a valid integer"');
+            $exception = array(
+                'message' => 'The language id argument must be a numeric value',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         if ((int) $idPage == 0) {
-            throw new InvalidParameterTypeException(get_class($this) . ' reports: "idPage parameter must be a valid integer"');
+            $exception = array(
+                'message' => 'The page id argument must be a numeric value',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
         
         try {
@@ -331,7 +348,15 @@ class AlSlotManager extends AlTemplateBase
 
             $alBlockManager = $this->blockManagerFactory->createBlockManager($type);
             if (null === $alBlockManager) {
-                throw new \InvalidArgumentException("The $type type does not exist");
+                $exception = array(
+                    'message' => 'The %type% type does not exist',
+                    'parameters' => array(
+                        '%type%' => $type,
+                    ),
+                    'domain' => 'exceptions',
+                );
+                
+                throw new InvalidArgumentException(json_encode($exception));
             }
 
             $result = true;
@@ -379,11 +404,7 @@ class AlSlotManager extends AlTemplateBase
             
             if ($result !== false) {
                 $this->blockRepository->commit();
-            } else {
-                $this->blockRepository->rollBack();
-            }
-
-            if ($result) {
+                
                 if (!empty($leftArray) || !empty($rightArray)) {
                     $index = $position - 1;
                     $this->blockManagers = array_merge($leftArray, array($index => $alBlockManager), $rightArray);
@@ -392,7 +413,11 @@ class AlSlotManager extends AlTemplateBase
                 }
 
                 $this->lastAdded = $alBlockManager;
-            }
+                
+                return $result;
+            } 
+            
+            $this->blockRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {
@@ -410,7 +435,7 @@ class AlSlotManager extends AlTemplateBase
      * @param int   $idBlock The id of the block to edit
      * @param array $values  The new values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -424,9 +449,11 @@ class AlSlotManager extends AlTemplateBase
                 $result = $blockManager->save($values);
                 if ($result !== false) {
                     $this->blockRepository->commit();
-                } else {
-                    $this->blockRepository->rollBack();
+                    
+                    return $result;
                 }
+                
+                $this->blockRepository->rollBack();
 
                 return $result;
             } catch (\Exception $e) {
@@ -444,7 +471,7 @@ class AlSlotManager extends AlTemplateBase
      *
      * @param  int     $idBlock The id of the block to remove
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -453,46 +480,48 @@ class AlSlotManager extends AlTemplateBase
         $leftArray = array();
         $rightArray = array();
         $info = $this->getBlockManagerAndIndex($idBlock);
-        if ($info != null) {
-            $index = $info['index'];
-            $leftArray = array_slice($this->blockManagers, 0 , $index);
-            $rightArray = array_slice($this->blockManagers, $index + 1, $this->length() - 1);
-
-            try {
-                $this->blockRepository->startTransaction();
-
-                // Adjust the blocks position
-                $result = $this->adjustPosition('del', $rightArray);
-                if (false !== $result) {
-                    $result = $info['manager']->delete();
-                }
-
-                if (false !== $result) {
-                    $this->blockRepository->commit();
-
-                    $this->blockManagers = array_merge($leftArray, $rightArray);
-                } else {
-                    $this->blockRepository->rollBack();
-                }
-
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                    $this->blockRepository->rollBack();
-                }
-
-                throw $e;
-            }
+        if (null === $info) {
+            return null;
         }
+        
+        $index = $info['index'];
+        $leftArray = array_slice($this->blockManagers, 0 , $index);
+        $rightArray = array_slice($this->blockManagers, $index + 1, $this->length() - 1);
 
-        return null;
+        try {
+            $this->blockRepository->startTransaction();
+
+            // Adjust the blocks position
+            $result = $this->adjustPosition('del', $rightArray);
+            if (false !== $result) {
+                $result = $info['manager']->delete();
+            }
+
+            if (false !== $result) {
+                $this->blockRepository->commit();
+
+                $this->blockManagers = array_merge($leftArray, $rightArray);
+                
+                return $result;
+            } 
+            
+            $this->blockRepository->rollBack();
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
+            throw $e;
+        }
     }
     
     /**
      * Deletes all the blocks managed by the slot
      * 
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -514,12 +543,12 @@ class AlSlotManager extends AlTemplateBase
                     $this->blockRepository->commit();
                     $this->blockManagers = array();
 
-                    return true;
-                } else {
-                    $this->blockRepository->rollBack();
-
-                    return false;
+                    return $result;
                 }
+                
+                $this->blockRepository->rollBack();
+
+                return $result;
             }
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -625,7 +654,7 @@ class AlSlotManager extends AlTemplateBase
      * @param  string $op       The operation to do. It accepts add or del as valid values
      * @param  array  $managers An array of block managers
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @throws \InvalidArgumentException     * 
      */
     protected function adjustPosition($op, array $managers)
@@ -635,31 +664,44 @@ class AlSlotManager extends AlTemplateBase
             $required = array("add", "del");
             if (!in_array($op, $required)) {
                 // @codeCoverageIgnoreStart
-                throw new \InvalidArgumentException($this->translate('The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"', array('%className%' => get_class($this), '%options%' => $required, '%parameter%' => $op), 'al_slot_manager_exceptions'));
+                $exception = array(
+                    'message' => 'The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"',
+                    'parameters' => array(
+                        '%className%' => get_class($this),
+                        '%options%' => $required, 
+                        '%parameter%' => $op,
+                    ),
+                    'domain' => 'exceptions',
+                );
+                throw new InvalidArgumentException(json_encode($exception));
                 // @codeCoverageIgnoreEnd
             }
+            
+            if (count($managers) == 0) {
+                return;
+            }
+            
+            $result = null;
+            $this->blockRepository->startTransaction();
+            foreach ($managers as $blockManager) {
+                $block = $blockManager->get();
+                $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
+                $result = $this->blockRepository
+                                ->setRepositoryObject($block)
+                                ->save(array("ContentPosition" => $position));
 
-            if (count($managers) > 0) {
-                $result = null;
-                $this->blockRepository->startTransaction();
-                foreach ($managers as $blockManager) {
-                    $block = $blockManager->get();
-                    $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
-                    $result = $this->blockRepository
-                                    ->setRepositoryObject($block)
-                                    ->save(array("ContentPosition" => $position));
+                if (false === $result) break;
+            }
 
-                    if (false === $result) break;
-                }
-
-                if (false !== $result) {
-                    $this->blockRepository->commit();
-                } else {
-                    $this->blockRepository->rollBack();
-                }
-
+            if (false !== $result) {
+                $this->blockRepository->commit();
+                
                 return $result;
             }
+            
+            $this->blockRepository->rollBack();
+
+            return $result;            
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();

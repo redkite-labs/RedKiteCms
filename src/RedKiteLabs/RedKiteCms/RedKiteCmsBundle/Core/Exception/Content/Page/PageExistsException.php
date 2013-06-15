@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
  * Thrown when the page to add already exists
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class PageExistsException extends \InvalidArgumentException
+class PageExistsException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {
 }

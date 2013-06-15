@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
- * Thrown when any of the expected parameters has been given
+ * Thrown when the parameter is expected to have a value
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AnyValidParameterGivenException extends \InvalidArgumentException
+class ArgumentIsEmptyException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {
 }

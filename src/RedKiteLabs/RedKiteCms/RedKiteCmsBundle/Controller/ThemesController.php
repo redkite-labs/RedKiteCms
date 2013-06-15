@@ -99,7 +99,10 @@ class ThemesController extends BaseController
     
     public function showThemesFinalizerAction()
     {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_finalizer.html.twig');
+        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_finalizer.html.twig',
+            array(
+                'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+        ));
     }
     
     public function finalizeThemeAction()
@@ -108,7 +111,10 @@ class ThemesController extends BaseController
         $action = $request->get('action');
            
         $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
-        $result = $themeChanger->finalize($action);        
+        $result = $themeChanger->finalize($action);  
+        
+        $message = "The theme has not been finalized due to an error occoured when saving to database";
+        $statusCode = 404;      
         if ($result) {
             $message = "The theme has been finalized";
             $statusCode = 200;
@@ -116,10 +122,6 @@ class ThemesController extends BaseController
             if ($action == 'full') {
                 unlink($this->container->getParameter('alpha_lemon_cms.theme_structure_file'));
             }
-        }
-        else {
-            $message = "The theme has not been finalized due to an error occoured when saving to database";
-            $statusCode = 404;
         }
 
         return new Response($message, $statusCode);
@@ -144,6 +146,8 @@ class ThemesController extends BaseController
                     ->setTemplateManager($templateManager)
                     ->bootstrap();
         
+        $message = $siteBootstrap->getErrorMessage();
+        $statusCode = 404;
         if ($result) {            
             $currentTheme = $this->getActiveTheme();    
             $currentTheme->writeActiveTheme($themeName);
@@ -151,10 +155,7 @@ class ThemesController extends BaseController
             $message = "The site has been bootstrapped with the new theme. This page is reloading";
             $statusCode = 200;
         }
-        else {
-            $message = $siteBootstrap->getErrorMessage();
-            $statusCode = 404;
-        }
+        
         $response = new Response();
         $response->setStatusCode($statusCode);
 
@@ -181,8 +182,41 @@ class ThemesController extends BaseController
         $templates = array_keys($theme->getTemplates());
 
         $status = null === $error ? 200 : 404;
-        $output = $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:show_theme_changer.html.twig', array('templates' => $templates, 'current_templates' => $currentTemplates, 'themeName' => $themeName, 'error' => $error));
+        $output = $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:show_theme_changer.html.twig', array(
+            'templates' => $templates, 
+            'current_templates' => $currentTemplates, 
+            'themeName' => $themeName, 
+            'error' => $error,
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+        ));
 
         return new Response($output, $status);
+    }
+    
+    protected function renderThemesPanel()
+    {
+        $values = array();        
+        $activeTheme = $this->getActiveTheme()->getActiveTheme();
+        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        foreach($themes as $theme)
+        {
+            if ($activeTheme !== null && $activeTheme == $theme->getThemeName()) {
+                $values['active_theme'] = $this->retrieveThemeInfo($theme, false);
+
+                continue;
+            }
+
+            $values['available_themes']["themes"][] = $this->retrieveThemeInfo($theme);
+        }
+
+        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'), array(
+            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+            'panel_sections' => 'AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig',
+            'theme_skeleton' => 'AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig',
+            'values' => $values,
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+        ));
+
+        return $responseContent;
     }
 }

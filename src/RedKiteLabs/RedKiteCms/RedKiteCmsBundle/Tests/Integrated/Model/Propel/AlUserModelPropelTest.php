@@ -36,7 +36,7 @@ class AlUserRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlUserRepositoryPropel accepts only AlUser propel objects
      */
     public function testRepositoryAcceptsOnlyAlUserObjects()

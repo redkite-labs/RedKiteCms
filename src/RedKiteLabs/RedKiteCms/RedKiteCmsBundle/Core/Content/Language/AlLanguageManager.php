@@ -91,7 +91,11 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlLanguage) {
-            throw new General\InvalidParameterTypeException('AlLanguageManager is only able to manage only AlLanguage objects');
+            $exception = array(
+                'message' => 'AlLanguageManager is able to manage only AlLanguage objects',
+                'domain' => 'exceptions',
+            );
+            throw new General\InvalidArgumentTypeException(json_encode($exception));
         }
 
         $this->alLanguage = $object;
@@ -143,7 +147,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * {@inheritdoc}
      * 
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\RemoveMainLanguageException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      * 
@@ -152,18 +156,29 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     public function delete()
     {
         if (null === $this->alLanguage) {
-            throw new General\ParameterIsEmptyException($this->translate("Any language has been assigned to the LanguageManager. Delete operation aborted", array(), 'alpha_lemon_cms.language_manager_exceptions'));
+            $exception = array(
+                'message' => 'Any language has been assigned to the LanguageManager. Delete operation aborted',
+                'domain' => 'exceptions',
+            );
+            throw new General\ArgumentIsEmptyException(json_encode($exception));
         }
 
         if ($this->alLanguage->getMainLanguage() == 1) {
-            throw new Language\RemoveMainLanguageException($this->translate("The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again", array(), 'alpha_lemon_cms.language_manager_exceptions'));
+            $exception = array(
+                'message' => 'The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again',
+                'domain' => 'exceptions',
+            );
+            throw new Language\RemoveMainLanguageException(json_encode($exception));
         }
 
         $this->dispatchBeforeOperationEvent(
                 '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent',
                 LanguageEvents::BEFORE_DELETE_LANGUAGE,
                 array(),
-                "The language deleting action has been aborted"
+                array(
+                    'message' => 'The language deleting action has been aborted',
+                    'domain' => 'exceptions',
+                )
         );
 
         try {
@@ -181,15 +196,17 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                                 ->isAborted();
             }
 
-            if ($result) {
+            if (false !== $result) {
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
                      ->createEvent(LanguageEvents::AFTER_DELETE_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageDeletedEvent', array($this))
                      ->dispatch();
-            } else {
-                $this->languageRepository->rollBack();
+                     
+                return $result;
             }
+                
+            $this->languageRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {
@@ -208,7 +225,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * @return type
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      * @throws LanguageExistsException
-     * @throws General\ParameterIsEmptyException
+     * @throws General\ArgumentIsEmptyException
      * 
      * @api
      */
@@ -219,18 +236,29 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                         '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent',
                         LanguageEvents::BEFORE_ADD_LANGUAGE,
                         $values,
-                        "The language adding action has been aborted"
+                        array(
+                            'message' => 'The language adding action has been aborted',
+                            'domain' => 'exceptions',
+                        )
                 );
 
         try {
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('LanguageName' => ''), $values);
             if ($this->validator->languageExists($values['LanguageName'])) {
-                throw new LanguageExistsException($this->translate("The language you are trying to add, already exists in the website"));
+                $exception = array(
+                    'message' => 'The language you are trying to add, already exists in the website',
+                    'domain' => 'exceptions',
+                );
+                throw new Language\LanguageExistsException(json_encode($exception));
             }
 
             if (empty($values['LanguageName'])) {
-                throw new General\ParameterIsEmptyException($this->translate("A language cannot be null. Please provide a valid language name to add the language"));
+                $exception = array(
+                    'message' => 'A language cannot be null. Please provide a valid language name to add the language',
+                    'domain' => 'exceptions',
+                );
+                throw new General\ArgumentIsEmptyException(json_encode($exception));
             }
 
             $result = true;
@@ -260,15 +288,17 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 }
             }
 
-            if ($result) {
+            if (false !== $result) {
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
                      ->createEvent(LanguageEvents::AFTER_ADD_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageAddedEvent', array($this))
                      ->dispatch();
-            } else {
-                $this->languageRepository->rollBack();
-            }
+                     
+                return $result;
+            }   
+                     
+            $this->languageRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {
@@ -296,7 +326,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                     '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent',
                     LanguageEvents::BEFORE_EDIT_LANGUAGE,
                     $values,
-                    "The language editing action has been aborted"
+                    array(
+                        'message' => 'The language editing action has been aborted',
+                        'domain' => 'exceptions',
+                    )
             );
         
         try {
@@ -315,38 +348,44 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 unset($values["MainLanguage"]);
             }
 
-            if ($result) {
-                if (!empty($values['LanguageName']) && $this->alLanguage->getLanguageName() == $values['LanguageName']) {
+            if (false !== $result) {
+                if ( ! empty($values['LanguageName']) && $this->alLanguage->getLanguageName() == $values['LanguageName']) {
                     unset($values['LanguageName']);
                 }
 
-                if (!empty($values)) {
-                    $result = $this->languageRepository
-                                ->setRepositoryObject($this->alLanguage)
-                                ->save($values);
-                } else {
-                    $result = false;
+                if (empty($values)) {
+                    $this->languageRepository->rollBack();
+                    
+                    return false;
                 }
+                
+                $result = $this->languageRepository
+                    ->setRepositoryObject($this->alLanguage)
+                    ->save($values)
+                ;
 
-                if ($result) {
+                if (false != $result) {
                     $eventName = LanguageEvents::BEFORE_EDIT_LANGUAGE_COMMIT;
                     $result = !$this->eventsHandler
-                                    ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent', array($this, $values))
-                                    ->dispatch()
-                                    ->getEvent($eventName)
-                                    ->isAborted();
+                        ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent', array($this, $values))
+                        ->dispatch()
+                        ->getEvent($eventName)
+                        ->isAborted()
+                    ;
                 }
             }
 
-            if ($result) {
+            if (false !== $result) {
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
                      ->createEvent(LanguageEvents::AFTER_EDIT_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageEditedEvent', array($this))
                      ->dispatch();
-            } else {
-                $this->languageRepository->rollBack();
+                     
+                return $result;
             }
+                
+            $this->languageRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {

@@ -18,7 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
 
 /**
  * AlParametersValidator validates consistence of array parameters
@@ -27,11 +26,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator;
  * 
  * @api
  */
-class AlParametersValidator extends AlTranslator implements AlParametersValidatorInterface
+class AlParametersValidator implements AlParametersValidatorInterface
 {
     /**
      * {@inheritdoc}
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * 
      * @api
      */
@@ -41,50 +40,73 @@ class AlParametersValidator extends AlTranslator implements AlParametersValidato
             if (null === $message) {
                 $message = 'Any parameter has been given';
             }
-
-            throw new General\EmptyParametersException($this->translate($message));
+            
+            $exception = array(
+                'message' => $message,
+                'domain' => 'exceptions',
+            );
+            
+            throw new General\EmptyArgumentsException(json_encode($exception));
         }
     }
 
     /**
      * {@inheritdoc}
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * 
      * @api
      */
     public function checkOnceValidParamExists(array $requiredParams, array $values, $message = null)
     {
-        $this->checkEmptyParams($requiredParams, 'Checking that at least a valid parameter exist cannot validate nothing when any required parameters has been given');
-        $this->checkEmptyParams($values, 'Checking that at least a valid parameter exist cannot validate nothing when any value has been given');
+        $this->checkEmptyParams($requiredParams, 'AlValidator cannot check that at least once parameter exists because any "required parameters" has been given');
+        $this->checkEmptyParams($values, 'AlValidator cannot check that at least once parameter exists because any "value" has been given');
 
         $diff = array_intersect_key($requiredParams, $values);
         if (empty($diff)) {
             if (null === $message) {
-                $message = $this->translate('At least one of those options are required: %required%. The options you gave are %values%', array('%required%' => $this->doImplode($requiredParams), '%values%' => $this->doImplode($values)));
+                $message = array(
+                    'message' => 'At least one of those options are required: %required%. The options you gave are %values%',
+                    'parameters' => array(
+                        '%required%' => $this->doImplode($requiredParams), 
+                        '%values%' => $this->doImplode($values),
+                    ),
+                    'domain' => 'exceptions',
+                );
+                
+                $message = json_encode($message);
             }
-
-            throw new General\ParameterExpectedException($message);
+            
+            throw new General\ArgumentExpectedException($message);
         }
     }
     
     /**
      * {@inheritdoc}
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * 
      * @api
      */
     public function checkRequiredParamsExists(array $requiredParams, array $values, $message = null)
     {
-        $this->checkEmptyParams($requiredParams, 'Checking that all the required parameters exist cannot validate nothing when any required parameters has been given');
-        $this->checkEmptyParams($values, 'Checking that all the required parameters exist cannot validate nothing when any value has been given');
+        $this->checkEmptyParams($requiredParams, 'AlValidator cannot check that all the required parameters exist because any "required parameters" has been given');
+        $this->checkEmptyParams($values, 'AlValidator cannot check that all the required parameters exist because any "value" has been given');
 
         $diff = array_intersect_key($requiredParams, $values);
         if ($diff != $requiredParams) {
             if (null === $message) {
-                $message = $this->translate('The following options are required: %required%. The options you gave are %values%', array('%required%' => $this->doImplode($requiredParams), '%values%' => $this->doImplode($values)));
+                $message = array(
+                    'message' => 'The following options are required: %required%. The options you gave are %values%',
+                    array(
+                        '%required%' => $this->doImplode($requiredParams), 
+                        '%values%' => $this->doImplode($values)
+                    ),
+                    'domain' => 'exceptions',
+                );
+                
+                $message = json_encode($message);
             }
 
-            throw new General\ParameterExpectedException($message);
+            throw new General\ArgumentExpectedException($message);
         }
     }
 

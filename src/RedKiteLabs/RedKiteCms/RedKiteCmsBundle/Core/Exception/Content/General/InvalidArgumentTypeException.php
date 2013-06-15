@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
- * Thrown when the parameter type is not the one expected
+ * Thrown when the argument type is not the one expected
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class InvalidFileNameException extends \InvalidArgumentException
+class InvalidArgumentTypeException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {
 }

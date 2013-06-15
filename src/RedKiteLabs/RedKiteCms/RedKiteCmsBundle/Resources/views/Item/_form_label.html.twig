@@ -1,0 +1,19 @@
+{% block form_label %}
+
+{% if cms_language is not defined %}
+{% set cms_language = app.request.get('_locale') %}
+{% endif %}
+
+{% spaceless %}
+    {% if not compound %}
+        {% set label_attr = label_attr|merge({'for': id}) %}
+    {% endif %}
+    {% if required %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+    {% endif %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain, cms_language) }}</label>
+{% endspaceless %}
+{% endblock form_label %}

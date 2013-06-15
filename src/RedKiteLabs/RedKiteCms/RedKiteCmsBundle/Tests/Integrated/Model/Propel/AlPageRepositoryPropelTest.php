@@ -36,7 +36,7 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlPageRepositoryPropel accepts only AlPage propel objects
      */
     public function testRepositoryAcceptsOnlyAlPageObjects()

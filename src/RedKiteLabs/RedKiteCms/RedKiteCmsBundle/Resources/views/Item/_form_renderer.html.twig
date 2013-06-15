@@ -13,14 +13,18 @@
    @license    GPL LICENSE Version 2.0
 #}
 
+{% extends 'AlphaLemonCmsBundle:Item:_languages_support.html.twig' %}
+
+{% form_theme form 'AlphaLemonCmsBundle:Item:_form_label.html.twig'  %}
+
+{% block content %}
 {% if widget_class is not defined %}
 {% set widget_class = 'al_form_item' %}
 {% endif %}
-
 {% for item in form %}
     {%if(item.vars.block_prefixes.2 != "hidden") %}
     <tr>
-        <td>{{ form_label(item) }}</td>
+        <td>{{ form_label(item, null, {'cms_language': cms_language}) }}</td>
         <td>{{ form_errors(item) }}
         {% if(item.vars.block_prefixes.3 == "textarea") %}
             {{ form_widget(item, { 'attr': {'rows' : 4, 'class' : 'textarea ' ~ widget_class }}) }}
@@ -32,3 +36,4 @@
     {% endif %}
 {% endfor %}
 {{ form_rest(form) }}
+{% endblock %}

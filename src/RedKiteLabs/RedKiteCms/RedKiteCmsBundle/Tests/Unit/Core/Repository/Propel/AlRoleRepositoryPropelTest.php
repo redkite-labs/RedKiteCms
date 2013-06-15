@@ -44,7 +44,7 @@ class AlRoleRepositoryTest extends TestCase
     }
     
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlRoleRepositoryPropel accepts only AlRole propel objects
      */
     public function testModelObjectInjectedBySettersIsInvalid()

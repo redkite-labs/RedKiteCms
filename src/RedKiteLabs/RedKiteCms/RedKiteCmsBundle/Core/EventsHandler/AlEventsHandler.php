@@ -18,8 +18,9 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -89,17 +90,32 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     /**
      * {@inheritdoc}
      * 
-     * @throws InvalidParameterException
-     * @throws InvalidParameterTypeException
+     * @throws InvalidArgumentException
+     * @throws InvalidArgumentTypeException
      */
     public function createEvent($eventName, $class, array $args)
     {
-        if (!is_string($eventName)) {
-            throw new InvalidParameterException(sprintf('"%s" createEvent method requires the eventName argument to be a string', get_class($this)));
+        if ( ! is_string($eventName)) {
+            $exception = array(
+                'message' => '"%className%" createEvent method requires the eventName argument to be a string',
+                'parameters' => array(
+                    '%className%' => get_class($this),
+                ),
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
 
-        if (!class_exists($class)) {
-            throw new InvalidParameterException(sprintf('The class "%s" passed as argument for the "%s" createEvent method does not exist', $class, get_class($this)));
+        if ( ! class_exists($class)) {
+            $exception = array(
+                'message' => 'The class "%argumentClass%" passed as argument for the "%className%" createEvent method does not exist',
+                'parameters' => array(
+                    '%argumentClass%' => get_class($this),                    
+                    '%className%' => get_class($this),
+                ),
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
 
         // When the event already exists, it is recreated
@@ -107,8 +123,16 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
         if (null !== $event) {unset($this->events[$eventName]);}
 
         $event = new $class();
-        if (!$event instanceof Event) {
-            throw new InvalidParameterTypeException(sprintf('The class "%s" passed as argument for the "%s" createEvent must be an instance of "Symfony\Component\EventDispatcher\Event"', $class, get_class($this)));
+        if ( ! $event instanceof Event) {
+            $exception = array(
+                'message' => 'The class "%argumentClass%" passed as argument for the "%className%" createEvent must be an instance of "Symfony\Component\EventDispatcher\Event"',
+                'parameters' => array(
+                    '%argumentClass%' => get_class($this),                    
+                    '%className%' => get_class($this),
+                ),
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         $this->events[$eventName] = $event;
@@ -150,7 +174,11 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
         }
 
         if (null === $event) {
-            throw(new \RuntimeException('Any event has been found to be dispatched'));
+            $exception = array(
+                'message' => 'Any event has been found to be dispatched',
+                'domain' => 'exceptions',
+            );
+            throw new RuntimeException(json_encode($exception));
         }
 
         $this->eventDispatcher->dispatch($eventName, $event);

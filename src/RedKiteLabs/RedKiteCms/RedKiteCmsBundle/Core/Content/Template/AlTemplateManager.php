@@ -31,6 +31,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  * AlTemplateManager wrap an AlTemplate object to manage the template's slots when the
@@ -240,7 +241,11 @@ class AlTemplateManager extends AlTemplateBase
     public function slotToArray($slotName)
     {
         if (!is_string($slotName)) {
-            throw new \InvalidArgumentException($this->translate("slotToArray accepts only strings"));
+            $exception = array(
+                'message' => 'slotToArray method accepts only strings',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         if (!array_key_exists($slotName, $this->slotManagers)) {
@@ -354,7 +359,6 @@ class AlTemplateManager extends AlTemplateBase
             $result = null;            
             $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_CLEAR_BLOCKS, new Content\TemplateManager\BeforeClearBlocksEvent($this));
 
-
             $this->blockRepository->startTransaction();
             foreach ($this->slotManagers as $slotManager) {
                 if ($skipRepeated && $slotManager->getSlot()->getRepeated() != 'page') {
@@ -411,9 +415,11 @@ class AlTemplateManager extends AlTemplateBase
 
             if ($result !== false) {
                 $this->blockRepository->commit();
-            } else {
-                $this->blockRepository->rollBack();
+                
+                return $result;
             }
+            
+            $this->blockRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {
@@ -429,7 +435,7 @@ class AlTemplateManager extends AlTemplateBase
      * Creates the slot managers from the current template slot class
      * 
      * @return null|boolean
-     * @throws General\ParameterIsEmptyException
+     * @throws General\ArgumentIsEmptyException
      * @throws Exception\EmptyTemplateSlotsException
      */
     protected function setUpSlotManagers()
@@ -441,13 +447,24 @@ class AlTemplateManager extends AlTemplateBase
         $this->slotManagers = array();
         $templateSlots = $this->template->getTemplateSlots();
         
-        if (null === $templateSlots) {
-            throw new General\ParameterIsEmptyException("Any template has been set");
+        if (null === $templateSlots) {        
+            $exception = array(
+                'message' => 'AlTemplateManager requires a template to set up the template slots: any given',
+                'domain' => 'exceptions',
+            );
+            throw new General\ArgumentIsEmptyException(json_encode($exception));
         }
 
         $slots = $templateSlots->getSlots();
         if (empty($slots)) {
-            throw new Exception\EmptyTemplateSlotsException(sprintf('The template "%s" has any slot attached. Please check your template\'s configuration', $this->template->getTemplateName()));
+            $exception = array(
+                'message' => 'The template "%templateName%" has any slot attached. Please check your template\'s configuration',
+                'parameters' => array(
+                    '%templateName%' => $this->template->getTemplateName(),
+                ),
+                'domain' => 'exceptions',
+            );
+            throw new Exception\EmptyTemplateSlotsException(json_encode($exception));
         }
 
         foreach ($slots as $slotName => $slot) {

@@ -68,6 +68,7 @@ class ThemePreviewController extends AlCmsController
             'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
             'language_name' => $languageName,
             'page_name' => $pageName,
+            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
         
         return $this->render('AlphaLemonCmsBundle:Preview:index.html.twig', $baseParams);

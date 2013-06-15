@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
  * Thrown when a called listener action has been aborted
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class EventAbortedException extends \RuntimeException
+class EventAbortedException extends \RuntimeException implements AlphaLemonExceptionInterface
 {
 }

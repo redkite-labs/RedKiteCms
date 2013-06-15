@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
  * Thrown when any language is added to the website
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AnyLanguageExistsException extends \RuntimeException
+class AnyLanguageExistsException extends \RuntimeException implements AlphaLemonExceptionInterface
 {
 }

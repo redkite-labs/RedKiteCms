@@ -99,6 +99,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         $connection = \Propel::getConnection(); 
         $queries = array(
             'DELETE FROM al_block;',
+            //'DELETE FROM al_configuration;',
             'DELETE FROM al_language;',
             'DELETE FROM al_locked_resource;',
             'DELETE FROM al_page;',
@@ -109,7 +110,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
         );
         
-        /*
+        /**/
         $queries = array(
             'TRUNCATE  al_block;',
             'TRUNCATE  al_language;',
@@ -120,7 +121,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
             'TRUNCATE  al_user;',
             'INSERT INTO al_language (language_name) VALUES(\'-\');',
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
-        );*/
+        );
 
         foreach ($queries as $query) {
             $statement = $connection->prepare($query);

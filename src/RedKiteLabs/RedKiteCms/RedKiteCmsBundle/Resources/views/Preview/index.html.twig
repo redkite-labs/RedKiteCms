@@ -15,6 +15,10 @@
 
 {% extends template %}
 
+{% set cms_language = configuration.read('language') %}
+{% set common_domain = cms_language ~ "_common" %}
+{% set preview_controller_domain = cms_language ~ "_preview_controller" %}
+
 {% block internal_header_javascripts %}
 {{ parent() }}
 <script>
@@ -85,7 +89,6 @@
                                      'components/sydcanem-bootstrap-contextmenu/bootstrap-contextmenu.js'
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/jquery-metadata/jquery.metadata.js'
-                                     'components/pageguide/js/pageguide.min.js'
                                      'components/holderjs/holder.js'
                                      'bundles/alphalemoncms/js/*' 
     %} 
@@ -99,7 +102,6 @@
                     'components/sydcanem-bootstrap-contextmenu/bootstrap-contextmenu.js'
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/jquery-metadata/jquery.metadata.js'
-                    'components/pageguide/js/pageguide.min.js'
                     'components/holderjs/holder.js'
                     'bundles/alphalemoncms/js/*' 
     %}
@@ -124,14 +126,14 @@
         </div>
         <div class="pull-left">
             <a href="#" id="al_show_navigation">
-                <span class="al_img_nav pull-left al_tab_text"><p>Nav</p></span>
+                <span class="al_img_nav pull-left al_tab_text"><p>{{ "Nav"|trans({}, preview_controller_domain, cms_language) }}</p></span>
             </a>
         </div>
         <div class="clearfix"></div>
     </div>
     <div>
         <a href="{{ path('_cms_navigation', {'languageName': language_name, 'pageName': page_name }) }}" id="al-back">
-            <span class="al_img_back pull-left"><p>Back</p></span>
+            <span class="al_img_back pull-left"><p>{{ "Back"|trans({}, preview_controller_domain, cms_language) }}</p></span>
         </a>
     </div>
 </div>
@@ -139,7 +141,5 @@
 <div id="al_cms_contents">
 {{ parent() }}
 </div>
-
-{% include "AlphaLemonCmsBundle:Preview:PageGuide/_help.html.twig" %}
 
 {% endblock %}

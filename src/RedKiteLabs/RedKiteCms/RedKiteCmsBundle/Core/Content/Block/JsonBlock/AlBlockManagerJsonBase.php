@@ -51,7 +51,14 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
         if (null === $content) {
             $blockTypeInfo = (null !== $blockType) ? ' for the block ' . $blockType . ' ' : '';
 
-            throw new Exception\InvalidJsonFormatException(sprintf('The content format %sis wrong. You should remove that block and add it again.', $blockTypeInfo));
+            $exception = array(
+                'message' => 'The content format %blockTypeInfo%is wrong. You should remove that block and add it again.',
+                'parameters' => array(
+                    '%blockTypeInfo%' => $blockTypeInfo,
+                ),
+                'domain' => 'exceptions',
+            );
+            throw new Exception\InvalidJsonFormatException(json_encode($exception));
         }
 
         return $content;

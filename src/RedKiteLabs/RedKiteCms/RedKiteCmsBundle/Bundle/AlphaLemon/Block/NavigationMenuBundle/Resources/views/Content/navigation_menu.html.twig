@@ -13,4 +13,12 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-<p>This content does not require any editor to work</p>
+{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+
+{% block body %}
+<ul {{ editor|raw }}>
+{% for language, values in languages %}
+<li><a href="{{ values.url }}"><img src="{{ values.country }}" alt="{{ language }}" /></a></li>
+{% endfor %}
+</ul>
+{% endblock %}

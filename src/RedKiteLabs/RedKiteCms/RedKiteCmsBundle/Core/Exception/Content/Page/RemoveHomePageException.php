@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
  * Thrown when someone tries to remove the website homepage
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class RemoveHomePageException extends \RuntimeException
+class RemoveHomePageException extends \RuntimeException implements AlphaLemonExceptionInterface
 {
 }

@@ -20,7 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRoleQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RoleRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the UserRepositoryInterface to work with Propel
@@ -43,7 +43,11 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlRole) {
-            throw new InvalidParameterTypeException('AlRoleRepositoryPropel accepts only AlRole propel objects');
+            $exception = array(
+                'message' => 'AlRoleRepositoryPropel accepts only AlRole propel objects',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return parent::setRepositoryObject($object);

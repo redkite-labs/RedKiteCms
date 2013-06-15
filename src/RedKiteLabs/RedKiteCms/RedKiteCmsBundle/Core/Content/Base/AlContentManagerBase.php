@@ -40,7 +40,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-abstract class AlContentManagerBase extends AlTranslator
+abstract class AlContentManagerBase
 {
     protected $eventsHandler;
     protected $validator;
@@ -90,23 +90,6 @@ abstract class AlContentManagerBase extends AlTranslator
     }
     
     /**
-     * Sets the tranlator object
-     * 
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase 
-     * 
-     * @api
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        parent::setTranslator($translator);
-
-        $this->validator->setTranslator($translator);
-
-        return $this;
-    }
-
-    /**
      * Returns the Event dispatcher object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
@@ -147,7 +130,7 @@ abstract class AlContentManagerBase extends AlTranslator
                                      ->getEvent($eventName);
 
         if ($event->isAborted()) {
-            throw new EventAbortedException($this->translate($exceptionMessage, array(), 'al_content_manager_exceptions'));
+            throw new EventAbortedException(json_encode($exceptionMessage));
         }
 
         if (empty($values)) return $values;

@@ -15,17 +15,20 @@
 
 {% extends 'AlphaLemonCmsBundle:Cms:cms-background.html.twig' %}
 
+{% set cms_language = configuration.read('language') %}
+{% set welcome_domain = cms_language ~ "_welcome" %}
+
 {% block cms_content %}
-    <h1>Welcome to AlphaLemon CMS</h1>
-    <p>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons why you are seeing it, the most common are:</p>
+    <h1>{{ 'Welcome to AlphaLemon CMS'|trans({}, welcome_domain, cms_language) }}</h1>
+    <p>{{ 'This is the AlphaLemon CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:'|trans({}, welcome_domain, cms_language) }}</p>
     <ul>
-        <li>The page and/or the language you have requested don't exist</li>
-        <li>The page has assigned a template not included in the theme you are using on your website</li>
-        <li>Your website has any page and/or language and/or theme</li>
-        <li>Something has gone wrong during the install process</li>
+        <li>{{ 'The page and/or the language you have requested does not exist'|trans({}, welcome_domain, cms_language) }}</li>
+        <li>{{ 'The page has assigned a template not included in the theme you are using on your website'|trans({}, welcome_domain, cms_language) }}</li>
+        <li>{{ 'Your website has any page and/or language and/or theme'|trans({}, welcome_domain, cms_language) }}</li>
+        <li>{{ 'Something has gone wrong during the install process'|trans({}, welcome_domain, cms_language) }}</li>
     </ul>
     {% if app.session.hasFlash('message') %}
-    <p style="font-weight: bold">The action you made returns this response:</p>
+    <p style="font-weight: bold">{{ 'The action you made returns this response:'|trans({}, welcome_domain, cms_language) }}</p>
     <p class="text-error">{{ app.session.flash('message') }}</p>
     {% endif %}
 {% endblock %}

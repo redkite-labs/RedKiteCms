@@ -31,6 +31,19 @@
         <parameter name="AutoIncrement" value="1"/>
     </vendor>
   </table>
+  
+  <table name="al_configuration" idMethod="native">
+    <column name="parameter" type="VARCHAR" size="128" required="true" primaryKey="true" />
+    <column name="value" type="VARCHAR" size="128" />
+    <unique name="I_PARAMETER">
+      <unique-column name="parameter" />
+    </unique>
+
+    <vendor type="mysql">
+        <parameter name="Engine" value="InnoDB"/>
+        <parameter name="Charset" value="utf8"/>
+    </vendor>
+  </table>
 
   <table name="al_language" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />

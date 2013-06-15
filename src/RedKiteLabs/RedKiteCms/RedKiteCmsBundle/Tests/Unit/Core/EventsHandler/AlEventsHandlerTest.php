@@ -55,8 +55,8 @@ class AlEventsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException
-     * @expectedExceptionMessage "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTester" createEvent method requires the eventName argument to be a string
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @expectedExceptionMessage {"message":"\"%className%\" createEvent method requires the eventName argument to be a string","parameters":{"%className%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"},"domain":"exceptions"}
      */
     public function testCreateEventThrowsAnExceptionWhenEventNameIsNotAString()
     {
@@ -64,8 +64,8 @@ class AlEventsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterException
-     * @expectedExceptionMessage The class "fake" passed as argument for the "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTester
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @expectedExceptionMessage {"message":"The class \"%argumentClass%\" passed as argument for the \"%className%\" createEvent method does not exist","parameters":{"%argumentClass%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"},"domain":"exceptions"}
      */
     public function testCreateEventThrowsAnExceptionWhenTypeDoesNotExist()
     {
@@ -73,8 +73,8 @@ class AlEventsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
-     * @expectedExceptionMessage The class "\AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTest" passed as argument for the "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTester" createEvent must be an instance of "Symfony\Component\EventDispatcher\Event"
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedExceptionMessage {"message":"The class \"%argumentClass%\" passed as argument for the \"%className%\" createEvent must be an instance of \"Symfony\\Component\\EventDispatcher\\Event\"","parameters":{"%argumentClass%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"},"domain":"exceptions"}
      */
     public function testCreateEventThrowsAnExceptionWhenClassIsNotInherithedByEventClass()
     {

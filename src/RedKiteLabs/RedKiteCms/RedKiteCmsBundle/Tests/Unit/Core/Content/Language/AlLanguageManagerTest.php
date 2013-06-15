@@ -66,7 +66,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
@@ -89,7 +89,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
@@ -98,14 +98,14 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
-            ->will($this->throwException(new General\EmptyParametersException()));
+            ->will($this->throwException(new General\EmptyArgumentsException()));
 
         $values = array();
         $this->languageManager->save($values);
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
@@ -114,7 +114,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
-            ->will($this->throwException(new General\ParameterExpectedException()));
+            ->will($this->throwException(new General\ArgumentExpectedException()));
 
         $values = array('fake' => 'value');
 
@@ -141,7 +141,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testAddThrownAnExceptionWhenTheLanguageAIsEmpty()
     {
@@ -524,7 +524,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyParametersException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
@@ -533,7 +533,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkEmptyParams')
-            ->will($this->throwException(new General\EmptyParametersException()));
+            ->will($this->throwException(new General\EmptyArgumentsException()));
 
         $this->languageRepository->expects($this->never())
             ->method('save');
@@ -543,7 +543,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterExpectedException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testEditFailsWhenAnyoneOfTheExpectedParamIsGiven()
     {
@@ -554,7 +554,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->validator->expects($this->once())
             ->method('checkOnceValidParamExists')
-            ->will($this->throwException(new General\ParameterExpectedException()));
+            ->will($this->throwException(new General\ArgumentExpectedException()));
 
         $this->languageRepository->expects($this->never())
             ->method('save');
@@ -955,7 +955,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testDeleteFailsWhenTheManagedLanguageIsNull()
     {

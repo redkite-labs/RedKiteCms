@@ -110,7 +110,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testAddBlockFailsWhenReceivesAnInvalidLanguageId()
     {
@@ -130,7 +130,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testAddBlockThrowsAnExceptionWhenReceivesAnInvalidPageId()
     {

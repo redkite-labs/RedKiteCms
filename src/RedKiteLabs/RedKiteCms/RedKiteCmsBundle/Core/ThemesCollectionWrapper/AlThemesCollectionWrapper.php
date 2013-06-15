@@ -101,7 +101,15 @@ class AlThemesCollectionWrapper
     {
         $template = $this->getTemplate($themeName, $templateName); 
         if (null === $template) {
-            throw new NonExistentTemplateException(sprintf('The template "%s" does not seem to belong the "%s" theme. Please check your template\'s configuration', $templateName, $themeName));
+            $exception = array(
+                'message' => 'The template "%templateName%" does not seem to belong the "%themeName%" theme. Please check your template\'s configuration',
+                'parameters' => array(
+                    '%templateName%' => $templateName,
+                    '%themeName%' => $themeName,
+                ),
+                'domain' => 'exceptions',
+            );
+            throw new NonExistentTemplateException(json_encode($exception));
         }
 
         $this->templateManager->setTemplate($template);

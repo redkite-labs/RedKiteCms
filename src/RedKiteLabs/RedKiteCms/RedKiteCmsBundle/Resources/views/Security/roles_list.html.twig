@@ -1,18 +1,23 @@
+{% extends 'AlphaLemonCmsBundle:Security:base.html.twig' %}
+
+{% block content %}
 <div class="al_security_list">
-    <h2>Roles</h2>
+    <h2>{{ "Roles management"|trans({}, security_controller_domain, cms_language) }}</h2>
     <table class="table">
         <thead>
-            <th>Rolename</th>
+            <th>{{ "Rolename"|trans({}, security_controller_domain, cms_language) }}</th>
         </thead>
     {% for role in roles %}
-        <tr><td width="100%">{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">Edit</a></td><td><a href="#" class="al_delete_role" rel="{{ role.id }}">Delete</a></td></tr>
+        <tr><td width="100%">{{ role.role }}</td><td><a href="#" rel="{{ role.id }}" class="al_edit_role">{{ "Edit"|trans({}, common_domain, cms_language) }}</a></td>
+        <td><a href="#" class="al_delete_role" rel="{{ role.id }}">{{ "Delete"|trans({}, common_domain, cms_language) }}</a></td></tr>
     {% endfor %}
     </table>
 </div>
 <div class="al_security_commands_box">
     <ul class="inline pull-right">
-        <li><input type="submit" value="New" class="al_add_role btn btn-primary" /></li>
-        <li><input type="submit" value="Users" class="al_list_users btn btn-info" /></li>
+        <li><input type="submit" value="{{ "New"|trans({}, common_domain, cms_language) }}" class="al_add_role btn btn-primary" /></li>
+        <li><input type="submit" value="{{ "Users"|trans({}, common_domain, cms_language) }}" class="al_list_users btn btn-info" /></li>
     </ul>
     <div class="clearfix"></div>
 </div>
+{% endblock %}

@@ -48,7 +48,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testRefreshThrownAnExceptionWhenPageAndLanguageHaveNotBeenSet()
     {
@@ -56,7 +56,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedException The language id must be a numeric value
      */
     public function testLanguageIdMustBeAnInteger()
@@ -65,7 +65,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedException The page id must be a numeric value
      */
     public function testPageIdMustBeAnInteger()
@@ -74,7 +74,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testRefreshThrownAnExceptionWhenPageHaveNotBeenSet()
     {
@@ -84,7 +84,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
+     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testRefreshThrownAnExceptionWhenLanguageHaveNotBeenSet()
     {

@@ -17,11 +17,13 @@
 
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
 
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+
 /**
- * Thrown when the language to add already exists
+ * Thrown when the language you are trying to add already exists
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class LanguageExistsException extends \InvalidArgumentException
+class LanguageExistsException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {
 }

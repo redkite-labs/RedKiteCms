@@ -31,8 +31,8 @@
             <td id="{{ key ~ "_" ~ name }}" name="{{ name }}" rel="{{ attributeName }}" class="al-column {{ hidden }}" width="100%">{{ value }}</td>            
                 
             {% endfor %} 
-            <td><a href="#" rel="{{ key }}" class="al_edit_item { {{ attributes[0:-1] }} }">Edit</a></td>
-            <td><a href="#" class="al_delete_item" rel="{{ key }}">Delete</a></td>
+            <td><a href="#" rel="{{ key }}" class="al_edit_item { {{ attributes[0:-1] }} }">{{ "Edit" | trans({}, common_domain, cms_language) }}</a></td>
+            <td><a href="#" class="al_delete_item" rel="{{ key }}">{{ "Delete" | trans({}, common_domain, cms_language) }}</a></td>
         </tr>
     {% endfor %}
         </table>

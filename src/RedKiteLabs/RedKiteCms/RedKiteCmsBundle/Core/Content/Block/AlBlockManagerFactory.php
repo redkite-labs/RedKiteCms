@@ -30,6 +30,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
 use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface;
 
 /**
  * AlBlockManagerFactory is the object responsible to create a new AlBlockManager object
@@ -57,6 +58,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      * @var \Symfony\Component\Translation\TranslatorInterface 
      * 
      * @api
+     * @deprecated since 1.1.0
      */
     private $translator = null;
     
@@ -79,15 +81,13 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      * 
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      * 
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null, TranslatorInterface $translator = null)
+    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null)
     {
         $this->eventsHandler = $eventsHandler;
         $this->factoryRepository = $factoryRepository;
-        $this->translator = $translator;
     }
 
     /**
@@ -129,9 +129,6 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
                 $blockManager = clone($blockManager);
                 $blockManager->setEventsHandler($this->eventsHandler);
                 if ($isAlBlock) $blockManager->set($block);
-                if (null !== $this->translator) {
-                    $blockManager->setTranslator($this->translator);
-                }
 
                 return $blockManager;
             }

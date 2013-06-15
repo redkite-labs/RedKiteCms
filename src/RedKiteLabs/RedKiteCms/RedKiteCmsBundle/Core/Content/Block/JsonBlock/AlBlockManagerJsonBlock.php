@@ -42,9 +42,15 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
             $serializedData = $values['Content'];
             parse_str($serializedData, $unserializedData); 
             
-            $commonMessageText = 'The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you';
-            if (!array_key_exists("al_json_block", $unserializedData)) {
-                throw new Exception\InvalidFormConfigurationException('There is a configuration error in the form that manages this content: you must name that form "al_json_block". ' . $commonMessageText);
+            if ( ! array_key_exists("al_json_block", $unserializedData)) {
+                $exception = array(
+                    'message' => 'There is a configuration error in the form that manages this content: you must name that form "al_json_block". The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you.',
+                    'parameters' => array(
+                        '%className%' => get_class($this),
+                    ),
+                    'domain' => 'exceptions',
+                );
+                throw new Exception\InvalidFormConfigurationException(json_encode($exception));
             }
 
             $item = $unserializedData["al_json_block"];
@@ -70,8 +76,13 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
 
     private function checkValidItemId($itemId, $content)
     {
-        if (!array_key_exists($itemId, $content)) {
-            throw new Exception\InvalidItemException('It seems that the item requested does not exist anymore');
+        if ( ! array_key_exists($itemId, $content)) {
+            $exception = array(
+                'message' => 'It seems that the item requested does not exist anymore',
+                'domain' => 'exceptions',
+            );
+                
+            throw new Exception\InvalidItemException(json_encode($exception));
         }
     }
 }

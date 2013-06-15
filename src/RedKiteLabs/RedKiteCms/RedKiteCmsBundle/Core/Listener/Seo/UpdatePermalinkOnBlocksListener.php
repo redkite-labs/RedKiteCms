@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Listen to the onBeforeEditSeoCommit event and parsers the blocks to look for the old
@@ -67,9 +68,12 @@ class UpdatePermalinkOnBlocksListener
         }
 
         $values = $event->getValues();
-
         if (!is_array($values)) {
-            throw new \InvalidArgumentException('The "values" parameter is expected to be an array');
+            $exception = array(
+                'message' => 'The parameter "values" must be an array',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentException(json_encode($exception));
         }
 
         if (array_key_exists("oldPermalink", $values)) {
@@ -90,11 +94,12 @@ class UpdatePermalinkOnBlocksListener
 
                     if (false !== $result) {
                         $this->blockRepository->commit();
-                    } else {
-                        $this->blockRepository->rollBack();
-
-                        $event->abort();
+                        
+                        return;
                     }
+                    
+                    $this->blockRepository->rollBack();
+                    $event->abort();
                 } catch (\Exception $e) {
                     $event->abort();
 

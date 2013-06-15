@@ -37,6 +37,7 @@ class AlCmsController extends BaseFrontendController
     public function showAction()
     {
         $request = $this->container->get('request');
+        
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
@@ -44,7 +45,8 @@ class AlCmsController extends BaseFrontendController
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');        
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
-            
+        $configuration = $this->container->get('alpha_lemon_cms.configuration');
+        
         $params = array(
             'template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
             'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
@@ -59,6 +61,7 @@ class AlCmsController extends BaseFrontendController
             'language' => 0,
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
             'frontController' => $this->getFrontcontroller($request),
+            'configuration' => $configuration,
         );
         
         if (null !== $pageTree) {
@@ -105,7 +108,17 @@ class AlCmsController extends BaseFrontendController
                 )
             );
         } else {
-            $this->container->get('session')->setFlash('message', 'The requested page has not been loaded');
+            $cmsLanguage = $configuration->read('language');
+            $message = $this->container->get('translator')->trans(
+                'It seems that the "%page%" does not exist for the "%language%" language', 
+                array(
+                    '%page%' => $request->get('page'), 
+                    '%language%' => $request->get('_locale')
+                ), 
+                $cmsLanguage . '_cms_controller', 
+                $cmsLanguage
+            );
+            $this->container->get('session')->setFlash('message', $message);
         }
 
         $response = $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', $params);
@@ -142,7 +155,15 @@ class AlCmsController extends BaseFrontendController
             $asset = new AlAsset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
             if (false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig')) {
-                $this->container->get('session')->setFlash('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme');
+                $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+                $message = $this->container->get('translator')->trans(
+                    'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme', 
+                    array(), 
+                    $cmsLanguage . '_cms_controller', 
+                    $cmsLanguage
+                );
+                
+                $this->container->get('session')->setFlash('message', $message);
 
                 return $templateTwig;
             }

@@ -25,9 +25,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-
 /**
  * AlBlockManager is the base object that wraps an AlBlock object and implements an 
  * AlphaLemonCMS Block object
@@ -93,6 +92,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Defines the default value of the managed block
      *
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
      *
      * Returns an array which may contain one or more of these keys:
      *
@@ -121,7 +121,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
-            throw new InvalidParameterTypeException('AlBlockManager is only able to manage AlBlock objects');
+            $exception = array(
+                'message' => 'AlBlockManager is only able to manage AlBlock objects',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         $this->alBlock = $object;
@@ -422,22 +426,29 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * {@inheritdoc}
      * 
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ParameterIsEmptyException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
     public function delete()
     {
         if (null === $this->alBlock) {
-            throw new General\ParameterIsEmptyException($this->translate("Any valid block has been setted. Nothing to delete", array()));
+            $exception = array(
+                'message' => 'Any valid block has been setted. Nothing to delete',
+                'domain' => 'exceptions',
+            );
+            throw new General\ArgumentIsEmptyException(json_encode($exception));
         }
-
+        
         $this->dispatchBeforeOperationEvent(
-                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
-                BlockEvents::BEFORE_DELETE_BLOCK,
-                array(),
-                "The content deleting action has been aborted"
+            '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
+            BlockEvents::BEFORE_DELETE_BLOCK,
+            array(),
+            array(
+                'message' => 'The content deleting action has been aborted',
+                'domain' => 'exceptions',
+            )
         );
 
         try {
@@ -453,11 +464,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                      ->dispatch();
 
                 return true;
-            } else {
-                $this->blockRepository->rollBack();
+            } 
+            
+            $this->blockRepository->rollBack();
 
-                return false;
-            }
+            return false;
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();
@@ -570,8 +581,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * 
      * @param array $values An array where keys are the AlBlockField definition and values are the values to add
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\General\InvalidParameterTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\General\InvalidArgumentTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -579,10 +590,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
-                    BlockEvents::BEFORE_ADD_BLOCK,
-                    $values,
-                    "The current block adding action has been aborted"
+                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
+                BlockEvents::BEFORE_ADD_BLOCK,
+                $values,
+                array(
+                    'message' => 'The current block adding action has been aborted',
+                    'domain' => 'exceptions',
+                )
             );
 
         $this->validator->checkEmptyParams($values);
@@ -593,7 +607,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         if (!array_key_exists('Content', $values)) {
             $defaults = $this->getDefaultValue();
             if (!is_array($defaults)) {
-                throw new General\InvalidParameterTypeException($this->translate('The abstract method getDefaultValue() defined for the object %className% must return an array', array('%className%' => get_class($this), 'al_content_manager_exceptions')));
+                $exception = array(
+                    'message' => 'The abstract method getDefaultValue() defined for the object %className% must return an array',
+                    'parameters' => array(
+                        '%className%' => get_class($this),
+                    ),
+                    'domain' => 'exceptions',
+                );
+                throw new General\InvalidArgumentTypeException(json_encode($exception));
             }
 
             $mergedValues = array_merge($values, $defaults);
@@ -625,11 +646,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->eventsHandler
                      ->createEvent(BlockEvents::AFTER_ADD_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockAddedEvent', array($this))
                      ->dispatch();
-
-            } else {
-                $this->blockRepository->rollBack();
-            }
-
+                     
+                return $result;
+            } 
+            
+            $this->blockRepository->rollBack();
+            
             return $result;
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
@@ -645,7 +667,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * 
      * @param array $values An array where keys are the AlBlockField definition and values are the values to edit
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException
+     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -656,7 +678,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                         '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
                         BlockEvents::BEFORE_EDIT_BLOCK,
                         $values,
-                        "The content editing action has been aborted"
+                        array(
+                            'message' => 'The content editing action has been aborted',
+                            'domain' => 'exceptions',
+                        )
                 );
 
         try {
@@ -672,9 +697,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->eventsHandler
                      ->createEvent(BlockEvents::AFTER_EDIT_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockEditedEvent', array($this))
                      ->dispatch();
-            } else {
-                $this->blockRepository->rollBack();
-            }
+                     
+                return $result;
+            } 
+            
+            $this->blockRepository->rollBack();
 
             return $result;
         } catch (\Exception $e) {

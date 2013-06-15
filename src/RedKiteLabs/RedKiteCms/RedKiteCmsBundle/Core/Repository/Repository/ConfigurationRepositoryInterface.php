@@ -6,7 +6,7 @@
  *
  * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.alphalemon.com
@@ -15,13 +15,20 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository;
 
 /**
- * Thrown when the parameter is expected to have a value
+ * Defines the methods used to fetch configuration records
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class ParameterIsEmptyException extends \InvalidArgumentException
+interface ConfigurationRepositoryInterface
 {
+    /**
+     * Fetches the given parameter
+     *
+     * @param string       The parameter name
+     * @return object The fetched object
+     */
+    public function fetchParameter($parameter);
 }

@@ -1,9 +1,12 @@
+{% extends 'AlphaLemonCmsBundle:Item:_languages_support.html.twig' %}
+
+{% block content %}
 <ul class="nav nav-tabs" id="myTab">
-    <li class="active"><a href="#al-editor-tab-1" data-toggle="tab">Html Code</a></li>
-    <li><a href="#al-editor-tab-2" data-toggle="tab">Internal Javascript</a></li>
-    <li><a href="#al-editor-tab-3" data-toggle="tab">External Javascripts</a></li>
-    <li><a href="#al-editor-tab-4" data-toggle="tab">Internal Stylesheet</a></li>
-    <li><a href="#al-editor-tab-5" data-toggle="tab">External Stylesheets</a></li>
+    <li class="active"><a href="#al-editor-tab-1" data-toggle="tab">{{ 'Html Code'|trans({}, 'messages', cms_language) }}</a></li>
+    <li><a href="#al-editor-tab-2" data-toggle="tab">{{ 'Internal Javascript'|trans({}, 'messages', cms_language) }}</a></li>
+    <li><a href="#al-editor-tab-3" data-toggle="tab">{{ 'External Javascripts'|trans({}, 'messages', cms_language) }}</a></li>
+    <li><a href="#al-editor-tab-4" data-toggle="tab">{{ 'Internal Stylesheet'|trans({}, 'messages', cms_language) }}</a></li>
+    <li><a href="#al-editor-tab-5" data-toggle="tab">{{ 'External Stylesheets'|trans({}, 'messages', cms_language) }}</a></li>
 </ul>
 
 <div class="tab-content">
@@ -12,7 +15,7 @@
             <textarea id="al_html_editor" name="al_html_editor" class="editor-textarea">{{ editor.blockManager.get.Content }}</textarea>
         </div>
         <div>
-            <input id="al_html_saver" type="submit" value = "Save" class="btn btn-primary" />
+            <input id="al_html_saver" type="submit" value = "{{ 'Save'|trans({}, cms_language ~ '_common', cms_language) }}" class="btn btn-primary" />
         </div>
     </div>
     
@@ -21,7 +24,7 @@
             <textarea id="al_internal_javascript" class="editor-textarea">{{ editor.blockManager.getInternalJavascript(false) }}</textarea>
         </div>
         <div class="editor-commands">
-            <input id="al_internal_javascript_saver" type="submit" value = "Save" class="btn btn-primary" />
+            <input id="al_internal_javascript_saver" type="submit" value = "{{ 'Save'|trans({}, cms_language ~ '_common', cms_language) }}" class="btn btn-primary" />
         </div>
     </div>
 
@@ -34,7 +37,7 @@
             <textarea id="al_internal_stylesheet" class="editor-textarea">{{ editor.blockManager.getInternalStylesheet }}</textarea>
         </div>
         <div class="editor-commands">
-            <input id="al_internal_stylesheet_saver" type="submit" value = "Save" class="btn btn-primary" />
+            <input id="al_internal_stylesheet_saver" type="submit" value = "{{ 'Save'|trans({}, cms_language ~ '_common', cms_language) }}" class="btn btn-primary" />
         </div>
     </div>
 
@@ -48,3 +51,4 @@
     <strong>Warning: After adding or editing this kind of block, a page reload might be required, to properly display it</strong>
 </div>
 {% endif %}
+{% endblock %}

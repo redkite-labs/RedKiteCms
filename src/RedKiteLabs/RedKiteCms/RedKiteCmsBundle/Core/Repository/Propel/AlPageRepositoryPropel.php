@@ -21,7 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlPageQuery;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidParameterTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the PageRepositoryInterface to work with Propel
@@ -44,7 +44,11 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlPage) {
-            throw new InvalidParameterTypeException('AlPageRepositoryPropel accepts only AlPage propel objects.');
+            $exception = array(
+                'message' => 'AlPageRepositoryPropel accepts only AlPage propel objects',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return parent::setRepositoryObject($object);
@@ -80,7 +84,11 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
         }
 
         if (!is_string($pageName)) {
-          throw new \InvalidArgumentException('The name of the page must be a string. The page cannot be retrieved');
+            $exception = array(
+                'message' => 'The page name must be a string: fromPageName cannot retrieve the page',
+                'domain' => 'exceptions',
+            );
+            throw new InvalidArgumentTypeException(json_encode($exception));
         }
 
         return AlPageQuery::create()
