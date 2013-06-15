@@ -26,7 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
  * when this last one is changing its repeated status
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlSlotConverterBase implements AlSlotConverterInterface
@@ -38,14 +38,14 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     protected $blockRepository = null;
     protected $slot;
     protected $arrayBlocks = array();
-    
+
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot $slot
-     * @param \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface $pageContentsContainer
+     *
+     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot                              $slot
+     * @param \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface         $pageContentsContainer
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     *
      * @api
      */
     public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
@@ -59,10 +59,10 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
         $slotBlocks =  $this->pageContentsContainer->getSlotBlocks($this->slot->getSlotName());
         $this->blocksToArray($slotBlocks);
     }
-    
+
     /**
      * Removes the blocks placed on the current slot from the database
-     * 
+     *
      * @return null|boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
      */
@@ -98,13 +98,13 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
             }
         }
     }
-    
+
     /**
      * Updates the block, according the page and language with the new repeated status
-     * 
-     * @param array $block
-     * @param int $idLanguage
-     * @param int $idPage
+     *
+     * @param  array   $block
+     * @param  int     $idLanguage
+     * @param  int     $idPage
      * @return boolean
      */
     protected function updateBlock(array $block, $idLanguage, $idPage)

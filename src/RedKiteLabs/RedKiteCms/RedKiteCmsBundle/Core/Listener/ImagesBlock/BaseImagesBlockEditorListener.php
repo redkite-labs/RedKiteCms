@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  * Renders the editor to manipulate a Json item
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @deprecated since 1.1.0
  * @codeCoverageIgnore
  */
@@ -41,7 +41,7 @@ abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
             $this->container = $event->getContainer();
             $request = $this->container->get('request');
             $template = sprintf('%sBundle:Block:%s_editor.html.twig', $blockType, strtolower($blockType));
-            
+
             $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($blockType));
             $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
             $blockId = $alBlockManager->get()->getId();
@@ -52,8 +52,8 @@ abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
                 "page" => $request->get('pageId'),
                 "editor_settings" => $editorSettings,
                 "form" => $form->createView(),
-                "block_manager" => $alBlockManager, 
-                "block_id" => $blockId, 
+                "block_manager" => $alBlockManager,
+                "block_id" => $blockId,
             );
 
             $options = $this->configure();
@@ -66,7 +66,7 @@ abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
             $event->setEditor($editor);
         }
     }
-    
+
     /**
      * Sets up the form that manages the json item
      *
@@ -94,7 +94,7 @@ abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
 
         return $this->container->get('form.factory')->create($formClass, $item);
     }
-    
+
     /**
      * Retrieves the block
      *

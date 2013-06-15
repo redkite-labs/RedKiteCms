@@ -38,7 +38,7 @@ class AlImageThumbnailer
 
     /**
      * Sets the thumbnails folder
-     * 
+     *
      * @param string $v
      */
     public function setThumbnailFolder($v)
@@ -48,7 +48,7 @@ class AlImageThumbnailer
 
     /**
      * Returns the thumbnails folder
-     * 
+     *
      * @return string
      */
     public function getThumbnailFolder()
@@ -58,7 +58,7 @@ class AlImageThumbnailer
 
     /**
      * Returns the thumbnails folder
-     * 
+     *
      * @return string
      */
     public function getThumbnailPath()
@@ -68,7 +68,7 @@ class AlImageThumbnailer
 
     /**
      * Returns the thumbnail image
-     * 
+     *
      * @return string
      */
     public function getThumbnailImage()
@@ -78,7 +78,7 @@ class AlImageThumbnailer
 
     /**
      * Returns the thumbnail image name
-     * 
+     *
      * @return string
      */
     public function getThumbnailImageName()
@@ -88,7 +88,7 @@ class AlImageThumbnailer
 
     /**
      * Returns the thumbnail width
-     * 
+     *
      * @return int
      */
     public function getThumbnailWidth()
@@ -98,7 +98,7 @@ class AlImageThumbnailer
 
     /**
      * Returns the thumbnail height
-     * 
+     *
      * @return int
      */
     public function getThumbnailHeight()

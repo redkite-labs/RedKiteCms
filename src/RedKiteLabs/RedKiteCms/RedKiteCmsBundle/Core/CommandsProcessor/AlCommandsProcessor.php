@@ -35,7 +35,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
      * Constructor
      *
      * @param string
-     * 
+     *
      * @api
      */
     public function __construct($consoleDir)
@@ -50,9 +50,9 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
     /**
      * Sets the console dir path
      *
-     * @param type $consoleDir
+     * @param  type                                                                       $consoleDir
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessor
-     * 
+     *
      * @api
      */
     public function setConsoleDir($consoleDir)
@@ -66,7 +66,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
      * Returns the console directory
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getConsoleDir()
@@ -76,7 +76,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @api
      */
     public function executeCommand($cmd, \Closure $closure = null, Process $process = null)
@@ -93,7 +93,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @api
      */
     public function executeCommands(array $commands, \Closure $closure = null, Process $process = null)

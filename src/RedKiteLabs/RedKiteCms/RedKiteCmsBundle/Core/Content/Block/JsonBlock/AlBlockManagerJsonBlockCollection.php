@@ -19,14 +19,13 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * AlBlockManagerJsonBlockCollection is the base object deputated to handle a json content
  * which defines a collection of objects
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
@@ -35,10 +34,10 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
 
     /**
      * Constructor
-     * 
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator 
-     * 
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                             $container
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     *
      * @api
      */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
@@ -49,33 +48,32 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
 
         parent::__construct($eventsHandler, $factoryRepository, $validator);
     }
-    
+
     /**
      * {@inheritdoc}
      *
      * Extends the base edit method to manage a json collection of objects
-     * 
+     *
      * @api
      */
     protected function edit(array $values)
     {
         $values = $this->manageCollection($values);
-        
+
         return parent::edit($values);
     }
-    
-    
+
     /**
-     * Manages the json collection, adding and removing items collection from the json 
+     * Manages the json collection, adding and removing items collection from the json
      * block
      *
-     * @param array $values
+     * @param  array $values
      * @return array
      */
     protected function manageCollection(array $values)
     {
         if (array_key_exists('Content', $values)) {
-            $data = json_decode($values['Content'], true); 
+            $data = json_decode($values['Content'], true);
             $savedValues = $this->decodeJsonContent($this->alBlock);
 
             if ($data["operation"] == "add") {
@@ -93,7 +91,7 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
                 $values = array("Content" => json_encode($savedValues));
             }
         }
-        
+
         return $values;
     }
 }

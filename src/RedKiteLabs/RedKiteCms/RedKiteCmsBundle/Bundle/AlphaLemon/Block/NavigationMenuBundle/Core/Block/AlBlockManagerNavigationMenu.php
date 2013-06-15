@@ -84,9 +84,14 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
 
         return array(
             "template" => 'NavigationMenuBundle:Editor:editor.html.twig',
+<<<<<<< HEAD
             "title" => "Navigation languages menu editor",
             "form" => $form->createView(),
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+=======
+            "title" => "Navigation languages menu",
+            "form" => $form->createView(),
+>>>>>>> master
         );
     }
 
@@ -115,6 +120,15 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         return parent::edit($values);
     }
     
+<<<<<<< HEAD
+=======
+    /**
+     * Updates the content with the right images path for countries
+     * 
+     * @param array $values
+     * @return array
+     */
+>>>>>>> master
     protected function updateSavedLanguages(array $values)
     {
         if (array_key_exists('Content', $values)) {           
@@ -148,6 +162,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         }
         
         return $values;
+<<<<<<< HEAD
     }
     
     /**
@@ -214,6 +229,74 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         return $url;
     }
     
+=======
+    }
+    
+    /**
+     * Generates the block's value
+     * 
+     * @return array
+     */
+    protected function generateValues()
+    {
+        $items = null;
+        $imagesFolder = "20x15";
+        if (null !== $this->alBlock) {
+            $values = json_decode($this->alBlock->getContent(), true);
+            $items = $values["languages"];
+            $imagesFolder = $values["imagesFolder"];
+        }
+                
+        $languages = array();
+        $activeLanguages = $this->languageRepository->activeLanguages();
+        foreach ($activeLanguages as $language) {
+            $languageName = $language->getLanguageName();            
+            $url = $this->generateUrl($language);
+            
+            $country = "";
+            if (null !== $items && array_key_exists($languageName, $items)) {
+                $country = $items[$languageName]["country"];
+            }
+            
+            if (empty($country) ) {
+                $country = $this->generateCountryPath($imagesFolder, $languageName);
+            }
+            
+            $languages[$languageName] = array(
+                "country" => $country,
+                "url" => $url,
+            );
+        }
+        
+        $newValues = array(
+            "imagesFolder" => $imagesFolder,  
+            "languages" => $languages,
+        );
+        
+        if ($items !== null && $newValues != $values) {
+            $this->edit(array("Content" => json_encode($newValues)));
+        }
+        
+        return $newValues;
+    }
+    
+    private function generateUrl($language)
+    {
+        if (null === $this->page) {
+            $this->page = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage();  
+        }
+        
+        $url = $this->urlManager
+                    ->buildInternalUrl($language, $this->page)
+                    ->getInternalUrl();
+        if (null === $url)  {
+            $url = '#';
+        }
+        
+        return $url;
+    }
+    
+>>>>>>> master
     private function generateCountryPath($imagesFolder, $countryName)
     {
         $country = "";

@@ -21,7 +21,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\PageTree;
  * Defines the names for the PageTree events
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 final class PageTreeEvents
@@ -29,7 +29,7 @@ final class PageTreeEvents
     // alcms.event_listener
     const BEFORE_PAGE_TREE_SETUP = 'page_tree.before_setup';
     const AFTER_PAGE_TREE_SETUP = 'page_tree.after_setup';
-    
+
     const BEFORE_PAGE_TREE_REFRESH = 'page_tree.before_refresh';
     const AFTER_PAGE_TREE_REFRESH = 'page_tree.after_refresh';
 }

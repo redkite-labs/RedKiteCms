@@ -35,42 +35,42 @@ class AlTemplateSlots
     private $pageBlocks;
     private $templateManager;
     private $slots = array();
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-    
+
     /**
      * Returns the slots
-     * 
+     *
      * @return array
      */
     public function getSlots()
     {
         return $this->slots;
     }
-    
+
     /**
      * Runs the process
-     * 
-     * @param int $languageId
-     * @param int $pageId
+     *
+     * @param  int                                                               $languageId
+     * @param  int                                                               $pageId
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots
      */
     public function run($languageId, $pageId)
-    {   
+    {
         $previousThemeFile = $this->container->getParameter('alpha_lemon_cms.theme_structure_file');
         if (file_exists($previousThemeFile)) {
             $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
             $themes = $this->container->get('alpha_lemon_theme_engine.themes');
             $this->initPagesBlocks($languageId, $pageId);
-            
+
             $previousThemeStructure = json_decode(file_get_contents($previousThemeFile), true);
             $previousThemeName = $previousThemeStructure['Theme'];
             $templateKey = $languageId . '-' . $pageId;
@@ -78,26 +78,26 @@ class AlTemplateSlots
                 return $this;
             }
             $previousTemplateName = $previousThemeStructure["Templates"][$templateKey];
-            $previousTheme = $themes->getTheme($previousThemeName);   
-            $template = $previousTheme->getTemplate($previousTemplateName);                         
+            $previousTheme = $themes->getTheme($previousThemeName);
+            $template = $previousTheme->getTemplate($previousTemplateName);
             $this->initTemplateManager($template);
-            
+
             $this->setUpSlots();
         }
-        
+
         return $this;
     }
 
     private function initPagesBlocks($languageId, $pageId)
     {
-        $this->pageBlocks = new AlPageBlocksTemplateChanger($this->factoryRepository);            
+        $this->pageBlocks = new AlPageBlocksTemplateChanger($this->factoryRepository);
         $this->pageBlocks
             ->setIdLanguage($languageId)
             ->setIdPage($pageId)
             ->refresh()
         ;
     }
-    
+
     private function initTemplateManager($template)
     {
         $this->templateManager = new AlTemplateManager(
@@ -105,10 +105,10 @@ class AlTemplateSlots
             $this->factoryRepository,
             $template,
             $this->pageBlocks,
-            $this->container->get('alpha_lemon_cms.block_manager_factory')    
+            $this->container->get('alpha_lemon_cms.block_manager_factory')
         );
     }
-    
+
     private function setUpSlots()
     {
         if (null === $this->pageBlocks || null === $this->templateManager) {
@@ -118,36 +118,36 @@ class AlTemplateSlots
             );
             throw new ThemeSlotsInvalidConfigurationException(json_encode($exception));
         }
-    
+
         $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
-            
+
         $slotManagers = $this->templateManager
             ->refresh()
             ->getSlotManagers(true)
         ;
-        
-        foreach($slotManagers as $slotManager) {
+
+        foreach ($slotManagers as $slotManager) {
             $slotName = $slotManager->getSlotName();
             $blockManagers = $slotManager->getBlockManagers();
-            
+
             if (empty($blockManagers)) {
                 continue;
             }
-            
+
             $toDelete = 0;
             $slotContents = array();
-            foreach($blockManagers as $blockManager) {
+            foreach ($blockManagers as $blockManager) {
                 if (null !== $blockManager) {
                     $content = $blockManager
                         ->setEditorDisabled(true)
                         ->getHtml()
                     ;
-                    
-                    $slotContents[] = (is_array($content)) ? $viewsRenderer->render($content['RenderView']) : $content; 
+
+                    $slotContents[] = (is_array($content)) ? $viewsRenderer->render($content['RenderView']) : $content;
                     $toDelete = $blockManager->get()->getToDelete();
                 }
             }
-            
+
             $repeated = $slotManager->getRepeated();
             $this->slots[$repeated][$slotName] = array(
                 'content' => implode("<br />", $slotContents),

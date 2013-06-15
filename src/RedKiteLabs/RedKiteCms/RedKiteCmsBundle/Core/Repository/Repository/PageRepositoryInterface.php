@@ -57,7 +57,7 @@ interface PageRepositoryInterface
      * @return object The fetched object
      */
     public function fromTemplateName($templateName, $once = false);
-    
+
     /**
      * Fetches all the templates used by the current theme.
      *

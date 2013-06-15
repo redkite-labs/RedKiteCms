@@ -21,10 +21,10 @@ class AlSlotConverterToPage extends AlSlotConverterBase
 {
     /**
      * {@inheritdoc}
-     * 
+     *
      * @return null|boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
-     * 
+     *
      * @api
      */
     public function convert()

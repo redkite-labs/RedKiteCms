@@ -28,9 +28,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 /**
- * AlBlockManager is the base object that wraps an AlBlock object and implements an 
+ * AlBlockManager is the base object that wraps an AlBlock object and implements an
  * AlphaLemonCMS Block object
- * 
+ *
  *
  * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete
  * that kind of object and provides several methods to change the behavior of the block itself,
@@ -52,22 +52,22 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $alBlock
      */
     protected $alBlock = null;
-    
+
     /**
      * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      */
     protected $factoryRepository = null;
-    
+
     /**
      * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
      */
     protected $blockRepository = null;
-    
+
     /**
      * @var \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
      */
     protected $pageTree = null;
-    
+
     /**
      * @var Boolean
      */
@@ -75,11 +75,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * 
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
@@ -132,13 +132,13 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
 
         return $this;
     }
-    
+
     /**
      * Sets the factory repository
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
-     * 
+     *
      * @api
      */
     public function setFactoryRepository(AlFactoryRepositoryInterface $v)
@@ -147,26 +147,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
 
         return $this;
     }
-    
+
     /**
      * Returns editor disabled
-     * 
+     *
      * @return boolean
      */
     public function getEditorDisabled()
     {
         return $this->editorDisabled;
     }
-    
+
     /**
      * Sets editor disabled
-     * 
+     *
      * @return boolean
      */
     public function setEditorDisabled($v)
     {
         $this->editorDisabled = $v;
-        
+
         return $this;
     }
 
@@ -174,7 +174,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Returns the factory repository object associated with this object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
-     * 
+     *
      * @api
      */
     public function getFactoryRepository()
@@ -186,29 +186,29 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Returns the block repository object associated with this object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
-     * 
+     *
      * @api
      */
     public function getBlockRepository()
     {
         return $this->blockRepository;
     }
-    
+
     /**
      * Sets the current page tree
-     *  
+     *
      * @param type $v
      */
     public function setPageTree(AlPageTree $v)
     {
         $this->pageTree = $v;
     }
-    
+
     /**
      * Defines the parameters passed to the block's editor
-     * 
+     *
      * @return array
-     * 
+     *
      * @api
      */
     public function editorParameters()
@@ -217,11 +217,11 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
     }
 
     /**
-     * Defines when a block is internal, so it must not be available in the add blocks 
+     * Defines when a block is internal, so it must not be available in the add blocks
      * menu
      *
      * @return boolean
-     * 
+     *
      * @api
      */
     public function getIsInternalBlock()
@@ -236,7 +236,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * this method and return true
      *
      * @return boolean
-     * 
+     *
      * @api
      */
     public function getHideInEditMode()
@@ -250,7 +250,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Return true to display a warnig on editor that suggest the used to reload the page when the block is added or edited
      *
      * @return boolean
-     * 
+     *
      * @api
      */
     public function getReloadSuggested()
@@ -265,7 +265,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * web page
      *
      * @return boolean
-     * 
+     *
      * @api
      */
     public function getExecuteInternalJavascript()
@@ -278,22 +278,22 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * rendered with its options
      *
      * @return string|array
-     * 
+     *
      * @api
      */
     final public function getHtml()
     {
-        $result = $this->renderHtml(); 
+        $result = $this->renderHtml();
         if (is_array($result) && array_key_exists('RenderView', $result)) {
             $result['RenderView']['options']['block_manager'] = $this;
-        } 
-        
+        }
+
         return $result;
     }
-    
+
     /**
      * Returns a string that contains the metatags required by the block
-     * 
+     *
      * @return null|string
      */
     public function getMetaTags()
@@ -323,7 +323,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Override this method to change the content to display
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getContentForEditor()
@@ -335,7 +335,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Returns the current saved ExternalJavascript value as array
      *
      * @return array
-     * 
+     *
      * @api
      */
     public function getExternalJavascript()
@@ -351,7 +351,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Returns the current saved ExternalStylesheet value as array
      *
      * @return array
-     * 
+     *
      * @api
      */
     public function getExternalStylesheet()
@@ -371,7 +371,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      *
      * @param boolean
      * @return string
-     * 
+     *
      * @api
      */
     public function getInternalJavascript($safe = true)
@@ -402,7 +402,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Returns the current saved InternalStylesheet
      *
      * @return string
-     * 
+     *
      * @api
      */
     public function getInternalStylesheet()
@@ -417,14 +417,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
     {
         if (null === $this->alBlock || $this->alBlock->getId() == null) {
             return $this->add($parameters);
-        } 
-        
+        }
+
         return $this->edit($parameters);
     }
-    
+
     /**
      * {@inheritdoc}
-     * 
+     *
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
@@ -482,9 +482,9 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * Converts the AlBlockManager object into an array
      *
      * Adds some internal options to describe how to properly render the block
-     * 
+     *
      * @return array
-     * 
+     *
      * @api
      */
     public function toArray()
@@ -492,29 +492,29 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
         if (null === $this->alBlock) {
             return array();
         }
-        
+
         $content = $this->replaceHtmlCmsActive();
         if (null === $content) {
             $content = $this->getHtml();
         }
 
         $blockManager = array();
-        $blockManager["HideInEditMode"] = $this->getHideInEditMode();        
+        $blockManager["HideInEditMode"] = $this->getHideInEditMode();
         $blockManager["ExecuteInternalJavascript"] = $this->getExecuteInternalJavascript();
-        $blockManager["Content"] = $content;   
+        $blockManager["Content"] = $content;
         $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
         $blockManager["InternalJavascript"] = $this->getInternalJavascript();
         $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
         $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
         $blockManager["EditInline"] = $this->editInline();
         $blockManager["Block"] = $this->alBlock->toArray();
-        
+
         return $blockManager;
     }
-    
+
     /**
      * Edits the block using an inline editor
-     * 
+     *
      * @return boolean
      */
     protected function editInline()
@@ -527,7 +527,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      *
      * @return int
      * @deprecated
-     * 
+     *
      * @api
      * @codeCoverageIgnore
      */
@@ -541,14 +541,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      * to display when the Cms is active
      *
      * @return null
-     * 
+     *
      * @api
      */
     protected function replaceHtmlCmsActive()
     {
         return null;
     }
-    
+
     /**
      * @deprecated
      * @codeCoverageIgnore
@@ -557,10 +557,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
     {
         throw new \RuntimeException("formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
-    
+
     /**
      * Default rendered view
-     * 
+     *
      * This method must be overriden to display an elaborated version of the content
      * saved for the current Block
      *
@@ -578,8 +578,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
 
     /**
      * Adds a new block to the AlBlock table
-     * 
-     * @param array $values An array where keys are the AlBlockField definition and values are the values to add
+     *
+     * @param  array                                                                                                $values An array where keys are the AlBlockField definition and values are the values to add
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\General\InvalidArgumentTypeException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
@@ -619,10 +619,10 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
 
             $mergedValues = array_merge($values, $defaults);
             $availableOptions = array(
-                'Content' => '', 
-                'InternalJavascript' => '', 
-                'ExternalJavascript' => '', 
-                'InternalStylesheet' => '', 
+                'Content' => '',
+                'InternalJavascript' => '',
+                'ExternalJavascript' => '',
+                'InternalStylesheet' => '',
                 'ExternalStylesheet' => '',
             );
             $this->validator->checkOnceValidParamExists($availableOptions, $mergedValues);
@@ -664,8 +664,8 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
 
     /**
      * Edits the current block object
-     * 
-     * @param array $values An array where keys are the AlBlockField definition and values are the values to edit
+     *
+     * @param  array                                                                                        $values An array where keys are the AlBlockField definition and values are the values to edit
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 

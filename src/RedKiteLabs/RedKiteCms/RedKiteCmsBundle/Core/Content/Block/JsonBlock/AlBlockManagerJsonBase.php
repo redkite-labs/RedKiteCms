@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
  * AlBlockManagerJson is the base object deputated to handle a json content
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 abstract class AlBlockManagerJsonBase extends AlBlockManager
@@ -32,10 +32,10 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
      * Decodes a json content
      *
      * @param  string|AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
-     * @param  boolean  $assoc
-     * @return array|object depends on assoc param
+     * @param  boolean                                             $assoc
+     * @return array|object                                        depends on assoc param
      * @throws Exception\InvalidJsonFormatException
-     * 
+     *
      * @api
      */
     public static function decodeJsonContent($block, $assoc = true)
@@ -46,7 +46,7 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
             $content = $block->getContent();
             $blockType = $block->getType();
         }
-        
+
         $content = json_decode($content, $assoc);
         if (null === $content) {
             $blockTypeInfo = (null !== $blockType) ? ' for the block ' . $blockType . ' ' : '';

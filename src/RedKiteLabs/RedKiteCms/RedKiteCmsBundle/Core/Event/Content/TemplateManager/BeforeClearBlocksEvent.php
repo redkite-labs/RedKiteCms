@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\TemplateManager\Base\BaseP
  * Defines the BeforeClearBlocksEvent event
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class BeforeClearBlocksEvent extends BasePopulateEvent

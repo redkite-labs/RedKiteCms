@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\TemplateManager\Base\BaseP
  * Defines the BeforePopulateCommitEvent event
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class BeforePopulateCommitEvent extends BasePopulateEvent

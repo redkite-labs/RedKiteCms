@@ -23,7 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\TemplateManager\Base\BaseP
  * Defines the AfterPopulateEvent event
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AfterPopulateEvent extends BasePopulateEvent

@@ -43,7 +43,6 @@ interface BlockRepositoryInterface
      */
     public function retrieveContents($idLanguage, $idPage, $slotName = null, $toDelete = 0);
 
-
     /**
      * Fetches the website's repeated blocks
      *
@@ -91,20 +90,20 @@ interface BlockRepositoryInterface
      * @return object A collection of objects
      */
     public function fromType($className, $operation = 'find');
-    
+
     /**
      * Deletes the blocks that partially matches the given key
-     * 
+     *
      * @param string $key
      */
     public function deleteIncludedBlocks($key);
-    
+
     /**
      * Deletes the blocks that belong the given language and page. When $remove argument
      * is true, blocks are removed from the database.
-     * 
-     * @param string $idLanguage
-     * @param string $idPage
+     *
+     * @param string  $idLanguage
+     * @param string  $idPage
      * @param boolean $remove
      */
     public function deleteBlocks($idLanguage, $idPage, $remove = false);

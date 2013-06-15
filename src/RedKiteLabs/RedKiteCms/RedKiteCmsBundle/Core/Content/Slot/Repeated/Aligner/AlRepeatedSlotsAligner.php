@@ -26,7 +26,7 @@ use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
  * a slot changes its status on a template
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlRepeatedSlotsAligner
@@ -39,11 +39,11 @@ class AlRepeatedSlotsAligner
 
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themesCollection
+     *
+     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection                                        $themesCollection
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface $slotsConverterFactory
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface                          $factoryRepository
+     *
      * @api
      */
     public function __construct(AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlFactoryRepositoryInterface $factoryRepository)
@@ -53,56 +53,56 @@ class AlRepeatedSlotsAligner
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
-    
+
     /**
      * Sets the id of the language
-     * 
-     * @param int $v
+     *
+     * @param  int                                                                                       $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
-     * 
+     *
      * @api
      */
     public function setLanguageId($v)
     {
         $this->languageId = $v;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the id of the page
-     * 
-     * @param int $v
+     *
+     * @param  int                                                                                       $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
-     * 
+     *
      * @api
      */
     public function setPageId($v)
     {
         $this->pageId = $v;
-        
+
         return $this;
     }
-    
+
     /**
      * Fetches the id of the language
-     * 
+     *
      * @return int
-     * 
+     *
      * @api
      */
     public function getLanguageId()
     {
         return $this->languageId;
     }
-    
+
     /**
      * Fetches the id of the page
-     * 
+     *
      * @return int
-     * 
+     *
      * @api
-     */    
+     */
     public function getPageId()
     {
         return $this->pageId;
@@ -111,11 +111,11 @@ class AlRepeatedSlotsAligner
     /**
      * Compares the slots and updates the contents according the new status
      *
-     * @param string $templateName The current template to check
+     * @param string $templateName  The current template to check
      * @param array  $templateSlots The template's slots
      *
      * @return null|boolean null is returned when any update is made
-     * 
+     *
      * @api
      */
     public function align($templateName, array $templateSlots)
@@ -123,24 +123,24 @@ class AlRepeatedSlotsAligner
         if (empty($templateSlots)) {
             return null;
         }
-        
+
         $templateName = strtolower($templateName);
-        
+
         if (null === $this->languageId) {
             $languageRepository = $this->factoryRepository->createRepository('Language');
             $language = $languageRepository->mainLanguage();
             $this->languageId = $language->getId();
         }
-        
+
         if (null === $this->pageId) {
             $pageRepository = $this->factoryRepository->createRepository('Page');
             $page = $pageRepository->fromTemplateName($templateName, true);
             $this->pageId = $page->getId();
         }
-        
+
         $pageBlocks = $this->blockRepository->retrieveContents(array(1, $this->languageId), array(1, $this->pageId));
         $currentSlots = $this->templateSlotsToArray($templateSlots);
-        
+
         $changedSlots = array();
         foreach ($pageBlocks as $pageBlock) {
             $slotName = $pageBlock->getSlotName();
@@ -151,29 +151,28 @@ class AlRepeatedSlotsAligner
                 if ($languageId == 1 && $pageId == 1) {
                     $currentRepeatedStatus = 'site';
                 }
-                
+
                 if ($languageId != 1 && $pageId == 1) {
                     $currentRepeatedStatus = 'language';
                 }
-                
-                if ($currentRepeatedStatus != $currentSlots[$slotName])
-                {
+
+                if ($currentRepeatedStatus != $currentSlots[$slotName]) {
                     $changedSlots[$slotName] = $currentSlots[$slotName];
                 }
             }
         }
-        
+
         return ( ! empty($changedSlots)) ? $this->updateSlotStatus($templateSlots, $changedSlots) : null;
     }
 
     /**
      * Updates the slot status for the given slots
-     * 
-     * @param array $templateSlots
-     * @param array $changedSlots
+     *
+     * @param  array                                                                        $templateSlots
+     * @param  array                                                                        $changedSlots
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\Exception
-     * 
+     *
      * @api
      */
     protected function updateSlotStatus(array $templateSlots, array $changedSlots)
@@ -184,13 +183,13 @@ class AlRepeatedSlotsAligner
             foreach ($changedSlots as $slotName => $repeated) {
                 $converter = $this->slotsConverterFactory->createConverter($templateSlots[$slotName], $repeated);
                 if (null === $converter) continue;
-                
+
                 $result = $converter->convert();
                 if (!$result) {
                     break;
                 }
             }
-            
+
             if ($result) {
                 $this->blockRepository->commit();
             } else {
@@ -209,10 +208,10 @@ class AlRepeatedSlotsAligner
 
     /**
      * Converts the slots to an array where the key is the slot name and the value is the repeated status
-     * 
-     * @param array $slots
+     *
+     * @param  array $slots
      * @return type
-     * 
+     *
      * @api
      */
     protected function templateSlotsToArray($slots)

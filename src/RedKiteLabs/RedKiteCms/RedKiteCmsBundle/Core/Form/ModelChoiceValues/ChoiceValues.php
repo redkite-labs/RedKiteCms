@@ -24,7 +24,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
- * Implements some static method to fetch the values used in the interfaces forms from 
+ * Implements some static method to fetch the values used in the interfaces forms from
  * the database
  *
  * @author alphalemon <webmaster@alphalemon.com>
@@ -68,13 +68,13 @@ class ChoiceValues
 
         return $templates;
     }
-    
+
     public static function getPermalinks(SeoRepositoryInterface $seoRepository, $language, $withNoneOption = true)
     {
-        if (empty($language)){
-            return array();   
+        if (empty($language)) {
+            return array();
         }
-        
+
         $seoAttributes = (is_numeric($language)) ? $seoRepository->fromLanguageId($language) : $seoRepository->fromLanguageName($language);
         
         $permalinks = array();

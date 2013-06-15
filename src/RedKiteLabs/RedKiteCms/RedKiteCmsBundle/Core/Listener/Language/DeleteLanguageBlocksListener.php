@@ -31,7 +31,7 @@ class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      */
     public function __construct(AlBlockManagerInterface $blockManager)

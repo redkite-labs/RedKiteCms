@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * main language to the new one
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AddLanguageSeoListener extends Base\AddLanguageBaseListener
@@ -34,10 +34,10 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 
     /**
      * Constructor
-     * 
+     *
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface     $container
+     *
      * @api
      */
     public function __construct(AlSeoManager $seoManager, ContainerInterface $container = null)

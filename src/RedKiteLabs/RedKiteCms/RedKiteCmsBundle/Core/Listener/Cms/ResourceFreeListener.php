@@ -29,7 +29,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFre
  * resouce is locked, when it is available, it locks the resource for the current user.
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class ResourceFreeListener
@@ -39,10 +39,10 @@ class ResourceFreeListener
 
     /**
      * Contructor
-     * 
-     * @param \Symfony\Component\Security\Core\SecurityContext $securityContext
+     *
+     * @param \Symfony\Component\Security\Core\SecurityContext                       $securityContext
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
-     * 
+     *
      * @api
      */
     public function __construct(SecurityContext $securityContext, AlResourcesLocker $resourcesLocker)
@@ -55,7 +55,7 @@ class ResourceFreeListener
      * Listen to onKernelRequest event to lock a resource
      *
      * @param GetResponseEvent $event
-     * 
+     *
      * @api
      */
     public function onKernelRequest(GetResponseEvent $event)
@@ -63,51 +63,50 @@ class ResourceFreeListener
         // checks if the backend is secured
         $token = $this->securityContext->getToken();
         if (null !== $token) {
-            
+
             // Check if the user has already been logged in
             $user = $token->getUser();
             if (null !== $user) {
                 $errorMessage = '';
                 $userId = $user->getId();
-                
-                // Frees the expired locked resources and the resource previously locked 
+
+                // Frees the expired locked resources and the resource previously locked
                 // by the user
-                try {                    
+                try {
                     $this->resourcesLocker->unlockExpiredResources();
                     $this->resourcesLocker->unlockUserResource($userId);
-                } catch(\Exception $ex) {
+                } catch (\Exception $ex) {
                     $errorMessage = $ex->getMessage();
                 }
 
                 if ($errorMessage == '') {
                     $request = $event->getRequest();
-                    
+
                     // LOcks the resource
                     $locked = $request->get('locked');
-                    if (null !== $locked) {                    
+                    if (null !== $locked) {
                         try {
                             // Process composite locking rules
                             $rules = explode(',', $locked);
                             if (isset($rules[1])) {
                                 $locked = $rules[0];
                                 $param = $request->get($rules[1]);
-                            }
-                            else {
+                            } else {
                                 $param = $request->get($locked);
                             }
-                            
+
                             $key = ('locked' !== $locked) ? $locked . "=" . $param : $request->getUri() . '/locked';
                             $this->resourcesLocker->lockResource($userId, md5($key));
-                        } catch(\PropelException $ex) {
+                        } catch (\PropelException $ex) {
                             $errorMessage = 'The resource is not lockable because it was free but someone has locked it before you. This happens when two users tries to get a resource at the same time';
-                        } catch(ResourceNotFreeException $ex) {
+                        } catch (ResourceNotFreeException $ex) {
                             $errorMessage = $ex->getMessage();
-                        } catch(\Exception $ex) {
+                        } catch (\Exception $ex) {
                             $errorMessage = $ex->getMessage();
                         }
                     }
                 }
-                
+
                 // The resource is not free, stops the request
                 if ($errorMessage != '') {
                     $response = new Response();

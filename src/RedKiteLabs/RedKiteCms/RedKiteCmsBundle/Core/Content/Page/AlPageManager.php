@@ -36,7 +36,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInte
  * and delete that kind of object.
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 class AlPageManager extends AlContentManagerBase implements AlContentManagerInterface
@@ -49,12 +49,12 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
     /**
      * Constructor
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     *
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager               $templateManager
+     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
      * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * 
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
@@ -91,13 +91,13 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
         return $this;
     }
-    
+
     /**
      * Sets the template manager object
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
-     * 
+     *
      * @api
      */
     public function setTemplateManager(AlTemplateManager $templateManager)
@@ -111,7 +111,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Returns the template manager object associated with this object
      *
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
-     * 
+     *
      * @api
      */
     public function getTemplateManager()
@@ -121,10 +121,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
     /**
      * Sets the page model object
-     * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface $v
+     *
+     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface $v
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
-     * 
+     *
      * @api
      */
     public function setPageRepository(PageRepositoryInterface $v)
@@ -136,9 +136,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
     /**
      * Returns the page model object associated with this object
-     * 
+     *
      * @return PageRepositoryInterface
-     * 
+     *
      * @api
      */
     public function getPageRepository()
@@ -154,13 +154,13 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
         if (null === $this->alPage || $this->alPage->getId() == null) {
             return $this->add($parameters);
         }
-        
+
         return $this->edit($parameters);
     }
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
@@ -237,7 +237,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * @param  string $text
      * @return string
-     * 
+     *
      * @api
      */
     public static function slugify($text)
@@ -263,17 +263,17 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
         return $text;
     }
-    
+
     /**
      * Adds a new AlPage object from the given params
-     * 
-     * @param array $values
+     *
+     * @param  array                                                                                    $values
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\PageExistsException
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
-     * 
+     *
      * @api
      */
     protected function add(array $values)
@@ -376,14 +376,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             throw $e;
         }
     }
-    
+
     /**
      * Edits the managed page object
-     * 
-     * @param array $values
+     *
+     * @param  array                                                       $values
      * @return boolean
      * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
-     * 
+     *
      * @api
      */
     protected function edit(array $values)
@@ -429,7 +429,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             if (empty($values['IsPublished']) || $values['IsPublished'] == $this->alPage->getIsPublished()) {
                 unset($values['IsPublished']);
             }
-            
+
             if ($result !== false) {
                 if (!empty($values)) {
                     $result = $this->pageRepository

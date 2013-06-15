@@ -18,54 +18,53 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler;
 
 /**
- * Defines the interface to implement a EventDispatcher wrapper to handle and dispatch several 
+ * Defines the interface to implement a EventDispatcher wrapper to handle and dispatch several
  * events
  *
  * @author alphalemon <webmaster@alphalemon.com>
- * 
+ *
  * @api
  */
 interface AlEventsHandlerInterface
 {
     /**
      * Returns the event by its name
-     * 
-     * @param string $eventName
+     *
+     * @param  string                                   $eventName
      * @return \Symfony\Component\EventDispatcher\Event
-     * 
+     *
      * @api
      */
     public function getEvent($eventName);
 
     /**
      * Creates an event from the event class
-     * 
-     * @param string $eventName
-     * @param string $class
-     * @param array $args
-     * @param boolean $overrideIfExists
+     *
+     * @param  string                                                             $eventName
+     * @param  string                                                             $class
+     * @param  array                                                              $args
+     * @param  boolean                                                            $overrideIfExists
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler
-     * 
+     *
      * @api
      */
     public function createEvent($eventName, $class, array $args);
 
     /**
      * Dispatches the event
-     * 
-     * @param string $eventName
+     *
+     * @param  string                                                             $eventName
      * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler
-     * 
+     *
      * @api
      */
     public function dispatch($eventName = null);
-    
-    
+
     /**
      * Returns the event dispatcher associated with the object
      *
      * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
-     * 
+     *
      * @api
      */
     public function getEventDispatcher();

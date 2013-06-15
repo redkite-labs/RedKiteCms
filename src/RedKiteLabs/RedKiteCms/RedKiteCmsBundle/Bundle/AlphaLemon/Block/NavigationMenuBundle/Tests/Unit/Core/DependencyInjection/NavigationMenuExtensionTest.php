@@ -45,5 +45,14 @@ class MenuNavigationExtensionTest extends TestCase
     {
         $extension = new NavigationMenuExtension();
         $extension->load(array(array()), $this->container);
+        $this->assertEquals('@NavigationMenuBundle/Resources/public/images', $this->container->getParameter('alpha_lemon_cms.flags_folder'));
+    }
+    
+    public function testChangeFlagsFolderConfiguration()
+    {
+        $configValue = "/web/flags";
+        $extension = new NavigationMenuExtension();
+        $extension->load(array(array('flags_folder' => $configValue)), $this->container);
+        $this->assertEquals($configValue, $this->container->getParameter('alpha_lemon_cms.flags_folder'));
     }
 }
