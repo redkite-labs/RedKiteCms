@@ -214,8 +214,8 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $blockRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface');
         $blockRepository
-            ->expects($this->once())
-            ->method('retrieveRepeatedContents')
+            ->expects($this->any())
+            ->method('retrieveContents')
             ->will($this->returnValue(array()))
         ;
         

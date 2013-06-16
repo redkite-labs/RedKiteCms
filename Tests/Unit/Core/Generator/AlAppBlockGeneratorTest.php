@@ -124,7 +124,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    }' . PHP_EOL;
         $expected .= '}';
         //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Core/Form/FakeBlockType.php');
+        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Core/Form/AlFakeBlockType.php');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
