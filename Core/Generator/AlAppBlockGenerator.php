@@ -44,7 +44,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
         );
 
         $this->renderFile($blockSkeletonDir, 'Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
-        $this->renderFile($blockSkeletonDir, 'FormType.php', $dir.'/Core/Form/'.$bundleBasename.'Type.php', $parameters);
+        $this->renderFile($blockSkeletonDir, 'FormType.php', $dir.'/Core/Form/Al'.$bundleBasename.'Type.php', $parameters);
         $this->renderFile($blockSkeletonDir, 'app_block.xml', $dir.'/Resources/config/app_block.xml', $parameters);
         $this->renderFile($blockSkeletonDir, 'config_alcms.yml', $dir.'/Resources/config/config_alcms.yml', $parameters);
         $this->renderFile($blockSkeletonDir, 'config_alcms_dev.yml', $dir.'/Resources/config/config_alcms_dev.yml', $parameters);
