@@ -174,7 +174,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         $activeLanguages = $this->languageRepository->activeLanguages();
         foreach ($activeLanguages as $language) {
             $languageName = $language->getLanguageName();            
-            $url = $this->generateUrl($language);
+            $url = $this->generateUrl($language, $items[$languageName]["url"]);
             
             $country = "";
             if (null !== $items && array_key_exists($languageName, $items)) {
@@ -197,20 +197,22 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         );
         
         if ($items !== null && $newValues != $values) {
-            $this->edit(array("Content" => json_encode($newValues)));
+            parent::edit(array("Content" => json_encode($newValues)));
         }
         
         return $newValues;
     }
-    
-    private function generateUrl($language)
+
+    private function generateUrl($language, $url = null)
     {
-        if (null === $this->page) {
-            $this->page = $this->container->get('alpha_lemon_cms.page_tree')->getAlPage();  
+        $page = (null === $this->pageTree) ? $this->container->get('alpha_lemon_cms.page_tree')->getAlPage() : $this->pageTree->getAlPage();
+        
+        if (null === $page && null !== $url) {
+            return $url;
         }
         
         $url = $this->urlManager
-                    ->buildInternalUrl($language, $this->page)
+                    ->buildInternalUrl($language, $page)
                     ->getInternalUrl();
         if (null === $url)  {
             $url = '#';
