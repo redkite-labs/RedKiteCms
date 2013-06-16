@@ -323,16 +323,15 @@ abstract class AlDeployer implements AlDeployerInterface
     {
         $languageRepository = $this->factoryRepository->createRepository('Language');
         $languages = $languageRepository->activeLanguages();
-
         $blockRepository = $this->factoryRepository->createRepository('Block');
-        $blocks = $blockRepository->retrieveRepeatedContents();
-
+        
         $themeName = $this->activeTheme->getActiveTheme();
         $this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
         $templateManager = $this->themesCollectionWrapper->getTemplateManager();
         $templates = $this->themesCollectionWrapper->getTheme($themeName)->getTemplates();
 
         foreach ($languages as $language) {
+            $blocks = $blockRepository->retrieveContents(array(1, $language->getId()), 1);
             foreach ($templates as $template) {
                 $pageBlocks = new AlPageBlocks($this->factoryRepository);
                 $pageBlocks->setAlBlocks($blocks);
