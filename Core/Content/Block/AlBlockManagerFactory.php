@@ -27,10 +27,8 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use Symfony\Component\Translation\TranslatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface;
 
 /**
  * AlBlockManagerFactory is the object responsible to create a new AlBlockManager object
