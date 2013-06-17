@@ -1,4 +1,10 @@
-1.1.NEXT
+1.1.RC3 (2013-06-16)
+caf609f added description field to add an optional description for the file when it is displayed as a link
+9125e9d languages menu did not work correctly when deploying the website (this will be improved ASAP)
+00b9833 fixed generated form file name when genaration an App-Block
+9109ddd bug fixed: repeated contents are now correctly retrieved when deploying a website
+92611bf removed unused code
+1cd21b4 fixed PHP coding standard issues using PHP-CS-Fixer
 f412117 improved the languages navigation menu which now displayes the languages as 
         an image; added two sets of flags images with different dimensions; the images 
         path is configurable, so another set of images can be easily used

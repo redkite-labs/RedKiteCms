@@ -244,8 +244,6 @@ abstract class AlTwigTemplateWriter
         $slots = array_keys($this->template->getSlots());
 
         $needsCredits = $this->credits;
-        //$languageName = $this->pageTree->getAlLanguage()->getLanguageName();
-        //$pageName = $this->pageTree->getAlPage()->getPageName();
         $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
 
         $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;

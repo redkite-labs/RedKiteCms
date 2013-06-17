@@ -36,7 +36,8 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $value = sprintf(
         '{
             "0" : {
-                "file" : "%s",
+                "file" : "Click to load a file",
+                "description" : "",
                 "opened" : false
             }
         }', $this->translator->trans("Click to load a file", array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage));
@@ -51,14 +52,16 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $items = $this->decodeJsonContent($this->alBlock);
         $item = $items[0];
         $file = $item['file'];
+        $opened = $this->itemOpenedToBool($item);
+        $description = (array_key_exists('description', $item)) ? $item['description'] : '';
         
         $kernel = $this->container->get('kernel');
         $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
         $deployBundleAsset = new AlAsset($kernel, $deployBundle);
 
-        return ($item['opened'])
+        return ($opened)
             ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('alpha_lemon_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
-            : sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, basename($file));        
+            : sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, ( ! empty($description)) ? $description : basename($file));        
     }
         
     public function editorParameters()
@@ -111,7 +114,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
                 array(
                     'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
                     'folder' => AlAssetsPath::getUploadFolder($this->container),
-                    'filename' => $file,
+                    'filename' => (array_key_exists('description', $item) && ! empty($item['description'])) ? $item['description'] : $file,
                     'filepath' => basename($file),
                 )
         ;
