@@ -81,6 +81,41 @@ abstract class WebTestCaseFunctional extends WebTestCase
 
     protected static function populateDb()
     {
+        $connection = \Propel::getConnection(); 
+        $queries = array(
+            'DELETE FROM al_block;',
+            'DELETE FROM al_configuration;',
+            'DELETE FROM al_language;',
+            'DELETE FROM al_locked_resource;',
+            'DELETE FROM al_page;',
+            'DELETE FROM al_seo;',
+            'DELETE FROM al_role;',
+            'DELETE FROM al_user;',
+            'INSERT INTO al_language (language_name) VALUES(\'-\');',
+            'INSERT INTO al_page (page_name) VALUES(\'-\');',
+            'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
+        );
+        
+        /*
+        $queries = array(
+            'TRUNCATE  al_block;',
+            'TRUNCATE  al_configuration;',
+            'TRUNCATE  al_language;',
+            'TRUNCATE  al_locked_resource;',
+            'TRUNCATE  al_page;',
+            'TRUNCATE  al_seo;',
+            'TRUNCATE  al_role;',
+            'TRUNCATE  al_user;',
+            'INSERT INTO al_language (language_name) VALUES(\'-\');',
+            'INSERT INTO al_page (page_name) VALUES(\'-\');',
+            'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
+        );*/
+
+        foreach ($queries as $query) {
+            $statement = $connection->prepare($query);
+            $statement->execute();
+        }
+        
         $factoryRepository = new AlFactoryRepository('Propel');
         $client = static::createClient(array(
             'environment' => 'alcms_test',
@@ -96,37 +131,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('alpha_lemon_cms.block_manager_factory'));
         $templateManager->refresh();
 
-        $connection = \Propel::getConnection(); 
-        $queries = array(
-            'DELETE FROM al_block;',
-            //'DELETE FROM al_configuration;',
-            'DELETE FROM al_language;',
-            'DELETE FROM al_locked_resource;',
-            'DELETE FROM al_page;',
-            'DELETE FROM al_seo;',
-            'DELETE FROM al_role;',
-            'DELETE FROM al_user;',
-            'INSERT INTO al_language (language_name) VALUES(\'-\');',
-            'INSERT INTO al_page (page_name) VALUES(\'-\');',
-        );
         
-        /**/
-        $queries = array(
-            'TRUNCATE  al_block;',
-            'TRUNCATE  al_language;',
-            'TRUNCATE  al_locked_resource;',
-            'TRUNCATE  al_page;',
-            'TRUNCATE  al_seo;',
-            'TRUNCATE  al_role;',
-            'TRUNCATE  al_user;',
-            'INSERT INTO al_language (language_name) VALUES(\'-\');',
-            'INSERT INTO al_page (page_name) VALUES(\'-\');',
-        );
-
-        foreach ($queries as $query) {
-            $statement = $connection->prepare($query);
-            $statement->execute();
-        }
         
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
