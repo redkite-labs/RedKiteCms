@@ -33,6 +33,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "Click to load a file",
+                "description" : "",
                 "opened" : false
             }
         }';
@@ -63,6 +64,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "files/my-file",
+                "description" : "",
                 "opened" : true,
             }
         }';
@@ -80,6 +82,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "files/my-file",
+                "description" : "",
                 "opened" : false
             }
         }';
@@ -113,6 +116,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "files/my-file",
+                "description" : "",
                 "opened" : "1"
             }
         }';
@@ -138,6 +142,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 '{
                     "0" : {
                         "file" : "files/my-file",
+                        "description" : "",
                         "opened" : "0"
                     }
                 }',
@@ -158,6 +163,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                 '{
                     "0" : {
                         "file" : "files/my-file",
+                        "description" : "",
                         "opened" : "1"
                     }
                 }',
@@ -206,6 +212,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         '{
             "0" : {
                 "file" : "files/my-file",
+                "description" : "",
                 "opened" : "0"
             }
         }';

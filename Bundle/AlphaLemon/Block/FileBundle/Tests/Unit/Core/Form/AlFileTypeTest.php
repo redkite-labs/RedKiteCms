@@ -41,6 +41,10 @@ class AlFileTypeTest extends TestCase
         
         $formBuilder->expects($this->at(1))
                     ->method('add')
+                    ->with('description');
+        
+        $formBuilder->expects($this->at(2))
+                    ->method('add')
                     ->with('opened');
         
         $listener->buildForm($formBuilder, array());
