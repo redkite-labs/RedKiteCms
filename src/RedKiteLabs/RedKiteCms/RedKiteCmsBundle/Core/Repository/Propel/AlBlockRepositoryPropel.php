@@ -85,19 +85,6 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     /**
      * {@inheritdoc}
      */
-    public function retrieveRepeatedContents()
-    {
-        return AlBlockQuery::create()
-                ->filterByPageId(1)
-                ->_or()
-                ->filterByLanguageId(1)
-                ->filterByToDelete(0)
-                ->find();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function retrieveContentsBySlotName($slotName, $toDelete = 0)
     {
         return AlBlockQuery::create('a')

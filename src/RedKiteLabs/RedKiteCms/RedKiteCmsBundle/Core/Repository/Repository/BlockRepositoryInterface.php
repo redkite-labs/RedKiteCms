@@ -44,13 +44,6 @@ interface BlockRepositoryInterface
     public function retrieveContents($idLanguage, $idPage, $slotName = null, $toDelete = 0);
 
     /**
-     * Fetches the website's repeated blocks
-     *
-     * @return object A collection of objects
-     */
-    public function retrieveRepeatedContents();
-
-    /**
      * Fetches the block records that belongs the given language
      *
      * @param int       The id of the language
