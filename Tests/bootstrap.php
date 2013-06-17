@@ -29,6 +29,10 @@ EOT
     );
 }
 
+if ( ! class_exists('TypehintableBehavior')) {
+    die("TypehintableBehavior non installed: updated your vendors including devs");
+}
+
 //require_once __DIR__ . '/../vendor/propel/propel1/runtime/lib/Propel.php';
 if (0 === strncasecmp(PHP_SAPI, 'cli', 3)) {
     set_include_path(__DIR__ . '/../vendor/propel/propel1'.PATH_SEPARATOR.get_include_path());
@@ -37,28 +41,25 @@ if (0 === strncasecmp(PHP_SAPI, 'cli', 3)) {
 
 
 require_once __DIR__ . '/Tools/AlphaLemonPropelQuickBuilder.php';
-if (class_exists('TypehintableBehavior')) {
-    
-    $config = array("datasources" => array (
-        "default" => array (
-            "adapter" => "sqlite",
-            "connection" => array
-            (
-                "dsn" => "sqlite::memory:",
-                "classname" => "DebugPDO",
-                "options" => array(),
-                "attributes" => array (),
-                "settings" => array (),
-            )
+$config = array("datasources" => array (
+    "default" => array (
+        "adapter" => "sqlite",
+        "connection" => array
+        (
+            "dsn" => "sqlite::memory:",
+            "classname" => "DebugPDO",
+            "options" => array(),
+            "attributes" => array (),
+            "settings" => array (),
         )
-    ));
-    \Propel::setConfiguration($config);
-    \Propel::initialize();
-    
-    $class = new \ReflectionClass('TypehintableBehavior');
-    $builder = new \AlphaLemonPropelQuickBuilder();
-    $builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
-    $builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/schema.xml'));
-    $builder->buildClasses();
-    $builder->buildSQL(\Propel::getConnection());
-}
+    )
+));
+\Propel::setConfiguration($config);
+\Propel::initialize();
+
+$class = new \ReflectionClass('TypehintableBehavior');
+$builder = new \AlphaLemonPropelQuickBuilder();
+$builder->getConfig()->setBuildProperty('behavior.typehintable.class', $class->getFileName());
+$builder->setSchema(file_get_contents(__DIR__.'/../Resources/config/schema.xml'));
+$builder->buildClasses();
+$builder->buildSQL(\Propel::getConnection());
