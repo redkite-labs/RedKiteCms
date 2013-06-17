@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>title</source>
+            <target>title</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>description</source>
+            <target>description</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>author</source>
+            <target>author</target>
+        </trans-unit>
+        <trans-unit id="4">
+            <source>website</source>
+            <target>website</target>
+        </trans-unit>
+        <trans-unit id="5">
+            <source>license</source>
+            <target>license</target>
+        </trans-unit>
+        <trans-unit id="6">
+            <source>Preview</source>
+            <target>Preview</target>
+        </trans-unit>
+        <trans-unit id="7">
+            <source>Activate</source>
+            <target>Activate</target>
+        </trans-unit>
+        <trans-unit id="8">
+            <source>Start from this Theme</source>
+            <target>Start from this Theme</target>
+        </trans-unit>
+        <trans-unit id="9">
+            <source>Theme:</source>
+            <target>Theme:</target>
+        </trans-unit>
+        <trans-unit id="10">
+            <source>Previews the theme</source>
+            <target>Previews the theme</target>
+        </trans-unit>
+        <trans-unit id="11">
+            <source>Activates the theme</source>
+            <target>Activates the theme</target>
+        </trans-unit>
+        <trans-unit id="12">
+            <source>Resets and starts using this theme</source>
+            <target>Resets and starts using this theme</target>
+        </trans-unit>
+        <trans-unit id="13">
+            <source>Finalizes the change of theme</source>
+            <target>Finalizes the change of theme</target>
+        </trans-unit>
+        <trans-unit id="14">
+            <source>A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme.</source>
+            <target>A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme.</target>
+        </trans-unit>
+        <trans-unit id="15">
+            <source>A full finalization removes all the blocks saved from previous theme.</source>
+            <target>A full finalization removes all the blocks saved from previous theme.</target>
+        </trans-unit>
+        <trans-unit id="16">
+            <source>Partial</source>
+            <target>Partial</target>
+        </trans-unit>
+        <trans-unit id="17">
+            <source>Full</source>
+            <target>Full</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

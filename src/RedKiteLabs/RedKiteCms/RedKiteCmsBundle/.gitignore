@@ -3,7 +3,6 @@
 /Model/om
 /Model/map
 /Resources/public/uploads/*
-/Resources/translations/*
 /Resources/public/vendor/lib/.sass-cache/*
 /Resources/public/css/skins/alphaLemon/lib/.sass-cache/*
 /Tests/CmsTestKernel/cache/
