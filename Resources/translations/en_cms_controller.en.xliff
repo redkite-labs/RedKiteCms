@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>The requested page has not been loaded</source>
+            <target>The requested page has not been loaded</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the template for the pages which cannot be rendered by this theme</source>
+            <target>The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the template for the pages which cannot be rendered by this theme</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>Pages</source>
+            <target>Pages</target>
+        </trans-unit>
+        <trans-unit id="4">
+            <source>Languages</source>
+            <target>Languages</target>
+        </trans-unit>
+        <trans-unit id="5">
+            <source>Themes</source>
+            <target>Themes</target>
+        </trans-unit>
+        <trans-unit id="6">
+            <source>Media Library</source>
+            <target>Media Library</target>
+        </trans-unit>
+        <trans-unit id="7">
+            <source>Deploy Stage</source>
+            <target>Deploy Stage</target>
+        </trans-unit>
+        <trans-unit id="8">
+            <source>Deploy Prod</source>
+            <target>Deploy Prod</target>
+        </trans-unit>
+        <trans-unit id="9">
+            <source>Opens the panel to add, modify, delete pages from the website</source>
+            <target>Opens the panel to add, modify, delete pages from the website</target>
+        </trans-unit>
+        <trans-unit id="10">
+            <source>Opens the panel to add, modify, delete languages from the website</source>
+            <target>Opens the panel to add, modify, delete languages from the website</target>
+        </trans-unit>
+        <trans-unit id="11">
+            <source>Opens the panel to manage the website themes</source>
+            <target>Opens the panel to manage the website themes</target>
+        </trans-unit>
+        <trans-unit id="12">
+            <source>Opens the media library to upload, edit and remove external assets</source>
+            <target>Opens the media library to upload, edit and remove external assets</target>
+        </trans-unit>
+        <trans-unit id="13">
+            <source>Deploys the website for stage environment</source>
+            <target>Deploys the website for stage environment</target>
+        </trans-unit>
+        <trans-unit id="14">
+            <source>Deploys the website for production</source>
+            <target>Deploys the website for production</target>
+        </trans-unit>
+        <trans-unit id="15">
+            <source>Opens the panel to add, modify, delete users from the website</source>
+            <target>Opens the panel to add, modify, delete users from the website</target>
+        </trans-unit>
+        <trans-unit id="16">
+            <source>Logs out from AlphaLemon CMS</source>
+            <target>Logs out from AlphaLemon CMS</target>
+        </trans-unit>
+        <trans-unit id="17">
+            <source>Users</source>
+            <target>Users</target>
+        </trans-unit>
+        <trans-unit id="18">
+            <source>Logout</source>
+            <target>Logout</target>
+        </trans-unit>
+        <trans-unit id="19">
+            <source>Edits the current page</source>
+            <target>Edits the current page</target>
+        </trans-unit>
+        <trans-unit id="20">
+            <source>Edit</source>
+            <target>Edit</target>
+        </trans-unit>
+        <trans-unit id="21">
+            <source>Stops to edit the current page</source>
+            <target>Stops to edit the current page</target>
+        </trans-unit>
+        <trans-unit id="23">
+            <source>Opens the panel that contains the tools to navigate through the pages of your website</source>
+            <target>Opens the panel that contains the tools to navigate through the pages of your website</target>
+        </trans-unit>
+        <trans-unit id="24">
+            <source>Nav</source>
+            <target>Nav</target>
+        </trans-unit>
+        <trans-unit id="25">
+            <source>Starts to edit the template slots</source>
+            <target>Starts to edit the template slots</target>
+        </trans-unit>
+        <trans-unit id="26">
+            <source>Slots</source>
+            <target>Slots</target>
+        </trans-unit>
+        <trans-unit id="27">
+            <source>Stops to edit the template slots</source>
+            <target>Stops to edit the template slots</target>
+        </trans-unit>
+        <trans-unit id="28">
+            <source>Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other</source>
+            <target>Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other</target>
+        </trans-unit>
+        <trans-unit id="29">
+            <source>Finalize</source>
+            <target>Finalize</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>
+

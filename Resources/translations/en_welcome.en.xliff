@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>Welcome to AlphaLemon CMS</source>
+            <target>Welcome to AlphaLemon CMS</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</source>
+            <target>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>The page and/or the language you have requested does not exist</source>
+            <target>The page and/or the language you have requested does not exist</target>
+        </trans-unit>
+        <trans-unit id="4">
+            <source>The page has assigned a template not included in the theme you are using on your website</source>
+            <target>The page has assigned a template not included in the theme you are using on your website</target>
+        </trans-unit>
+        <trans-unit id="5">
+            <source>Your website has any page and/or language and/or theme</source>
+            <target>Your website has any page and/or language and/or theme</target>
+        </trans-unit>
+        <trans-unit id="6">
+            <source>Something has gone wrong during the install process</source>
+            <target>Something has gone wrong during the install process</target>
+        </trans-unit>        
+        <trans-unit id="7">
+            <source>The action you made returns this response:</source>
+            <target>The action you made returns this response:</target>
+        </trans-unit>  
+    </body>
+    </file>
+</xliff>

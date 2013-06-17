@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>Stop</source>
+            <target>Stop</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>Undo</source>
+            <target>Annulla</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>Save</source>
+            <target>Salva</target>
+        </trans-unit>
+        <trans-unit id="4">
+            <source>Close</source>
+            <target>Chiudi</target>
+        </trans-unit>
+        <trans-unit id="5">
+            <source>New</source>
+            <target>Nuovo</target>
+        </trans-unit>
+        <trans-unit id="6">
+            <source>Delete</source>
+            <target>Cancella</target>
+        </trans-unit>
+        <trans-unit id="7">
+            <source>Edit</source>
+            <target>Modifica</target>
+        </trans-unit>
+        <trans-unit id="8">
+            <source>Change</source>
+            <target>Cambia</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>
+

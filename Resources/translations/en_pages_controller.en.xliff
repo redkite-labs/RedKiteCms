@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>Page</source>
+            <target>Page</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>SEO</source>
+            <target>SEO</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>Sitemap</source>
+            <target>Sitemap</target>
+        </trans-unit>
+        <trans-unit id="4">
+            <source>Page attributes</source>
+            <target>Page attributes</target>
+        </trans-unit>
+        <trans-unit id="5">
+            <source>Page name</source>
+            <target>Page name</target>
+        </trans-unit>
+        <trans-unit id="6">
+            <source>Type here an unique name for the page</source>
+            <target>Type here an unique name for the page</target>
+        </trans-unit>
+        <trans-unit id="7">
+            <source>Template</source>
+            <target>Template</target>
+        </trans-unit>
+        <trans-unit id="8">
+            <source>Choose one template from the current theme</source>
+            <target>Choose one template from the current theme</target>
+        </trans-unit>
+        <trans-unit id="9">
+            <source>Home page</source>
+            <target>Home page</target>
+        </trans-unit>
+        <trans-unit id="10">
+            <source>Set the page as the home page of your website. This is the page displayed when any specific page has been requested</source>
+            <target>Set the page as the home page of your website. This is the page displayed when any specific page has been requested</target>
+        </trans-unit>
+        <trans-unit id="11">
+            <source>Published</source>
+            <target>Published</target>
+        </trans-unit>
+        <trans-unit id="12">
+            <source>Check this option to publish the page</source>
+            <target>Check this option to publish the page</target>
+        </trans-unit>
+        <trans-unit id="13">
+            <source>SEO - Search Engines Optimization</source>
+            <target>SEO - Search Engines Optimization</target>
+        </trans-unit>
+        <trans-unit id="14">
+            <source>Permalink</source>
+            <target>Permalink</target>
+        </trans-unit>
+        <trans-unit id="15">
+            <source>This is a permanent link that identifies uniquely the page</source>
+            <target>This is a permanent link that identifies uniquely the page</target>
+        </trans-unit>
+        <trans-unit id="16">
+            <source>Meta-Title</source>
+            <target>Meta-Title</target>
+        </trans-unit>
+        <trans-unit id="17">
+            <source>The page title. It should be congruent with the page's text, it should always be compiled and is should be length 60 chars max</source>
+            <target>The page title. It should be congruent with the page's text, it should always be compiled and is should be length 60 chars max</target>
+        </trans-unit>
+        <trans-unit id="18">
+            <source>Meta-Description</source>
+            <target>Meta-Description</target>
+        </trans-unit>
+        <trans-unit id="19">
+            <source>Provide here a brief description of the page. This attribute should always be compiled</source>
+            <target>Provide here a brief description of the page. This attribute should always be compiled</target>
+        </trans-unit>
+        <trans-unit id="20">
+            <source>Meta-Keywords</source>
+            <target>Meta-Keywords</target>
+        </trans-unit>
+        <trans-unit id="21">
+            <source>This attribute is no longer used by several Search Engines, so you could quite leave it blank</source>
+            <target>This attribute is no longer used by several Search Engines, so you could quite leave it blank</target>
+        </trans-unit>
+        <trans-unit id="22">
+            <source>Change Frequency</source>
+            <target>Change Frequency</target>
+        </trans-unit>
+        <trans-unit id="23">
+            <source>Priority</source>
+            <target>Priority</target>
+        </trans-unit>
+        <trans-unit id="24">
+            <source>Pages selector</source>
+            <target>Pages selector</target>
+        </trans-unit>
+        <trans-unit id="25">
+            <source>Languages</source>
+            <target>Languages</target>
+        </trans-unit>
+        <trans-unit id="26">
+            <source>Site pages</source>
+            <target>Site pages</target>
+        </trans-unit>
+        <trans-unit id="27">
+            <source>And now select the language or remove the page</source>
+            <target>And now select the language or remove the page</target>
+        </trans-unit>
+        <trans-unit id="28">
+            <source>The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes</source>
+            <target>The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes</target>
+        </trans-unit>
+        <trans-unit id="29">
+            <source>The page has not been saved</source>
+            <target>The page has not been saved</target>
+        </trans-unit>
+        <trans-unit id="30">
+            <source>Any page has been choosen for removing</source>
+            <target>Any page has been choosen for removing</target>
+        </trans-unit>
+        <trans-unit id="31">
+            <source>Nothing to delete with the given parameters</source>
+            <target>Nothing to delete with the given parameters</target>
+        </trans-unit>        
+    </body>
+    </file>
+</xliff>
+

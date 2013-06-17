@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>title</source>
+            <target>titolo</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>description</source>
+            <target>descrizione</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>author</source>
+            <target>autore</target>
+        </trans-unit>
+        <trans-unit id="4">
+            <source>website</source>
+            <target>sito web</target>
+        </trans-unit>
+        <trans-unit id="5">
+            <source>license</source>
+            <target>licenza</target>
+        </trans-unit>
+        <trans-unit id="6">
+            <source>Preview</source>
+            <target>Anteprima</target>
+        </trans-unit>
+        <trans-unit id="7">
+            <source>Activate</source>
+            <target>Attiva</target>
+        </trans-unit>
+        <trans-unit id="8">
+            <source>Start from this Theme</source>
+            <target>Inizia da questo tema</target>
+        </trans-unit>
+        <trans-unit id="9">
+            <source>Theme:</source>
+            <target>Tema:</target>
+        </trans-unit>
+        <trans-unit id="10">
+            <source>Previews the theme</source>
+            <target>Prova il tema in anteprima</target>
+        </trans-unit>
+        <trans-unit id="11">
+            <source>Activates the theme</source>
+            <target>Attiva il tema</target>
+        </trans-unit>
+        <trans-unit id="12">
+            <source>Resets and starts using this theme</source>
+            <target>Azzera ed inizia utilizzando questo tema</target>
+        </trans-unit>
+        <trans-unit id="13">
+            <source>Finalizes the change of theme</source>
+            <target>Finalizza il cambio di tema</target>
+        </trans-unit>
+        <trans-unit id="14">
+            <source>A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme.</source>
+            <target>Una finalizzazione parziare rimuove solamente i blocchi aggiunti dal nuovo tema e sostituiti con blocchi del tema precedente.</target>
+        </trans-unit>
+        <trans-unit id="15">
+            <source>A full finalization removes all the blocks saved from previous theme.</source>
+            <target>La finalizzazione completa rimuove tutti i blocchi del tema precedente.</target>
+        </trans-unit>
+        <trans-unit id="16">
+            <source>Partial</source>
+            <target>Parziale</target>
+        </trans-unit>
+        <trans-unit id="17">
+            <source>Full</source>
+            <target>Completa</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

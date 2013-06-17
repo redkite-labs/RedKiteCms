@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="it" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>It seems that the "%page%" does not exist for the "%language%" language</source>
+            <target>Sembra che la pagina "%page%" non esista per il linguaggio "%language%"</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the template for the pages which cannot be rendered by this theme</source>
+            <target>Il template assegnato a questa pagina non esiste. Questo può succedere quando cambi tema con un numero diverso di template rispetto a quello in uso. Per corregere questo problema dovresti riattivare il tema precedente e cambiare il template delle pagine che non possono essere caricate usando questo tema.</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>Pages</source>
+            <target>Pagine</target>
+        </trans-unit>
+        <trans-unit id="4">
+            <source>Languages</source>
+            <target>Lingue</target>
+        </trans-unit>
+        <trans-unit id="5">
+            <source>Themes</source>
+            <target>Temi</target>
+        </trans-unit>
+        <trans-unit id="6">
+            <source>Media Library</source>
+            <target>Media Library</target>
+        </trans-unit>
+        <trans-unit id="7">
+            <source>Deploy Stage</source>
+            <target>Pubblica Stage</target>
+        </trans-unit>
+        <trans-unit id="8">
+            <source>Deploy Prod</source>
+            <target>Pubblica Prod</target>
+        </trans-unit>
+        <trans-unit id="9">
+            <source>Opens the panel to add, modify, delete pages from the website</source>
+            <target>Apre il pannello per aggiungere, modificare, eliminare le pagine dal sito</target>
+        </trans-unit>
+        <trans-unit id="10">
+            <source>Opens the panel to add, modify, delete languages from the website</source>
+            <target>Apre il pannello per aggiungere, modificare, eliminare le lingue dal sito</target>
+        </trans-unit>
+        <trans-unit id="11">
+            <source>Opens the panel to manage the website themes</source>
+            <target>Apre il pannello per gestire i temi del sito</target>
+        </trans-unit>
+        <trans-unit id="12">
+            <source>Opens the media library to upload, edit and remove external assets</source>
+            <target>Apre la media library per caricare, modificare e rimuorere file esterni</target>
+        </trans-unit>
+        <trans-unit id="13">
+            <source>Deploys the website for stage environment</source>
+            <target>Pubblica il sito per l'ambiente di stage</target>
+        </trans-unit>
+        <trans-unit id="14">
+            <source>Deploys the website for production</source>
+            <target>Pubblica il sito per l'ambiente di produzione</target>
+        </trans-unit>
+        <trans-unit id="15">
+            <source>Opens the panel to add, modify, delete users from the website</source>
+            <target>Apre il pannello per aggiungere, modificare, eliminare gli utenti dal sito</target>
+        </trans-unit>
+        <trans-unit id="16">
+            <source>Logs out from AlphaLemon CMS</source>
+            <target>Esce da AlphaLemon CMS</target>
+        </trans-unit>
+        <trans-unit id="17">
+            <source>Users</source>
+            <target>Utenti</target>
+        </trans-unit>
+        <trans-unit id="18">
+            <source>Logout</source>
+            <target>Esci</target>
+        </trans-unit>
+        <trans-unit id="19">
+            <source>Edits the current page</source>
+            <target>Modifica la pagina corrente</target>
+        </trans-unit>
+        <trans-unit id="20">
+            <source>Edit</source>
+            <target>Modifica</target>
+        </trans-unit>
+        <trans-unit id="21">
+            <source>Stops to edit the current page</source>
+            <target>Interrompe la modifica della pagina</target>
+        </trans-unit>
+        <trans-unit id="23">
+            <source>Opens the panel that contains the tools to navigate through the pages of your website</source>
+            <target>Apre il pannello che contiene gli strumenti per navigare tra le pagine del sito</target>
+        </trans-unit>
+        <trans-unit id="24">
+            <source>Nav</source>
+            <target>Nav</target>
+        </trans-unit>
+        <trans-unit id="25">
+            <source>Starts to edit the template slots</source>
+            <target>Edita gli slots del template</target>
+        </trans-unit>
+        <trans-unit id="26">
+            <source>Slots</source>
+            <target>Slots</target>
+        </trans-unit>
+        <trans-unit id="27">
+            <source>Stops to edit the template slots</source>
+            <target>Interrompe la modifica degli slots</target>
+        </trans-unit>
+        <trans-unit id="28">
+            <source>Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other</source>
+            <target>Finalizza il cambiamento del tema del sito. Questo comando dovrebbe essere usato quando tutti gli slots dei template sono stati mappati</target>
+        </trans-unit>
+        <trans-unit id="29">
+            <source>Finalize</source>
+            <target>Finalizza</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>
+

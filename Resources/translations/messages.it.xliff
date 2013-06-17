@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>Files editor</source>
+            <target>Files editor</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>Show opened</source>
+            <target>Mostra aperto</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>Click to load a file</source>
+            <target>Clicca per caricare un file</target>
+        </trans-unit>      
+        <trans-unit id="4">
+            <source>Files editor</source>
+            <target>Editor dei files</target>
+        </trans-unit>     
+        <trans-unit id="5">
+            <source>Sample title</source>
+            <target>Title attributo d'esempio</target>
+        </trans-unit>      
+        <trans-unit id="6">
+            <source>Sample alt</source>
+            <target>Alt attributo d'esempio</target>
+        </trans-unit>      
+        <trans-unit id="7">
+            <source>Image editor</source>
+            <target>Editor delle imagini</target>
+        </trans-unit>   
+        <trans-unit id="8">
+            <source>Link editor</source>
+            <target>Editor dei link</target>
+        </trans-unit>      
+        <trans-unit id="9">
+            <source>Href</source>
+            <target>Href</target>
+        </trans-unit>      
+        <trans-unit id="10">
+            <source>Displayed value</source>
+            <target>Valore mostrato</target>
+        </trans-unit>          
+        <trans-unit id="11">
+            <source>Navigation languages menu editor</source>
+            <target>Editor del menu delle lingue</target>
+        </trans-unit>           
+        <trans-unit id="12">
+            <source>Flags</source>
+            <target>Bandiere</target>
+        </trans-unit>            
+        <trans-unit id="13">
+            <source>Choose flags folder</source>
+            <target>Scegli la directory</target>
+        </trans-unit>
+        <trans-unit id="14">
+            <source>Html Code</source>
+            <target>Codice Html</target>
+        </trans-unit>         
+        <trans-unit id="15">
+            <source>Internal Javascript</source>
+            <target>Javascript interno</target>
+        </trans-unit>         
+        <trans-unit id="16">
+            <source>External Javascripts</source>
+            <target>Javascripts esterni</target>
+        </trans-unit>         
+        <trans-unit id="17">
+            <source>Internal Stylesheet</source>
+            <target>Stylesheet interno</target>
+        </trans-unit>         
+        <trans-unit id="18">
+            <source>External Stylesheets</source>
+            <target>Stylesheets esterni</target>
+        </trans-unit>      
+        <trans-unit id="19">
+            <source>Add external files</source>
+            <target>Aggiungi file esterni</target>
+        </trans-unit>        
+        <trans-unit id="20">
+            <source>Remove selected file</source>
+            <target>Rimuovi il file selezionato</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>
+
