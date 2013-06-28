@@ -68,7 +68,7 @@ class AlTwigDeployerStage extends AlTwigDeployer
     {
         $imagesPath = array(
             'backendPath' => $this->uploadAssetsAbsolutePath,
-            'prodPath' => $this->deployBundleAsset->getAbsolutePath() . '/stage',
+            'prodPath' => '/' . $this->deployBundleAsset->getAbsolutePath() . '/stage',
         );
 
         $credits = $this->credits;
