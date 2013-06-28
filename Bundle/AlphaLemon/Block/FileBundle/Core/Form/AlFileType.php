@@ -33,6 +33,9 @@ class AlFileType extends JsonBlockType
 
         $builder->add('file');
         $builder->add('description', 'textarea');
-        $builder->add('opened', 'checkbox');
+        $builder->add('opened', 'checkbox', array(
+            'label' => 'Show opened',
+            )
+        );
     }
 }

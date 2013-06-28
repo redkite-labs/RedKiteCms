@@ -82,6 +82,14 @@
             <source>Remove selected file</source>
             <target>Rimuovi il file selezionato</target>
         </trans-unit>
+        <trans-unit id="21">
+            <source>Description</source>
+            <target>Descrizione</target>
+        </trans-unit>
+        <trans-unit id="22">
+            <source>Generic editor</source>
+            <target>Editor generico</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

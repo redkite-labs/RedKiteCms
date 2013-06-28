@@ -18,6 +18,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
     protected $cmsLanguage;
     protected $blockTemplate = 'ImageBundle:Image:image.html.twig';  
     protected $editorTemplate = 'ImageBundle:Editor:_editor.html.twig';
+    protected $domain = 'messages';
      
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
@@ -39,8 +40,8 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
                         "alt" : "%s"
                     }
                 }
-            ',  $this->translator->trans("Sample title", array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage), 
-                $this->translator->trans("Sample alt", array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage));
+            ',  $this->translator->trans("Sample title", array(), $this->domain, $this->cmsLanguage), 
+                $this->translator->trans("Sample alt", array(), $this->domain, $this->cmsLanguage));
         
         return array('Content' => $value);
     }
@@ -67,7 +68,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
         
         return array(
             "template" => $this->editorTemplate,
-            "title" => $this->translator->trans("Image editor", array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage),
+            "title" => $this->translator->trans("Image editor", array(), $this->domain, $this->cmsLanguage),
             "form" => $form->createView(),
         );
     }
