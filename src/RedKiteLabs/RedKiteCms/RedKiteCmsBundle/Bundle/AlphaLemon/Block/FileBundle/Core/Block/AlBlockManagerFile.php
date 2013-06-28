@@ -22,6 +22,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 {
     protected $translator;
     protected $cmsLanguage;
+    protected $domain = 'messages';
     
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
@@ -36,11 +37,11 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $value = sprintf(
         '{
             "0" : {
-                "file" : "Click to load a file",
+                "file" : "%s",
                 "description" : "",
                 "opened" : false
             }
-        }', $this->translator->trans("Click to load a file", array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage));
+        }', $this->translator->trans("Click to load a file", array(), $this->domain, $this->cmsLanguage));
 
         return array(
             'Content' => $value,
@@ -75,7 +76,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         
         return array(
             'template' => 'AlphaLemonCmsBundle:Editor:base_editor_form.html.twig',
-            'title' => $this->translator->trans('Files editor', array(), $this->cmsLanguage . '_bundles', $this->cmsLanguage),
+            'title' => $this->translator->trans('Files editor', array(), $this->domain, $this->cmsLanguage),
             'form' => $form->createView(),
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
