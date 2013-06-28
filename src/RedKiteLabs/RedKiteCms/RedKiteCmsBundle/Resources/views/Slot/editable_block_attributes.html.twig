@@ -5,6 +5,7 @@
 
 {% if editor|length > 0 %}
 {% set form = editor.form is defined ? editor.form : "" %}
-data-title="{{ editor.title|trans({}, 'messages', cms_language) }}" rel="popover" data-html="true" data-encoded-content='{% include editor.template %}' 
+{% set title = editor.title is defined ? editor.title : "Generic editor"|trans({}, 'messages', cms_language) %}
+data-title="{{ title }}" rel="popover" data-html="true" data-encoded-content='{% include editor.template %}' 
 {% endif %}
 {% endblock %}
