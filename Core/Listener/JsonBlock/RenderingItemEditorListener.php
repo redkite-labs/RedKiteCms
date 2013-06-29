@@ -18,6 +18,7 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 
 /**
  * Renders the editor to manipulate a Json item
@@ -29,6 +30,12 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRendering
  */
 abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
 {
+    
+    public function __construct()
+    {
+        throw new AlphaLemonDeprecatedException("RenderingItemEditorListener has been deprecated since AlphaLemon 1.1.0");
+    }
+    
     /**
      * {@inheritdoc}
      */

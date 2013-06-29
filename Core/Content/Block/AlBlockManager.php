@@ -26,6 +26,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
 /**
  * AlBlockManager is the base object that wraps an AlBlock object and implements an
@@ -313,7 +314,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      */
     final public function getHtmlCmsActive()
     {
-        throw new \RuntimeException("getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**
@@ -533,7 +534,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      */
     protected function getEditorWidth()
     {
-        throw new \RuntimeException("getEditorWidth is no longer used so it has been deprecated");
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getEditorWidth is no longer used so it has been deprecated");
     }
 
     /**
@@ -555,7 +556,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
      */
     protected function formatHtmlCmsActive()
     {
-        throw new \RuntimeException("formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
+        throw new AlphaLemonDeprecatedException("AlBlockManager->formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**
