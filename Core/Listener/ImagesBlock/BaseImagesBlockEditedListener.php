@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 
 /**
  * Renders the editor to manage a collection of images
@@ -44,6 +45,8 @@ abstract class BaseImagesBlockEditedListener
      */
     public function __construct(EngineInterface $templateEngine)
     {
+        throw new AlphaLemonDeprecatedException("BaseImagesBlockEditedListener has been deprecated since AlphaLemon 1.1.0");
+            
         $this->templateEngine = $templateEngine;
     }
 
@@ -55,7 +58,7 @@ abstract class BaseImagesBlockEditedListener
      * @api
      */
     public function onBlockEdited(BlockEditedEvent $event)
-    {return;
+    {
         $blockManager = $event->getBlockManager();
         $blockType = $blockManager->get()->getType();
         if ($blockType == $this->getManagedBlockType()) {
