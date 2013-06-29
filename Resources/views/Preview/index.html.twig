@@ -60,7 +60,6 @@
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
         {% stylesheets filter='?yui_css,cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                                    'components/pageguide/css/pageguide.min.css'
                                                     'bundles/alphalemoncms/vendor/vendor-adapter.css' 
                                                     'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
         %}
@@ -68,7 +67,6 @@
         {% endstylesheets %}
     {% else %}
         {% stylesheets filter='?cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                            'components/pageguide/css/pageguide.min.css'
                                             'bundles/alphalemoncms/vendor/vendor-adapter.css' 
                                             'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
         %}
@@ -85,7 +83,6 @@
                                      'components/sydcanem-bootstrap-contextmenu/bootstrap-contextmenu.js'
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/jquery-metadata/jquery.metadata.js'
-                                     'components/pageguide/js/pageguide.min.js'
                                      'components/holderjs/holder.js'
                                      'bundles/alphalemoncms/js/*' 
     %} 
@@ -99,7 +96,6 @@
                     'components/sydcanem-bootstrap-contextmenu/bootstrap-contextmenu.js'
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/jquery-metadata/jquery.metadata.js'
-                    'components/pageguide/js/pageguide.min.js'
                     'components/holderjs/holder.js'
                     'bundles/alphalemoncms/js/*' 
     %}
@@ -139,7 +135,5 @@
 <div id="al_cms_contents">
 {{ parent() }}
 </div>
-
-{% include "AlphaLemonCmsBundle:Preview:PageGuide/_help.html.twig" %}
 
 {% endblock %}
