@@ -41,10 +41,17 @@ class AlTemplateParser
     {
         $templates = array();
         $finder = new Finder(); 
-        $templateFiles = $finder->files('*.twig')->in(array(
+        
+        $directories = array(
             $this->templatesDir, 
-            $this->kernelDir . '/Resources/views/' . $this->themeName)
         );
+        
+        $globalResourcesFolder = $this->kernelDir . '/Resources/views/' . $this->themeName;
+        if (is_dir($globalResourcesFolder)) {
+            $directories[] = $globalResourcesFolder;
+        }
+        
+        $templateFiles = $finder->files('*.twig')->in($directories);
         foreach ($templateFiles as $template) {
             $template = (string)$template;
             $templateName = basename($template);
