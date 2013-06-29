@@ -97,8 +97,6 @@ class EditSeoListener
                 $pageRepository->rollBack();
                 $event->abort();
             }
-        } catch (General\EmptyArgumentsException $ex) {
-        } catch (InvalidArgumentException $ex) {
         } catch (\Exception $e) {
             $event->abort();
 
