@@ -54,7 +54,7 @@ class AlTwigDeployerProduction extends AlTwigDeployer
     {
         $imagesPath = array(
             'backendPath' => $this->uploadAssetsAbsolutePath,
-            'prodPath' => $this->deployBundleAsset->getAbsolutePath()
+            'prodPath' => '/' . $this->deployBundleAsset->getAbsolutePath()
         );
 
         $credits = $this->credits;
