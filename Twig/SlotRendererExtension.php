@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
 use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * Adds the renderSlot function to Twig engine
@@ -191,7 +192,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         } else {
             if (true === $addWhenEmpty) {
                 if (null === $parent) {
-                    throw new \RuntimeException("You must provide a valid AlBlockManager instance to automatically add a new Block");
+                    throw new RuntimeException("You must provide a valid AlBlockManager instance to automatically add a new Block");
                 }
                 
                 $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
