@@ -27,6 +27,9 @@ use AlphaLemon\Block\FileBundle\Core\Block\AlBlockManagerFile;
  */
 class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 {
+    protected $translator;
+    protected $configuration;
+    
     public function testDefaultValue()
     {
         $value =
@@ -43,6 +46,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         );
 
         $this->initContainer();
+        $this->translate("Click to load a file");
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
@@ -56,7 +60,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException
-     * @expectedExceptionMessage The content format is wrong. You should remove that block and add it again.
+     * @expectedExceptionMessage The content format %blockTypeInfo%is wrong. You should remove that block and add it again.
      */
     public function testAnExceptionIsThrownWhenTheJsonIsMalformed()
     {
@@ -88,19 +92,20 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         }';
 
         $block = $this->initBlock($value);
-        $this->initContainerWithKernel();        
+        $this->initContainer();        
+        $this->initKernel(); 
         $this->initDeployBundle();
         
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(6))
                         ->method('get')
                         ->with('request')
                         ->will($this->returnValue($request));
         
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(7))
                         ->method('getParameter')
                         ->with('alpha_lemon_cms.upload_assets_dir')
                         ->will($this->returnValue('uploads/assets'));
@@ -122,10 +127,11 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         }';
         
         $block = $this->initBlock($value);
-        $this->initContainerWithKernel();        
+        $this->initContainer();        
+        $this->initKernel();        
         $this->initDeployBundle();
         
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(6))
                         ->method('getParameter')
                         ->with('alpha_lemon_cms.web_folder')
                         ->will($this->returnValue('web'));
@@ -194,10 +200,12 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->container->expects($this->at(3))
-                        ->method('get')
-                        ->with('request')
-                        ->will($this->returnValue($request));
+        $this->container
+            ->expects($this->at(5))
+            ->method('get')
+            ->with('request')
+            ->will($this->returnValue($request))
+        ;
         
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
@@ -221,7 +229,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->initContainer();
         
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('file.form')
                         ->will($this->returnValue($formType))
@@ -240,10 +248,11 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                     ->will($this->returnValue($form))
         ;
         
-        $this->container->expects($this->at(3))
-                        ->method('get')
-                        ->with('form.factory')
-                        ->will($this->returnValue($formFactory))
+        $this->container
+            ->expects($this->at(5))
+            ->method('get')
+            ->with('form.factory')
+            ->will($this->returnValue($formFactory))
         ;
         
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
@@ -261,23 +270,57 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         return $block;
     }
 
-    private function initContainerWithKernel()
+    protected function initKernel()
     {
-        $this->initContainer();
-        
         $this->container
-            ->expects($this->at(2))
+            ->expects($this->at(4))
             ->method('get')
             ->with('kernel')
             ->will($this->returnValue($this->kernel))
         ;
     }
     
+    protected function initContainer()
+    {
+        parent::initContainer();
+        
+        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->container
+            ->expects($this->at(2))
+            ->method('get')
+            ->with('translator')
+            ->will($this->returnValue($this->translator))
+        ;
+        
+        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->configuration
+            ->expects($this->once())
+            ->method('read')
+            ->with('language')
+        ;
+        
+        $this->container
+            ->expects($this->at(3))
+            ->method('get')
+            ->with('alpha_lemon_cms.configuration')
+            ->will($this->returnValue($this->configuration))
+        ;
+    }
+    
     private function initDeployBundle()
     {
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(5))
                         ->method('getParameter')
                         ->with('alpha_lemon_theme_engine.deploy_bundle')                
                         ->will($this->returnValue('AcmeWebsiteBundle'));
+    }
+    
+    private function translate($message)
+    {
+        $this->translator
+            ->expects($this->once())
+            ->method('trans')
+            ->with($message)                
+            ->will($this->returnValue($message));
     }
 }
