@@ -22,11 +22,14 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 
 /**
  * AlBlockManagerTinyMce provides support for TinyMce library
  *
  * @author alphalemon <webmaster@alphalemon.com>
+ * @deprecated since 1.1.0
+ * @codeCoverageIgnore
  */
 abstract class AlBlockManagerTinyMce extends AlBlockManager
 {
@@ -42,6 +45,8 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlUrlManagerInterface $urlManager, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
+        throw new AlphaLemonDeprecatedException("AlBlockManagerTinyMce has been deprecated since AlphaLemon 1.1.0");
+        
         parent::__construct($eventsHandler, $factoryRepository, $validator);
 
         $this->urlManager = $urlManager;
