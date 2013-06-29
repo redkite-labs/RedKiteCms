@@ -141,15 +141,15 @@
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
-        <service id="el_finder_media_connector" class="%el_finder.media_connector%" >
+        <service id="el_finder_media_connector" class="%el_finder.media_connector%">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="el_finder_css_connector" class="%el_finder.css_connector%" >
+        <service id="el_finder_css_connector" class="%el_finder.css_connector%">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="el_finder_js_connector" class="%el_finder.js_connector%" >
+        <service id="el_finder_js_connector" class="%el_finder.js_connector%">
             <argument type="service" id="service_container" />
         </service>
 
