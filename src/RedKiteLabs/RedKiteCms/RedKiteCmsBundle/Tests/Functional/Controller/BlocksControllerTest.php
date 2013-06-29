@@ -175,14 +175,14 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $crawler = $this->blockIdIsNull('/backend/en/editBlock');
 
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
     }
 
     public function testEditBlockFailsWhenTheRequiredBlockDoesNotExist()
     {
         $crawler = $this->blockIdDoesNotExist('/backend/en/editBlock');
 
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
     }
 
     public function testEditBlockDoesNothingWhenKeyDoesNotMatchAnyBlockFieldName()
@@ -781,7 +781,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $crawler = $this->client->request($method, $route, $params);
         $response = $this->client->getResponse();
-        //$this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
 
         return $crawler;
     }

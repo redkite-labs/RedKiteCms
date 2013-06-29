@@ -72,6 +72,14 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
         ;
         $this->blockManager->set($block);        
         
+        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');        
+        $this->container
+            ->expects($this->at(0))
+            ->method('get')
+            ->with('alpha_lemon_cms.configuration')
+            ->will($this->returnValue($this->configuration))
+        ;
+        
         $expectedResult = array(
             "template" => "ScriptBundle:Editor:_editor.html.twig",
             "title" => "Script editor",
@@ -84,6 +92,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
                 "stylesheet-1.js",
                 "stylesheet-2.js",
             ),
+            'configuration' => $this->configuration,
         );
         
         $this->assertEquals($expectedResult, $this->blockManager->editorParameters());

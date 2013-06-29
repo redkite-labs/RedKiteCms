@@ -32,6 +32,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
     {
         parent::setUp();
         
+        $this->initContainer();
         $this->blockManager = new AlBlockManagerImage($this->container, $this->validator);
     }
 
@@ -50,7 +51,8 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
             '
         );
         
-        
+        $this->translate("Sample title", 0);
+        $this->translate("Sample alt", 1);
         $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
     }
 
@@ -100,10 +102,8 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
         ';
 
         $block = $this->initBlock($value);
-        $this->initContainer();
-        
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('image.form')
                         ->will($this->returnValue($formType))
@@ -122,15 +122,43 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
                     ->will($this->returnValue($form))
         ;
         
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(5))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
         ;
         
+        $this->initContainer();
         $blockManager = new AlBlockManagerImage($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->editorParameters();        
+    }
+    
+    protected function initContainer()
+    {
+        parent::initContainer();
+        
+        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->container
+            ->expects($this->at(2))
+            ->method('get')
+            ->with('translator')
+            ->will($this->returnValue($this->translator))
+        ;
+        
+        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->configuration
+            ->expects($this->once())
+            ->method('read')
+            ->with('language')
+        ;
+        
+        $this->container
+            ->expects($this->at(3))
+            ->method('get')
+            ->with('alpha_lemon_cms.configuration')
+            ->will($this->returnValue($this->configuration))
+        ;
     }
 
     private function initBlock($value)
@@ -141,5 +169,14 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
               ->will($this->returnValue($value));
 
         return $block;
+    }
+    
+    private function translate($message, $at)
+    {
+        $this->translator
+            ->expects($this->at($at))
+            ->method('trans')
+            ->with($message)                
+            ->will($this->returnValue($message));
     }
 }
