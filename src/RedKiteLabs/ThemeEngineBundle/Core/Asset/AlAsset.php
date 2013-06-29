@@ -102,7 +102,9 @@ class AlAsset
         $this->realPath = $this->locateResource();
 
         // The asset has not been located, so the full path is the asset itself
-        if(null === $this->realPath) $this->realPath = $this->asset;
+        if (null === $this->realPath) {
+            $this->realPath = $this->asset;
+        }
         $this->absolutePath = $this->retrieveBundleWebFolder();
     }
 
@@ -156,7 +158,9 @@ class AlAsset
      */
     protected function locateResource($asset = null)
     {
-        if (null === $asset) $asset = $this->asset;
+        if (null === $asset) {
+            $asset = $this->asset;
+        }
 
         $asset = $this->normalizePath($asset);
         if(\substr($asset, 0, 1) != '@') $asset = '@' . $asset;
@@ -165,10 +169,12 @@ class AlAsset
         {
             // Fetches the relative resource to locate from asset
             preg_match('/(@[^\/]+)?([\w\/\.\-_]+)?/', $asset, $match);
-            if (empty($match[1])) return;
+            if (empty($match[1])) {
+                return;
+            }
 
             $resource = $this->kernel->locateResource($match[1]);
-
+            
             $resourceLength = strlen($resource) - 1;
             if (substr($resource, $resourceLength, 1) == '/') $resource = substr($resource, 0, $resourceLength);
 
