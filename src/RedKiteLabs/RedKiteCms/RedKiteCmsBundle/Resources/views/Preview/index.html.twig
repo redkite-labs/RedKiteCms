@@ -64,7 +64,6 @@
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
         {% stylesheets filter='?yui_css,cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                                    'components/pageguide/css/pageguide.min.css'
                                                     'bundles/alphalemoncms/vendor/vendor-adapter.css' 
                                                     'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
         %}
@@ -72,7 +71,6 @@
         {% endstylesheets %}
     {% else %}
         {% stylesheets filter='?cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                            'components/pageguide/css/pageguide.min.css'
                                             'bundles/alphalemoncms/vendor/vendor-adapter.css' 
                                             'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
         %}

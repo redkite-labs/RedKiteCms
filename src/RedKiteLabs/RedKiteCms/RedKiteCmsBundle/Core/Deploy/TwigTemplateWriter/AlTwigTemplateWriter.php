@@ -341,15 +341,22 @@ abstract class AlTwigTemplateWriter
 
         return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager) {
             $url = $matches[2];
+            
+            if (preg_match('/route:(.*)/i', $url, $route)) {
+                $url = sprintf("{{ path(%s) }}", html_entity_decode($route[1], ENT_QUOTES));
+                
+                return $matches[1] . $url . $matches[3];
+            }
+            
             $route = $urlManager
                 ->fromUrl($url)
                 ->getProductionRoute();
+            
+            if (null !== $route) {
+                $url = sprintf("{{ path('%s') }}", $route);
+            }
 
-           if (null !== $route) {
-               $url = sprintf("{{ path('%s') }}", $route);
-           }
-
-           return $matches[1] . $url . $matches[3];
+            return $matches[1] . $url . $matches[3];
         }, $content);
 
         return $content;
