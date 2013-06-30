@@ -200,17 +200,21 @@ class BlocksController extends Base\BaseController
 
     public function showExternalFilesManagerAction()
     {
-        $key = $this->container->get('request')->get('key');
-        if (empty($key)) {
-            throw new InvalidArgumentException($this->container->get('alpha_lemon_cms.translator')->translate('The key param is mandatory to open the right file manager', array(), 'blocks_controller'));
+        try {
+            $key = $this->container->get('request')->get('key');
+            if (empty($key)) {
+                throw new InvalidArgumentException($this->container->get('alpha_lemon_cms.translator')->translate('The key param is mandatory to open the right file manager', array(), 'blocks_controller'));
+            }
+
+            $params = array(
+                'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
+                'assets_folder' => AlAssetsPath::getUploadFolder($this->container),
+            );
+
+            return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), $params);
+        } catch (\Exception $e) {
+            return $this->renderDialogMessage($e->getMessage());
         }
-
-        $params = array(
-            'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
-            'assets_folder' => AlAssetsPath::getUploadFolder($this->container),
-        );
-
-        return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), $params);
     }
 
     public function addExternalFileAction()

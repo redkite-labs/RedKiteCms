@@ -150,12 +150,11 @@ class PagesController extends Base\BaseController
         }
         
         $pageManager->set($alPage);
-        if ($request->get('pageId') != "none" && $request->get('languageId') != "none") { 
-        
+        if ($request->get('pageId') != "none" && $request->get('languageId') != "none") {         
             return $this->removePageAttributes($request, $pageManager);
         }
         
-        return $this->removePage($alPage);
+        return $this->removePage($pageManager);
     }
     
     protected function removePage($pageManager)

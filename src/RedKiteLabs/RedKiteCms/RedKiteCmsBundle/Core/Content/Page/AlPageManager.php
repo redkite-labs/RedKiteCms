@@ -295,7 +295,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
 
             if (empty($values['PageName'])) {
                 $exception = array(
-                    'message' => "It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one",
+                    'message' => "The name to assign to the page cannot be null. Please provide a valid page name to add your page",
                     'domain' => 'exceptions',
                 );
                 throw new General\ArgumentIsEmptyException(json_encode($exception));
