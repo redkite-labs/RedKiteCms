@@ -77,10 +77,11 @@ class ExceptionListener
         }
         
         $values = array(
-            'status_code' => 404,
             'message' => $message,
         );
         
-        $event->setResponse($this->templating->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', $values));
+        $response = $this->templating->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', $values);
+        $response->setStatusCode(404);        
+        $event->setResponse($response);
     }
 }

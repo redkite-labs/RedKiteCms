@@ -252,7 +252,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The language has been successfully removed", $json[0]["value"]);
+        $this->assertEquals("The language has been successfully deleted", $json[0]["value"]);
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("languages", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));

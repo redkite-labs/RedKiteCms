@@ -201,7 +201,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
     }
 
     public function testEditBlockDoesNothingWhenTheSameSavedValueIsGiven()
@@ -220,7 +220,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore. Nothing has been made")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
     }
 
     public function testEditBlock()
@@ -278,14 +278,14 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $crawler = $this->blockIdIsNull('/backend/en/deleteBlock');
 
-        $this->assertTrue($crawler->filter('html:contains("The content you tried to remove does not exist anymore in the website")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("The block you tried to remove does not exist anymore in the website")')->count() > 0);
     }
 
     public function testDeleteBlockFailsWhenTheRequiredBlockDoesNotExist()
     {
         $crawler = $this->blockIdDoesNotExist('/backend/en/deleteBlock');
 
-        $this->assertTrue($crawler->filter('html:contains("The content you tried to remove does not exist anymore in the website")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("The block you tried to remove does not exist anymore in the website")')->count() > 0);
     }
 
     public function testDeleteBlock()
@@ -310,7 +310,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The content has been successfully removed", $json[0]["value"]);
+        $this->assertEquals("The block has been successfully removed", $json[0]["value"]);
 
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("redraw-slot", $json[1]["key"]);
@@ -357,7 +357,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The content has been successfully removed", $json[0]["value"]);
+        $this->assertEquals("The block has been successfully removed", $json[0]["value"]);
 
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("remove-block", $json[1]["key"]);
@@ -415,7 +415,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
     {
         $params = array('page' => 'index', 'language' => 'en', "file" => "myfile");
         $crawler = $this->browse('/backend/en/addExternalFile', $params);
-        $this->assertTrue($crawler->filter('html:contains("External file cannot be added because any valid field name has been given")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("External file cannot be added because you have not provided any valid field name")')->count() > 0);
     }
 
     public function testExternalFileIsNotAddedWhenAnyValidSlotNameHasBeenGiven()
@@ -443,7 +443,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "content_title_1"
         );
         $crawler = $this->browse('/backend/en/addExternalFile', $params);
-        $this->assertTrue($crawler->filter('html:contains("You are trying to add an external file on a content that doesn\'t exist anymore")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("You are trying to add an external file on a block that does not exist anymore")')->count() > 0);
     }
 
     public function testExternalFileIsAdded()
@@ -536,7 +536,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "idBlock" => $blockId
         );
         $crawler = $this->browse('/backend/en/addExternalFile', $params);
-        $this->assertTrue($crawler->filter('html:contains("The block has already assigned the external file you are trying to add")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("You have already assigned this file to the block")')->count() > 0);
     }
 
     public function testExternalFileIsNotRemovedWhenAnyValidParameterHasBeenGiven()
@@ -555,7 +555,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "file" => "myfile"
         );
         $crawler = $this->browse('/backend/en/removeExternalFile', $params);
-        $this->assertTrue($crawler->filter('html:contains("External file cannot be removed because any valid field name has been given")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("External file cannot be removed because you have not provided any valid field name")')->count() > 0);
     }
 
     public function testExternalFileIsNotDeletedWhenAnyValidSlotNameHasBeenGiven()
@@ -583,7 +583,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
             "slotName" => "content_title_1"
         );
         $crawler = $this->browse('/backend/en/removeExternalFile', $params);
-        $this->assertTrue($crawler->filter('html:contains("You are trying to delete an external file from a content that doesn\'t exist anymore")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("You are trying to delete an external file from a block that does not exist anymore")')->count() > 0);
     }
     
     public function testExternalFileIsDeletedButNotRemovedFromTheDbBecauseItIsNotSavedIn()
@@ -712,7 +712,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         
-        $this->assertEquals('You cannot add more than one block into an including block', $crawler->text());
+        $this->assertEquals('You can add just one block into an included block', $crawler->text());
         
         return $slotName;
     }
@@ -788,7 +788,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     private function anyValidParameterIsGiven($route)
     {
-        $crawler = $this->browse($route);
+        $crawler = $this->browse($route); 
         $this->assertTrue($crawler->filter('html:contains("The page you are trying to edit does not exist")')->count() > 0);
     }
 

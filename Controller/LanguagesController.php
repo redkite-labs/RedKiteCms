@@ -52,7 +52,6 @@ class LanguagesController extends Base\BaseController
     {
         $request = $this->container->get('request');            
         $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
-        $languageManager->setTranslator($this->container->get('translator'));
         $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
         $languageManager->set($alLanguage);
 

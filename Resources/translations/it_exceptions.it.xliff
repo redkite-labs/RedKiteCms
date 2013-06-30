@@ -91,8 +91,8 @@
             <target>Any page is actually managed, so there is nothing to remove</target>
         </trans-unit>
         <trans-unit id="23">
-            <source>It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one</source>
-            <target>It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one</target>
+            <source>The name to assign to the page cannot be null. Please provide a valid page name to add your page</source>
+            <target>The name to assign to the page cannot be null. Please provide a valid page name to add your page</target>
         </trans-unit>
         <trans-unit id="24">
             <source>The page deleting action has been aborted</source>
