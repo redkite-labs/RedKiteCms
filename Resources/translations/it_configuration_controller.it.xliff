@@ -11,7 +11,7 @@
             <target>Si e' verificato un errore mentre veniva cambiata la lingua del CMS</target>
         </trans-unit>
         <trans-unit id="3">
-            <source>The language "%language%" is already in use</source>
+            <source>The language "%language%" is the one already in use</source>
             <target>La lingua "%language%" e' attualmente in uso</target>
         </trans-unit>
     </body>
