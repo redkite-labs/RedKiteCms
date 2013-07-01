@@ -58,7 +58,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
     /**
      * @dataProvider languagesProvider
      */
-    public function testShowAvailableBlocks($params, $newLanguage, $statusCode, $message)
+    public function testChangeLanguage($params, $newLanguage, $statusCode, $message)
     {
         $configurationRepository = new \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel();
         $this->assertEquals('en', $configurationRepository->fetchParameter('language')->getValue());
