@@ -102,7 +102,7 @@ class AlPropelOrm implements OrmInterface
     {
         try {
             if (null !== $modelObject) {
-                $this->modelObject = $modelObject;
+                $this->setRepositoryObject($modelObject);
             }
 
             $this->startTransaction();
