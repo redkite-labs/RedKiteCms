@@ -609,6 +609,40 @@ $(document).ready(function(){
 
             return false;
         });
+        
+        $('#al_available_languages').change(function()
+        {
+            var languageName = $('#al_available_languages option:selected').val();
+            
+            $.ajax({
+                type: 'POST',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_changeCmsLanguage',
+                data: {'page' :  $('#al_pages_navigator').attr('rel'),
+                    'language' : $('#al_languages_navigator').attr('rel'),
+                    'languageName' : languageName
+                },
+                beforeSend: function()
+                {
+                    $('body').AddAjaxLoader();
+                },
+                success: function(html)
+                {
+                    $('body').showAlert(html);
+                    
+                    Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
+                },
+                error: function(err)
+                {
+                    $('body').showDialog(err.responseText);
+                },
+                complete: function()
+                {
+                    $('body').RemoveAjaxLoader();
+                }
+            });
+
+            return false;
+        });
     }
     catch(e)
     {

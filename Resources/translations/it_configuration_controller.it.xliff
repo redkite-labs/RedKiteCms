@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="1">
+            <source>CMS language has been changed. Please wait while your site is reloading</source>
+            <target>La lingua del CMS e' stata cambiata. Attendi mentre la pagina viene ricaricata</target>
+        </trans-unit>
+        <trans-unit id="2">
+            <source>An error occoured when changing CMS language</source>
+            <target>Si e' verificato un errore mentre veniva cambiata la lingua del CMS</target>
+        </trans-unit>
+        <trans-unit id="3">
+            <source>The language "%language%" is already in use</source>
+            <target>La lingua "%language%" e' attualmente in uso</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

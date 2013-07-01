@@ -129,8 +129,7 @@
             </ul>
         </div>
         <div id="al_languages" class="pull-right"> 
-            {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages}  %}
-            {# include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'text' : 'English', 'value' : 'en', 'button_type' : 'btn-primary', 'type' : 'al_site_language_item'}  #}
+            {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'selected' : cms_language}  %}
         </div>
     </div>
     <div class="clearfix"></div>    

@@ -11,6 +11,7 @@
 
         <parameter key="alpha_lemon_cms.available_languages" type="collection">
             <parameter key="en">English</parameter>
+            <parameter key="it">Italian</parameter>
         </parameter>
 
         <parameter key="alpha_lemon_cms.upload_assets_dir">uploads/assets</parameter>
