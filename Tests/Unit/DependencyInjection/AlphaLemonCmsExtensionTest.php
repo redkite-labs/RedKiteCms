@@ -34,7 +34,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
         $this->assertEquals('alphaLemon', $this->container->getParameter('alpha_lemon_cms.skin'));
         $this->assertEquals('web', $this->container->getParameter('alpha_lemon_cms.web_folder'));
         $this->assertEquals('%kernel.root_dir%/../%alpha_lemon_cms.web_folder%', $this->container->getParameter('alpha_lemon_cms.web_folder_full_path'));
-        $this->assertEquals(array('en' => 'English'), $this->container->getParameter('alpha_lemon_cms.available_languages'));
+        $this->assertEquals(array('en' => 'English', 'it' => 'Italian',), $this->container->getParameter('alpha_lemon_cms.available_languages'));
         $this->assertEquals('uploads/assets', $this->container->getParameter('alpha_lemon_cms.upload_assets_dir'));
         $this->assertFalse($this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'));
         $this->assertEquals('Resources', $this->container->getParameter('alpha_lemon_cms.deploy_bundle.resources_dir'));

@@ -161,7 +161,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $el = $crawler->filter('.al_deployer');
         $this->assertEquals(2, $el->count());
         $this->check($crawler, '#al_pages_navigator', "index");
-        $this->check($crawler, '#al_available_languages', "English");
+        $this->check($crawler, '#al_available_languages', "EnglishItalian");
     }
 
     private function checkStylesheets($crawler)
