@@ -26,7 +26,7 @@ class ConfigurationController extends Base\BaseController
         try {
             $request = $this->container->get('request');
             $languageName = $request->get('languageName');  
-        
+            
             $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
             $configurationRepository = $factoryRepository->createRepository('Configuration');
             $configuration = $configurationRepository->fetchParameter('language');                        
@@ -39,14 +39,16 @@ class ConfigurationController extends Base\BaseController
             $statusCode = 404;
             switch ($result) {
                 case null:
-                    $message = 'The language "%language%" is already in use';
+                    $message = 'The language "%language%" is the one already in use';
                     $params = array(
                         '%language%' => $languageName,
                     );
                     break;
                 case false:
+                    // @codeCoverageIgnoreStart
                     $message = 'An error occoured when changing CMS language';
                     break;
+                    // @codeCoverageIgnoreEnd
                 case true:
                      $message = 'CMS language has been changed. Please wait while your site is reloading';
                     $statusCode = 200;
@@ -55,7 +57,9 @@ class ConfigurationController extends Base\BaseController
 
             return new Response($this->translate('_configuration_controller', $message, $params), $statusCode); 
         } catch (\Exception $e) {
+            // @codeCoverageIgnoreStart
             return $this->renderDialogMessage($e->getMessage());
+            // @codeCoverageIgnoreEnd
         }
     }
 }
