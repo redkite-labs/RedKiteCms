@@ -1,4 +1,6 @@
-UPGRATE FROM 1.1.x RC3
+Upgrade from 1.1.x RC3
+----------------------
+
 AlphaLemon CMS RC4 introduces a new table in the database, so it must be updated to get
 this new entity.
 
@@ -19,3 +21,10 @@ file and read it from the Propel's configuration:
             user:                 root
             password:             
             dsn:                  mysql:host=localhost;port=3306;dbname=alphalemon
+
+Upgrade from AlphaLemon CMS Beta4 or older
+------------------------------------------
+
+If you need to upgrade from an AlphaLemon CMS 1.1.x Beta4 version, you need to
+install AlphaLemon CMS RC3, upgrade your database from this release than upgrade to
+AlphaLemon CMS RC4 and follows the intructions in previous section.
