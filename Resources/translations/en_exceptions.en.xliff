@@ -19,28 +19,28 @@
             <target>The abstract method getDefaultValue() defined for the object %className% must return an array</target>
         </trans-unit>
         <trans-unit id="5">
-            <source>The content deleting action has been aborted</source>
-            <target>The content deleting action has been aborted</target>
+            <source>The block deleting operation has been aborted</source>
+            <target>The block deleting operation has been aborted</target>
         </trans-unit>
         <trans-unit id="6">
-            <source>The current block adding action has been aborted</source>
-            <target>The current block adding action has been aborted</target>
+            <source>The operation to add a new block has been aborted</source>
+            <target>The operation to add a new block has been aborted</target>
         </trans-unit>
         <trans-unit id="7">
-            <source>The content editing action has been aborted</source>
-            <target>The content editing action has been aborted</target>
+            <source>The block editing action has been aborted</source>
+            <target>The block editing action has been aborted</target>
         </trans-unit>
         <trans-unit id="8">
-            <source>AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of "%class%" object in the bundle that implements it</source>
-            <target>AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of "%class%" object in the bundle that implements it</target>
+            <source>AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of the "%class%" object, into the bundle that implements it</source>
+            <target>AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of the "%class%" object, into the bundle that implements it</target>
         </trans-unit>
         <trans-unit id="9">
             <source>The image file has already been added</source>
             <target>The image file has already been added</target>
         </trans-unit>
         <trans-unit id="10">
-            <source>There is a configuration error in the form that manages this content: you must name that form "al_json_block". The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you.</source>
-            <target>There is a configuration error in the form that manages this content: you must name that form "al_json_block". The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you.</target>
+            <source>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</source>
+            <target>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</target>
         </trans-unit>
         <trans-unit id="11">
             <source>The content format %blockTypeInfo%is wrong. You should remove that block and add it again.</source>
@@ -55,8 +55,8 @@
             <target>AlLanguageManager is able to manage only AlLanguage objects</target>
         </trans-unit>
         <trans-unit id="14">
-            <source>Any language has been assigned to the LanguageManager. Delete operation aborted</source>
-            <target>Any language has been assigned to the LanguageManager. Delete operation aborted</target>
+            <source>Any language has been selected: delete operation aborted</source>
+            <target>Any language has been selected: delete operation aborted</target>
         </trans-unit>
         <trans-unit id="15">
             <source>The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again</source>
@@ -87,8 +87,8 @@
             <target>AlPageManager is able to manage only AlPage objects</target>
         </trans-unit>
         <trans-unit id="22">
-            <source>Any page is actually managed, so there is nothing to remove</source>
-            <target>Any page is actually managed, so there is nothing to remove</target>
+            <source>Any page has been selected: delete operation aborted</source>
+            <target>Any page has been selected: delete operation aborted</target>
         </trans-unit>
         <trans-unit id="23">
             <source>The name to assign to the page cannot be null. Please provide a valid page name to add your page</source>
@@ -131,12 +131,12 @@
             <target>The language id argument must be a numeric value</target>
         </trans-unit>
         <trans-unit id="33">
-            <source>Contents cannot be retrieved because the id language has not been set</source>
-            <target>Contents cannot be retrieved because the id language has not been set</target>
+            <source>Blocks cannot be retrieved because the id language has not been set</source>
+            <target>Blocks cannot be retrieved because the id language has not been set</target>
         </trans-unit>
         <trans-unit id="34">
-            <source>Contents cannot be retrieved because the id page has not been set</source>
-            <target>Contents cannot be retrieved because the id page has not been set</target>
+            <source>Blocks cannot be retrieved because the id page has not been set</source>
+            <target>Blocks cannot be retrieved because the id page has not been set</target>
         </trans-unit>
         <trans-unit id="35">
             <source>AlSeoManager is able to manage only AlSeo objects</source>
@@ -155,36 +155,36 @@
             <target>The seo adding action has been aborted</target>
         </trans-unit>
         <trans-unit id="81">
-            <source>The PageId parameter is mandatory to save a seo object</source>
-            <target>The PageId parameter is mandatory to save a seo object</target>
+            <source>The PageId argument is mandatory to save a seo object</source>
+            <target>The PageId argument is mandatory to save a seo object</target>
         </trans-unit>
         <trans-unit id="39">
-            <source>The LanguageId parameter is mandatory to save a seo object</source>
-            <target>The LanguageId parameter is mandatory to save a seo object</target>
+            <source>The LanguageId argument is mandatory to save a seo object</source>
+            <target>The LanguageId argument is mandatory to save a seo object</target>
         </trans-unit>
         <trans-unit id="40">
-            <source>The Permalink parameter is mandatory to save a seo object</source>
-            <target>The Permalink parameter is mandatory to save a seo object</target>
+            <source>The Permalink argument is mandatory to save a seo object</source>
+            <target>The Permalink argument is mandatory to save a seo object</target>
         </trans-unit>
         <trans-unit id="41">
             <source>The seo editing action has been aborted</source>
             <target>The seo editing action has been aborted</target>
         </trans-unit>
         <trans-unit id="42">
-            <source>setForceSlotAttributes accepts only boolean values</source>
-            <target>setForceSlotAttributes accepts only boolean values</target>
+            <source>setForceSlotAttributes method accepts only boolean values</source>
+            <target>setForceSlotAttributes method accepts only boolean values</target>
         </trans-unit>
         <trans-unit id="43">
-            <source>setSkipSiteLevelBlocks accepts only boolean values</source>
-            <target>setSkipSiteLevelBlocks accepts only boolean values</target>
+            <source>setSkipSiteLevelBlocks method accepts only boolean values</source>
+            <target>setSkipSiteLevelBlocks method accepts only boolean values</target>
         </trans-unit>
         <trans-unit id="44">
             <source>The %type% type does not exist</source>
             <target>The %type% type does not exist</target>
         </trans-unit>
         <trans-unit id="45">
-            <source>The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"</source>
-            <target>The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"</target>
+            <source>The %className% adjustPosition protected method requires one of the following values: "%options%". Your input argument is: "%parameter%"</source>
+            <target>The %className% adjustPosition protected method requires one of the following values: "%options%". Your input argument is: "%parameter%"</target>
         </trans-unit>
         <trans-unit id="46">
             <source>The class %className% that shoud define a new Slot Converter does not exist</source>
@@ -263,8 +263,8 @@
             <target>AlLanguageRepositoryPropel accepts only AlLanguage propel objects</target>
         </trans-unit>
         <trans-unit id="65">
-            <source>The laguage name must be a string: fromLanguageName cannot retrieve the language</source>
-            <target>The laguage name must be a string: fromLanguageName cannot retrieve the language</target>
+            <source>fromLanguageName method accepts only string values</source>
+            <target>fromLanguageName method accepts only string values</target>
         </trans-unit>
         <trans-unit id="66">
             <source>AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects</source>
@@ -275,8 +275,8 @@
             <target>AlPageRepositoryPropel accepts only AlPage propel objects</target>
         </trans-unit>
         <trans-unit id="68">
-            <source>The page name must be a string: fromPageName cannot retrieve the page</source>
-            <target>The page name must be a string: fromPageName cannot retrieve the page</target>
+            <source>fromPageName method accepts only string values</source>
+            <target>fromPageName method accepts only string values</target>
         </trans-unit>
         <trans-unit id="69">
             <source>AlRoleRepositoryPropel accepts only AlRole propel objects</source>
@@ -287,8 +287,8 @@
             <target>AlSeoRepositoryPropel accepts only AlSeo propel objects</target>
         </trans-unit>
         <trans-unit id="71">
-            <source>The permalink must be a string: fromPermalink cannot retrieve the seo object</source>
-            <target>The permalink must be a string: fromPermalink cannot retrieve the seo object</target>
+            <source>fromPermalink method accepts only string values</source>
+            <target>fromPermalink method accepts only string values</target>
         </trans-unit>
         <trans-unit id="72">
             <source>AlUserRepositoryPropel accepts only AlUser propel objects</source>

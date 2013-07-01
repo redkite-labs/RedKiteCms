@@ -172,7 +172,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     {
         if (null === $this->alPage) {
             $exception = array(
-                'message' => 'Any page is actually managed, so there is nothing to remove',
+                'message' => 'Any page has been selected: delete operation aborted',
                 'domain' => 'exceptions',
             );
             throw new General\ArgumentIsEmptyException(json_encode($exception));

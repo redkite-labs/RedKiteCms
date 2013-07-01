@@ -447,7 +447,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
             BlockEvents::BEFORE_DELETE_BLOCK,
             array(),
             array(
-                'message' => 'The content deleting action has been aborted',
+                'message' => 'The block deleting operation has been aborted',
                 'domain' => 'exceptions',
             )
         );
@@ -595,7 +595,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
                 BlockEvents::BEFORE_ADD_BLOCK,
                 $values,
                 array(
-                    'message' => 'The current block adding action has been aborted',
+                    'message' => 'The operation to add a new block has been aborted',
                     'domain' => 'exceptions',
                 )
             );
@@ -680,7 +680,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
                         BlockEvents::BEFORE_EDIT_BLOCK,
                         $values,
                         array(
-                            'message' => 'The content editing action has been aborted',
+                            'message' => 'The block editing action has been aborted',
                             'domain' => 'exceptions',
                         )
                 );

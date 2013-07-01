@@ -85,7 +85,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
 
         if (!is_string($pageName)) {
             $exception = array(
-                'message' => 'The page name must be a string: fromPageName cannot retrieve the page',
+                'message' => 'fromPageName method accepts only string values',
                 'domain' => 'exceptions',
             );
             throw new InvalidArgumentTypeException(json_encode($exception));

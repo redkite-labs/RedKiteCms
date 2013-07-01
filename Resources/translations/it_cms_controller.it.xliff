@@ -80,7 +80,7 @@
         </trans-unit>
         <trans-unit id="20">
             <source>Edit</source>
-            <target>Modifica</target>
+            <target>Mod.</target>
         </trans-unit>
         <trans-unit id="21">
             <source>Stops to edit the current page</source>

@@ -157,7 +157,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         if (null === $this->alLanguage) {
             $exception = array(
-                'message' => 'Any language has been assigned to the LanguageManager. Delete operation aborted',
+                'message' => 'Any language has been selected: delete operation aborted',
                 'domain' => 'exceptions',
             );
             throw new General\ArgumentIsEmptyException(json_encode($exception));
