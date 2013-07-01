@@ -18,9 +18,6 @@
 namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * ConfigurationControllerTest
@@ -58,16 +55,41 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
         self::populateDb();
     }
     
-    public function testShowAvailableBlocks()
+    /**
+     * @dataProvider languagesProvider
+     */
+    public function testShowAvailableBlocks($params, $newLanguage, $statusCode, $message)
     {
-        $params = array(
-            'language' => 'it',
-        );
+        $configurationRepository = new \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel();
+        $this->assertEquals('en', $configurationRepository->fetchParameter('language')->getValue());
+        
         $crawler = $this->client->request('POST', '/backend/en/al_changeCmsLanguage', $params);
         $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals($statusCode, $response->getStatusCode());
+        $this->assertTrue($crawler->filter('html:contains(\'' . $message . '\')')->count() > 0);
         
-        $this->assertCount(1, $crawler->filter('#al_blocks_list'));
-        
+        $this->assertEquals($newLanguage, $configurationRepository->fetchParameter('language')->getValue());
+    }
+    
+    public function languagesProvider()
+    {
+        return array(
+            array(
+                array(
+                    'languageName' => 'en',
+                ),
+                'en',
+                404,
+                'The language "en" is the one already in use',
+            ),
+            array(
+                array(
+                    'languageName' => 'it',
+                ),
+                'it',
+                200,
+                'CMS language has been changed. Please wait while your site is reloading',
+            ),
+        );
     }
 }
