@@ -11,8 +11,8 @@
             <target>An error occoured when changing CMS language</target>
         </trans-unit>
         <trans-unit id="3">
-            <source>The language "%language%" is already in use</source>
-            <target>The language "%language%" is already in use</target>
+            <source>The language "%language%" is the one already in use</source>
+            <target>The language "%language%" is the one already in use</target>
         </trans-unit>
     </body>
     </file>
