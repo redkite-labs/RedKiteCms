@@ -1,0 +1,21 @@
+UPGRATE FROM 1.1.x RC3
+AlphaLemon CMS RC4 introduces a new table in the database, so it must be updated to get
+this new entity.
+
+The upgrade process is really easy. After you upgraded you AlphaLemon CMS application,
+just open a terminal and run the following commands:
+
+    ./php app/console --env=alcms alphalemon:update-to-1-1-x-RC4 "[DSN]"
+
+Between double quotes add your dns. If you don't remember it, open the app/config/config_alcms.yml
+file and read it from the Propel's configuration:
+
+    propel:
+        path:       "%kernel.root_dir%/../vendor/propel/propel1"
+        phing_path: "%kernel.root_dir%/../vendor/phing/phing"
+
+        dbal:
+            driver:               mysql
+            user:                 root
+            password:             
+            dsn:                  mysql:host=localhost;port=3306;dbname=alphalemon

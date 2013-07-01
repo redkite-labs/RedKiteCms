@@ -28,7 +28,7 @@ use Propel\PropelBundle\Command\ModelBuildCommand;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class UpdateTo1_1_x_RC4Command extends Base\BaseUpdateCommand
+class UpdateTo11xRC4Command extends Base\BaseUpdateCommand
 {
     /**
      * @see Command
