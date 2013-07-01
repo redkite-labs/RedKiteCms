@@ -104,7 +104,7 @@ class ThemesControllerTest extends TestCase
     /**
      * @dataProvider resultProvider
      */
-    public function testStartNewTheme($result, $times)
+    public function testStartNewTheme($result)
     {
         $this->initContainer();
         $this->siteBootstrap
@@ -118,7 +118,7 @@ class ThemesControllerTest extends TestCase
              ->will($this->returnValue($result));
          
         $this->siteBootstrap
-             ->expects($this->exactly($times))
+             ->expects($this->once())
              ->method('getErrorMessage');
          
         $squence = 4;
@@ -151,8 +151,8 @@ class ThemesControllerTest extends TestCase
     public function resultProvider()
     {
         return array(
-            array(false, 1),
-            array(true, 0),
+            array(false),
+            array(true),
         );
     }
        

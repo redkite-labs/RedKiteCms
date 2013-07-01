@@ -33,6 +33,7 @@ class AlCmsController extends BaseFrontendController
     protected $factoryRepository = null;
     protected $pageRepository = null;
     protected $languageRepository = null;
+    protected $configuration = null;
 
     public function showAction()
     {
@@ -45,7 +46,7 @@ class AlCmsController extends BaseFrontendController
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');        
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
-        $configuration = $this->container->get('alpha_lemon_cms.configuration');
+        $this->configuration = $this->container->get('alpha_lemon_cms.configuration');
         
         $params = array(
             'template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
@@ -61,7 +62,7 @@ class AlCmsController extends BaseFrontendController
             'language' => 0,
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
             'frontController' => $this->getFrontcontroller($request),
-            'configuration' => $configuration,
+            'configuration' => $this->configuration,
         );
         
         if (null !== $pageTree) {
@@ -108,7 +109,7 @@ class AlCmsController extends BaseFrontendController
                 )
             );
         } else {
-            $cmsLanguage = $configuration->read('language');
+            $cmsLanguage = $this->configuration->read('language');
             $message = $this->container->get('translator')->trans(
                 'It seems that the "%page%" does not exist for the "%language%" language', 
                 array(
@@ -155,7 +156,7 @@ class AlCmsController extends BaseFrontendController
             $asset = new AlAsset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
             if (false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig')) {
-                $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+                $cmsLanguage = $this->configuration->read('language');
                 $message = $this->container->get('translator')->trans(
                     'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme', 
                     array(), 

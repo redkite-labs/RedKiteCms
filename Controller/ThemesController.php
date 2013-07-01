@@ -102,7 +102,8 @@ class ThemesController extends BaseController
         return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_finalizer.html.twig',
             array(
                 'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
-        ));
+            )
+        );
     }
     
     public function finalizeThemeAction()
