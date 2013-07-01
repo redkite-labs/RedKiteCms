@@ -101,8 +101,6 @@ class ThemePreviewControllerTest extends TestCase
      */
     public function testThemePreview($templateName, $slotArguments)
     {
-        
-        
         $blocksSequence = 0;
         $slots = array();
         foreach ($slotArguments as $slotArgument) {
@@ -339,12 +337,21 @@ class ThemePreviewControllerTest extends TestCase
         $this->container->expects($this->at(12))
             ->method('get')
             ->with('request')
-            ->will($this->returnValue($request));
+            ->will($this->returnValue($request))
+        ;
+        
+        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->container->expects($this->at(14))
+            ->method('get')
+            ->with('alpha_lemon_cms.configuration')
+            ->will($this->returnValue($this->configuration))
+        ;
         
         $this->container
-             ->expects($this->at(14))
+             ->expects($this->at(15))
              ->method('get')
              ->with('templating')
-             ->will($this->returnValue($this->templating));
+             ->will($this->returnValue($this->templating))
+        ;
     }
 }

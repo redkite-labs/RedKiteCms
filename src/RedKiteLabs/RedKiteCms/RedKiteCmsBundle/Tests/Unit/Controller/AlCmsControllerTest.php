@@ -80,6 +80,13 @@ class AlCmsControllerTest extends TestCase
         $this->initContainer(null);
         $this->initFactoryRepository();        
         
+        $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator->expects($this->once())
+            ->method('trans')
+            ->with('It seems that the "%page%" does not exist for the "%language%" language')
+            ->will($this->returnValue('It seems that the "index" does not exist for the en "language"'))
+        ;
+        
         $session =
             $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
                  ->disableOriginalConstructor()
@@ -87,20 +94,25 @@ class AlCmsControllerTest extends TestCase
         ;
         $session->expects($this->once())
             ->method('setFlash')
-            ->with('message', 'The requested page has not been loaded');
+            ->with('message', 'It seems that the "index" does not exist for the en "language"');
         
-        $this->container->expects($this->at(8))
+        $this->container->expects($this->at(9))
+            ->method('get')
+            ->with('translator')
+            ->will($this->returnValue($translator));
+        
+        $this->container->expects($this->at(10))
             ->method('get')
             ->with('session')
             ->will($this->returnValue($session));
         
-        $this->container->expects($this->at(9))
+        $this->container->expects($this->at(11))
             ->method('get')
             ->with('templating')
             ->will($this->returnValue($this->templating));
         
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->container->expects($this->at(10))
+        $this->container->expects($this->at(12))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($dispatcher));
@@ -174,28 +186,41 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnSelf())
         ;
         
-        $this->container->expects($this->at(8))
+        $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator->expects($this->once())
+            ->method('trans')
+            ->with('The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
+            ->will($this->returnValue('The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme'))
+        ;
+        
+        $this->container->expects($this->at(9))
             ->method('get')
             ->with('alpha_lemon_cms.template_slots')
             ->will($this->returnValue($templateSlots));
         
-        $this->container->expects($this->at(9))
+        $this->container->expects($this->at(10))
+            ->method('get')
+            ->with('translator')
+            ->will($this->returnValue($translator))
+        ;
+        
+        $this->container->expects($this->at(11))
             ->method('get')
             ->with('session')
             ->will($this->returnValue($session));
         
-        $this->container->expects($this->at(11))
+        $this->container->expects($this->at(13))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($blockManagerFactory));
                 
-        $this->container->expects($this->at(12))
+        $this->container->expects($this->at(14))
             ->method('get')
             ->with('templating')
             ->will($this->returnValue($this->templating));
         
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->container->expects($this->at(13))
+        $this->container->expects($this->at(15))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($dispatcher));
@@ -237,6 +262,18 @@ class AlCmsControllerTest extends TestCase
             ->method('get')
             ->with('alpha_lemon_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
+        
+        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->configuration
+            ->expects($this->once())
+            ->method('read')
+            ->with('language')
+        ;
+        
+        $this->container->expects($this->at(5))
+            ->method('get')
+            ->with('alpha_lemon_cms.configuration')
+            ->will($this->returnValue($this->configuration));
     }
     
     private function initFactoryRepository()
