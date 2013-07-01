@@ -42,7 +42,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
             
             if ( ! array_key_exists("al_json_block", $unserializedData)) {
                 $exception = array(
-                    'message' => 'There is a configuration error in the form that manages this content: you must name that form "al_json_block". The best way to add a block which uses json to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you.',
+                    'message' => 'There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you',
                     'parameters' => array(
                         '%className%' => get_class($this),
                     ),

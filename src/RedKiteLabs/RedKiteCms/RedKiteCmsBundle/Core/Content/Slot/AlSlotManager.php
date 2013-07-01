@@ -133,7 +133,7 @@ class AlSlotManager extends AlTemplateBase
     {
         if ( ! is_bool($v)) {
             $exception = array(
-                'message' => 'setForceSlotAttributes accepts only boolean values',
+                'message' => 'setForceSlotAttributes method accepts only boolean values',
                 'domain' => 'exceptions',
             );
             throw new InvalidArgumentException(json_encode($exception));
@@ -158,7 +158,7 @@ class AlSlotManager extends AlTemplateBase
     {
         if ( ! is_bool($v)) {
             $exception = array(
-                'message' => 'setSkipSiteLevelBlocks accepts only boolean values',
+                'message' => 'setSkipSiteLevelBlocks method accepts only boolean values',
                 'domain' => 'exceptions',
             );
             throw new InvalidArgumentException(json_encode($exception));
@@ -665,7 +665,7 @@ class AlSlotManager extends AlTemplateBase
             if (!in_array($op, $required)) {
                 // @codeCoverageIgnoreStart
                 $exception = array(
-                    'message' => 'The %className% adjustPosition protected method requires one of the following values: "%options%". Your input parameter is: "%parameter%"',
+                    'message' => 'The %className% adjustPosition protected method requires one of the following values: "%options%". Your input argument is: "%parameter%"',
                     'parameters' => array(
                         '%className%' => get_class($this),
                         '%options%' => $required, 

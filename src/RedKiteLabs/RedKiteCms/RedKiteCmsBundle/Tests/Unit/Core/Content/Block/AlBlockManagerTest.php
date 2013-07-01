@@ -460,7 +460,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The current block adding action has been aborted
+     * @expectedExceptionMessage The operation to add a new block has been aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -704,7 +704,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The content editing action has been aborted
+     * @expectedExceptionMessage The block editing action has been aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -894,7 +894,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The content deleting action has been aborted
+     * @expectedExceptionMessage The block deleting operation has been aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {

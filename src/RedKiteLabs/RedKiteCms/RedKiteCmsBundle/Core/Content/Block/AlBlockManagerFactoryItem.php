@@ -51,7 +51,7 @@ class AlBlockManagerFactoryItem
         $missingAttributes = array_diff_key($this->requiredAttributes, $attributes);
         if (count($missingAttributes) > 0) {
             $exception = array(
-                'message' => 'AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of "%class%" object in the bundle that implements it',
+                'message' => 'AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of the "%class%" object, into the bundle that implements it',
                 'parameters' => array(
                     '%attributes%' => implode(',', array_keys($missingAttributes)), 
                     '%class%' => get_class($blockManager),

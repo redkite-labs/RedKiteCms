@@ -172,7 +172,7 @@ class AlPageBlocks extends AlPageBlocksBase
     {
         if (null === $this->idLanguage) {
             $exception = array(
-                'message' => 'Contents cannot be retrieved because the id language has not been set',
+                'message' => 'Blocks cannot be retrieved because the id language has not been set',
                 'domain' => 'exceptions',
             );
             throw new General\ArgumentIsEmptyException(json_encode($exception));
@@ -180,7 +180,7 @@ class AlPageBlocks extends AlPageBlocksBase
 
         if (null === $this->idPage) {
             $exception = array(
-                'message' => 'Contents cannot be retrieved because the id page has not been set',
+                'message' => 'Blocks cannot be retrieved because the id page has not been set',
                 'domain' => 'exceptions',
             );
             throw new General\ArgumentIsEmptyException(json_encode($exception));

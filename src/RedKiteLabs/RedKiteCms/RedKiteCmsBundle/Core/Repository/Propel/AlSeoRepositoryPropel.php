@@ -84,7 +84,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
 
         if (!is_string($permalink)) {
             $exception = array(
-                'message' => 'The permalink must be a string: fromPermalink cannot retrieve the seo object',
+                'message' => 'fromPermalink method accepts only string values',
                 'domain' => 'exceptions',
             );
             throw new InvalidArgumentTypeException(json_encode($exception));

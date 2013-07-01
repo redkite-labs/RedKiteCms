@@ -256,7 +256,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
             if (empty($values['PageId'])) {
                 $exception = array(
-                    'message' => 'The PageId parameter is mandatory to save a seo object',
+                    'message' => 'The PageId argument is mandatory to save a seo object',
                     'domain' => 'exceptions',
                 );
                 throw new General\ArgumentIsEmptyException(json_encode($exception));
@@ -264,7 +264,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
             if (empty($values['LanguageId'])) {
                 $exception = array(
-                    'message' => 'The LanguageId parameter is mandatory to save a seo object',
+                    'message' => 'The LanguageId argument is mandatory to save a seo object',
                     'domain' => 'exceptions',
                 );
                 throw new General\ArgumentIsEmptyException(json_encode($exception));
@@ -272,7 +272,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
 
             if (empty($values['Permalink'])) {
                 $exception = array(
-                    'message' => 'The Permalink parameter is mandatory to save a seo object',
+                    'message' => 'The Permalink argument is mandatory to save a seo object',
                     'domain' => 'exceptions',
                 );
                 throw new General\ArgumentIsEmptyException(json_encode($exception));

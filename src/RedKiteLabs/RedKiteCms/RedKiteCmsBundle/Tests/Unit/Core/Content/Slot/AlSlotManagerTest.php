@@ -69,7 +69,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage setForceSlotAttributes accepts only boolean values
+     * @expectedExceptionMessage setForceSlotAttributes method accepts only boolean values
      */
     public function testSetForceSlotAttributesWantsAbooleanAsArgument()
     {
@@ -78,7 +78,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage setSkipSiteLevelBlocks accepts only boolean values
+     * @expectedExceptionMessage setSkipSiteLevelBlocks method accepts only boolean values
      */
     public function testSetSkipSiteLevelBlocksWantsAbooleanAsArgument()
     {

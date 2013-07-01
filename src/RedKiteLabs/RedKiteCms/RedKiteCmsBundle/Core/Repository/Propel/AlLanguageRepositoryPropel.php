@@ -84,7 +84,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
 
         if (!is_string($languageName)) {
             $exception = array(
-                'message' => 'The laguage name must be a string: fromLanguageName cannot retrieve the language',
+                'message' => 'fromLanguageName method accepts only string values',
                 'domain' => 'exceptions',
             );
             throw new InvalidArgumentTypeException(json_encode($exception));
