@@ -186,7 +186,6 @@ abstract class AlDeployer implements AlDeployerInterface
     {
         $this->fileSystem->mkdir($this->configDir);
         $this->fileSystem->mkdir($this->assetsDir);
-        $this->fileSystem->mkdir($this->deployFolder);
     }
 
     /**
