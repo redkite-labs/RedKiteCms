@@ -29,6 +29,7 @@ class AlSlot
     private $slotName;
     private $blockType = 'Text';
     private $htmlContent = null;
+    private $forceRepeatedDuringDeploying = null;
 
     /**
      * Constructor
@@ -49,7 +50,6 @@ class AlSlot
         }
 
         $this->slotName = $slotName;
-        //$this->htmlContent = "This is the default text for the slot " . $slotName;
         if(null !== $options) $this->fromArray($options);
     }
 
@@ -66,6 +66,11 @@ class AlSlot
     public function getRepeated()
     {
         return $this->repeated;
+    }
+    
+    public function getForceRepeatedDuringDeploying()
+    {
+        return $this->forceRepeatedDuringDeploying;
     }
 
     public function setBlockType($v)
@@ -104,8 +109,14 @@ class AlSlot
      */
     protected function fromArray(array $options)
     {
-        $repeated = (array_key_exists('repeated', $options)) ? $options['repeated'] : 'page';
-        $this->repeated = $repeated;
+        $this->repeated = 'page';
+        if (array_key_exists('repeated', $options)) {
+            $repeated =  explode("|", $options['repeated']);
+            $this->repeated = $repeated[0];
+            if (isset($repeated[1])) {
+                $this->forceRepeatedDuringDeploying = $repeated[1];
+            }
+        }
 
         $blockType = (array_key_exists('blockType', $options)) ? ucfirst($options['blockType']) : 'Text';
         $this->blockType = $blockType;

@@ -51,23 +51,38 @@ class AlSlotTest extends TestCase
         $this->assertEquals('Text', $slot->getBlockType());
         $this->assertEquals('page', $slot->getRepeated());
     }
+    
+    public function testForceRepeatedDuringDeploying()
+    {
+        $slot = new AlSlot('nav-menu', array(
+            'repeated' => 'site|page',
+            'blockType' => 'Script',
+            'htmlContent' => 'my fancy content',
+        ));
+        $this->assertEquals('site', $slot->getRepeated());
+        $this->assertEquals('page', $slot->getForceRepeatedDuringDeploying());
+    }
 
     public function testAlSlotInizializedWithGivenValues()
     {
-        $slot = new AlSlot('nav-menu', array('repeated' => 'site',
-                                        'blockType' => 'Script',
-                                        'htmlContent' => 'my fancy content'));
+        $slot = new AlSlot('nav-menu', array(
+            'repeated' => 'site',
+            'blockType' => 'Script',
+            'htmlContent' => 'my fancy content',
+        ));
         $this->assertEquals('nav-menu', $slot->getSlotName());
         $this->assertEquals('my fancy content', $slot->getContent());
         $this->assertEquals('Script', $slot->getBlockType());
         $this->assertEquals('site', $slot->getRepeated());
     }
-
+    
     public function testAlSlotToArray()
     {
-        $values = array('repeated' => 'site',
-                        'blockType' => 'Script',
-                        'htmlContent' => 'my fancy content');
+        $values = array(
+            'repeated' => 'site',
+            'blockType' => 'Script',
+            'htmlContent' => 'my fancy content',
+        );
         $slot = new AlSlot('logo', $values);
         $values['slotName'] = 'logo';
         $values['blockType'] = 'Script';
