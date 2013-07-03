@@ -37,7 +37,6 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     private $urlManager = null;
     private $kernel = null;
     private $flagsAsset;
-    private $page = null;
 
     /**
      * Constructor
@@ -162,19 +161,21 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
      */
     protected function generateValues()
     {
-        $items = null;
+        $items = array();
+        $values = array();
         $imagesFolder = "20x15";
+        
         if (null !== $this->alBlock) {
             $values = json_decode($this->alBlock->getContent(), true);
             $items = $values["languages"];
             $imagesFolder = $values["imagesFolder"];
         }
-                
-        $languages = array();
+        
         $activeLanguages = $this->languageRepository->activeLanguages();
         foreach ($activeLanguages as $language) {
             $languageName = $language->getLanguageName();            
-            $url = $this->generateUrl($language, $items[$languageName]["url"]);
+            $url = (array_key_exists($languageName , $items)) ? $items[$languageName]["url"] : null;
+            $url = $this->generateUrl($language, $url);
             
             $country = "";
             if (null !== $items && array_key_exists($languageName, $items)) {
@@ -190,13 +191,13 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
                 "url" => $url,
             );
         }
-        
+         
         $newValues = array(
             "imagesFolder" => $imagesFolder,  
             "languages" => $languages,
         );
         
-        if ($items !== null && $newValues != $values) {
+        if (! empty($items) && $newValues != $values) {
             parent::edit(array("Content" => json_encode($newValues)));
         }
         
@@ -205,7 +206,11 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
 
     private function generateUrl($language, $url = null)
     {
-        $page = (null === $this->pageTree) ? $this->container->get('alpha_lemon_cms.page_tree')->getAlPage() : $this->pageTree->getAlPage();
+        if (null === $this->pageTree) {
+            $this->pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+        }
+        //$page = (null === $this->pageTree) ? $this->pageTree->getAlPage() : $this->pageTree->getAlPage();
+        $page = $this->pageTree->getAlPage();
         
         if (null === $page && null !== $url) {
             return $url;
