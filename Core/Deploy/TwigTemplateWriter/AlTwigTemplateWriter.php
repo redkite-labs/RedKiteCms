@@ -514,8 +514,10 @@ abstract class AlTwigTemplateWriter
             if (null === $slot) {
                 return false;
             }
-
-            return in_array($slot->getRepeated(), $filter);
+            
+            $repeated = (null !== $slot->getForceRepeatedDuringDeploying()) ? $slot->getForceRepeatedDuringDeploying() : $slot->getRepeated(); 
+            
+            return in_array($repeated, $filter);
         });
     }
 }
