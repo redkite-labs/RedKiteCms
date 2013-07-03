@@ -93,8 +93,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Defines the default value of the managed block
      *
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-     *
      * Returns an array which may contain one or more of these keys:
      *
      *   - *Content*                The html content displayed on the page
@@ -303,21 +301,6 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
     }
 
     /**
-     * Returns the html content when AlphaLemon CMS is active.
-     *
-     * By default the internal javascript is concatenated to the block's html content: this behavior
-     * can be changed overriding the getExecuteInternalJavascript() method.
-     *
-     * @deprecated
-     * @codeCoverageIgnore
-     * @return string
-     */
-    final public function getHtmlCmsActive()
-    {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
-    }
-
-    /**
      * Returns the content displayed in the editor
      *
      * The editor that manages the content gets the content saved into the database.
@@ -511,6 +494,21 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumen
         $blockManager["Block"] = $this->alBlock->toArray();
 
         return $blockManager;
+    }
+
+    /**
+     * Returns the html content when AlphaLemon CMS is active.
+     *
+     * By default the internal javascript is concatenated to the block's html content: this behavior
+     * can be changed overriding the getExecuteInternalJavascript() method.
+     *
+     * @deprecated
+     * @codeCoverageIgnore
+     * @return string
+     */
+    final public function getHtmlCmsActive()
+    {
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**
