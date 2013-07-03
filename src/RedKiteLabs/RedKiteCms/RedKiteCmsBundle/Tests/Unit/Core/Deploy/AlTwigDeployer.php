@@ -190,7 +190,6 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         $this->checkSiteMap($seo);
         
         $this->assertFileExists(vfsStream::url($this->assetsFolder));
-        
         $this->checkDirectoryStructure($this->root, $this->buildExpectedStructure($languages, $pages));
         $this->checkTemplateExtension($languages, $pages);
     }
