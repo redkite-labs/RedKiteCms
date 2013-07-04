@@ -40,44 +40,59 @@
     
     function initList(element)
     {
-        element.find(settings.target).each(function(){
-            var $this = $(this);
+        var addButton = document.createElement("div");
+        $(addButton)
+            .addClass("al-add-item-list")
+            .css("position", "static")
+            .css("float", "left")
+            .attr('data-item', '-1')
+            .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a>')            
+            .show()
+        ;
+        
+        element
+        .before(addButton)
+        .find(settings.target).each(function(){ 
+            var $this = $(this); 
             if ($this.hasClass('al-empty')) {
                 return;
             }
             
-            var container = document.createElement("div");
+            if ( ! $this.is(':visible')) {
+                return;
+            }
             
             var addButton = document.createElement("div");
             $(addButton)
                 .addClass("al-add-item-list")
-                .css('right', '26px')
                 .attr('data-item', $this.attr('data-item'))
                 .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a>')
-                .appendTo(container)  
+                .appendTo($this)
+                .position({
+                    my: "left+10 top",
+                    at: "left bottom",
+                    of: $this
+                })  
                 .show()
             ;
             
             var removeButton = document.createElement("div");
             $(removeButton)
                 .addClass("al-delete-item-list")
-                .css('right', '0')
                 .attr('data-item', $this.attr('data-item'))
                 .attr('data-slot-name', $this.attr('data-slot-name'))
                 .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
-                .appendTo(container)      
+                .appendTo($this) 
+                .position({
+                    my: "left+38 top",
+                    at: "left bottom",
+                    of: $this
+                })       
                 .show()
             ;
-            
-            $(container)
-                .css('position', 'absolute').position({
-                    my: "right-5 top",
-                    at: "right bottom" ,
-                    of: $this
-                })     
-                .appendTo($this)  
-            ;
         });
+        
+        
         
         $('.al-add-item-list').show();
                 
@@ -138,56 +153,6 @@
             });
         }
         
-        /*
-        $('.al-add-item-list').show();
-                
-        if (settings.addValue == null) {
-            
-            // Adds an included block
-            $('.al-add-item-list').click(function(){$('.al-add-item-list').data('data-item', ($(this).attr('data-item')));}).blocksMenu('add');
-            $('.al_block_adder').unbind().each(function(){ 
-                var addItemCallback = settings.addItemCallback;  
-                $(this).click(function(){
-                    var value = '{"operation": "add", "item": "' + $('.al-add-item-list').data('data-item') + '", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
-                    $('body').EditBlock("Content", value, null, function(activeBlock)
-                    {
-                        activeBlock
-                            .blocksEditor('stopEditElement')
-                            .find('[data-editor="enabled"]')
-                            .blocksEditor('startEditElement')
-                        ; 
-                       
-                        Holder.run();
-                    
-                        addItemCallback();  
-                    }); 
-                                     
-                    stopBlocksMenu = false;
-                    $('#al_blocks_list').hide();
-                    
-                    return false;
-                });
-            });
-        }
-        else {
-        
-            // Adds a custom value
-            $('.al-add-item-list').click(function() {    
-                var addItemCallback = settings.addItemCallback;         
-                $('body').EditBlock("Content", settings.addValue, null, function(activeBlock)
-                {
-                    activeBlock
-                        .blocksEditor('stopEditElement')
-                        .find('[data-editor="enabled"]')
-                        .blocksEditor('startEditElement')
-                    ;   
-                    Holder.run();
-                    
-                    addItemCallback();                    
-                });            
-            });
-        }
-        */
         $('.al-delete-item-list').click(function(){
             if (confirm('Are you sure to remove the active block')) {    
                 var deleteItemCallback = settings.deleteItemCallback;  
