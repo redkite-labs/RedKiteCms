@@ -1,0 +1,16 @@
+# inherit the next configuration down the chain (see above for the order)
+inherit: true
+
+tools:
+
+    # Collects code coverage information about the changeset.
+    php_code_coverage:
+        config_path:          ~
+        test_command:         phpunit
+
+        # Whether code coverage information should only be generated for changesets.
+        only_changesets:      false
+        enabled:              false
+        filter:
+            paths:                []
+            excluded_paths:       []
