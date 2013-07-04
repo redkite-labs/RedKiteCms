@@ -85,6 +85,22 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
         $this->assertEquals($expectedResult, $blockManager->getHtml());
     }
     
+    protected function initContainer()
+    {
+        parent::initContainer();
+        
+        $repository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository->expects($this->once())
+              ->method('createRepository')
+              ->with('Block')
+              //->will($this->returnValue($blocksRepository))
+        ;
+        
+        $this->container->expects($this->at(2))
+                      ->method('get')
+                      ->will($this->returnValue($repository));
+    }
+    
     protected function initBlockManager($block)
     {
         $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
