@@ -31,6 +31,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
 {
     protected $container;
+    protected $blocksRepository;
 
     /**
      * Constructor
@@ -45,6 +46,8 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
         $this->container = $container;
         $eventsHandler = $container->get('alpha_lemon_cms.events_handler');
         $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
+        $repository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $this->blocksRepository = $repository->createRepository('Block');
 
         parent::__construct($eventsHandler, $factoryRepository, $validator);
     }
@@ -60,6 +63,10 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
     {
         $values = $this->manageCollection($values);
 
+        if (false === $values) {
+            return false;
+        }
+        
         return parent::edit($values);
     }
 
@@ -68,30 +75,119 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
      * block
      *
      * @param  array $values
-     * @return array
+     * @return array|boolean
      */
     protected function manageCollection(array $values)
     {
-        if (array_key_exists('Content', $values)) {
+        if (array_key_exists('Content', $values)) {            
             $data = json_decode($values['Content'], true);
             $savedValues = $this->decodeJsonContent($this->alBlock);
 
             if ($data["operation"] == "add") {
-                $savedValues[] = $data["value"];
+                if (isset($data["item"])) {
+                    
+                    $savedValues = $this->addItem($data, $savedValues);
+                    if (false === $savedValues) {
+                        return false;
+                    }
+                } else {
+                    $savedValues[] = $data["value"];
+                }
                 $values = array("Content" => json_encode($savedValues));
             }
 
             if ($data["operation"] == "remove") {
-                unset($savedValues[$data["item"]]);
-
-                $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-                $repository = $blocksRepository->createRepository('Block');
-                $repository->deleteIncludedBlocks($data["slotName"]);
-
-                $values = array("Content" => json_encode($savedValues));
+                
+                $savedValues = $this->deleteItem($data, $savedValues);
+                if (false === $savedValues) {
+                    return false;
+                }
+                
+                $values = array("Content" => json_encode(array_values($savedValues)));
             }
         }
 
         return $values;
+    }
+    
+    protected function addItem($data, $savedValues)
+    {  
+        $result = null;
+        $nextItem = null;
+        $item = $data["item"]; 
+        $blockKey = $this->alBlock->getId() . '-'; 
+        $blocks = $this->blocksRepository->retrieveContentsBySlotName($blockKey . '%');
+        $this->blocksRepository->startTransaction();
+
+        foreach($blocks as $block) {
+            $itemProgressive = str_replace($blockKey, '', $block->getSlotName());
+            if ($item == $itemProgressive) {
+                $nextItem = $item + 1;
+            }
+
+            if (null !== $nextItem && $itemProgressive >= $nextItem) { 
+                $itemProgressive++; 
+                $block->setSlotName($blockKey . $itemProgressive);
+                $result = $block->save();
+                if (! $result) {
+                    break;
+                }
+            }
+        }
+
+        if (false === $result) {
+            $this->blocksRepository->rollback();
+
+            return false;
+        }
+
+        $this->blocksRepository->commit();
+        array_splice($savedValues, $nextItem, 0, array($data["value"]));
+
+        return $savedValues;
+    }
+    
+    protected function deleteItem($data, $savedValues)
+    {
+        $item = $data["item"]; 
+        unset($savedValues[$item]);
+
+        $result = null;
+        $nextItem = null;
+        $blockKey = $this->alBlock->getId() . '-';         
+        $blocks = $this->blocksRepository->retrieveContentsBySlotName($blockKey . '%');
+        $this->blocksRepository->startTransaction();
+
+        foreach($blocks as $block) {
+            $itemProgressive = str_replace($blockKey, '', $block->getSlotName()); 
+            if ($item == $itemProgressive) { 
+                $nextItem = $item + 1;
+                
+                $block->setToDelete(1);
+                $result = $block->save();
+                if (! $result) {
+                    break;
+                }
+            }
+
+            if (null !== $nextItem && $itemProgressive >= $nextItem) { 
+                $itemProgressive--; 
+                $block->setSlotName($blockKey . $itemProgressive);
+                $result = $block->save();
+                if (! $result) {
+                    break;
+                }
+            }
+        }
+
+        if (false === $result) {
+            $this->blocksRepository->rollback();
+
+            return false;
+        }
+
+        $this->blocksRepository->commit();
+
+        return $savedValues;
     }
 }

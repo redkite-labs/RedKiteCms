@@ -85,13 +85,6 @@ interface BlockRepositoryInterface
     public function fromType($className, $operation = 'find');
 
     /**
-     * Deletes the blocks that partially matches the given key
-     *
-     * @param string $key
-     */
-    public function deleteIncludedBlocks($key);
-
-    /**
      * Deletes the blocks that belong the given language and page. When $remove argument
      * is true, blocks are removed from the database.
      *

@@ -40,10 +40,7 @@ class AlBlockManagerJsonBlockCollectionTester extends AlBlockManagerJsonBlockCol
  */
 class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
 {  
-    /**
-     * @dataProvider jsonCollectionProvider
-     */
-    public function testManageJsonCollection($values, $expectedResult)
+    public function testManageJsonCollection()
     {
         $value = '
         {
@@ -55,24 +52,20 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
             }
         }';
         
-        if (array_key_exists("Content", $values)) {
-            $valuesArray = json_decode($values["Content"], true);        
-            if ($valuesArray['operation'] == 'remove') {
-                $blocksRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface');
-                $blocksRepository->expects($this->once())
-                      ->method('deleteIncludedBlocks');
-
-                $repository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-                $repository->expects($this->once())
-                      ->method('createRepository')
-                      ->will($this->returnValue($blocksRepository));
-
-                $this->container->expects($this->at(2))
+        $values = array(
+            array(
+                'ToDelete' => '0',
+            ),
+            array(
+                'ToDelete' => '0',
+            ),
+        );
+        
+        $repository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->container->expects($this->at(2))
                       ->method('get')
                       ->will($this->returnValue($repository));
-            }
-        }
-        
+                
         $blockManager = new AlBlockManagerJsonBlockCollectionTester($this->container, $this->validator);
         if (array_key_exists("Content", $values)) {
             $block = $this->initBlock($value);        
@@ -80,46 +73,272 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
         }
         $result = $blockManager->manageCollectionTester($values);
         
+        $this->assertEquals($values, $result);
+    }
+    
+    /**
+     * @dataProvider addItemProvider
+     */
+    public function testAddItem($values, $blocks, $expectedResult)
+    {
+        $value = '
+        {
+            "0" : {
+                "type": "LinkBlock"
+            },
+            "1" : {
+                "type": "BootstrapNavbarBlock"
+            },
+            "2" : {
+                "type": "LinkBlock"
+            }
+        }';
+        
+        $repository = $this->setUpRepository($blocks, $expectedResult);        
+        $this->container->expects($this->at(2))
+                      ->method('get')
+                      ->will($this->returnValue($repository));
+        
+        $block = $this->setUpBaseBlock($value); 
+        $blockManager = new AlBlockManagerJsonBlockCollectionTester($this->container, $this->validator);               
+        $blockManager->set($block);
+        $result = $blockManager->manageCollectionTester($values);
+        
         $this->assertEquals($expectedResult, $result);
     }
     
-    public function jsonCollectionProvider()
+    /**
+     * @dataProvider deleteItemProvider
+     */
+    public function testDeleteItem($values, $blocks, $expectedResult)
+    {
+        $value = '
+        {
+            "0" : {
+                "type": "LinkBlock"
+            },
+            "1" : {
+                "type": "BootstrapNavbarBlock"
+            },
+            "2" : {
+                "type": "LinkBlock"
+            }
+        }';
+        
+        $repository = $this->setUpRepository($blocks, $expectedResult); 
+        $this->container->expects($this->at(2))
+                      ->method('get')
+                      ->will($this->returnValue($repository));
+        
+        $block = $this->setUpBaseBlock($value); 
+        $blockManager = new AlBlockManagerJsonBlockCollectionTester($this->container, $this->validator);
+        $blockManager->set($block);
+        $result = $blockManager->manageCollectionTester($values);
+        
+        $this->assertEquals($expectedResult, $result);
+    }
+    
+    public function addItemProvider()
     {
         return array(
             array(
                 array(
-                    'ToDelete' => '0',
+                    'Content' => '{"operation": "add", "item": "0", "value": { "type": "TestBlock" }}',
                 ),
                 array(
-                    'ToDelete' => '0',
+                    $this->initBlock('2-0', null, null, true),            
+                    $this->initBlock('2-1', '2-2', null, true),            
+                    $this->initBlock('2-2', '2-3', null, true),
+                ),
+                array(
+                    'Content' => '[{"type":"LinkBlock"},{"type":"TestBlock"},{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"}]',
                 ),
             ),
             array(
                 array(
-                    'Content' => '{"operation": "add", "value": { "type": "BootbusinessProductThumbnailBlock" }}',
+                    'Content' => '{"operation": "add", "item": "1", "value": { "type": "TestBlock" }}',
                 ),
                 array(
-                    'Content' => '[{"type":"BootstrapThumbnailBlock"},{"type":"BootstrapThumbnailBlock"},{"type":"BootbusinessProductThumbnailBlock"}]',
+                    $this->initBlock('2-0', null, null, true),            
+                    $this->initBlock('2-1', null, null, true),           
+                    $this->initBlock('2-2', '2-3', null, true),
+                ),
+                array(
+                    'Content' => '[{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"},{"type":"TestBlock"},{"type":"LinkBlock"}]',
                 ),
             ),
             array(
                 array(
-                    'Content' => '{"operation": "remove", "item": "1", "slotName": "12-1"}',
+                    'Content' => '{"operation": "add", "item": "2", "value": { "type": "TestBlock" }}',
                 ),
                 array(
-                    'Content' => '[{"type":"BootstrapThumbnailBlock"}]',
+                    $this->initBlock('2-0', null, null, true),            
+                    $this->initBlock('2-1', null, null, true),           
+                    $this->initBlock('2-2', null, null, true),
                 ),
+                array(
+                    'Content' => '[{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"},{"type":"TestBlock"}]',
+                ),
+            ),
+            array(
+                array(
+                    'Content' => '{"operation": "add", "item": "0", "value": { "type": "TestBlock" }}',
+                ),
+                array(
+                    $this->initBlock('2-0', null, null, true),            
+                    $this->initBlock('2-1', '2-2', null, true),            
+                    $this->initBlock('2-2', '2-3', null, false),
+                ),
+                false,
             ),
         );
     }
     
-    protected function initBlock($value)
+    public function deleteItemProvider()
+    {
+        return array(            
+            array(
+                array(
+                    'Content' => '{"operation": "remove", "item": "0"}',
+                ),
+                array(        
+                    $this->initBlock('2-0', null, true, true),  
+                    $this->initBlock('2-1', '2-0', null, true),            
+                    $this->initBlock('2-2', '2-1', null, true),
+                ),
+                array(
+                    'Content' => '[{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"}]',
+                ),
+            ),            
+            array(
+                array(
+                    'Content' => '{"operation": "remove", "item": "1"}',
+                ),
+                array(        
+                    $this->initBlock('2-0', null, null, true),  
+                    $this->initBlock('2-1', null, true, true),            
+                    $this->initBlock('2-2', '2-1', null, true),
+                ),
+                array(
+                    'Content' => '[{"type":"LinkBlock"},{"type":"LinkBlock"}]',
+                ),
+            ),            
+            array(
+                array(
+                    'Content' => '{"operation": "remove", "item": "2"}',
+                ),
+                array(        
+                    $this->initBlock('2-0', null, null, true),  
+                    $this->initBlock('2-1', null, null, true),            
+                    $this->initBlock('2-2', null, true, true),
+                ),
+                array(
+                    'Content' => '[{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"}]',
+                ),
+            ),
+            array(
+                array(
+                    'Content' => '{"operation": "remove", "item": "0"}',
+                ),
+                array(        
+                    $this->initBlock('2-0', null, true, false),  
+                    $this->initBlock('2-1', '2-0', null, true),            
+                    $this->initBlock('2-2', '2-1', null, true),
+                ),
+                false,
+            ),  
+            array(
+                array(
+                    'Content' => '{"operation": "remove", "item": "0"}',
+                ),
+                array(        
+                    $this->initBlock('2-0', null, true, true),  
+                    $this->initBlock('2-1', '2-0', null, false),            
+                    $this->initBlock('2-2', '2-1', null, true),
+                ),
+                false,
+            ), 
+        );
+    }
+    
+    protected function initBlock($slotName, $newSlotName = null, $toDetete = null, $result = null)
     {
         $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-              ->method('getContent')
-              ->will($this->returnValue($value));
+        
+        $block->expects($this->any())
+              ->method('getSlotName')
+              ->will($this->returnValue($slotName))
+        ;
+        
+        if (null !== $newSlotName) {
+            $block->expects($this->once())
+                  ->method('setSlotName')
+                  ->with($newSlotName)
+            ;
+        }
+        
+        if (null !== $toDetete) {
+            $block->expects($this->once())
+                  ->method('setToDelete')
+            ;
+        }
+        
+        if (null !== $result) {
+            $block->expects($this->once())
+                  ->method('save')
+                  ->will($this->returnValue($result))
+            ;
+        }
 
         return $block;
+    }
+    
+    
+    private function setUpBaseBlock($value)
+    {
+        $block = $this->initBlock('nav-menu');
+        $block->expects($this->once())
+                  ->method('getId')
+                  ->will($this->returnValue(2));
+        
+        $block->expects($this->once())
+                  ->method('getContent')
+                  ->will($this->returnValue($value));
+                  
+        return $block;
+    }
+    
+    private function setUpRepository($blocks, $expectedResult)
+    {
+        $blocksRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
+        $blocksRepository->expects($this->once())
+              ->method('retrieveContentsBySlotName')
+              ->will($this->returnValue($blocks))
+        ;
+        
+        $blocksRepository->expects($this->once())
+              ->method('startTransaction')
+        ;
+        
+        if (is_array($expectedResult)) {
+            $blocksRepository->expects($this->once())
+                  ->method('commit')
+            ;
+        }
+        
+        if (is_bool($expectedResult)) {
+            $blocksRepository->expects($this->once())
+                  ->method('rollback')
+            ;
+        }
+
+        $repository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository->expects($this->once())
+              ->method('createRepository')
+              ->with('Block')
+              ->will($this->returnValue($blocksRepository))
+        ;
+        
+        return $repository;
     }
 }
