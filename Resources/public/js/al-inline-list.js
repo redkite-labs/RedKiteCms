@@ -40,51 +40,115 @@
     
     function initList(element)
     {
-        var last;
         element.find(settings.target).each(function(){
             var $this = $(this);
             if ($this.hasClass('al-empty')) {
                 return;
             }
             
-            var removeButton = document.createElement("div");
-            $(removeButton)
-                .addClass("al-delete-item-list")
-                .attr('data-item', $this.attr('data-item'))
-                .attr('data-slot-name', $this.attr('data-slot-name'))
-                .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
-                .appendTo(element) 
-            ;
+            var container = document.createElement("div");
             
-            $(removeButton).position({
-                    my: "right-5 top",
-                    at: "right bottom",
-                    of: $this
-                })     
+            var addButton = document.createElement("div");
+            $(addButton)
+                .addClass("al-add-item-list")
+                .css('right', '26px')
+                .attr('data-item', $this.attr('data-item'))
+                .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a>')
+                .appendTo(container)  
                 .show()
             ;
             
-            last = $this;
+            var removeButton = document.createElement("div");
+            $(removeButton)
+                .addClass("al-delete-item-list")
+                .css('right', '0')
+                .attr('data-item', $this.attr('data-item'))
+                .attr('data-slot-name', $this.attr('data-slot-name'))
+                .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
+                .appendTo(container)      
+                .show()
+            ;
+            
+            $(container)
+                .css('position', 'absolute').position({
+                    my: "right-5 top",
+                    at: "right bottom" ,
+                    of: $this
+                })     
+                .appendTo($this)  
+            ;
         });
         
-        element.append('<div class="al-add-item-list"><a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a></div>');
-        
-        $('.al-add-item-list')
-            .position({
-                my: "left top",
-                at: "right+10 top",
-                of: last
-            })    
-        ;
-        
+        $('.al-add-item-list').show();
+                
         if (settings.addValue == null) {
             
             // Adds an included block
-            $('.al-add-item-list').blocksMenu('add');
+            $('.al-add-item-list')
+                .click(function(){
+                    $(document).data('data-item', $(this).attr('data-item'));
+                })
+                .blocksMenu('add')
+            ;
             $('.al_block_adder').unbind().each(function(){ 
                 var addItemCallback = settings.addItemCallback;  
                 $(this).click(function(){
-                    var value = '{"operation": "add", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
+                    var value = '{"operation": "add", "item": "' + $(document).data('data-item') + '", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
+                    $('body').EditBlock("Content", value, null, function(activeBlock)
+                    {
+                        activeBlock
+                            .blocksEditor('stopEditElement')
+                            .find('[data-editor="enabled"]')
+                            .blocksEditor('startEditElement')
+                        ; 
+                       
+                        Holder.run();
+                    
+                        addItemCallback();  
+                    }); 
+                                     
+                    stopBlocksMenu = false;
+                    $('#al_blocks_list').hide();
+                    
+                    return false;
+                });
+            });
+        }
+        else {
+        
+            // Adds a custom value
+            $('.al-add-item-list').click(function() {  
+                var value = settings.addValue;
+                if ($.parseJSON(value) != null) {
+                    value = value.substring(0, value.length-1) + ', "item": "' + $(this).attr('data-item') + '"}';
+                }
+                
+                var addItemCallback = settings.addItemCallback;         
+                $('body').EditBlock("Content", value, null, function(activeBlock)
+                {
+                    activeBlock
+                        .blocksEditor('stopEditElement')
+                        .find('[data-editor="enabled"]')
+                        .blocksEditor('startEditElement')
+                    ;   
+                    Holder.run();
+                    
+                    addItemCallback();                    
+                });            
+            });
+        }
+        
+        /*
+        $('.al-add-item-list').show();
+                
+        if (settings.addValue == null) {
+            
+            // Adds an included block
+            $('.al-add-item-list').click(function(){$('.al-add-item-list').data('data-item', ($(this).attr('data-item')));}).blocksMenu('add');
+            $('.al_block_adder').unbind().each(function(){ 
+                var addItemCallback = settings.addItemCallback;  
+                $(this).click(function(){
+                    var value = '{"operation": "add", "item": "' + $('.al-add-item-list').data('data-item') + '", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
                     $('body').EditBlock("Content", value, null, function(activeBlock)
                     {
                         activeBlock
@@ -123,7 +187,7 @@
                 });            
             });
         }
-        
+        */
         $('.al-delete-item-list').click(function(){
             if (confirm('Are you sure to remove the active block')) {    
                 var deleteItemCallback = settings.deleteItemCallback;  
