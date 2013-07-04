@@ -114,14 +114,14 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
     {  
         $result = null;
         $nextItem = null;
-        $item = $data["item"]; 
+        $item = $data["item"];
         $blockKey = $this->alBlock->getId() . '-'; 
         $blocks = $this->blocksRepository->retrieveContentsBySlotName($blockKey . '%');
         $this->blocksRepository->startTransaction();
 
         foreach($blocks as $block) {
             $itemProgressive = str_replace($blockKey, '', $block->getSlotName());
-            if ($item == $itemProgressive) {
+            if ($item == $itemProgressive || $item == -1) {
                 $nextItem = $item + 1;
             }
 

@@ -143,6 +143,19 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
         return array(
             array(
                 array(
+                    'Content' => '{"operation": "add", "item": "-1", "value": { "type": "TestBlock" }}',
+                ),
+                array(
+                    $this->initBlock('2-0', '2-1', null, true),            
+                    $this->initBlock('2-1', '2-2', null, true),            
+                    $this->initBlock('2-2', '2-3', null, true),
+                ),
+                array(
+                    'Content' => '[{"type":"TestBlock"},{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"}]',
+                ),
+            ),
+            array(
+                array(
                     'Content' => '{"operation": "add", "item": "0", "value": { "type": "TestBlock" }}',
                 ),
                 array(
