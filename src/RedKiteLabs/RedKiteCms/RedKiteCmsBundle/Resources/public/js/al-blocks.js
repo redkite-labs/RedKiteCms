@@ -257,7 +257,7 @@ var isEditorOpened = false;
 
     $.fn.DeleteBlock =function()
     {
-        if (confirm('Are you sure to remove the active block')) {
+        if (confirm(translate('Are you sure to remove the active block'))) {
             var included = $(this).attr('data-included') == "1" ? true : false;
             $.ajax({
                 type: 'POST',

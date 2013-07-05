@@ -18,8 +18,7 @@
     var methods = {
         start: function() 
         {
-            stopBlocksMenu = false;
-            
+            stopBlocksMenu = false;            
             $(this).mouseenter(function(event) {
                 var $this = $(this);
                 if ( ! isIncluded($this)) {
@@ -167,7 +166,7 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+            $.error( 'Method ' +  method + ' does not exist on jQuery.changeTheme' );
         }   
     };
 })($);
@@ -214,7 +213,7 @@
             {
                 $(this).click(function()
                 {
-                    if ( ! confirm('WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?')) {
+                    if ( ! confirm(translate('WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?'))) {
                         return false;
                     }
                     
@@ -258,7 +257,7 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+            $.error( 'Method ' +  method + ' does not exist on jQuery.manageTheme' );
         }   
     };
     
@@ -279,7 +278,7 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+            $.error( 'Method ' +  method + ' does not exist on jQuery.template' );
         }   
     };
     

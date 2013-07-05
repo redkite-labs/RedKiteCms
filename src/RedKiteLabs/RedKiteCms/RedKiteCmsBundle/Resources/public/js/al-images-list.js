@@ -92,7 +92,7 @@
     
     function deleteItem(element) {
         element.click(function(){  
-            if(confirm("Are you sure you want to remove the selected image?")) { 
+            if(confirm(translate("Are you sure you want to remove the selected image"))) { 
                 $('.al_img_selected').parent().remove();
                 $(".al_form_item").val('');
             }
@@ -154,7 +154,7 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+            $.error( 'Method ' +  method + ' does not exist on jQuery.imagesList' );
         }   
     };
 })(jQuery);

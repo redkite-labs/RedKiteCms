@@ -92,8 +92,6 @@
             ;
         });
         
-        
-        
         $('.al-add-item-list').show();
                 
         if (settings.addValue == null) {
@@ -154,7 +152,7 @@
         }
         
         $('.al-delete-item-list').click(function(){
-            if (confirm('Are you sure to remove the active block')) {    
+            if (confirm(translate('Are you sure to remove the active item'))) {    
                 var deleteItemCallback = settings.deleteItemCallback;  
                 $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "slotName": "' + $(this).attr('data-slot-name') + '"}', null, function(activeBlock)
                 {
@@ -185,7 +183,7 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+            $.error( 'Method ' +  method + ' does not exist on jQuery.inlinelist' );
         }   
     };
 })($);

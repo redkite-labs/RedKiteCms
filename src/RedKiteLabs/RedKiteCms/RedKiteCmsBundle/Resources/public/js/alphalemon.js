@@ -266,7 +266,7 @@
             var $this = $(this);
             if($this.attr('data-hide-when-edit') == "true") {
                 var html = $this.html();
-                $this.html('<p>A ' + $this.attr('data-type')  + ' block is not rendered when the editor is active</p>').data('html', html).addClass('is_hidden_in_edit_mode');
+                $this.html('<p>' + translate('A %type% block is not rendered when the editor is active', {'%type%' : $this.attr('data-type')}) + '</p>').data('html', html).addClass('is_hidden_in_edit_mode');
             }
         });
     }
@@ -285,7 +285,7 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+            $.error( 'Method ' +  method + ' does not exist on jQuery.blocksEditor' );
         }   
     };
 })( jQuery );
@@ -293,6 +293,22 @@
 function Navigate(language, page)
 {
     location.href = frontController + 'backend/' + language + '/' + page;
+}
+
+function translate(value, placeholders)
+{
+    var found = lang[value];
+    if (found == null) { // falls back to default language
+        found = value;
+    }
+    
+    if (placeholders != null) {
+        $.each(placeholders, function(key, value){
+            found = found.replace(key, value);
+        });
+    }
+    
+    return found;
 }
 
 $(document).ready(function(){
@@ -329,7 +345,7 @@ $(document).ready(function(){
         
         $('#al_start_slots_management').click(function() {
             if ($('#al_stop_editor').is(':visible')) {    
-                alert("This operation is not allowed when you are editing the contents");
+                alert(translate("This operation is not allowed when you are editing the contents"));
                 
                 return false;
             }
@@ -372,7 +388,7 @@ $(document).ready(function(){
         $('#al_start_editor').click(function()
         {
             if ($('#al_stop_slots_management').is(':visible')) {
-                alert("This operation is not allowed when you are editing the slots");
+                alert(translate("This operation is not allowed when you are editing the slots"));
                 
                 return false;
             }
@@ -584,9 +600,14 @@ $(document).ready(function(){
 
         $('.al_deployer').click(function()
         {
+            var env = $(this).attr('rel');
+            if ( ! confirm(translate('Are you sure to start the deploying of "%env%" environment', {'%env%' : env}))) {
+                return;
+            }
+            
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_' + $(this).attr('rel')  + '_deploy',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_' + env + '_deploy',
                 data: {'page' :  $('#al_pages_navigator').attr('rel'),
                     'language' : $('#al_languages_navigator').attr('rel')},
                 beforeSend: function()

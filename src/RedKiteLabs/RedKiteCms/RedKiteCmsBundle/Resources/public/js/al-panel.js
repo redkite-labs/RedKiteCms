@@ -17,7 +17,6 @@
 (function($){
     $.fn.OpenPanel = function(html, callback)
     {
-        //;
         if(callback == null) callback = function(){};
         this.each(function()
         {
@@ -38,13 +37,9 @@
                             $(panelCloser).attr('class', "white-text-shadow");
                             panel.appendChild(panelCloser);
 
-                $(panelCloser).html("Click me to close the panel").click(function()
+                $(panelCloser).html(translate("Click me to close the panel")).click(function()
                 {
                     $(panel).slideUp(400, function(){ $(this).empty(); });
-                    /*
-                    $(panel).animate({
-                    height: "hide"
-                    }, 1000, 'easeInOutCirc', function(){$(this).empty();});*/
                 });
             }
             else {
@@ -53,10 +48,6 @@
             }
 
             $(panel).slideDown(400, callback);
-/*
-            $(panel).animate({
-                height: 'show'
-                }, 750, 'easeInExpo', callback);*/
         });
     };
 })($);

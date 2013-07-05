@@ -86,7 +86,7 @@ function InitLanguagesCommands()
 
     $("#al_languages_remover").click(function()
     {
-        if(confirm("Are you sure to remove the selected language?"))
+        if(confirm(translate("Are you sure to remove the selected language")))
         {
             $.ajax({
                 type: 'POST',
@@ -153,11 +153,6 @@ function UpdateLanguagesJSon(response)
                     
                     return false;
                 });
-                /*
-                $('#al_languages_navigator').change(function()
-                {
-                    Navigate();
-                });*/
                 break;
         }
     });
@@ -167,7 +162,6 @@ function UpdateLanguagesJSon(response)
 
 function LoadLanguageAttributes(idLanguage)
 {
-    //$("#al_attributes_form").ResetFormElements();
     $.ajax({
         type: 'POST',
         url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_loadLanguageAttributes',
@@ -178,18 +172,13 @@ function LoadLanguageAttributes(idLanguage)
         },
         success: function(response)
         {
-            $(response).each(function(key, el)
-            {
-                switch(el.name)
-                {
-
+            $(response).each(function(key, el) {
+                switch(el.name) {
                     case '#languages_isMain':
-                        if(el.value == 1)
-                        {
+                        if (el.value == 1) {
                             $(el.name).attr('checked', 'checked');
                         }
-                        else
-                        {
+                        else {
                             $(el.name).removeAttr("checked");
                         }
                         break;
