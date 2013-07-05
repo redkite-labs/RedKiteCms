@@ -155,7 +155,7 @@ function showRole(id)
 
 function deleteUser(id)
 {
-    if(confirm("Are you sure you want to remove the user?"))
+    if(confirm(translate("Are you sure you want to remove the user")))
     {
         remove('al_deleteUser', id);
     }
@@ -165,7 +165,7 @@ function deleteUser(id)
 
 function deleteRole(id)
 {
-    if(confirm("Are you sure you want to remove the role?"))
+    if(confirm(translate("Are you sure you want to remove the role")))
     {
         remove('al_deleteRole', id);
     }

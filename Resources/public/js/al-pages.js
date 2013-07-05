@@ -106,7 +106,7 @@ function InitPagesCommands()
 
     $("#al_pages_remover").click(function()
     {
-        if(confirm("Are you sure to remove the page and its attributes?"))
+        if(confirm(translate("Are you sure to remove the page and its attributes")))
         {
             $.ajax({
                 type: 'POST',

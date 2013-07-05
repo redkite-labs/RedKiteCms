@@ -135,7 +135,7 @@ function showItemForm(blockId, id)
 
 function deleteItem(blockId, id)
 {
-    if(confirm("Are you sure you want to remove the selected item?"))
+    if(confirm(translate("Are you sure to remove the active item")))
     {
         $.ajax({
             type: 'POST',

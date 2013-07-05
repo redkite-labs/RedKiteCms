@@ -1,3 +1,19 @@
+/*
+ * This file is part of the AlphaLemon CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.alphalemon.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
 (function($){
     var methods = {
         addItem: function() {
@@ -9,7 +25,7 @@
                 $('.al_items_list table').append('<tr id="' + newKey + '"></tr>');
 
                 var attributes = {};
-                var newValue = "New value";
+                var newValue = translate("New value");
                 var row = $(".al_items_list table tr:last");
                 row = $(row);
                 $(columns).each(function() {
@@ -25,8 +41,8 @@
                     attributes[$this.attr('rel')] = attributeValue;
                 });
 
-                row.append('<td><a href="#" id="al_edit_item_' + newKey + '" rel="' + newKey + '" class="al_edit_item">Edit</a></td>');
-                row.append('<td><a href="#" id="al_delete_item_' + newKey + '" class="al_delete_item" rel="' + newKey + '">Delete</a></td>');
+                row.append('<td><a href="#" id="al_edit_item_' + newKey + '" rel="' + newKey + '" class="al_edit_item">' + translate('Edit') + '</a></td>');
+                row.append('<td><a href="#" id="al_delete_item_' + newKey + '" class="al_delete_item" rel="' + newKey + '">' + translate('Delete') + '</a></td>');
 
                 $('#al_edit_item_' + newKey).data('attributes', attributes);
                 editItem($('#al_edit_item_' + newKey));
@@ -95,7 +111,7 @@
             var $this = $(this); 
             selectActiveItem($this);
             
-            if(confirm("Are you sure you want to remove the selected item?"))
+            if(confirm("Are you sure to remove the active item"))
             {
                 var el = $this.attr('rel');
                 $('#' + el).remove();                      
@@ -151,7 +167,7 @@
         } else if ( typeof method === 'object' || ! method ) {
             return methods.init.apply( this, arguments );
         } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+            $.error( 'Method ' +  method + ' does not exist on jQuery.list' );
         }   
     };
 })(jQuery);

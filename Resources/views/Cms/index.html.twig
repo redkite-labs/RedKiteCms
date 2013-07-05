@@ -76,6 +76,8 @@
 {% endblock %}
 
 {% block external_javascripts %}
+    <script src="{{ asset('bundles/alphalemoncms/js/lang/' ~ cms_language ~ '.js') }}"></script>
+    
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
                                      'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
@@ -97,6 +99,7 @@
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/jquery-metadata/jquery.metadata.js'
                     'components/holderjs/holder.js'
+                    
                     'bundles/alphalemoncms/js/*' 
     %}
     <script src="{{ asset_url }}"></script>
