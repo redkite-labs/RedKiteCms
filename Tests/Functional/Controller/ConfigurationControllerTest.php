@@ -54,19 +54,21 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
 
         self::populateDb();
     }
-    
-    /**
+
+        /**
      * @dataProvider languagesProvider
      */
-    public function testChangeLanguage($params, $newLanguage, $statusCode, $message)
+    public function testChangeLanguage($params, $currentLanguage, $newLanguage, $statusCode, $message)
     {
         $configurationRepository = new \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel();
-        $this->assertEquals('en', $configurationRepository->fetchParameter('language')->getValue());
+        $this->assertEquals($currentLanguage, $configurationRepository->fetchParameter('language')->getValue());
         
         $crawler = $this->client->request('POST', '/backend/en/al_changeCmsLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals($statusCode, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains(\'' . $message . '\')')->count() > 0);
+        if (null !== $message) {
+            $this->assertTrue($crawler->filter('html:contains(\'' . $message . '\')')->count() > 0);
+        }
         
         $this->assertEquals($newLanguage, $configurationRepository->fetchParameter('language')->getValue());
     }
@@ -79,6 +81,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
                     'languageName' => 'en',
                 ),
                 'en',
+                'en',
                 404,
                 'The language "en" is the one already in use',
             ),
@@ -86,9 +89,19 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
                 array(
                     'languageName' => 'it',
                 ),
+                'en',
                 'it',
                 200,
                 'CMS language has been changed. Please wait while your site is reloading',
+            ),
+            array(
+                array(
+                    'languageName' => 'en',
+                ),
+                'it',
+                'en',
+                200,
+                null,
             ),
         );
     }
