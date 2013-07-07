@@ -1,0 +1,63 @@
+Upgrade from 1.1.x RC3
+----------------------
+This document explains in detail how to migrate from AlphaLemon CMS RC3 to RC4. If you
+come from a the Beta4 release or older, read the paragraph at the end of this document.
+
+
+Database backup
+---------------
+It's strongly suggested to backup your database before start with this upgrade. You can
+use a tool like phpmyadmin for that.
+
+
+Composer dependencies [IMPORTANT]
+---------------------------------
+Since Release Candidate 4, AlphaLemon CMS does not require anymore the editor for hypertext
+blocks, neither the default theme, so you must require them explicitely in the main 
+application's composer.json file, if you need them:
+
+    {
+        [...]
+        
+        "require": {        
+            
+            [...]
+            
+            "alphalemon/app-ckeditor-block-bundle": "dev-master",
+            "alphalemon/bootbusiness-theme-bundle": "dev-master",
+        },
+    }
+    
+Be careful and sure to add the "alphalemon/app-ckeditor-block-bundle" requirement if 
+you don't use another bundle which manages hypertext blocks.
+
+
+Update the database
+-------------------
+AlphaLemon CMS RC4 introduces a new table in the database, so it must be updated to get
+this new entity.
+
+The upgrade process is really easy. After you upgraded you AlphaLemon CMS application,
+just open a terminal and run the following commands:
+
+    ./php app/console --env=alcms alphalemon:update-to-1-1-x-RC4 "[DSN]"
+
+Between double quotes add your dsn. If you don't remember it, open the app/config/config_alcms.yml
+file and read it from the Propel's configuration:
+
+    propel:
+        path:       "%kernel.root_dir%/../vendor/propel/propel1"
+        phing_path: "%kernel.root_dir%/../vendor/phing/phing"
+
+        dbal:
+            driver:               mysql
+            user:                 root
+            password:             
+            dsn:                  mysql:host=localhost;port=3306;dbname=alphalemon
+
+
+Upgrade from AlphaLemon CMS Beta4 or older
+------------------------------------------
+If you need to upgrade from an AlphaLemon CMS 1.1.x Beta4 version, you must upgrade to
+AlphaLemon CMS RC3 and do all the required upgrades. After that you will be able to 
+upgrade to AlphaLemon CMS RC4, as explained in this documentation.
