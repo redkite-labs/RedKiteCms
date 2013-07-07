@@ -940,7 +940,7 @@ class SlotRendererExtensionTest extends TestCase
     {
         $expectedValue = '<div class="al_logo">' . PHP_EOL;
         $expectedValue .= '<!-- BEGIN LOGO BLOCK -->' . PHP_EOL;
-        $expectedValue .= '<div data-editor="enabled" data-block-id="0" data-slot-name="logo">This slot has any content inside. Use the contextual menu to add a new one</div>' . PHP_EOL;
+        $expectedValue .= '<div data-editor="enabled" data-block-id="0" data-slot-name="logo" class="al-empty-slot-placeholer">This slot has any content inside. Use the contextual menu to add a new one</div>' . PHP_EOL;
         $expectedValue .= '<!-- END LOGO BLOCK -->' . PHP_EOL;
         $expectedValue .= '</div>';
 
