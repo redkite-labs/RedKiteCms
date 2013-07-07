@@ -1,3 +1,32 @@
+1.1.RC4
+64fc015 fixed file href when file is not opened
+91303ec fixed improper editor closing when clicking on an editor included element
+aa45317 deprecated the function to remove a single page attribute
+7b7a49d an opened editor can be also closed clicking somewhere on the page
+bfdcaf5 clicking the empty slots placeholder notices that it is not editable and encourages you to add a new block
+3e343eb added a boostrap file to generate the database to run tests from a symfoy2 application
+28a93c1 passed alpha_lemon_cms.configuration to template_slots_panel and defined variable common_domain
+e10c0f9 removed al_showAvailableBlocks route which is not used anymore
+55bb749 removed unused files
+198ddd6 updated inline lists add button has been placed under each list item, to let insert new items not only at the end of the list
+8781aa6 fixed a bug checking that url exists in items array and updated unit tests
+53875d7 removed the control to check if deploy folder exists because it is already made later
+e1e5b73 improved several exception messages and completed italian translation
+f800378 change cms language implemented
+8d5f69f validated the modelObject passed as parameter
+f8866f3 deprecated AlBlockManagerTinyMce
+036832b added AlphaLemonDeprecatedException thrown when a class or method is deprecated
+59b62bd used AlphaLemon's RuntimeException instead of php one
+6fa32a9 removed specific exceptions catching from EditSeoListener and left only the generic \Exception exception
+e0462ab removed pageguide which will be substituted by twitter bootstrap tooltips/popovers
+9b93a7d managed a pure symfony2 route passed in the link argument
+1f3aa30 fixed a bug that sometimes does not display images after deploying the website
+3854612 added a default value for editor title when attribute is not defined
+21c1c65 fixed and refactored domains declaration
+ddcf1d6 removed retrieveRepeatedContents method
+3ad9341 removed translation folder from gitignore and added translations folder
+b91c449 removed unused dependencies
+
 1.1.RC3 (2013-06-16)
 caf609f added description field to add an optional description for the file when it is displayed as a link
 9125e9d languages menu did not work correctly when deploying the website (this will be improved ASAP)
