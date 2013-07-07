@@ -1,6 +1,7 @@
 framework:
     test: ~
     router:   { resource: "%kernel.root_dir%/config/routing_alcms_dev.yml" }
+    translator:      { fallback: %locale% }
     session:
         storage_id: session.storage.filesystem
 
