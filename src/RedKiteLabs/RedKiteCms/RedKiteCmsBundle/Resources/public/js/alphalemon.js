@@ -13,7 +13,9 @@
  * @license    GPL LICENSE Version 2.0
  *
  */
- 
+
+var isOverEditor = false;
+
 (function( $ ){
     var stopBlocksMenu = false;
     
@@ -218,6 +220,7 @@
             $this.popover('destroy');
             startEditElement($this);
         });
+        $('body').data('activeBlock', null); 
 
         $(document).trigger("blockStopEditing", [ element ]);
     }
@@ -229,6 +232,17 @@
         $('.al-popover:visible').each(function(){
             var pos = element.offset();
             var popover = $(this);
+            
+            // prevents to close editor when interacting with the included elements 
+            // like inputs, textarea and so on
+            popover
+                .mouseenter(function(){
+                    isOverEditor = true;
+                })
+                .mouseleave(function(){
+                    isOverEditor = false;
+                })
+            ;
 
             var actualWidth = popover.width();
             var actualLeft = pos.left;
@@ -370,7 +384,7 @@ $(document).ready(function(){
         
         $('#al_cms_contents').click(function(){ 
             var block = $('body').data('activeBlock'); 
-            if (block == null) { // Removed experimentally || block.attr('rel') == 'popover'
+            if (block == null || isOverEditor) { // Removed experimentally || block.attr('rel') == 'popover'
                 return;
             }
             
