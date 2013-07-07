@@ -24,6 +24,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
+use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
 
 /**
  * WebTestCase
@@ -81,7 +82,12 @@ abstract class WebTestCaseFunctional extends WebTestCase
 
     protected static function populateDb()
     {
-        $connection = \Propel::getConnection(); 
+        $client = static::createClient(array(
+            'environment' => 'alcms_test',
+            'debug'       => true,
+        ));
+            
+        $connection = \Propel::getConnection();
         $queries = array(
             'DELETE FROM al_block;',
             'DELETE FROM al_configuration;',
@@ -95,21 +101,6 @@ abstract class WebTestCaseFunctional extends WebTestCase
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
             'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
         );
-        
-        /*
-        $queries = array(
-            'TRUNCATE  al_block;',
-            'TRUNCATE  al_configuration;',
-            'TRUNCATE  al_language;',
-            'TRUNCATE  al_locked_resource;',
-            'TRUNCATE  al_page;',
-            'TRUNCATE  al_seo;',
-            'TRUNCATE  al_role;',
-            'TRUNCATE  al_user;',
-            'INSERT INTO al_language (language_name) VALUES(\'-\');',
-            'INSERT INTO al_page (page_name) VALUES(\'-\');',
-            'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
-        );*/
 
         foreach ($queries as $query) {
             $statement = $connection->prepare($query);
@@ -117,13 +108,9 @@ abstract class WebTestCaseFunctional extends WebTestCase
         }
         
         $factoryRepository = new AlFactoryRepository('Propel');
-        $client = static::createClient(array(
-            'environment' => 'alcms_test',
-            'debug'       => true,
-            ));
-
+        
         $themes = $client->getContainer()->get('alpha_lemon_theme_engine.themes');
-        $theme = $themes->getTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle
+        $theme = $themes->getTheme('BootbusinessThemeBundle');
         $template = $theme->getTemplate('home');
 
         $eventsHandler = $client->getContainer()->get('alpha_lemon_cms.events_handler');
@@ -131,11 +118,9 @@ abstract class WebTestCaseFunctional extends WebTestCase
         $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('alpha_lemon_cms.block_manager_factory'));
         $templateManager->refresh();
 
-        
-        
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
-            $alRole = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlRole();
+            $alRole = new AlRole();
             $alRole->setRole($role);
             $alRole->save();
 
