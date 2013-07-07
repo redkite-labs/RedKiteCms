@@ -51,7 +51,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
             }
 
             if (count($slotContents) == 0 && $pageTree->isCmsMode()) {
-                $slotContents[] = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
+                $slotContents[] = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" class="al-empty-slot-placeholer">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
             }
 
             $content = implode(PHP_EOL, $slotContents);

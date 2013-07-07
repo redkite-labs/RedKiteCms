@@ -157,6 +157,12 @@
                     event.stopPropagation();
                     
                     var $this = $(this);                     
+                    if ($this.hasClass('al-empty-slot-placeholer')) {
+                        alert(translate('You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot'));
+
+                        return false;
+                    }
+                    
                     if ($(document).find('.al-popover:visible').length > 0 && $this.attr('data-name') == 'block_' + $('body').data('idBlock')) {
                         if (stopBlocksMenu) {
                             stopEditElement($this);
