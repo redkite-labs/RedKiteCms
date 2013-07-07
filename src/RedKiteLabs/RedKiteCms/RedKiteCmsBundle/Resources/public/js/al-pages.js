@@ -123,15 +123,9 @@ function InitPagesCommands()
                 success: function(response)
                 {
                     UpdatePagesJSon(response);
-                    if($('#seo_attributes_idLanguage option:selected').val() != 'none')
-                    {
-                        $("#al_attributes_form").ResetFormElements();
-                    }
-                    else
-                    {
-                        ResetWholeForm();
-                        $('#seo_attributes_idPage').val('');
-                    }
+                    
+                    ResetWholeForm();
+                    $('#seo_attributes_idPage').val('');                    
                     $('#al_select_languages_reminder').hide();
                 },
                 error: function(err)

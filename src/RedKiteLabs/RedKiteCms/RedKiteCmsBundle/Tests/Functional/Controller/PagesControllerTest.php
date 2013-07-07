@@ -406,50 +406,6 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one', $crawler->text());
     }
 
-    public function testDeletePageSeoAttributes()
-    {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageId' => 3,
-                        'languageId' => 2);
-
-        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(4, count($this->pageRepository->activePages()));
-        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
-
-        $seo = $this->seoRepository->fromPageAndLanguage(2, 3);
-        $this->assertNull($seo);
-
-        $this->assertEquals(0, count($this->blockRepository->retrieveContents(3, 2)));
-    }
-
-    public function testPageJustDeletedSeoAttributes()
-    {
-        $params = array('pageId' => 3, 'languageId' => 2);
-        $crawler = $this->client->request('POST', '/backend/en/al_loadSeoAttributes', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $json = json_decode($response->getContent(), true);
-        $this->assertEquals("#pages_pageName", $json[0]["name"]);
-        $this->assertEquals("page1", $json[0]["value"]);
-        $this->assertEquals("#pages_template", $json[1]["name"]);
-        $this->assertEquals("home", $json[1]["value"]);
-        $this->assertEquals("#pages_isHome", $json[2]["name"]);
-        $this->assertEquals("0", $json[2]["value"]);
-        $this->assertEquals("#pages_isPublished", $json[3]["name"]);
-        $this->assertEquals("1", $json[3]["value"]);
-        $this->assertEquals("#seo_attributes_permalink", $json[4]["name"]);
-        $this->assertEquals("", $json[4]["value"]);
-        $this->assertEquals("#seo_attributes_title", $json[5]["name"]);
-        $this->assertEquals("", $json[5]["value"]);
-        $this->assertEquals("#seo_attributes_description", $json[6]["name"]);
-        $this->assertEquals("", $json[6]["value"]);
-        $this->assertEquals("#seo_attributes_keywords", $json[7]["name"]);
-        $this->assertEquals("", $json[7]["value"]);
-    }
-
     public function testDeletePage()
     {
         $page = $this->pageRepository->fromPk(2);

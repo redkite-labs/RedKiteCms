@@ -150,9 +150,6 @@ class PagesController extends Base\BaseController
         }
         
         $pageManager->set($alPage);
-        if ($request->get('pageId') != "none" && $request->get('languageId') != "none") {         
-            return $this->removePageAttributes($request, $pageManager);
-        }
         
         return $this->removePage($pageManager);
     }
@@ -169,6 +166,9 @@ class PagesController extends Base\BaseController
         return $this->buildJSonHeader($this->translate('_pages_controller', 'The page has been successfully removed'), $pageManager->get());
     }
     
+    /**
+     * @deprecated since 1.1.0
+     */
     protected function removePageAttributes($request, $pageManager)
     {
         $pageManager->getPageRepository()->startTransaction();
