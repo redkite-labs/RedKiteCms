@@ -1,3 +1,6 @@
+{% set cms_language = configuration.read('language') %}
+{% set common_domain = cms_language ~ "_common" %}
+
 <ul class="column pull-left">
 {% set number_of_items = 11 %}
 {% set counter = 0 %}
