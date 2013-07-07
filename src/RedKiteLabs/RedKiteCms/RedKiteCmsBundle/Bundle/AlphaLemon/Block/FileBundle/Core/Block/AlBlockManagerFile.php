@@ -89,8 +89,8 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     
     protected function replaceHtmlCmsActive()
     {
-        $options = $this->getOptions();   
-
+        $options = $this->getOptions(); 
+        
         return array('RenderView' => array(
             'view' => 'FileBundle:Content:file.html.twig',
             'options' => $options,
@@ -110,13 +110,14 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
                     'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
                     'folder' => AlAssetsPath::getUploadFolder($this->container),
                     'filename' => $file,
+                    'opened' => $item['opened'],
                 )
             :
                 array(
                     'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
                     'folder' => AlAssetsPath::getUploadFolder($this->container),
                     'filename' => (array_key_exists('description', $item) && ! empty($item['description'])) ? $item['description'] : $file,
-                    'filepath' => basename($file),
+                    'opened' => $item['opened'],
                 )
         ;
         

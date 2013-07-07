@@ -159,7 +159,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                                 "webfolder" => "",
                                 "folder" => "",
                                 "filename" => "files/my-file",
-                                "filepath" => "my-file",
+                                "opened" => false,
                             )
 
                     ),
@@ -180,6 +180,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                                 "webfolder" => "",
                                 "folder" => "",
                                 "filename" => "files/my-file",
+                                "opened" => true,
                             )
 
                     ),
