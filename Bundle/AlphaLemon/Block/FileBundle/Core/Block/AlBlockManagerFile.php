@@ -104,22 +104,15 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $item['opened'] = $this->itemOpenedToBool($item);
         $file = $item['file'];
         
-        $options = ($item['opened'])
-            ? 
-                array(
-                    'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
-                    'folder' => AlAssetsPath::getUploadFolder($this->container),
-                    'filename' => $file,
-                    'opened' => $item['opened'],
-                )
-            :
-                array(
-                    'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
-                    'folder' => AlAssetsPath::getUploadFolder($this->container),
-                    'filename' => (array_key_exists('description', $item) && ! empty($item['description'])) ? $item['description'] : $file,
-                    'opened' => $item['opened'],
-                )
-        ;
+        $options = array(
+            'webfolder' => $this->container->getParameter('alpha_lemon_cms.web_folder'),
+            'folder' => AlAssetsPath::getUploadFolder($this->container),
+            'filename' => $file,
+        );
+        
+        if ( ! $item['opened']) {
+            $options['displayValue'] = (array_key_exists('description', $item) && ! empty($item['description'])) ? $item['description'] : $file;
+        }
         
         return $options;
     }

@@ -1,8 +1,8 @@
 {% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
 
 {% block body %}
-{% if opened == false %}
-<a href="/{{ folder }}/{{ filename }}" {{ editor|raw }}>{{ filename }}</a>
+{% if displayValue is defined %}
+<a href="/{{ folder }}/{{ filename }}" {{ editor|raw }}>{{ displayValue }}</a>
 {% else %}
 
 {% set file = kernel_root_dir ~ '/../' ~ webfolder ~ '/' ~ folder ~ '/' ~ filename %} 
