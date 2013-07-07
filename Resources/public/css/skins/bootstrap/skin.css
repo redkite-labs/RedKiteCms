@@ -289,6 +289,11 @@
   font: bold 24px/28px Arial, Verdana, Helvetica, sans-serif;
 }
 
+.al-empty-slot-placeholer {
+  color: #990000;
+  font-style: italic;
+}
+
 #al_control_panel {
   position: fixed;
   top: 0;
@@ -493,11 +498,7 @@
   background-color: #d5dbdb;
 }
 
-.al-add-item-list {
-  position: absolute;
-}
-
-.al-delete-item-list {
+.al-add-item-list, .al-delete-item-list {
   position: absolute;
   width: 24px;
 }
