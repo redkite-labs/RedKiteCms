@@ -43,27 +43,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
         $this->blockRepository->fromPK(2);
     }
-    
-    public function testShowAvailableBlocks()
-    {
-        $crawler = $this->client->request('POST', '/backend/en/al_showAvailableBlocks');
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        
-        $this->assertCount(1, $crawler->filter('#al_blocks_list'));
-        
-        $this->assertGreaterThanOrEqual(23, count($crawler->filter('.al_block_adder')));
-        
-        // Tests the internal blocks
-        $this->assertCount(1, $crawler->filter('[rel="File"]'));
-        $this->assertCount(1, $crawler->filter('[rel="Image"]'));
-        $this->assertCount(1, $crawler->filter('[rel="Link"]'));
-        $this->assertCount(1, $crawler->filter('[rel="Menu"]'));
-        $this->assertCount(1, $crawler->filter('[rel="MenuVertical"]'));
-        $this->assertCount(1, $crawler->filter('[rel="NavigationMenu"]'));
-        $this->assertCount(1, $crawler->filter('[rel="Script"]'));
-        $this->assertCount(1, $crawler->filter('[rel="Text"]'));
-    }
 
     public function testAddBlockFailsWhenAnyValidParameterIsGiven()
     {

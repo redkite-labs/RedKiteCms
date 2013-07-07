@@ -41,7 +41,7 @@ class LockedResourcesTest extends BaseSecured
     public function testOpenARouteNotLocked()
     {
         $client = $this->setUpClient();
-        $crawler = $client->request('POST', '/backend/en/al_showAvailableBlocks');
+        $crawler = $client->request('POST', '/backend/en/al_showPages');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         
@@ -50,7 +50,7 @@ class LockedResourcesTest extends BaseSecured
             'PHP_AUTH_PW' => 'bross',
         );
         $client1 = $this->setUpClient($credentials);
-        $crawler1 = $client1->request('POST', '/backend/en/al_showAvailableBlocks');
+        $crawler1 = $client1->request('POST', '/backend/en/al_showPages');
         $response1 = $client1->getResponse();
         $this->assertEquals(200, $response1->getStatusCode());
         
