@@ -368,9 +368,9 @@ $(document).ready(function(){
             return false;
         });
         
-        $('#al_cms_contents').click(function(){
-            var block = $('body').data('activeBlock');
-            if (block == null || block.attr('rel') == 'popover') {
+        $('#al_cms_contents').click(function(){ 
+            var block = $('body').data('activeBlock'); 
+            if (block == null) { // Removed experimentally || block.attr('rel') == 'popover'
                 return;
             }
             
