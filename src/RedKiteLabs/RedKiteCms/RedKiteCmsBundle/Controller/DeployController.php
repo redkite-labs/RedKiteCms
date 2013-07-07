@@ -26,7 +26,7 @@ class DeployController extends Base\BaseController
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
             
-            $this->resetProdEnvironment();
+            $this->clearEnvironment('prod');
 
             return $response;
         } catch (\Exception $e) {
@@ -41,7 +41,7 @@ class DeployController extends Base\BaseController
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
             
-            $this->resetProdEnvironment();
+            $this->clearEnvironment('stage');
             
             return $response;
         } catch (\Exception $e) {
@@ -49,7 +49,7 @@ class DeployController extends Base\BaseController
         }
     }
     
-    protected function resetProdEnvironment()
+    protected function clearEnvironment($environment)
     {
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
         $command = sprintf('assets:install %s %s', $this->container->getParameter('alpha_lemon_cms.web_folder_full_path'), $symlink);
@@ -57,7 +57,7 @@ class DeployController extends Base\BaseController
         $commandProcessor->executeCommands(array(
             $command => null,
             'assetic:dump' => null,
-            'cache:clear --env=prod' => null,
+            'cache:clear --env=' . $environment => null,
         ));
     }
 }
