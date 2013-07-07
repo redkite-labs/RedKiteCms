@@ -87,7 +87,10 @@ class ThemesController extends BaseController
             ),
             array(
                 'key' => 'slots',
-                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array('slots' => $slots)),            
+                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array(
+                    'slots' => $slots, 
+                    'configuration' => $this->container->get('alpha_lemon_cms.configuration')
+                )),            
             ), 
         );
         
