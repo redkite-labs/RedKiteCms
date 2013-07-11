@@ -26,7 +26,7 @@
                         return;
                     }
 
-                    $(this).highligther('render', {
+                    $(this).highligther('highlight', {
                         cssClass: 'al-slot-highlighted'
                     });                    
                 }
@@ -47,7 +47,7 @@
                     ;
 
                     $('#al-undo-slot-assignment').data('html', $this.html());
-                    $(this).highligther('toggle',   {
+                    $(this).highligther('activate',   {
                         cssClass: 'al-slot-highlighted',
                         toggleClass: 'al-slot-editing'
                     });
@@ -80,11 +80,8 @@
     function close() {
         $('#al_old_slots').css('visibility', 'hidden');
         var parent = $('#al_old_slots').data('parent');
-        if (parent != null) {
-            parent.highligther('toggle', {
-                cssClass: 'al-slot-highlighted',
-                toggleClass: 'al-slot-editing'
-            });
+        if (parent != null) { 
+            parent.highligther('deactivate');
         }
         stopBlocksMenu = false;
     }
