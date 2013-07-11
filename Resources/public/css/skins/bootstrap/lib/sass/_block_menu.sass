@@ -19,7 +19,7 @@
     :position absolute
     :cursor pointer    
     :padding-left 12px
-    :z-index 100050
+    :z-index $block-menu-toolbar-zindex
     :background transparent url('images/block_menu/block-menu.png') top left no-repeat
 
     ul
@@ -45,24 +45,24 @@
 .al_block_menu
     :display none
     :position absolute  
-    :z-index 100050 
+    :z-index $block-menu-toolbar-zindex 
 
-#al_block_menu_top
+#al_block_menu_top, #al_active_block_menu_top
     :border-bottom-width 1px
     :border-bottom-style solid
     :height 1px
 
-#al_block_menu_bottom
+#al_block_menu_bottom, #al_active_block_menu_bottom
     :border-top-width 1px
     :border-top-style solid
     :height 1px
 
-#al_block_menu_left
+#al_block_menu_left, #al_active_block_menu_left
     :border-right-width 1px
     :border-right-style solid
     :width 1px
 
-#al_block_menu_right
+#al_block_menu_right, #al_active_block_menu_right
     :border-left-width 1px
     :border-left-style solid
     :width 1px

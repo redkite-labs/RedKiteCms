@@ -18,7 +18,7 @@
     :top 0
     :left 0
     :width 100%
-    :z-index 102000
+    :z-index $toolbar-zindex
 
 #al_control_panel_body   
     :height 40px
@@ -50,7 +50,7 @@
     :top 120px
     :left 0
     :display block
-    :z-index 102010
+    :z-index $toolbar-commands-zindex
 
     p
         color: white
@@ -114,7 +114,7 @@
     :background-color #333
     :border-bottom 1px solid #ccc
     +box-shadow(#333 3px 3px 3px)   
-    :z-index 102020     
+    :z-index $toolbar-tab-zindex    
 
     .al_tab
         :position relative
