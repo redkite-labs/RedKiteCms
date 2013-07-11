@@ -102,9 +102,14 @@ class AlTranslator implements AlTranslatorInterface
      */
     public function translate($message, array $parameters = array(), $domain = 'messages', $locale = null)
     {
-        if (null === $locale && null !== $this->configuration) {
-            $locale = $this->configuration->read('language');
-            $domain = $locale . "_" . $domain;
+        if (null !== $this->configuration) {        
+            if (null === $locale) {
+                $locale = $this->configuration->read('language');
+            }
+            
+            if ($domain != 'messages') {
+                $domain = $locale . "_" . $domain;
+            }
         }
         
         if (null !== $this->translator) {
