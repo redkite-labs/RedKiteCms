@@ -14,10 +14,11 @@
  *
  */
 
-var isOverEditor = false;
 
-(function( $ ){
+
+(function( $ ){    
     var stopBlocksMenu = false;
+    var isCursorOverEditor = false;
     
     var methods = {
         start: function() 
@@ -82,6 +83,16 @@ var isOverEditor = false;
             stopBlocksMenu = false;
                 
             return this;
+        },
+        stopCursorOverEditor: function()
+        {
+            isCursorOverEditor = false;
+                
+            return this;
+        },
+        isCursorOverEditor: function()
+        {     
+            return isCursorOverEditor;
         }
     };
     
@@ -135,7 +146,7 @@ var isOverEditor = false;
                         return;
                     }
                     
-                    $this.highligther('render');
+                    $this.highligther('highlight');
                     $(this).css('cursor', 'pointer');
                     
                     
@@ -158,25 +169,24 @@ var isOverEditor = false;
                 {   
                     event.stopPropagation();
                     
-                    var $this = $(this);                     
+                    if (isCursorOverEditor && $('.al-popover:visible').length > 0) {
+                        return;
+                    }
+                    
+                    var $this = $(this);
                     if ($this.hasClass('al-empty-slot-placeholer')) {
                         alert(translate('You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot'));
 
                         return false;
                     }
                     
-                    if ($(document).find('.al-popover:visible').length > 0 && $this.attr('data-name') == 'block_' + $('body').data('idBlock')) {
-                        if (stopBlocksMenu) {
-                            stopEditElement($this);
-                            
-                            return false;
+                    if ($('body').data('activeBlock') != null) {
+                        stopEditElement($('body').data('activeBlock'));
+                        
+                        if ($this.attr('data-name') == 'block_' + $('body').data('idBlock')) {
+                            return;
                         }
                     }
-
-                    if(stopBlocksMenu) {
-                        return false;
-                    }                    
-                    stopBlocksMenu = true;
 
                     startEdit($this);
                     if (hasPopover) {
@@ -195,7 +205,7 @@ var isOverEditor = false;
     
     function startEdit(element)
     {
-        element.highligther('toggle');
+        element.highligther('activate', {'cssClass' : 'on-editing'});
         
         $('body')
             .data('idBlock', element.attr('data-block-id'))
@@ -210,9 +220,6 @@ var isOverEditor = false;
     
     function stopEditElement(element)
     {
-        stopBlocksMenu = false;  
-        element.highligther('toggle');
-
         $('.al_block_menu').hide();
 
         element.each(function(){   
@@ -237,10 +244,10 @@ var isOverEditor = false;
             // like inputs, textarea and so on
             popover
                 .mouseenter(function(){
-                    isOverEditor = true;
+                    isCursorOverEditor = true;
                 })
                 .mouseleave(function(){
-                    isOverEditor = false;
+                    isCursorOverEditor = false;
                 })
             ;
 
@@ -277,7 +284,10 @@ var isOverEditor = false;
     
     function deactivateEditableInlineContents()
     {
-        $('.al-editable-inline').removeAttr('contenteditable');
+        $('.al-editable-inline')
+            .removeAttr('contenteditable')
+            .removeClass('al-editable-inline')
+        ;
     }
     
     function hideContentsForEditMode(element)
@@ -383,12 +393,13 @@ $(document).ready(function(){
         });
         
         $('#al_cms_contents').click(function(){ 
-            var block = $('body').data('activeBlock'); 
-            if (block == null || isOverEditor) { // Removed experimentally || block.attr('rel') == 'popover'
+            var block = $('body').data('activeBlock');
+            if (block == null || $(document).blocksEditor('isCursorOverEditor')) { // Removed experimentally || block.attr('rel') == 'popover'
                 return;
             }
             
             block.blocksEditor('stopEditElement');
+            $(document).blocksEditor('stopCursorOverEditor');
         });
         
         $('.al_language_item').click(function()

@@ -116,6 +116,7 @@ var isEditorOpened = false;
                 },
                 complete: function()
                 {
+                    $(document).blocksEditor('stopCursorOverEditor');
                     $('body').RemoveAjaxLoader();
                 }
             });
@@ -341,7 +342,7 @@ function updateContentsJSon(response, editorWidth)
                             .empty()
                             .append(item.value)
                         ;
-                    } else {console.log('[data-slot-name="' + item.slotName + '"]',$('[data-slot-name="' + item.slotName + '"]'));
+                    } else {
                         $('[data-slot-name="' + item.slotName + '"]')
                             .replaceWith(item.value);
                     }
