@@ -209,7 +209,6 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         if (null === $this->pageTree) {
             $this->pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         }
-        //$page = (null === $this->pageTree) ? $this->pageTree->getAlPage() : $this->pageTree->getAlPage();
         $page = $this->pageTree->getAlPage();
         
         if (null === $page && null !== $url) {

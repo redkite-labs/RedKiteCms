@@ -115,7 +115,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
         $block = $this->initBlock($value);
         
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('bootstrap_link.form')
                         ->will($this->returnValue($formType))
@@ -134,7 +134,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
                     ->will($this->returnValue($form))
         ;
         
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
@@ -147,7 +147,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
             ->will($this->returnValue('en'))
         ;
         
-        $this->container->expects($this->at(6))
+        $this->container->expects($this->at(5))
                         ->method('get')
                         ->with('request')
                         ->will($this->returnValue($request))
@@ -163,26 +163,12 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
     {
         parent::initContainer();
         
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
         $this->container
             ->expects($this->at(2))
             ->method('get')
-            ->with('translator')
+            ->with('alpha_lemon_cms.translator')
             ->will($this->returnValue($this->translator))
-        ;
-        
-        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $this->configuration
-            ->expects($this->once())
-            ->method('read')
-            ->with('language')
-        ;
-        
-        $this->container
-            ->expects($this->at(3))
-            ->method('get')
-            ->with('alpha_lemon_cms.configuration')
-            ->will($this->returnValue($this->configuration))
         ;
     }
     

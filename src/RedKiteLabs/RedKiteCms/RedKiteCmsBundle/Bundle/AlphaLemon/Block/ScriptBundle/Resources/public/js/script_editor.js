@@ -33,8 +33,12 @@ $(document).ready(function() {
         
         $(".al_Stylesheet_item_remover").RemoveExternalFile("ExternalStylesheet");
         $(".al_Javascript_item_remover").RemoveExternalFile("ExternalJavascript"); 
-        $(".al_Stylesheet_file_manager").ShowExternalFilesManager("stylesheet");
-        $(".al_Javascript_file_manager").ShowExternalFilesManager("javascript");
+        $(".al_Stylesheet_file_manager").click(function(){
+            openMediaLibrary('al-stylesheet-external-files', 'ExternalStylesheet', 'al_elFinderStylesheetsConnect')
+        });
+        $(".al_Javascript_file_manager").click(function(){
+            openMediaLibrary('al-javascript-external-files', 'ExternalJavascript', 'al_elFinderJavascriptsConnect')
+        });
         $(".al-Stylesheet-removable-item").click(function()
         {
             var isCurrentItemSelected = $(this).hasClass("al_selected_item");
@@ -53,3 +57,21 @@ $(document).ready(function() {
         });
     });
 }); 
+
+function openMediaLibrary(id, key, connector)
+{
+    $('<div/>').dialogelfinder({
+            url : frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/' + connector,
+            lang : 'en',
+            width : 840,
+            destroyOnClose : true,
+            commandsOptions : {
+                getfile : {
+                    onlyURL  : false,
+                }
+            },
+            getFileCallback : function(file, fm) {
+                $('#' + id).AddExternalFile(key, file.path);
+            }
+    }).dialogelfinder('instance');
+}

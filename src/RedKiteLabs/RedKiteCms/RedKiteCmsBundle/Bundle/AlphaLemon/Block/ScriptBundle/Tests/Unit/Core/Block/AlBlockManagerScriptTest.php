@@ -32,13 +32,22 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
     {
         parent::setUp();
         
+        $this->initContainer();
+        
         $this->blockManager = new AlBlockManagerScript($this->container, $this->validator);
     }
 
     public function testDefaultValue()
     {
+        $message = 'This is a default script content';
+        $this->translator
+            ->expects($this->once())
+            ->method('translate')
+            ->with($message)                
+            ->will($this->returnValue($message));
+            
         $expectedValue = array(
-            'Content' => '<p>This is a default script content</p>',
+            'Content' => $message,
             'InternalJavascript' => '',
             'ExternalJavascript' => ''
         );
@@ -101,5 +110,18 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
     public function testHideInEditMode()
     {   
         $this->assertTrue($this->blockManager->getHideInEditMode());
+    }
+    
+    protected function initContainer()
+    {
+        parent::initContainer();
+        
+        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->container
+            ->expects($this->at(2))
+            ->method('get')
+            ->with('alpha_lemon_cms.translator')
+            ->will($this->returnValue($this->translator))
+        ;
     }
 }

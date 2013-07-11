@@ -100,12 +100,12 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->container->expects($this->at(6))
+        $this->container->expects($this->at(5))
                         ->method('get')
                         ->with('request')
                         ->will($this->returnValue($request));
         
-        $this->container->expects($this->at(7))
+        $this->container->expects($this->at(6))
                         ->method('getParameter')
                         ->with('alpha_lemon_cms.upload_assets_dir')
                         ->will($this->returnValue('uploads/assets'));
@@ -131,7 +131,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->initKernel();        
         $this->initDeployBundle();
         
-        $this->container->expects($this->at(6))
+        $this->container->expects($this->at(5))
                         ->method('getParameter')
                         ->with('alpha_lemon_cms.web_folder')
                         ->will($this->returnValue('web'));
@@ -159,7 +159,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                                 "webfolder" => "",
                                 "folder" => "",
                                 "filename" => "files/my-file",
-                                "opened" => false,
+                                'displayValue' => 'files/my-file',
                             )
 
                     ),
@@ -180,7 +180,6 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                                 "webfolder" => "",
                                 "folder" => "",
                                 "filename" => "files/my-file",
-                                "opened" => true,
                             )
 
                     ),
@@ -202,7 +201,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                                     ->getMock();
         
         $this->container
-            ->expects($this->at(5))
+            ->expects($this->at(4))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request))
@@ -230,7 +229,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $this->initContainer();
         
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('file.form')
                         ->will($this->returnValue($formType))
@@ -250,7 +249,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         ;
         
         $this->container
-            ->expects($this->at(5))
+            ->expects($this->at(4))
             ->method('get')
             ->with('form.factory')
             ->will($this->returnValue($formFactory))
@@ -274,7 +273,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
     protected function initKernel()
     {
         $this->container
-            ->expects($this->at(4))
+            ->expects($this->at(3))
             ->method('get')
             ->with('kernel')
             ->will($this->returnValue($this->kernel))
@@ -285,32 +284,18 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
     {
         parent::initContainer();
         
-        $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
         $this->container
             ->expects($this->at(2))
             ->method('get')
-            ->with('translator')
+            ->with('alpha_lemon_cms.translator')
             ->will($this->returnValue($this->translator))
-        ;
-        
-        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $this->configuration
-            ->expects($this->once())
-            ->method('read')
-            ->with('language')
-        ;
-        
-        $this->container
-            ->expects($this->at(3))
-            ->method('get')
-            ->with('alpha_lemon_cms.configuration')
-            ->will($this->returnValue($this->configuration))
         ;
     }
     
     private function initDeployBundle()
     {
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(4))
                         ->method('getParameter')
                         ->with('alpha_lemon_theme_engine.deploy_bundle')                
                         ->will($this->returnValue('AcmeWebsiteBundle'));
@@ -320,7 +305,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
     {
         $this->translator
             ->expects($this->once())
-            ->method('trans')
+            ->method('translate')
             ->with($message)                
             ->will($this->returnValue($message));
     }

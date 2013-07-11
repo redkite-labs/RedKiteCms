@@ -38,30 +38,4 @@ class ElFinderControllerTest extends AlCmsElFinderControllerTest
         $controller->setContainer($container);
         $controller->connectFileAction();
     }
-    
-    public function testShowMediaLibrary()
-    {
-        $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $templating->expects($this->once())
-             ->method('renderResponse')
-             ->with('AlphaLemonCmsBundle:Elfinder:media_library.html.twig')
-        ;
-        
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->at(0))
-             ->method('get')
-             ->with('templating')
-             ->will($this->returnValue($templating))
-        ;
-        
-        $container->expects($this->at(1))
-             ->method('getParameter')
-             ->with('alpha_lemon_cms.enable_yui_compressor')
-             ->will($this->returnValue(true))
-        ;
-        
-        $controller = new ElFinderFileController();
-        $controller->setContainer($container);
-        $controller->showMediaLibraryAction();
-    }
 }

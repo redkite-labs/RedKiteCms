@@ -40,14 +40,14 @@ class ElFinderJavascriptsConnectorTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-
+/* TODO Removable?
         $request->expects($this->once())
             ->method('getScheme')
             ->will($this->returnValue('http'));
 
         $request->expects($this->once())
             ->method('getHttpHost')
-            ->will($this->returnValue('example.com'));
+            ->will($this->returnValue('example.com'));*/
         
 
         $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
@@ -86,7 +86,8 @@ class ElFinderJavascriptsConnectorTest extends TestCase
                         (
                             "driver" => "LocalFileSystem",
                             "path" => "/full/base/path/to/web/uploads/assets/js",
-                            "URL" => "http://example.com/uploads/assets/js",
+                            // TODO "URL" => "http://example.com/uploads/assets/js",
+                            "URL" => "/uploads/assets/js",
                             "accessControl" => "access",
                             "rootAlias" => "Javascripts"
                         )

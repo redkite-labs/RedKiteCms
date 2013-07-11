@@ -40,14 +40,14 @@ class ElFinderStylesheetsConnectorTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-
+/* TODO Removable?
         $request->expects($this->once())
             ->method('getScheme')
             ->will($this->returnValue('http'));
 
         $request->expects($this->once())
             ->method('getHttpHost')
-            ->will($this->returnValue('example.com'));
+            ->will($this->returnValue('example.com'));*/
 
         $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
         $bundle->expects($this->any())
@@ -85,7 +85,8 @@ class ElFinderStylesheetsConnectorTest extends TestCase
                         (
                             "driver" => "LocalFileSystem",
                             "path" => "/full/base/path/to/web/uploads/assets/css",
-                            "URL" => "http://example.com/uploads/assets/css",
+                            // TODO "URL" => "http://example.com/uploads/assets/css",
+                            "URL" => "/uploads/assets/css",
                             "accessControl" => "access",
                             "rootAlias" => "Stylesheets"
                         )

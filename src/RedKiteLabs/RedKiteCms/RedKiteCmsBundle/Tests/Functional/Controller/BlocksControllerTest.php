@@ -89,7 +89,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("content_title_1", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
+        $this->assertRegExp("/This is the default content for a new hypertext block/s", $json[1]["value"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(2, $blocks[count($blocks) - 1]->getContentPosition());
@@ -129,7 +129,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("content_title_1", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/This is the default text for a new text content/s", $json[1]["value"]);
+        $this->assertRegExp("/This is the default content for a new hypertext block/s", $json[1]["value"]);
         
         $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertCount(1, $blocks);
@@ -193,7 +193,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                         'slotName' => 'content_title_1',
                         'included' => 'false',
                         "key" => "Content",
-                        "value" => "<p>This is the default text for a new text content</p>",
+                        "value" => "This is the default content for a new hypertext block",
                         "idBlock" => $blockId);
 
         $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
@@ -364,24 +364,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(404, $response->getStatusCode());
 
         $this->assertTrue($crawler->filter('html:contains("Unable to find template")')->count() > 0);
-    }
-
-    public function testShowJavascriptsFilesManager()
-    {
-        $params = array("key" => "javascript");
-        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp("/al\_elFinderJavascriptsConnect/s", $crawler->text());
-    }
-
-    public function testShowStylesheetsFilesManager()
-    {
-        $params = array("key" => "stylesheet");
-        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp("/al\_elFinderStylesheetsConnect/s", $crawler->text());
     }
 
     public function testExternalFileIsNotAddedWhenAnyValidParameterHasBeenGiven()

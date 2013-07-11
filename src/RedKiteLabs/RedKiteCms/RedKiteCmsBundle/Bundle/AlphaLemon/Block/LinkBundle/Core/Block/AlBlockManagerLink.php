@@ -17,14 +17,12 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
 {
     protected $translator;
     protected $cmsLanguage;
-    protected $domain = 'messages';
     
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
         
-        $this->translator = $this->container->get('translator');
-        $this->cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+        $this->translator = $this->container->get('alpha_lemon_cms.translator');
     }
     
     public function getDefaultValue()
@@ -69,7 +67,7 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         
         return array(
             "template" => "LinkBundle:Editor:_editor.html.twig",
-            "title" => $this->translator->trans('Link editor', array(), $this->domain, $this->cmsLanguage),
+            "title" => $this->translator->translate('Link editor'),
             "form" => $form->createView(),
             'pages' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),

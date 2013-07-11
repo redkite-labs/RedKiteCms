@@ -18,6 +18,8 @@
 namespace AlphaLemon\Block\ScriptBundle\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * ScriptExtension
@@ -26,12 +28,19 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
  */
 class AlBlockManagerScript extends AlBlockManagerContainer
 {
+    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    {
+        parent::__construct($container, $validator);
+        
+        $this->translator = $this->container->get('alpha_lemon_cms.translator');
+    }
+    
     /**
      * {@inheritdoc}
      */
     public function getDefaultValue()
     {
-        return array('Content' => '<p>This is a default script content</p>',
+        return array('Content' => $this->translator->translate("This is a default script content"),
                      'InternalJavascript' => '',
                      'ExternalJavascript' => '');
     }
