@@ -4,22 +4,19 @@ $(document).ready(function() {
             return;
         }
     
-        $('#al_json_block_src').ShowExternalFilesManager('images', function(){
+        $('#al_json_block_src').click(function(){
             $('<div/>').dialogelfinder({
                     url : frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_elFinderMediaConnect',
-                    lang : 'en',
+                    lang : $('#al_available_languages option:selected').val(),
                     width : 840,
                     destroyOnClose : true,
                     commandsOptions : {
-                        getfile : {
-                            onlyURL  : false
+                        getfile: {
+                            oncomplete: 'destroy'
                         }
                     },
                     getFileCallback : function(file, fm) {
-                        var image = '/' + $('#al_assets_path').val() + '/' + file.path;
-                        $('#al_json_block_src').val(image);
-                        
-                        $('body').showAlert('Image has been selected');
+                        $('#al_json_block_src').val(file.url);
                     }
             }).dialogelfinder('instance');
         });

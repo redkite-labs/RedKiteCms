@@ -21,14 +21,3 @@
 {% endfor %}
 </ul>
 <input id="al-{{ section|lower }}-external-files" type="hidden" value="{{ value }}" />
-
-{#
-<script type="text/javascript">
-    $(".al-{{ section }}-removable-item").click(function()
-    {
-        var isCurrentItemSelected = $(this).hasClass("al_selected_item");
-        $(".al-{{ section }} .al_selected_item").removeClass("al_selected_item");
-        if(!isCurrentItemSelected) $(this).addClass("al_selected_item");
-    });
-</script>
-#}

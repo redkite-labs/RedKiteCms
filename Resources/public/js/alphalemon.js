@@ -597,34 +597,12 @@ $(document).ready(function(){
 
         $('#al_open_media_library').click(function()
         {
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showFilesManager',
-                data: {'page' :  $('#al_pages_navigator').attr('rel'),
-                    'language' : $('#al_languages_navigator').attr('rel')},
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(html)
-                {
-                    InitDialog('al_editor_dialog_tmp');
-                    $('#al_editor_dialog_tmp').html(html);
-                    $('#al_editor_dialog_tmp')
-                        .dialog('open')
-                        .delay(100)
-                        .fadeOut(function(){ $(this).dialog("close") })
-                    ;
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            $('<div />').dialogelfinder({
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_elFinderMediaConnect',
+                lang : $('#al_available_languages option:selected').val(),
+                width : 840,
+                destroyOnClose : true
+             });
 
             return false;
         });

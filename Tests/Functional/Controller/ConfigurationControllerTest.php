@@ -92,7 +92,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
                 'en',
                 'it',
                 200,
-                'CMS language has been changed. Please wait while your site is reloading',
+                'La lingua del CMS',
             ),
             array(
                 array(

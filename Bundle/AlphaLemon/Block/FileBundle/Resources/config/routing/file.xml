@@ -8,9 +8,4 @@
         <default key="_controller">FileBundle:ElFinderFile:connectFile</default>
         <default key="_locale">en</default>
     </route>
-    
-    <route id="_show_file_media_library" pattern="/backend/{_locale}/al_showFileMediaLibrary">
-        <default key="_controller">FileBundle:ElFinderFile:showMediaLibrary</default>
-        <default key="_locale">en</default>
-    </route>
 </routes>

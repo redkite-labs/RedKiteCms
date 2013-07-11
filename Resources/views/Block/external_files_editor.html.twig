@@ -20,12 +20,3 @@
     <input class="al_{{ section }}_file_manager btn btn-primary" type="submit" value="{{ 'Add external files'|trans({}, 'messages', cms_language) }}" />
     <input class="al_{{ section }}_item_remover btn btn-danger" type="submit" value="{{ 'Remove selected file'|trans({}, 'messages', cms_language) }}" />
 </div>
-{#
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        $(".al_{{ section }}_item_remover").RemoveExternalFile("External{{ section }}");
-        $(".al_{{ section }}_file_manager").ShowExternalFilesManager("{{ section|lower }}");
-    });
-</script>
-#}

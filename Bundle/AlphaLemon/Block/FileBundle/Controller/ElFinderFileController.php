@@ -11,9 +11,4 @@ class ElFinderFileController extends Controller
         $connector = $this->container->get('el_finder.file_connector');
         $connector->connect();
     }
-    
-    public function showMediaLibraryAction()
-    {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Elfinder:media_library.html.twig', array('enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor')));
-    }
 }

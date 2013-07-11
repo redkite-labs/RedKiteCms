@@ -90,8 +90,14 @@
             <source>Generic editor</source>
             <target>Generic editor</target>
         </trans-unit>
-        
-        
+        <trans-unit id="23">
+            <source>This is the default content for a new hypertext block</source>
+            <target>This is the default content for a new hypertext block</target>
+        </trans-unit>
+        <trans-unit id="24">
+            <source>This is a default script content</source>
+            <target>This is a default script content</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

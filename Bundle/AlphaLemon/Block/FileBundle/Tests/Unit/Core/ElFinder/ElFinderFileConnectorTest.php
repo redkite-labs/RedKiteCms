@@ -40,7 +40,7 @@ class ElFinderFileConnectorTest extends TestCase
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-
+/*
         $request->expects($this->once())
             ->method('getScheme')
             ->will($this->returnValue('http'));
@@ -48,7 +48,7 @@ class ElFinderFileConnectorTest extends TestCase
         $request->expects($this->once())
             ->method('getHttpHost')
             ->will($this->returnValue('example.com'));
-
+*/
         $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
         $bundle->expects($this->any())
             ->method('getName')
@@ -85,7 +85,7 @@ class ElFinderFileConnectorTest extends TestCase
                         (
                             "driver" => "LocalFileSystem",
                             "path" => "/full/base/path/to/web/uploads/assets/file",
-                            "URL" => "http://example.com/uploads/assets/file",
+                            "URL" => "/uploads/assets/file",
                             "accessControl" => "access",
                             "rootAlias" => "Files"
                         )
