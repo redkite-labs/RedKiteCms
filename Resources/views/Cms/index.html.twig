@@ -37,7 +37,7 @@
     {
         frontController = '{{ frontController }}';        
         cmsStartInternalJavascripts();
-        CKEDITOR.disableAutoInline = true;
+        //CKEDITOR.disableAutoInline = true;
     });
 </script>
 {% endblock %}
@@ -56,6 +56,9 @@
                                                     'components/alphalemoncms/twitter-bootstrap/css/bootstrap-responsive.min.css'
                                                     'bundles/alphalemoncms/vendor/vendor-adapter.css' 
                                                     'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
+                                                    'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.css'
+                                                    'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.min.css'
+                                                    'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
         %} 
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
         {% endstylesheets %}
@@ -65,6 +68,9 @@
                                             'components/alphalemoncms/twitter-bootstrap/css/bootstrap-responsive.min.css'
                                             'bundles/alphalemoncms/vendor/vendor-adapter.css' 
                                             'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
+                                            'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.css'
+                                            'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.min.css'
+                                            'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
         %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
         {% endstylesheets %}
@@ -86,6 +92,7 @@
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/jquery-metadata/jquery.metadata.js'
                                      'components/holderjs/holder.js'
+                                     'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
                                      'bundles/alphalemoncms/js/*' 
     %} 
     
@@ -99,7 +106,7 @@
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/jquery-metadata/jquery.metadata.js'
                     'components/holderjs/holder.js'
-                    
+                    'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
                     'bundles/alphalemoncms/js/*' 
     %}
     <script src="{{ asset_url }}"></script>
@@ -192,7 +199,12 @@
 <div id="al_block_menu_top" class="al_block_menu"></div>
 <div id="al_block_menu_bottom" class="al_block_menu"></div>
 <div id="al_block_menu_left" class="al_block_menu"></div>    
-<div id="al_block_menu_right" class="al_block_menu"></div>    
+<div id="al_block_menu_right" class="al_block_menu"></div>   
+
+<div id="al_active_block_menu_top" class="al_block_menu"></div>
+<div id="al_active_block_menu_bottom" class="al_block_menu"></div>
+<div id="al_active_block_menu_left" class="al_block_menu"></div>    
+<div id="al_active_block_menu_right" class="al_block_menu"></div>   
 
 <div id="al_panel"></div>
 <div id="al_block_menu_toolbar" class="pull-right">
