@@ -21,12 +21,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
 
 class AlBlockManagerInlineTextTester extends AlBlockManagerInlineTextBlock
-{
-    public function getDefaultValue()
-    {
-        return "my value";
-    }
-    
+{    
     public function getEditInline()
     {
         return $this->editInline();
@@ -40,7 +35,25 @@ class AlBlockManagerInlineTextTester extends AlBlockManagerInlineTextBlock
  */
 class AlBlockManagerInlineTextBlockTest extends TestCase
 {
-    public function testAnExceptionIsThrownWhenTheSavedJsonContentIsNotDecodable()
+    public function testDefaultValue()
+    {
+        $blockManager = new AlBlockManagerInlineTextTester();
+        $this->assertEquals(array("Content" => "This is the default content for a new hypertext block"), $blockManager->getDefaultValue());
+    }
+    
+    public function testDefaultValueIsTranslated()
+    {
+        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator
+            ->expects($this->once())
+            ->method('translate')
+            ->with("This is the default content for a new hypertext block");
+        
+        $blockManager = new AlBlockManagerInlineTextTester(null, null, null, $this->translator);
+        $blockManager->getDefaultValue();
+    }
+    
+    public function testEditInline()
     {
         $blockManager = new AlBlockManagerInlineTextTester();
         $this->assertTrue($blockManager->getEditInline());
