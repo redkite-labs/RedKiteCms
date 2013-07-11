@@ -23,13 +23,16 @@ application's composer.json file, if you need them:
             
             [...]
             
-            "alphalemon/app-ckeditor-block-bundle": "dev-master",
+            "alphalemon/app-tinymce-block-bundle": "dev-master",
             "alphalemon/bootbusiness-theme-bundle": "dev-master",
         },
     }
     
-Be careful and sure to add the "alphalemon/app-ckeditor-block-bundle" requirement if 
-you don't use another bundle which manages hypertext blocks.
+Be careful and sure to add the "alphalemon/app-tinymce-block-bundle" requirement, if 
+you do not use another bundle which manages hypertext blocks.
+
+If you want to use the CKEditor instead of the TinyMCE editor, just require the 
+alphalemon/app-ckeditor-block-bundle instead of alphalemon/app-tinymce-block-bundle.
 
 
 Update the database
