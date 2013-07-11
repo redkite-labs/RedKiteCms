@@ -1,0 +1,2 @@
+_al_tinymce_bundle:
+    resource: "@TinyMceBlockBundle/Resources/config/routing/routing.xml"

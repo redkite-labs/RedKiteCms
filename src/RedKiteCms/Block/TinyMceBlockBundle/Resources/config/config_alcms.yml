@@ -1,0 +1,2 @@
+imports:
+- { resource: "@TinyMceBlockBundle/Resources/config/app_block.xml" }

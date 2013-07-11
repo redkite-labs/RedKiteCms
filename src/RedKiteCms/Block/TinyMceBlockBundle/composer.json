@@ -1,0 +1,28 @@
+{
+    "name": "alphalemon/app-tinymce-block-bundle",
+    "description": "Adds the TinyMCE editor to AlphaLemon CMS to manage an hipertext content",
+    "keywords": ["alphalemon", "cms", "app"],
+    "homepage": "http://alphalemon.com",
+    "type": "alphalemon-block-bundle",
+    "license": "MIT",
+    "authors": [{
+      "name": "AlphaLemon",
+      "email": "info@alphalemon.com"
+    }],
+    "repositories": [
+      {
+         "type": "composer",
+         "url": "http://apps.alphalemon.com/"
+      }
+    ],
+    "require-dev": {
+        "alphalemon/alphalemon-cms-bundle": "dev-master",
+        "willdurand/propel-typehintable-behavior": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "AlphaLemon\\Block\\TinyMceBlockBundle": ""
+        }
+    },
+    "target-dir" : "AlphaLemon/Block/TinyMceBlockBundle",
+    "minimum-stability": "dev"
+}

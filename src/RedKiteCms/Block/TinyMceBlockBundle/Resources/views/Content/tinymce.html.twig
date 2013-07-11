@@ -1,0 +1,11 @@
+{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+
+{% block body %} 
+{% if block_manager.getEditorDisabled == false %}
+<div id="block_{{ id }}" {{ editor|raw }}>
+{{ content|raw }}
+</div>
+{% else %}
+{{ content|raw }}
+{% endif %}
+{% endblock %}

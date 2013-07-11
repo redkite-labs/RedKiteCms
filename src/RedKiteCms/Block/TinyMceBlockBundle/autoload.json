@@ -1,0 +1,7 @@
+{
+    "bundles" : {
+        "AlphaLemon\\Block\\TinyMceBlockBundle\\TinyMceBlockBundle" : {
+            "environments" : ["all"]
+        }
+    }
+}
