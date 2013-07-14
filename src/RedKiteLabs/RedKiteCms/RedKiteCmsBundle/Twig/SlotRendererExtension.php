@@ -88,8 +88,6 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 $content = "A script content is not rendered in editor mode";
             }
             
-            $internalJavascript = (string)$block["InternalJavascript"];
-            $internalJavascript = ($internalJavascript != "" && (bool)$block["ExecuteInternalJavascript"]) ? $internalJavascript : '';
             if (null === $template) {
                 $template = '_block.html.twig';
             }
@@ -104,7 +102,6 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     'slot_name' => $slotName,
                     'type' => $block['Block']['Type'],
                     'content' => $content,
-                    'internal_javascript' => $internalJavascript,
                     'edit_inline' => $block['EditInline'],
                     'editor' => $editorParameters,
                     'extra_attributes' => $extraAttributes,
@@ -124,7 +121,6 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 'slot_name' => $slotName,
                 'type' => $block['Block']['Type'],
                 'content' => $content,
-                'internal_javascript' => $internalJavascript,
                 'edit_inline' => $block['EditInline'],
             ));
         } catch (\Exception $ex) {

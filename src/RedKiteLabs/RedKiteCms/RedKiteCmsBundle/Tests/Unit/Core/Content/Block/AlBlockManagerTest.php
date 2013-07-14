@@ -144,11 +144,6 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->assertFalse($this->blockManager->getReloadSuggested());
     }
 
-    public function testExecuteInternalJavascript()
-    {
-        $this->assertTrue($this->blockManager->getExecuteInternalJavascript());
-    }
-
     public function testGetHideInEditMode()
     {
         $this->assertFalse($this->blockManager->getHideInEditMode());
@@ -165,42 +160,6 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->blockManager->set($block);       
         $blockManagerArray = $this->blockManager->toArray();
         $this->assertEquals($this->blockManager->getHtml(), $blockManagerArray['Content']);
-    }
-
-    public function testInternalJavascriptIsEmptyWhenBlockIsNull()
-    {   
-        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
-        $blockManager->set(null);
-        $this->assertEmpty($blockManager->getInternalJavascript());
-    }
-
-    public function testGetInternalJavascriptSafeMode()
-    {        
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->once())
-            ->method('getInternalJavascript')
-            ->will($this->returnValue('a great javascript'));
-        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
-        $blockManager->set($block);
-        $expectedJavascript = 'try {' . PHP_EOL;
-        $expectedJavascript .= 'a great javascript' . PHP_EOL;
-        $expectedJavascript .= '} catch (e) {' . PHP_EOL;
-        $expectedJavascript .= 'alert(\'The javascript added to the slot  has been generated an error, which reports: \' + e);' . PHP_EOL;
-        $expectedJavascript .= '}' . PHP_EOL;
-        $this->assertEquals($expectedJavascript, $blockManager->getInternalJavascript());
-    }
-
-    public function testGetInternalJavascriptUnsafeMode()
-    {        
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-
-        $block->expects($this->once())
-            ->method('getInternalJavascript')
-            ->will($this->returnValue('a great javascript'));
-        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
-        $blockManager->set($block);
-        $this->assertEquals('a great javascript', $blockManager->getInternalJavascript(false));
     }
 
     /**
@@ -943,10 +902,6 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->assertTrue(array_key_exists('HideInEditMode', $array));
         $this->assertTrue(array_key_exists('Content', $array));
-        $this->assertTrue(array_key_exists('ExternalJavascript', $array));
-        $this->assertTrue(array_key_exists('InternalJavascript', $array));
-        $this->assertTrue(array_key_exists('ExternalStylesheet', $array));
-        $this->assertTrue(array_key_exists('InternalStylesheet', $array));
         $this->assertTrue(array_key_exists('Block', $array));   
 
         $this->assertTrue(is_array($array['Content']));
