@@ -18,7 +18,6 @@
 namespace AlphaLemon\Block\MenuBundle\Tests\Unit\Core\Block;
 
 use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu;
 
 /**
  * BaseBlockManagerMenu
