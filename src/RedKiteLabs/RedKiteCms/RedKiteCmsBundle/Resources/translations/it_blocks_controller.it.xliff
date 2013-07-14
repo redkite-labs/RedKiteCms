@@ -92,7 +92,7 @@
         </trans-unit>
         <trans-unit id="23">
             <source>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</source>
-            <target>Stai tentando di gestire un blocco su uno slot che non esiste più sulla pagnia, oppure il nome dello slot è vuoto</target>
+            <target>Stai tentando di gestire un blocco su uno slot che non esiste più sulla pagina, oppure il nome dello slot è vuoto</target>
         </trans-unit>
     </body>
     </file>
