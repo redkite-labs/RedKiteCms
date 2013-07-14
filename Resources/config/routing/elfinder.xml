@@ -8,14 +8,4 @@
         <default key="_controller">AlphaLemonCmsBundle:AlCmsElFinder:connectMedia</default>
         <default key="_locale">en</default>
     </route>
-
-    <route id="_css_connect" pattern="/backend/{_locale}/al_elFinderStylesheetsConnect">
-        <default key="_controller">AlphaLemonCmsBundle:AlCmsElFinder:connectStylesheets</default>
-        <default key="_locale">en</default>
-    </route>
-
-    <route id="_js_connect" pattern="/backend/{_locale}/al_elFinderJavascriptsConnect">
-        <default key="_controller">AlphaLemonCmsBundle:AlCmsElFinder:connectJavascripts</default>
-        <default key="_locale">en</default>
-    </route>
 </routes>

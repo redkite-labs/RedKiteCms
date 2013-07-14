@@ -1,13 +1,12 @@
-{% block editor %}
+{% include "AlphaLemonCmsBundle:Item:_languages_support.html.twig" %}
+
+{% block editor %} 
 <form id="al_item_form">
     <table>
         {% include "AlphaLemonCmsBundle:Item:_form_renderer.html.twig" %}
         {% block commands %}
         <tr>
             <td colspan="2" style="text-align: right">
-                {% if cms_language is not defined %}
-                {% set cms_language = app.request.get('_locale') %}
-                {% endif %}
                 <a class="al_editor_save btn btn-primary" href="#" >{{ 'Save'|trans({}, cms_language ~ '_common', cms_language) }}</a>
             </td>
         </tr>

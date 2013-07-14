@@ -166,83 +166,6 @@ var isEditorOpened = false;
         });
     };
 
-    $.fn.AddExternalFile =function(field, file)
-    {
-        this.each(function()
-        {
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/addExternalFile',
-                data: {'page' :  $('#al_pages_navigator').html(),
-                       'language' : $('#al_languages_navigator').html(),
-                       'pageId' :  $('#al_pages_navigator').attr('rel'),
-                       'languageId' : $('#al_languages_navigator').attr('rel'),
-                       'idBlock' : $('body').data('idBlock'),
-                       'slotName' : $('body').data("slotName"),
-                       'field'       : field,
-                       'file'     : file},
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(response)
-                {
-                    updateContentsJSon(response);
-                },
-                error: function(err)
-                {
-                    $('body').showAlert(err.responseText, 0, 'alert-error');
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
-
-            return false;
-        });
-    };
-
-    $.fn.RemoveExternalFile =function(field)
-    {
-        this.each(function()
-        {
-            $(this).click(function()
-            {
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/removeExternalFile',
-                    data: {'page' :  $('#al_pages_navigator').html(),
-                           'language' : $('#al_languages_navigator').html(),
-                           'pageId' :  $('#al_pages_navigator').attr('rel'),
-                           'languageId' : $('#al_languages_navigator').attr('rel'),
-                           'idBlock'  : $('body').data('idBlock'),
-                           'slotName'  : $('body').data('slotName'),
-                           'field'    : field,
-                           'file'     : $('.al_selected_item').attr('rel')},
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(response)
-                    {
-                        updateContentsJSon(response);
-                    },
-                    error: function(err)
-                    {
-                        $('body').showAlert(err.responseText, 0, 'alert-error');
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
-
-                return false;
-            });
-        });
-    };
-
     $.fn.Delete =function()
     {
         this.each(function()
@@ -375,10 +298,13 @@ function updateContentsJSon(response, editorWidth)
                 
                 break;
             case "externalAssets":
-                $('.al_' + item.section  + '_list').html(item.value);
+                $('.al_' + item.section  + '_list').html(item.value); console.log('[data-name="' + item.blockName + '"]', item.blockContent);
+                $('[data-name="' + item.blockName + '"]').replaceWith(item.blockContent);
+                
                 break;
             case "editorContents":
                 $('.editor_contents').html(item.value);
+                
                 break;
         }
     });
