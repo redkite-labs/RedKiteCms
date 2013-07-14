@@ -103,7 +103,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
 
         $block = $this->initBlock($value);
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('image.form')
                         ->will($this->returnValue($formType))
@@ -122,7 +122,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
                     ->will($this->returnValue($form))
         ;
         
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(5))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
@@ -144,6 +144,14 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
             ->method('get')
             ->with('alpha_lemon_cms.translator')
             ->will($this->returnValue($this->translator))
+        ;
+        
+        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->container
+            ->expects($this->at(3))
+            ->method('get')
+            ->with('alpha_lemon_cms.configuration')
+            ->will($this->returnValue($this->configuration))
         ;
     }
 
