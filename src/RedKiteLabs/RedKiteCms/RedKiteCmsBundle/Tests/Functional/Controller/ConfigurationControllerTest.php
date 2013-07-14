@@ -55,7 +55,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
         self::populateDb();
     }
 
-        /**
+    /**
      * @dataProvider languagesProvider
      */
     public function testChangeLanguage($params, $currentLanguage, $newLanguage, $statusCode, $message)
@@ -92,7 +92,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
                 'en',
                 'it',
                 200,
-                'La lingua del CMS',
+                'CMS language has been changed. Please wait while your site is reloading',
             ),
             array(
                 array(
