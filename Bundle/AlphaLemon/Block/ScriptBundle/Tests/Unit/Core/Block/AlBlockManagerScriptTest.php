@@ -48,8 +48,6 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
             
         $expectedValue = array(
             'Content' => $message,
-            'InternalJavascript' => '',
-            'ExternalJavascript' => ''
         );
         $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
     }
