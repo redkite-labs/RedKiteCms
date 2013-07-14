@@ -1,4 +1,16 @@
 1.1.RC4
+b2235c9 added a control to disallow add a space character when adding an internal symfony2 route to a link block
+2225471 used tinyMCE editor instead of CKEditor
+9ed3207 removed external assets management
+cda8537 removed internal and external javascripts and stylesheets management from AlBlockManager
+b18f444 PageTree sets merged assets back to the Template
+9f14795 Script bundle did too much, so it has been semplified and now just only a script can be added
+cc4138e added default value to AlBlockManagerInlineTextBlockTest
+a7ee033 moved elfinder instantation from server side to client side; revisited some messages; updated tests
+36d9eea fixed 'messages' catalog management
+51860e4 improved blocks management: it is no more required to close the active block editor to edit another block
+5692932 added elfinder vendor files to AlphaLemon CMS and removed the url scheme from elfinder url
+4417627 refactored z-indexes elements using sass variables
 64fc015 fixed file href when file is not opened
 91303ec fixed improper editor closing when clicking on an editor included element
 aa45317 deprecated the function to remove a single page attribute
