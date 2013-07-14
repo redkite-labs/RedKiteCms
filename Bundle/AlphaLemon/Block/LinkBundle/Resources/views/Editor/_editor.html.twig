@@ -3,10 +3,20 @@
 {% form_theme form 'AlphaLemonCmsBundle:Item:_form_label.html.twig'  %}
 
 {% block content %}
-{% set translation_domain = cms_language ~ '_bundles' %}
 <form id="al_item_form">
     <table>
-        {% include "AlphaLemonCmsBundle:Item:_form_renderer.html.twig" %}
+        <tr>
+            <td>{{ form_label(form.href, "Href", {'cms_language': cms_language}) }}</td>
+            <td class="al_pages_selector"></td>
+            <td>{{ form_errors(form.href) }} {{ form_widget(form.href) }} </td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form.value, "Displayed value", {'cms_language' : cms_language}) }}</td>
+            <td colspan="2">                
+                {{ form_errors(form.value) }} {{ form_widget(form.value) }}
+            </td>
+        </tr>
+        {{ form_rest(form) }}
         <tr>
             <td colspan="3" style="text-align: right">
                 <a class="al_editor_save btn btn-primary" href="#" >{{ 'Save'|trans({}, cms_language ~ '_common', cms_language) }}</a>

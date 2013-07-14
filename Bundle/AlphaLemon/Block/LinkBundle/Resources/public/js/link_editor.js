@@ -15,7 +15,7 @@ $(document).ready(function() {
             .show()
         ;
         
-        $('#al_json_block_value').keydown(function(event){
+        $('#al_json_block_href').keydown(function(event){
             var $this = $(this);
             if ($this.val().match(/route:/g)) {
                 if (event.which == 32) {
