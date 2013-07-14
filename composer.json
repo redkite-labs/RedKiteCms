@@ -41,7 +41,7 @@
     "jms/security-extra-bundle": "1.2.*",
     "jms/di-extra-bundle": "1.1.*",
     "kriswallsmith/assetic": "1.1.*@dev",
-    "alphalemon/app-ckeditor-block-bundle": "dev-master",
+    "alphalemon/app-tinymce-block-bundle": "dev-master",
     "alphalemon/bootbusiness-theme-bundle": "dev-master",
     "alphalemon/app-sunshine-theme-bundle": "dev-master",
     "willdurand/propel-typehintable-behavior": "dev-master",  
