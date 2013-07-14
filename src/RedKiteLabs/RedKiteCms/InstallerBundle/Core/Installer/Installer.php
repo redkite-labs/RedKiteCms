@@ -138,10 +138,12 @@ class Installer {
         if(strpos($contents, '$configFolder = __DIR__ . \'/config/bundles/config\';') === false)
         {
             $cmsBundles = "\n        \$configFolder = __DIR__ . '/config/bundles/config/' . \$this->getEnvironment();\n";
-            $cmsBundles .= "        \$finder = new \Symfony\Component\Finder\Finder();\n";
-            $cmsBundles .= "        \$configFiles = \$finder->depth(0)->name('*.yml')->in(\$configFolder);\n";
-            $cmsBundles .= "        foreach (\$configFiles as \$config) {\n";
-            $cmsBundles .= "            \$loader->load((string)\$config);\n";
+            $cmsBundles .= "        if (is_dir(\$configFolder)) {\n";
+            $cmsBundles .= "            \$finder = new \Symfony\Component\Finder\Finder();\n";
+            $cmsBundles .= "            \$configFiles = \$finder->depth(0)->name('*.yml')->in(\$configFolder);\n";
+            $cmsBundles .= "            foreach (\$configFiles as \$config) {\n";
+            $cmsBundles .= "                \$loader->load((string)\$config);\n";
+            $cmsBundles .= "            };\n";
             $cmsBundles .= "        };\n\n";
             $cmsBundles .= "        \$loader->load(__DIR__.'/config/config_'.\$this->getEnvironment().'.yml');";
 
