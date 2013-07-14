@@ -15,6 +15,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorI
 class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
 {
     protected $translator;
+    protected $configuration;
     protected $cmsLanguage;
     protected $blockTemplate = 'ImageBundle:Image:image.html.twig';  
     protected $editorTemplate = 'ImageBundle:Editor:_editor.html.twig';
@@ -24,6 +25,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
         parent::__construct($container, $validator);
         
         $this->translator = $this->container->get('alpha_lemon_cms.translator');
+        $this->configuration = $this->container->get('alpha_lemon_cms.configuration');
     }
     
     public function getDefaultValue()
@@ -68,6 +70,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
             "template" => $this->editorTemplate,
             "title" => $this->translator->translate("Image editor"),
             "form" => $form->createView(),
+            "configuration" => $this->configuration,
         );
     }
 }
