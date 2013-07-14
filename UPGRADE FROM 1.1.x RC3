@@ -64,3 +64,38 @@ Upgrade from AlphaLemon CMS Beta4 or older
 If you need to upgrade from an AlphaLemon CMS 1.1.x Beta4 version, you must upgrade to
 AlphaLemon CMS RC3 and do all the required upgrades. After that you will be able to 
 upgrade to AlphaLemon CMS RC4, as explained in this documentation.
+
+AppKernel bug fix
+-----------------
+
+Open the app/AppKernel.php file and change the following code:
+
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $configFolder = __DIR__ . '/config/bundles/config/' . $this->getEnvironment();
+        $finder = new \Symfony\Component\Finder\Finder();
+        $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
+        foreach ($configFiles as $config) {
+            $loader->load((string)$config);
+        };
+        
+        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+    }
+
+as follows
+
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $configFolder = __DIR__ . '/config/bundles/config/' . $this->getEnvironment();
+        if (is_dir($configFolder)) {
+            $finder = new \Symfony\Component\Finder\Finder();
+            $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
+            foreach ($configFiles as $config) {
+                $loader->load((string)$config);
+            };
+        }
+        
+        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+    }
+
+This prevents an exception thrown when you add or remove a Block / Theme.
