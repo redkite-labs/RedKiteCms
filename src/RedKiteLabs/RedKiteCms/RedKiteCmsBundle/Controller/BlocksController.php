@@ -151,7 +151,9 @@ class BlocksController extends Base\BaseController
                 array("key" => "message", "value" => "The content has been successfully edited"),
                 array("key" => "edit-block",
                       "blockName" => "block_" . $blockManager->get()->getId(),
-                      "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager))));
+                      "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager)),
+                ),
+            );
 
             $response = $this->buildJSonResponse($values);
         }
@@ -215,116 +217,8 @@ class BlocksController extends Base\BaseController
         } catch (\Exception $e) {
             return $this->renderDialogMessage($e->getMessage());
         }
-    }
-
-    public function addExternalFileAction()
-    {
-        $request = $this->container->get('request');
-
-        $file = urldecode($request->get('file'));
-        if (null === $file || $file == '') {
-            throw new InvalidArgumentException($this->container->get('alpha_lemon_cms.translator')->translate("External file cannot be added because any file has been given", array(), 'blocks_controller'));
-        }
-
-        $field = urldecode($request->get('field'));
-        if (null === $field || $field == '') {
-            throw new InvalidArgumentException($this->container->get('alpha_lemon_cms.translator')->translate("External file cannot be added because you have not provided any valid field name", array(), 'blocks_controller'));
-        }
-
-        $slotManager = $this->fetchSlotManager($request);
-        $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
-        if (null !== $blockManager) {
-            $file = preg_replace('/^[\w]+\//', '', $file);
-            $field = $request->get('field');
-            $values = array($field => $file);
-            $alBlock = $blockManager->get();
-
-            $files = array();
-            $externalFiles =  $alBlock->{'get' . $field}();
-            if (!empty($externalFiles)) {
-                $externalFiles = explode(',', $externalFiles);
-                if (in_array($file, $externalFiles)) {
-                    throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate("You have already assigned this file to the block", array(), 'blocks_controller'));
-                }
-                $files = $externalFiles;
-            }
-            $files[] = $file;
-            $values[$field] = implode(',', $files);
-
-            $res = $slotManager->editBlock($request->get('idBlock'), $values);
-            if ($res) {
-                $section = $this->getSectionFromKeyParam();
-                $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $file, "files" => $files, 'section' => $section));
-
-                return $this->buildJSonResponse(
-                    array(
-                        array("key" => "message", "value" => "The file has been successfully added"),
-                        array("key" => "externalAssets", "value" => $template, "section" => $section)
-                    )
-                );
-            } 
-            
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate("The external file reference has not been added to this block because an unespected error has occoured when saving", array(), 'blocks_controller'));
-            // @codeCoverageIgnoreEnd
-        }
-        
-        throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate("You are trying to add an external file on a block that does not exist anymore", array(), 'blocks_controller'));         
-    }
-
-    public function removeExternalFileAction()
-    {
-        $request = $this->container->get('request');
-
-        $file = urldecode($request->get('file'));
-        if (null === $file || $file == '') {
-            throw new InvalidArgumentException($this->container->get('alpha_lemon_cms.translator')->translate("External file cannot be removed because any file has been given", array(), 'blocks_controller'));
-        }
-
-        $field = urldecode($request->get('field'));
-        if (null === $field || $field == '') {
-            throw new InvalidArgumentException($this->container->get('alpha_lemon_cms.translator')->translate("External file cannot be removed because you have not provided any valid field name", array(), 'blocks_controller'));
-        }
-
-        $slotManager = $this->fetchSlotManager($request);
-        $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
-        if (null !== $blockManager) {
-            $field = $request->get('field');
-            $externalFiles =  $blockManager->get()->{'get' . $field}();
-            
-            $filePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
-            $file = $filePath . $file;
-            @unlink($file);
-
-            if (!empty($externalFiles)) {
-                $files = array_flip(explode(",", $externalFiles));
-                if (array_key_exists($request->get('file'), $files)) {
-                    unset($files[$request->get('file')]);
-                    $files = array_flip($files);
-                    $value = implode(",", $files);
-
-                    $values = array($field => $value);
-                    $result = $slotManager->editBlock($request->get('idBlock'), $values);
-                    if ($result) {
-                        $section = $this->getSectionFromKeyParam();
-                        $template = $this->container->get('templating')->render('AlphaLemonCmsBundle:Block:external_files_renderer.html.twig', array("value" => $value, "files" => $files, 'section' => $section));
-
-                        return $this->buildJSonResponse(array("key" => "externalAssets", "value" => $template, 'section' => $section));
-                    }
-                    
-                    // @codeCoverageIgnoreStart
-                    throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate("The external file reference has not been removed from this block because an unespected error has occoured when saving", array(), 'blocks_controller'));
-                    // @codeCoverageIgnoreEnd
-                }
-            }
-
-            return $this->buildJSonResponse(array("key" => "message", "value" => "The file has been removed"));
-            
-        }
-        
-        throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate("You are trying to delete an external file from a block that does not exist anymore", array(), 'blocks_controller'));
-    }
-
+    } 
+    
     protected function buildJSonResponse($values)
     {
         $response = new Response(json_encode($values));

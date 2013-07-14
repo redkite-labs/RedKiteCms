@@ -39,30 +39,6 @@ class AlCmsElFinderControllerTest extends TestCase
         $controller->connectMediaAction();
     }
 
-    public function testConnectStylesheetsAction()
-    {
-        $container = $this->initContainer(
-            'el_finder_css_connector',
-            'AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector'
-        );
-
-        $controller = new AlCmsElFinderController();
-        $controller->setContainer($container);
-        $controller->connectStylesheetsAction();
-    }
-
-    public function testConnectJavascriptsAction()
-    {
-        $container = $this->initContainer(
-            'el_finder_js_connector',
-            'AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector'
-        );
-
-        $controller = new AlCmsElFinderController();
-        $controller->setContainer($container);
-        $controller->connectJavascriptsAction();
-    }
-
     protected function initContainer($connectorName, $connectorClass)
     {
         $connector = $this->getMockBuilder($connectorClass)

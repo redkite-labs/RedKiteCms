@@ -38,7 +38,7 @@ class AlCmsController extends BaseFrontendController
     public function showAction()
     {
         $request = $this->container->get('request');
-        
+     
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;

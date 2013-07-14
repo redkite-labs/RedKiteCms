@@ -38,16 +38,6 @@ class AlCmsElFinderController extends ContainerAware
         $this->connect('el_finder_media_connector');
     }
 
-    public function connectStylesheetsAction()
-    {
-        $this->connect('el_finder_css_connector');
-    }
-
-    public function connectJavascriptsAction()
-    {
-        $this->connect('el_finder_js_connector');
-    }
-
     protected function connect($service)
     {
         $connector = $this->container->get($service);
