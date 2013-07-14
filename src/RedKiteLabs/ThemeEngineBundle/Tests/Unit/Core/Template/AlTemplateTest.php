@@ -155,6 +155,20 @@ class AlTemplateTest extends TestCase
         $this->assertCount(2, $this->template->getExternalJavascripts());
     }
     
+    public function testSetAssetsCollection()
+    {
+        $this->initAssets();
+        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);      
+        $this->assertCount(0, $this->template->getExternalJavascripts());        
+        
+        $assetsCollection = clone($this->template->getExternalJavascripts());
+        $assetsCollection->add('temp.js');
+        $this->assertCount(0, $this->template->getExternalJavascripts());      
+        
+        $this->template->setExternalJavascripts($assetsCollection);
+        $this->assertCount(1, $this->template->getExternalJavascripts());
+    }
+    
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Call to undefined method: getExternalImages
@@ -166,7 +180,7 @@ class AlTemplateTest extends TestCase
         $this->template->getExternalImages();
     }
 
-    private function initTemplateWithSomeAssets() //($themeName, $templateName)
+    private function initTemplateWithSomeAssets()
     {
         $this->initAssets(
                 array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css'),

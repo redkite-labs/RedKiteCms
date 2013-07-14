@@ -34,6 +34,12 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  * @method     AlTemplate addInternalStylesheets() Returns the internal stylesheets
  * @method     AlTemplate getExternalJavascripts() Returns the external javascripts
  * @method     AlTemplate getInternalJavascripts() Returns the internal javascripts
+ * @method     AlTemplate getExternalStylesheets() Returns the external javascripts
+ * @method     AlTemplate getInternalStylesheets() Returns the internal javascripts
+ * @method     AlTemplate setExternalJavascripts() Returns the external javascripts
+ * @method     AlTemplate setInternalJavascripts() Returns the internal javascripts
+ * @method     AlTemplate setExternalStylesheets() Returns the external javascripts
+ * @method     AlTemplate setInternalStylesheets() Returns the internal javascripts
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
@@ -204,9 +210,24 @@ class AlTemplate
         {
             return $this->getAssets(strtolower($matches[3]), strtolower($matches[2]));
         }
+        
+        if(preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
+        { 
+            $a = strtolower($matches[2]);
+            $b = strtolower($matches[3]);
+            $this->assets->$b->$a = $params[0];
+            
+            return;
+        }
 
         throw new \RuntimeException('Call to undefined method: ' . $name);
     }
+    
+    /*
+    public function setAC($x)
+    {
+        $this->assets->javascripts->external = $x;
+    }*/
 
     private function addAssetsRange($assetType, $type, array $assets)
     {
