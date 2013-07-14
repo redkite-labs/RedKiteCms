@@ -207,7 +207,11 @@ class AlPageTree extends BaseAlPageTree
      */
     public function getTemplate()
     {
-        return (null !== $this->templateManager) ? $this->templateManager->getTemplate() : $this->template;
+        if (null !== $this->templateManager) {
+            return $this->templateManager->getTemplate();
+        }
+        
+        return $this->template;
     }
 
     /**
@@ -331,12 +335,14 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
-     * {@ inheritdoc}
+     * {@inheritdoc}
      */
     protected function mergeAssets($method, $assetType, $type)
     {
         $template = $this->getTemplate();
-        if(null === $template) return array();
+        if (null === $template) {
+            return array();
+        }
 
         $assetsCollection = $template->$method();
         if (null !== $assetsCollection) {
@@ -409,7 +415,14 @@ class AlPageTree extends BaseAlPageTree
                     }
                 }
             }
-
+            
+            // Sets back the collection to the Template
+            $method = 's' . substr($method, 1);
+            if (substr($method, -1) != 's') {
+                $method .= 's';
+            }
+            $template->$method($assetsCollection);
+            
             return $assetsCollection;
         }
     }
