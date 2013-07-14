@@ -27,6 +27,8 @@ class AlLinkType extends JsonBlockType
         parent::buildForm($builder, $options);
         
         $builder->add('href');
-        $builder->add('value', null, array('label' => 'Displayed value'));
+        $builder->add('value', null, array(
+            'label' => 'Displayed value',
+        ));
     }
 }

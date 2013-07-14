@@ -12,8 +12,20 @@ $(document).ready(function() {
                 return false;
             })
             .appendTo('.al_pages_selector')
-            .show();
+            .show()
         ;
+        
+        $('#al_json_block_value').keydown(function(event){
+            var $this = $(this);
+            if ($this.val().match(/route:/g)) {
+                if (event.which == 32) {
+                    alert(translate('A space character is not accepted, when adding an internal route'));
+                    
+                    return false;
+                }
+            }
+            
+        });
     });
     
     $(document).on("blockStopEditing", function(event, element){
@@ -22,5 +34,7 @@ $(document).ready(function() {
             .val(0)
             .hide()
         ;
+        
+        $('#al_json_block_value').unbind();
     });
 });

@@ -15,6 +15,7 @@ var lang = {
     'Are you sure you want to remove the user' : 'Sei sicuro di voler rimuovere questo utente',
     'Are you sure you want to remove the role' : 'Sei sicuro di voler rimuovere questo ruolo',
     'WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?' : 'ATTENZIONE: questo comando distruggerà tutti i dati salvati ed inizierà un nuovo sito da zero: sei sicuro di voler continuare?',
-    'You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot': 'Stai tentando di modificare un segnaposto che indica che lo slot non contiene blocchi: aggiungi un nuovo blocco allo slot invece di modificare il segnaposto'
+    'You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot': 'Stai tentando di modificare un segnaposto che indica che lo slot non contiene blocchi: aggiungi un nuovo blocco allo slot invece di modificare il segnaposto',
+    'A space character is not accepted, when adding an internal route' : 'Lo spazio non è accettato quando inserisci una route interna'
 };
 
