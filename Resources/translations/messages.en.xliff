@@ -43,8 +43,8 @@
             <target>Displayed value</target>
         </trans-unit>        
         <trans-unit id="11">
-            <source>Navigation languages menu editor</source>
-            <target>Navigation languages menu editor</target>
+            <source>Navigation languages menu</source>
+            <target>Navigation languages menu</target>
         </trans-unit>         
         <trans-unit id="12">
             <source>Flags</source>
