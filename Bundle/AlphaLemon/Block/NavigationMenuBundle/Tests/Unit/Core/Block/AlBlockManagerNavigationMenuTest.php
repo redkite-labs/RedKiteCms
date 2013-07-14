@@ -103,6 +103,18 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->method('getParameter')
             ->with('alpha_lemon_cms.flags_folder')
             ->will($this->returnValue('@NavigationMenuBundle'));
+        
+        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->container->expects($this->at(5))
+            ->method('get')
+            ->with('alpha_lemon_cms.translator')
+            ->will($this->returnValue($this->translator));
+        
+        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->container->expects($this->at(6))
+            ->method('get')
+            ->with('alpha_lemon_cms.configuration')
+            ->will($this->returnValue($this->configuration));
     }
 
     /**
@@ -161,7 +173,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
                     ->will($this->returnValue($this->initForm()))
         ;
                 
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(7))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
@@ -343,7 +355,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->method('getAlPage')
             ->will($this->returnValue($page));
         
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(7))
             ->method('get')
             ->with('alpha_lemon_cms.page_tree')
             ->will($this->returnValue($pageTree));

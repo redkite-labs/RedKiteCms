@@ -37,6 +37,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
     private $urlManager = null;
     private $kernel = null;
     private $flagsAsset;
+    private $translator;
 
     /**
      * Constructor
@@ -53,6 +54,8 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
         $this->kernel = $this->container->get('kernel');
         $flagsFolder = $this->container->getParameter('alpha_lemon_cms.flags_folder');
         $this->flagsAsset = new AlAsset($this->kernel, $flagsFolder); 
+        $this->translator = $this->container->get('alpha_lemon_cms.translator');
+        $this->configuration = $this->container->get('alpha_lemon_cms.configuration');
     }
 
     /**
@@ -83,8 +86,9 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
 
         return array(
             "template" => 'NavigationMenuBundle:Editor:editor.html.twig',
-            "title" => "Navigation languages menu",
+            "title" => $this->translator->translate("Navigation languages menu"),
             "form" => $form->createView(),
+            "configuration" => $this->configuration,
         );
     }
 
