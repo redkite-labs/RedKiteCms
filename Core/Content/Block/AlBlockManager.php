@@ -28,6 +28,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryIn
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+
 /**
  * AlBlockManager is the base object that wraps an AlBlock object and implements an
  * AlphaLemonCMS Block object
@@ -258,21 +259,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * When true, attaches the internal javascript code to html when the editor is active
-     *
-     * Return false to avoid AlphaLemon add the internal javascript code to html when the content is displayed on the
-     * web page
-     *
-     * @return boolean
-     *
-     * @api
-     */
-    public function getExecuteInternalJavascript()
-    {
-        return true;
-    }
-
-    /**
      * Returns the block's html content or an array which contains the view to be
      * rendered with its options
      *
@@ -313,85 +299,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getContentForEditor()
     {
         return $this->getHtml();
-    }
-
-    /**
-     * Returns the current saved ExternalJavascript value as array
-     *
-     * @return array
-     *
-     * @api
-     */
-    public function getExternalJavascript()
-    {
-        if (null !== $this->alBlock) {
-            $javascripts = trim($this->alBlock->getExternalJavascript());
-        }
-
-        return ($javascripts != "") ? explode(',', $javascripts) : array();
-    }
-
-    /**
-     * Returns the current saved ExternalStylesheet value as array
-     *
-     * @return array
-     *
-     * @api
-     */
-    public function getExternalStylesheet()
-    {
-        if (null !== $this->alBlock) {
-            $stylesheets = trim($this->alBlock->getExternalStylesheet());
-        }
-
-        return ($stylesheets != "") ? explode(',', $stylesheets) : array();
-    }
-
-    /**
-     * Returns the current saved InternalJavascript.
-     *
-     * By default the values is encapsulated into a try/catch block to avoid breaking the execution.
-     * To get only the internal javascript, call the method with the safe argument as false
-     *
-     * @param boolean
-     * @return string
-     *
-     * @api
-     */
-    public function getInternalJavascript($safe = true)
-    {
-        $internalJavascript = '';
-        if (null === $this->alBlock) {
-            return $internalJavascript;
-        }
-
-        $savedJavascript = $this->alBlock->getInternalJavascript();
-        if (null !== $this->alBlock && trim($savedJavascript) != '') {
-            $internalJavascript = $savedJavascript;
-            if ($safe) {
-                $safeInternalJavascript = "try {\n";
-                $safeInternalJavascript .= $savedJavascript;
-                $safeInternalJavascript .= "\n} catch (e) {\n";
-                $safeInternalJavascript .= sprintf("alert('The javascript added to the slot %s has been generated an error, which reports: ' + e);\n", $this->alBlock->getSlotName());
-                $safeInternalJavascript .= "}\n";
-
-                return $safeInternalJavascript;
-            }
-        }
-
-        return $internalJavascript;
-    }
-
-    /**
-     * Returns the current saved InternalStylesheet
-     *
-     * @return string
-     *
-     * @api
-     */
-    public function getInternalStylesheet()
-    {
-        return (null !== $this->alBlock) ? $this->alBlock->getInternalStylesheet() : "";
     }
 
     /**
@@ -484,16 +391,83 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
 
         $blockManager = array();
         $blockManager["HideInEditMode"] = $this->getHideInEditMode();
-        $blockManager["ExecuteInternalJavascript"] = $this->getExecuteInternalJavascript();
         $blockManager["Content"] = $content;
-        $blockManager["ExternalJavascript"] = $this->getExternalJavascript();
-        $blockManager["InternalJavascript"] = $this->getInternalJavascript();
-        $blockManager["ExternalStylesheet"] = $this->getExternalStylesheet();
-        $blockManager["InternalStylesheet"] = $this->getInternalStylesheet();
         $blockManager["EditInline"] = $this->editInline();
         $blockManager["Block"] = $this->alBlock->toArray();
 
         return $blockManager;
+    }
+    
+    /**
+     * When true, attaches the internal javascript code to html when the editor is active
+     *
+     * Return false to avoid AlphaLemon add the internal javascript code to html when the content is displayed on the
+     * web page
+     *
+     * @return boolean
+     *
+     * @deprecated
+     * @codeCoverageIgnore
+     */
+    public function getExecuteInternalJavascript()
+    {
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getExecuteInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
+    }
+    
+    /**
+     * Returns the current saved ExternalJavascript value as array
+     *
+     * @return array
+     *
+     * @deprecated
+     * @codeCoverageIgnore
+     */
+    public function getExternalJavascript()
+    {
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getExternalJavascript has been deprecated. You can implement a new App Block to do the same things");
+    }
+
+    /**
+     * Returns the current saved ExternalStylesheet value as array
+     *
+     * @return array
+     *
+     * @deprecated
+     * @codeCoverageIgnore
+     */
+    public function getExternalStylesheet()
+    {
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getExternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
+    }
+
+    /**
+     * Returns the current saved InternalJavascript.
+     *
+     * By default the values is encapsulated into a try/catch block to avoid breaking the execution.
+     * To get only the internal javascript, call the method with the safe argument as false
+     *
+     * @param boolean
+     * @return string
+     *
+     * @deprecated
+     * @codeCoverageIgnore
+     */
+    public function getInternalJavascript($safe = true)
+    {
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
+    }
+
+    /**
+     * Returns the current saved InternalStylesheet
+     *
+     * @return string
+     *
+     * @deprecated
+     * @codeCoverageIgnore
+     */
+    public function getInternalStylesheet()
+    {
+        throw new AlphaLemonDeprecatedException("AlBlockManager->getInternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
     }
 
     /**
