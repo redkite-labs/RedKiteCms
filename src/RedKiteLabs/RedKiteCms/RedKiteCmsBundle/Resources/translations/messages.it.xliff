@@ -20,11 +20,11 @@
         </trans-unit>     
         <trans-unit id="5">
             <source>Sample title</source>
-            <target>Title attributo d'esempio</target>
+            <target>Attributo Title d'esempio</target>
         </trans-unit>      
         <trans-unit id="6">
             <source>Sample alt</source>
-            <target>Alt attributo d'esempio</target>
+            <target>Attributo Alt d'esempio</target>
         </trans-unit>      
         <trans-unit id="7">
             <source>Image editor</source>
@@ -43,8 +43,8 @@
             <target>Valore mostrato</target>
         </trans-unit>          
         <trans-unit id="11">
-            <source>Navigation languages menu editor</source>
-            <target>Editor del menu delle lingue</target>
+            <source>Navigation languages menu</source>
+            <target>Menu di navigazione delle lingue</target>
         </trans-unit>           
         <trans-unit id="12">
             <source>Flags</source>
