@@ -55,7 +55,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->blockManager = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
+        $this->blockManager = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
                                 ->disableOriginalConstructor()
                                 ->getMock();
         $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')

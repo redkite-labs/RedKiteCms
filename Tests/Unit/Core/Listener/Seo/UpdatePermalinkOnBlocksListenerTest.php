@@ -51,7 +51,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->blockManager = $this->getMockBuilder('AlphaLemon\Block\CKEditorBlockBundle\Core\Block\AlBlockManagerCKEditorBlock')
+        $this->blockManager = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
                                 ->disableOriginalConstructor()
                                 ->getMock();
 
