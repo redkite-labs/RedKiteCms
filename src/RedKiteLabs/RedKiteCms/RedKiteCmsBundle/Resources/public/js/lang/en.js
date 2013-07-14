@@ -15,6 +15,7 @@ var lang = {
     'Are you sure you want to remove the user' : 'Are you sure you want to remove the user',
     'Are you sure you want to remove the role' : 'Are you sure you want to remove the role',
     'WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?' : 'WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?',
-    'You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot': 'You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot'
+    'You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot': 'You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot',
+    'A space character is not accepted, when adding an internal route' : 'A space character is not accepted, when adding an internal route'
 };
 
