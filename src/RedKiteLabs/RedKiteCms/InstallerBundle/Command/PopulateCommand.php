@@ -77,6 +77,7 @@ class PopulateCommand extends ContainerAwareCommand
             'SET FOREIGN_KEY_CHECKS=1;',
             'INSERT INTO al_language (language_name) VALUES(\'-\');',
             'INSERT INTO al_page (page_name) VALUES(\'-\');',
+            'INSERT INTO al_configuration VALUES("language", "en");',
         );
 
         foreach($queries as $query)
@@ -107,9 +108,10 @@ class PopulateCommand extends ContainerAwareCommand
         $user->setEmail('user@aserver.com');
         $user->save();
 
+        $themeName = 'BootbusinessThemeBundle';
         $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
         $themes = $this->getContainer()->get('alphalemon_theme_engine.themes');
-        $theme = $themes->getTheme('BootbusinessThemeBundle');
+        $theme = $themes->getTheme($themeName);
         $template = $theme->getTemplate('home');
 
         $pageContentsContainer = new AlPageBlocks($factoryRepository);
@@ -124,6 +126,9 @@ class PopulateCommand extends ContainerAwareCommand
                     ->setPageManager($pageManager)
                     ->setTemplateManager($templateManager)
                     ->bootstrap();
+        
+        $activeTheme = $this->getContainer()->get('alphalemon_theme_engine.active_theme');
+        $activeTheme->writeActiveTheme($themeName);
         
         if ($result) {
             $output->writeln("The site has been bootstrapped");
