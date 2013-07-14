@@ -40,9 +40,7 @@ class AlBlockManagerScript extends AlBlockManagerContainer
      */
     public function getDefaultValue()
     {
-        return array('Content' => $this->translator->translate("This is a default script content"),
-                     'InternalJavascript' => '',
-                     'ExternalJavascript' => '');
+        return array('Content' => $this->translator->translate("This is a default script content"));
     }
     
     protected function renderHtml()

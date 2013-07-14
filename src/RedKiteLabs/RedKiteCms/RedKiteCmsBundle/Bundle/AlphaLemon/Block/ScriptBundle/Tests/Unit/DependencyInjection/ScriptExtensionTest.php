@@ -40,18 +40,4 @@ class ScriptExtensionTest extends TestCase
         $extension = new ScriptExtension();
         $this->assertEquals('script', $extension->getAlias());
     }
-    
-    public function testDefaultConfiguration()
-    {
-        $extension = new ScriptExtension();
-        $extension->load(array(array()), $this->container);
-        $expectedValue = array (
-            'html_editor' => true,
-            'internal_js' => true,
-            'external_js' => true,
-            'external_css' => true,
-            'internal_css' => true,
-        );
-        $this->assertEquals($expectedValue, $this->container->getParameter('script.editor_settings'));
-    }
 }

@@ -8,15 +8,7 @@
             <parameter>@ScriptBundle/Resources/public/js/script_editor.js</parameter>
         </parameter>
         
-        <parameter key="script.block.class">AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript</parameter>
-
-        <parameter key="script.editor_settings" type="collection">
-            <parameter key="html_editor">true</parameter>
-            <parameter key="internal_js">true</parameter>
-            <parameter key="external_js">true</parameter>
-            <parameter key="external_css">true</parameter>
-            <parameter key="internal_css">true</parameter>
-        </parameter>
+        <parameter key="script.block.class">AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript</parameter>        
     </parameters>
 
     <services>
