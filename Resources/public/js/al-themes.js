@@ -14,7 +14,7 @@
  *
  */
 
-(function($){    
+;(function($){    
     var methods = {
         start: function() 
         {

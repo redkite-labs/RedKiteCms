@@ -14,7 +14,7 @@
  *
  */
 
-var isEditorOpened = false;
+;var isEditorOpened = false;
 
 (function($){
     $.fn.ToggleBodyContents =function()
@@ -298,7 +298,7 @@ function updateContentsJSon(response, editorWidth)
                 
                 break;
             case "externalAssets":
-                $('.al_' + item.section  + '_list').html(item.value); console.log('[data-name="' + item.blockName + '"]', item.blockContent);
+                $('.al_' + item.section  + '_list').html(item.value);
                 $('[data-name="' + item.blockName + '"]').replaceWith(item.blockContent);
                 
                 break;

@@ -14,7 +14,7 @@
  *
  */
 
-(function($){
+;(function($){
     $.fn.OpenPanel = function(html, callback)
     {
         if(callback == null) callback = function(){};
