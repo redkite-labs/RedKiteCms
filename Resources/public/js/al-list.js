@@ -162,6 +162,9 @@
     }
 
     $.fn.list = function( method ) {    
+        
+        alert('This plugin at the moment is not used by AlphaLemon CMS and by any other official block. It will be fixed ASAP but if you use it, please consider to fix it up: you must remove the jquery.metadata dependency as already did for imagesList plugin');
+        
         if ( methods[method] ) {
             return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
         } else if ( typeof method === 'object' || ! method ) {
