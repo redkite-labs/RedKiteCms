@@ -95,9 +95,7 @@ class Installer {
         $this->checkClass('AlphaLemonCmsBundle', 'AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle');
         $this->checkClass('ElFinderBundle', 'AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle');
         $this->checkClass('ThemeEngineBundle', 'AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle');
-        $this->checkFolder($this->vendorDir . '/../web/js/tiny_mce');
-        //$yuiCompressor = $this->vendorDir . '/../app/Resources/java/yuicompressor.jar';
-        //$this->checkFile($yuiCompressor, "\nAn error occoured. AlphaLemon CMS requires " . basename($yuiCompressor) . " installed into " . dirname($yuiCompressor) . " folder. Please install the required library then run the script again.\n");
+        
         $appKernelFile = $this->vendorDir . '/../app/AppKernel.php';
         $this->checkFile($appKernelFile);
 
