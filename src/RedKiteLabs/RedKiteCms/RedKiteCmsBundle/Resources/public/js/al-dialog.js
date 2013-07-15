@@ -14,7 +14,7 @@
  *
  */
 
-InitDialog = function(id, options)
+;InitDialog = function(id, options)
 {
     try
     {

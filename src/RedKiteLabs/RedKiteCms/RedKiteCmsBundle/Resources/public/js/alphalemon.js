@@ -14,9 +14,7 @@
  *
  */
 
-
-
-(function( $ ){    
+;(function( $ ){    
     var stopBlocksMenu = false;
     var isCursorOverEditor = false;
     

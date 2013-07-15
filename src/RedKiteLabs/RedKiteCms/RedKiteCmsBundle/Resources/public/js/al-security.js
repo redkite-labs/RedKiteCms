@@ -14,7 +14,7 @@
  *
  */
 
-(function($){
+;(function($){
     $.fn.AddUser = function()
     {
         this.each(function()

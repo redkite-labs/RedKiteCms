@@ -14,7 +14,7 @@
  *
  */
 
-(function($){
+;(function($){
     $.fn.SelectLanguage =function()
     {
         this.each(function()

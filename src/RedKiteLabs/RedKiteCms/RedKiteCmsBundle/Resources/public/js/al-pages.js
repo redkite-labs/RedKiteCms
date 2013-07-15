@@ -14,7 +14,7 @@
  *
  */
 
-(function($){
+;(function($){
     $.fn.SelectPage =function()
     {
         this.each(function()

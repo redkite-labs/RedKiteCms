@@ -14,7 +14,7 @@
  *
  */
 
-(function($){
+;(function($){
     var methods = {
         addItem: function() {
             $(this).click(function(){     

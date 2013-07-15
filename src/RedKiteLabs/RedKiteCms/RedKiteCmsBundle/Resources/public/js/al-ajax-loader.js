@@ -14,7 +14,7 @@
  *
  */
 
-(function($){
+;(function($){
     $.fn.AddAjaxLoader = function()
     {
         try
