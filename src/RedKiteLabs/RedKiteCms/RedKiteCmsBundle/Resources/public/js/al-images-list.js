@@ -20,23 +20,24 @@
     var methods = {
         addItem: function() {
             $(this).click(function(){                
+            
+                var attributes = "";
+                $('#al_item_attributes_form').find(':input:not(input[type=submit])').each(function(){
+                    var el = $(this);
+                    var field = el.attr('id');                        
+                    attributes += 'data-' + field + '="" '; 
+                }); 
+                
                 var imageMarkup = 
                     '<li class="' + settings.span + '">' + 
-                    '<a href="#" class="thumbnail al_img">' +
+                    '<a href="#" ' + attributes + 'class="thumbnail al_img">' +
                     '<img src="holder.js/' + settings.imageDimension + '" title="" alt=""/>' +
                     '</a>' +
                     '</li>'
                 ;
                 $('.images_contents .thumbnails:last').append(imageMarkup);
                 
-                var attributes = {};
-                $(".al_form_item").each(function(){
-                    attributes[$(this).attr('id')] = "";
-                });
-                
                 var element = $('.al_img:last');
-                element.data('attributes', attributes); 
-                
                 editItem(element);
                 Holder.run();
                 
@@ -55,33 +56,52 @@
                     element = '.al_img';
                 }
                 
-                if (values == null) {
-                    values = attributesToJson(element);
-                }
+                var c = 0;
+                var values = {};
+                $(element).each(function(){
+                    var image = $(this);
+                    
+                    var imageValues = {};
+                    $('#al_item_attributes_form').find(':input:not(input[type=submit])').each(function(){
+                        var el = $(this);
+                        var field = el.attr('id');
+                        var value = image.attr('data-' + field);
+                        if (null == value) {
+                            value = "";
+                        }
+                        imageValues[field] = encodeURIComponent(value);
+                    });
+                    
+                    values[c] = imageValues;
+                    c++;
+                });
                 
                 $('body').EditBlock("Content", JSON.stringify(values), null, function(){ Holder.run(); });
             });
         },
         saveAttributes: function() {
             $(this).blur(function(){ 
-                var image = $('.al_img_selected');               
-                image.data('attributes', serializeFormToObject('#al_item_attributes_form'));
+                var image = $('.al_img_selected');
+                $('#al_item_attributes_form').find(':input:not(input[type=submit])').each(function(){
+                    var $this = $(this);
+                    image.attr('data-' + $this.attr('id'), $this.val());
+                });
             });
         }
     };
     
-    function editItem(element) {
+    function editItem(element) { 
+        
         element.click(function(){                
             var $this = $(this);
             
-            var attributes = $this.data('attributes');
-            if (attributes == null) {
-                attributes = $this.metadata();
-                $this.data('attributes', attributes);
-            }
-
-            $.each(attributes, function(key, value){
-                $('#' + key).val(decodeURIComponent(value));
+            $('#al_item_attributes_form').find(':input:not(input[type=submit])').each(function(){
+                var el = $(this);
+                var value = $this.attr('data-' + el.attr('id'));
+                if (null == value) {
+                    value = "";
+                }
+                el.val(decodeURIComponent(value));
             });
             
             selectActiveItem($this);  
@@ -106,41 +126,6 @@
         element
             .addClass('al_img_selected')
         ;
-    }
-    
-    function attributesToJson(element) {
-        var i = 0;
-        var values = new Array();
-        $(element).each(function(){
-            var $this = $(this);
-            var attributes = $this.data('attributes');
-            if (attributes == null) {
-                attributes = $this.metadata();
-            }
-
-            values[i] = attributes;
-            i += 1;
-        });
-
-        return values;
-    }
-    
-    function serializeFormToObject(form)
-    {
-       var o = {};
-       $(form).find(':input').each(function() {
-           var id = $(this).attr('id');
-           if (o[id]) {
-               if (!o[id].push) {
-                   o[id] = [o[id]];
-               }
-               o[id].push(this.value || '');
-           } else {
-               o[id] = this.value || '';
-           }
-       });
-       
-       return o;
     }
 
     $.fn.imagesList = function( method, options ) {    

@@ -7,10 +7,16 @@
     <li class="span2">
         {% set attributes = "" %}
         {% for name, value in image %}
+        {% set attributeName = 'data-' ~ form_name ~ '_' ~name %}
+        {% set attributes = attributes ~ attributeName ~ '=' ~ value|escape('url') ~ ' ' %}
+        {% endfor %}
+        
+        {# for name, value in image %}    
         {% set attributeName = form_name ~ '_' ~ name %}
         {% set attributes = attributes ~ attributeName ~ ": '" ~ value|escape('url') ~ "'," %}
-        {% endfor %}
-        <a href="#" class="thumbnail al_img { {{ attributes }} }">
+        {% endfor #}
+        
+        <a href="#" class="thumbnail al_img" {{ attributes }}>
             {% include "ImageBundle:Image:image.html.twig" with {"image" : image } %}
         </a>
     </li>  

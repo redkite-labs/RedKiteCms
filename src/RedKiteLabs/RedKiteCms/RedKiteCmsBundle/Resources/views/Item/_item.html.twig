@@ -13,9 +13,11 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% set cms_language = configuration.read('language') %}
+{# set cms_language = configuration.read('language') #}
+{% extends "AlphaLemonCmsBundle:Item:_languages_support.html.twig" %}
 {% set common_domain = cms_language ~ "_common" %}
 
+{% block content %}
 <div>
     {% include "AlphaLemonCmsBundle:Item:_attributes_form.html.twig" %}
 </div>
@@ -26,3 +28,4 @@
     {% endblock %}
 </div>
 <div id="al_save_item_errors"></div>
+{% endblock %}
