@@ -200,7 +200,7 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The user has been saved")')->count() == 1);
+        $this->assertTrue($crawler->filter('html:contains("User has been saved")')->count() == 1);
 
         $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
@@ -249,7 +249,7 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The user has been saved")')->count() == 1);
+        $this->assertTrue($crawler->filter('html:contains("User has been saved")')->count() == 1);
 
         $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
@@ -351,7 +351,7 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The role has been saved")')->count() == 1);
+        $this->assertTrue($crawler->filter('html:contains("Role has been saved")')->count() == 1);
 
         $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();
@@ -371,7 +371,7 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The role has been saved")')->count() == 1);
+        $this->assertTrue($crawler->filter('html:contains("Role has been saved")')->count() == 1);
 
         $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();

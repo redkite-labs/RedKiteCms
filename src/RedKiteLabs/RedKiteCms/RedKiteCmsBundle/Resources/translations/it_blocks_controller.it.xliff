@@ -94,6 +94,10 @@
             <source>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</source>
             <target>Stai tentando di gestire un blocco su uno slot che non esiste più sulla pagina, oppure il nome dello slot è vuoto</target>
         </trans-unit>
+        <trans-unit id="24">
+            <source>The block has been successfully edited</source>
+            <target>Il blocco è stato modificato correttamente</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

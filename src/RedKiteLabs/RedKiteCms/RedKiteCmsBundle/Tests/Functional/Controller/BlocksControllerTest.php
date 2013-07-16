@@ -225,7 +225,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The content has been successfully edited", $json[0]["value"]);
+        $this->assertEquals("The block has been successfully edited", $json[0]["value"]);
 
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("edit-block", $json[1]["key"]);

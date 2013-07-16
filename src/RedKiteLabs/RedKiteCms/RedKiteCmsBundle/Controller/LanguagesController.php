@@ -28,7 +28,7 @@ class LanguagesController extends Base\BaseController
     {
         // @codeCoverageIgnoreStart
         if (!extension_loaded('intl')) {
-            throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('To manage languages you must enable the intl extension in your php.ini file. Operation aborted', array(), 'languages_controller'));
+            throw new RuntimeException($this->translate('languages_controller', 'To manage languages you must enable the intl extension in your php.ini file. Operation aborted'));
         }
         // @codeCoverageIgnoreEnd
 
@@ -61,13 +61,13 @@ class LanguagesController extends Base\BaseController
         );
         if ($languageManager->save($parameters)) {
             $language = (null === $alLanguage) ? $languageManager->get() : $alLanguage;
-            $message = $this->translate('_languages_controller', 'The language has been successfully saved');
+            $message = $this->translate('languages_controller', 'The language has been successfully saved');
                             
             return $this->buildJSonHeader($message, $language);
         }
 
         // @codeCoverageIgnoreStart
-        throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('The language has not been saved because an unespected error has been occoured when saving', array(), 'languages_controller'));
+        throw new RuntimeException($this->translate('languages_controller', 'The language has not been saved because an unespected error has been occoured when saving'));
         // @codeCoverageIgnoreEnd
     }
 
@@ -77,7 +77,7 @@ class LanguagesController extends Base\BaseController
         $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
         $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
         if (null === $alLanguage) {    
-            throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('Any language has been choosen for removing', array(), 'languages_controller'));
+            throw new RuntimeException($this->translate('languages_controller', 'Any language has been choosen for removing'));
         }
         
         $result = $languageManager
@@ -85,13 +85,13 @@ class LanguagesController extends Base\BaseController
             ->delete()
         ;
         if ($result) {      
-            $message = $this->translate('_languages_controller', 'The language has been successfully deleted');              
+            $message = $this->translate('languages_controller', 'The language has been successfully deleted');              
             
             return $this->buildJSonHeader($message, $alLanguage);
         }
         
         // @codeCoverageIgnoreStart
-        throw new \RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('The language has not been deleted', array(), 'languages_controller'));
+        throw new \RuntimeException($this->translate('languages_controller', 'The language has not been deleted'));
         // @codeCoverageIgnoreEnd
     }
     
