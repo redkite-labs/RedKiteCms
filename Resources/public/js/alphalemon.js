@@ -233,7 +233,7 @@
     
     function showPopover(element)
     {
-        element.addClass('popover-zindex').popover('show');
+        element.popover('show');
 
         $('.al-popover:visible').each(function(){
             var pos = element.offset();
