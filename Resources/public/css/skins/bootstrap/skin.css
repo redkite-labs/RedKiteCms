@@ -6,7 +6,7 @@
   background: white;
   text-align: left;
   display: none;
-  z-index: 40000;
+  z-index: 5275;
   padding-top: 60px;
 }
 #al_panel p {
@@ -190,7 +190,7 @@
   background-image: url(images/loader/ajax-loader.gif);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 40500;
+  z-index: 5500;
 }
 
 .ajax_loader_bg {
@@ -200,7 +200,7 @@
   background-image: url(images/loader/bg-ajax-loader.png);
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 40500;
+  z-index: 5500;
 }
 
 .al_float_left {
@@ -242,7 +242,7 @@
 #al_alert {
   display: none;
   position: absolute;
-  z-index: 40100;
+  z-index: 5100;
 }
 
 #al_cms_background_basement {
@@ -299,7 +299,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 40300;
+  z-index: 5300;
 }
 
 #al_control_panel_body {
@@ -335,7 +335,7 @@
   top: 120px;
   left: 0;
   display: block;
-  z-index: 40325;
+  z-index: 5325;
 }
 #al_main_commands p {
   color: white;
@@ -403,7 +403,7 @@
   -webkit-box-shadow: #333333 3px 3px 3px;
   -moz-box-shadow: #333333 3px 3px 3px;
   box-shadow: #333333 3px 3px 3px;
-  z-index: 40350;
+  z-index: 5350;
 }
 #al_tab .al_tab {
   position: relative;
@@ -705,7 +705,7 @@
   position: absolute;
   background-color: white;
   padding: 14px;
-  z-index: 40200;
+  z-index: 5200;
   border: 1px solid #525252;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -758,7 +758,7 @@
   position: absolute;
   cursor: pointer;
   padding-left: 12px;
-  z-index: 40200;
+  z-index: 5200;
   background: transparent url("images/block_menu/block-menu.png") top left no-repeat;
 }
 #al_block_menu_toolbar ul {
@@ -785,7 +785,7 @@
 .al_block_menu {
   display: none;
   position: absolute;
-  z-index: 40200;
+  z-index: 5200;
 }
 
 #al_block_menu_top, #al_active_block_menu_top {
@@ -840,11 +840,11 @@
 }
 
 .dropdown-zindex {
-  z-index: 40250;
+  z-index: 5250;
 }
 
 .popover {
-  z-index: 40225;
+  z-index: 5225;
   width: auto;
   color: #525252;
 }
