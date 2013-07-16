@@ -222,7 +222,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function getSlotManager($slotName)
     {
-        if (!is_string($slotName)) {
+        if ( ! is_string($slotName)) {
             return null;
         }
 
