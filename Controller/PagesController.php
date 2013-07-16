@@ -79,7 +79,7 @@ class PagesController extends Base\BaseController
     {
         $request = $this->container->get('request');
         if ('al_' === substr($request->get('pageName'), 0, 3)) {
-            throw new InvalidArgumentException($this->container->get('alpha_lemon_cms.translator')->translate('The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes', array(), 'pages_controller'));
+            throw new InvalidArgumentException($this->translate('pages_controller', 'The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes'));
         }
 
         $alPage = null;
@@ -131,7 +131,7 @@ class PagesController extends Base\BaseController
         
         if ( ! $pageManager->save($values)) {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('The page has not been saved', array(), 'pages_controller'));
+            throw new RuntimeException($this->translate('pages_controller', 'The page has not been saved'));
             // @codeCoverageIgnoreEnd
         } 
         
@@ -146,7 +146,7 @@ class PagesController extends Base\BaseController
         $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
         $alPage = ($request->get('pageId') != 'none') ? $pageManager->getPageRepository()->fromPK($request->get('pageId')) : null;
         if (null === $alPage) {            
-            throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('Any page has been choosen for removing', array(), 'pages_controller'));
+            throw new RuntimeException($this->translate('pages_controller', 'Any page has been choosen for removing'));
         }
         
         $pageManager->set($alPage);
@@ -159,11 +159,11 @@ class PagesController extends Base\BaseController
         $result = $pageManager->delete();
         if ( ! $result) {
            // @codeCoverageIgnoreStart
-           throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('Nothing to delete with the given parameters', array(), 'pages_controller'));
+           throw new RuntimeException($this->translate('pages_controller', 'Nothing to delete with the given parameters'));
             // @codeCoverageIgnoreEnd 
         }
         
-        return $this->buildJSonHeader($this->translate('_pages_controller', 'The page has been successfully removed'), $pageManager->get());
+        return $this->buildJSonHeader($this->translate('pages_controller', 'The page has been successfully removed'), $pageManager->get());
     }
     
     /**
@@ -181,13 +181,13 @@ class PagesController extends Base\BaseController
             if (false === $result) {
                 // @codeCoverageIgnoreStart
                 $pageManager->getPageRepository()->rollBack();
-                throw new RuntimeException($this->container->get('alpha_lemon_cms.translator')->translate('Nothing to delete with the given parameters', array(), 'pages_controller'));
+                throw new RuntimeException($this->translate('pages_controller', 'Nothing to delete with the given parameters'));
                 // @codeCoverageIgnoreEnd
             }
                 
             $pageManager->getPageRepository()->commit();
             
-            return $this->buildJSonHeader($this->translate('_pages_controller', 'The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
+            return $this->buildJSonHeader($this->translate('pages_controller', 'The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
         } catch (\Exception $ex) {
             // @codeCoverageIgnoreStart
             $pageManager->getPageRepository()->rollBack();

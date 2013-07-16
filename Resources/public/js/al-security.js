@@ -111,12 +111,12 @@
                     success: function(html)
                     {
                         if ( ! $('#al_panel').is(":visible")) {
-                            html = '<div id="al_user_panel">' + html  + '</div>';
+                            html = '<div id="al_panel_contents">' + html  + '</div>';
                             $('#al_panel').OpenPanel(html, function(){
                                 ObserveSecurity();
                             });
                         } else {
-                            $('#al_user_panel').html(html);
+                            $('#al_panel_contents').html(html);
                             ObserveSecurity();
                         }
                     },
@@ -184,8 +184,8 @@ function show(route, id)
         $('body').AddAjaxLoader();
       },
       success: function(html)
-      {
-        $('#al_user_panel').html(html);
+      {// al_user_panel
+        $('#al_panel_contents').html(html);
       },
       error: function(err)
       {
@@ -210,7 +210,7 @@ function remove(route, id)
       },
       success: function(html)
       {
-        $('#al_user_panel').html(html);
+        $('#al_panel_contents').html(html);
         ObserveSecurity();
       },
       error: function(err)

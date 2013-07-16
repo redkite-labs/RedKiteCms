@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseController extends ContainerAware
 {
-    protected $configuration = null;
+    protected $translator = null;
     
     protected function renderDialogMessage($message, $statusCode = 404)
     {
@@ -34,16 +34,14 @@ abstract class BaseController extends ContainerAware
     
     protected function translate($catalogue, $message, array $params = array())
     {
-        if (null === $this->configuration) {
-            $this->configuration = $this->container->get('alpha_lemon_cms.configuration');
+        if (null === $this->translator) {
+            $this->translator = $this->container->get('alpha_lemon_cms.translator');
         }
         
-        $cmsLanguage = $this->configuration->read('language');
-        return $this->container->get('translator')->trans(
+        return $this->translator->translate(
             $message, 
             $params, 
-            $cmsLanguage . $catalogue, 
-            $cmsLanguage
+            $catalogue
         );
     }
 }

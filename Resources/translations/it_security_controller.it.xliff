@@ -46,6 +46,22 @@
             <source>Role</source>
             <target>Ruolo</target>
         </trans-unit>
+        <trans-unit id="12">
+            <source>User has not been saved</source>
+            <target>L'utente non è stato salvato</target>
+        </trans-unit>        
+        <trans-unit id="13">
+            <source>User has been saved</source>
+            <target>L'utente è stato salvato</target>
+        </trans-unit>
+        <trans-unit id="14">
+            <source>Role has not been saved</source>
+            <target>Il ruolo non è stato salvato</target>
+        </trans-unit>        
+        <trans-unit id="15">
+            <source>Role has been saved</source>
+            <target>Il ruolo è stato salvato</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

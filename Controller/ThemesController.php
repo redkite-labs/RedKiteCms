@@ -20,9 +20,12 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 class ThemesController extends BaseController
 {
+    protected $translator;
+    
     public function showThemeChangerAction()
     {
         return $this->renderThemeChanger();
@@ -43,7 +46,7 @@ class ThemesController extends BaseController
                 $mappedTemplate = preg_split('/=/', $data[$c+1]);
                 $mappedTemplateName = $mappedTemplate[1];
                 if (empty($mappedTemplateName)) {
-                    throw new \InvalidArgumentException("It seems you haven't mapped the \"$templateName\" template. To change a theme each template must be mapped with a template from the new theme");
+                    throw new InvalidArgumentException($this->translate('themes_controller', 'It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme', array('%template_name%' => $templateName)));
                 }
                 
                 $map[$templateName] = $mappedTemplateName;
@@ -59,7 +62,7 @@ class ThemesController extends BaseController
             $themeChanger->change($previousTheme, $theme, $this->container->getParameter('alpha_lemon_cms.theme_structure_file'), $map);
             $currentTheme->writeActiveTheme($themeName);
             
-            return new Response('The theme has been changed. Please wait while your site is reloading', 200);            
+            return new Response($this->translate('themes_controller', 'The theme has been changed. Please wait while your site is reloading'), 200);            
         } catch (\Exception $e) {
             return $this->renderThemeChanger($e->getMessage());
         }
@@ -117,7 +120,7 @@ class ThemesController extends BaseController
         $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
         $result = $themeChanger->finalize($action);  
         
-        $message = "The theme has not been finalized due to an error occoured when saving to database";
+        $message = $this->translate('themes_controller', 'The theme has not been finalized due to an error occoured when saving to database');
         $statusCode = 404;      
         if ($result) {
             $message = "The theme has been finalized";
@@ -156,7 +159,7 @@ class ThemesController extends BaseController
             $currentTheme = $this->getActiveTheme();    
             $currentTheme->writeActiveTheme($themeName);
             
-            $message = "The site has been bootstrapped with the new theme. This page is reloading";
+            $message = $this->translate('themes_controller', 'The site has been bootstrapped with the new theme. This page is reloading');
             $statusCode = 200;
         }
         
@@ -222,5 +225,18 @@ class ThemesController extends BaseController
         ));
 
         return $responseContent;
+    }
+    
+    protected function translate($catalogue, $message, array $params = array())
+    {
+        if (null === $this->translator) {
+            $this->translator = $this->container->get('alpha_lemon_cms.translator');
+        }
+        
+        return $this->translator->translate(
+            $message, 
+            $params, 
+            $catalogue
+        );
     }
 }

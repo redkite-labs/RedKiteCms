@@ -70,6 +70,22 @@
             <source>Full</source>
             <target>Full</target>
         </trans-unit>
+        <trans-unit id="18">
+            <source>The theme has not been finalized due to an error occoured when saving to database</source>
+            <target>The theme has not been finalized due to an error occoured when saving to database</target>
+        </trans-unit>
+        <trans-unit id="19">
+            <source>The theme has been changed. Please wait while your site is reloading</source>
+            <target>The theme has been changed. Please wait while your site is reloading</target>
+        </trans-unit>        
+        <trans-unit id="20">
+            <source>The site has been bootstrapped with the new theme. This page is reloading</source>
+            <target>The site has been bootstrapped with the new theme. This page is reloading</target>
+        </trans-unit>        
+        <trans-unit id="21">
+            <source>It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme</source>
+            <target>It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme</target>
+        </trans-unit>  
     </body>
     </file>
 </xliff>

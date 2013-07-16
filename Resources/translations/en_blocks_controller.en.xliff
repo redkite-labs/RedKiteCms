@@ -93,7 +93,11 @@
         <trans-unit id="23">
             <source>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</source>
             <target>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</target>
-        </trans-unit>        
+        </trans-unit> 
+        <trans-unit id="24">
+            <source>The block has been successfully edited</source>
+            <target>The block has been successfully edited</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

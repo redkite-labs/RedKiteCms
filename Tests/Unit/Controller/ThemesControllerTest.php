@@ -95,6 +95,13 @@ class ThemesControllerTest extends TestCase
              ->will($this->returnValue($this->response))
         ;
         
+        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator
+             ->expects($this->any())
+             ->method('translate')
+             //->will($this->returnValue($this->response))
+        ;
+        
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         
         $this->controller = new ThemesController();
@@ -121,7 +128,7 @@ class ThemesControllerTest extends TestCase
              ->expects($this->once())
              ->method('getErrorMessage');
          
-        $squence = 4;
+        $sequence = 4;
         if ($result) {
             $activeTheme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
             $activeTheme
@@ -131,15 +138,22 @@ class ThemesControllerTest extends TestCase
             ;
             
             $this->container
-                 ->expects($this->at($squence))
+                 ->expects($this->at($sequence))
                  ->method('get')
                  ->with('alphalemon_theme_engine.active_theme')
                  ->will($this->returnValue($activeTheme));
-            $squence++;
+            $sequence++;
+            
+            $this->container
+                ->expects($this->at($sequence))
+                 ->method('get')
+                 ->with('alpha_lemon_cms.translator')
+                 ->will($this->returnValue($this->translator)); 
+            $sequence++;    
         }
-         
+        
         $this->container
-             ->expects($this->at($squence))
+             ->expects($this->at($sequence))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($this->templating));

@@ -113,7 +113,11 @@ class SecurityController extends Base\BaseController
                 $user->setSalt($salt);
                 $user->setPassword($password);
 
-                $message = ($user->save() > 0) ? "The user has been saved" : "The user has not been saved";
+                $message = "User has not been saved";
+                if ($user->save() > 0) {
+                    $message = "User has been saved";
+                }
+                $message = $this->translate('security_controller', $message);
 
                 // Let's refresh the form with the saved data when the user is edited
                 if ( ! $isNewUser) {
@@ -145,7 +149,11 @@ class SecurityController extends Base\BaseController
             $validator = $this->container->get('validator');
             $errors = $validator->validate($role);
             if (count($errors) == 0) {
-                $message = ($role->save() > 0) ? "The role has been saved" : "The role has not been saved";
+                $message = "Role has not been saved";
+                if ($role->save() > 0) {
+                    $message = "Role has been saved";
+                }
+                $message = $this->translate('security_controller', $message);
 
                 // Let's refresh the form with the saved data when the user is edited
                 if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);

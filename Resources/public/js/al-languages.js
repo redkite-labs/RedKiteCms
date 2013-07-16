@@ -78,7 +78,6 @@ function InitLanguagesCommands()
             },
             complete: function()
             {
-                $('#al_dialog').dialog('open');
                 $('body').RemoveAjaxLoader();
             }
           });
