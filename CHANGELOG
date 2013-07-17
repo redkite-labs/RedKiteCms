@@ -17,7 +17,7 @@ aa45317 deprecated the function to remove a single page attribute
 7b7a49d an opened editor can be also closed clicking somewhere on the page
 bfdcaf5 clicking the empty slots placeholder notices that it is not editable and encourages you to add a new block
 3e343eb added a boostrap file to generate the database to run tests from a symfoy2 application
-28a93c1 passed alpha_lemon_cms.configuration to template_slots_panel and defined variable common_domain
+28a93c1 passed alpha_lemon_cms.configuration to template_slots_panel
 e10c0f9 removed al_showAvailableBlocks route which is not used anymore
 55bb749 removed unused files
 198ddd6 updated inline lists add button has been placed under each list item, to let insert new items not only at the end of the list

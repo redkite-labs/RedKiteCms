@@ -1,5 +1,4 @@
 {% set cms_language = configuration.read('language') %}
-{% set common_domain = cms_language ~ "_common" %}
 
 <ul class="column pull-left">
 {% set number_of_items = 11 %}
@@ -21,7 +20,7 @@
 </ul>
 <div class="clearfix"></div>
 <div class="pull-right">
-    <button id="al-undo-slot-assignment" class="btn btn-info">{{ 'Undo'|trans({}, common_domain, cms_language) }}</button>
-    <button id="al-save-slot-assignment" class="btn btn-primary">{{ 'Save'|trans({}, common_domain, cms_language) }}</button>
-    <button id="al-close-slots-panel" class="btn">{{ 'Close'|trans({}, common_domain, cms_language) }}</button>
+    <button id="al-undo-slot-assignment" class="btn btn-info">{{ 'Undo'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</button>
+    <button id="al-save-slot-assignment" class="btn btn-primary">{{ 'Save'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</button>
+    <button id="al-close-slots-panel" class="btn">{{ 'Close'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</button>
 </div>

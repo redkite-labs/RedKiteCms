@@ -14,6 +14,6 @@
     {% if label is empty %}
         {% set label = name|humanize %}
     {% endif %}
-    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain, cms_language) }}</label>
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</label>
 {% endspaceless %}
 {% endblock form_label %}

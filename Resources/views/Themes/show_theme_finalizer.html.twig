@@ -18,14 +18,14 @@
 {% block theme_panel %}
 <div>
     <div>
-        <p><b>{{ "Finalizes the change of theme"|trans({}, themes_controller_domain, cms_language) }}</b></p>
-        <p>{{ "A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme."|trans({}, themes_controller_domain, cms_language) }}</p>
-        <p>{{ "A full finalization removes all the blocks saved from previous theme."|trans({}, themes_controller_domain, cms_language) }}</p>
+        <p><b>{{ "Finalizes the change of theme"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</b></p>
+        <p>{{ "A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme."|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p>
+        <p>{{ "A full finalization removes all the blocks saved from previous theme."|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p>
     </div>
     <div class="pull-right">
-        <button id="al-partial-finalizer" class="btn btn-info">{{ "Partial"|trans({}, themes_controller_domain, cms_language) }}</button>
-        <button id="al-full-finalizer" class="btn btn-primary">{{ "Full"|trans({}, themes_controller_domain, cms_language) }}</button>
-        <button id="al-close-finalizer" class="btn">{{ "Close"|trans({}, common_domain, cms_language) }}</button>
+        <button id="al-partial-finalizer" class="btn btn-info">{{ "Partial"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</button>
+        <button id="al-full-finalizer" class="btn btn-primary">{{ "Full"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</button>
+        <button id="al-close-finalizer" class="btn">{{ "Close"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</button>
     </div>
 </div>
 

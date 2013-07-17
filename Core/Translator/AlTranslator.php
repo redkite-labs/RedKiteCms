@@ -106,9 +106,10 @@ class AlTranslator implements AlTranslatorInterface
             if (null === $locale) {
                 $locale = $this->configuration->read('language');
             }
-            
+            /**/
             if ($domain != 'messages') {
-                $domain = $locale . "_" . $domain;
+                //$domain = $locale . "_" . $domain;
+                $domain = 'AlphaLemonCmsBundle';
             }
         }
         

@@ -5,7 +5,7 @@
     <textarea id="al_html_editor" name="al_html_editor" class="editor-textarea">{{ editor.blockManager.get.Content }}</textarea>
 </div>
 <div class="pull-right">
-    <input id="al_html_saver" type="submit" value = "{{ 'Save'|trans({}, cms_language ~ '_common', cms_language) }}" class="btn btn-primary" />
+    <input id="al_html_saver" type="submit" value = "{{ 'Save'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}" class="btn btn-primary" />
 </div>
 <div class="clearfix"></div>    
 {% endblock %}

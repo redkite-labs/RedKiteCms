@@ -1,0 +1,977 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="exceptions-1">
+            <source>The configuration parameter %parameter% does not exist</source>
+            <target>The configuration parameter %parameter% does not exist</target>
+        </trans-unit>
+        <trans-unit id="exceptions-2">
+            <source>AlBlockManager is only able to manage AlBlock objects</source>
+            <target>AlBlockManager is only able to manage AlBlock objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-3">
+            <source>Any valid block has been setted. Nothing to delete</source>
+            <target>Any valid block has been setted. Nothing to delete</target>
+        </trans-unit>
+        <trans-unit id="exceptions-4">
+            <source>The abstract method getDefaultValue() defined for the object %className% must return an array</source>
+            <target>The abstract method getDefaultValue() defined for the object %className% must return an array</target>
+        </trans-unit>
+        <trans-unit id="exceptions-5">
+            <source>The block deleting operation has been aborted</source>
+            <target>The block deleting operation has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-6">
+            <source>The operation to add a new block has been aborted</source>
+            <target>The operation to add a new block has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-7">
+            <source>The block editing action has been aborted</source>
+            <target>The block editing action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-8">
+            <source>AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of the "%class%" object, into the bundle that implements it</source>
+            <target>AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of the "%class%" object, into the bundle that implements it</target>
+        </trans-unit>
+        <trans-unit id="exceptions-9">
+            <source>The image file has already been added</source>
+            <target>The image file has already been added</target>
+        </trans-unit>
+        <trans-unit id="exceptions-10">
+            <source>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</source>
+            <target>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</target>
+        </trans-unit>
+        <trans-unit id="exceptions-11">
+            <source>The content format %blockTypeInfo%is wrong. You should remove that block and add it again.</source>
+            <target>The content format %blockTypeInfo%is wrong. You should remove that block and add it again.</target>
+        </trans-unit>
+        <trans-unit id="exceptions-12">
+            <source>It seems that the item requested does not exist anymore</source>
+            <target>It seems that the item requested does not exist anymore</target>
+        </trans-unit>
+        <trans-unit id="exceptions-13">
+            <source>AlLanguageManager is able to manage only AlLanguage objects</source>
+            <target>AlLanguageManager is able to manage only AlLanguage objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-14">
+            <source>Any language has been selected: delete operation aborted</source>
+            <target>Any language has been selected: delete operation aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-15">
+            <source>The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again</source>
+            <target>The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again</target>
+        </trans-unit>
+        <trans-unit id="exceptions-16">
+            <source>The language deleting action has been aborted</source>
+            <target>The language deleting action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-17">
+            <source>The language adding action has been aborted</source>
+            <target>The language adding action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-18">
+            <source>The language you are trying to add, already exists in the website</source>
+            <target>The language you are trying to add, already exists in the website</target>
+        </trans-unit>
+        <trans-unit id="exceptions-19">
+            <source>A language cannot be null. Please provide a valid language name to add the language</source>
+            <target>A language cannot be null. Please provide a valid language name to add the language</target>
+        </trans-unit>
+        <trans-unit id="exceptions-20">
+            <source>The language editing action has been aborted</source>
+            <target>The language editing action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-21">
+            <source>AlPageManager is able to manage only AlPage objects</source>
+            <target>AlPageManager is able to manage only AlPage objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-22">
+            <source>Any page has been selected: delete operation aborted</source>
+            <target>Any page has been selected: delete operation aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-23">
+            <source>The name to assign to the page cannot be null. Please provide a valid page name to add your page</source>
+            <target>The name to assign to the page cannot be null. Please provide a valid page name to add your page</target>
+        </trans-unit>
+        <trans-unit id="exceptions-24">
+            <source>The page deleting action has been aborted</source>
+            <target>The page deleting action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-25">
+            <source>The page adding action has been aborted</source>
+            <target>The page adding action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-26">
+            <source>It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one</source>
+            <target>It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one</target>
+        </trans-unit>
+        <trans-unit id="exceptions-27">
+            <source>The page requires at least a template. Please provide the template name to add your page</source>
+            <target>The page requires at least a template. Please provide the template name to add your page</target>
+        </trans-unit>
+        <trans-unit id="exceptions-28">
+            <source>The web site already contains the page you are trying to add. Please use another name for that page</source>
+            <target>The web site already contains the page you are trying to add. Please use another name for that page</target>
+        </trans-unit>
+        <trans-unit id="exceptions-29">
+            <source>The web site has any language inserted. Please add a new language before adding a page</source>
+            <target>The web site has any language inserted. Please add a new language before adding a page</target>
+        </trans-unit>
+        <trans-unit id="exceptions-30">
+            <source>The page editing action has been aborted</source>
+            <target>The page editing action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-31">
+            <source>The page id argument must be a numeric value</source>
+            <target>The page id argument must be a numeric value</target>
+        </trans-unit>
+        <trans-unit id="exceptions-32">
+            <source>The language id argument must be a numeric value</source>
+            <target>The language id argument must be a numeric value</target>
+        </trans-unit>
+        <trans-unit id="exceptions-33">
+            <source>Blocks cannot be retrieved because the id language has not been set</source>
+            <target>Blocks cannot be retrieved because the id language has not been set</target>
+        </trans-unit>
+        <trans-unit id="exceptions-34">
+            <source>Blocks cannot be retrieved because the id page has not been set</source>
+            <target>Blocks cannot be retrieved because the id page has not been set</target>
+        </trans-unit>
+        <trans-unit id="exceptions-35">
+            <source>AlSeoManager is able to manage only AlSeo objects</source>
+            <target>AlSeoManager is able to manage only AlSeo objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-36">
+            <source>The seo deleting action has been aborted</source>
+            <target>The seo deleting action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-37">
+            <source>The seo model object is null</source>
+            <target>The seo model object is null</target>
+        </trans-unit>
+        <trans-unit id="exceptions-38">
+            <source>The seo adding action has been aborted</source>
+            <target>The seo adding action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-81">
+            <source>The PageId argument is mandatory to save a seo object</source>
+            <target>The PageId argument is mandatory to save a seo object</target>
+        </trans-unit>
+        <trans-unit id="exceptions-39">
+            <source>The LanguageId argument is mandatory to save a seo object</source>
+            <target>The LanguageId argument is mandatory to save a seo object</target>
+        </trans-unit>
+        <trans-unit id="exceptions-40">
+            <source>The Permalink argument is mandatory to save a seo object</source>
+            <target>The Permalink argument is mandatory to save a seo object</target>
+        </trans-unit>
+        <trans-unit id="exceptions-41">
+            <source>The seo editing action has been aborted</source>
+            <target>The seo editing action has been aborted</target>
+        </trans-unit>
+        <trans-unit id="exceptions-42">
+            <source>setForceSlotAttributes method accepts only boolean values</source>
+            <target>setForceSlotAttributes method accepts only boolean values</target>
+        </trans-unit>
+        <trans-unit id="exceptions-43">
+            <source>setSkipSiteLevelBlocks method accepts only boolean values</source>
+            <target>setSkipSiteLevelBlocks method accepts only boolean values</target>
+        </trans-unit>
+        <trans-unit id="exceptions-44">
+            <source>The %type% type does not exist</source>
+            <target>The %type% type does not exist</target>
+        </trans-unit>
+        <trans-unit id="exceptions-45">
+            <source>The %className% adjustPosition protected method requires one of the following values: "%options%". Your input argument is: "%parameter%"</source>
+            <target>The %className% adjustPosition protected method requires one of the following values: "%options%". Your input argument is: "%parameter%"</target>
+        </trans-unit>
+        <trans-unit id="exceptions-46">
+            <source>The class %className% that shoud define a new Slot Converter does not exist</source>
+            <target>The class %className% that shoud define a new Slot Converter does not exist</target>
+        </trans-unit>
+        <trans-unit id="exceptions-47">
+            <source>slotToArray method accepts only strings</source>
+            <target>slotToArray method accepts only strings</target>
+        </trans-unit>
+        <trans-unit id="exceptions-48">
+            <source>AlTemplateManager requires a template to set up the template slots: any given</source>
+            <target>AlTemplateManager requires a template to set up the template slots: any given</target>
+        </trans-unit>
+        <trans-unit id="exceptions-49">
+            <source>The template "%templateName%" has any slot attached. Please check your template's configuration</source>
+            <target>The template "%templateName%" has any slot attached. Please check your template's configuration</target>
+        </trans-unit>
+        <trans-unit id="exceptions-50">
+            <source>AlValidator cannot check that at least once parameter exists because any "required parameters" has been given</source>
+            <target>AlValidator cannot check that at least once parameter exists because any "required parameters" has been given</target>
+        </trans-unit>
+        <trans-unit id="exceptions-51">
+            <source>AlValidator cannot check that at least once parameter exists because any "value" has been given</source>
+            <target>AlValidator cannot check that at least once parameter exists because any "value" has been given</target>
+        </trans-unit>
+        <trans-unit id="exceptions-52">
+            <source>At least one of those options are required: %required%. The options you gave are %values%</source>
+            <target>At least one of those options are required: %required%. The options you gave are %values%</target>
+        </trans-unit>
+        <trans-unit id="exceptions-53">
+            <source>AlValidator cannot check that all the required parameters exist because any "required parameters" has been given</source>
+            <target>AlValidator cannot check that all the required parameters exist because any "required parameters" has been given</target>
+        </trans-unit>
+        <trans-unit id="exceptions-54">
+            <source>AlValidator cannot check that all the required parameters exist because any "value" has been given</source>
+            <target>AlValidator cannot check that all the required parameters exist because any "value" has been given</target>
+        </trans-unit>
+        <trans-unit id="exceptions-55">
+            <source>The following options are required: %required%. The options you gave are %values%</source>
+            <target>The following options are required: %required%. The options you gave are %values%</target>
+        </trans-unit>
+        <trans-unit id="exceptions-56">
+            <source>"%className%" createEvent method requires the eventName argument to be a string</source>
+            <target>"%className%" createEvent method requires the eventName argument to be a string</target>
+        </trans-unit>
+        <trans-unit id="exceptions-57">
+            <source>The class "%argumentClass%" passed as argument for the "%className%" createEvent method does not exist</source>
+            <target>The class "%argumentClass%" passed as argument for the "%className%" createEvent method does not exist</target>
+        </trans-unit>
+        <trans-unit id="exceptions-58">
+            <source>The class "%argumentClass%" passed as argument for the "%className%" createEvent must be an instance of "Symfony\Component\EventDispatcher\Event"</source>
+            <target>The class "%argumentClass%" passed as argument for the "%className%" createEvent must be an instance of "Symfony\Component\EventDispatcher\Event"</target>
+        </trans-unit>
+        <trans-unit id="exceptions-59">
+            <source>Any event has been found to be dispatched</source>
+            <target>Any event has been found to be dispatched</target>
+        </trans-unit>
+        <trans-unit id="exceptions-60">
+            <source>The parameter "values" must be an array</source>
+            <target>The parameter "values" must be an array</target>
+        </trans-unit>
+        <trans-unit id="exceptions-61">
+            <source>The repository for the "%blockType%" block type at the namespace "%namespace%" cannot be created</source>
+            <target>The repository for the "%blockType%" block type at the namespace "%namespace%" cannot be created</target>
+        </trans-unit>
+        <trans-unit id="exceptions-62">
+            <source>AlBlockRepositoryPropel accepts only AlBlock propel objects</source>
+            <target>AlBlockRepositoryPropel accepts only AlBlock propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-63">
+            <source>AlConfigurationRepositoryPropel accepts only AlConfiguration propel objects</source>
+            <target>AlConfigurationRepositoryPropel accepts only AlConfiguration propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-64">
+            <source>AlLanguageRepositoryPropel accepts only AlLanguage propel objects</source>
+            <target>AlLanguageRepositoryPropel accepts only AlLanguage propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-65">
+            <source>fromLanguageName method accepts only string values</source>
+            <target>fromLanguageName method accepts only string values</target>
+        </trans-unit>
+        <trans-unit id="exceptions-66">
+            <source>AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects</source>
+            <target>AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-67">
+            <source>AlPageRepositoryPropel accepts only AlPage propel objects</source>
+            <target>AlPageRepositoryPropel accepts only AlPage propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-68">
+            <source>fromPageName method accepts only string values</source>
+            <target>fromPageName method accepts only string values</target>
+        </trans-unit>
+        <trans-unit id="exceptions-69">
+            <source>AlRoleRepositoryPropel accepts only AlRole propel objects</source>
+            <target>AlRoleRepositoryPropel accepts only AlRole propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-70">
+            <source>AlSeoRepositoryPropel accepts only AlSeo propel objects</source>
+            <target>AlSeoRepositoryPropel accepts only AlSeo propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-71">
+            <source>fromPermalink method accepts only string values</source>
+            <target>fromPermalink method accepts only string values</target>
+        </trans-unit>
+        <trans-unit id="exceptions-72">
+            <source>AlUserRepositoryPropel accepts only AlUser propel objects</source>
+            <target>AlUserRepositoryPropel accepts only AlUser propel objects</target>
+        </trans-unit>
+        <trans-unit id="exceptions-73">
+            <source>The resource you requested is locked by another user. Please retry in a couple of minutes</source>
+            <target>The resource you requested is locked by another user. Please retry in a couple of minutes</target>
+        </trans-unit>
+        <trans-unit id="exceptions-74">
+            <source>The resource has not been locked due to an error occoured during the saving operation</source>
+            <target>The resource has not been locked due to an error occoured during the saving operation</target>
+        </trans-unit>
+        <trans-unit id="exceptions-75">
+            <source>The template "%templateName%" does not seem to belong the "%themeName%" theme. Please check your template\'s configuration</source>
+            <target>The template "%templateName%" does not seem to belong the "%themeName%" theme. Please check your template\'s configuration</target>
+        </trans-unit>
+        <trans-unit id="exceptions-76">
+            <source>Template slots cannot be initialized</source>
+            <target>Template slots cannot be initialized</target>
+        </trans-unit>
+        <trans-unit id="exceptions-77">
+            <source>Cannnot fetch a valid language using the provided argument</source>
+            <target>Cannnot fetch a valid language using the provided argument</target>
+        </trans-unit>
+        <trans-unit id="exceptions-78">
+            <source>Cannnot fetch a valid page using the provided argument</source>
+            <target>Cannnot fetch a valid page using the provided argument</target>
+        </trans-unit>
+        <trans-unit id="exceptions-79">
+            <source>The requested language has not been found</source>
+            <target>The requested language has not been found</target>
+        </trans-unit>
+        <trans-unit id="exceptions-80">
+            <source>The requested page has not been found</source>
+            <target>The requested page has not been found</target>
+        </trans-unit>
+                
+        <!-- COMMON -->
+        
+        <trans-unit id="common-1">
+            <source>Stop</source>
+            <target>Stop</target>
+        </trans-unit>
+        <trans-unit id="common-2">
+            <source>Undo</source>
+            <target>Undo</target>
+        </trans-unit>
+        <trans-unit id="common-3">
+            <source>Save</source>
+            <target>Save</target>
+        </trans-unit>
+        <trans-unit id="common-4">
+            <source>Close</source>
+            <target>Close</target>
+        </trans-unit>
+        <trans-unit id="common-5">
+            <source>New</source>
+            <target>New</target>
+        </trans-unit>
+        <trans-unit id="common-6">
+            <source>Delete</source>
+            <target>Delete</target>
+        </trans-unit>
+        <trans-unit id="common-7">
+            <source>Edit</source>
+            <target>Edit</target>
+        </trans-unit>
+        <trans-unit id="common-8">
+            <source>Change</source>
+            <target>Change</target>
+        </trans-unit>
+        
+        <!-- BLOCKS CONTROLLER -->
+        
+        <trans-unit id="blocks-controller-1">
+            <source>The block has been successfully removed</source>
+            <target>The block has been successfully removed</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-2">
+            <source>The block has not been removed</source>
+            <target>The block has not been removed</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-3">
+            <source>The key param is mandatory to open the right file manager</source>
+            <target>The key param is mandatory to open the right file manager</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-4">
+            <source>The block does not exist anymore or the slot has any block inside</source>
+            <target>The block does not exist anymore or the slot has any block inside</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-5">
+            <source>The block has been successfully added</source>
+            <target>The block has been successfully added</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-6">
+            <source>You can add just one block into an included block</source>
+            <target>You can add just one block into an included block</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-7">
+            <source>The block has not been added because an unespected error has occoured when saving</source>
+            <target>The block has not been added because an unespected error has occoured when saving</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-8">
+            <source>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</source>
+            <target>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-9">
+            <source>The block has not been edited because an unespected error has occoured when saving</source>
+            <target>The block has not been edited because an unespected error has occoured when saving</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-10">
+            <source>It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made</source>
+            <target>It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-11">
+            <source>The block you tried to remove does not exist anymore in the website</source>
+            <target>The block you tried to remove does not exist anymore in the website</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-12">
+            <source>The key param is mandatory to open the right file manager</source>
+            <target>The key param is mandatory to open the right file manager</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-13">
+            <source>External file cannot be added because any file has been given</source>
+            <target>External file cannot be added because any file has been given</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-14">
+            <source>External file cannot be added because you have not provided any valid field name</source>
+            <target>External file cannot be added because you have not provided any valid field name</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-15">
+            <source>You have already assigned this file to the block</source>
+            <target>You have already assigned this file to the block</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-16">
+            <source>The external file reference has not been added to this block because an unespected error has occoured when saving</source>
+            <target>The external file reference has not been added to this block because an unespected error has occoured when saving</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-17">
+            <source>You are trying to add an external file on a block that does not exist anymore</source>
+            <target>You are trying to add an external file on a block that does not exist anymore</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-18">
+            <source>External file cannot be removed because any file has been given</source>
+            <target>External file cannot be removed because any file has been given</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-19">
+            <source>External file cannot be removed because you have not provided any valid field name</source>
+            <target>External file cannot be removed because you have not provided any valid field name</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-20">
+            <source>The external file reference has not been removed from this block because an unespected error has occoured when saving</source>
+            <target>The external file reference has not been removed from this block because an unespected error has occoured when saving</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-21">
+            <source>You are trying to delete an external file from a block that does not exist anymore</source>
+            <target>You are trying to delete an external file from a block that does not exist anymore</target>
+        </trans-unit>        
+        <trans-unit id="blocks-controller-22">
+            <source>The page you are trying to edit does not exist</source>
+            <target>The page you are trying to edit does not exist</target>
+        </trans-unit>
+        <trans-unit id="blocks-controller-23">
+            <source>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</source>
+            <target>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</target>
+        </trans-unit> 
+        <trans-unit id="blocks-controller-24">
+            <source>The block has been successfully edited</source>
+            <target>The block has been successfully edited</target>
+        </trans-unit>
+        
+        <!-- CMS CONTROLLER -->
+        
+        <trans-unit id="cms-controller-1">
+            <source>The requested page has not been loaded</source>
+            <target>The requested page has not been loaded</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-2">
+            <source>The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the template for the pages which cannot be rendered by this theme</source>
+            <target>The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the template for the pages which cannot be rendered by this theme</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-3">
+            <source>Pages</source>
+            <target>Pages</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-4">
+            <source>Languages</source>
+            <target>Languages</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-5">
+            <source>Themes</source>
+            <target>Themes</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-6">
+            <source>Media Library</source>
+            <target>Media Library</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-7">
+            <source>Deploy Stage</source>
+            <target>Deploy Stage</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-8">
+            <source>Deploy Prod</source>
+            <target>Deploy Prod</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-9">
+            <source>Opens the panel to add, modify, delete pages from the website</source>
+            <target>Opens the panel to add, modify, delete pages from the website</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-10">
+            <source>Opens the panel to add, modify, delete languages from the website</source>
+            <target>Opens the panel to add, modify, delete languages from the website</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-11">
+            <source>Opens the panel to manage the website themes</source>
+            <target>Opens the panel to manage the website themes</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-12">
+            <source>Opens the media library to upload, edit and remove external assets</source>
+            <target>Opens the media library to upload, edit and remove external assets</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-13">
+            <source>Deploys the website for stage environment</source>
+            <target>Deploys the website for stage environment</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-14">
+            <source>Deploys the website for production</source>
+            <target>Deploys the website for production</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-15">
+            <source>Opens the panel to add, modify, delete users from the website</source>
+            <target>Opens the panel to add, modify, delete users from the website</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-16">
+            <source>Logs out from AlphaLemon CMS</source>
+            <target>Logs out from AlphaLemon CMS</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-17">
+            <source>Users</source>
+            <target>Users</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-18">
+            <source>Logout</source>
+            <target>Logout</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-19">
+            <source>Edits the current page</source>
+            <target>Edits the current page</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-20">
+            <source>Edit</source>
+            <target>Edit</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-21">
+            <source>Stops to edit the current page</source>
+            <target>Stops to edit the current page</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-23">
+            <source>Opens the panel that contains the tools to navigate through the pages of your website</source>
+            <target>Opens the panel that contains the tools to navigate through the pages of your website</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-24">
+            <source>Nav</source>
+            <target>Nav</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-25">
+            <source>Starts to edit the template slots</source>
+            <target>Starts to edit the template slots</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-26">
+            <source>Slots</source>
+            <target>Slots</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-27">
+            <source>Stops to edit the template slots</source>
+            <target>Stops to edit the template slots</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-28">
+            <source>Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other</source>
+            <target>Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-29">
+            <source>Finalize</source>
+            <target>Finalize</target>
+        </trans-unit>
+        
+        <!-- CONFIGURATION CONTROLLER -->
+        
+        <trans-unit id="configuration-controller-1">
+            <source>CMS language has been changed. Please wait while your site is reloading</source>
+            <target>CMS language has been changed. Please wait while your site is reloading</target>
+        </trans-unit>
+        <trans-unit id="configuration-controller-2">
+            <source>An error occoured when changing CMS language</source>
+            <target>An error occoured when changing CMS language</target>
+        </trans-unit>
+        <trans-unit id="configuration-controller-3">
+            <source>The language "%language%" is the one already in use</source>
+            <target>The language "%language%" is the one already in use</target>
+        </trans-unit>
+        
+        <!-- LANGUAGES CONTROLLER -->
+        
+        <trans-unit id="languages-controller-1">
+            <source>Language attributes</source>
+            <target>Language attributes</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-2">
+            <source>Language</source>
+            <target>Language</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-3">
+            <source>Choose the language</source>
+            <target>Choose the language</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-4">
+            <source>When checked, promotes the language as the website's main language, which is the one displayed when any language has been given</source>
+            <target>When checked, promotes the language as the website's main language, which is the one displayed when any language has been given</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-5">
+            <source>Is Main</source>
+            <target>Is Main</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-6">
+            <source>Languages selector</source>
+            <target>Languages selector</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-7">
+            <source>The language has been successfully deleted</source>
+            <target>The language has been successfully deleted</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-8">
+            <source>The language has not been deleted</source>
+            <target>The language has not been deleted</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-9">
+            <source>Any language has been choosen for removing</source>
+            <target>Any language has been choosen for removing</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-10">
+            <source>To manage languages you must enable the intl extension in your php.ini file. Operation aborted</source>
+            <target>To manage languages you must enable the intl extension in your php.ini file. Operation aborted</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-11">
+            <source>The language has been successfully saved</source>
+            <target>The language has been successfully saved</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-12">
+            <source>The language has not been saved because an error has been occoured</source>
+            <target>The language has not been saved because an error has been occoured</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-13">
+            <source>The language has not been saved because an unespected error has been occoured when saving</source>
+            <target>The language has not been saved because an unespected error has been occoured when saving</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-14">
+            <source>Any language has been choosen for removing</source>
+            <target>Any language has been choosen for removing</target>
+        </trans-unit>
+        <trans-unit id="languages-controller-15">
+            <source>The language has not been deleted</source>
+            <target>The language has not been deleted</target>
+        </trans-unit>
+        
+        <!-- PAGES CONTROLLER -->
+        
+        <trans-unit id="pages-controller-1">
+            <source>Page</source>
+            <target>Page</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-2">
+            <source>SEO</source>
+            <target>SEO</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-3">
+            <source>Sitemap</source>
+            <target>Sitemap</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-4">
+            <source>Page attributes</source>
+            <target>Page attributes</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-5">
+            <source>Page name</source>
+            <target>Page name</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-6">
+            <source>Type here an unique name for the page</source>
+            <target>Type here an unique name for the page</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-7">
+            <source>Template</source>
+            <target>Template</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-8">
+            <source>Choose one template from the current theme</source>
+            <target>Choose one template from the current theme</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-9">
+            <source>Home page</source>
+            <target>Home page</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-10">
+            <source>Set the page as the home page of your website. This is the page displayed when any specific page has been requested</source>
+            <target>Set the page as the home page of your website. This is the page displayed when any specific page has been requested</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-11">
+            <source>Published</source>
+            <target>Published</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-12">
+            <source>Check this option to publish the page</source>
+            <target>Check this option to publish the page</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-13">
+            <source>SEO - Search Engines Optimization</source>
+            <target>SEO - Search Engines Optimization</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-14">
+            <source>Permalink</source>
+            <target>Permalink</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-15">
+            <source>This is a permanent link that identifies uniquely the page</source>
+            <target>This is a permanent link that identifies uniquely the page</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-16">
+            <source>Meta-Title</source>
+            <target>Meta-Title</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-17">
+            <source>The page title. It should be congruent with the page's text, it should always be compiled and is should be length 60 chars max</source>
+            <target>The page title. It should be congruent with the page's text, it should always be compiled and is should be length 60 chars max</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-18">
+            <source>Meta-Description</source>
+            <target>Meta-Description</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-19">
+            <source>Provide here a brief description of the page. This attribute should always be compiled</source>
+            <target>Provide here a brief description of the page. This attribute should always be compiled</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-20">
+            <source>Meta-Keywords</source>
+            <target>Meta-Keywords</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-21">
+            <source>This attribute is no longer used by several Search Engines, so you could quite leave it blank</source>
+            <target>This attribute is no longer used by several Search Engines, so you could quite leave it blank</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-22">
+            <source>Change Frequency</source>
+            <target>Change Frequency</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-23">
+            <source>Priority</source>
+            <target>Priority</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-24">
+            <source>Pages selector</source>
+            <target>Pages selector</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-25">
+            <source>Languages</source>
+            <target>Languages</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-26">
+            <source>Site pages</source>
+            <target>Site pages</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-27">
+            <source>And now select the language or remove the page</source>
+            <target>And now select the language or remove the page</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-28">
+            <source>The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes</source>
+            <target>The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-29">
+            <source>The page has not been saved</source>
+            <target>The page has not been saved</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-30">
+            <source>Any page has been choosen for removing</source>
+            <target>Any page has been choosen for removing</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-31">
+            <source>Nothing to delete with the given parameters</source>
+            <target>Nothing to delete with the given parameters</target>
+        </trans-unit>
+        
+        <!-- PREVIEW CONTROLLER -->
+        
+        <trans-unit id="preview-controller-1">
+            <source>Nav</source>
+            <target>Nav</target>
+        </trans-unit>
+        <trans-unit id="preview-controller-2">
+            <source>Back</source>
+            <target>Back</target>
+        </trans-unit>
+        
+        <!-- SECURITY CONTROLLER -->
+        
+        <trans-unit id="security-controller-1">
+            <source>Users management</source>
+            <target>Users management</target>
+        </trans-unit>
+        <trans-unit id="security-controller-2">
+            <source>Username</source>
+            <target>Username</target>
+        </trans-unit>
+        <trans-unit id="security-controller-3">
+            <source>Email</source>
+            <target>Email</target>
+        </trans-unit>
+        <trans-unit id="security-controller-4">
+            <source>Roles</source>
+            <target>Roles</target>
+        </trans-unit>
+        <trans-unit id="security-controller-5">
+            <source>Manage user</source>
+            <target>Manage user</target>
+        </trans-unit>
+        <trans-unit id="security-controller-6">
+            <source>Password</source>
+            <target>Password</target>
+        </trans-unit>
+        <trans-unit id="security-controller-7">
+            <source>Users</source>
+            <target>Users</target>
+        </trans-unit>
+        <trans-unit id="security-controller-8">
+            <source>Roles management</source>
+            <target>Roles management</target>
+        </trans-unit>
+        <trans-unit id="security-controller-9">
+            <source>Rolename</source>
+            <target>Rolename</target>
+        </trans-unit>
+        <trans-unit id="security-controller-10">
+            <source>Manage role</source>
+            <target>Manage role</target>
+        </trans-unit>
+        <trans-unit id="security-controller-11">
+            <source>Role</source>
+            <target>Role</target>
+        </trans-unit>
+        <trans-unit id="security-controller-12">
+            <source>User has not been saved</source>
+            <target>User has not been saved</target>
+        </trans-unit>        
+        <trans-unit id="security-controller-13">
+            <source>User has been saved</source>
+            <target>User has been saved</target>
+        </trans-unit>
+        <trans-unit id="security-controller-14">
+            <source>Role has not been saved</source>
+            <target>Role has not been saved</target>
+        </trans-unit>        
+        <trans-unit id="security-controller-15">
+            <source>Role has been saved</source>
+            <target>Role has been saved</target>
+        </trans-unit>
+        
+        <!-- THEMES CONTROLLER -->
+        
+        <trans-unit id="themes-controller-1">
+            <source>title</source>
+            <target>title</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-2">
+            <source>description</source>
+            <target>description</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-3">
+            <source>author</source>
+            <target>author</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-4">
+            <source>website</source>
+            <target>website</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-5">
+            <source>license</source>
+            <target>license</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-6">
+            <source>Preview</source>
+            <target>Preview</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-7">
+            <source>Activate</source>
+            <target>Activate</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-8">
+            <source>Start from this Theme</source>
+            <target>Start from this Theme</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-9">
+            <source>Theme:</source>
+            <target>Theme:</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-10">
+            <source>Previews the theme</source>
+            <target>Previews the theme</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-11">
+            <source>Activates the theme</source>
+            <target>Activates the theme</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-12">
+            <source>Resets and starts using this theme</source>
+            <target>Resets and starts using this theme</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-13">
+            <source>Finalizes the change of theme</source>
+            <target>Finalizes the change of theme</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-14">
+            <source>A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme.</source>
+            <target>A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme.</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-15">
+            <source>A full finalization removes all the blocks saved from previous theme.</source>
+            <target>A full finalization removes all the blocks saved from previous theme.</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-16">
+            <source>Partial</source>
+            <target>Partial</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-17">
+            <source>Full</source>
+            <target>Full</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-18">
+            <source>The theme has not been finalized due to an error occoured when saving to database</source>
+            <target>The theme has not been finalized due to an error occoured when saving to database</target>
+        </trans-unit>
+        <trans-unit id="themes-controller-19">
+            <source>The theme has been changed. Please wait while your site is reloading</source>
+            <target>The theme has been changed. Please wait while your site is reloading</target>
+        </trans-unit>        
+        <trans-unit id="themes-controller-20">
+            <source>The site has been bootstrapped with the new theme. This page is reloading</source>
+            <target>The site has been bootstrapped with the new theme. This page is reloading</target>
+        </trans-unit>        
+        <trans-unit id="themes-controller-21">
+            <source>It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme</source>
+            <target>It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme</target>
+        </trans-unit>  
+        
+        <!-- WELCOME -->
+        
+        <trans-unit id="welcome-1">
+            <source>Welcome to AlphaLemon CMS</source>
+            <target>Welcome to AlphaLemon CMS</target>
+        </trans-unit>
+        <trans-unit id="welcome-2">
+            <source>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</source>
+            <target>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</target>
+        </trans-unit>
+        <trans-unit id="welcome-3">
+            <source>The page and/or the language you have requested does not exist</source>
+            <target>The page and/or the language you have requested does not exist</target>
+        </trans-unit>
+        <trans-unit id="welcome-4">
+            <source>The page has assigned a template not included in the theme you are using on your website</source>
+            <target>The page has assigned a template not included in the theme you are using on your website</target>
+        </trans-unit>
+        <trans-unit id="welcome-5">
+            <source>Your website has any page and/or language and/or theme</source>
+            <target>Your website has any page and/or language and/or theme</target>
+        </trans-unit>
+        <trans-unit id="welcome-6">
+            <source>Something has gone wrong during the install process</source>
+            <target>Something has gone wrong during the install process</target>
+        </trans-unit>        
+        <trans-unit id="welcome-7">
+            <source>The action you made returns this response:</source>
+            <target>The action you made returns this response:</target>
+        </trans-unit>  
+    </body>
+    </file>
+</xliff>

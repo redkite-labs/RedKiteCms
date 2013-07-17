@@ -15,7 +15,6 @@
 
 {# set cms_language = configuration.read('language') #}
 {% extends "AlphaLemonCmsBundle:Item:_languages_support.html.twig" %}
-{% set common_domain = cms_language ~ "_common" %}
 
 {% block content %}
 <div>
@@ -23,8 +22,8 @@
 </div>
 <div class="pull-right">
     {% block commands %}
-    <input id="al_add_item" type="submit" class="btn" value="{{ 'New'|trans({}, common_domain, cms_language) }}" />
-    <input id="al_save_item" type="submit" class="btn btn-primary" value="{{ 'Save'|trans({}, common_domain, cms_language) }}" />
+    <input id="al_add_item" type="submit" class="btn" value="{{ 'New'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}" />
+    <input id="al_save_item" type="submit" class="btn btn-primary" value="{{ 'Save'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}" />
     {% endblock %}
 </div>
 <div id="al_save_item_errors"></div>
