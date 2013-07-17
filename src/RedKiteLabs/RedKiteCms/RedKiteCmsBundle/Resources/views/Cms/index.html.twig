@@ -16,8 +16,6 @@
 {% extends template %}
 
 {% set cms_language = configuration.read('language') %}
-{% set common_domain = cms_language ~ "_common" %}
-{% set cms_controller_domain = cms_language ~ "_cms_controller" %}
 
 {% block internal_header_javascripts %}
 {{ parent() }}
@@ -122,15 +120,15 @@
                 <li>AlphaLemon CMS</li>
             </ul>
             <ul class="inline al-commands pull-left">
-                <li><a href="#" id="al_open_pages_panel" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete pages from the website'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Pages'|trans({}, cms_controller_domain, cms_language) }}</a></li>
-                <li><a href="#" id="al_open_languages_panel" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete languages from the website'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Languages'|trans({}, cms_controller_domain, cms_language) }}</a></li>
-                <li><a href="#" id="al_open_themes_panel" rel="tooltip" title="{{ 'Opens the panel to manage the website themes'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Themes'|trans({}, cms_controller_domain, cms_language) }}</a></li>
-                <li><a href="#" id="al_open_media_library" rel="tooltip" title="{{ 'Opens the media library to upload, edit and remove external assets'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Media Library'|trans({}, cms_controller_domain, cms_language) }}</a></li>
-                <li><a href="#" class="al_deployer" rel="stage" rel="tooltip" title="{{ 'Deploys the website for stage environment'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Deploy Stage'|trans({}, cms_controller_domain, cms_language) }}</a></li>
-                <li><a href="#" class="al_deployer" rel="local" rel="tooltip" title="{{ 'Deploys the website for production'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Deploy Prod'|trans({}, cms_controller_domain, cms_language) }}</a></li>
+                <li><a href="#" id="al_open_pages_panel" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete pages from the website'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Pages'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_languages_panel" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete languages from the website'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Languages'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_themes_panel" rel="tooltip" title="{{ 'Opens the panel to manage the website themes'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Themes'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_media_library" rel="tooltip" title="{{ 'Opens the media library to upload, edit and remove external assets'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Media Library'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" class="al_deployer" rel="stage" rel="tooltip" title="{{ 'Deploys the website for stage environment'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Deploy Stage'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" class="al_deployer" rel="local" rel="tooltip" title="{{ 'Deploys the website for production'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Deploy Prod'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
                 {% if is_secure %}
-                <li><a href="#" id="al_open_users_manager" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete users from the website'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Users'|trans({}, cms_controller_domain, cms_language) }}</a></li>
-                <li><a href="#" id="al_logout" rel="tooltip" title="{{ 'Logs out from AlphaLemon CMS'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Logout'|trans({}, cms_controller_domain, cms_language) }}</a></li>
+                <li><a href="#" id="al_open_users_manager" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete users from the website'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Users'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_logout" rel="tooltip" title="{{ 'Logs out from AlphaLemon CMS'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Logout'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a></li>
                 {% endif %} 
             </ul>
         </div>
@@ -149,10 +147,10 @@
 <div id="al_main_commands">
     <div id="al_toggle_edit_buttons">
         <a href="#" id="al_start_editor">
-            <span class="al_img_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Edits the current page'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Edit'|trans({}, cms_controller_domain, cms_language) }}</p></span>
+            <span class="al_img_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Edits the current page'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Edit'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p></span>
         </a>
         <a href="#" id="al_stop_editor" style="display: none">
-            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Stops to edit the current page'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Stop'|trans({}, common_domain, cms_language) }}</p></span>
+            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Stops to edit the current page'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Stop'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p></span>
         </a>        
         <div class="clearfix"></div>    
     </div>
@@ -166,7 +164,7 @@
         </div>
         <div class="pull-left">
             <a href="#" id="al_show_navigation">
-                <span class="al_img_nav pull-left al_tab_text"><p rel="tooltip" title="{{ 'Opens the panel that contains the tools to navigate through the pages of your website'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Nav'|trans({}, cms_controller_domain, cms_language) }}</p></span>
+                <span class="al_img_nav pull-left al_tab_text"><p rel="tooltip" title="{{ 'Opens the panel that contains the tools to navigate through the pages of your website'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Nav'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p></span>
             </a>
         </div>     
         <div class="clearfix"></div>  
@@ -175,17 +173,17 @@
     {% if slots is defined and slots|length > 0 %}
     <div id="al_toggle_slots_changer">
         <a href="#" id="al_start_slots_management">
-            <span class="al_img_slots al_tab_text pull-left" rel="tooltip" title="{{ 'Starts to edit the template slots'|trans({}, cms_controller_domain, cms_language) }}"><p>{{ 'Slots'|trans({}, cms_controller_domain, cms_language) }}</p></span>
+            <span class="al_img_slots al_tab_text pull-left" rel="tooltip" title="{{ 'Starts to edit the template slots'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}"><p>{{ 'Slots'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p></span>
         </a>
         <a href="#" id="al_stop_slots_management" style="display: none">
-            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Stops to edit the template slots'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Stop'|trans({}, common_domain, cms_language) }}</p></span>
+            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Stops to edit the template slots'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Stop'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p></span>
         </a>        
         <div class="clearfix"></div>    
     </div>
         
     <div id="">
         <a href="#" id="al_finalize_theme">
-            <span class="al_img_finalize al_tab_text pull-left"><p rel="tooltip" title="{{ 'Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other'|trans({}, cms_controller_domain, cms_language) }}">{{ 'Finalize'|trans({}, cms_controller_domain, cms_language) }}</p></span>
+            <span class="al_img_finalize al_tab_text pull-left"><p rel="tooltip" title="{{ 'Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}">{{ 'Finalize'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p></span>
         </a>  
     </div>
     {% endif %}
