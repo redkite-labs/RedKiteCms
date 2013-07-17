@@ -126,7 +126,7 @@
         <div class="clearfix"></div>
     </div>
     <div>
-        <a href="{{ path('_cms_navigation', {'languageName': language_name, 'pageName': page_name }) }}" id="al-back">
+        <a href="{{ path('alpha_lemon_cms_navigation', {'_locale': language_name, 'page': page_name }) }}" id="al-back">
             <span class="al_img_back pull-left"><p>{{ "Back"|trans({}, preview_controller_domain, cms_language) }}</p></span>
         </a>
     </div>
