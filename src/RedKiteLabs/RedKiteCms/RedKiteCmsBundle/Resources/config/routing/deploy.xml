@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="_local_deploy" pattern="/backend/{_locale}/al_local_deploy/{locked}">
+    <route id="alpha_lemon_cms_local_deploy" pattern="/backend/{_locale}/al_local_deploy/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Deploy:local</default>
         <default key="locked"></default>
         <requirement key="_method">POST</requirement>
     </route>
     
-    <route id="_stage_deploy" pattern="/backend/{_locale}/al_stage_deploy/{locked}">
+    <route id="alpha_lemon_cms_stage_deploy" pattern="/backend/{_locale}/al_stage_deploy/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Deploy:stage</default>
         <default key="locked"></default>
         <requirement key="_method">POST</requirement>

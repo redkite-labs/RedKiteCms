@@ -568,7 +568,7 @@ $(document).ready(function(){
         {
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemes',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemesPanel',
                 data: {
                     'page' :  $('#al_pages_navigator').html(),
                     'language' : $('#al_languages_navigator').html()

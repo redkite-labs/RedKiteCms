@@ -24,8 +24,7 @@
         <service id="alpha_lemon_cms.exception_listener" class="%alpha_lemon_cms.exception_listener.class%">
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
             <argument type="service" id="templating" />
-            <argument type="service" id="translator" />
-            <argument type="service" id="alpha_lemon_cms.configuration" />
+            <argument type="service" id="alpha_lemon_cms.translator" />
         </service>
         
         <service id="alpha_lemon_cms.cms_bootstrap_listener" class="%alpha_lemon_cms.cms_bootstrap_listener.class%">

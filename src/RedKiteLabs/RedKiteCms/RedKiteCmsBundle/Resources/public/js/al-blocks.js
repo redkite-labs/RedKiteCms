@@ -125,47 +125,6 @@
         });
     };
 
-    $.fn.ShowExternalFilesManager =function(key, successCallback)
-    {
-        this.each(function()
-        {
-            $(this).click(function()
-            {
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/showExternalFilesManager',
-                    data: {'page' :  $('#al_pages_navigator').html(),
-                           'language' : $('#al_languages_navigator').html(),
-                           'pageId' :  $('#al_pages_navigator').attr('rel'),
-                           'languageId' : $('#al_languages_navigator').attr('rel'),
-                           'key'      : key},
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(html)
-                    {
-                        showMediaLibrary(html);
-                        
-                        if (successCallback != null) {
-                            successCallback();
-                        }
-                    },
-                    error: function(err)
-                    {
-                        $('body').showAlert(err.responseText, 0, 'alert-error');
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
-
-                return false;
-            });
-        });
-    };
-
     $.fn.Delete =function()
     {
         this.each(function()
