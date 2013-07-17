@@ -199,25 +199,6 @@ class BlocksController extends Base\BaseController
             throw new RuntimeException($this->translate('blocks_controller', 'The block you tried to remove does not exist anymore in the website'));
         }
     }
-
-    public function showExternalFilesManagerAction()
-    {
-        try {
-            $key = $this->container->get('request')->get('key');
-            if (empty($key)) {
-                throw new InvalidArgumentException($this->translate('blocks_controller', 'The key param is mandatory to open the right file manager'));
-            }
-
-            $params = array(
-                'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
-                'assets_folder' => AlAssetsPath::getUploadFolder($this->container),
-            );
-
-            return $this->container->get('templating')->renderResponse(sprintf('AlphaLemonCmsBundle:Block:%s_media_library.html.twig', $key), $params);
-        } catch (\Exception $e) {
-            return $this->renderDialogMessage($e->getMessage());
-        }
-    } 
     
     protected function buildJSonResponse($values)
     {
