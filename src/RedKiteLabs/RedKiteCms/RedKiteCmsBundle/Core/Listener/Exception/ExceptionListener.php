@@ -20,6 +20,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Exception;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface;
 
 /**
  * Listens for kernel exception
@@ -30,13 +31,11 @@ class ExceptionListener
 {
     protected $templating;
     protected $translator;
-    protected $configuration;
     
-    public function __construct(EngineInterface $templating, $translator, $configuration)
+    public function __construct(EngineInterface $templating, AlTranslatorInterface $translator)
     {
         $this->templating = $templating;
         $this->translator = $translator;
-        $this->configuration = $configuration;
     }
 
     /**
@@ -54,21 +53,16 @@ class ExceptionListener
         $message = $exception->getMessage();
         $jsonMessage = json_decode($message, true);
         if (is_array($jsonMessage)) {
-            $configurationLanguage = $this->configuration->read('language');
             $parameters = array(
                 'message' => '',
                 'parameters' => array(),
                 'domain' => 'messages',
-                'locale' => $configurationLanguage,
-            );
+                'locale' => null,
+            ); 
             $cleanedParameters = array_intersect_key($jsonMessage, $parameters);
             $parameters = array_merge($parameters, $cleanedParameters);
             
-            if (empty($jsonMessage["locale"])) {
-                $parameters["domain"] = $configurationLanguage . '_' . $parameters["domain"];
-            }
-            
-            $message = $this->translator->trans(
+            $message = $this->translator->translate(
                 $parameters["message"],
                 $parameters["parameters"],
                 $parameters["domain"],
