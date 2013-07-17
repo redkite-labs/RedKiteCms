@@ -347,25 +347,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, count($blocks));
     }
     
-    public function testShowFilesManagerFailsWhenAnyKeyIsGiven()
-    {
-        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager');
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-
-        $this->assertTrue($crawler->filter('html:contains("The key param is mandatory to open the right file manager")')->count() > 0);
-    }
-
-    public function testShowFilesManagerFailsWhenKeyIsInvalid()
-    {
-        $params = array("key" => "fake");
-        $crawler = $this->client->request('POST', '/backend/en/showExternalFilesManager', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-
-        $this->assertTrue($crawler->filter('html:contains("Unable to find template")')->count() > 0);
-    }
-    
     public function testAddIncludedBlockFails()
     {
         $referenceBlockId = $this->getLastBlock("content_title_1")->getId();
