@@ -17,7 +17,7 @@
         <parameter key="alpha_lemon_cms.page_manager_parameters_validator.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
         <parameter key="alpha_lemon_cms.repeated_slots_aligner.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
         <parameter key="alpha_lemon_cms.slots_converter_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
-        <parameter key="alpha_lemon_cms.local_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerProduction</parameter>
+        <parameter key="alpha_lemon_cms.production_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerProduction</parameter>
         <parameter key="alpha_lemon_cms.stage_deployer.class">AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerStage</parameter>
         <parameter key="alpha_lemon_cms.block_manager_factory.class">AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
         <parameter key="alpha_lemon_cms.themes_collection_wrapper.class">AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
@@ -159,7 +159,7 @@
             <argument type="service" id="alpha_lemon_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.local_deployer" class="%alpha_lemon_cms.local_deployer.class%">
+        <service id="alpha_lemon_cms.production_deployer" class="%alpha_lemon_cms.production_deployer.class%">
             <argument type="service" id="service_container" />
         </service>
         
