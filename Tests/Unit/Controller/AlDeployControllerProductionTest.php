@@ -24,10 +24,10 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller;
  */
 class AlDeployControllerProductionTest extends BaseDeployControllerTest
 {
-    protected $deployerServiceName = 'alpha_lemon_cms.local_deployer';
+    protected $deployerServiceName = 'alpha_lemon_cms.production_deployer';
     
     protected function executeAction()
     {
-        return $this->controller->localAction();
+        return $this->controller->productionAction();
     }
 }

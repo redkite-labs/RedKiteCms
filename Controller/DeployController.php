@@ -19,10 +19,10 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
 
 class DeployController extends Base\BaseController
 {
-    public function localAction()
+    public function productionAction()
     {
         try {
-            $deployer = $this->container->get('alpha_lemon_cms.local_deployer');
+            $deployer = $this->container->get('alpha_lemon_cms.production_deployer');
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
             
