@@ -1,30 +1,30 @@
-_configuration:
+alpha_lemon_cms_configuration:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/configuration.xml"
     
-_security:
+alpha_lemon_cms_security:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/security.xml"
 
-_pages:
+alpha_lemon_cms_pages:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/pages.xml"
 
-_languages:
+alpha_lemon_cms_languages:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/languages.xml"
 
-_theme_preview:
+alpha_lemon_cms_theme_preview:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/theme-preview.xml"
 
-_themes:
+alpha_lemon_cms_themes:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/themes.xml"
 
-_blocks:
+alpha_lemon_cms_blocks:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/blocks.xml"
 
-_deploy:
+alpha_lemon_cms_deploy:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/deploy.xml"
 
-_al_elfinder:
+alpha_lemon_cms_elfinder:
     resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
 
-_cms_navigation:
+alpha_lemon_cms_navigation:
   pattern:  /backend/{_locale}/{page}/{locked}
   defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index, locked: pageId }

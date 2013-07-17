@@ -4,27 +4,27 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="_languages" pattern="/backend/{_locale}/al_showLanguages">
+    <route id="alpha_lemon_cms_languages" pattern="/backend/{_locale}/al_showLanguages">
         <default key="_controller">AlphaLemonCmsBundle:Languages:index</default>
         <default key="_locale">en</default>
         <requirement key="_method">POST</requirement>
     </route>
 
-    <route id="_save_language" pattern="/backend/{_locale}/al_saveLanguage/{locked}">
+    <route id="alpha_lemon_cms_save_language" pattern="/backend/{_locale}/al_saveLanguage/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Languages:saveLanguage</default>
         <default key="_locale">en</default>
         <default key="locked">languageId</default>
         <requirement key="_method">POST</requirement>
     </route>
 
-    <route id="_delete_language" pattern="/backend/{_locale}/al_deleteLanguage/{locked}">
+    <route id="alpha_lemon_cms_delete_language" pattern="/backend/{_locale}/al_deleteLanguage/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Languages:deleteLanguage</default>
         <default key="_locale">en</default>
         <default key="locked">languageId</default>
         <requirement key="_method">POST</requirement>
     </route>
     
-    <route id="_load_language_attributes" pattern="/backend/{_locale}/al_loadLanguageAttributes/{locked}">
+    <route id="alpha_lemon_cms_load_language_attributes" pattern="/backend/{_locale}/al_loadLanguageAttributes/{locked}">
         <default key="_controller">AlphaLemonCmsBundle:Languages:loadLanguageAttributes</default>
         <default key="_locale">en</default>
         <default key="locked">languageId</default>
