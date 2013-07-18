@@ -39,7 +39,7 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
         );
     }
 
-    protected function getGenerator()
+    protected function getGenerator($bundle = null)
     {
         if (null === $this->generator) {
             $kernel = $this->getContainer()->get('kernel');

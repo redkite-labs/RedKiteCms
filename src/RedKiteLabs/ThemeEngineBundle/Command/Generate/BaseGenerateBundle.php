@@ -8,14 +8,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
 use AlphaLemon\ThemeEngineBundle\Core\Generator\AlAppBlockGenerator;
-use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
+//use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
+use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 
 abstract class BaseGenerateBundle extends GenerateBundleCommand
 {
     protected $generator;
     protected $updateKernel = true;
 
-    public function setGenerator(BundleGenerator $generator)
+    public function setGenerator(Generator $generator)
     {
         $this->generator = $generator;
     }
