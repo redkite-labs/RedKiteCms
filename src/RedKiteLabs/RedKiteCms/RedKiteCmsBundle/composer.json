@@ -28,7 +28,7 @@
     "propel/propel1": "1.6.*",
     "phing/phing": "2.4.12",
     "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
-    "alphalemon/theme-engine-bundle": "dev-master",
+    "alphalemon/theme-engine-bundle": "2.3.*",
     "alphalemon/elfinder-bundle": "dev-master"
   },
   "require-dev": {    
