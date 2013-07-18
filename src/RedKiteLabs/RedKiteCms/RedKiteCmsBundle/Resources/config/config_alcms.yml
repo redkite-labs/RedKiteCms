@@ -19,10 +19,14 @@ framework:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    default_locale:  %locale%
-    trust_proxy_headers: false # Should Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
     session:         ~
+    fragments:       ~
+    http_method_override: true
 
 # Twig Configuration
 twig:
@@ -40,6 +44,7 @@ swiftmailer:
     spool:     { type: memory }
     
 assetic:
+    debug:          %kernel.debug%
     use_controller: false
     bundles: [AlphaLemonCmsBundle]
     filters:
