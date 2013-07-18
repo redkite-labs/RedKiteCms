@@ -81,7 +81,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
         );
     }
 
-    protected function getGenerator()
+    protected function getGenerator($bundle = null)
     {
         if (null === $this->generator) {
             // @codeCoverageIgnoreStart
