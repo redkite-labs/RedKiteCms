@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
+namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Command\Generate;
 
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -78,7 +78,6 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
         $options = array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true);
         return array(
             array($options, "Foo/BarBundle\n", array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, 'Fake block', 'fake-group', true)),
-            array($options, "Foo/BarBundle\nBarBundle\nfoo\nyml\nn", array('Foo\BarBundle', 'BarBundle', 'foo/', 'yml', false, 'Fake block', 'fake-group', true)),
             array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true, '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), "Foo/BarBundle\n", array('Foo\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'yml', true, 'Fake block', 'fake-group', true)),
             array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--format' => 'annotation', '--bundle-name' => 'BarBundle', '--structure' => true), "AlphaLemon/Block/BarBundle\n", array('AlphaLemon\Block\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'annotation', true, 'Fake block', 'fake-group', false)),
         );
