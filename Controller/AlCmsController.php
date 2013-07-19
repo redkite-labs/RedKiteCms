@@ -120,7 +120,7 @@ class AlCmsController extends BaseFrontendController
                 $cmsLanguage . '_cms_controller', 
                 $cmsLanguage
             );
-            $this->container->get('session')->setFlash('message', $message);
+            $this->container->get('session')->getFlashBag()->add('notice', $message);
         }
 
         $response = $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', $params);
@@ -165,7 +165,7 @@ class AlCmsController extends BaseFrontendController
                     $cmsLanguage
                 );
                 
-                $this->container->get('session')->setFlash('message', $message);
+                $this->container->get('session')->getFlashBag()->add('notice', $message);
 
                 return $templateTwig;
             }
