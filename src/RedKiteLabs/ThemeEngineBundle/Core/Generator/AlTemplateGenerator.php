@@ -45,7 +45,8 @@ class AlTemplateGenerator extends Generator
         );
 
         $templateFile = $templateName.'.xml';
-        $this->renderFile($this->themeSkeletonDir, 'template.xml', $dir . '/' . $templateFile, $parameters);
+        $this->setSkeletonDirs($this->themeSkeletonDir);
+        $this->renderFile('template.xml', $dir . '/' . $templateFile, $parameters);
 
         return sprintf('The template <info>%s</info> has been generated into <info>%s</info>', $templateFile, $dir);
     }

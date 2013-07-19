@@ -35,8 +35,6 @@ class AlSlotsGenerator extends Generator
      */
     public function generateSlots($dir, $themeName, $templateName, array $slots)
     {
-        //$suffix = preg_match('/ThemeBundle$/', $themeName) ? 'ThemeBundle' : 'Bundle';
-        //$themeBasename = str_replace($suffix, '', $themeName);
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
 
@@ -47,7 +45,8 @@ class AlSlotsGenerator extends Generator
         );
 
         $slotFile = $templateName . '.xml';
-        $this->renderFile($this->themeSkeletonDir, 'slots.xml', $dir . '/' . $slotFile, $parameters);
+        $this->setSkeletonDirs($this->themeSkeletonDir);
+        $this->renderFile('slots.xml', $dir . '/' . $slotFile, $parameters);
 
         $message = '';
         foreach ($slots as $slotName => $slot) {

@@ -48,10 +48,7 @@ class AlExtensionGenerator extends Generator
             }
             $slotFiles[] = $fileName;
         }
-  /*      
-        $suffix = preg_match('/ThemeBundle$/', $namespace) ? 'ThemeBundle' : 'Bundle';
-        $configThemeName = Container::underscore(str_replace($suffix, '', $themeName));
-*/
+        
         $parameters = array(
             'namespace' => $namespace,
             'bundle_basename' => $themeBasename,
@@ -61,8 +58,9 @@ class AlExtensionGenerator extends Generator
             "extension_alias" => $extensionAlias,
         );
 
+        $this->setSkeletonDirs($this->themeSkeletonDir);
         $extensionFile = str_replace('Bundle', '', $themeBasename) . 'Extension.php';
-        $this->renderFile($this->themeSkeletonDir, 'Extension.php', $dir . '/' . $extensionFile, $parameters);        
+        $this->renderFile('Extension.php', $dir . '/' . $extensionFile, $parameters);        
         $message = sprintf('The extension file <info>%s</info> has been generated into <info>%s</info>', $extensionFile, $dir);
 
         return $message;
