@@ -20,6 +20,9 @@ class AlAppBlockGenerator extends AlBaseGenerator
     public function generateExt($namespace, $bundle, $dir, $format, $structure, array $options)
     {
         $format = 'annotation';
+        
+        $bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
+        $this->setSkeletonDirs($bundleSkeletonDir);
         $this->generate($namespace, $bundle, $dir, $format, $structure);
 
         $dir .= '/'.strtr($namespace, '\\', '/');
@@ -27,7 +30,6 @@ class AlAppBlockGenerator extends AlBaseGenerator
 
         $this->filesystem->mkdir($dir.'/Core/Block');
 
-        $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';
         $extensionAlias = Container::underscore($bundleBasename);
         $typeLowercase = strtolower($bundleBasename);
         $parameters = array(
@@ -42,16 +44,18 @@ class AlAppBlockGenerator extends AlBaseGenerator
             'description'    => $options["description"],
             'group'    => $options["group"],
         );
-
-        $this->renderFile($blockSkeletonDir, 'Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
-        $this->renderFile($blockSkeletonDir, 'FormType.php', $dir.'/Core/Form/Al'.$bundleBasename.'Type.php', $parameters);
-        $this->renderFile($blockSkeletonDir, 'app_block.xml', $dir.'/Resources/config/app_block.xml', $parameters);
-        $this->renderFile($blockSkeletonDir, 'config_alcms.yml', $dir.'/Resources/config/config_alcms.yml', $parameters);
-        $this->renderFile($blockSkeletonDir, 'config_alcms_dev.yml', $dir.'/Resources/config/config_alcms_dev.yml', $parameters);
-        $this->renderFile($blockSkeletonDir, 'config_alcms_test.yml', $dir.'/Resources/config/config_alcms_test.yml', $parameters);
-        $this->renderFile($blockSkeletonDir, 'autoload.json', $dir.'/autoload.json', $parameters);
+    
+        $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';            
+        $this->setSkeletonDirs($blockSkeletonDir);
+        $this->renderFile('Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
+        $this->renderFile('FormType.php', $dir.'/Core/Form/Al'.$bundleBasename.'Type.php', $parameters);
+        $this->renderFile('app_block.xml', $dir.'/Resources/config/app_block.xml', $parameters);
+        $this->renderFile('config_alcms.yml', $dir.'/Resources/config/config_alcms.yml', $parameters);
+        $this->renderFile('config_alcms_dev.yml', $dir.'/Resources/config/config_alcms_dev.yml', $parameters);
+        $this->renderFile('config_alcms_test.yml', $dir.'/Resources/config/config_alcms_test.yml', $parameters);
+        $this->renderFile('autoload.json', $dir.'/autoload.json', $parameters);
         if (!array_key_exists("no-strict", $options) || $options["no-strict"] == false) {
-            $this->renderFile($blockSkeletonDir, 'composer.json', $dir.'/composer.json', $parameters);
+            $this->renderFile('composer.json', $dir.'/composer.json', $parameters);
         }
         $this->filesystem->copy($blockSkeletonDir . '/block.html.twig', $dir.'/Resources/views/Content/' . $typeLowercase . '.html.twig');
         $this->filesystem->copy($blockSkeletonDir . '/form_editor.html.twig', $dir.'/Resources/views/Editor/' . $typeLowercase . '.html.twig');
