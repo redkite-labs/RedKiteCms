@@ -20,9 +20,10 @@ class AlAppBlockGenerator extends AlBaseGenerator
     public function generateExt($namespace, $bundle, $dir, $format, $structure, array $options)
     {
         $format = 'annotation';
-        
-        $bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
-        $this->setSkeletonDirs($bundleSkeletonDir);
+        if (null === $this->bundleSkeletonDir) {
+            $this->bundleSkeletonDir = __DIR__ . '/../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
+        }
+        $this->setSkeletonDirs($this->bundleSkeletonDir);
         $this->generate($namespace, $bundle, $dir, $format, $structure);
 
         $dir .= '/'.strtr($namespace, '\\', '/');
