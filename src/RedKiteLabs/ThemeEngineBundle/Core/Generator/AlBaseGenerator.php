@@ -14,6 +14,7 @@ abstract class AlBaseGenerator extends BundleGenerator
 {
     protected $filesystem;
     protected $skeletonDir;
+    protected $bundleSkeletonDir;
 
     /**
      * Generates the App-Block bundle
@@ -33,10 +34,11 @@ abstract class AlBaseGenerator extends BundleGenerator
      * @param Filesystem $filesystem
      * @param string $skeletonDir
      */
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    public function __construct(Filesystem $filesystem, $skeletonDir, $bundleSkeletonDir = null)
     {
         $this->filesystem = $filesystem;
         $this->skeletonDir = $skeletonDir;
+        $this->bundleSkeletonDir = $bundleSkeletonDir;
 
         parent::__construct($filesystem, $skeletonDir);
     }

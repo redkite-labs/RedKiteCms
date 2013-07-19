@@ -33,7 +33,7 @@ class AlAppGeneratorBase extends TestCase
         parent::setUp();
 
         $this->fileSystem = new Filesystem();
-        $this->root = vfsStream::setup('root', null, array('src'));
+        $this->root = vfsStream::setup('root', null, array('src', 'bundle' => array()));
         
         $sensioDir = __DIR__ . '/../../../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle';
         if ( ! is_dir($sensioDir)) {
@@ -45,6 +45,6 @@ class AlAppGeneratorBase extends TestCase
             }
         }
         
-        vfsStream::copyFromFileSystem($sensioDir, $this->root);
+        vfsStream::copyFromFileSystem($sensioDir, $this->root->getChild('bundle'));//print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
     }
 }
