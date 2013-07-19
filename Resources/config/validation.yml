@@ -29,10 +29,10 @@ AlphaLemon\AlphaLemonCmsBundle\Model\AlUser:
   properties:
     username:
       - NotBlank: { message: Username field can not be empty }
-      - MinLength: { limit: 3, message: "Username field is too short. It should have 3 characters or more"  }
+      - Length: { min: 3, minMessage: "Username field is too short. It should have 3 characters or more"  }
     password:
       - NotBlank: { message: Password field can not be empty }
-      - MinLength: { limit: 6, message: "Password field is too short. It should have 6 characters or more"  }
+      - Length: { min: 6, minMessage: "Password field is too short. It should have 6 characters or more"  }
     email:
       - NotBlank: { message: "Email field can not be empty" }
       - Email: { message: "The email you entered is not valid" }

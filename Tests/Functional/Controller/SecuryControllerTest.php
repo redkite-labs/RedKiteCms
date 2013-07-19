@@ -73,8 +73,8 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('html:contains("Password")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Email")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
-        $this->assertTrue($crawler->filter('input')->count() == 6);
-        $this->assertTrue($crawler->filter('select')->count() == 1);
+        $this->assertCount(7, $crawler->filter('input'));
+        $this->assertCount(1, $crawler->filter('select'));
     }
 
     public function testAddUserFailsBecauseUsernameIsBlank()
@@ -229,7 +229,7 @@ class SecurityControllerTest extends BaseSecured
         $this->assertCount(1, $crawler->filter('html:contains("Email")'));
         $this->assertCount(1, $crawler->filter('#al_user_email')->filter('[value="text@example.com"]'));
         $this->assertCount(1, $crawler->filter('html:contains("Role")'));
-        $this->assertCount(6, $crawler->filter('input'));
+        $this->assertCount(7, $crawler->filter('input'));
         $this->assertCount(1, $crawler->filter('select'));
     }
 
