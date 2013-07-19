@@ -87,14 +87,24 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue('It seems that the "index" does not exist for the en "language"'))
         ;
         
+        
+        $flashBag = $this->getMock('Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface');
+        $flashBag
+            ->expects($this->once())
+            ->method('add')
+            ->with('notice', 'It seems that the "index" does not exist for the en "language"')
+        ;
+        
         $session =
             $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
-        $session->expects($this->once())
-            ->method('setFlash')
-            ->with('message', 'It seems that the "index" does not exist for the en "language"');
+        $session
+            ->expects($this->once())
+            ->method('getFlashBag')
+            ->will($this->returnValue($flashBag))
+        ;
         
         $this->container->expects($this->at(9))
             ->method('get')
@@ -148,6 +158,13 @@ class AlCmsControllerTest extends TestCase
         $this->initContainer($pageTree);
         $this->initFactoryRepository();        
         
+        $flashBag = $this->getMock('Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface');
+        $flashBag
+            ->expects($this->once())
+            ->method('add')
+            ->with('notice', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
+        ;
+        
         $session =
             $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
                  ->disableOriginalConstructor()
@@ -155,9 +172,11 @@ class AlCmsControllerTest extends TestCase
         ;
         $session
             ->expects($this->once())
-            ->method('setFlash')
-            ->with('message', 'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
+            ->method('getFlashBag')
+            ->will($this->returnValue($flashBag))
         ;
+        
+        
         
         $blockManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                  ->disableOriginalConstructor()
