@@ -34,7 +34,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
     {
         parent::setUp();
 
-        $this->blockGenerator = new AlAppBlockGenerator($this->fileSystem, vfsStream::url('root'));
+        $this->blockGenerator = new AlAppBlockGenerator($this->fileSystem, vfsStream::url('root'), vfsStream::url('root'));
     }
 
     public function testBlockBundleIsGenerated()
