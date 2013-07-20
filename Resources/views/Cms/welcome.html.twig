@@ -26,8 +26,8 @@
         <li>{{ 'Your website has any page and/or language and/or theme'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</li>
         <li>{{ 'Something has gone wrong during the install process'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</li>
     </ul>
-    {% if app.session.hasFlash('message') %}
+    {% if app.session.getFlashBag.has('notice') %}
     <p style="font-weight: bold">{{ 'The action you made returns this response:'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</p>
-    <p class="text-error">{{ app.session.flash('message') }}</p>
+    <p class="text-error">{{ app.session.flashbag.get('notice') }}</p>
     {% endif %}
 {% endblock %}
