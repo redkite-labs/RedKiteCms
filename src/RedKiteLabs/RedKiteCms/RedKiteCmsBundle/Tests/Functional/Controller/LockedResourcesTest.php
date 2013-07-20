@@ -155,37 +155,58 @@ class LockedResourcesTest extends BaseSecured
             array(
                 '/backend/en/al_showThemesPanel', 
                 '/backend/en/al_showThemesPanel', 
-                array(),
+                array(
+                    'language' => 'en', 
+                    'page' => 'index',
+                ),
             ),
             array(
                 '/backend/en/al_showThemesPanel', 
                 '/backend/en/al_showThemeChanger', 
-                array(),
+                array(
+                    'language' => 'en', 
+                    'page' => 'index',
+                ),
             ),
             array(
                 '/backend/en/al_showThemesPanel', 
                 '/backend/en/al_changeTheme', 
-                array(),
+                array(
+                    'language' => 'en', 
+                    'page' => 'index',
+                ),
             ),
             array(
                 '/backend/en/al_showThemesPanel', 
                 '/backend/en/al_changeSlot', 
-                array(),
+                array(
+                    'language' => 'en', 
+                    'page' => 'index',
+                ),
             ),
             array(
                 '/backend/en/al_showThemesPanel', 
                 '/backend/en/startFromTheme', 
-                array(),
+                array(
+                    'language' => 'en', 
+                    'page' => 'index',
+                ),
             ),
             array(
                 '/backend/en/al_showThemesPanel', 
                 '/backend/en/al_showThemesFinalizer', 
-                array(),
+                array(
+                    'language' => 'en', 
+                    'page' => 'index',
+                ),
             ),
             array(
                 '/backend/en/al_showThemesPanel', 
                 '/backend/en/al_finalizeTheme', 
-                array(),
+                array(
+                    'language' => 'en', 
+                    'page' => 'index',
+                ),
             ),
         );
     }
