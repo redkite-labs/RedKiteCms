@@ -144,8 +144,13 @@ class PagesController extends Base\BaseController
     {
         $request = $this->container->get('request');
         $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
-        $alPage = ($request->get('pageId') != 'none') ? $pageManager->getPageRepository()->fromPK($request->get('pageId')) : null;
-        if (null === $alPage) {            
+        
+        $alPage = null;
+        if ($request->get('pageId') != 'none') {
+            $alPage = $pageManager->getPageRepository()->fromPK($request->get('pageId'));
+        }
+        
+        if (null === $alPage) {          
             throw new RuntimeException($this->translate('pages_controller', 'Any page has been choosen for removing'));
         }
         
