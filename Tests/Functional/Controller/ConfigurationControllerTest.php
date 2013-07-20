@@ -67,7 +67,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals($statusCode, $response->getStatusCode());
         if (null !== $message) {
-            $this->assertTrue($crawler->filter('html:contains(\'' . $message . '\')')->count() > 0);
+            $this->assertCount(1, $crawler->filter('html:contains(\'' . $message . '\')'));
         }
         
         $this->assertEquals($newLanguage, $configurationRepository->fetchParameter('language')->getValue());
@@ -92,7 +92,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
                 'en',
                 'it',
                 200,
-                'CMS language has been changed. Please wait while your site is reloading',
+                null,
             ),
             array(
                 array(
