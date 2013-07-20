@@ -26,7 +26,7 @@
     <tr>
         <td>{{ form_label(item, null, {'cms_language': cms_language}) }}</td>
         <td>{{ form_errors(item) }}
-        {% if(item.vars.block_prefixes.3 == "textarea") %}
+        {% if("3" in item.vars.block_prefixes|keys and item.vars.block_prefixes.3 == "textarea") %}
             {{ form_widget(item, { 'attr': {'rows' : 4, 'class' : 'textarea ' ~ widget_class }}) }}
         {% else %}
             {{ form_widget(item, { 'attr': {'class' : 'input-medium ' ~ widget_class }}) }}
