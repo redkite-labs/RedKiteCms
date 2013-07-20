@@ -34,7 +34,7 @@ class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
     {
         parent::setUp();
 
-        $this->themeGenerator = new AlAppThemeGenerator($this->fileSystem, vfsStream::url('root'));
+        $this->themeGenerator = new AlAppThemeGenerator($this->fileSystem, vfsStream::url('root'), vfsStream::url('root'));
     }
 
     public function testThemeIsGenerated()
