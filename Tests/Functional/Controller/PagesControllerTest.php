@@ -368,8 +368,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => 'none',
-                        'languageId' => 2,
-                        'languageId' => 'none');
+                        'languageId' => 2,);
 
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
@@ -382,8 +381,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => 999,
-                        'languageId' => 2,
-                        'languageId' => 'none');
+                        'languageId' => 2,);
 
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
@@ -397,8 +395,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $params = array('page' => 'index',
                         'language' => 'en',
                         'pageId' => $page->getId(),
-                        'languageId' => 2,
-                        'languageId' => 'none');
+                        'languageId' => 2);
         
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
