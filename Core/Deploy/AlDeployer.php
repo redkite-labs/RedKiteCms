@@ -111,7 +111,8 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->dispatcher = $this->container->get('event_dispatcher');
         $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;
         $this->activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
-
+        $this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
+        
         $this->fileSystem = new Filesystem();
     }
 
@@ -325,7 +326,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $blockRepository = $this->factoryRepository->createRepository('Block');
         
         $themeName = $this->activeTheme->getActiveTheme();
-        $this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
+        //$this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
         $templateManager = $this->themesCollectionWrapper->getTemplateManager();
         $templates = $this->themesCollectionWrapper->getTheme($themeName)->getTemplates();
 
