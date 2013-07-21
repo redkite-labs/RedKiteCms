@@ -15,10 +15,6 @@
       {
           "type": "composer",
           "url": "http://apps.alphalemon.com/"
-      },
-      {
-          "type": "vcs",
-          "url": "https://github.com/alphalemon/PropelBundle"
       }
   ],
   "require": {
