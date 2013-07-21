@@ -152,7 +152,6 @@ class AlPageBlocks extends AlPageBlocksBase
     }
 
     /**
-     * TODO
      * {@inheritdoc}
      */
     public function setAlBlocks($blocks)
@@ -161,6 +160,24 @@ class AlPageBlocks extends AlPageBlocksBase
         $this->arrangeBlocks();
 
         return $this;
+    }
+    
+    /**
+     * Returns the block types associated to this PageBlock
+     * 
+     * @return array
+     */
+    public function getBlockTypes()
+    {
+        $types = array();
+        foreach($this->alBlocks as $block) {
+            $type = $block->getType();
+            if ( !in_array($type, $types)) {
+                $types[] = $type;
+            }
+        }
+        
+        return $types;
     }
 
     /**

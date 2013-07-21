@@ -19,7 +19,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTreeDeploy;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
@@ -150,7 +150,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
                     $templateManager
                 );
 
-                $pageTree = new AlPageTree(
+                $pageTree = new AlPageTreeDeploy(
                     $this->container,
                     $this->factoryRepository,
                     $themesCollectionWrapper
