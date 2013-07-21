@@ -219,7 +219,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         
         $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
         
-        $numberOfCalls = ($this->cycles * 2);
+        $numberOfCalls = ($this->cycles * 3);
         $i = 1;
         while ($i < $numberOfCalls) {
             $this->container->expects($this->at($i))
@@ -227,17 +227,27 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
                 ->with('event_dispatcher')
                 ->will($this->returnValue($dispatcher));
         
-            $i = $i + 2;
+            $i = $i + 3;
         }
         
         $i = 2;
         while ($i < $numberOfCalls + 1) {
             $this->container->expects($this->at($i))
                 ->method('get')
+                ->with('alpha_lemon_cms.block_manager_factory')
+                ->will($this->returnValue($activeTheme));  
+        
+            $i = $i + 3; 
+        }
+        
+        $i = 3;
+        while ($i < $numberOfCalls + 2) {
+            $this->container->expects($this->at($i))
+                ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
                 ->will($this->returnValue($activeTheme));  
         
-            $i = $i + 2; 
+            $i = $i + 3; 
         }
         
         $pageTreeCollection = new AlPageTreeCollection($this->container, $this->factoryRepository);

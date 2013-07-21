@@ -334,21 +334,21 @@ class ThemePreviewControllerTest extends TestCase
             ->will($this->returnValue(''))
         ;
         
-        $this->container->expects($this->at(12))
+        $this->container->expects($this->at(13))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request))
         ;
         
         $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $this->container->expects($this->at(14))
+        $this->container->expects($this->at(15))
             ->method('get')
             ->with('alpha_lemon_cms.configuration')
             ->will($this->returnValue($this->configuration))
         ;
         
         $this->container
-             ->expects($this->at(15))
+             ->expects($this->at(16))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($this->templating))

@@ -56,27 +56,27 @@ class AlTwigDeployerStageTest extends AlTwigDeployer
             ->with('alpha_lemon_theme_engine.deploy.stage_templates_folder')
             ->will($this->returnValue($this->templatesFolder));
          
-        $this->container->expects($this->at(16))
+        $this->container->expects($this->at(17))
             ->method('get')
             ->with('alpha_lemon_cms.block_manager_factory')
             ->will($this->returnValue($this->blockManagerFactory));
 
-        $this->container->expects($this->at(17))
+        $this->container->expects($this->at(18))
             ->method('getParameter')
             ->with('alpha_lemon_cms.deploy_bundle.views_dir')
             ->will($this->returnValue('Resources/views'));
         
-        $this->container->expects($this->at(18))
+        $this->container->expects($this->at(19))
             ->method('get')
             ->with('alpha_lemon_cms.url_manager_stage')
             ->will($this->returnValue($this->urlManager));
                 
-        $this->container->expects($this->at(19))
+        $this->container->expects($this->at(20))
             ->method('get')
             ->with('alpha_lemon_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
         
-        $this->containerAtSequenceAfterObjectCreation = 20;
+        $this->containerAtSequenceAfterObjectCreation = 21;
     }
     
     protected function buildExpectedRoutes($seo)

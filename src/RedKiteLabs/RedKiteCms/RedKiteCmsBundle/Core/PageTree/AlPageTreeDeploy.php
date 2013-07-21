@@ -34,7 +34,7 @@ class AlPageTreeDeploy extends AlPageTree
         $appsAssets = array();
 
         // merges assets from installed apps
-        $availableBlocks = $this->container->get('alpha_lemon_cms.block_manager_factory')->getAvailableBlocks();
+        $availableBlocks = $this->blockManagerFactory->getAvailableBlocks();
         foreach ($availableBlocks as $className) {
             if ( !in_array($className, $blockTypes)) {
                 continue;

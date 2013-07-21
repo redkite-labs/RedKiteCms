@@ -650,20 +650,7 @@ class AlPageTreeTest extends TestCase
             ->method('get')
             ->will($this->throwException(new \RuntimeException('Something goes wrong retrieving a routing parameter')));
 
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('event_dispatcher')
-            ->will($this->returnValue($this->dispatcher));
-        
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('alphalemon_theme_engine.active_theme')
-            ->will($this->returnValue($this->activeTheme));
-
-        $this->container->expects($this->at(2))
-            ->method('get')
-            ->with('request')
-            ->will($this->returnValue($request));
+        $this->initContainer($request);
 
         $this->initEventsDispatcher('page_tree.before_setup');
         
@@ -712,19 +699,130 @@ class AlPageTreeTest extends TestCase
         $pageTree->setup();
         $this->assertEquals($themeAssets, $pageTree->getExternalStylesheets());
     }
-    
-    private function setUpBlock($method, $externalStylesheet, $type = 'Script')
+
+    /**
+     * @dataProvider fetchAssets
+     */
+    public function testPageTreeSetsUpExternalAssetsFromABlock($availableBlocks, $blocksAssets, $result, $externalListeners = array(), $orphanSlots = array())
+    {        
+        $this->initValidPageTree();
+        
+        $this->blocksManagerFactory->expects($this->once())
+            ->method('getAvailableBlocks')
+            ->will($this->returnValue($availableBlocks));
+        
+        $listeners = array();
+        $listenerAssets = array();
+        if ( ! empty($externalListeners)) {
+            $listeners = $externalListeners['listener'];
+            $listenerAssets = $externalListeners['assets'];
+            
+            $this->language->expects($this->once())
+                ->method('getLanguageName')
+                ->will($this->returnValue($externalListeners['language']))
+            ;
+            
+            $this->page->expects($this->once())
+                ->method('getPageName')
+                ->will($this->returnValue($externalListeners['page']))
+            ;
+        }
+        
+        $this->container->expects($this->at(5))
+            ->method('get')
+            ->with('alpha_lemon_theme_engine.registed_listeners')
+            ->will($this->returnValue($listeners));
+        
+        $startIndex = 6;
+        $this->checkAssets($listenerAssets, $startIndex, true);        
+        $this->checkAssets($blocksAssets, $startIndex);
+        
+        if ( ! empty($orphanSlots)) {            
+            $this->pageBlocks->expects($this->once())
+                ->method('getBlocks')
+                ->will($this->returnValue($orphanSlots['blocks']));
+            
+            $this->template->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue($orphanSlots['slots'])); //
+        }
+
+        $themeAssets = array('theme-stylesheet.css');
+        $this->setUpAssetsCollection($themeAssets);
+
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->setup();
+        $this->assertEquals($result, $pageTree->getExternalStylesheets());
+    }
+
+    public function testPageTreeHasNotBeenRefreshedBecauseThemeIsNull()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue($type));
+        $this->activeTheme->expects($this->once())
+            ->method('getActiveTheme')
+            ->will($this->returnValue(null));
+
+        $this->language = $this->setUpLanguage(2);
+        $this->page = $this->setUpPage(2);
+
+        $this->themesCollectionWrapper->expects($this->never())
+            ->method('assignTemplate');
+
+        $this->seoRepository->expects($this->once())
+            ->method('fromPageAndLanguage')
+            ->will($this->returnValue($this->setUpSeo(2)));
+
+        $this->languageRepository->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->language));
+
+        $this->pageRepository->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->page));
         
-        $block->expects($this->once())
-            ->method($method)
-            ->will($this->returnValue($externalStylesheet)); 
+        $this->initContainer(null);
+
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $this->assertSame($pageTree,  $pageTree->refresh(2, 2));
+        $this->assertNull($pageTree->getTheme());
+    }
+
+    public function testPageTreeHasBeenRefreshed()
+    {
+        $this->configureTheme();
+        $this->language = $this->setUpLanguage(2);
+        $this->page = $this->setUpPage(2);
+        $alSeo = $this->setUpSeo(2);
+        $this->setUpPageBlocks();
+
+        $alSeo->expects($this->once())
+            ->method('getMetaTitle');
+
+        $alSeo->expects($this->once())
+            ->method('getMetaDescription');
+
+        $alSeo->expects($this->once())
+            ->method('getMetaKeywords');
+
+        $this->seoRepository->expects($this->once())
+            ->method('fromPageAndLanguage')
+            ->will($this->returnValue($alSeo));
+
+        $this->languageRepository->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->language));
+
+        $this->pageRepository->expects($this->any())
+            ->method('fromPK')
+            ->will($this->returnValue($this->page));
+
+        $this->initContainer(null);
+
+        $this->initEventsDispatcher('page_tree.before_refresh', 'page_tree.after_refresh');
         
-        return $block;
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $pageTree->refresh(2, 2);
+        $this->assertEquals($this->language, $pageTree->getAlLanguage());
+        $this->assertEquals($this->page, $pageTree->getAlPage());
     }
     
     public function fetchAssets()
@@ -1197,158 +1295,21 @@ class AlPageTreeTest extends TestCase
             ),
         );
     }
-
-    /**
-     * @dataProvider fetchAssets
-     */
-    public function testPageTreeSetsUpExternalAssetsFromABlock($availableBlocks, $blocksAssets, $result, $externalListeners = array(), $orphanSlots = array())
-    {        
-        $this->initValidPageTree();
-        
-        $blocksManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        
-        $blocksManagerFactory->expects($this->once())
-            ->method('getAvailableBlocks')
-            ->will($this->returnValue($availableBlocks));
-        
-        $listeners = array();
-        $listenerAssets = array();
-        if ( ! empty($externalListeners)) {
-            $listeners = $externalListeners['listener'];
-            $listenerAssets = $externalListeners['assets'];
-            
-            $this->language->expects($this->once())
-                ->method('getLanguageName')
-                ->will($this->returnValue($externalListeners['language']))
-            ;
-            
-            $this->page->expects($this->once())
-                ->method('getPageName')
-                ->will($this->returnValue($externalListeners['page']))
-            ;
-        }
-        
-        $this->container->expects($this->at(4))
-            ->method('get')
-            ->with('alpha_lemon_theme_engine.registed_listeners')
-            ->will($this->returnValue($listeners));
-        
-        $this->container->expects($this->at(5))
-            ->method('get')
-            ->with('alpha_lemon_cms.block_manager_factory')
-            ->will($this->returnValue($blocksManagerFactory));
-        
-        
-        $startIndex = 6;
-        $this->checkAssets($listenerAssets, $startIndex, true);        
-        $this->checkAssets($blocksAssets, $startIndex);
-        
-        if ( ! empty($orphanSlots)) {            
-            $this->pageBlocks->expects($this->once())
-                ->method('getBlocks')
-                ->will($this->returnValue($orphanSlots['blocks']));
-            
-            $this->template->expects($this->once())
-                ->method('getSlots')
-                ->will($this->returnValue($orphanSlots['slots'])); //
-        }
-
-        $themeAssets = array('theme-stylesheet.css');
-        $this->setUpAssetsCollection($themeAssets);
-
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $pageTree->setup();
-        $this->assertEquals($result, $pageTree->getExternalStylesheets());
-    }
-
-    public function testPageTreeHasNotBeenRefreshedBecauseThemeIsNull()
+    
+    private function setUpBlock($method, $externalStylesheet, $type = 'Script')
     {
-        $this->activeTheme->expects($this->once())
-            ->method('getActiveTheme')
-            ->will($this->returnValue(null));
-
-        $this->language = $this->setUpLanguage(2);
-        $this->page = $this->setUpPage(2);
-
-        $this->themesCollectionWrapper->expects($this->never())
-            ->method('assignTemplate');
-
-        $this->seoRepository->expects($this->once())
-            ->method('fromPageAndLanguage')
-            ->will($this->returnValue($this->setUpSeo(2)));
-
-        $this->languageRepository->expects($this->any())
-            ->method('fromPK')
-            ->will($this->returnValue($this->language));
-
-        $this->pageRepository->expects($this->any())
-            ->method('fromPK')
-            ->will($this->returnValue($this->page));
+        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue($type));
         
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('event_dispatcher')
-            ->will($this->returnValue($this->dispatcher));
+        $block->expects($this->once())
+            ->method($method)
+            ->will($this->returnValue($externalStylesheet)); 
         
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('alphalemon_theme_engine.active_theme')
-            ->will($this->returnValue($this->activeTheme));
-
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $this->assertSame($pageTree,  $pageTree->refresh(2, 2));
-        $this->assertNull($pageTree->getTheme());
+        return $block;
     }
-
-    public function testPageTreeHasBeenRefreshed()
-    {
-        $this->configureTheme();
-        $this->language = $this->setUpLanguage(2);
-        $this->page = $this->setUpPage(2);
-        $alSeo = $this->setUpSeo(2);
-        $this->setUpPageBlocks();
-
-        $alSeo->expects($this->once())
-            ->method('getMetaTitle');
-
-        $alSeo->expects($this->once())
-            ->method('getMetaDescription');
-
-        $alSeo->expects($this->once())
-            ->method('getMetaKeywords');
-
-        $this->seoRepository->expects($this->once())
-            ->method('fromPageAndLanguage')
-            ->will($this->returnValue($alSeo));
-
-        $this->languageRepository->expects($this->any())
-            ->method('fromPK')
-            ->will($this->returnValue($this->language));
-
-        $this->pageRepository->expects($this->any())
-            ->method('fromPK')
-            ->will($this->returnValue($this->page));
-
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('event_dispatcher')
-            ->will($this->returnValue($this->dispatcher));
-        
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('alphalemon_theme_engine.active_theme')
-            ->will($this->returnValue($this->activeTheme));
-
-        $this->initEventsDispatcher('page_tree.before_refresh', 'page_tree.after_refresh');
-        
-        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $pageTree->refresh(2, 2);
-        $this->assertEquals($this->language, $pageTree->getAlLanguage());
-        $this->assertEquals($this->page, $pageTree->getAlPage());
-    }
-
+    
     private function setUpAssetsCollection(array $storedAssets)
     {
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
@@ -1505,6 +1466,10 @@ class AlPageTreeTest extends TestCase
 
     private function initContainer($request)
     {
+        $this->blocksManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
         $this->container->expects($this->at(0))
             ->method('get')
             ->with('event_dispatcher')
@@ -1512,13 +1477,20 @@ class AlPageTreeTest extends TestCase
         
         $this->container->expects($this->at(1))
             ->method('get')
-            ->with('alphalemon_theme_engine.active_theme')
-            ->will($this->returnValue($this->activeTheme));
-
+            ->with('alpha_lemon_cms.block_manager_factory')
+            ->will($this->returnValue($this->blocksManagerFactory));
+        
         $this->container->expects($this->at(2))
             ->method('get')
-            ->with('request')
-            ->will($this->returnValue($request));
+            ->with('alphalemon_theme_engine.active_theme')
+            ->will($this->returnValue($this->activeTheme));
+        
+        if (null !== $request) {
+            $this->container->expects($this->at(3))
+                ->method('get')
+                ->with('request')
+                ->will($this->returnValue($request));
+        }
     }
     
     private function initEventsDispatcher($beforeEvent = null, $afterEvent = null)

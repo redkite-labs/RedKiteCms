@@ -22,7 +22,7 @@ namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller;
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlDeployControllerStageionTest extends BaseDeployControllerTest
+class AlDeployControllerStageTest extends BaseDeployControllerTest
 {
     protected $deployerServiceName = 'alpha_lemon_cms.stage_deployer';
     
