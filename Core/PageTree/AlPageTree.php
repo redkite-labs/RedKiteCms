@@ -49,6 +49,7 @@ class AlPageTree extends BaseAlPageTree
     protected $locatedAssets = array('css' => array(), 'js' => array());
     protected $extraAssetsSuffixes = array('cms');
     protected $themesCollectionWrapper;
+    protected $blockManagerFactory = null;
     private $pageName = null;
     private $request = null;
 
@@ -72,7 +73,8 @@ class AlPageTree extends BaseAlPageTree
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->dispatcher = $container->get('event_dispatcher');
         $this->templateManager = $this->themesCollectionWrapper->getTemplateManager();
-
+        $this->blockManagerFactory = $container->get('alpha_lemon_cms.block_manager_factory');
+        
         parent::__construct($container);
     }
 
@@ -419,8 +421,8 @@ class AlPageTree extends BaseAlPageTree
         // When a block has examined, it is saved in this array to avoid parsing it again
         $appsAssets = array();
 
-        // merges assets from installed apps
-        $availableBlocks = $this->container->get('alpha_lemon_cms.block_manager_factory')->getAvailableBlocks();
+        // merges assets from installed apps  
+        $availableBlocks = $this->blockManagerFactory->getAvailableBlocks();     
         foreach ($availableBlocks as $className) {
             if ( ! in_array($className, $appsAssets)) {                    
                 $parameterSchema = '%s.%s_%s';

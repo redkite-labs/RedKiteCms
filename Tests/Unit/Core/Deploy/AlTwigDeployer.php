@@ -112,23 +112,32 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $i = $this->containerAtSequenceAfterObjectCreation;
-        $cycles = $this->cycles * 2;
+        $cycles = $this->cycles * 3;
         $numberOfCalls = $cycles + $i;
         while ($i < $numberOfCalls) {
             $this->container->expects($this->at($i))
                 ->method('get')
                 ->with('event_dispatcher')
                 ->will($this->returnValue($dispatcher));
-            $i = $i + 2;
+            $i = $i + 3;
         }
         
         $i = $this->containerAtSequenceAfterObjectCreation + 1;
         while ($i < $numberOfCalls + 1) {
             $this->container->expects($this->at($i))
                 ->method('get')
+                ->with('alpha_lemon_cms.block_manager_factory')
+                ->will($this->returnValue($activeTheme));
+            $i = $i + 3;
+        }
+        
+        $i = $this->containerAtSequenceAfterObjectCreation + 2;
+        while ($i < $numberOfCalls + 2) {
+            $this->container->expects($this->at($i))
+                ->method('get')
                 ->with('alphalemon_theme_engine.active_theme')
                 ->will($this->returnValue($activeTheme));
-            $i = $i + 2;
+            $i = $i + 3;
         }
         
         $this->template->expects($this->any())
@@ -291,7 +300,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue($templateManager))
         ;
         
-        $this->container->expects($this->at($this->containerAtSequenceAfterObjectCreation + $this->counterRepositoriesCreation - 2))
+        $this->container->expects($this->at(15))
                 ->method('get')
                 ->with('alpha_lemon_cms.themes_collection_wrapper')
                 ->will($this->returnValue($themesCollectionWrapper));
