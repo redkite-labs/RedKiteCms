@@ -28,8 +28,10 @@
         <td>{{ form_errors(item) }}
         {% if ("textarea" in item.vars.block_prefixes) %}
             {{ form_widget(item, { 'attr': {'rows' : 4, 'class' : 'textarea ' ~ widget_class }}) }}
-        {% else %}
+        {% elseif ("text" in item.vars.block_prefixes) %}
             {{ form_widget(item, { 'attr': {'class' : 'input-medium ' ~ widget_class }}) }}
+        {% else %}
+            {{ form_widget(item) }}
         {% endif %}
         </td>
     </tr>
