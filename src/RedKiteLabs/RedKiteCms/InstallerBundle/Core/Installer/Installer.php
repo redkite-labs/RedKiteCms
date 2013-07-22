@@ -133,7 +133,7 @@ class Installer {
             $updateFile = true;
         }
 
-        if(strpos($contents, '$configFolder = __DIR__ . \'/config/bundles/config\';') === false)
+        if(strpos($contents, '$configFolder = __DIR__ . \'/config/bundles/config') === false)
         {
             $cmsBundles = "\n        \$configFolder = __DIR__ . '/config/bundles/config/' . \$this->getEnvironment();\n";
             $cmsBundles .= "        if (is_dir(\$configFolder)) {\n";
