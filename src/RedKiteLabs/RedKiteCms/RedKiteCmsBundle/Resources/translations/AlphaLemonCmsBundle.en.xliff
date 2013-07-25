@@ -528,8 +528,8 @@
             <target>Logs out from AlphaLemon CMS</target>
         </trans-unit>
         <trans-unit id="cms-controller-17">
-            <source>Users</source>
-            <target>Users</target>
+            <source>Security</source>
+            <target>Security</target>
         </trans-unit>
         <trans-unit id="cms-controller-18">
             <source>Logout</source>
