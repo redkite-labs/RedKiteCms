@@ -615,7 +615,7 @@ $(document).ready(function(){
             
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_' + env + '_deploy',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_' + env + 'Deploy',
                 data: {'page' :  $('#al_pages_navigator').attr('rel'),
                     'language' : $('#al_languages_navigator').attr('rel')},
                 beforeSend: function()

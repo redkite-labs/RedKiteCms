@@ -36,6 +36,6 @@ security:
             context: primary_auth
 
     access_control:
-        - { path: "^/backend/[a-z]+/al_local_deploy", role: ROLE_ADMIN }
+        - { path: "^/backend/[a-z]+/al_[a-z]+Deploy", role: ROLE_ADMIN }
         - { path: ^/backend/users, roles: ROLE_ADMIN }
         - { path: ^/backend, roles: ROLE_USER }
