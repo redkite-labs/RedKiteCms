@@ -191,11 +191,7 @@ class AlUrlManager implements AlUrlManagerInterface
             return $language;
         }
         
-        $exception = array(
-            'message' => 'Cannnot fetch a valid language using the provided argument',
-            'domain' => 'exceptions',
-        );
-        throw new InvalidArgumentException(json_encode($exception));
+        throw new InvalidArgumentException('Cannnot fetch a valid language using the provided argument');
     }
 
     private function fetchAlPage($page)
@@ -218,23 +214,15 @@ class AlUrlManager implements AlUrlManagerInterface
             $this->checkNull($page, 'The requested page has not been found');
 
             return $page;
-        }
-
-        $exception = array(
-            'message' => 'Cannnot fetch a valid page using the provided argument',
-            'domain' => 'exceptions',
-        );
-        throw new InvalidArgumentException(json_encode($exception));
+        } 
+        
+        throw new InvalidArgumentException('Cannnot fetch a valid page using the provided argument');
     }
 
     private function checkNull($object, $message)
     {
         if (null === $object) {
-            $exception = array(
-                'message' => $message,
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentException(json_encode($exception));
+            throw new InvalidArgumentException($message);
         }
     }
 }

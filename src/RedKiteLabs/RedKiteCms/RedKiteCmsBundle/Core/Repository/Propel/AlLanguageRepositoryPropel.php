@@ -44,11 +44,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlLanguage) {
-            $exception = array(
-                'message' => 'AlLanguageRepositoryPropel accepts only AlLanguage propel objects',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('AlLanguageRepositoryPropel accepts only AlLanguage propel objects');
         }
 
         return parent::setRepositoryObject($object);
@@ -83,11 +79,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
         }
 
         if (!is_string($languageName)) {
-            $exception = array(
-                'message' => 'fromLanguageName method accepts only string values',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('fromLanguageName method accepts only string values');
         }
 
         return AlLanguageQuery::create()

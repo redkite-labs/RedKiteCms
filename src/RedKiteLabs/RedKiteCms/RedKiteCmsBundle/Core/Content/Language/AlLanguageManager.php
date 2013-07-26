@@ -91,11 +91,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlLanguage) {
-            $exception = array(
-                'message' => 'AlLanguageManager is able to manage only AlLanguage objects',
-                'domain' => 'exceptions',
-            );
-            throw new General\InvalidArgumentTypeException(json_encode($exception));
+            throw new General\InvalidArgumentTypeException('AlLanguageManager is able to manage only AlLanguage objects');
         }
 
         $this->alLanguage = $object;
@@ -156,29 +152,18 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     public function delete()
     {
         if (null === $this->alLanguage) {
-            $exception = array(
-                'message' => 'Any language has been selected: delete operation aborted',
-                'domain' => 'exceptions',
-            );
-            throw new General\ArgumentIsEmptyException(json_encode($exception));
+            throw new General\ArgumentIsEmptyException('Any language has been selected: delete operation aborted');
         }
 
         if ($this->alLanguage->getMainLanguage() == 1) {
-            $exception = array(
-                'message' => 'The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again',
-                'domain' => 'exceptions',
-            );
-            throw new Language\RemoveMainLanguageException(json_encode($exception));
+            throw new Language\RemoveMainLanguageException('The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again');
         }
 
         $this->dispatchBeforeOperationEvent(
                 '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent',
                 LanguageEvents::BEFORE_DELETE_LANGUAGE,
                 array(),
-                array(
-                    'message' => 'The language deleting action has been aborted',
-                    'domain' => 'exceptions',
-                )
+                'The language deleting action has been aborted'
         );
 
         try {
@@ -246,19 +231,11 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('LanguageName' => ''), $values);
             if ($this->validator->languageExists($values['LanguageName'])) {
-                $exception = array(
-                    'message' => 'The language you are trying to add, already exists in the website',
-                    'domain' => 'exceptions',
-                );
-                throw new Language\LanguageExistsException(json_encode($exception));
+                throw new Language\LanguageExistsException('The language you are trying to add, already exists in the website');
             }
 
             if (empty($values['LanguageName'])) {
-                $exception = array(
-                    'message' => 'A language cannot be null. Please provide a valid language name to add the language',
-                    'domain' => 'exceptions',
-                );
-                throw new General\ArgumentIsEmptyException(json_encode($exception));
+                throw new General\ArgumentIsEmptyException('A language cannot be null. Please provide a valid language name to add the language');
             }
 
             $result = true;

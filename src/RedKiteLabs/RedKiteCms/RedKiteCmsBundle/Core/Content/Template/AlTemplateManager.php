@@ -241,11 +241,7 @@ class AlTemplateManager extends AlTemplateBase
     public function slotToArray($slotName)
     {
         if (!is_string($slotName)) {
-            $exception = array(
-                'message' => 'slotToArray method accepts only strings',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('slotToArray method accepts only strings');
         }
 
         if (!array_key_exists($slotName, $this->slotManagers)) {
@@ -447,12 +443,8 @@ class AlTemplateManager extends AlTemplateBase
         $this->slotManagers = array();
         $templateSlots = $this->template->getTemplateSlots();
         
-        if (null === $templateSlots) {        
-            $exception = array(
-                'message' => 'AlTemplateManager requires a template to set up the template slots: any given',
-                'domain' => 'exceptions',
-            );
-            throw new General\ArgumentIsEmptyException(json_encode($exception));
+        if (null === $templateSlots) { 
+            throw new General\ArgumentIsEmptyException('AlTemplateManager requires a template to set up the template slots: any given');
         }
 
         $slots = $templateSlots->getSlots();
@@ -462,7 +454,6 @@ class AlTemplateManager extends AlTemplateBase
                 'parameters' => array(
                     '%templateName%' => $this->template->getTemplateName(),
                 ),
-                'domain' => 'exceptions',
             );
             throw new Exception\EmptyTemplateSlotsException(json_encode($exception));
         }

@@ -41,12 +41,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
                 $message = 'Any parameter has been given';
             }
             
-            $exception = array(
-                'message' => $message,
-                'domain' => 'exceptions',
-            );
-            
-            throw new General\EmptyArgumentsException(json_encode($exception));
+            throw new General\EmptyArgumentsException($message);
         }
     }
 
@@ -70,7 +65,6 @@ class AlParametersValidator implements AlParametersValidatorInterface
                         '%required%' => $this->doImplode($requiredParams), 
                         '%values%' => $this->doImplode($values),
                     ),
-                    'domain' => 'exceptions',
                 );
                 
                 $message = json_encode($message);
@@ -100,7 +94,6 @@ class AlParametersValidator implements AlParametersValidatorInterface
                         '%required%' => $this->doImplode($requiredParams), 
                         '%values%' => $this->doImplode($values)
                     ),
-                    'domain' => 'exceptions',
                 );
                 
                 $message = json_encode($message);

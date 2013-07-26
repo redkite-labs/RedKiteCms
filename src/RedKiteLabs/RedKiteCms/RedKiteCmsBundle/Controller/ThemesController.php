@@ -46,7 +46,7 @@ class ThemesController extends BaseController
                 $mappedTemplate = preg_split('/=/', $data[$c+1]);
                 $mappedTemplateName = $mappedTemplate[1];
                 if (empty($mappedTemplateName)) {
-                    throw new InvalidArgumentException($this->translate('themes_controller', 'It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme', array('%template_name%' => $templateName)));
+                    throw new InvalidArgumentException('It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme', array('%template_name%' => $templateName));
                 }
                 
                 $map[$templateName] = $mappedTemplateName;

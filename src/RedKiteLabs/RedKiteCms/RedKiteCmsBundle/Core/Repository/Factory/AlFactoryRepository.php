@@ -57,7 +57,6 @@ class AlFactoryRepository implements AlFactoryRepositoryInterface
                         '%blockType%' => $blockType, 
                         '%namespace%' => $namespace,
                     ),
-                    'domain' => 'exceptions',
                 );
                 throw new RepositoryNotFoundException(json_encode($exception));
             }

@@ -44,12 +44,8 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
                 $file = $values["AddFile"];
 
                 $imageFile = "/" . AlAssetsPath::getUploadFolder($this->container) . "/" . preg_replace('/http?:\/\/[^\/]+/', '', $file);
-                if (in_array($imageFile, $savedImages)) {
-                    $exception = array(
-                        'message' => 'The image file has already been added',
-                        'domain' => 'exceptions',
-                    );
-                    throw new RuntimeException(json_encode($exception));
+                if (in_array($imageFile, $savedImages)) {                    
+                    throw new RuntimeException('The image file has already been added');
                 }
 
                 $images[]['image'] = $imageFile;

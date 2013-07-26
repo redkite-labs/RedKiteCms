@@ -128,7 +128,7 @@
         </trans-unit>
         <trans-unit id="exceptions-32">
             <source>The language id argument must be a numeric value</source>
-            <target>L'identificativo della linguga deve essere un valore numerico</target>
+            <target>L'identificativo della lingua deve essere un valore numerico</target>
         </trans-unit>
         <trans-unit id="exceptions-33">
             <source>Blocks cannot be retrieved because the id language has not been set</source> 
@@ -153,10 +153,6 @@
         <trans-unit id="exceptions-38">
             <source>The seo adding action has been aborted</source>
             <target>L'operazione di aggiunta di un nuovo attributo per i motori di ricerca è stata annullata</target>
-        </trans-unit>
-        <trans-unit id="exceptions-81">
-            <source>The PageId argument is mandatory to save a seo object</source>
-            <target>L'argomento PageId è richiesto per poter salvare un nuovo oggetto di tipo seo</target>
         </trans-unit>
         <trans-unit id="exceptions-39">
             <source>The LanguageId argument is mandatory to save a seo object</source>
@@ -325,6 +321,18 @@
         <trans-unit id="exceptions-80">
             <source>The requested page has not been found</source>
             <target>La pagina richiesta non è stata trovata</target>
+        </trans-unit>
+        <trans-unit id="exceptions-81">
+            <source>The PageId argument is mandatory to save a seo object</source>
+            <target>L'argomento PageId è richiesto per poter salvare un nuovo oggetto di tipo seo</target>
+        </trans-unit>
+        <trans-unit id="exceptions-82">
+            <source>The username already exists</source>
+            <target>L'utente esiste già</target>
+        </trans-unit>
+        <trans-unit id="exceptions-83">
+            <source>The role already exists</source>
+            <target>Il ruolo esiste già</target>
         </trans-unit>
         
         <!-- COMMON -->

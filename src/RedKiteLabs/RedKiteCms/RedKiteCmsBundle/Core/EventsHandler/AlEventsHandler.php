@@ -101,7 +101,6 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
                 'parameters' => array(
                     '%className%' => get_class($this),
                 ),
-                'domain' => 'exceptions',
             );
             throw new InvalidArgumentException(json_encode($exception));
         }
@@ -113,7 +112,6 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
                     '%argumentClass%' => get_class($this),                    
                     '%className%' => get_class($this),
                 ),
-                'domain' => 'exceptions',
             );
             throw new InvalidArgumentException(json_encode($exception));
         }
@@ -130,7 +128,6 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
                     '%argumentClass%' => get_class($this),                    
                     '%className%' => get_class($this),
                 ),
-                'domain' => 'exceptions',
             );
             throw new InvalidArgumentTypeException(json_encode($exception));
         }
@@ -174,11 +171,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
         }
 
         if (null === $event) {
-            $exception = array(
-                'message' => 'Any event has been found to be dispatched',
-                'domain' => 'exceptions',
-            );
-            throw new RuntimeException(json_encode($exception));
+            throw new RuntimeException('Any event has been found to be dispatched');
         }
 
         $this->eventDispatcher->dispatch($eventName, $event);

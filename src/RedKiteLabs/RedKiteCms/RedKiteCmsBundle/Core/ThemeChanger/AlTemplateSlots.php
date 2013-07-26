@@ -112,11 +112,7 @@ class AlTemplateSlots
     private function setUpSlots()
     {
         if (null === $this->pageBlocks || null === $this->templateManager) {
-            $exception = array(
-                'message' => 'Template slots cannot be initialized',
-                'domain' => 'exceptions',
-            );
-            throw new ThemeSlotsInvalidConfigurationException(json_encode($exception));
+            throw new ThemeSlotsInvalidConfigurationException('Template slots cannot be initialized');
         }
 
         $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');

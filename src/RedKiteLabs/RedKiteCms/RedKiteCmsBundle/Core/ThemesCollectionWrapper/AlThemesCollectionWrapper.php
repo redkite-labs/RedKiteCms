@@ -107,7 +107,6 @@ class AlThemesCollectionWrapper
                     '%templateName%' => $templateName,
                     '%themeName%' => $themeName,
                 ),
-                'domain' => 'exceptions',
             );
             throw new NonExistentTemplateException(json_encode($exception));
         }
