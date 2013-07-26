@@ -167,7 +167,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage {"message":"slotToArray method accepts only strings","domain":"exceptions"}
+     * @expectedExceptionMessage slotToArray method accepts only strings
      */
     public function testSlotsToArrayAcceptsOnlyStrings()
     {
