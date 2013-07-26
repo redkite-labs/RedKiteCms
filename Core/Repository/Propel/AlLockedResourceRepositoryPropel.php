@@ -43,11 +43,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlLockedResource) {
-            $exception = array(
-                'message' => 'AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects');
         }
 
         return parent::setRepositoryObject($object);

@@ -56,7 +56,6 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
                 'parameters' => array(
                     '%blockTypeInfo%' => $blockTypeInfo,
                 ),
-                'domain' => 'exceptions',
             );
             throw new Exception\InvalidJsonFormatException(json_encode($exception));
         }

@@ -43,11 +43,7 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlRole) {
-            $exception = array(
-                'message' => 'AlRoleRepositoryPropel accepts only AlRole propel objects',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('AlRoleRepositoryPropel accepts only AlRole propel objects');
         }
 
         return parent::setRepositoryObject($object);

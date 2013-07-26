@@ -56,7 +56,6 @@ class AlBlockManagerFactoryItem
                     '%attributes%' => implode(',', array_keys($missingAttributes)), 
                     '%class%' => get_class($blockManager),
                 ),
-                'domain' => 'exceptions',
             );
             throw new ArgumentExpectedException(json_encode($exception));
         }

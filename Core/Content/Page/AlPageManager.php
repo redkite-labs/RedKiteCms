@@ -80,11 +80,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlPage) {
-            $exception = array(
-                'message' => 'AlPageManager is able to manage only AlPage objects',
-                'domain' => 'exceptions',
-            );
-            throw new General\InvalidArgumentTypeException(json_encode($exception));
+            throw new General\InvalidArgumentTypeException('AlPageManager is able to manage only AlPage objects');
         }
 
         $this->alPage = $object;
@@ -171,19 +167,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     public function delete()
     {
         if (null === $this->alPage) {
-            $exception = array(
-                'message' => 'Any page has been selected: delete operation aborted',
-                'domain' => 'exceptions',
-            );
-            throw new General\ArgumentIsEmptyException(json_encode($exception));
+            throw new General\ArgumentIsEmptyException('Any page has been selected: delete operation aborted');
         }
         
         if (0 !== $this->alPage->getIsHome()) {
-            $exception = array(
-                'message' => "It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one",
-                'domain' => 'exceptions',
-            );
-            throw new Page\RemoveHomePageException(json_encode($exception));
+            throw new Page\RemoveHomePageException("It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one");
         }
         
         $this->dispatchBeforeOperationEvent(
@@ -294,35 +282,19 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $this->validator->checkRequiredParamsExists(array('PageName' => '', 'TemplateName' => ''), $values);
 
             if (empty($values['PageName'])) {
-                $exception = array(
-                    'message' => "The name to assign to the page cannot be null. Please provide a valid page name to add your page",
-                    'domain' => 'exceptions',
-                );
-                throw new General\ArgumentIsEmptyException(json_encode($exception));
+                throw new General\ArgumentIsEmptyException("The name to assign to the page cannot be null. Please provide a valid page name to add your page");
             }
 
             if (empty($values['TemplateName'])) {
-                $exception = array(
-                    'message' => "The page requires at least a template. Please provide the template name to add your page",
-                    'domain' => 'exceptions',
-                );
-                throw new General\ArgumentIsEmptyException(json_encode($exception));
+                throw new General\ArgumentIsEmptyException("The page requires at least a template. Please provide the template name to add your page");
             }
 
             if ($this->validator->pageExists($values['PageName'])) {
-                $exception = array(
-                    'message' => "The web site already contains the page you are trying to add. Please use another name for that page",
-                    'domain' => 'exceptions',
-                );
-                throw new Page\PageExistsException(json_encode($exception));
+                throw new Page\PageExistsException("The web site already contains the page you are trying to add. Please use another name for that page");
             }
 
             if (!$this->validator->hasLanguages()) {
-                $exception = array(
-                    'message' => "The web site has any language inserted. Please add a new language before adding a page",
-                    'domain' => 'exceptions',
-                );
-                throw new Page\AnyLanguageExistsException(json_encode($exception));
+                throw new Page\AnyLanguageExistsException("The web site has any language inserted. Please add a new language before adding a page");
             }
 
             $result = true;

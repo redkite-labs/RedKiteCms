@@ -66,11 +66,7 @@ class AlResourcesLocker
         $resource = $this->lockedResourceRepository->fromResourceNameByUser($userId, $resourceName);
         if (null === $resource) {
             if ( ! $this->isResourceFree($resourceName)) {
-                $exception = array(
-                    'message' => 'The resource you requested is locked by another user. Please retry in a couple of minutes',
-                    'domain' => 'exceptions',
-                );
-                throw new ResourceNotFreeException(json_encode($exception));
+                throw new ResourceNotFreeException('The resource you requested is locked by another user. Please retry in a couple of minutes');
             }
 
             $resourceClass = $this->lockedResourceRepository->getRepositoryObjectClassName();
@@ -91,11 +87,7 @@ class AlResourcesLocker
                        ->setRepositoryObject($resource)
                        ->save($values);
         if (false === $result) {
-            $exception = array(
-                'message' => 'The resource has not been locked due to an error occoured during the saving operation',
-                'domain' => 'exceptions',
-            );
-            throw new RuntimeException(json_encode($exception));
+            throw new RuntimeException('The resource has not been locked due to an error occoured during the saving operation');
         }
     }
 

@@ -46,7 +46,6 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
                     'parameters' => array(
                         '%className%' => get_class($this),
                     ),
-                    'domain' => 'exceptions',
                 );
                 throw new Exception\InvalidFormConfigurationException(json_encode($exception));
             }

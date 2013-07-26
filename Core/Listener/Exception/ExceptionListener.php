@@ -50,25 +50,30 @@ class ExceptionListener
             return;
         }
         
-        $message = $exception->getMessage();
+        $message = $exception->getMessage(); 
         $jsonMessage = json_decode($message, true);
-        if (is_array($jsonMessage)) {
-            $parameters = array(
-                'message' => '',
-                'parameters' => array(),
-                'domain' => 'messages',
-                'locale' => null,
-            ); 
-            $cleanedParameters = array_intersect_key($jsonMessage, $parameters);
-            $parameters = array_merge($parameters, $cleanedParameters);
-            
-            $message = $this->translator->translate(
-                $parameters["message"],
-                $parameters["parameters"],
-                $parameters["domain"],
-                $parameters["locale"]
+        if ( ! is_array($jsonMessage)) {
+            $jsonMessage = array(
+                'message' => $message,
             );
         }
+        
+        $parameters = array(
+            'message' => '',
+            'parameters' => array(),
+            'domain' => 'AlphaLemonCmsBundle',
+            'locale' => null,
+        ); 
+        $cleanedParameters = array_intersect_key($jsonMessage, $parameters);
+        $parameters = array_merge($parameters, $cleanedParameters);
+        
+        $message = $this->translator->translate(
+            $parameters["message"],
+            $parameters["parameters"],
+            $parameters["domain"],
+            $parameters["locale"]
+        );
+        
         
         $values = array(
             'message' => $message,

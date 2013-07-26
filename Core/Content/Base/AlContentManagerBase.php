@@ -128,8 +128,12 @@ abstract class AlContentManagerBase
                                      ->dispatch()
                                      ->getEvent($eventName);
 
-        if ($event->isAborted()) {
-            throw new EventAbortedException(json_encode($exceptionMessage));
+        if ($event->isAborted()) {        
+            if (is_array($exceptionMessage)) {
+                $exceptionMessage = json_encode($exceptionMessage);
+            }
+        
+            throw new EventAbortedException($exceptionMessage);
         }
 
         if (empty($values)) return $values;

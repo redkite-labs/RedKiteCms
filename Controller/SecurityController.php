@@ -23,6 +23,7 @@ use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
 use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
+use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * Implements the authentication action to grant the use of the CMS.
@@ -94,11 +95,16 @@ class SecurityController extends Base\BaseController
 
         $message = '';
         $errors = array();
-        if ('POST' === $request->getMethod()) {
+        if ('POST' === $request->getMethod()) { 
+            $userName = $request->get('al_username');
+            if ($isNewUser && null !== $this->userRepository()->fromUsername($userName)) {
+                throw new RuntimeException('The username already exists');
+            }
+            
             $alUser = $this->container->get('security.context')->getToken()->getUser();
 
             $user->setRoleId($request->get('al_role_id'));
-            $user->setUsername($request->get('al_username'));
+            $user->setUsername($userName);
             $user->setPassword($request->get('al_password'));
             $user->setEmail($request->get('al_email'));
 
@@ -145,6 +151,10 @@ class SecurityController extends Base\BaseController
         $errors = array();
         if ('POST' === $request->getMethod()) {
             $roleName = strtoupper($request->get('al_rolename'));
+            if ($isNewRole && null !== $this->roleRepository()->fromRolename($roleName)) {
+                throw new RuntimeException('The role already exists');
+            }
+            
             $role->setRole($roleName);
             $validator = $this->container->get('validator');
             $errors = $validator->validate($role);

@@ -69,11 +69,7 @@ class UpdatePermalinkOnBlocksListener
 
         $values = $event->getValues();
         if (!is_array($values)) {
-            $exception = array(
-                'message' => 'The parameter "values" must be an array',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentException(json_encode($exception));
+            throw new InvalidArgumentException('The parameter "values" must be an array');
         }
 
         if (array_key_exists("oldPermalink", $values)) {

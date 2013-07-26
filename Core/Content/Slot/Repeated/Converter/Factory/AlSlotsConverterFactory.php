@@ -65,7 +65,6 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
                 'parameters' => array(
                     '%className%' => $className,
                 ),
-                'domain' => 'exceptions',
             );
             throw new ClassNotFoundException(json_encode($exception));
         }

@@ -121,11 +121,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
-            $exception = array(
-                'message' => 'AlBlockManager is only able to manage AlBlock objects',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('AlBlockManager is only able to manage AlBlock objects');
         }
 
         $this->alBlock = $object;
@@ -325,21 +321,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function delete()
     {
         if (null === $this->alBlock) {
-            $exception = array(
-                'message' => 'Any valid block has been setted. Nothing to delete',
-                'domain' => 'exceptions',
-            );
-            throw new General\ArgumentIsEmptyException(json_encode($exception));
+            throw new General\ArgumentIsEmptyException('Any valid block has been setted. Nothing to delete');
         }
         
         $this->dispatchBeforeOperationEvent(
             '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
             BlockEvents::BEFORE_DELETE_BLOCK,
             array(),
-            array(
-                'message' => 'The block deleting operation has been aborted',
-                'domain' => 'exceptions',
-            )
+            'The block deleting operation has been aborted'
         );
 
         try {
@@ -566,10 +555,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
                 BlockEvents::BEFORE_ADD_BLOCK,
                 $values,
-                array(
-                    'message' => 'The operation to add a new block has been aborted',
-                    'domain' => 'exceptions',
-                )
+                'The operation to add a new block has been aborted'
             );
 
         $this->validator->checkEmptyParams($values);
@@ -585,7 +571,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                     'parameters' => array(
                         '%className%' => get_class($this),
                     ),
-                    'domain' => 'exceptions',
                 );
                 throw new General\InvalidArgumentTypeException(json_encode($exception));
             }
@@ -647,15 +632,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected function edit(array $values)
     {
          $values =
-                $this->dispatchBeforeOperationEvent(
-                        '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
-                        BlockEvents::BEFORE_EDIT_BLOCK,
-                        $values,
-                        array(
-                            'message' => 'The block editing action has been aborted',
-                            'domain' => 'exceptions',
-                        )
-                );
+            $this->dispatchBeforeOperationEvent(
+                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
+                BlockEvents::BEFORE_EDIT_BLOCK,
+                $values,
+                'The block editing action has been aborted'
+            );
 
         try {
             $this->validator->checkEmptyParams($values);

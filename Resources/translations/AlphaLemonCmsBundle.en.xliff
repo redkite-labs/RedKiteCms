@@ -154,10 +154,6 @@
             <source>The seo adding action has been aborted</source>
             <target>The seo adding action has been aborted</target>
         </trans-unit>
-        <trans-unit id="exceptions-81">
-            <source>The PageId argument is mandatory to save a seo object</source>
-            <target>The PageId argument is mandatory to save a seo object</target>
-        </trans-unit>
         <trans-unit id="exceptions-39">
             <source>The LanguageId argument is mandatory to save a seo object</source>
             <target>The LanguageId argument is mandatory to save a seo object</target>
@@ -325,6 +321,18 @@
         <trans-unit id="exceptions-80">
             <source>The requested page has not been found</source>
             <target>The requested page has not been found</target>
+        </trans-unit>
+        <trans-unit id="exceptions-81">
+            <source>The PageId argument is mandatory to save a seo object</source>
+            <target>The PageId argument is mandatory to save a seo object</target>
+        </trans-unit>
+        <trans-unit id="exceptions-82">
+            <source>The username already exists</source>
+            <target>The username already exists</target>
+        </trans-unit>
+        <trans-unit id="exceptions-83">
+            <source>The role already exists</source>
+            <target>The role already exists</target>
         </trans-unit>
                 
         <!-- COMMON -->

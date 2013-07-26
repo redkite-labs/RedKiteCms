@@ -132,11 +132,7 @@ class AlSlotManager extends AlTemplateBase
     public function setForceSlotAttributes($v)
     {
         if ( ! is_bool($v)) {
-            $exception = array(
-                'message' => 'setForceSlotAttributes method accepts only boolean values',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentException(json_encode($exception));
+            throw new InvalidArgumentException('setForceSlotAttributes method accepts only boolean values');
         }
 
         $this->forceSlotAttributes = $v;
@@ -157,11 +153,7 @@ class AlSlotManager extends AlTemplateBase
     public function setSkipSiteLevelBlocks($v)
     {
         if ( ! is_bool($v)) {
-            $exception = array(
-                'message' => 'setSkipSiteLevelBlocks method accepts only boolean values',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentException(json_encode($exception));
+            throw new InvalidArgumentException('setSkipSiteLevelBlocks method accepts only boolean values');
         }
 
         $this->skipSiteLevelBlocks = $v;
@@ -295,21 +287,13 @@ class AlSlotManager extends AlTemplateBase
      * @api
      */
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
-    {
+    { 
         if ((int) $idLanguage == 0) {
-            $exception = array(
-                'message' => 'The language id argument must be a numeric value',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('The language id argument must be a numeric value');
         }
 
         if ((int) $idPage == 0) {
-            $exception = array(
-                'message' => 'The page id argument must be a numeric value',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('The page id argument must be a numeric value');
         }
 
         try {
@@ -353,7 +337,6 @@ class AlSlotManager extends AlTemplateBase
                     'parameters' => array(
                         '%type%' => $type,
                     ),
-                    'domain' => 'exceptions',
                 );
                 
                 throw new InvalidArgumentException(json_encode($exception));
@@ -671,7 +654,6 @@ class AlSlotManager extends AlTemplateBase
                         '%options%' => $required, 
                         '%parameter%' => $op,
                     ),
-                    'domain' => 'exceptions',
                 );
                 throw new InvalidArgumentException(json_encode($exception));
                 // @codeCoverageIgnoreEnd

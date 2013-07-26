@@ -77,11 +77,7 @@ class AlPageBlocks extends AlPageBlocksBase
     public function setIdPage($v)
     {
         if (!is_numeric($v)) {
-            $exception = array(
-                'message' => 'The page id argument must be a numeric value',
-                'domain' => 'exceptions',
-            );
-            throw new General\InvalidArgumentTypeException(json_encode($exception));
+            throw new General\InvalidArgumentTypeException('The page id argument must be a numeric value');
         }
 
         $this->idPage = $v;
@@ -101,11 +97,7 @@ class AlPageBlocks extends AlPageBlocksBase
     public function setIdLanguage($v)
     {
         if (!is_numeric($v)) {
-            $exception = array(
-                'message' => 'The language id argument must be a numeric value',
-                'domain' => 'exceptions',
-            );
-            throw new General\InvalidArgumentTypeException(json_encode($exception));
+            throw new General\InvalidArgumentTypeException('The language id argument must be a numeric value');
         }
 
         $this->idLanguage = $v;
@@ -188,19 +180,11 @@ class AlPageBlocks extends AlPageBlocksBase
     protected function setUpBlocks()
     {
         if (null === $this->idLanguage) {
-            $exception = array(
-                'message' => 'Blocks cannot be retrieved because the id language has not been set',
-                'domain' => 'exceptions',
-            );
-            throw new General\ArgumentIsEmptyException(json_encode($exception));
+            throw new General\ArgumentIsEmptyException('Blocks cannot be retrieved because the id language has not been set');
         }
 
         if (null === $this->idPage) {
-            $exception = array(
-                'message' => 'Blocks cannot be retrieved because the id page has not been set',
-                'domain' => 'exceptions',
-            );
-            throw new General\ArgumentIsEmptyException(json_encode($exception));
+            throw new General\ArgumentIsEmptyException('Blocks cannot be retrieved because the id page has not been set');
         }
 
         $this->alBlocks = $this->fetchBlocks();

@@ -113,11 +113,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
-            $exception = array(
-                'message' => 'AlSeoManager is able to manage only AlSeo objects',
-                'domain' => 'exceptions',
-            );
-            throw new General\InvalidArgumentTypeException(json_encode($exception));
+            throw new General\InvalidArgumentTypeException('AlSeoManager is able to manage only AlSeo objects');
         }
 
         $this->alSeo = $object;
@@ -154,7 +150,6 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 'parameters' => array(
                     '%className%' => get_class($this),
                 ),
-                'domain' => 'exceptions',
             );
             
             throw new General\ArgumentIsEmptyException(json_encode($exception));
@@ -255,27 +250,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             $this->validator->checkRequiredParamsExists(array('PageId' => '', 'LanguageId' => '', 'Permalink' => ''), $values);
 
             if (empty($values['PageId'])) {
-                $exception = array(
-                    'message' => 'The PageId argument is mandatory to save a seo object',
-                    'domain' => 'exceptions',
-                );
-                throw new General\ArgumentIsEmptyException(json_encode($exception));
+                throw new General\ArgumentIsEmptyException('The PageId argument is mandatory to save a seo object');
             }
 
             if (empty($values['LanguageId'])) {
-                $exception = array(
-                    'message' => 'The LanguageId argument is mandatory to save a seo object',
-                    'domain' => 'exceptions',
-                );
-                throw new General\ArgumentIsEmptyException(json_encode($exception));
+                throw new General\ArgumentIsEmptyException('The LanguageId argument is mandatory to save a seo object');
             }
 
             if (empty($values['Permalink'])) {
-                $exception = array(
-                    'message' => 'The Permalink argument is mandatory to save a seo object',
-                    'domain' => 'exceptions',
-                );
-                throw new General\ArgumentIsEmptyException(json_encode($exception));
+                throw new General\ArgumentIsEmptyException('The Permalink argument is mandatory to save a seo object');
             }
                     
             $values["Permalink"] = AlPageManager::slugify($values["Permalink"]);

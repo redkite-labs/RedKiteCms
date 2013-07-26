@@ -43,11 +43,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
-            $exception = array(
-                'message' => 'AlSeoRepositoryPropel accepts only AlSeo propel objects',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('AlSeoRepositoryPropel accepts only AlSeo propel objects');
         }
 
         return parent::setRepositoryObject($object);
@@ -83,11 +79,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
         }
 
         if (!is_string($permalink)) {
-            $exception = array(
-                'message' => 'fromPermalink method accepts only string values',
-                'domain' => 'exceptions',
-            );
-            throw new InvalidArgumentTypeException(json_encode($exception));
+            throw new InvalidArgumentTypeException('fromPermalink method accepts only string values');
         }
 
         return AlSeoQuery::create('a')
@@ -151,11 +143,18 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      * {@inheritdoc}
      */
     public function fromLanguageName($languageName)
-    {
+    {   
         return AlSeoQuery::create('a')
                     ->joinWith('a.AlLanguage')
                     ->where('AlLanguage.languageName = ?', $languageName)
                     ->filterByToDelete(0)
+                    /*, $ordered = true
+                     * 
+                     * ->orderByAlLanguageLanguageName()
+                    
+                    ->_if($ordered)
+                        ->orderBy('AlLanguage.languageName')
+                    ->_endif()*/
                     ->find();
     }
 }

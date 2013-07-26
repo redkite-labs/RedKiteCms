@@ -43,15 +43,15 @@ class BlocksController extends Base\BaseController
     public function addBlockAction()
     {
         $this->checkPageIsValid();
-
+        
         $request = $this->container->get('request');
         $slotName = $request->get('slotName');  
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $blockRepository = $factoryRepository->createRepository('Block');
-
+        
         if(null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN))
         {
-            throw new InvalidOperationException($this->translate('blocks_controller', 'You can add just one block into an included block'));
+            throw new InvalidOperationException('You can add just one block into an included block');
         }
 
         $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
@@ -60,7 +60,7 @@ class BlocksController extends Base\BaseController
             $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
             if ( ! $res) {
                 // @codeCoverageIgnoreStart
-                throw new RuntimeException($this->translate('blocks_controller', 'The block has not been added because an unespected error has occoured when saving'));
+                throw new RuntimeException('The block has not been added because an unespected error has occoured when saving');
                 // @codeCoverageIgnoreEnd
             }
 
@@ -68,7 +68,7 @@ class BlocksController extends Base\BaseController
             $blockManager = $slotManager->lastAdded();
         } else {
             if ( ! $request->get('included')) {
-                throw new RuntimeException($this->translate('blocks_controller', 'You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty'));
+                throw new RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
             }
             $template = 'AlphaLemonCmsBundle:Cms:render_included_block.html.twig';
 
@@ -126,12 +126,12 @@ class BlocksController extends Base\BaseController
         $result = $slotManager->editBlock($request->get('idBlock'), $values);
         if (false === $result) {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException($this->translate('blocks_controller', 'The block has not been edited because an unespected error has occoured when saving'));
+            throw new RuntimeException('The block has not been edited because an unespected error has occoured when saving');
             // @codeCoverageIgnoreEnd
         }
 
         if (null === $result) {
-            throw new RuntimeException($this->translate('blocks_controller', 'It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made'));
+            throw new RuntimeException('It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made');
         }
 
         $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
@@ -196,7 +196,7 @@ class BlocksController extends Base\BaseController
 
             return $this->buildJSonResponse($values);
         } else {
-            throw new RuntimeException($this->translate('blocks_controller', 'The block you tried to remove does not exist anymore in the website'));
+            throw new RuntimeException('The block you tried to remove does not exist anymore in the website');
         }
     }
     
@@ -212,7 +212,7 @@ class BlocksController extends Base\BaseController
     {
         $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         if (!$pageTree->isValid()) {
-            throw new RuntimeException($this->translate('blocks_controller', "The page you are trying to edit does not exist"));
+            throw new RuntimeException("The page you are trying to edit does not exist");
         }
     }
 
@@ -224,7 +224,7 @@ class BlocksController extends Base\BaseController
         
         $slotManager = $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));
         if ($throwExceptionWhenNull && null === $slotManager) {
-            throw new RuntimeException($this->translate('blocks_controller', "You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty"));
+            throw new RuntimeException("You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty");
         }
 
         return $slotManager;
@@ -281,9 +281,8 @@ class BlocksController extends Base\BaseController
                 return $response;
             } else {
                 $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
-                $message = $this->translate('blocks_controller', 'The block does not exist anymore or the slot has any block inside'); 
                 
-                throw new \RuntimeException($message);
+                throw new RuntimeException('The block does not exist anymore or the slot has any block inside');
             }
         } catch (\Exception $e) {
             return $this->renderDialogMessage($e->getMessage());

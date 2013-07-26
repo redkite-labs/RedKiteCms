@@ -79,7 +79,7 @@ class PagesController extends Base\BaseController
     {
         $request = $this->container->get('request');
         if ('al_' === substr($request->get('pageName'), 0, 3)) {
-            throw new InvalidArgumentException($this->translate('pages_controller', 'The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes'));
+            throw new InvalidArgumentException('The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes');
         }
 
         $alPage = null;
@@ -131,7 +131,7 @@ class PagesController extends Base\BaseController
         
         if ( ! $pageManager->save($values)) {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException($this->translate('pages_controller', 'The page has not been saved'));
+            throw new RuntimeException('The page has not been saved');
             // @codeCoverageIgnoreEnd
         } 
         
@@ -151,7 +151,7 @@ class PagesController extends Base\BaseController
         }
         
         if (null === $alPage) {          
-            throw new RuntimeException($this->translate('pages_controller', 'Any page has been choosen for removing'));
+            throw new RuntimeException('Any page has been choosen for removing');
         }
         
         $pageManager->set($alPage);
@@ -164,7 +164,7 @@ class PagesController extends Base\BaseController
         $result = $pageManager->delete();
         if ( ! $result) {
            // @codeCoverageIgnoreStart
-           throw new RuntimeException($this->translate('pages_controller', 'Nothing to delete with the given parameters'));
+           throw new RuntimeException('Nothing to delete with the given parameters');
             // @codeCoverageIgnoreEnd 
         }
         
@@ -186,7 +186,7 @@ class PagesController extends Base\BaseController
             if (false === $result) {
                 // @codeCoverageIgnoreStart
                 $pageManager->getPageRepository()->rollBack();
-                throw new RuntimeException($this->translate('pages_controller', 'Nothing to delete with the given parameters'));
+                throw new RuntimeException('Nothing to delete with the given parameters');
                 // @codeCoverageIgnoreEnd
             }
                 
