@@ -37,7 +37,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage {"message":"AlBlockRepositoryPropel accepts only AlBlock propel objects","domain":"exceptions"}
+     * @expectedExceptionMessage AlBlockRepositoryPropel accepts only AlBlock propel objects
      */
     public function testRepositoryAcceptsOnlyAlBlockObjects()
     {

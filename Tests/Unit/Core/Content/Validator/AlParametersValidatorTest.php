@@ -36,7 +36,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage {"message":"Any parameter has been given","domain":"exceptions"}
+     * @expectedExceptionMessage Any parameter has been given
      */
     public function testCheckEmptyParamsThrownAnExceptionWhenTheParameterIsEmpty()
     {
@@ -45,7 +45,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage {"message":"Empty array","domain":"exceptions"}
+     * @expectedExceptionMessage Empty array
      */
     public function testCheckEmptyParamsThrownAnExceptionWhenTheParameterIsEmptyWithCustomErrorMessage()
     {
@@ -59,7 +59,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage {"message":"AlValidator cannot check that at least once parameter exists because any \"required parameters\" has been given","domain":"exceptions"}
+     * @expectedExceptionMessage AlValidator cannot check that at least once parameter exists because any "required parameters" has been given
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenRequiredParametersAreEmpty()
     {
@@ -68,7 +68,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage {"message":"AlValidator cannot check that at least once parameter exists because any \"value\" has been given","domain":"exceptions"}
+     * @expectedExceptionMessage AlValidator cannot check that at least once parameter exists because any "value" has been given
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenValuesAreEmpty()
     {
@@ -77,7 +77,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
-     * @expectedExceptionMessage {"message":"At least one of those options are required: %required%. The options you gave are %values%","parameters":{"%required%":"param","%values%":"param1"},"domain":"exceptions"}
+     * @expectedExceptionMessage {"message":"At least one of those options are required: %required%. The options you gave are %values%","parameters":{"%required%":"param","%values%":"param1"}}
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFound()
     {
@@ -100,7 +100,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage {"message":"AlValidator cannot check that all the required parameters exist because any \"required parameters\" has been given","domain":"exceptions"}
+     * @expectedExceptionMessage AlValidator cannot check that all the required parameters exist because any "required parameters" has been given
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenRequiredParametersAreEmpty()
     {
@@ -109,7 +109,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage {"message":"AlValidator cannot check that all the required parameters exist because any \"value\" has been given","domain":"exceptions"}
+     * @expectedExceptionMessage AlValidator cannot check that all the required parameters exist because any "value" has been given
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenValuesAreEmpty()
     {
