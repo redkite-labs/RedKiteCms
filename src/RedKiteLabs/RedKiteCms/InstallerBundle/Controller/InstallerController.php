@@ -45,7 +45,7 @@ class InstallerController extends Controller
         $request = $this->container->get('request');
         $scheme = $request->getScheme().'://'.$request->getHttpHost();
         if ('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 $data = $form->getData();
 
