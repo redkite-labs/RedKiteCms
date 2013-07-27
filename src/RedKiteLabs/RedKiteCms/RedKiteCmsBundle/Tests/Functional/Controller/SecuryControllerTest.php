@@ -428,7 +428,7 @@ class SecurityControllerTest extends BaseSecured
         $response = $client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
 
-        $crawler = $client->request('GET', '/backend/en/al_local_deploy');
+        $crawler = $client->request('GET', '/backend/en/al_productionDeploy');
         $response = $client->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
