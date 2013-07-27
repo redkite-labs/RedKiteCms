@@ -111,5 +111,10 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
     {
         $seoAttributes = $this->seoRepository->fromLanguageName('en');
         $this->assertEquals(2, count($seoAttributes));
+        
+        $seoAttributesUnordered = $this->seoRepository->fromLanguageName('en', false);
+        for ($i = 0; $i < count($seoAttributesUnordered); $i++) {
+            $this->assertNotEquals($seoAttributesUnordered[$i]->getPermalink(), $seoAttributes[$i]->getPermalink());
+        }
     }
 }
