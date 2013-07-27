@@ -85,7 +85,8 @@ interface SeoRepositoryInterface
      * Fetches the seo records found by a language name
      *
      * @param string The name of the language
+     * @param boolean When true orders by permalink
      * @return mixed A collection of objects
      */
-    public function fromLanguageName($languageName);
+    public function fromLanguageName($languageName, $ordered = true);
 }
