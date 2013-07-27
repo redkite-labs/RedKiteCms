@@ -168,7 +168,7 @@ class PagesController extends Base\BaseController
             // @codeCoverageIgnoreEnd 
         }
         
-        return $this->buildJSonHeader($this->translate('pages_controller', 'The page has been successfully removed'), $pageManager->get());
+        return $this->buildJSonHeader($this->translate('The page has been successfully removed'), $pageManager->get());
     }
     
     /**
@@ -192,7 +192,7 @@ class PagesController extends Base\BaseController
                 
             $pageManager->getPageRepository()->commit();
             
-            return $this->buildJSonHeader($this->translate('pages_controller', 'The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
+            return $this->buildJSonHeader($this->translate('The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
         } catch (\Exception $ex) {
             // @codeCoverageIgnoreStart
             $pageManager->getPageRepository()->rollBack();
