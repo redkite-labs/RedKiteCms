@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
 use AlphaLemon\ThemeEngineBundle\Core\Generator\AlAppThemeGenerator;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateAppThemeBundleCommand extends BaseGenerateBundle
 {
@@ -39,7 +40,7 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
         );
     }
 
-    protected function getGenerator($bundle = null)
+    protected function getGenerator(BundleInterface $bundle = null)
     {
         if (null === $this->generator) {
             $kernel = $this->getContainer()->get('kernel');
