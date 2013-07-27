@@ -1,7 +1,7 @@
 AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\Page:
   properties:
     pageName:
-      - MaxLength: { limit: 255  }
+      - Length: { max: 255  }
       - NotBlank: { message: "The page name value should not be blank" }
     template:
       - NotBlank: { message: "The template value should not be blank" }
@@ -17,10 +17,10 @@ AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\Seo:
     idPage:
       - NotBlank: { message: "The page id, which the seo attributes belongs, is mandatory" }
     permalink:
-      - MaxLength: { limit: 255  }
+      - Length: { max: 255  }
       - NotBlank: { message: "The permalink value should not be blank" }
     title:
-      - MaxLength: { limit: 60  }
+      - Length: { max: 60  }
       - NotBlank: { message: "The metatag title value should not be blank" }
     description:
       - NotBlank: { message: "The metatag description value should not be blank" }
