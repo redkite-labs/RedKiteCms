@@ -1,4 +1,19 @@
-1.1.RC4
+1.1.RC4 (2013-07-27)
+1a6a5bc fromLanguageName orders by permalink by default; this behavior can be controlled by the second argument
+62ac8ab rename toolbar Users to Security
+d7ac650 renamed deploy routes and updated security deploy regex
+e871738 added a control to avoid to add assets declararation to a deployed page, when the App-Block is not used in the page itself
+0bc62b8 defined the default bundle's skeleton dir when any one has been specified from the external
+0f81423 updated to Symfony2.3
+39512ed renamed production environment from local to production
+7702d24 moved translation to unique catalogue as suggested by Symfony2 Bundles best-practices
+7584fb6 updated routes names according to bundles best-practices
+65685f7 updated Controllers to use AlTranslator object
+539853a removed showExternalFilesManagerAction
+0039b25 removed bower support and moved to AlphaLemon CMS installer bundle
+fd8b10b removed jquery-metatag dependency
+184aa8a removed metadata dependency from imagesList jquery plugin
+e33f873 jquery list() plugin has been temporary suspended until jquery.metadata dependency is not removed from this plugin, as did for imagesList
 b2235c9 added a control to disallow add a space character when adding an internal symfony2 route to a link block
 2225471 used tinyMCE editor instead of CKEditor
 9ed3207 removed external assets management
