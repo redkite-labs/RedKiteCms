@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use AlphaLemon\AlphaLemonCmsBundle\Core\Generator\AlAppBlockGenerator;
 use AlphaLemon\ThemeEngineBundle\Command\Generate\BaseGenerateBundle;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateAppBlockBundleCommand extends BaseGenerateBundle
 {
@@ -81,7 +82,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
         );
     }
 
-    protected function getGenerator($bundle = null)
+    protected function getGenerator(BundleInterface $bundle = null)
     {
         if (null === $this->generator) {
             // @codeCoverageIgnoreStart
