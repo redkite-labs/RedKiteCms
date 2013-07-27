@@ -123,7 +123,7 @@ class SecurityController extends Base\BaseController
                 if ($user->save() > 0) {
                     $message = "User has been saved";
                 }
-                $message = $this->translate('security_controller', $message);
+                $message = $this->translate($message);
 
                 // Let's refresh the form with the saved data when the user is edited
                 if ( ! $isNewUser) {
@@ -163,7 +163,7 @@ class SecurityController extends Base\BaseController
                 if ($role->save() > 0) {
                     $message = "Role has been saved";
                 }
-                $message = $this->translate('security_controller', $message);
+                $message = $this->translate($message);
 
                 // Let's refresh the form with the saved data when the user is edited
                 if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);

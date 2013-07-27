@@ -87,7 +87,7 @@ class BlocksController extends Base\BaseController
         }
 
         $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
-        $message = $this->translate('blocks_controller', 'The block has been successfully added'); 
+        $message = $this->translate('The block has been successfully added'); 
 
         $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
         $values = array(
@@ -148,7 +148,7 @@ class BlocksController extends Base\BaseController
         if (null === $response) {
             $template = ($request->get('included')) ? 'AlphaLemonCmsBundle:Cms:render_included_block.html.twig' :  'AlphaLemonCmsBundle:Cms:render_block.html.twig';
             $values = array(
-                array("key" => "message", "value" => $this->translate('blocks_controller', "The block has been successfully edited")),
+                array("key" => "message", "value" => $this->translate("The block has been successfully edited")),
                 array("key" => "edit-block",
                       "blockName" => "block_" . $blockManager->get()->getId(),
                       "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager)),
@@ -172,9 +172,9 @@ class BlocksController extends Base\BaseController
             $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
             $message = ($res) 
             ? 
-                $this->translate('blocks_controller', 'The block has been successfully removed')
+                $this->translate('The block has been successfully removed')
             : 
-                $this->translate('blocks_controller', 'The block has not been removed')
+                $this->translate('The block has not been removed')
             ;
 
             $values = array();

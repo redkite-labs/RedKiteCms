@@ -55,7 +55,7 @@ class ConfigurationController extends Base\BaseController
                     break;
             }
 
-            return new Response($this->translate('configuration_controller', $message, $params), $statusCode); 
+            return new Response($this->translate($message, $params), $statusCode); 
         } catch (\Exception $e) {
             // @codeCoverageIgnoreStart
             return $this->renderDialogMessage($e->getMessage());

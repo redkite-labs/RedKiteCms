@@ -61,7 +61,7 @@ class LanguagesController extends Base\BaseController
         );
         if ($languageManager->save($parameters)) {
             $language = (null === $alLanguage) ? $languageManager->get() : $alLanguage;
-            $message = $this->translate('languages_controller', 'The language has been successfully saved');
+            $message = $this->translate('The language has been successfully saved');
                             
             return $this->buildJSonHeader($message, $language);
         }
@@ -85,7 +85,7 @@ class LanguagesController extends Base\BaseController
             ->delete()
         ;
         if ($result) {      
-            $message = $this->translate('languages_controller', 'The language has been successfully deleted');              
+            $message = $this->translate('The language has been successfully deleted');              
             
             return $this->buildJSonHeader($message, $alLanguage);
         }
