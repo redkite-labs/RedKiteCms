@@ -37,6 +37,6 @@ security:
             #    realm: "Secured Demo Area"
 
     access_control:
-        - { path: "^/backend/[a-z]+/al_local_deploy", role: ROLE_ADMIN }
+        - { path: "^/backend/[a-z]+/al_productionDeploy", role: ROLE_ADMIN }
         - { path: ^/backend/users, roles: ROLE_ADMIN }
         - { path: ^/backend, roles: ROLE_USER }
