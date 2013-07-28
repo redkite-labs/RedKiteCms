@@ -71,7 +71,9 @@ Stay in touch
 AlphaLemon CMS is present on major social networks:
 
 Follow [@alphalemoncms on twitter](https://twitter.com/alphalemoncms) for the latest news
+
 Like AlphaLemon CMS at [facebook](https://www.facebook.com/alphalemon)
+
 Connect with AlphaLemon CMS at [google+](https://plus.google.com/103994964006724386514/posts)
 
 
