@@ -1,0 +1,7 @@
+{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+
+{% set button_type = (data.button_type is defined and data.button_type) ? " " ~ data.button_type : "" %}
+{% set button_attribute = (data.button_attribute is defined and data.button_attribute) ? " " ~ data.button_attribute : "" %}
+{% set button_text = (data.button_text is defined and data.button_text) ? " " ~ data.button_text : "Click me" %}
+{% set button_block = (data.button_block is defined and data.button_block) ? " " ~ data.button_block : "" %}
+{% set button_enabled = (data.button_enabled is defined and data.button_enabled) ? " " ~ data.button_enabled : "" %}

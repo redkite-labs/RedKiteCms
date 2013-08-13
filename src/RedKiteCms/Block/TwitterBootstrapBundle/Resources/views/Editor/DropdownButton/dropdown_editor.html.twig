@@ -1,0 +1,17 @@
+{% extends "RedKiteCmsBundle:Editor:base_editor_form.html.twig" %}
+{% block editor %}
+<div class="pull-left">
+    {{ parent() }}
+</div>
+<div id="al-dropdown-menu-items" class="pull-left" style="display:none;"></div>
+<div class="clearfix"></div>
+{% endblock %}
+
+{% block commands %}
+<tr>
+    <td colspan="2" style="text-align: right">
+        <a class="al-editor-items btn" href="#" >Menu items</a>
+        <a class="al_editor_save btn btn-primary" href="#" >Save</a>
+    </td>
+</tr>
+{% endblock %}

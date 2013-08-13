@@ -1,0 +1,8 @@
+{
+    "autoload": {
+        "psr-0": { "RedKiteCms\\Block\\TwitterBootstrapBundle": ""
+        }
+    },
+    "target-dir" : "RedKiteCms/Block/TwitterBootstrapBundle",
+    "minimum-stability": "dev"
+}

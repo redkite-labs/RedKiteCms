@@ -1,0 +1,5 @@
+{% extends "TwitterBootstrapBundle:Content:Button/_button_params.html.twig" %}
+
+{% block body %}
+<button class="btn{{ button_type }}{{ button_attribute }}{{ button_block }}{{ button_enabled }}" {{ editor|raw }}>{{ button_text }}</button>
+{% endblock %}

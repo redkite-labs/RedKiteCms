@@ -1,0 +1,2 @@
+twitter_bootstrap_block_jstree_dropdown_button:
+    resource: "@TwitterBootstrapBundle/Resources/config/routing/dropdown_button.xml"

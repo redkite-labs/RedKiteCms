@@ -1,0 +1,8 @@
+<div class="thumbnail">
+    {% set blockSlotName = baseSlotName ~ "-0" %}  
+    {{ renderIncludedBlock(blockSlotName, block_manager, "Image", true) }}
+    <div class="caption">
+        {% set blockSlotName = baseSlotName ~ "-1" %} 
+        {{ renderIncludedBlock(blockSlotName, block_manager, "Text", true) }}
+    </div>
+</div>

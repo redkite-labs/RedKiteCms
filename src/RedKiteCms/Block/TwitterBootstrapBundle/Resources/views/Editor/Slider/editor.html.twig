@@ -1,0 +1,28 @@
+{% block images %}
+<style>
+.images_list {
+    min-width: 700px;
+}
+.images_attributes {
+    min-width: 300px;
+}
+.images_contents {
+    min-width: 360px;
+    max-height: 300px;
+    overflow: auto;
+    margin-right: 20px;
+}
+.al_img {
+    visibility:visible;
+}
+</style>
+<div class="images_list">
+    <div class="images_contents pull-left">
+        {% include "RedKiteCmsBundle:ImagesList:_list.html.twig" with { 'images': editor.items, 'form_name' : editor.form_name } %}
+    </div>
+    <div class="images_attributes pull-right">
+        {% include "TwitterBootstrapBundle:Editor:Slider/item.html.twig" with {'configuration': editor.configuration } %}
+    </div>    
+    <div class="clearfix"></div>
+</div>    
+{% endblock %}

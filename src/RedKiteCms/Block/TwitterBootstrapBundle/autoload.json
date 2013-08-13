@@ -1,0 +1,7 @@
+{
+    "bundles" : {
+        "RedKiteCms\\Block\\TwitterBootstrapBundle\\TwitterBootstrapBundle" : {
+            "environments" : ["all"]
+        }
+    }
+}

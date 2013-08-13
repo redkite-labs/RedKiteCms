@@ -1,0 +1,29 @@
+{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+
+{% if carousel_id is not defined or carousel_id == "" %}
+{% set carousel_id = "alphalemon-carousel" %}
+{% endif %}
+
+{% block body %}
+<div id="{{ carousel_id }}" class="carousel slide" {{ editor|raw }}>
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+        {% set active = " active" %}
+        {% for item in items %}
+            <div class="item{{ active }}">
+                {% include "ImageBundle:Image:image.html.twig" with {"image" : item, "enabled" : false } %}
+            {% if (item.caption_title is defined and item.caption_title != "") or (item.caption_body is defined and item.caption_body != "") %}
+                <div class="carousel-caption">
+                    {% if item.caption_title is defined %}{% endif %}<h4>{{ item.caption_title }}</h4>
+                    {% if item.caption_body is defined %}<p>{{ item.caption_body }}</p>{% endif %}
+                </div>
+                {% set active = "" %}
+            {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Carousel nav -->
+    <a class="carousel-control left" href="#{{ carousel_id }}" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#{{ carousel_id }}" data-slide="next">&rsaquo;</a>
+</div>
+{% endblock %}

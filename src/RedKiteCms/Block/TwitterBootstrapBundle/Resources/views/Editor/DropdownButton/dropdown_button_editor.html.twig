@@ -1,0 +1,13 @@
+{% extends "TwitterBootstrapBundle:Content:DropdownButton/_dropdown_button_params.html.twig" %}
+
+{% block body %}
+<div data-title="Dropdown button" rel="popover" data-html="true" data-content='{% include "TwitterBootstrapBundle:Editor:DropdownButton/dropdown_editor.html.twig" %}' class="al_inline_editable popover-zindex btn-group{{ button_dropup }}">
+    <a class="btn dropdown-toggle{{ button_type }}{{ button_attribute }}" data-toggle="dropdown" href="#">
+        {{ button_text }}
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu{{ button_dropup_right }}">
+        {% include "TwitterBootstrapBundle:Editor:DropdownButton/_dropdown_items.html.twig" with {'items': attributes} %}
+    </ul>
+</div>
+{% endblock %}
