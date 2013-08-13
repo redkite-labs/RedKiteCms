@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Controller\DeployController;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Controller\DeployController;
 
 
 /**
@@ -36,8 +36,8 @@ abstract class BaseDeployControllerTest extends TestCase
     protected function setUp()
     {
         $this->response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $this->comandsProcessor = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor\AlCommandsProcessorInterface');
-        $this->deployer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployerInterface');
+        $this->comandsProcessor = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessorInterface');
+        $this->deployer = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');

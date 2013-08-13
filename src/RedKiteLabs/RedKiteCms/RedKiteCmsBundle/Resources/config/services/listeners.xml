@@ -4,20 +4,20 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>        
-        <parameter key="alpha_lemon_cms.cms_bootstrap_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
-        <parameter key="alpha_lemon_cms.resource_free_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\ResourceFreeListener</parameter>
-        <parameter key="alpha_lemon_cms.access_deniend_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
-        <parameter key="alpha_lemon_cms.add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.add_page_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.edit_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\EditSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.remove_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeleteSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.remove_page_contents_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.update_permalink_on_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.language_add_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.language_add_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.language_remove_seo_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.language_remove_blocks_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\DeleteLanguageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.exception_listener.class">AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Exception\ExceptionListener</parameter>
+        <parameter key="alpha_lemon_cms.cms_bootstrap_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
+        <parameter key="alpha_lemon_cms.resource_free_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\ResourceFreeListener</parameter>
+        <parameter key="alpha_lemon_cms.access_deniend_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
+        <parameter key="alpha_lemon_cms.add_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\AddSeoListener</parameter>
+        <parameter key="alpha_lemon_cms.add_page_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
+        <parameter key="alpha_lemon_cms.edit_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\EditSeoListener</parameter>
+        <parameter key="alpha_lemon_cms.remove_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\DeleteSeoListener</parameter>
+        <parameter key="alpha_lemon_cms.remove_page_contents_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
+        <parameter key="alpha_lemon_cms.update_permalink_on_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener</parameter>
+        <parameter key="alpha_lemon_cms.language_add_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageSeoListener</parameter>
+        <parameter key="alpha_lemon_cms.language_add_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageBlocksListener</parameter>
+        <parameter key="alpha_lemon_cms.language_remove_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\DeleteLanguageSeoListener</parameter>
+        <parameter key="alpha_lemon_cms.language_remove_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\DeleteLanguageBlocksListener</parameter>
+        <parameter key="alpha_lemon_cms.exception_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Exception\ExceptionListener</parameter>
     </parameters>
 
     <services>

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy\TwigTemplateWriter;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TwigTemplateWriter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterPages;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterPages;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -234,7 +234,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
     public function testImagesAreFixedForProduction()
     {
-        $jsCode = 'doSomething({images:["/bundles/alphalemoncms/uploads/assets/media/screenshots/img01.png",],});';
+        $jsCode = 'doSomething({images:["/bundles/redkitecms/uploads/assets/media/screenshots/img01.png",],});';
         $expectedJsCode = 'doSomething({images:["/bundles/acmewebsite/media/screenshots/img01.png",],});';
 
         $this->setUpTemplateSlots();
@@ -242,14 +242,14 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpPageBlocks();
         $this->setUpBlockManagerFactory();
 
-        $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
+        $imagesPath = array('backendPath' => "/bundles/redkitecms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
         $twigTemplateWriter->generateTemplate();
         
         $jsCode = 'doSomething({
                                 images:[
-                 "/bundles/alphalemoncms/uploads/assets/media/screenshots/img01.png",
+                 "/bundles/redkitecms/uploads/assets/media/screenshots/img01.png",
                  ],
             });';
 
@@ -526,7 +526,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->viewRenderer
                 ->expects($this->at(0))
                 ->method('render')
-                ->will($this->returnValue('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">'))
+                ->will($this->returnValue('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/redkitecms/uploads/assets/media/download.png">'))
             ;
         $this->viewRenderer
                 ->expects($this->at(1))
@@ -536,7 +536,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->viewRenderer
                 ->expects($this->at(2))
                 ->method('render')
-                ->will($this->returnValue('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>'))
+                ->will($this->returnValue('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/redkitecms/uploads/assets/media/image.png"></div>'))
             ;
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
@@ -562,7 +562,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
-        $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
+        $imagesPath = array('backendPath' => "/bundles/redkitecms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
 
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
@@ -624,7 +624,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->viewRenderer
                 ->expects($this->at(0))
                 ->method('render')
-                ->will($this->returnValue('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/download.png">'))
+                ->will($this->returnValue('<img width="381" height="87" title="Download" alt="download.png" src="/bundles/redkitecms/uploads/assets/media/download.png">'))
             ;
         $this->viewRenderer
                 ->expects($this->at(1))
@@ -634,7 +634,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->viewRenderer
                 ->expects($this->at(2))
                 ->method('render')
-                ->will($this->returnValue('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/alphalemoncms/uploads/assets/media/image.png"></div>'))
+                ->will($this->returnValue('<div>Some other text <img width="381" height="87" title="Download" alt="download.png" src="/bundles/redkitecms/uploads/assets/media/image.png"></div>'))
             ;
         $this->viewRenderer
                 ->expects($this->at(3))
@@ -688,7 +688,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
-        $imagesPath = array('backendPath' => "/bundles/alphalemoncms/uploads/assets",
+        $imagesPath = array('backendPath' => "/bundles/redkitecms/uploads/assets",
             'prodPath' => "/bundles/acmewebsite");
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer, $imagesPath);
         $twigTemplateWriter->generateTemplate();

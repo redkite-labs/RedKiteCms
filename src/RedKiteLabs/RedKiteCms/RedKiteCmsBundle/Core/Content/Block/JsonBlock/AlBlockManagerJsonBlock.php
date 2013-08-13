@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 /**
  * AlBlockManagerJson is the base object deputated to handle a json content
@@ -42,7 +42,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
             
             if ( ! array_key_exists("al_json_block", $unserializedData)) {
                 $exception = array(
-                    'message' => 'There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you',
+                    'message' => 'There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you',
                     'parameters' => array(
                         '%className%' => get_class($this),
                     ),

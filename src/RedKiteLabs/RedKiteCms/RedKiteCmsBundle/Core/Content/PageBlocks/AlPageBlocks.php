@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks as AlPageBlocksBase;
 
 /**
@@ -41,12 +41,12 @@ class AlPageBlocks extends AlPageBlocksBase
     protected $idLanguage = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      */
     protected $factoryRepository = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
      */
     protected $blockRepository;
 
@@ -69,8 +69,8 @@ class AlPageBlocks extends AlPageBlocksBase
      * The id of the page to retrieve
      *
      * @param  int                                                                                          $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -89,8 +89,8 @@ class AlPageBlocks extends AlPageBlocksBase
      * The id of the language to retrieve
      *
      * @param  int                                                                                          $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -132,7 +132,7 @@ class AlPageBlocks extends AlPageBlocksBase
     /**
      * Refreshes the blocks
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      *
      * @api
      */

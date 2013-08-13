@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database namespace="AlphaLemon\AlphaLemonCmsBundle\Model" name="default"  defaultIdMethod="native" >
+<database namespace="RedKiteLabs\RedKiteCmsBundle\Model" name="default"  defaultIdMethod="native" >
 
   <table name="al_block" idMethod="native">
     <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />

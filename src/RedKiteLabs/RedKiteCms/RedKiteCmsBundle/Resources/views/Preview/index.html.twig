@@ -1,9 +1,9 @@
 {#
-   This file is part of the AlphaLemon CMS Application and it is distributed
+   This file is part of the RedKite CMS Application and it is distributed
    under the GPL LICENSE Version 2.0. To use this application you must leave
    intact this copyright notice.
 
-   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
 
    For the full copyright and license information, please view the LICENSE
    file that was distributed with this source code.
@@ -56,16 +56,16 @@
     {% endfor %}
 
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
-        {% stylesheets filter='?yui_css,cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                                    'bundles/alphalemoncms/vendor/vendor-adapter.css' 
-                                                    'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
+        {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                                    'bundles/redkitecms/vendor/vendor-adapter.css' 
+                                                    'bundles/redkitecms/css/skins/bootstrap/skin.css'
         %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
         {% endstylesheets %}
     {% else %}
-        {% stylesheets filter='?cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                            'bundles/alphalemoncms/vendor/vendor-adapter.css' 
-                                            'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
+        {% stylesheets filter='?cssrewrite' 'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                            'bundles/redkitecms/vendor/vendor-adapter.css' 
+                                            'bundles/redkitecms/css/skins/bootstrap/skin.css'
         %}
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
         {% endstylesheets %}
@@ -75,22 +75,22 @@
 {% block external_javascripts %}
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
-                                     'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
-                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.js'
+                                     'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+                                     'components/redkitecms/twitter-bootstrap/js/bootstrap.js'
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/holderjs/holder.js'
-                                     'bundles/alphalemoncms/js/*' 
+                                     'bundles/redkitecms/js/*' 
     %} 
     
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% else %}
     {% javascripts  'components/jquery/jquery.min.js'
-                    'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
-                    'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js'
+                    'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+                    'components/redkitecms/twitter-bootstrap/js/bootstrap.min.js'
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/holderjs/holder.js'
-                    'bundles/alphalemoncms/js/*' 
+                    'bundles/redkitecms/js/*' 
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -106,7 +106,7 @@
 <div id="al_main_commands">
     <div>
         <div id="al_toggle_nav_button" class="pull-left">        
-            {% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_templates_navigator', 'items' : templates, 'text' : template_name, 'type' : 'al-template'}  %}
+            {% include 'RedKiteCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_templates_navigator', 'items' : templates, 'text' : template_name, 'type' : 'al-template'}  %}
             <input id="al-language" type="hidden" value="{{ language_name}}" />
             <input id="al-page" type="hidden" value="{{ page_name}}" />
             <input id="al-theme" type="hidden" value="{{ theme_name}}" />

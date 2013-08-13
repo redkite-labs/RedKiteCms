@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,19 +15,19 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\PageEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\PageEvents;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
  * AlPageManager is the base object that wraps an AlPage object
@@ -50,10 +50,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager               $templateManager
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager               $templateManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -91,8 +91,8 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Sets the template manager object
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager
      *
      * @api
      */
@@ -106,7 +106,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Returns the template manager object associated with this object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
      */
@@ -118,8 +118,8 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Sets the page model object
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager
      *
      * @api
      */
@@ -158,9 +158,9 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * {@inheritdoc}
      *
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * 
      * @api
      */
@@ -175,7 +175,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
         }
         
         $this->dispatchBeforeOperationEvent(
-            '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent',
+            '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent',
             PageEvents::BEFORE_DELETE_PAGE,
             array(),
             array(
@@ -191,7 +191,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             if ($result) {
                 $eventName = PageEvents::BEFORE_DELETE_PAGE_COMMIT;
                 $result = !$this->eventsHandler
-                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent', array($this, array()))
+                                ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent', array($this, array()))
                                 ->dispatch()
                                 ->getEvent($eventName)
                                 ->isAborted();
@@ -201,7 +201,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->pageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(PageEvents::AFTER_DELETE_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageDeletedEvent', array($this))
+                     ->createEvent(PageEvents::AFTER_DELETE_PAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\AfterPageDeletedEvent', array($this))
                      ->dispatch();
                      
                 return $result;
@@ -257,10 +257,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * @param  array                                                                                    $values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\PageExistsException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page\PageExistsException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
      *
      * @api
      */
@@ -268,7 +268,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent',
+                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent',
                 PageEvents::BEFORE_ADD_PAGE,
                 $values,
                 array(
@@ -320,7 +320,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 if (false !== $result) {
                     $eventName = PageEvents::BEFORE_ADD_PAGE_COMMIT;
                     $result = !$this->eventsHandler
-                                    ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent', array($this, $values))
+                                    ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent', array($this, $values))
                                     ->dispatch()
                                     ->getEvent($eventName)
                                     ->isAborted();
@@ -331,7 +331,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->pageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(PageEvents::AFTER_ADD_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageAddedEvent', array($this))
+                     ->createEvent(PageEvents::AFTER_ADD_PAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\AfterPageAddedEvent', array($this))
                      ->dispatch();
                      
                 return $result;
@@ -354,7 +354,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * @param  array                                                       $values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\Exception
      *
      * @api
      */
@@ -362,7 +362,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent',
+                    '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent',
                     PageEvents::BEFORE_EDIT_PAGE,
                     $values,
                     array(
@@ -412,7 +412,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 if (false !== $result) {
                     $eventName = PageEvents::BEFORE_EDIT_PAGE_COMMIT;
                     $result = !$this->eventsHandler
-                                        ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent', array($this, $values))
+                                        ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent', array($this, $values))
                                         ->dispatch()
                                         ->getEvent($eventName)
                                         ->isAborted();
@@ -423,7 +423,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->pageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(PageEvents::AFTER_EDIT_PAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\AfterPageEditedEvent', array($this))
+                     ->createEvent(PageEvents::AFTER_EDIT_PAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\AfterPageEditedEvent', array($this))
                      ->dispatch();
                      
                 return $result;

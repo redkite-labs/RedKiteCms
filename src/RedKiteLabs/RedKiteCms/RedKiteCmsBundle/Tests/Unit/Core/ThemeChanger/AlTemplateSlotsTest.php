@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\ThemeChanger;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\ThemeChanger;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -34,11 +34,11 @@ class AlTemplateSlotsTest extends TestCase
         
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollectionInterface');
         
         $this->blockRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -50,18 +50,18 @@ class AlTemplateSlotsTest extends TestCase
         ;
         
         $this->eventsHandler = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->blockManagerFactory = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
-        $this->viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
+        $this->viewRenderer = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
         
         $this->templateSlots = new AlTemplateSlots($this->container);
     }
@@ -195,7 +195,7 @@ class AlTemplateSlotsTest extends TestCase
         ;     
         /*
         $templateManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -282,7 +282,7 @@ class AlTemplateSlotsTest extends TestCase
     protected function initBlockManager($block/*, $result, $value = null*/)
     {
         $blockManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -305,7 +305,7 @@ class AlTemplateSlotsTest extends TestCase
     
     protected function initBlock($slotName)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         
         $block
             ->expects($this->once())

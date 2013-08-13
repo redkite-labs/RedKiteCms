@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Factory\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Factory\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
 
 /**
  * AlFactoryRepositoryTest
@@ -37,7 +37,7 @@ class AlFactoryRepositoryTest extends TestCase
     }
 
     /**
-     *@expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException
+     *@expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException
      */
     public function testAnExceptionIsThrownWhenTheRepositoryClassDoesNotExist()
     {
@@ -47,12 +47,12 @@ class AlFactoryRepositoryTest extends TestCase
     public function testARepositoryIsCreated()
     {
         $repository = $this->factoryRepository->createRepository('Block');
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel', $repository);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel', $repository);
     }
 
     public function testARepositoryPlacedOnACusyomNamespaceAndWithoutAlPefixed()
     {
-        $repository = $this->factoryRepository->createRepository('Test', '\AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository');
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\TestRepositoryPropel', $repository);
+        $repository = $this->factoryRepository->createRepository('Test', '\RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository');
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\TestRepositoryPropel', $repository);
     }
 }

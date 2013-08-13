@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Slot\Repeated\Converter;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot\Repeated\Converter;
 
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToSite;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToSite;
 
 /**
  * AlSlotsConverterToSiteTest
@@ -224,7 +224,7 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
 
     private function setUpBlock()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
             ->method('toArray')
             ->will($this->returnValue(array("Id" => 2, "Type" => "Text")));

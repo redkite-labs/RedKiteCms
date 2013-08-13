@@ -6,7 +6,7 @@
 
 namespace AlphaLemon\Block\FileBundle\Core\ElFinder;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
+use RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
 
 /**
  * Description of ElFinderMarkdownConnector

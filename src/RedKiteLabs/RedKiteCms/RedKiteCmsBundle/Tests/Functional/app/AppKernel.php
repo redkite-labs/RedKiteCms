@@ -27,7 +27,7 @@ class AppKernel extends Kernel
         $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
                                 ->getBundles();
         
-        $bundles[] = new AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle();
+        $bundles[] = new RedKiteLabs\RedKiteCmsBundle\AlphaLemonCmsBundle();
 
         return $bundles;
     }

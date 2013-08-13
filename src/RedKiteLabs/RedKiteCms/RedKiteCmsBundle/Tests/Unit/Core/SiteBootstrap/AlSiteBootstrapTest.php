@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap;
 
 class AlSiteBootstrapTester extends AlSiteBootstrap
 {
@@ -55,37 +55,37 @@ class AlSiteBootstrapTest extends TestCase
         parent::setUp();
 
         $this->languageRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->languageManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->pageRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->pageManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->blockRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->blockManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -97,7 +97,7 @@ class AlSiteBootstrapTest extends TestCase
         ;
         
         $this->templateManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -109,7 +109,7 @@ class AlSiteBootstrapTest extends TestCase
     {
         $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $languageManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -122,7 +122,7 @@ class AlSiteBootstrapTest extends TestCase
     {
         $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $pageManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -135,7 +135,7 @@ class AlSiteBootstrapTest extends TestCase
     {
         $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $templateManager = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -494,14 +494,14 @@ class AlSiteBootstrapTest extends TestCase
     
     private function initLanguage()
     {
-         $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlLanguage', array('delete'));
+         $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Model\AlLanguage', array('delete'));
          
          return $language;
     }
     
     private function initPage()
     {
-         $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Model\AlPage', array('delete'));
+         $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Model\AlPage', array('delete'));
          
          return $page;
     }

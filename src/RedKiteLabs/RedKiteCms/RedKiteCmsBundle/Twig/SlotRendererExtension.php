@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Twig;
+namespace RedKiteLabs\RedKiteCmsBundle\Twig;
 
 use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * Adds the renderSlot function to Twig engine
@@ -96,7 +96,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'true' : 'false';
                 $editorParameters = $blockManager->editorParameters();
                 
-                $cmsAttributes = $templating->render('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', array(
+                $cmsAttributes = $templating->render('RedKiteCmsBundle:Slot:editable_block_attributes.html.twig', array(
                     'block_id' => $block['Block']["Id"],
                     'hide_in_edit_mode' => $hideInEditMode,
                     'slot_name' => $slotName,
@@ -116,7 +116,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                 $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
             }
             
-            return $templating->render('AlphaLemonCmsBundle:Slot:' . $template, array(
+            return $templating->render('RedKiteCmsBundle:Slot:' . $template, array(
                 'block_id' => $block['Block']["Id"],
                 'slot_name' => $slotName,
                 'type' => $block['Block']['Type'],

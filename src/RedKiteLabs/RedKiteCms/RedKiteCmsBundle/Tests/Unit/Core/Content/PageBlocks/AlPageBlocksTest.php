@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\PageBlocks;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\PageBlocks;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlPageBlocksTest
@@ -35,11 +35,11 @@ class AlPageBlocksTest extends TestCase
     {
         parent::setUp();
 
-        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
@@ -48,7 +48,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testRefreshThrownAnExceptionWhenPageAndLanguageHaveNotBeenSet()
     {
@@ -56,7 +56,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedException The language id must be a numeric value
      */
     public function testLanguageIdMustBeAnInteger()
@@ -65,7 +65,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedException The page id must be a numeric value
      */
     public function testPageIdMustBeAnInteger()
@@ -74,7 +74,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testRefreshThrownAnExceptionWhenPageHaveNotBeenSet()
     {
@@ -84,7 +84,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testRefreshThrownAnExceptionWhenLanguageHaveNotBeenSet()
     {
@@ -133,7 +133,7 @@ class AlPageBlocksTest extends TestCase
 
     private function setUpBlock($slotName)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getSlotName')
             ->will($this->returnValue($slotName));

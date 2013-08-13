@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * CmsControllerTest

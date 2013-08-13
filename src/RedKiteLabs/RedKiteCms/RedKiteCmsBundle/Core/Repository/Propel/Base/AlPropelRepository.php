@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\RepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the RepositoryInterface to define the base class any propel model must inherit
@@ -33,7 +33,7 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
      * {@inheritdoc}
      *
      * @param  BaseObject                                                                     $object
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
      * @throws General\InvalidArgumentTypeException
      */
     public function setRepositoryObject($object = null)

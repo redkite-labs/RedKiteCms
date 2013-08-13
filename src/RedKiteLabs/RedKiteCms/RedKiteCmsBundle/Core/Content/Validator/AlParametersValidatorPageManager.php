@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
  * AlParametersValidatorPageManager adds specific validations for pages
@@ -38,7 +38,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      * 
      * @api
      */
@@ -52,8 +52,8 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Sets the page model object
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface      $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface      $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
      *
      * @api
      */
@@ -67,7 +67,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
     /**
      * Returns the page model object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface
      *
      * @api
      */

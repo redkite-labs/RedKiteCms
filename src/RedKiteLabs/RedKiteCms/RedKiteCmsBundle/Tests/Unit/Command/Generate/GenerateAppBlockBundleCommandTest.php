@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Command\Generate;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Command\Generate;
 
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -121,7 +121,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-            ->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Command\Generate\GenerateAppBlockBundleCommand')
+            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Command\Generate\GenerateAppBlockBundleCommand')
             ->setMethods(array('checkAutoloader', 'updateKernel'))
             ->getMock()
         ;
@@ -139,7 +139,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
     {
         // get a noop generator
         return $this
-            ->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Generator\AlAppBlockGenerator')
+            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateExt'))
             ->getMock()

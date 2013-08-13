@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlSeo;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlSeo;
 
 class AlSeo extends BaseAlSeo
 {

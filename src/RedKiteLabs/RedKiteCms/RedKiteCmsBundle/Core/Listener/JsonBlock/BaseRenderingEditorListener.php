@@ -4,7 +4,7 @@
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 
 /**
  * Provides a base class to render a Json block manager editor
@@ -47,10 +47,10 @@ abstract class BaseRenderingEditorListener
     /**
      * Renders the editor and adds it to the response replacing the curret response's content
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
      * @param  array                                                                              $params
      * @throws \InvalidArgumentException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\JsonBlock\Exception
      *
      * @api
      */
@@ -64,8 +64,8 @@ abstract class BaseRenderingEditorListener
     /**
      * Renders the editor
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\Exception
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\JsonBlock\Exception
      * @throws \InvalidArgumentException
      *
      * @api

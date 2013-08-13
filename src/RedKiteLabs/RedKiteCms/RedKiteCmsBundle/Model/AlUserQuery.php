@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlUserQuery;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlUserQuery;
 
 class AlUserQuery extends BaseAlUserQuery
 {

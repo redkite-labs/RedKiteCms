@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUserQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\UserRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlUserQuery;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\UserRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the UserRepositoryInterface to work with Propel
@@ -34,7 +34,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function getRepositoryObjectClassName()
     {
-        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlUser';
+        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlUser';
     }
 
     /**

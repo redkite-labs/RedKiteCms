@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
 
 /**
  * Defines the page attributes form
@@ -36,7 +36,7 @@ class SeoForm extends AbstractType
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel $languageRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel $languageRepository
      */
     public function __construct(AlLanguageRepositoryPropel $languageRepository)
     {
@@ -90,7 +90,7 @@ class SeoForm extends AbstractType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\Seo',
+            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo',
         );
     }
 

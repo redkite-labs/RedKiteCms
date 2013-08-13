@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Event\Actions\Block;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Event\Actions\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
 
 /**
  * BlockEditorEventTest
@@ -38,7 +38,7 @@ class BlockEditorRenderingEventTest extends TestCase
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-        $this->blockManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface');
+        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
 
         $this->event = new BlockEditorRenderingEvent($this->container, $this->request, $this->blockManager);
     }
@@ -62,7 +62,7 @@ class BlockEditorRenderingEventTest extends TestCase
     public function testBlockManager()
     {
         $this->assertSame($this->blockManager, $this->event->getBlockManager());
-        $blockManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface');
+        $blockManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
         $this->event->setBlockManager($blockManager);
         $this->assertSame($blockManager, $this->event->getBlockManager());
     }

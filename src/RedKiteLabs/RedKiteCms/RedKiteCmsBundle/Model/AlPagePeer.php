@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlPagePeer;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlPagePeer;
 
 class AlPagePeer extends BaseAlPagePeer
 {

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infuserRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
  * AlUserRepositoryPropelTest
@@ -36,18 +36,18 @@ class AlUserRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlUserRepositoryPropel accepts only AlUser propel objects
      */
     public function testRepositoryAcceptsOnlyAlUserObjects()
     {
-        $this->userRepository->setRepositoryObject(new \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage());
+        $this->userRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlPage());
     }
 
     public function testAUserObjectIsRetrievedFromItsPrimaryKey()
     {
         $user = $this->userRepository->fromPk(1);
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlUser', $user);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlUser', $user);
         $this->assertEquals(1, $user->getId());
     }
 

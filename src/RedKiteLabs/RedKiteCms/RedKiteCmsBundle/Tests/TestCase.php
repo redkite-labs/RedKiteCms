@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,7 @@
  * @license    GPL LICENSE Version 2.0
  *
  */
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->connection = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Pdo\MockPDO');
+        $this->connection = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Pdo\MockPDO');
     }
 
     public static function setUpBeforeClass()

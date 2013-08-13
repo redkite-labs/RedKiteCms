@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 
 /**
  * RenderingListEditorListenerTest
@@ -37,13 +37,13 @@ class BaseTestRenderingEditorListener extends TestCase
     {
         parent::setUp();
 
-        $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent')
+        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent')
                             ->disableOriginalConstructor()
                             ->getMock();
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $this->blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                             ->disableOriginalConstructor()
                             ->getMock();
     }
@@ -68,7 +68,7 @@ class BaseTestRenderingEditorListener extends TestCase
                 }
             }';
 
-        $this->block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $this->block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
 
         $this->block->expects($this->once())
             ->method('getType')

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException;
 
 /**
  * AlBlockManagerFactoryItem saves the block manager, the id used to identify the block
@@ -40,9 +40,9 @@ class AlBlockManagerFactoryItem
     /**
      * Constructor
      * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      * @param array $attributes
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * 
      * @api
      */
@@ -70,7 +70,7 @@ class AlBlockManagerFactoryItem
     /**
      * Returns the handled block manager
      *
-     * @return AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface
+     * @return RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface
      *
      * @api
      */

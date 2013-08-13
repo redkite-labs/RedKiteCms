@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlSeoPeer;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlSeoPeer;
 
 class AlSeoPeer extends BaseAlSeoPeer
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Twig;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Twig;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -17,7 +17,7 @@ class SlotRendererExtensionTest extends TestCase
 
     protected function setUp()
     {
-        $this->pageTree = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
+        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                ->disableOriginalConstructor()
                                ->getMock();
 
@@ -163,13 +163,13 @@ class SlotRendererExtensionTest extends TestCase
         $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $engine->expects($this->at(0))
                         ->method('render')
-                        ->with('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
+                        ->with('RedKiteCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
                         ->will($this->returnValue('data-foo="bar"'))
         ;
         
         $engine->expects($this->at(1))
                         ->method('render')
-                        ->with('AlphaLemonCmsBundle:Slot:_block.html.twig', $contentParameters)
+                        ->with('RedKiteCmsBundle:Slot:_block.html.twig', $contentParameters)
         ;
 
         $this->container->expects($this->at(0))
@@ -198,11 +198,11 @@ class SlotRendererExtensionTest extends TestCase
         $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $engine->expects($this->at(0))
                         ->method('render')
-                        ->with('AlphaLemonCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
+                        ->with('RedKiteCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
                         ->will($this->returnValue($extraAttributes))
         ;
         
-        $templateView = (null === $template) ? 'AlphaLemonCmsBundle:Slot:_block.html.twig' : 'AlphaLemonCmsBundle:Slot:' . $template;
+        $templateView = (null === $template) ? 'RedKiteCmsBundle:Slot:_block.html.twig' : 'RedKiteCmsBundle:Slot:' . $template;
         
         $engine->expects($this->at(1))
                         ->method('render')
@@ -249,11 +249,11 @@ class SlotRendererExtensionTest extends TestCase
         $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $templating->expects($this->once())
                    ->method('render')
-                   ->with("AlphaLemonCmsBundle:Slot:_block.html.twig", $expected)
+                   ->with("RedKiteCmsBundle:Slot:_block.html.twig", $expected)
         ;
         
         
-        $viewRenderer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer')
+        $viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer')
                              ->disableOriginalConstructor()
                              ->getMock();
         
@@ -310,7 +310,7 @@ class SlotRendererExtensionTest extends TestCase
         $templating->expects($this->never())
                         ->method('render');
         
-        $viewRenderer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer')
+        $viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer')
                              ->disableOriginalConstructor()
                              ->getMock();
         $viewRenderer->expects($this->once())
@@ -339,13 +339,13 @@ class SlotRendererExtensionTest extends TestCase
         $key = '200-1';
         
         $factoryRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $blocksRepository =
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -383,13 +383,13 @@ class SlotRendererExtensionTest extends TestCase
     public function testRenderIncludedBlock($key, $expectedResult, $blocks = array(), $arguments = null)
     {
         $factoryRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $blocksRepository =
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -441,7 +441,7 @@ class SlotRendererExtensionTest extends TestCase
                 ->method('setEditorDisabled')
             ;
             
-            $blockManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+            $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
             ;
@@ -471,7 +471,7 @@ class SlotRendererExtensionTest extends TestCase
                 ->method('setEditorDisabled')
             ;
             
-            $blockManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+            $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
             ;
@@ -592,7 +592,7 @@ class SlotRendererExtensionTest extends TestCase
     
     private function createBlock($type = 'Text')
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($type))
@@ -603,7 +603,7 @@ class SlotRendererExtensionTest extends TestCase
     
     private function createParentBlockManager()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->at(0))
             ->method('getPageId')
             ->will($this->returnValue(2))
@@ -887,7 +887,7 @@ class SlotRendererExtensionTest extends TestCase
 
     private function setUpBlockManager(array $value = array())
     {
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

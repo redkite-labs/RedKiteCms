@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
 
 /**
  * AlParametersValidator
@@ -35,7 +35,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage Any parameter has been given
      */
     public function testCheckEmptyParamsThrownAnExceptionWhenTheParameterIsEmpty()
@@ -44,7 +44,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage Empty array
      */
     public function testCheckEmptyParamsThrownAnExceptionWhenTheParameterIsEmptyWithCustomErrorMessage()
@@ -58,7 +58,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage AlValidator cannot check that at least once parameter exists because any "required parameters" has been given
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenRequiredParametersAreEmpty()
@@ -67,7 +67,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage AlValidator cannot check that at least once parameter exists because any "value" has been given
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenValuesAreEmpty()
@@ -76,7 +76,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage {"message":"At least one of those options are required: %required%. The options you gave are %values%","parameters":{"%required%":"param","%values%":"param1"}}
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFound()
@@ -85,7 +85,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage Any espected parameter has been given
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErrorMessage()
@@ -99,7 +99,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage AlValidator cannot check that all the required parameters exist because any "required parameters" has been given
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenRequiredParametersAreEmpty()
@@ -108,7 +108,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage AlValidator cannot check that all the required parameters exist because any "value" has been given
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenValuesAreEmpty()
@@ -117,7 +117,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage The following options are required: %required%. The options you gave are %values%
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErroraMessage()
@@ -126,7 +126,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage The espected parameters are missing
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErroraMessageWithCustomErrorMessage()

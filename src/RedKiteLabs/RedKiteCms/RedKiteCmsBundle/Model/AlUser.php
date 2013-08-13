@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlUser;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AlUser extends BaseAlUser implements UserInterface

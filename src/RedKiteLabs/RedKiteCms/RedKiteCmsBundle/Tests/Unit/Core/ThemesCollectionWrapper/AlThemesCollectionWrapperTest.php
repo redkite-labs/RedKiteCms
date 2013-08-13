@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * AlThemesCollectionWrapperTest
@@ -39,7 +39,7 @@ class AlThemesCollectionWrapperTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -61,7 +61,7 @@ class AlThemesCollectionWrapperTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException
      */
     public function testAnExceptionIsThrownWhenTheRequiredTemplateDoesNotExist()
     {
@@ -80,7 +80,7 @@ class AlThemesCollectionWrapperTest extends TestCase
 
         $this->assertEquals($this->templateManager, $this->themesCollectionWrapper->assignTemplate('fakeTheme', 'fakeTemplate'));
         $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', ($this->themesCollectionWrapper->getThemesCollection()));
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager', ($this->themesCollectionWrapper->getTemplateManager()));
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager', ($this->themesCollectionWrapper->getTemplateManager()));
     }
 
     private function setUpTheme()

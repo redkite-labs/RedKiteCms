@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
+use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 
 /**
  * ConfigurationControllerTest
@@ -60,7 +60,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
      */
     public function testChangeLanguage($params, $currentLanguage, $newLanguage, $statusCode, $message)
     {
-        $configurationRepository = new \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel();
+        $configurationRepository = new \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel();
         $this->assertEquals($currentLanguage, $configurationRepository->fetchParameter('language')->getValue());
         
         $crawler = $this->client->request('POST', '/backend/en/al_changeCmsLanguage', $params);

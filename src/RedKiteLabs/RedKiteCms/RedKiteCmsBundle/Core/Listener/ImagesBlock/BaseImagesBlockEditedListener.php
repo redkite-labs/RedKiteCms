@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\ImagesBlock;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 
 /**
  * Renders the editor to manage a collection of images
@@ -53,7 +53,7 @@ abstract class BaseImagesBlockEditedListener
     /**
      * Renders the editor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent $event
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent $event
      *
      * @api
      */
@@ -63,7 +63,7 @@ abstract class BaseImagesBlockEditedListener
         $blockType = $blockManager->get()->getType();
         if ($blockType == $this->getManagedBlockType()) {
 
-            $templateName = 'AlphaLemonCmsBundle:Block:Images/images_list.html.twig';
+            $templateName = 'RedKiteCmsBundle:Block:Images/images_list.html.twig';
             $options = $this->configure();
             if (array_key_exists('images_editor_template', $options)) {
                 $templateName = $options['images_editor_template'];
@@ -79,7 +79,7 @@ abstract class BaseImagesBlockEditedListener
                 array("key" => "message", "value" => "The content has been successfully edited"),
                 array("key" => "edit-block",
                         "blockName" => "block_" . $blockManager->get()->getId(),
-                        "value" => $this->templateEngine->render('AlphaLemonCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))
+                        "value" => $this->templateEngine->render('RedKiteCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))
                     )
                 );
 

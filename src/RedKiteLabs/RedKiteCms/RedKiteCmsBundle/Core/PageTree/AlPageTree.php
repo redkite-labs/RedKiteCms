@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
 use Symfony\Component\DependencyInjection\Container;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\PageTree;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 
 /**
@@ -57,8 +57,8 @@ class AlPageTree extends BaseAlPageTree
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                              $container
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
      *
      * @api
      */
@@ -143,8 +143,8 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Sets the template manager
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      *
      * @api
      */
@@ -219,7 +219,7 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Sets up the page tree object from current request
      *
-     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * @throws \Exception
      */
     public function setUp()
@@ -268,7 +268,7 @@ class AlPageTree extends BaseAlPageTree
      *
      * @param  int                                                      $idLanguage
      * @param  int                                                      $idPage
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function refresh($idLanguage, $idPage)
     {
@@ -307,7 +307,7 @@ class AlPageTree extends BaseAlPageTree
      * suffixed with the ".cms" suffix (businesswebsitetheme.home.external_stylesheets.cms)
      *
      * @param  array                                                    $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function setExtraAssetsSuffixes(array $value = array())
     {
@@ -486,7 +486,7 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Sets up the metatags section
      *
-     * @param AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo $seo
+     * @param RedKiteLabs\RedKiteCmsBundle\Model\AlSeo $seo
      */
     protected function setUpMetaTags()
     {

@@ -5,7 +5,7 @@
 
 namespace {{ namespace }}\Core\Form;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class Al{{ bundle_basename }}Type extends JsonBlockType

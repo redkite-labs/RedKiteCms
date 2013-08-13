@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="alpha_lemon_cms_media_connect" pattern="/backend/{_locale}/al_elFinderMediaConnect">
-        <default key="_controller">AlphaLemonCmsBundle:AlCmsElFinder:connectMedia</default>
+        <default key="_controller">RedKiteCmsBundle:AlCmsElFinder:connectMedia</default>
         <default key="_locale">en</default>
     </route>
 </routes>

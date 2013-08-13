@@ -1,11 +1,11 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Command\Generate;
+namespace RedKiteLabs\RedKiteCmsBundle\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Generator\AlAppBlockGenerator;
+use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
 use AlphaLemon\ThemeEngineBundle\Command\Generate\BaseGenerateBundle;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
@@ -16,8 +16,8 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
     protected function configure()
     {
         $this
-            ->setName('alphalemon:generate:app-block')
-            ->setDescription('Generate a App-Block bundle')
+            ->setName('redkitecms:generate:app-block')
+            ->setDescription('Generate a RedKiteCMs App-Block bundle')
             ->setDefinition(array(
                 new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create'),
                 new InputOption('dir', '', InputOption::VALUE_REQUIRED, 'The directory where to create the bundle'),
@@ -68,8 +68,8 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
 
     protected function checkStrictNamespace($namespace)
     {
-        if (preg_match('/^AlphaLemon\\\\Block\\\\[\w]+Bundle/', $namespace) == false) {
-            throw new \RuntimeException('A strict AlphaLemon App-Block namespace must start with AlphaLemon\Block suffix');
+        if (preg_match('/^RedKiteCms\\\\Block\\\\[\w]+Bundle/', $namespace) == false) {
+            throw new \RuntimeException('A strict RedKiteCms App-Block namespace must start with RedKiteCms\Block suffix');
         }
     }
 

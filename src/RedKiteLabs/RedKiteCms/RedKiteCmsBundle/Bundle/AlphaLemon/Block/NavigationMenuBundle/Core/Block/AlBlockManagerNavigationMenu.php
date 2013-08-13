@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,11 +17,11 @@
 
 namespace AlphaLemon\Block\NavigationMenuBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
 use AlphaLemon\Block\NavigationMenuBundle\Core\Form\LanguagesForm;
 use Symfony\Component\Finder\Finder;
 
@@ -43,7 +43,7 @@ class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
      * Constructor
      * 
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {

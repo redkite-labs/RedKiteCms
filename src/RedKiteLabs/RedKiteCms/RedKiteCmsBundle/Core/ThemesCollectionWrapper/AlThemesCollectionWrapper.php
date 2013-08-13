@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper;
 
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException;
 
 /**
  * Handles the themes collection object to provide an easy way to deal with themes
@@ -36,7 +36,7 @@ class AlThemesCollectionWrapper
      * Constructor
      *
      * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection  $themes
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
      */
     public function __construct(AlThemesCollection $themes, AlTemplateManager $templateManager)
     {
@@ -57,7 +57,7 @@ class AlThemesCollectionWrapper
     /**
      * Returns the managed template manager
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function getTemplateManager()
     {
@@ -94,7 +94,7 @@ class AlThemesCollectionWrapper
      *
      * @param  string                                                                  $themeName
      * @param  string                                                                  $templateName
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      * @throws NonExistentTemplateException
      */
     public function assignTemplate($themeName, $templateName)

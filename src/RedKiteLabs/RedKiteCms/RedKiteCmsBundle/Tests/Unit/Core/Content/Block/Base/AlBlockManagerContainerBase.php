@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 
 /**
  * AlBlockManagerContainerBase instantiates a test for a block manager that injects the Contaione
@@ -38,15 +38,15 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 
-        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
@@ -69,7 +69,7 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
 
     protected function doSave($block, array $params)
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
         $this->setUpEventsHandler($event, 2);
 
         $this->blockRepository->expects($this->once())

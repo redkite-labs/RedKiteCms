@@ -1,9 +1,9 @@
 {#
-   This file is part of the AlphaLemon CMS Application and it is distributed
+   This file is part of the RedKite CMS Application and it is distributed
    under the GPL LICENSE Version 2.0. To use this application you must leave
    intact this copyright notice.
 
-   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
 
    For the full copyright and license information, please view the LICENSE
    file that was distributed with this source code.
@@ -13,7 +13,7 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'AlphaLemonCmsBundle:Panels:base.html.twig' %}
+{% extends 'RedKiteCmsBundle:Panels:base.html.twig' %}
 
 {% set cms_language = configuration.read('language') %}
 
@@ -51,7 +51,7 @@
             <span class="al_panel_box_header_title white-text-shadow">{{ "Languages selector"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</span>
         </div>
         <div id="al_languages_list"  class="al_panel_list">
-            {% include 'AlphaLemonCmsBundle:Languages:languages_list.html.twig' %}
+            {% include 'RedKiteCmsBundle:Languages:languages_list.html.twig' %}
         </div>
     </div>
     <input id="al_languages_remover" class="btn btn-danger pull-right" type="submit" value="{{ "Delete" | trans({}, 'AlphaLemonCmsBundle', cms_language) }}" />

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
@@ -37,7 +37,7 @@ class AlPageTreeTest extends TestCase
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -45,7 +45,7 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -57,26 +57,26 @@ class AlPageTreeTest extends TestCase
             ->method('getPageBlocks')
             ->will($this->returnValue($this->pageBlocks));
 
-        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
 
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository, $this->seoRepository));
 
-        $this->themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+        $this->themesCollectionWrapper = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -90,7 +90,7 @@ class AlPageTreeTest extends TestCase
     public function testTemplateManagerInjectedBySetters()
     {
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
-        $templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertEquals($pageTree, $pageTree->setTemplateManager($templateManager));
@@ -131,9 +131,9 @@ class AlPageTreeTest extends TestCase
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
 
-        $blockManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\BlockManagerInterface');
+        $blockManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface');
 
-        $slotManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager')
+        $slotManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $slotManager->expects($this->once())
@@ -668,12 +668,12 @@ class AlPageTreeTest extends TestCase
         $this->assertTrue($pageTree->isValid());
         $this->assertTrue($pageTree->isCmsMode());
         $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme', $pageTree->getTheme());
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo', $pageTree->getAlSeo());
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlSeo', $pageTree->getAlSeo());
     }
     
     public function tesASlotNotInTemplateIsIgnore()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getType')
             ->will($this->returnValue('Script'));
@@ -1298,7 +1298,7 @@ class AlPageTreeTest extends TestCase
     
     private function setUpBlock($method, $externalStylesheet, $type = 'Script')
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($type));
@@ -1406,7 +1406,7 @@ class AlPageTreeTest extends TestCase
 
     protected function setUpLanguage($returnId)
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));
@@ -1416,7 +1416,7 @@ class AlPageTreeTest extends TestCase
 
     protected function setUpPage($returnId)
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $page->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));
@@ -1426,7 +1426,7 @@ class AlPageTreeTest extends TestCase
 
     protected function setUpSeo($returnId)
     {
-        $seo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $seo->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));
@@ -1466,7 +1466,7 @@ class AlPageTreeTest extends TestCase
 
     private function initContainer($request)
     {
-        $this->blocksManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+        $this->blocksManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         

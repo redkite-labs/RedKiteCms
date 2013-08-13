@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocksTemplateChanger;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\Exception\ThemeSlotsInvalidConfigurationException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksTemplateChanger;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception\ThemeSlotsInvalidConfigurationException;
 
 /**
  * AlTemplateSlots is deputated to fetch the slots from the previous theme structure
@@ -61,7 +61,7 @@ class AlTemplateSlots
      *
      * @param  int                                                               $languageId
      * @param  int                                                               $pageId
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots
      */
     public function run($languageId, $pageId)
     {

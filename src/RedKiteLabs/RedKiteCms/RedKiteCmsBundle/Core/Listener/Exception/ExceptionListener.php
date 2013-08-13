@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Exception;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
 
 /**
  * Listens for kernel exception
@@ -79,7 +79,7 @@ class ExceptionListener
             'message' => $message,
         );
         
-        $response = $this->templating->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', $values);
+        $response = $this->templating->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', $values);
         $response->setStatusCode(404);        
         $event->setResponse($response);
     }

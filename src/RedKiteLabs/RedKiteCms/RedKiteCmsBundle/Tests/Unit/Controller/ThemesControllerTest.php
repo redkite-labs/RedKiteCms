@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Controller\ThemesController;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Controller\ThemesController;
 
 
 /**
@@ -45,14 +45,14 @@ class ThemesControllerTest extends TestCase
              ->method('get')
              ->will($this->returnValue($this->themeName));
         
-        $this->siteBootstrap = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrapInterface');
+        $this->siteBootstrap = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrapInterface');
                 
         $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
              ->disableOriginalConstructor()
              ->getMock()
         ;
         
-        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -95,7 +95,7 @@ class ThemesControllerTest extends TestCase
              ->will($this->returnValue($this->response))
         ;
         
-        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
         $this->translator
              ->expects($this->any())
              ->method('translate')

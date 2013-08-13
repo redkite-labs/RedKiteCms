@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * AlSlotManager represents a slot on a page.
@@ -49,11 +49,11 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
      * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot                               $slot
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface   $blockRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface   $blockRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -69,7 +69,7 @@ class AlSlotManager extends AlTemplateBase
      * Sets the slot object
      *
      * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      *
      * @api
      */
@@ -95,8 +95,8 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets the block model object
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      *
      * @api
      */
@@ -124,7 +124,7 @@ class AlSlotManager extends AlTemplateBase
      * the new block type
      *
      * @param  boolean                                                         $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      * @throws \InvalidArgumentException
      *
      * @api
@@ -145,7 +145,7 @@ class AlSlotManager extends AlTemplateBase
      * has been already added
      *
      * @param  boolean                                                         $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      * @throws \InvalidArgumentException
      *
      * @api
@@ -281,7 +281,7 @@ class AlSlotManager extends AlTemplateBase
      * @param  type                                                                                         $referenceBlockId The id of the reference block. When given, the block is placed below this one
      * @return null|boolean
      * @throws InvalidArgumentTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @throws \InvalidArgumentException
      *
      * @api
@@ -418,7 +418,7 @@ class AlSlotManager extends AlTemplateBase
      * @param  int                                                                                          $idBlock The id of the block to edit
      * @param  array                                                                                        $values  The new values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -454,7 +454,7 @@ class AlSlotManager extends AlTemplateBase
      *
      * @param  int                                                                                          $idBlock The id of the block to remove
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -504,7 +504,7 @@ class AlSlotManager extends AlTemplateBase
      * Deletes all the blocks managed by the slot
      *
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -546,7 +546,7 @@ class AlSlotManager extends AlTemplateBase
      * Retrieves the block manager by the block's id
      *
      * @param  type                                                                        $idBlock The id of the block to retrieve
-     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface
+     * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface
      *
      * @api
      */
@@ -637,7 +637,7 @@ class AlSlotManager extends AlTemplateBase
      * @param  string                                                                                       $op       The operation to do. It accepts add or del as valid values
      * @param  array                                                                                        $managers An array of block managers
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @throws InvalidArgumentException     
      */
     protected function adjustPosition($op, array $managers)

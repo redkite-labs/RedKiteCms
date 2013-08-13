@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,13 +15,13 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTreeDeploy;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreeDeploy;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * A collection of PageTree objects
@@ -43,8 +43,8 @@ class AlPageTreeCollection implements \Iterator, \Countable
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                              $container
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
      *
      * @api
      */
@@ -113,7 +113,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
      * Returns the AlPageTree object stored at the requird key
      *
      * @param  string                                                        $key
-     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      *
      * @api
      */

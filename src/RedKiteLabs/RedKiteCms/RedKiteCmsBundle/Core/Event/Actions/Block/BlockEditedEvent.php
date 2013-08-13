@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Defines the BlockEditedEvent event
@@ -39,7 +39,7 @@ class BlockEditedEvent extends Event
      * Construct
      *
      * @param \Symfony\Component\HttpFoundation\Request                                  $request
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      * @param \Symfony\Component\HttpFoundation\Response                                 $response
      *
      * @api
@@ -78,7 +78,7 @@ class BlockEditedEvent extends Event
     /**
      * Returns the handled block manager object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface
      *
      * @api
      */
@@ -90,7 +90,7 @@ class BlockEditedEvent extends Event
     /**
      * Sets the block manager
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $v
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $v
      *
      * @api
      */

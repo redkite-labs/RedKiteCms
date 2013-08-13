@@ -1,5 +1,5 @@
 routing:
     resource: routing_alcms_dev.yml
 
-_alphalemoncms:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing.yml"
+_redkitecms:
+    resource: "@RedKiteCmsBundle/Resources/config/routing.yml"

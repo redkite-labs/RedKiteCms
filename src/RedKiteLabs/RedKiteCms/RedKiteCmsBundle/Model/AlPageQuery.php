@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlPageQuery;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlPageQuery;
 
 class AlPageQuery extends BaseAlPageQuery
 {

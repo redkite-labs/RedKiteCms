@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\ImageThumbnailer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Imagine\Gd\Imagine;

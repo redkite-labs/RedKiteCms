@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy\TwigTemplateWriter;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TwigTemplateWriter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -35,7 +35,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
     {
         parent::setUp();
 
-        $this->pageTree = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
+        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
@@ -65,16 +65,16 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
             ->method('getAlLanguage')
             ->will($this->returnValue($this->setUpLanguage('en')));
         
-        $this->viewRenderer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRenderer')
+        $this->viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->urlManager->expects($this->any())
             ->method('fromUrl')
             ->will($this->returnSelf());
 
-        $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->blockManagerFactory = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         
         $this->deployBundle = "AcmeWebsiteBundle";
         $this->templatesFolder = 'AlphaLemon';
@@ -84,7 +84,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
 
     protected function setUpPage($pageName)
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $page->expects($this->any())
             ->method('getPageName')
             ->will($this->returnValue($pageName));
@@ -98,7 +98,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
 
     protected function setUpLanguage($languageName)
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
             ->method('getLanguageName')
             ->will($this->returnValue($languageName));
@@ -112,7 +112,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
             $blocks = array("logo" => array($this->setUpBlock('logo')));
         }
 
-        $pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $pageBlocks->expects($this->any())
@@ -165,7 +165,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
 
     protected function setUpBlock($slotName)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         
         $block->expects($this->any())
             ->method('getSlotName')
@@ -176,7 +176,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
 
     protected function setUpBlockManager($deployContent = 'Formatted content for deploying', $callingTimes = 1)
     {
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         if ($callingTimes > 0) {

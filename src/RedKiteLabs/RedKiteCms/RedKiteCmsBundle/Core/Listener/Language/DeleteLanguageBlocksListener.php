@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Listen to the onBeforeDeleteLanguageCommit event to delete the blocks which
@@ -32,7 +32,7 @@ class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      */
     public function __construct(AlBlockManagerInterface $blockManager)
     {

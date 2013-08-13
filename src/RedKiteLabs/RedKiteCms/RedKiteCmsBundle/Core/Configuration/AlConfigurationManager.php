@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Configuration;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Configuration;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Implements the AlConfigurationInterface to manage a set of configration parameters 
@@ -37,7 +37,7 @@ class AlConfigurationManager implements AlConfigurationInterface
     /**
      * Constructor
      * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository $factoryRepository
      */
     public function __construct(AlFactoryRepository $factoryRepository)
     {
@@ -78,7 +78,7 @@ class AlConfigurationManager implements AlConfigurationInterface
      * Fetches the configuration record for the requested parameter
      * 
      * @param string $parameter
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Model\AlConfiguration
+     * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration
      * @throws \InvalidArgumentException
      */
     protected function fetchConfiguration($parameter)

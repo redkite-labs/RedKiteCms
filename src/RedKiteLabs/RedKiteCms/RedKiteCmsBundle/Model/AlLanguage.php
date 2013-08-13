@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlLanguage;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlLanguage;
 
 class AlLanguage extends BaseAlLanguage
 {

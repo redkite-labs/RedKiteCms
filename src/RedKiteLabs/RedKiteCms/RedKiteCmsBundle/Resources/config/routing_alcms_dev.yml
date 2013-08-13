@@ -14,5 +14,5 @@ _configurator:
     resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
     prefix:   /_configurator
 
-_alphalemoncms:
+_redkitecms:
     resource: routing_alcms.yml

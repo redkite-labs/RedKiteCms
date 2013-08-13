@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 
 
 /**
@@ -33,7 +33,7 @@ abstract class AlContentManagerBase extends TestCase
     {
         parent::setUp();
 
-        $this->eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
     }
 
     protected function setUpEventsHandler($event, $times = 1)

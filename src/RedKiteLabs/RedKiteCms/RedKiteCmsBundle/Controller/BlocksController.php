@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\BlockEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\BlockEvents;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\HttpFoundation\Request;
-use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidOperationException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidOperationException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Implements the actions to manage the blocks on a slot's page
@@ -35,7 +35,7 @@ class BlocksController extends Base\BaseController
 {
     public function showAvailableBlocksAction()
     {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig', array(
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig', array(
             'blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks()
         ));
     }
@@ -64,13 +64,13 @@ class BlocksController extends Base\BaseController
                 // @codeCoverageIgnoreEnd
             }
 
-            $template = 'AlphaLemonCmsBundle:Cms:render_block.html.twig';
+            $template = 'RedKiteCmsBundle:Cms:render_block.html.twig';
             $blockManager = $slotManager->lastAdded();
         } else {
             if ( ! $request->get('included')) {
                 throw new RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
             }
-            $template = 'AlphaLemonCmsBundle:Cms:render_included_block.html.twig';
+            $template = 'RedKiteCmsBundle:Cms:render_included_block.html.twig';
 
             $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
             $blockManager = $blockManagerFactory->createBlockManager($contentType);
@@ -146,7 +146,7 @@ class BlocksController extends Base\BaseController
         }
 
         if (null === $response) {
-            $template = ($request->get('included')) ? 'AlphaLemonCmsBundle:Cms:render_included_block.html.twig' :  'AlphaLemonCmsBundle:Cms:render_block.html.twig';
+            $template = ($request->get('included')) ? 'RedKiteCmsBundle:Cms:render_included_block.html.twig' :  'RedKiteCmsBundle:Cms:render_block.html.twig';
             $values = array(
                 array("key" => "message", "value" => $this->translate("The block has been successfully edited")),
                 array("key" => "edit-block",
@@ -190,7 +190,7 @@ class BlocksController extends Base\BaseController
                     "key" => "redraw-slot",
                     "slotName" => $request->get('slotName'),
                     "blockId" => 'block_' . $request->get('idBlock'),
-                    "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
+                    "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
                 );
             }
 

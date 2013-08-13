@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,12 +23,12 @@
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 
 /**
  * AlBlockManagerFactory is the object responsible to create a new AlBlockManager object
@@ -61,14 +61,14 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     private $translator = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      *
      * @api
      */
     private $factoryRepository;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
      *
      * @api
      */
@@ -77,8 +77,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface          $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface          $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      * 
      * @api
      */
@@ -212,7 +212,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      * Removes a block when it is given as parameter to look for but it is not found between
      * any of the available blocks
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
+     * @param \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
      */
     protected function removeBlock(AlBlock $block)
     {

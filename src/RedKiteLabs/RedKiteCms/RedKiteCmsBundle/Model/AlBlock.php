@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlBlock;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlBlock;
 
 class AlBlock extends BaseAlBlock
 {

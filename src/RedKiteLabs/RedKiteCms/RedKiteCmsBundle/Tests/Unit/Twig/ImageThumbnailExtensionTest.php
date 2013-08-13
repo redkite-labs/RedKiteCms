@@ -1,9 +1,9 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Twig;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Twig;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Twig\ImageThumbnailExtension;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Twig\ImageThumbnailExtension;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -27,7 +27,7 @@ class ImageThumbnailExtensionTest extends TestCase
         $this->root = vfsStream::setup('root', null, $structure);
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->thumbnailer = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer')
+        $this->thumbnailer = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer')
                                   ->disableOriginalConstructor()
                                   ->getMock();
 

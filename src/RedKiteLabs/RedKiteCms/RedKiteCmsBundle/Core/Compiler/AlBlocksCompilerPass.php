@@ -4,7 +4,7 @@
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Compiler;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Compiler;
 
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

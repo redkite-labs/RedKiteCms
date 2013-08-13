@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\UrlManager;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\UrlManager;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * BaseAlUrlManagerStageTest
@@ -35,7 +35,7 @@ abstract class BaseAlUrlManager extends TestCase
         parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
     }
 
     public function testInternalUrlIsNullWhenTheRequestedLanguageFromLanguageNameHasNotBeenFound1()
@@ -391,7 +391,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpSeoRepository($method, $seo)
     {
-        $seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -404,7 +404,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpLanguageRepository($method, $language)
     {
-        $languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $languageRepository->expects($this->once())
@@ -416,7 +416,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpPageRepository($method, $page)
     {
-        $pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $pageRepository->expects($this->once())
@@ -428,7 +428,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpSeo($permalink, $language = null, $page = null)
     {
-        $seo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $seo->expects($this->any())
             ->method('getPermalink')
             ->will($this->returnValue($permalink));
@@ -448,7 +448,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpLanguage($returnId = null, $languageName = null)
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
         if (null !== $returnId) {
             $language->expects($this->once())
                 ->method('getId')
@@ -466,7 +466,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpPage($returnId = null, $pageName = null)
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         if (null !== $returnId) {
             $page->expects($this->once())
                 ->method('getId')

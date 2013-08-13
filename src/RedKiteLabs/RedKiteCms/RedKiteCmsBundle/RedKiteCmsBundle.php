@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,19 +15,19 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle;
+namespace RedKiteLabs\RedKiteCmsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
+use RedKiteLabs\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
 
 /**
- * AlphaLemonCmsBundle
+ * RedKiteCmsBundle
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlphaLemonCmsBundle extends Bundle
+class RedKiteCmsBundle extends Bundle
 {
 
     /**

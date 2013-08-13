@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock\RenderingListEditorListener;
+use RedKiteLabs\RedKiteCmsBundle\Core\Listener\JsonBlock\RenderingListEditorListener;
 
 class TestRenderingListEditorListener extends RenderingListEditorListener
 {
@@ -50,7 +50,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The "configure" method for class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" must return an array
+     * @expectedExceptionMessage The "configure" method for class "RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" must return an array
      */
     public function testAnExceptionIsThrownWhenTheArgumentIsNotAnArray()
     {
@@ -61,7 +61,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The array returned by the "configure" method of the class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" method must contain the "blockClass" option
+     * @expectedExceptionMessage The array returned by the "configure" method of the class "RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" method must contain the "blockClass" option
      */
     public function testAnExceptionIsThrownWhenTheArgumentClassDoesNotExist()
     {
@@ -72,18 +72,18 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The array returned by the "configure" method of the class "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" method must contain the "blockClass" option
+     * @expectedExceptionMessage The array returned by the "configure" method of the class "RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" method must contain the "blockClass" option
      */
     public function testAnExceptionIsThrownWhenTheBlockClassOptionDoesNotExist()
     {
         $this->setUpEvents(0);
-        $this->testListener->setConfigureParams(array('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager'));
+        $this->testListener->setConfigureParams(array('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The block class "Fake" defined in "AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" does not exists
+     * @expectedExceptionMessage The block class "Fake" defined in "RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestRenderingListEditorListener" does not exists
      */
     public function testAnExceptionIsThrownWhenTheBlockClassDoesNotExist()
     {
@@ -104,8 +104,8 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
 
         $this->testListener->setConfigureParams(
             array(
-                'blockClass' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager',
-                'formClass' => 'AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestForm',
+                'blockClass' => 'RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager',
+                'formClass' => 'RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestForm',
             )
         );
         $this->testListener->onBlockEditorRendering($this->event);
@@ -121,7 +121,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
             ->method('getId')
             ->will($this->returnValue(2));
 
-        $this->testListener->setConfigureParams(array('blockClass' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager'));
+        $this->testListener->setConfigureParams(array('blockClass' => 'RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
 

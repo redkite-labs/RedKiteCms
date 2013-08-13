@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Page;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\EditSeoListener;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
+use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\EditSeoListener;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
  * EditSeoListenerTest
@@ -40,31 +40,31 @@ class EditSeoListenerTest extends BaseListenerTest
     {
         parent::setUp();
 
-        $this->seoManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager')
+        $this->seoManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent')
+        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager')
+        $this->pageManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                            ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->pageContents = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageContents = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();
 
@@ -153,7 +153,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->returnValue(false));
 
-        $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue(null));
@@ -192,7 +192,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->returnValue(false));
 
-        $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
@@ -234,7 +234,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
 
-        $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
@@ -276,7 +276,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->returnValue(true));
 
-        $seo= $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
@@ -308,7 +308,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
 
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $page->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(2));

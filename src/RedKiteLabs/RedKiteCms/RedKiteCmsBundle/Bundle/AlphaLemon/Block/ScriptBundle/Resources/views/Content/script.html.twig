@@ -1,9 +1,9 @@
-{% extends "AlphaLemonCmsBundle:Editor:base_editor.html.twig" %}
+{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
 
 {% block body %}
 <div {{ editor|raw }}>
 {% set block = block_manager.get %}
-{% include 'AlphaLemonCmsBundle:Block:base_block.html.twig' %}
+{% include 'RedKiteCmsBundle:Block:base_block.html.twig' %}
 </div>
 {% endblock %}
 

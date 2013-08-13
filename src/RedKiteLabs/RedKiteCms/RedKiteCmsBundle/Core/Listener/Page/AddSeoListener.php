@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when
@@ -38,8 +38,8 @@ class AddSeoListener
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager                        $seoManager
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager                        $seoManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -53,10 +53,10 @@ class AddSeoListener
      * Adds the page's seo attributes when a new page is added, for each language of
      * the site
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
      * @return boolean
      * @throws \InvalidArgumentException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Page\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\Exception
      *
      * @api
      */

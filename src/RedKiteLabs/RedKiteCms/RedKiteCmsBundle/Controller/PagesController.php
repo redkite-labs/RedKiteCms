@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,15 +15,15 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\PagesForm;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\SeoForm;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\PagesForm;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 class PagesController extends Base\BaseController
 {
@@ -42,7 +42,7 @@ class PagesController extends Base\BaseController
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
 
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Pages:index.html.twig', $params);
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Pages:index.html.twig', $params);
     }
 
     public function loadSeoAttributesAction()
@@ -212,9 +212,9 @@ class PagesController extends Base\BaseController
         
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
-        $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Pages:pages_list.html.twig', array('pages' => $pagesList, 'active_page' => $request->get('page'),)));
-        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Pages:permalink_select.html.twig', array('pages' => $permalinks)));
-        $values[] = array("key" => "pages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig', array('id' => 'al_pages_navigator', 'type' => 'al_page_item', 'value' => (null !== $page) ? $page->getId() : 0, 'text' => $request->get('page'), 'items' => $pages)));
+        $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array('pages' => $pagesList, 'active_page' => $request->get('page'),)));
+        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:permalink_select.html.twig', array('pages' => $permalinks)));
+        $values[] = array("key" => "pages", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:menu_dropdown.html.twig', array('id' => 'al_pages_navigator', 'type' => 'al_page_item', 'value' => (null !== $page) ? $page->getId() : 0, 'text' => $request->get('page'), 'items' => $pages)));
            
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');

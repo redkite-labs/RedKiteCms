@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
 
 /**
  * WebTestCase
@@ -148,7 +148,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
     
     protected static function addUser($username, $password, $adminRoleId)
     {
-        $user = new \AlphaLemon\AlphaLemonCmsBundle\Model\AlUser();
+        $user = new \RedKiteLabs\RedKiteCmsBundle\Model\AlUser();
         $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
         $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $password = $encoder->encodePassword($password, $salt);

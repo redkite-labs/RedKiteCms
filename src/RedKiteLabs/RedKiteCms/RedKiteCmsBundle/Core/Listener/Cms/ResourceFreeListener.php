@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,13 +15,13 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
+use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
 /**
  * Checks that the requested resource is not used by any other user. When it is not free,
@@ -41,7 +41,7 @@ class ResourceFreeListener
      * Contructor
      *
      * @param \Symfony\Component\Security\Core\SecurityContext                       $securityContext
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
      *
      * @api
      */

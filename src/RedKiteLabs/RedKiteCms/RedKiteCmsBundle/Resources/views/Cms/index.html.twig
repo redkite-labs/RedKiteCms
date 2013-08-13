@@ -1,9 +1,9 @@
 {#
-   This file is part of the AlphaLemon CMS Application and it is distributed
+   This file is part of the RedKite CMS Application and it is distributed
    under the GPL LICENSE Version 2.0. To use this application you must leave
    intact this copyright notice.
 
-   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
 
    For the full copyright and license information, please view the LICENSE
    file that was distributed with this source code.
@@ -49,11 +49,11 @@
 
 {% block external_stylesheets %}
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
-        {% stylesheets filter='?yui_css,cssrewrite' 'components/alphalemoncms/jquery-ui/themes/smoothness/*'
-                                                    'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                                    'components/alphalemoncms/twitter-bootstrap/css/bootstrap-responsive.min.css'
-                                                    'bundles/alphalemoncms/vendor/vendor-adapter.css' 
-                                                    'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
+        {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
+                                                    'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                                    'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                                    'bundles/redkitecms/vendor/vendor-adapter.css' 
+                                                    'bundles/redkitecms/css/skins/bootstrap/skin.css'
                                                     'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.css'
                                                     'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.min.css'
                                                     'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
@@ -61,11 +61,11 @@
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
         {% endstylesheets %}
     {% else %}
-        {% stylesheets filter='?cssrewrite' 'components/alphalemoncms/jquery-ui/themes/smoothness/*'
-                                            'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css'
-                                            'components/alphalemoncms/twitter-bootstrap/css/bootstrap-responsive.min.css'
-                                            'bundles/alphalemoncms/vendor/vendor-adapter.css' 
-                                            'bundles/alphalemoncms/css/skins/bootstrap/skin.css'
+        {% stylesheets filter='?cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
+                                            'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                            'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                            'bundles/redkitecms/vendor/vendor-adapter.css' 
+                                            'bundles/redkitecms/css/skins/bootstrap/skin.css'
                                             'bundles/alphalemonelfinder/vendor/ElFinder/vendor/jquery-ui.css'
                                             'bundles/alphalemonelfinder/vendor/ElFinder/css/elfinder.min.css'
                                             'bundles/alphalemonelfinder/vendor/ElFinder/css/theme.css'
@@ -80,28 +80,28 @@
 {% endblock %}
 
 {% block external_javascripts %}
-    <script src="{{ asset('bundles/alphalemoncms/js/lang/' ~ cms_language ~ '.js') }}"></script>
+    <script src="{{ asset('bundles/redkitecms/js/lang/' ~ cms_language ~ '.js') }}"></script>
     
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
-                                     'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
-                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.js'
+                                     'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+                                     'components/redkitecms/twitter-bootstrap/js/bootstrap.js'
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/holderjs/holder.js'
                                      'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
-                                     'bundles/alphalemoncms/js/*' 
+                                     'bundles/redkitecms/js/*' 
     %} 
     
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% else %}
     {% javascripts  'components/jquery/jquery.min.js'
-                    'components/alphalemoncms/jquery-ui/js/jquery-ui.min.js'
-                    'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js'
+                    'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+                    'components/redkitecms/twitter-bootstrap/js/bootstrap.min.js'
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/holderjs/holder.js'
                     'bundles/alphalemonelfinder/vendor/ElFinder/js/elfinder.min.js'
-                    'bundles/alphalemoncms/js/*' 
+                    'bundles/redkitecms/js/*' 
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -133,7 +133,7 @@
             </ul>
         </div>
         <div id="al_languages" class="pull-right"> 
-            {% include 'AlphaLemonCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'selected' : cms_language}  %}
+            {% include 'RedKiteCmsBundle:Cms:menu_combo.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'selected' : cms_language}  %}
         </div>
     </div>
     <div class="clearfix"></div>    
@@ -158,8 +158,8 @@
     <div>
         <div id="al_toggle_nav_button" class="pull-left">
             <ul class="inline al-navigation">
-                <li id="al_languages_navigator_box">{% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}</li>
-                <li id="al_pages_navigator_box">{% include 'AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}</li>                
+                <li id="al_languages_navigator_box">{% include 'RedKiteCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}</li>
+                <li id="al_pages_navigator_box">{% include 'RedKiteCmsBundle:Cms:menu_dropdown.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}</li>                
             </ul>
         </div>
         <div class="pull-left">
@@ -211,13 +211,13 @@
 
 {% if slots is defined and slots|length > 0 %}
 <div id="al_old_slots" class="al_floating_panel al_slots_panel" style="display: none">
-    {% include 'AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig' %}
+    {% include 'RedKiteCmsBundle:Themes:template_slots_panel.html.twig' %}
 </div>
 {% endif %}
 
-{% include "AlphaLemonCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
+{% include "RedKiteCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
 {% if permalinks is defined %}
-{% include "AlphaLemonCmsBundle:Pages:permalink_select.html.twig" with { pages: permalinks } %}
+{% include "RedKiteCmsBundle:Pages:permalink_select.html.twig" with { pages: permalinks } %}
 {% endif %}
 <div id="al_cms_contents" class="{page: '{{ page }}', language: '{{ language }}'}">
 {{ parent() }}

@@ -5,7 +5,7 @@
 
 namespace {{ namespace }}\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 
 /**
  * Description of AlBlockManager{{ bundle_basename }}

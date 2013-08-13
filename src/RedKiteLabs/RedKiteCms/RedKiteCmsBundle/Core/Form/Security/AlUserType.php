@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Security;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,7 +38,7 @@ class AlUserType extends AbstractType
         $builder->add('email');
 
         $builder->add('AlRole', 'model', array(
-            'class'     => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlRole',
+            'class'     => 'RedKiteLabs\RedKiteCmsBundle\Model\AlRole',
             'property'  => 'Role',
         ));
     }
@@ -49,7 +49,7 @@ class AlUserType extends AbstractType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Model\AlUser',
+            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlUser',
             'csrf_protection' => false,
         );
     }

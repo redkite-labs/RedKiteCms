@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\PageTree;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Extends the AlphaLemonCms AlPageTree object to display the page in preview mode
@@ -35,8 +35,8 @@ class AlPageTreePreview extends AlPageTree
      * Adds a block manager
      *
      * @param  type                                                                       $slotName
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTreePreview
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview
      *
      * @api
      */

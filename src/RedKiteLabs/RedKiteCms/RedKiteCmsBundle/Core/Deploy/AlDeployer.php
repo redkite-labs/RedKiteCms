@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,17 +15,17 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Deploy;
-use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy;
+use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * The object deputated to deploy the website from development, AlphaLemon CMS, to production,
@@ -156,8 +156,8 @@ abstract class AlDeployer implements AlDeployerInterface
     /**
      * Sets the pagetree collection
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployer
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection $value
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployer
      *
      * @api
      */
@@ -171,7 +171,7 @@ abstract class AlDeployer implements AlDeployerInterface
     /**
      * Fetches the current page tree collection
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection
      *
      * @api
      */
@@ -210,7 +210,7 @@ abstract class AlDeployer implements AlDeployerInterface
     /**
      * Copies the assets from the development environment to the production one
      *
-     * The source folder is the alphalemoncms's bundles web folder, to be sure to copy
+     * The source folder is the redkitecms's bundles web folder, to be sure to copy
      * everything when user is working with assets folders hardlinked, while the
      * target folder is the deploy bundle's Resources/public folder to be sure to
      * copy the assets under the sorce assets folder.

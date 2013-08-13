@@ -39,8 +39,8 @@
             <target>The image file has already been added</target>
         </trans-unit>
         <trans-unit id="exceptions-10">
-            <source>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</source>
-            <target>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</target>
+            <source>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</source>
+            <target>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</target>
         </trans-unit>
         <trans-unit id="exceptions-11">
             <source>The content format %blockTypeInfo%is wrong. You should remove that block and add it again.</source>

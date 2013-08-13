@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Translator;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Translator;
 
 use Symfony\Component\Translation\TranslatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface;
 
 /**
  * A base class to add translation capabilities to derived objects
@@ -49,7 +49,7 @@ class AlTranslator implements AlTranslatorInterface
      * Sets the tranlator object
      *
      * @param  \Symfony\Component\Translation\TranslatorInterface           $translator
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator
      *
      * @api
      */
@@ -75,8 +75,8 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Sets the configuration object
      * 
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface $configuration
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface $configuration
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator
      */
     public function setConfiguration(AlConfigurationInterface $configuration)
     {
@@ -88,7 +88,7 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Returns the Configuration object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface
      * 
      * @api
      */

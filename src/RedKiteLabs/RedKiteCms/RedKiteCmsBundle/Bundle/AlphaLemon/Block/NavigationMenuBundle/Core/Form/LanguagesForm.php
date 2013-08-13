@@ -4,7 +4,7 @@
  * under the MIT LICENSE. To use this application you must leave intact this copyright 
  * notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\Block\NavigationMenuBundle\Core\Form;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class LanguagesForm extends JsonBlockType

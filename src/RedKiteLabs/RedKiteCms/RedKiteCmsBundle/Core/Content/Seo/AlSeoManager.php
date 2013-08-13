@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,18 +15,18 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\SeoEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlSeo;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\SeoEvents;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
 
 /**
  * AlSeoManager is the base object that wraps an AlSeo object
@@ -41,26 +41,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
 class AlSeoManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo
+     * @var \RedKiteLabs\RedKiteCmsBundle\Model\AlSeo
      */
     protected $alSeo = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      */
     protected $factoryRepository = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface
      */
     protected $seoRepository = null;
 
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -75,8 +75,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Sets the seo model object
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager
      *
      * @api
      */
@@ -137,8 +137,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * {@inheritdoc}
      *
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * 
      * @api
      */
@@ -156,7 +156,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
         }
         
         $this->dispatchBeforeOperationEvent(
-            '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent',
+            '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent',
             SeoEvents::BEFORE_DELETE_SEO,
             array(),
             array(
@@ -173,7 +173,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (false !== $result) {
                 $eventName = SeoEvents::BEFORE_DELETE_SEO_COMMIT;
                 $result = !$this->eventsHandler
-                            ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent', array($this, array()))
+                            ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent', array($this, array()))
                             ->dispatch()
                             ->getEvent($eventName)
                             ->isAborted();
@@ -183,7 +183,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->seoRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(SeoEvents::AFTER_DELETE_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoDeletedEvent', array($this))
+                     ->createEvent(SeoEvents::AFTER_DELETE_SEO, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\AfterSeoDeletedEvent', array($this))
                      ->dispatch();
                 
                 return $result;
@@ -227,8 +227,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      *
      * @param  array                                                                                        $values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * 
      * @api
      */
@@ -236,7 +236,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent',
+                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent',
                 SeoEvents::BEFORE_ADD_SEO,
                 $values,
                 array(
@@ -275,7 +275,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (false !== $result) {
                 $eventName = SeoEvents::BEFORE_ADD_SEO_COMMIT;
                 $result = !$this->eventsHandler
-                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeAddSeoCommitEvent', array($this, $values))
+                                ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeAddSeoCommitEvent', array($this, $values))
                                 ->dispatch()
                                 ->getEvent($eventName)
                                 ->isAborted();
@@ -285,7 +285,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->seoRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(SeoEvents::AFTER_ADD_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoAddedEvent', array($this))
+                     ->createEvent(SeoEvents::AFTER_ADD_SEO, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\AfterSeoAddedEvent', array($this))
                      ->dispatch();
                      
                 return $result;
@@ -311,7 +311,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      *
      * @param  array                                                                                        $values
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -319,7 +319,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent',
+                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent',
                 SeoEvents::BEFORE_EDIT_SEO,
                 $values,
                 array(
@@ -362,7 +362,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (false !== $result) {
                 $eventName = SeoEvents::BEFORE_EDIT_SEO_COMMIT;
                 $result = !$this->eventsHandler
-                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent', array($this, $values))
+                                ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent', array($this, $values))
                                 ->dispatch()
                                 ->getEvent($eventName)
                                 ->isAborted();
@@ -372,7 +372,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->seoRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(SeoEvents::AFTER_EDIT_SEO, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Seo\AfterSeoEditedEvent', array($this))
+                     ->createEvent(SeoEvents::AFTER_EDIT_SEO, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\AfterSeoEditedEvent', array($this))
                      ->dispatch();
 
                 return $result;

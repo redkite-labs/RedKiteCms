@@ -4,7 +4,7 @@
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
 
 /**
  * Renders the editor to manipulate a Json list of items
@@ -57,7 +57,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
     /**
      * Renders the editor
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
      * @return string                                                                             The rendered editor
      */
     protected function doRenderEditor(BlockEditorRenderingEvent $event)
@@ -112,7 +112,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
      * Retrieves the block
      *
      * @param int The block id
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
      */
     protected function fetchBlock($blockId)
     {

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * AlBlockManagerJson is the base object deputated to handle a json content
@@ -31,7 +31,7 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
     /**
      * Decodes a json content
      *
-     * @param  string|AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
+     * @param  string|RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
      * @param  boolean                                             $assoc
      * @return array|object                                        depends on assoc param
      * @throws Exception\InvalidJsonFormatException

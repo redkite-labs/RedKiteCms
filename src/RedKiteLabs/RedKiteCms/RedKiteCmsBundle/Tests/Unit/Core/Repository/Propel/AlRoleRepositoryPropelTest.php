@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlRoleRepositoryPropel;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlRoleRepositoryPropel;
 
 /**
  * AlRoleRepositoryTest
@@ -34,28 +34,28 @@ class AlRoleRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->pdo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->roleRepository = new AlRoleRepositoryPropel($this->pdo);
     }
 
     public function testGetRepositoryObjectClassName()
     {
-        $this->assertEquals('\AlphaLemon\AlphaLemonCmsBundle\Model\AlRole', $this->roleRepository->getRepositoryObjectClassName());
+        $this->assertEquals('\RedKiteLabs\RedKiteCmsBundle\Model\AlRole', $this->roleRepository->getRepositoryObjectClassName());
     }
     
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlRoleRepositoryPropel accepts only AlRole propel objects
      */
     public function testModelObjectInjectedBySettersIsInvalid()
     {
-        $modelObject = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $this->roleRepository->setRepositoryObject($modelObject);
     }
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Model\AlRole');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlRole');
         $this->assertEquals($this->roleRepository, $this->roleRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->roleRepository->getModelObject());
     }

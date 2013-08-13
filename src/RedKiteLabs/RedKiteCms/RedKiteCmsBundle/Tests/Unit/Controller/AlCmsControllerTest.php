@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Controller\AlCmsController;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Controller\AlCmsController;
 
 
 /**
@@ -37,25 +37,25 @@ class AlCmsControllerTest extends TestCase
         $this->securityContext = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
         
         $this->languageRepository =
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->pageRepository =
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->seoRepository =
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->factoryRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -133,7 +133,7 @@ class AlCmsControllerTest extends TestCase
     public function testAFlashMessageIsSetWhenTemplateDoesNotExist()
     {
         $pageTree = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -178,7 +178,7 @@ class AlCmsControllerTest extends TestCase
         
         
         
-        $blockManagerFactory = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -188,7 +188,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue(array()))
         ;
         
-        $templateSlots = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots')
+        $templateSlots = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -282,7 +282,7 @@ class AlCmsControllerTest extends TestCase
             ->with('alpha_lemon_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
         
-        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $this->configuration
             ->expects($this->once())
             ->method('read')

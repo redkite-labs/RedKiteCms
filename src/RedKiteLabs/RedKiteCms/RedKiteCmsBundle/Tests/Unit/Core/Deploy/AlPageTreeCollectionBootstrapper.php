@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 
 /**
  * Inits the object required to setup a pageTreeCollection
@@ -70,7 +70,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
         $this->initTemplateManager();
         $this->themesCollectionWrapper = $this->initThemesCollectionWrapper($this->cycles);
         
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
                 
         $languageRepository = $this->initLanguageRepository();                                
         $languageRepository->expects($this->once())
@@ -143,21 +143,21 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     
     protected function initSeoRepository()
     {
-        return $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
+        return $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
                     ->disableOriginalConstructor()
                     ->getMock();
     }
     
     protected function initLanguageRepository()
     {
-        return $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        return $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                     ->disableOriginalConstructor()
                     ->getMock();
     }
     
     protected function initPageRepository()
     {
-        return $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        return $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                     ->disableOriginalConstructor()
                     ->getMock();
     }
@@ -165,7 +165,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected function initPageBlocks($expects)
     {
         // Prepares the pageBlocks object
-        $this->pageBlocks = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -195,7 +195,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
                                     ->getMock();
         
         // Prepares the templateManager object
-        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -218,7 +218,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     
     protected function initThemesCollectionWrapper($expected)
     {
-        $themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+        $themesCollectionWrapper = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -250,7 +250,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
 
     protected function setUpPage($pageName, $isHome = false, $isPublished = true, $template = 'home')
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $page->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(2));
@@ -276,7 +276,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
 
     protected function setUpLanguage($languageName, $isMain = false)
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(2));
@@ -294,7 +294,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
 
     protected function setUpSeo($permalink, $language, $page)
     {
-        $seo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $seo->expects($this->any())
             ->method('getPermalink')
             ->will($this->returnValue($permalink));
@@ -312,7 +312,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
 
     protected function setUpBlock($content)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue($content));

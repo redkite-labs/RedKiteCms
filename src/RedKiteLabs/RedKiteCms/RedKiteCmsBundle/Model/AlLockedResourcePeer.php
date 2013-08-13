@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlLockedResourcePeer;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlLockedResourcePeer;
 
 class AlLockedResourcePeer extends BaseAlLockedResourcePeer
 {

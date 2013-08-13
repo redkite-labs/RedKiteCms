@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface;
 
 /**
@@ -39,9 +39,9 @@ class AlThemeChanger
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager              $templateManager
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface    $blocksFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager              $templateManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface    $blocksFactory
      */
     public function __construct(AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blocksFactory)
     {
@@ -148,7 +148,7 @@ class AlThemeChanger
     /**
      * Copies the current theme blocks and sets ToDelete field to 2
      *
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception
      */
     protected function backupBlocks()
     {

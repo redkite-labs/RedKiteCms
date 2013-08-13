@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 
 /**
  * AlBlockManagerFactoryTest
@@ -35,9 +35,9 @@ class AlBlockManagerFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
         $this->blockManagerFactory = new AlBlockManagerFactory($this->eventsHandler, $this->factoryRepository, $this->translator);
     }
@@ -132,32 +132,32 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->setEventsHandler();
         
         $blockManager = $this->blockManagerFactory->createBlockManager('Text');
-        $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
+        $this->assertInstanceOf('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
         $this->assertNotSame($this->blockManager, $blockManager);
     }
 
     public function testFactoryCreateANewBlockManagerFromAnAlBlockObject()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getType')
               ->will($this->returnValue('Text'));
         $this->initBlockManager();
         $this->setEventsHandler();
         $blockManager = $this->blockManagerFactory->createBlockManager($block);
-        $this->assertInstanceOf('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
+        $this->assertInstanceOf('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
         $this->assertNotSame($this->blockManager, $blockManager);
     }
     
     public function testFactoryRemovesABlockThatDoesNotExist()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getType')
               ->will($this->returnValue('Removed'));
         $this->initBlockManager();
 
-        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                       ->disableOriginalConstructor()
                                       ->getMock();
         $this->blockRepository->expects($this->once())
@@ -240,7 +240,7 @@ class AlBlockManagerFactoryTest extends TestCase
 
     private function createBlockManager()
     {
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

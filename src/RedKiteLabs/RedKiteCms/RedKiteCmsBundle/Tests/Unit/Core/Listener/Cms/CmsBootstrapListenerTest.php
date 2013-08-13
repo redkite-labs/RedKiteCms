@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Cms;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Cms;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\CmsBootstrapListener;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\CmsBootstrapListener;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
@@ -34,11 +34,11 @@ class CmsBootstrapListenerTest extends TestCase
         parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->pageTree = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
+        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->aligner = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner')
+        $this->aligner = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner')
                             ->disableOriginalConstructor()
                             ->getMock();
 

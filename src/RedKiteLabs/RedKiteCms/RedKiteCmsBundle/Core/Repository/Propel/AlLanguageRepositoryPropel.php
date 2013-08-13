@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,13 +15,13 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguageQuery;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Query\Language;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguageQuery;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Query\Language;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the LanguageRepositoryInterface to work with Propel
@@ -35,7 +35,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function getRepositoryObjectClassName()
     {
-        return '\AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage';
+        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage';
     }
 
     /**
