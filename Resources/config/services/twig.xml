@@ -4,8 +4,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="twig.extension.strings.class">AlphaLemon\AlphaLemonCmsBundle\Twig\StringsExtension</parameter>
-        <parameter key="twig.extension.images.class">AlphaLemon\AlphaLemonCmsBundle\Twig\ImageThumbnailExtension</parameter>
+        <parameter key="twig.extension.strings.class">RedKiteLabs\RedKiteCmsBundle\Twig\StringsExtension</parameter>
+        <parameter key="twig.extension.images.class">RedKiteLabs\RedKiteCmsBundle\Twig\ImageThumbnailExtension</parameter>
     </parameters>
 
     <services>

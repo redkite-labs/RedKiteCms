@@ -1,11 +1,11 @@
 <?php
 
 /*
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,12 +16,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
 
 /**
  * AlTwigTemplateWriter generates a twig template from a PageTree object
@@ -63,10 +63,10 @@ abstract class AlTwigTemplateWriter
      *
      * When the page is saving, the images' path is replaced
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree                          $pageTree
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree                          $pageTree
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
      * @param array                                                                             $replaceImagesPaths
      */
     public function __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, AlViewRendererInterface $viewRenderer, array $replaceImagesPaths = array())
@@ -143,7 +143,7 @@ abstract class AlTwigTemplateWriter
      * Forces the CMS to render the credits or not
      *
      * @param  boolean                                                                             $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter
      */
     public function setCredits($v)
     {

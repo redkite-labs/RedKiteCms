@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
 
 /**
  * Defines a base event raised from a ContentManager
@@ -52,7 +52,7 @@ abstract class BaseActionEvent extends Event
     /**
      * Sets the current AlContentManager object
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface $value
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface $value
      */
     public function setContentManager(AlContentManagerInterface $value)
     {

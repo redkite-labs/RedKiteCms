@@ -19,9 +19,9 @@ framework:
     router:   { resource: "%kernel.root_dir%/config/routing_alcms.yml" }
 
 alpha_lemon_theme_engine:
-    render_slot_class: AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension
+    render_slot_class: RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension
     themes_panel:
-      theme_skeleton: AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig
+      theme_skeleton: RedKiteCmsBundle:Themes:theme_skeleton.html.twig
 
 propel:
     path:       "%kernel.root_dir%/../vendor/propel/propel1"

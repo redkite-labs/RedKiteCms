@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlSeoQuery;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlSeoQuery;
 
 class AlSeoQuery extends BaseAlSeoQuery
 {

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -35,7 +35,7 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
      * @param \Symfony\Component\DependencyInjection\ContainerInterface     $container
      *
      * @api

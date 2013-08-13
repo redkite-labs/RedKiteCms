@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
-use AlphaLemon\AlphaLemonCmsBundle\Core\ThemeChanger\AlTemplateSlots;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 class ThemesController extends BaseController
 {
@@ -97,7 +97,7 @@ class ThemesController extends BaseController
             ),
             array(
                 'key' => 'slots',
-                'value' => $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:template_slots_panel.html.twig', array(
+                'value' => $this->container->get('templating')->render('RedKiteCmsBundle:Themes:template_slots_panel.html.twig', array(
                     'slots' => $slots, 
                     'configuration' => $this->container->get('alpha_lemon_cms.configuration')
                 )),            
@@ -112,7 +112,7 @@ class ThemesController extends BaseController
     
     public function showThemesFinalizerAction()
     {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Themes:show_theme_finalizer.html.twig',
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:show_theme_finalizer.html.twig',
             array(
                 'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
             )
@@ -173,7 +173,7 @@ class ThemesController extends BaseController
         $response = new Response();
         $response->setStatusCode($statusCode);
 
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);        
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);        
     }
 
     protected function renderThemeChanger($error = null)
@@ -196,7 +196,7 @@ class ThemesController extends BaseController
         $templates = array_keys($theme->getTemplates());
 
         $status = null === $error ? 200 : 404;
-        $output = $this->container->get('templating')->render('AlphaLemonCmsBundle:Themes:show_theme_changer.html.twig', array(
+        $output = $this->container->get('templating')->render('RedKiteCmsBundle:Themes:show_theme_changer.html.twig', array(
             'templates' => $templates, 
             'current_templates' => $currentTemplates, 
             'themeName' => $themeName, 
@@ -225,8 +225,8 @@ class ThemesController extends BaseController
 
         $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'), array(
             'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
-            'panel_sections' => 'AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig',
-            'theme_skeleton' => 'AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig',
+            'panel_sections' => 'RedKiteCmsBundle:Themes:theme_panel_sections.html.twig',
+            'theme_skeleton' => 'RedKiteCmsBundle:Themes:theme_skeleton.html.twig',
             'values' => $values,
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         ));

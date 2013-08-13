@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -72,9 +72,9 @@ abstract class AddLanguageBaseListener
     /**
      * Listen the onBeforeAddLanguageCommit event to copy the source object to the new language
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent $event
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent $event
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\Base\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\Base\Exception
      *
      * @api
      */
@@ -128,7 +128,7 @@ abstract class AddLanguageBaseListener
     /**
      * Fetches the base language used to copy the entities
      *
-     * @return AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage
+     * @return RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
      */
     protected function getBaseLanguage()
     {

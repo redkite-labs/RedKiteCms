@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,19 +15,19 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\LanguageEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\LanguageEvents;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * AlLanguageManager is the base object that wraps an AlLanguage object
@@ -42,26 +42,26 @@ use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepository
 class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage
+     * @var \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
      */
     protected $alLanguage = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      */
     protected $factoryRepository = null;
 
     /**
-     * @var AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
+     * @var RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
      */
     protected $languageRepository = null;
 
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface                 $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface        $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface                 $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface        $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager $validator
      *
      * @api
      */
@@ -104,7 +104,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      *
      *
      * @param  LanguageRepositoryInterface                                             $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager
      *
      * @api
      */
@@ -143,9 +143,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * {@inheritdoc}
      *
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\RemoveMainLanguageException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\RemoveMainLanguageException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      *
      * @api
      */
@@ -160,7 +160,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
 
         $this->dispatchBeforeOperationEvent(
-                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent',
+                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent',
                 LanguageEvents::BEFORE_DELETE_LANGUAGE,
                 array(),
                 'The language deleting action has been aborted'
@@ -175,7 +175,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             if ($result) {
                 $eventName = LanguageEvents::BEFORE_DELETE_LANGUAGE_COMMIT;
                 $result = !$this->eventsHandler
-                                ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent', array($this, array()))
+                                ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent', array($this, array()))
                                 ->dispatch()
                                 ->getEvent($eventName)
                                 ->isAborted();
@@ -185,7 +185,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(LanguageEvents::AFTER_DELETE_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageDeletedEvent', array($this))
+                     ->createEvent(LanguageEvents::AFTER_DELETE_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageDeletedEvent', array($this))
                      ->dispatch();
                      
                 return $result;
@@ -208,7 +208,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      *
      * @param  array                                                                                   $values
      * @return type
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      * @throws LanguageExistsException
      * @throws General\ArgumentIsEmptyException
      * 
@@ -218,7 +218,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         $values =
                 $this->dispatchBeforeOperationEvent(
-                        '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent',
+                        '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent',
                         LanguageEvents::BEFORE_ADD_LANGUAGE,
                         $values,
                         array(
@@ -258,7 +258,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 if (false !== $result) {
                     $eventName = LanguageEvents::BEFORE_ADD_LANGUAGE_COMMIT;
                     $result = !$this->eventsHandler
-                                    ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent', array($this, $values))
+                                    ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent', array($this, $values))
                                     ->dispatch()
                                     ->getEvent($eventName)
                                     ->isAborted();
@@ -269,7 +269,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(LanguageEvents::AFTER_ADD_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageAddedEvent', array($this))
+                     ->createEvent(LanguageEvents::AFTER_ADD_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageAddedEvent', array($this))
                      ->dispatch();
                      
                 return $result;
@@ -292,7 +292,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      *
      * @param  array                                                                                   $values
      * @return type
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      *
      * @api
      */
@@ -300,7 +300,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                    '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent',
+                    '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent',
                     LanguageEvents::BEFORE_EDIT_LANGUAGE,
                     $values,
                     array(
@@ -344,7 +344,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 if (false != $result) {
                     $eventName = LanguageEvents::BEFORE_EDIT_LANGUAGE_COMMIT;
                     $result = !$this->eventsHandler
-                        ->createEvent($eventName, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent', array($this, $values))
+                        ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent', array($this, $values))
                         ->dispatch()
                         ->getEvent($eventName)
                         ->isAborted()
@@ -356,7 +356,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(LanguageEvents::AFTER_EDIT_LANGUAGE, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\AfterLanguageEditedEvent', array($this))
+                     ->createEvent(LanguageEvents::AFTER_EDIT_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageEditedEvent', array($this))
                      ->dispatch();
                      
                 return $result;
@@ -378,7 +378,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Degrades the main language to normal language
      *
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      *
      * @api
      */

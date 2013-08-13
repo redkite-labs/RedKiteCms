@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTreePreview;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview;
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
 
@@ -71,7 +71,7 @@ class ThemePreviewController extends AlCmsController
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
         
-        return $this->render('AlphaLemonCmsBundle:Preview:index.html.twig', $baseParams);
+        return $this->render('RedKiteCmsBundle:Preview:index.html.twig', $baseParams);
     }
 
     protected function fetchSlotContents(AlTemplate $template)

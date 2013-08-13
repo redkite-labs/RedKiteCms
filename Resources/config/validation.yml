@@ -1,4 +1,4 @@
-AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\Page:
+RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page:
   properties:
     pageName:
       - Length: { max: 255  }
@@ -10,7 +10,7 @@ AlphaLemon\AlphaLemonCmsBundle\Core\Form\Page\Page:
     isPublished:
       - Type: boolean
 
-AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\Seo:
+RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo:
   properties:
     idLanguage:
       - NotBlank: { message: "The language id, which the seo attributes belongs, is mandatory" }
@@ -25,7 +25,7 @@ AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\Seo:
     description:
       - NotBlank: { message: "The metatag description value should not be blank" }
 
-AlphaLemon\AlphaLemonCmsBundle\Model\AlUser:
+RedKiteLabs\RedKiteCmsBundle\Model\AlUser:
   properties:
     username:
       - NotBlank: { message: Username field can not be empty }
@@ -37,7 +37,7 @@ AlphaLemon\AlphaLemonCmsBundle\Model\AlUser:
       - NotBlank: { message: "Email field can not be empty" }
       - Email: { message: "The email you entered is not valid" }
 
-AlphaLemon\AlphaLemonCmsBundle\Model\AlRole:
+RedKiteLabs\RedKiteCmsBundle\Model\AlRole:
   properties:
     role:
       - NotBlank: { message: "Role field can not be empty" }

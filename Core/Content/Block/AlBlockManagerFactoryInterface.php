@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
 
 /**
  * AlBlockManagerFactory creates a BlockManager object
@@ -29,9 +29,9 @@ interface AlBlockManagerFactoryInterface
     /**
      * Creates an instance of an AlBlockManager object
      *
-     * @param mixed string | \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $block
+     * @param mixed string | \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
      *
-     * @return null|\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;AlBlockManagerInterface
+     * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;AlBlockManagerInterface
      *
      * @api
      */

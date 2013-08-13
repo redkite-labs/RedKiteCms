@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,13 +15,13 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
 use Symfony\Component\Translation\TranslatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException;
 
 /**
  * The base class that defines a content manager object
@@ -47,8 +47,8 @@ abstract class AlContentManagerBase
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -61,8 +61,8 @@ abstract class AlContentManagerBase
     /**
      * Sets the event dispatcher object
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase
      *
      * @api
      */
@@ -76,8 +76,8 @@ abstract class AlContentManagerBase
     /**
      * Sets the parameters validator object
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase
      *
      * @api
      */
@@ -91,7 +91,7 @@ abstract class AlContentManagerBase
     /**
      * Returns the Event dispatcher object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
      *
      * @api
      */
@@ -103,7 +103,7 @@ abstract class AlContentManagerBase
     /**
      * Returns the ParameterValidator object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface
      *
      * @api
      */

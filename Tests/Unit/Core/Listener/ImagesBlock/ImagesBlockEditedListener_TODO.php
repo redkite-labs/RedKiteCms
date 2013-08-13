@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\ImagesBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\ImagesBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener;
 
 /**
  * ImagesBlockEditedListenerTest
@@ -34,7 +34,7 @@ class ImagesBlockEditedListenerTest extends TestCase
     {
         parent::setUp();
 
-        $this->event = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Actions\Block\BlockEditedEvent')
+        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -47,7 +47,7 @@ class ImagesBlockEditedListenerTest extends TestCase
         $this->event->expects($this->never())
             ->method('setResponse');
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock')
                              ->disableOriginalConstructor()
                              ->getMock();
         $this->event->expects($this->once())
@@ -62,12 +62,12 @@ class ImagesBlockEditedListenerTest extends TestCase
         $this->event->expects($this->once())
             ->method('setResponse');
 
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(2));
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages')
                              ->disableOriginalConstructor()
                              ->getMock();
         $blockManager->expects($this->once())

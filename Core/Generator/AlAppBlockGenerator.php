@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Generator;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Generator;
 
 use Symfony\Component\DependencyInjection\Container;
 use AlphaLemon\ThemeEngineBundle\Core\Generator\AlBaseGenerator;
@@ -21,7 +21,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
     {
         $format = 'annotation';
         if (null === $this->bundleSkeletonDir) {
-            $this->bundleSkeletonDir = __DIR__ . '/../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
+            $this->bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
         }
         $this->setSkeletonDirs($this->bundleSkeletonDir);
         $this->generate($namespace, $bundle, $dir, $format, $structure);

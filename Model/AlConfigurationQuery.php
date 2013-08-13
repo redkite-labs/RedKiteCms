@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlConfigurationQuery;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlConfigurationQuery;
 
 class AlConfigurationQuery extends BaseAlConfigurationQuery
 {

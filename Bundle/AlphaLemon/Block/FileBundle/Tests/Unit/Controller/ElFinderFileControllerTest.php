@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,7 +18,7 @@
 namespace AlphaLemon\Block\FileBundle\Tests\Unit\Controller;
 
 use AlphaLemon\Block\FileBundle\Controller\ElFinderFileController;
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller\AlCmsElFinderControllerTest;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller\AlCmsElFinderControllerTest;
 
 /**
  * ElFinderControllerTest

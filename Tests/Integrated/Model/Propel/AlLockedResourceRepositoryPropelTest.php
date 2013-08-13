@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infuserRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
+use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
 
 /**
  * AlLockedResourceRepositoryPropelTest
@@ -43,19 +43,19 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects
      */
     public function testRepositoryAcceptsOnlyAlLockedResourceObjects()
     {
-        $this->lockedResourceRepository->setRepositoryObject(new \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage());
+        $this->lockedResourceRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlPage());
     }
     
     public function testFetchResourceFromItsName()
     {
         $this->resourcesLocker->lockResource($this->userId, $this->resource);
         $resource = $this->lockedResourceRepository->fromResourceName($this->resource);
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLockedResource', $resource);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResource', $resource);
         $this->assertEquals($this->resource, $resource->getResourceName());
     }
         
@@ -63,7 +63,7 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
     {
         $this->resourcesLocker->lockResource($this->userId, $this->resource);
         $resource = $this->lockedResourceRepository->fromResourceNameByUser($this->userId, $this->resource);
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlLockedResource', $resource);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResource', $resource);
         $this->assertEquals($this->resource, $resource->getResourceName());
         $this->assertEquals($this->userId, $resource->getUserId());
     }

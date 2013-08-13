@@ -12,7 +12,7 @@ Licensed under The MIT License
 Redistributions of files must retain the above copyright notice.
 *******************************************************************************/
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\vendor\SimpleHtmlDom;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\vendor\SimpleHtmlDom;
 
 define('HDOM_TYPE_ELEMENT', 1);
 define('HDOM_TYPE_COMMENT', 2);

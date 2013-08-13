@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * AlBlockManagerJsonBlockCollection is the base object deputated to handle a json content
@@ -37,7 +37,7 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                             $container
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -46,8 +46,7 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
         $this->container = $container;
         $eventsHandler = $container->get('alpha_lemon_cms.events_handler');
         $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
-        $repository = $this->container->get('alpha_lemon_cms.factory_repository');
-        $this->blocksRepository = $repository->createRepository('Block');
+        $this->blocksRepository = $factoryRepository->createRepository('Block');
 
         parent::__construct($eventsHandler, $factoryRepository, $validator);
     }

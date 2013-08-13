@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
 
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
@@ -44,7 +44,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      *
      * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot                              $slot
      * @param \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface         $pageContentsContainer
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -64,7 +64,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      * Removes the blocks placed on the current slot from the database
      *
      * @return null|boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
      */
     protected function deleteBlocks()
     {

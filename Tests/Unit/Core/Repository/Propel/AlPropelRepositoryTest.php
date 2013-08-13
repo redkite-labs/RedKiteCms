@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 
 /**
  * AlFactoryRepositoryTest
@@ -33,21 +33,21 @@ class AlPropelRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->pdo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->propelRepository = new TestRepositoryPropel($this->pdo);
-        $this->modelObject = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $this->modelObject = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
     }
 
     public function testPdoConnectionInjectedBySetters()
     {
-        $pdo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->assertEquals($this->propelRepository, $this->propelRepository->setConnection($pdo));
         $this->assertEquals($pdo, $this->propelRepository->getConnection());
         $this->assertNotSame($this->pdo, $this->propelRepository->getConnection());
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlPropelRepository accepts only objects derived from propel \BaseObject
      */
     public function testModelObjectRequiresABaseObject()
@@ -57,7 +57,7 @@ class AlPropelRepositoryTest extends TestCase
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $this->assertEquals($this->propelRepository, $this->propelRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->propelRepository->getModelObject());
         $this->assertNotSame($this->modelObject, $this->propelRepository->getModelObject());
@@ -204,7 +204,7 @@ class AlPropelRepositoryTest extends TestCase
 
     public function testExecuteRawQuery()
     {
-        $this->pdoStatement = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDOStatement');
+        $this->pdoStatement = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDOStatement');
         $this->pdoStatement->expects($this->once())
                   ->method('execute')
                   ->will($this->returnValue(1));

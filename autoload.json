@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "AlphaLemon\\AlphaLemonCmsBundle\\AlphaLemonCmsBundle" : {
+        "RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
         "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {

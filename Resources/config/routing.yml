@@ -1,30 +1,30 @@
 alpha_lemon_cms_configuration:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/configuration.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/configuration.xml"
     
 alpha_lemon_cms_security:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/security.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/security.xml"
 
 alpha_lemon_cms_pages:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/pages.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/pages.xml"
 
 alpha_lemon_cms_languages:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/languages.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/languages.xml"
 
 alpha_lemon_cms_theme_preview:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/theme-preview.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/theme-preview.xml"
 
 alpha_lemon_cms_themes:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/themes.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/themes.xml"
 
 alpha_lemon_cms_blocks:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/blocks.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/blocks.xml"
 
 alpha_lemon_cms_deploy:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/deploy.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/deploy.xml"
 
 alpha_lemon_cms_elfinder:
-    resource: "@AlphaLemonCmsBundle/Resources/config/routing/elfinder.xml"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/elfinder.xml"
 
 alpha_lemon_cms_navigation:
   pattern:  /backend/{_locale}/{page}/{locked}
-  defaults: { _controller: AlphaLemonCmsBundle:AlCms:show, _locale: en, page: index, locked: pageId }
+  defaults: { _controller: RedKiteCmsBundle:AlCms:show, _locale: en, page: index, locked: pageId }

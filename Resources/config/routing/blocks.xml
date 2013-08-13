@@ -5,20 +5,20 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
     
     <route id="alpha_lemon_cms_add_block" pattern="/backend/{_locale}/addBlock">
-        <default key="_controller">AlphaLemonCmsBundle:Blocks:addBlock</default>
+        <default key="_controller">RedKiteCmsBundle:Blocks:addBlock</default>
         <default key="_locale">en</default>
         <requirement key="_method">POST</requirement>
     </route>
 
     <route id="alpha_lemon_cms_edit_block" pattern="/backend/{_locale}/editBlock/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Blocks:editBlock</default>
+        <default key="_controller">RedKiteCmsBundle:Blocks:editBlock</default>
         <default key="_locale">en</default>
         <default key="locked">idBlock</default>
         <requirement key="_method">POST</requirement>
     </route>
 
     <route id="alpha_lemon_cms_delete_block" pattern="/backend/{_locale}/deleteBlock/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Blocks:deleteBlock</default>
+        <default key="_controller">RedKiteCmsBundle:Blocks:deleteBlock</default>
         <default key="_locale">en</default>
         <default key="locked">idBlock</default>
         <requirement key="_method">POST</requirement>

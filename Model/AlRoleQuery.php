@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlRoleQuery;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlRoleQuery;
 
 class AlRoleQuery extends BaseAlRoleQuery
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCmsBundle\Model;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\om\BaseAlRolePeer;
+use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlRolePeer;
 
 class AlRolePeer extends BaseAlRolePeer
 {

@@ -5,50 +5,50 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="_login" pattern="/backend/login">
-        <default key="_controller">AlphaLemonCmsBundle:Security:login</default>
+        <default key="_controller">RedKiteCmsBundle:Security:login</default>
         <default key="_locale">en</default>
     </route>
 
     <route id="_login_check" pattern="/backend/login_check">
-        <default key="_controller">AlphaLemonCmsBundle:Security:securityCheck</default>
+        <default key="_controller">RedKiteCmsBundle:Security:securityCheck</default>
         <default key="_locale">en</default>
     </route>
 
     <route id="_logout" pattern="/backend/logout">
-        <default key="_controller">AlphaLemonCmsBundle:Security:logout</default>
+        <default key="_controller">RedKiteCmsBundle:Security:logout</default>
         <default key="_locale">en</default>
     </route>
 
     <route id="alpha_lemon_cms_user_list" pattern="/backend/users/{_locale}/al_userList">
-        <default key="_controller">AlphaLemonCmsBundle:Security:listUsers</default>
+        <default key="_controller">RedKiteCmsBundle:Security:listUsers</default>
         <default key="_locale">en</default>
     </route>
 
     <route id="alpha_lemon_cms_show_user" pattern="/backend/users/{_locale}/al_showUser/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Security:showUser</default>
+        <default key="_controller">RedKiteCmsBundle:Security:showUser</default>
         <default key="_locale">en</default>
         <default key="locked">user,id</default>
     </route>
 
     <route id="alpha_lemon_cms_delete_user" pattern="/backend/users/{_locale}/al_deleteUser/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Security:deleteUser</default>
+        <default key="_controller">RedKiteCmsBundle:Security:deleteUser</default>
         <default key="_locale">en</default>
         <default key="locked">user,id</default>
     </route>
 
     <route id="alpha_lemon_cms_roles_list" pattern="/backend/users/{_locale}/al_rolesList">
-        <default key="_controller">AlphaLemonCmsBundle:Security:listRoles</default>
+        <default key="_controller">RedKiteCmsBundle:Security:listRoles</default>
         <default key="_locale">en</default>
     </route>
 
     <route id="alpha_lemon_cms_show_role" pattern="/backend/users/{_locale}/al_showRole/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Security:showRole</default>
+        <default key="_controller">RedKiteCmsBundle:Security:showRole</default>
         <default key="_locale">en</default>
         <default key="locked">role,id</default>
     </route>
 
     <route id="alpha_lemon_cms_delete_role" pattern="/backend/users/{_locale}/al_deleteRole/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Security:deleteRole</default>
+        <default key="_controller">RedKiteCmsBundle:Security:deleteRole</default>
         <default key="_locale">en</default>
         <default key="locked">role,id</default>
     </route>

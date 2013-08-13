@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\Block\LinkBundle\Tests\Unit\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\Block\LinkBundle\Core\Block\AlBlockManagerLink;
 
 /**
@@ -82,12 +82,12 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
     
     public function testEditorParameters()
     {
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
         
-        $seoRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\SeoRepositoryInterface');
+        $seoRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface');
         $seoRepository->expects($this->once())
             ->method('fromLanguageName')
             ->will($this->returnValue(array()))
@@ -163,7 +163,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
     {
         parent::initContainer();
         
-        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
         $this->container
             ->expects($this->at(2))
             ->method('get')
@@ -174,7 +174,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
     
     private function initBlock($value)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getContent')
               ->will($this->returnValue($value));

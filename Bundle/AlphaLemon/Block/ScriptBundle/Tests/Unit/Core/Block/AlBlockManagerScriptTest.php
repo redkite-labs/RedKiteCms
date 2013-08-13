@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\Block\ScriptBundle\Tests\Unit\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript;
 
 /**
@@ -54,7 +54,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
 
     public function testHtmlViewOutput()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $this->blockManager->set($block);        
         $expectedResult = array('RenderView' => array(
             'view' => 'ScriptBundle:Content:script.html.twig',
@@ -68,7 +68,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
     
     public function testEditorParameters()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getExternalJavascript')
               ->will($this->returnValue('javascript-1.js,javascript-2.js'))
@@ -79,7 +79,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
         ;
         $this->blockManager->set($block);        
         
-        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');        
+        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');        
         $this->container
             ->expects($this->at(0))
             ->method('get')
@@ -114,7 +114,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
     {
         parent::initContainer();
         
-        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
         $this->container
             ->expects($this->at(2))
             ->method('get')

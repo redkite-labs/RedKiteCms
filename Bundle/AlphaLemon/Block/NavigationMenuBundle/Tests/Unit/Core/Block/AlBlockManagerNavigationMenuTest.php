@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@
 
 namespace AlphaLemon\Block\NavigationMenuBundle\Tests\Unit\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use AlphaLemon\Block\NavigationMenuBundle\Core\Block\AlBlockManagerNavigationMenu;
 use org\bovigo\vfs\vfsStream;
 
@@ -55,19 +55,19 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             );
         $this->root = vfsStream::setup('root', null, $folders);
         
-        $this->eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
-        $this->languageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(1))
             ->method('createRepository')
             ->with('Language')
             ->will($this->returnValue($this->languageRepository));
 
-        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->urlManager->expects($this->any())
             ->method('buildInternalUrl')
             ->will($this->returnSelf());
@@ -104,13 +104,13 @@ class AlBlockManagerNavigationMenuTest extends TestCase
             ->with('alpha_lemon_cms.flags_folder')
             ->will($this->returnValue('@NavigationMenuBundle'));
         
-        $this->translator = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
         $this->container->expects($this->at(5))
             ->method('get')
             ->with('alpha_lemon_cms.translator')
             ->will($this->returnValue($this->translator));
         
-        $this->configuration = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $this->container->expects($this->at(6))
             ->method('get')
             ->with('alpha_lemon_cms.configuration')
@@ -327,7 +327,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
     
     protected function initBlock($content)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($content));
@@ -337,7 +337,7 @@ class AlBlockManagerNavigationMenuTest extends TestCase
 
     protected function initLanguage($value = 'en')
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->once())
             ->method('getLanguageName')
             ->will($this->returnValue($value));
@@ -347,8 +347,8 @@ class AlBlockManagerNavigationMenuTest extends TestCase
     
     protected function initPageTree()
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
-        $pageTree = $this->getMockBuilder('\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree')
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
+        $pageTree = $this->getMockBuilder('\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $pageTree->expects($this->any())

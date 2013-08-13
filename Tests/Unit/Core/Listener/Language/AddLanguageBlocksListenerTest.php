@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Language;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageBlocksListener;
+use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageBlocksListener;
 
 /**
  * AddLanguageBlocksListenerTest
@@ -28,11 +28,11 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->manager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -40,7 +40,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('getBlockRepository')
             ->will($this->returnValue($this->objectModel));
 
-        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->urlManager->expects($this->any())
             ->method('fromUrl')
             ->will($this->returnSelf());
@@ -78,7 +78,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 
     protected function setUpObject()
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('toArray')
             ->will($this->returnValue(array('Id' => 2, 'CreatedAt' => 'fake', "Content" => '<a href="my-awesome-homepage" >aaa</a>')));

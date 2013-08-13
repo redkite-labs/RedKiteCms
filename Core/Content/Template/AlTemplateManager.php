@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,23 +15,23 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Template;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactory;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  * AlTemplateManager wrap an AlTemplate object to manage the template's slots when the
@@ -58,12 +58,12 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
      * @param \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate                                $template
      * @param \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface          $pageBlocks
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
@@ -93,7 +93,7 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the current AlTemplate object
      *
      * @param  \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate                  $template
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
      */
@@ -123,7 +123,7 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the current AlTemplateSlots object
      *
      * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface $templateSlots
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
      */
@@ -150,7 +150,7 @@ class AlTemplateManager extends AlTemplateBase
      * Sets the page contents container object
      *
      * @param  \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface $pageBlocks
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
      */
@@ -164,7 +164,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current page contents container object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      *
      * @api
      */
@@ -176,8 +176,8 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the block model interface
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
      */
@@ -273,7 +273,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Refreshes the TemplateManager
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
      */
@@ -295,7 +295,7 @@ class AlTemplateManager extends AlTemplateBase
      * @param  int                                                             $idPage       The id that identified the page to add
      * @param  boolean                                                         $skipRepeated True skips the slots that are repeated on page
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
      *
      * @api
      */
@@ -345,7 +345,7 @@ class AlTemplateManager extends AlTemplateBase
      *
      * @param  boolean                                                         $skipRepeated When true skips the slots with a repeated status
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
      *
      * @api
      */
@@ -393,7 +393,7 @@ class AlTemplateManager extends AlTemplateBase
      * @param  int                                                             $pageId
      * @param  boolean                                                         $skipRepeated
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
      *
      * @api
      */
@@ -476,7 +476,7 @@ class AlTemplateManager extends AlTemplateBase
      * Create the slot manager for the given slot
      *
      * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $slot
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      */
     protected function createSlotManager(AlSlot $slot)
     {

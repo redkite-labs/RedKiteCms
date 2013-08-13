@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\EventsHandler;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\EventsHandler;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandler;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler;
 
 class AlEventsHandlerTester extends AlEventsHandler
 {
@@ -55,7 +55,7 @@ class AlEventsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      * @expectedExceptionMessage {"message":"\"%className%\" createEvent method requires the eventName argument to be a string","parameters":{"%className%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenEventNameIsNotAString()
@@ -64,7 +64,7 @@ class AlEventsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      * @expectedExceptionMessage {"message":"The class \"%argumentClass%\" passed as argument for the \"%className%\" createEvent method does not exist","parameters":{"%argumentClass%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenTypeDoesNotExist()
@@ -73,17 +73,17 @@ class AlEventsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage {"message":"The class \"%argumentClass%\" passed as argument for the \"%className%\" createEvent must be an instance of \"Symfony\\Component\\EventDispatcher\\Event\"","parameters":{"%argumentClass%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"AlphaLemon\\AlphaLemonCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenClassIsNotInherithedByEventClass()
     {
-        $this->eventsHandler->createEvent('an.awesome.event', '\AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTest', array());
+        $this->eventsHandler->createEvent('an.awesome.event', '\RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTest', array());
     }
 
     public function testCreateEventHasInstantiatedANewEvent()
     {
-        $class = '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
+        $class = '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->assertCount(0, $this->eventsHandler->getEvents());
         $this->eventsHandler->createEvent('my.awesome.event', $class, array());
         $this->assertCount(1, $this->eventsHandler->getEvents());
@@ -95,8 +95,8 @@ class AlEventsHandlerTest extends TestCase
 
     public function testCreateEventHasInstantiatedANewEventWithOneArgument()
     {
-        $contentManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface');
-        $class = '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $class = '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager));
         $event = $this->eventsHandler->getEvent('my.awesome.event');
         $this->assertInstanceOf($class, $event);
@@ -106,8 +106,8 @@ class AlEventsHandlerTest extends TestCase
 
     public function testCreateEventHasInstantiatedANewEventWithTwoArgument()
     {
-        $contentManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface');
-        $class = '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $class = '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $event = $this->eventsHandler->getEvent('my.awesome.event');
         $this->assertInstanceOf($class, $event);
@@ -131,8 +131,8 @@ class AlEventsHandlerTest extends TestCase
              ->method('dispatch')
              ->with('my.awesome.event');
 
-        $contentManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface');
-        $class = '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $class = '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $this->eventsHandler->createEvent('my.second.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $this->assertSame($this->eventsHandler, $this->eventsHandler->dispatch('my.awesome.event'));
@@ -145,8 +145,8 @@ class AlEventsHandlerTest extends TestCase
              ->method('dispatch')
              ->with('my.second.awesome.event');
 
-        $contentManager = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface');
-        $class = '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $class = '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $this->eventsHandler->createEvent('my.second.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $this->assertSame($this->eventsHandler, $this->eventsHandler->dispatch());

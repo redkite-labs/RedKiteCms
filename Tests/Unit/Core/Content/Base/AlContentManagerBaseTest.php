@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
 
 
 class AlContentManagerTester extends AlContentManagerBase
@@ -41,9 +41,9 @@ class AlContentManagerBaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
-        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidator')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->contentManager = new AlContentManagerTester($this->eventsHandler, $this->validator);
@@ -56,7 +56,7 @@ class AlContentManagerBaseTest extends TestCase
 
     public function testEventsHandlerBySetters()
     {
-        $eventsHandler = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
         $this->assertSame($this->contentManager, $this->contentManager->setEventsHandler($eventsHandler));
         $this->assertSame($eventsHandler, $this->contentManager->getEventsHandler());
         $this->assertNotSame($this->eventsHandler, $this->contentManager->getEventsHandler());
@@ -69,7 +69,7 @@ class AlContentManagerBaseTest extends TestCase
 
     public function testValidatorInjectedBySetters()
     {
-        $validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertSame($this->contentManager, $this->contentManager->setValidator($validator));

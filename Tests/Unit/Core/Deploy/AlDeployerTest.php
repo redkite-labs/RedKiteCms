@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlDeployer;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployer;
 
 class AlDeployerTester extends AlDeployer
 {
@@ -29,7 +29,7 @@ class AlDeployerTester extends AlDeployer
     {   
     }
 
-    public function save(\AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree, $type)
+    public function save(\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree, $type)
     {   
     }
 }
@@ -39,7 +39,7 @@ class AlDeployerTester extends AlDeployer
  *
  * @author AlphaLemon <webmaster@alphalemon.com>
  */
-class AlDeployerTest extends \AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase
+class AlDeployerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
 {
     protected $container;
     protected $dispatcher;
@@ -60,18 +60,18 @@ class AlDeployerTest extends \AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase
             ->will($this->returnValue('home'));
 
         $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->blockManagerFactory = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->dispatcher = $this->getMock('\Symfony\Component\EventsDispatcher\EventDispatcherInterface', array('dispatch'));
-        $this->viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
+        $this->viewRenderer = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
         
         $this->initContainer();
     }
     
     public function testTemplateSlotsInjectedBySetters()
     {        
-        $pageTreeCollection = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlPageTreeCollection')
+        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $deployer = new AlDeployerTester($this->container);

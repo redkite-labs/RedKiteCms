@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
  * AlSiteBootstrapInterface defines the methos to boostrap an AlphaLemon website from
@@ -44,7 +44,7 @@ interface AlSiteBootstrapInterface
      * Sets the language manager
      *
      * @param  AlLanguageManager                                                  $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
      *
      * @api
      */
@@ -54,7 +54,7 @@ interface AlSiteBootstrapInterface
      * Sets the page manager
      *
      * @param  AlPageManager                                                      $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
      *
      * @api
      */
@@ -64,7 +64,7 @@ interface AlSiteBootstrapInterface
      * Sets the template manager
      *
      * @param  AlTemplateManager                                                  $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
      *
      * @api
      */
@@ -74,7 +74,7 @@ interface AlSiteBootstrapInterface
      * Sets the default language's values used to add the new language
      *
      * @param  array                                                              $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
      *
      * @api
      */
@@ -84,7 +84,7 @@ interface AlSiteBootstrapInterface
      * Sets the default page's values used to add the new language
      *
      * @param  array                                                              $value
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
      *
      * @api
      */

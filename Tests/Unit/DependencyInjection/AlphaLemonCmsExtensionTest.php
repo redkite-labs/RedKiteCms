@@ -1,9 +1,9 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\DependencyInjection;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\DependencyInjection;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\DependencyInjection\AlphaLemonCmsExtension;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\AlphaLemonCmsExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**

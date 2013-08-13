@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,12 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 class LanguagesController extends Base\BaseController
 {
@@ -45,7 +45,7 @@ class LanguagesController extends Base\BaseController
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         );
 
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Languages:index.html.twig', $params);
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Languages:index.html.twig', $params);
     }
 
     public function saveLanguageAction()
@@ -121,8 +121,8 @@ class LanguagesController extends Base\BaseController
         
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
-        $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Languages:languages_list.html.twig', array('languages' => $languagesList, 'active_language' => $request->get('language'),)));
-        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('AlphaLemonCmsBundle:Cms:menu_dropdown.html.twig', array('id' => 'al_languages_navigator', 'type' => 'al_language_item', 'value' => (null !== $language) ? $language->getId() : 0, 'text' => $request->get('language'), 'items' => $languages)));
+        $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Languages:languages_list.html.twig', array('languages' => $languagesList, 'active_language' => $request->get('language'),)));
+        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:menu_dropdown.html.twig', array('id' => 'al_languages_navigator', 'type' => 'al_language_item', 'value' => (null !== $language) ? $language->getId() : 0, 'text' => $request->get('language'), 'items' => $languages)));
         
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');

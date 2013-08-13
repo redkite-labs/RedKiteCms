@@ -1,6 +1,6 @@
 security:
     encoders:
-        AlphaLemon\AlphaLemonCmsBundle\Model\AlUser:
+        RedKiteLabs\RedKiteCmsBundle\Model\AlUser:
             algorithm: sha512
             #encode_as_base64: true
             #iterations: 5000
@@ -12,7 +12,7 @@ security:
     providers:
         main:
           propel:
-              class: AlphaLemon\AlphaLemonCmsBundle\Model\AlUser
+              class: RedKiteLabs\RedKiteCmsBundle\Model\AlUser
               property: username
 
     firewalls:

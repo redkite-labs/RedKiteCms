@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infblockRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Slot;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
 
 /**
  * AlSlotsConverterFactoryTest
@@ -40,12 +40,12 @@ class AlRepeatedSlotsAlignerTest extends TestCase
 
         $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
 
-        $this->slotsConverterFactory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
-        $this->blockRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->slotsConverterFactory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->with('Block')
@@ -79,7 +79,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
              ->setLanguageId(2)
              ->setPageId(2);
         
-        $converter = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
+        $converter = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
         $converter->expects($this->once())
             ->method('convert')
             ->will($this->throwException(new \RuntimeException));    
@@ -126,7 +126,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
      */
     public function testConvertWhenPageAndLanguageHasNotBeenSetted($slots, $blocks, $convert, $transaction, $result)
     {
-        $language = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
         $language
             ->expects($this->once())
             ->method('getId')
@@ -134,7 +134,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         ;
         
         $languageRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -145,7 +145,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             ->will($this->returnValue($language))
         ;
         
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $page
             ->expects($this->once())
             ->method('getId')
@@ -153,7 +153,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         ;
         
         $pageRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -195,7 +195,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     
     private function doTest($slots, $blocks, $convert, $transaction, $result)
     {
-        $converter = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
+        $converter = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
         $converter->expects($this->exactly($convert["convert"]))
             ->method('convert')
             ->will($this->returnValue($convert["result"]));
@@ -404,7 +404,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     
     private function initBlock($slotName, $languageId, $pageId)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block
             ->expects($this->any())
             ->method('getSlotName')

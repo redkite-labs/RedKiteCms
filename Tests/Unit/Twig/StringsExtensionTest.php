@@ -1,9 +1,9 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Twig;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Twig;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Twig\StringsExtension;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Twig\StringsExtension;
 
 /**
  * StringExtensionTest
@@ -34,58 +34,58 @@ class StringsExtensionTest extends TestCase
 
     public function testLeftReturnsTheGivenValueWhenRequiredLengthIsZeroOrNegative()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals($value, $this->stringExtension->left($value, -1));
         $this->assertEquals($value, $this->stringExtension->left($value, 0));
     }
 
     public function testLeftReturnsTheGivenValueWhenRequiredLengthIsHigherThanStringLength()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals($value, $this->stringExtension->left($value, strlen($value) + 1));
     }
 
     public function testLeftReturnsTheStringAtTheRequiredLength()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals('alphalemon', $this->stringExtension->left($value, 10));
     }
 
     public function testRightReturnsTheGivenValueWhenRequiredLengthIsZeroOrNegative()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals($value, $this->stringExtension->right($value, -1));
         $this->assertEquals($value, $this->stringExtension->right($value, 0));
     }
 
     public function testRightReturnsTheGivenValueWhenRequiredLengthIsHigherThanStringLength()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals($value, $this->stringExtension->right($value, strlen($value) + 1));
     }
 
     public function testRightReturnsTheStringAtTheRequiredLength()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals('cms', $this->stringExtension->right($value, 3));
     }
 
     public function testTruncateReturnsTheGivenValueWhenRequiredLengthIsZeroOrNegative()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals($value, $this->stringExtension->truncate($value, -1));
         $this->assertEquals($value, $this->stringExtension->truncate($value, 0));
     }
 
     public function testTruncateReturnsTheGivenValueWhenRequiredLengthIsHigherThanStringLength()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals($value, $this->stringExtension->truncate($value, strlen($value) + 1));
     }
 
     public function testTruncateReturnsTheStringAtTheRequiredLength()
     {
-        $value = 'alphalemoncms';
+        $value = 'redkitecms';
         $this->assertEquals('alpha...', $this->stringExtension->truncate($value, 5));
     }
 }

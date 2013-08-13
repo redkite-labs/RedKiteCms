@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
  * AlPageRepositoryPropelTest
@@ -36,18 +36,18 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlPageRepositoryPropel accepts only AlPage propel objects
      */
     public function testRepositoryAcceptsOnlyAlPageObjects()
     {
-        $this->pageRepository->setRepositoryObject(new \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage());
+        $this->pageRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage());
     }
 
     public function testAPageIsRetrievedFromItsPrimaryKey()
     {
         $page = $this->pageRepository->fromPk(2);
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage', $page);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlPage', $page);
         $this->assertEquals(2, $page->getId());
     }
 
@@ -93,6 +93,6 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
     public function testOnlyFirstPageIsRetrievedFromTemplateName()
     {
         $page = $this->pageRepository->fromTemplateName('home', true);
-        $this->assertInstanceOf('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage', $page);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlPage', $page);
     }
 }

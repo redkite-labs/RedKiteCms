@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\DependencyInjection;
+namespace RedKiteLabs\RedKiteCmsBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -30,7 +30,7 @@ use Symfony\Component\Form\Exception\InvalidConfigurationException;
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
-class AlphaLemonCmsExtension extends Extension
+class RedKiteCmsExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -67,6 +67,6 @@ class AlphaLemonCmsExtension extends Extension
 
     public function getAlias()
     {
-        return 'alpha_lemon_cms';
+        return 'red_kite_cms';
     }
 }

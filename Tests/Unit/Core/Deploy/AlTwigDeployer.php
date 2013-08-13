@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Deploy;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy;
 
 use org\bovigo\vfs\vfsStream;
 
@@ -48,11 +48,11 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue(vfsStream::url('app')));
 
         $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->blockManagerFactory = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $this->urlManager = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->blockManagerFactory = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->dispatcher = $this->getMock('\Symfony\Component\EventsDispatcher\EventDispatcherInterface', array('dispatch'));
-        $this->viewRenderer = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
+        $this->viewRenderer = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
                 
         $folders = array('app' => array(),
                          'web' => array('uploads'
@@ -87,7 +87,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('getThemeName')
             ->will($this->returnValue('BootbusinessThemeBundle'));
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
@@ -205,7 +205,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
     
     protected function saveBaseTemplates()
     {
-        $languagesRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
+        $languagesRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
         $languagesRepository
             ->expects($this->once())
             ->method('activeLanguages')
@@ -220,7 +220,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue($languagesRepository))
         ;
         
-        $blockRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface');
+        $blockRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface');
         $blockRepository
             ->expects($this->any())
             ->method('retrieveContents')
@@ -280,7 +280,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue($theme))
         ;  
 
-        $themesCollectionWrapper = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+        $themesCollectionWrapper = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
             ->disableOriginalConstructor()
             ->getMock();    
 
@@ -499,7 +499,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
     
     private function initLocalTemplateManager()
     {
-        $templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
             ->disableOriginalConstructor()
             ->getMock()
         ;

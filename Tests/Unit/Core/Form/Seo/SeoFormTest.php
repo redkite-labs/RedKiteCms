@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\SeoForm;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
  
 /**
  * SeoFormTest
@@ -44,7 +44,7 @@ class SeoFormTest extends AlBaseType
     protected function getForm()
     {
         $languagesRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -61,7 +61,7 @@ class SeoFormTest extends AlBaseType
     public function testDefaultOptions()
     {
         $expectedResult = array(
-            'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Seo\Seo',
+            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo',
         );
         
         $this->assertEquals($expectedResult, $this->getForm()->getDefaultOptions(array()));

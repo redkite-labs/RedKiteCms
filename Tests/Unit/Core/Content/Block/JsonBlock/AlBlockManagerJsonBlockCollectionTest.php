@@ -4,7 +4,7 @@
  * under the MIT LICENSE. To use this application you must leave intact this copyright 
  * notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  * 
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
 
 class AlBlockManagerJsonBlockCollectionTester extends AlBlockManagerJsonBlockCollection
 {
@@ -61,7 +61,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
             ),
         );
         
-        $repository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->container->expects($this->at(2))
                       ->method('get')
                       ->will($this->returnValue($repository));
@@ -276,7 +276,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     
     protected function initBlock($slotName, $newSlotName = null, $toDetete = null, $result = null)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         
         $block->expects($this->any())
               ->method('getSlotName')
@@ -323,7 +323,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     
     private function setUpRepository($blocks, $expectedResult)
     {
-        $blocksRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
+        $blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
         $blocksRepository->expects($this->once())
               ->method('retrieveContentsBySlotName')
               ->will($this->returnValue($blocks))
@@ -345,7 +345,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
             ;
         }
 
-        $repository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $repository->expects($this->once())
               ->method('createRepository')
               ->with('Block')

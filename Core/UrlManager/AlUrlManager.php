@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,13 +15,13 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\UrlManager;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\UrlManager;
 
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlPage;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * This object is deputaed to format an url to be used when the CMS editor is active or for
@@ -45,7 +45,7 @@ class AlUrlManager implements AlUrlManagerInterface
      * Constructor
      *
      * @param \Symfony\Component\HttpKernel\KernelInterface                                        $kernel
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -153,8 +153,8 @@ class AlUrlManager implements AlUrlManagerInterface
     /**
      * Generates an internal route name, from the language and the page
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Model\AlLanguage $language
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Model\AlPage     $page
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage $language
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Model\AlPage     $page
      * @return string
      */
     protected function generateRoute(AlLanguage $language, AlPage $page)

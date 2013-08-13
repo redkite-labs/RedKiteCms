@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,19 +15,19 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\BlockEvents;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\AlContentManagerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\BlockEvents;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 
 /**
  * AlBlockManager is the base object that wraps an AlBlock object and implements an
@@ -51,22 +51,22 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     const EDITOR_WIDTH = 800;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock $alBlock
+     * @var \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $alBlock
      */
     protected $alBlock = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      */
     protected $factoryRepository = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
      */
     protected $blockRepository = null;
 
     /**
-     * @var \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
+     * @var \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
      */
     protected $pageTree = null;
 
@@ -78,9 +78,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -132,8 +132,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Sets the factory repository
      *
-     * @param  \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager
      *
      * @api
      */
@@ -169,7 +169,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the factory repository object associated with this object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      *
      * @api
      */
@@ -181,7 +181,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the block repository object associated with this object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
      *
      * @api
      */
@@ -313,8 +313,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * {@inheritdoc}
      *
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -325,7 +325,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         }
         
         $this->dispatchBeforeOperationEvent(
-            '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
+            '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
             BlockEvents::BEFORE_DELETE_BLOCK,
             array(),
             'The block deleting operation has been aborted'
@@ -340,7 +340,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if ($result) {
                 $this->blockRepository->commit();
                 $this->eventsHandler
-                     ->createEvent(BlockEvents::AFTER_DELETE_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockDeletedEvent', array($this))
+                     ->createEvent(BlockEvents::AFTER_DELETE_BLOCK, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockDeletedEvent', array($this))
                      ->dispatch();
 
                 return true;
@@ -531,7 +531,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected function renderHtml()
     {
         return array('RenderView' => array(
-            'view' => 'AlphaLemonCmsBundle:Block:base_block.html.twig',
+            'view' => 'RedKiteCmsBundle:Block:base_block.html.twig',
             'options' => array(
                 'block' => $this->alBlock,
             ),
@@ -543,8 +543,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @param  array                                                                                                $values An array where keys are the AlBlockField definition and values are the values to add
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\General\InvalidArgumentTypeException
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -552,7 +552,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
+                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
                 BlockEvents::BEFORE_ADD_BLOCK,
                 $values,
                 'The operation to add a new block has been aborted'
@@ -602,7 +602,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if (false !== $result) {
                 $this->blockRepository->commit();
                 $this->eventsHandler
-                     ->createEvent(BlockEvents::AFTER_ADD_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockAddedEvent', array($this))
+                     ->createEvent(BlockEvents::AFTER_ADD_BLOCK, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockAddedEvent', array($this))
                      ->dispatch();
                      
                 return $result;
@@ -625,7 +625,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @param  array                                                                                        $values An array where keys are the AlBlockField definition and values are the values to edit
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * 
      * @api
      */
@@ -633,7 +633,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
          $values =
             $this->dispatchBeforeOperationEvent(
-                '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
+                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
                 BlockEvents::BEFORE_EDIT_BLOCK,
                 $values,
                 'The block editing action has been aborted'
@@ -650,7 +650,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->blockRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(BlockEvents::AFTER_EDIT_BLOCK, '\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Block\AfterBlockEditedEvent', array($this))
+                     ->createEvent(BlockEvents::AFTER_EDIT_BLOCK, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockEditedEvent', array($this))
                      ->dispatch();
                      
                 return $result;

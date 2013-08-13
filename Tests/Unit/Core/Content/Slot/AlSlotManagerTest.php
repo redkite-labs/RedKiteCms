@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Slot;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\AlSlotManager;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
 use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 /**
@@ -33,14 +33,14 @@ class AlSlotManagerTest extends AlContentManagerBase
         parent::setUp();
 
         $this->validator = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
 
         $this->blockRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -100,7 +100,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     public function testBlockRepositoryInjectedBySetters()
     {
         $blockRepository = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -110,7 +110,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testAddBlockFailsWhenReceivesAnInvalidLanguageId()
     {
@@ -120,7 +120,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('createEvent')
         ;
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory
             ->expects($this->any())
             ->method('createBlockManager')
@@ -130,7 +130,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testAddBlockThrowsAnExceptionWhenReceivesAnInvalidPageId()
     {
@@ -140,7 +140,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('createEvent')
         ;
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory
             ->expects($this->any())
             ->method('createBlockManager')
@@ -160,7 +160,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('createEvent')
         ;
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory
             ->expects($this->any())
             ->method('createBlockManager')
@@ -263,7 +263,7 @@ class AlSlotManagerTest extends AlContentManagerBase
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory
             ->expects($this->any())
             ->method('createBlockManager')
@@ -300,7 +300,7 @@ class AlSlotManagerTest extends AlContentManagerBase
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory
             ->expects($this->any())
             ->method('createBlockManager')
@@ -466,7 +466,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $blockManager->expects($this->any())
                         ->method('get')
                         ->will($this->returnValue($block));
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
@@ -492,7 +492,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $blockManager->expects($this->any())
                         ->method('get')
                         ->will($this->returnValue($block));
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
@@ -510,7 +510,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('startTransaction')
         ;
         
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $this->assertNull($slotManager->deleteBlock(1));
     }
@@ -549,7 +549,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('get')
             ->will($this->returnValue($block2));
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->onConsecutiveCalls($blockManager1, $blockManager2));
@@ -586,7 +586,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('get')
             ->will($this->returnValue($block1));
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->once())
             ->method('createBlockManager')
             ->will($this->onConsecutiveCalls($blockManager1));
@@ -614,7 +614,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('get')
             ->will($this->returnValue($block1));
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->once())
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager1));
@@ -656,7 +656,7 @@ class AlSlotManagerTest extends AlContentManagerBase
                 ->method('delete')
                 ->will($this->returnValue(true));
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->onConsecutiveCalls($blockManager1, $blockManager2));
@@ -676,7 +676,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('startTransaction')
         ;
         
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $this->assertNull($slotManager->deleteBlocks());
     }
@@ -870,7 +870,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     
     private function initBlock($id = null, $type = null, $languageId = null, $pageId = null, $position = null, $content = null)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');        
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');        
         $this->initBlockExpectation($block, $id, 'getId');
         $this->initBlockExpectation($block, $type, 'getType');
         $this->initBlockExpectation($block, $languageId, 'getLanguageId');
@@ -953,7 +953,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     {
         $blockManager = $this->setUpBlockManager($class, $block, $method, $result);
 
-        $factory = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
@@ -963,7 +963,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
     private function addMoreBlocks($class, $type = "Text")
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
 
         $block->expects($this->any())
                 ->method('getType')

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlParametersValidator validates consistence of array parameters
@@ -30,7 +30,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
 {
     /**
      * {@inheritdoc}
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      *
      * @api
      */
@@ -47,7 +47,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * 
      * @api
      */
@@ -76,7 +76,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * 
      * @api
      */

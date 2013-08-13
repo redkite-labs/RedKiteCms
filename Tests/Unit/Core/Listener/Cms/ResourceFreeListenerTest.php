@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Cms;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Cms;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Cms\ResourceFreeListener;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\ResourceFreeListener;
 
 /**
  * ResourceFreeListenerTest
@@ -38,7 +38,7 @@ class ResourceFreeListenerTest extends TestCase
         ;
         
         $this->resourcesLocker = 
-            $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\AlResourcesLocker')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -234,7 +234,7 @@ class ResourceFreeListenerTest extends TestCase
     {
         return array(
             array(new \PropelException('Unknown propel error')),
-            array(new \AlphaLemon\AlphaLemonCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException('The resource you requested is locked by another user. Please retry in a couple of minutes')),
+            array(new \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException('The resource you requested is locked by another user. Please retry in a couple of minutes')),
             array(new \RuntimeException('Unespected error')),
         );
     }
@@ -271,7 +271,7 @@ class ResourceFreeListenerTest extends TestCase
     
     private function initUser()
     {
-        $user = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlUser');
+        $user = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlUser');
         $user
             ->expects($this->once())
             ->method('getId')

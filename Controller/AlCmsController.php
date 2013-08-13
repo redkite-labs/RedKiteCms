@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,8 @@ class AlCmsController extends BaseFrontendController
     public function showAction()
     {
         $request = $this->container->get('request');
-        
+        //$a = $this->container->get('bootstrap_thumbnail.form');;
+        //echo "G";exit;
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
@@ -49,7 +50,7 @@ class AlCmsController extends BaseFrontendController
         $this->configuration = $this->container->get('alpha_lemon_cms.configuration');
         
         $params = array(
-            'template' => 'AlphaLemonCmsBundle:Cms:welcome.html.twig',
+            'template' => 'RedKiteCmsBundle:Cms:welcome.html.twig',
             'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
             'templateStylesheets' => null,
             'templateJavascripts' => null,
@@ -122,7 +123,7 @@ class AlCmsController extends BaseFrontendController
             $this->container->get('session')->getFlashBag()->add('notice', $message);
         }
 
-        $response = $this->render('AlphaLemonCmsBundle:Cms:index.html.twig', $params);
+        $response = $this->render('RedKiteCmsBundle:Cms:index.html.twig', $params);
 
         return $this->dispatchEvents($request, $response);
     }
@@ -148,7 +149,7 @@ class AlCmsController extends BaseFrontendController
 
     protected function findTemplate($pageTree)
     {
-        $templateTwig = 'AlphaLemonCmsBundle:Cms:welcome.html.twig';
+        $templateTwig = 'RedKiteCmsBundle:Cms:welcome.html.twig';
         if (null !== $template = $pageTree->getTemplate()) {
             $themeName = $template->getThemeName();
             $templateName = $template->getTemplateName();
@@ -199,7 +200,7 @@ class AlCmsController extends BaseFrontendController
 
     protected function getSkin()
     {
-        $asset = new AlAsset($this->kernel, '@AlphaLemonCmsBundle');
+        $asset = new AlAsset($this->kernel, '@RedKiteCmsBundle');
 
         return $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alpha_lemon_cms.skin');
     }

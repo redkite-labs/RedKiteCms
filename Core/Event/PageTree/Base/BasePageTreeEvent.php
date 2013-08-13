@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Event\PageTree\Base;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 
 /**
  * Defines the base event raised when the website is deployed
@@ -34,7 +34,7 @@ abstract class BasePageTreeEvent extends Event
     /**
      * Constructor
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
      *
      * @api
      */
@@ -46,7 +46,7 @@ abstract class BasePageTreeEvent extends Event
     /**
      * Returns the deployer object
      *
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      *
      * @api
      */
@@ -58,7 +58,7 @@ abstract class BasePageTreeEvent extends Event
     /**
      * Sets the deployer
      *
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\PageTree\AlPageTree $pageTree
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
      *
      * @api
      */

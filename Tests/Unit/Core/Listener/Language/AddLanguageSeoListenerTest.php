@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Listener\Language;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Language;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Listener\Language\AddLanguageSeoListener;
+use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageSeoListener;
 
 /**
  * AddLanguageSeoListenerTest
@@ -28,11 +28,11 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->manager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Seo\AlSeoManager')
+        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -65,7 +65,7 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
 
     protected function setUpObject()
     {
-        $seo = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
         $seo->expects($this->once())
             ->method('toArray')
             ->will($this->returnValue(array('idLanguage' => 2, 'languageName' => 'fake', 'Permalink' => 'fake')));

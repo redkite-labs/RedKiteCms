@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,15 +15,15 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlUserType;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Security\AlRoleType;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlUserType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * Implements the authentication action to grant the use of the CMS.
@@ -42,11 +42,11 @@ class SecurityController extends Base\BaseController
         $params = $this->checkRequestError();
 
         $response = null;
-        $template = 'AlphaLemonCmsBundle:Security:graphical-login.html.twig';
+        $template = 'RedKiteCmsBundle:Security:graphical-login.html.twig';
         if ($request->isXmlHttpRequest()) {
             $response = new Response();
             $response->setStatusCode('403');
-            $template = 'AlphaLemonCmsBundle:Security:login.html.twig';
+            $template = 'RedKiteCmsBundle:Security:login.html.twig';
         }
 
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
@@ -132,7 +132,7 @@ class SecurityController extends Base\BaseController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:user.html.twig', array(
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:user.html.twig', array(
             'form' => $form->createView(),
             'errors' => $errors,
             'message' => $message,
@@ -170,7 +170,7 @@ class SecurityController extends Base\BaseController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:role.html.twig', array(
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:role.html.twig', array(
             'form' => $form->createView(),
             'errors' => $errors,
             'message' => $message,
@@ -230,7 +230,7 @@ class SecurityController extends Base\BaseController
 
     private function loadUsers()
     {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:users_list.html.twig', array(
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         ));
@@ -238,7 +238,7 @@ class SecurityController extends Base\BaseController
 
     private function loadRoles()
     {
-        return $this->container->get('templating')->renderResponse('AlphaLemonCmsBundle:Security:roles_list.html.twig', array(
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
         ));

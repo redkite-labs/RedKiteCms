@@ -7,11 +7,11 @@
 
 namespace AlphaLemon\Block\FileBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
-use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Description of AlBlockManagerFile
@@ -73,7 +73,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $form = $this->container->get('form.factory')->create($formClass, $item); 
         
         return array(
-            'template' => 'AlphaLemonCmsBundle:Editor:base_editor_form.html.twig',
+            'template' => 'RedKiteCmsBundle:Editor:base_editor_form.html.twig',
             'title' => $this->translator->translate('Files editor'),
             'form' => $form->createView(),
             'configuration' => $this->container->get('alpha_lemon_cms.configuration'),

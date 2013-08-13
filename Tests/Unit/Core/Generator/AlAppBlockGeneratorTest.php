@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Generator;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
 use AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Generator\Base\AlAppGeneratorBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Generator\AlAppBlockGenerator;
+use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -52,7 +52,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= PHP_EOL;
         $expected .= 'namespace AlphaLemon\Block\FakeBlockBundle\Core\Block;' . PHP_EOL;
         $expected .= PHP_EOL;
-        $expected .= 'use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;' . PHP_EOL;
+        $expected .= 'use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '/**' . PHP_EOL;
         $expected .= ' * Description of AlBlockManagerFakeBlock' . PHP_EOL;
@@ -110,7 +110,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= PHP_EOL;    
         $expected .= 'namespace AlphaLemon\Block\FakeBlockBundle\Core\Form;' . PHP_EOL;
         $expected .= PHP_EOL;    
-        $expected .= 'use AlphaLemon\AlphaLemonCmsBundle\Core\Form\JsonBlock\JsonBlockType;' . PHP_EOL;
+        $expected .= 'use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;' . PHP_EOL;
         $expected .= 'use Symfony\Component\Form\FormBuilderInterface;' . PHP_EOL;
         $expected .= PHP_EOL;    
         $expected .= 'class AlFakeBlockType extends JsonBlockType' . PHP_EOL;
@@ -200,7 +200,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Editor/fakeblock.html.twig');
         $this->assertFileExists($file);
-        $this->assertEquals('{% include "AlphaLemonCmsBundle:Editor:base_editor_form.html.twig" %}', file_get_contents($file));
+        $this->assertEquals('{% include "RedKiteCmsBundle:Editor:base_editor_form.html.twig" %}', file_get_contents($file));
         
         $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/DependencyInjection/FakeBlockExtension.php');
         $this->assertFileExists($file);

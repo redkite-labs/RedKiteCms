@@ -5,26 +5,26 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="alpha_lemon_cms_pages" pattern="/backend/{_locale}/al_showPages">
-        <default key="_controller">AlphaLemonCmsBundle:Pages:index</default>
+        <default key="_controller">RedKiteCmsBundle:Pages:index</default>
         <default key="_locale">en</default>
     </route>
 
     <route id="alpha_lemon_cms_save_page" pattern="/backend/{_locale}/al_savePage/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Pages:savePage</default>
+        <default key="_controller">RedKiteCmsBundle:Pages:savePage</default>
         <default key="_locale">en</default>
         <default key="locked">pageId</default>
         <requirement key="_method">POST</requirement>
     </route>
 
     <route id="alpha_lemon_cms_delete_page" pattern="/backend/{_locale}/al_deletePage/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Pages:deletePage</default>
+        <default key="_controller">RedKiteCmsBundle:Pages:deletePage</default>
         <default key="_locale">en</default>
         <default key="locked">pageId</default>
         <requirement key="_method">POST</requirement>
     </route>
 
     <route id="alpha_lemon_cms_load_page_attributes" pattern="/backend/{_locale}/al_loadSeoAttributes/{locked}">
-        <default key="_controller">AlphaLemonCmsBundle:Pages:loadSeoAttributes</default>
+        <default key="_controller">RedKiteCmsBundle:Pages:loadSeoAttributes</default>
         <default key="_locale">en</default>
         <default key="locked">pageId</default>
         <requirement key="_method">POST</requirement>

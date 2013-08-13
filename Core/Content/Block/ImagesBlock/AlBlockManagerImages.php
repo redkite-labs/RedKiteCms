@@ -1,11 +1,11 @@
 <?php
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\ImagesBlock;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ImagesBlock;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManagerContainer;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\AssetsPath\AlAssetsPath;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * AlBlockManagerImages is the base object deputated to handle a content made by a list

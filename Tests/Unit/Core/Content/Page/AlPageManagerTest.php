@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Page;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Page;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlPageManagerTest
@@ -35,22 +35,22 @@ class AlPageManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->pageRepository->expects($this->any())
             ->method('getRepositoryObjectClassName')
-            ->will($this->returnValue('\AlphaLemon\AlphaLemonCmsBundle\Model\AlPage'));
+            ->will($this->returnValue('\RedKiteLabs\RedKiteCmsBundle\Model\AlPage'));
 
-        $this->factoryRepository = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->pageRepository));
@@ -60,7 +60,7 @@ class AlPageManagerTest extends AlContentManagerBase
     
     public function testPageRepositoryInjectedBySetters()
     {
-        $pageRepository = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Repository\PageRepositoryInterface')
+        $pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertEquals($this->pageManager, $this->pageManager->setPageRepository($pageRepository));
@@ -70,7 +70,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testTemplateManagerInjectedBySetters()
     {
-        $templateManager = $this->getMockBuilder('AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager')
+        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertEquals($this->pageManager, $this->pageManager->setTemplateManager($templateManager));
@@ -79,11 +79,11 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
 
         $this->pageManager->set($page);
     }
@@ -96,17 +96,17 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testSetAlPageObject()
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $this->pageManager->set($page);
         $this->assertEquals($page, $this->pageManager->get());
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -118,11 +118,11 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -135,11 +135,11 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testAddFailsWhenExpectedPageNameParamIsMissing()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $params = array('TemplateName'      => 'home',
@@ -152,11 +152,11 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testAddFailsWhenExpectedTemplateParamIsMissing()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $params = array('PageName'      => 'fake page',
@@ -169,11 +169,11 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\PageExistsException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page\PageExistsException
      */
     public function testAddFailsWhenTryingToAddPageThatAlreadyExists()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -191,11 +191,11 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
      */
     public function testAddFailsWhenAnyLanguageHasBeenAddedAndTryingToAddPage()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -217,7 +217,7 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testAddBlockThrownAnUnespectedException()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
@@ -252,7 +252,7 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testResetHomeThrownAnUnespectedExceptionWhenAdding()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -263,7 +263,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -295,7 +295,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testAddNewPageFailsBecauseSaveFailsAtLast()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
@@ -329,7 +329,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testAddNewPageFailsBecauseResetHomeFails()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -340,7 +340,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -373,8 +373,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testAddNewHomePage()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -399,7 +399,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -423,8 +423,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testAddNewPage()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -467,8 +467,8 @@ class AlPageManagerTest extends AlContentManagerBase
     
     public function testResetHomeIsSkippedBecauseAnyHomePageHasBeenDefined()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -518,12 +518,12 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage The page adding action has been aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -569,8 +569,8 @@ class AlPageManagerTest extends AlContentManagerBase
             'Keywords'      => ''
         );
 
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $event1->expects($this->once())
                 ->method('getValues')
                 ->will($this->returnValue($changedParams));
@@ -614,8 +614,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheAddAction()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -658,11 +658,11 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -678,7 +678,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testEditFailsBecauseSaveFailsAtLast()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $page = $this->setUpPage();
@@ -711,7 +711,7 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testEditBlockThrownAnUnespectedException()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
@@ -736,8 +736,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testEditPageName()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -772,12 +772,12 @@ class AlPageManagerTest extends AlContentManagerBase
     }
     
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage The page editing action has been aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -810,8 +810,8 @@ class AlPageManagerTest extends AlContentManagerBase
             'PageName'      => 'page name changed by event',
         );
 
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $event1->expects($this->once())
                 ->method('getValues')
                 ->will($this->returnValue($changedParams));
@@ -851,8 +851,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheEditAction()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -888,7 +888,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testEditHomePageBecauseResetHomeFails()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -900,7 +900,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->returnValue(false));
 
-        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -927,14 +927,14 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testResetHomeThrownAnUnespectedExceptionWhenEditing()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
             ->method('hasPages')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -961,8 +961,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testEditHomePage()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -976,7 +976,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -1003,8 +1003,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testEditTemplate()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -1042,7 +1042,7 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testDeleteFailsWhenTheManagedPageIsNull()
     {
@@ -1054,7 +1054,7 @@ class AlPageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
      */
     public function testDeleteFailsWhenTryingToRemoveTheHomePage()
     {
@@ -1068,7 +1068,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testDeleteFailsBecauseSaveFailsAtLast()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
         $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
@@ -1092,7 +1092,7 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testDeleteBlockThrownAnUnespectedException()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
         $this->setUpEventsHandler($event);
 
         $this->pageRepository->expects($this->once())
@@ -1112,8 +1112,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testDelete()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
-        $event2 = $this->getMock('\AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent');
+        $event2 = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -1139,12 +1139,12 @@ class AlPageManagerTest extends AlContentManagerBase
     }
     
     /**
-     * @expectedException \AlphaLemon\AlphaLemonCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage The page deleting action has been aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -1169,8 +1169,8 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheDeleteAction()
     {
-        $event1 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
-        $event2 = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -1217,7 +1217,7 @@ class AlPageManagerTest extends AlContentManagerBase
     
     private function setUpPage($id = 2, $isHome = null)
     {
-        $page = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
         if (null !== $id) {
             $page->expects($this->once())
                 ->method('getId')

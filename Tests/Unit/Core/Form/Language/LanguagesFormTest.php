@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,8 +17,8 @@
 
 namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\LanguagesForm;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
 
 /**
  * LanguagesFormTest
@@ -43,7 +43,7 @@ class LanguagesFormTest extends AlBaseType
     public function testDefaultOptions()
     {
         $expectedResult = array(
-            'data_class' => 'AlphaLemon\AlphaLemonCmsBundle\Core\Form\Language\Language',
+            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\Language',
         );
         
         $this->assertEquals($expectedResult, $this->getForm()->getDefaultOptions(array()));

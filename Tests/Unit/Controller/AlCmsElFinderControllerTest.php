@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
-use AlphaLemon\AlphaLemonCmsBundle\Controller\AlCmsElFinderController;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Controller\AlCmsElFinderController;
 
 /**
  * ElFinderControllerTest
@@ -31,7 +31,7 @@ class AlCmsElFinderControllerTest extends TestCase
     {
         $container = $this->initContainer(
             'el_finder_media_connector',
-            'AlphaLemon\AlphaLemonCmsBundle\Core\ElFinder\ElFinderMediaConnector'
+            'RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderMediaConnector'
         );
 
         $controller = new AlCmsElFinderController();

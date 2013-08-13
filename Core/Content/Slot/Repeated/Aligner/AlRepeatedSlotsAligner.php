@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
 use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
@@ -41,8 +41,8 @@ class AlRepeatedSlotsAligner
      * Constructor
      *
      * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection                                        $themesCollection
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface $slotsConverterFactory
-     * @param \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface                          $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface $slotsConverterFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface                          $factoryRepository
      *
      * @api
      */
@@ -58,7 +58,7 @@ class AlRepeatedSlotsAligner
      * Sets the id of the language
      *
      * @param  int                                                                                       $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
      *
      * @api
      */
@@ -73,7 +73,7 @@ class AlRepeatedSlotsAligner
      * Sets the id of the page
      *
      * @param  int                                                                                       $v
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
      *
      * @api
      */
@@ -171,7 +171,7 @@ class AlRepeatedSlotsAligner
      * @param  array                                                                        $templateSlots
      * @param  array                                                                        $changedSlots
      * @return boolean
-     * @throws \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Slot\Repeated\Aligner\Exception
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\Exception
      *
      * @api
      */
