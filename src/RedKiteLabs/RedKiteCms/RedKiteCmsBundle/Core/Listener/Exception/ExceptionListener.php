@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
 
@@ -39,14 +39,14 @@ class ExceptionListener
     }
 
     /**
-    * Handles AlphaLemonExceptionInterface exceptions
+    * Handles RedKiteCmsExceptionInterface exceptions
     *
     * @param GetResponseForExceptionEvent $event
     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        if ( ! $exception instanceof AlphaLemonExceptionInterface) {
+        if ( ! $exception instanceof RedKiteCmsExceptionInterface) {
             return;
         }
         
@@ -73,7 +73,6 @@ class ExceptionListener
             $parameters["domain"],
             $parameters["locale"]
         );
-        
         
         $values = array(
             'message' => $message,

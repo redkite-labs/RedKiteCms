@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when any language is added to the website
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AnyLanguageExistsException extends \RuntimeException implements AlphaLemonExceptionInterface
+class AnyLanguageExistsException extends \RuntimeException implements RedKiteCmsExceptionInterface
 {
 }

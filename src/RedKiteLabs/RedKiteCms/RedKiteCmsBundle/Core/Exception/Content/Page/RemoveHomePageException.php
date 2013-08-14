@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when someone tries to remove the website homepage
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class RemoveHomePageException extends \RuntimeException implements AlphaLemonExceptionInterface
+class RemoveHomePageException extends \RuntimeException implements RedKiteCmsExceptionInterface
 {
 }

@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when a called listener action has been aborted
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class EventAbortedException extends \RuntimeException implements AlphaLemonExceptionInterface
+class EventAbortedException extends \RuntimeException implements RedKiteCmsExceptionInterface
 {
 }

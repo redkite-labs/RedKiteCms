@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when someone tries to remove the website main language
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class RemoveMainLanguageException extends \RuntimeException implements AlphaLemonExceptionInterface
+class RemoveMainLanguageException extends \RuntimeException implements RedKiteCmsExceptionInterface
 {
 }

@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when the page to add already exists
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class PageExistsException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
+class PageExistsException extends \InvalidArgumentException implements RedKiteCmsExceptionInterface
 {
 }

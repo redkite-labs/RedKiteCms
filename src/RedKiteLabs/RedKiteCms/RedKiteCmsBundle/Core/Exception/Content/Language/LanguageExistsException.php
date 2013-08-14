@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when the language you are trying to add already exists
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class LanguageExistsException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
+class LanguageExistsException extends \InvalidArgumentException implements RedKiteCmsExceptionInterface
 {
 }
