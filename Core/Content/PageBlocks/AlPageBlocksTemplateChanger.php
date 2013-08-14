@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
 /**
  * Extends the AlPageBlocks class to load blocks of previous theme
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedE
 /**
  * Provides a base class to render a Json block manager editor
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @deprecated since 1.1.0
  * @codeCoverageIgnore

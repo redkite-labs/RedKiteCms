@@ -21,7 +21,7 @@
  * BlockManagers are created by an existing AlBlock object or by a valid string that identifies
  * a valid AlBlockType
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
 
@@ -37,7 +37,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
  * the new object from an existing AlBlock object or by a valid string that identifies
  * a valid AlBlockType.
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

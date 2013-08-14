@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 /**
  * Implements the actions for the ElFinder bundle
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlCmsElFinderController extends ContainerAware
 {

@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory;
 /**
  * Defines the methods to create a repository object
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlFactoryRepositoryInterface
 {

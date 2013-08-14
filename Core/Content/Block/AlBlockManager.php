@@ -41,7 +41,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
  * Every new block content must inherit from this class.
  *
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {

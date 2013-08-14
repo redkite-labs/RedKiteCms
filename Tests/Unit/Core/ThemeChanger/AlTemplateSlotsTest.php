@@ -24,7 +24,7 @@ use org\bovigo\vfs\vfsStream;
 /**
  * AlTemplateSlotsTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateSlotsTest extends TestCase
 {

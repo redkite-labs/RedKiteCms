@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
 /**
  * Defines the BeforePageEditingEvent event
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

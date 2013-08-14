@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentT
 /**
  *  Implements the UserRepositoryInterface to work with Propel
  *
- *  @author alphalemon <webmaster@alphalemon.com>
+ *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepositoryInterface
 {

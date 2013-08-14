@@ -25,7 +25,7 @@ use Symfony\Component\Config\FileLocator;
 /**
  * ScriptExtension
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ScriptExtension extends Extension
 {

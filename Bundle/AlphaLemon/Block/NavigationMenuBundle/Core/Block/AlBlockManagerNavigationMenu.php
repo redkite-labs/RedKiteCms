@@ -30,7 +30,7 @@ use Symfony\Component\Finder\Finder;
  * 
  * Menu is renderd as an unordered list
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerNavigationMenu extends AlBlockManagerContainer
 {

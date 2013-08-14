@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Configuration;
 /**
  * Defines the interface to write/read to/from a parameter -> value entity
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlConfigurationInterface
 {

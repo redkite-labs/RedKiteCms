@@ -23,7 +23,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
 /**
  * Processes console commands
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlCommandsProcessor implements AlCommandsProcessorInterface
 {

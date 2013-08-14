@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollection
 /**
  * AlThemesCollectionWrapperTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlThemesCollectionWrapperTest extends TestCase
 {

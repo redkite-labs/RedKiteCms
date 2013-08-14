@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator;
 /**
  * AlTranslatorTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTranslatorTest extends TestCase
 {

@@ -27,7 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterf
  * at least a language must esist. For this reason the AlParametersValidatorPageManager
  * inherits from AlParametersValidatorLanguageManager instead of the base validator
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

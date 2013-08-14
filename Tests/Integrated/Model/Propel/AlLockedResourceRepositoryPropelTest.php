@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
 /**
  * AlLockedResourceRepositoryPropelTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
 {

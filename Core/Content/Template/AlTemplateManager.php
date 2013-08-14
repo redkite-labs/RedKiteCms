@@ -43,7 +43,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentT
  *
  *
  * @see AlSlotManager
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentT
 /**
  *  Implements the LanguageRepositoryInterface to work with Propel
  *
- *  @author alphalemon <webmaster@alphalemon.com>
+ *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements LanguageRepositoryInterface
 {

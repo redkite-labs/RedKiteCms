@@ -34,7 +34,7 @@ class AlEventsHandlerTester extends AlEventsHandler
 /**
  * AlEventsHandlerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlEventsHandlerTest extends TestCase
 {

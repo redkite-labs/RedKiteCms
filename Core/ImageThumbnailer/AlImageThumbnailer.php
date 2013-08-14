@@ -10,7 +10,7 @@ use Imagine\Image;
 /**
  * ImageThumbnailer creates the thumbnail of the given image
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  * @codeCoverageIgnore
  */
 class AlImageThumbnailer

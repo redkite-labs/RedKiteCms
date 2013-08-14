@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 /**
  * Thrown when a factory tries to instantiate an object that does not exist
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ClassNotFoundException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {

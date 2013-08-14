@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception;
 /**
  * Thrown when the FactoryRepository cannot create a new repository
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class RepositoryNotFoundException extends \InvalidArgumentException
 {

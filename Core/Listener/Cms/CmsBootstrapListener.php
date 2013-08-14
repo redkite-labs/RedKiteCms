@@ -25,7 +25,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 /**
  * Bootstraps AlphaLemon CMS
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

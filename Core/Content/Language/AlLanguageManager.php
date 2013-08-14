@@ -35,7 +35,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryIn
  * AlLanguageManager manages an AlLanguage object, implementig the base methods to add, edit
  * and delete that kind of object.
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

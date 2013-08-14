@@ -27,7 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedE
 /**
  * AlBlockManagerTinyMce provides support for TinyMce library
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  * @deprecated since 1.1.0
  * @codeCoverageIgnore
  */

@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 /**
  * Thrown when the given argument is not valid
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class InvalidArgumentException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {

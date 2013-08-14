@@ -11,7 +11,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
  * AlBlockManagerImages is the base object deputated to handle a content made by a list
  * of images, like a slider or an image gallery
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class AlBlockManagerImages extends AlBlockManagerContainer
 {

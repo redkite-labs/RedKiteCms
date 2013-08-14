@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 /**
  * Implements the authentication action to grant the use of the CMS.
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class SecurityController extends Base\BaseController
 {

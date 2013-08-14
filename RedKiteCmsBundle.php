@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
 /**
  * RedKiteCmsBundle
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class RedKiteCmsBundle extends Bundle
 {

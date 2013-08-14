@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page;
 /**
  * PageTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class PageTest extends TestCase
 {

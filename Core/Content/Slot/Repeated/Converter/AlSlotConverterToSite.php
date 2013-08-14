@@ -21,7 +21,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
  * Converts a slot to site repeated status
  *
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlSlotConverterToSite extends AlSlotConverterBase
 {

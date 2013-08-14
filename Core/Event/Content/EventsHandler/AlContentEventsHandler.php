@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler;
 /**
  * Implements the AlEventsHandler to hanled events for Content objects
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

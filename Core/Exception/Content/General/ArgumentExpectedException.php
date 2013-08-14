@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 /**
  * Thrown when an expected parameter is missing
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ArgumentExpectedException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {

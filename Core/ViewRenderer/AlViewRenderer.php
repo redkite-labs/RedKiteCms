@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  *
  * Each template is defined by an array which has two options
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlViewRenderer implements AlViewRendererInterface
 {

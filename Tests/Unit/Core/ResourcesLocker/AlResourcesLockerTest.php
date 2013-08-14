@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
 /**
  * AlResourcesLockerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlResourcesLockerTest extends TestCase
 {

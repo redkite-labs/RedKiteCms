@@ -34,7 +34,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
  * AlSeoManager manages an AlSeo object, implementig the base methods to add, edit
  * and delete that kind of object.
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

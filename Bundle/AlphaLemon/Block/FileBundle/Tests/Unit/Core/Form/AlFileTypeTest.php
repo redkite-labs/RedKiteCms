@@ -23,7 +23,7 @@ use AlphaLemon\Block\FileBundle\Core\Form\AlFileType;
 /**
  * AlFileTypeTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlFileTypeTest extends TestCase
 {

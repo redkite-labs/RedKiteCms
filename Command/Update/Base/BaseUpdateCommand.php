@@ -24,7 +24,7 @@ use Propel\PropelBundle\Command\ModelBuildCommand;
 /**
  * provides some useful methods to manage the database from commands
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseUpdateCommand extends ContainerAwareCommand
 {

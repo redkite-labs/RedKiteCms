@@ -25,7 +25,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
  * AlRepeatedSlotsAligner is responsibile to align the slots repeated status when
  * a slot changes its status on a template
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

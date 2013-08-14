@@ -24,7 +24,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 /**
  * AlPageTreeTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPageTreeTest extends TestCase
 {

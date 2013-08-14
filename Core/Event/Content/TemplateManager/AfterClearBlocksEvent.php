@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\TemplateManager\Base\BasePop
 /**
  * Defines the AfterClearBlocksEvent event
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

@@ -21,7 +21,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler;
  * Defines the interface to implement a EventDispatcher wrapper to handle and dispatch several
  * events
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

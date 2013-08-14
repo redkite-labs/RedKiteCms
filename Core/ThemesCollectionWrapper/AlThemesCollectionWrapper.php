@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExist
  * Handles the themes collection object to provide an easy way to deal with themes
  * and templates
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlThemesCollectionWrapper
 {

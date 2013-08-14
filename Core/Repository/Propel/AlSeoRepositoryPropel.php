@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentT
 /**
  *  Implements the SeoRepositoryInterface to work with Propel
  *
- *  @author alphalemon <webmaster@alphalemon.com>
+ *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoRepositoryInterface
 {

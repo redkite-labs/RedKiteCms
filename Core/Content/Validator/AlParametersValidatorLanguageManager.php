@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryIn
 /**
  * AlParametersValidatorLanguageManager adds specific validations for languages
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

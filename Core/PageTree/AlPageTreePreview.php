@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 /**
  * Extends the AlphaLemonCms AlPageTree object to display the page in preview mode
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

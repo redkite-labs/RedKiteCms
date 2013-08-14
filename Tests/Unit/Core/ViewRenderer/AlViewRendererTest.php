@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer;
 /**
  * AlViewRendererTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlViewRendererTest extends TestCase
 {

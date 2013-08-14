@@ -24,7 +24,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\EventListenersRegistra
 /**
  * Registers the CMS events
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class RegisterCmsListenersPass implements CompilerPassInterface
 {

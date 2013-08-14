@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception;
 /**
  * Thrown when it is requested a template that does not belong the theme
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class NonExistentTemplateException extends \InvalidArgumentException
 {

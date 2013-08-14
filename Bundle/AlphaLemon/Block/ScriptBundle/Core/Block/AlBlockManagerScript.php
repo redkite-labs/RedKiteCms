@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
 /**
  * ScriptExtension
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerScript extends AlBlockManagerContainer
 {

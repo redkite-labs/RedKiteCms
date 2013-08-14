@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm;
 /**
  * OrmInterface defines the shared methods required to use an orm with AlphaLemon CMS
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface OrmInterface
 {

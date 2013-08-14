@@ -37,7 +37,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException;
  *
  * All of them extends this class
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class AlContentManagerBase
 {

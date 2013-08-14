@@ -11,7 +11,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
 /**
  * Description of ElFinderMarkdownConnector
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ElFinderFileConnector extends ElFinderBaseConnector
 {

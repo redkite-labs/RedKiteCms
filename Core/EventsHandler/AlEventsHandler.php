@@ -28,7 +28,7 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * When an event already exists, it is recreated
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
  * to the new one
  *
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlSlotConverterInterface
 {

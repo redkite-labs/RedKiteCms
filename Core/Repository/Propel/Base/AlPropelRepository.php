@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentT
 /**
  *  Implements the RepositoryInterface to define the base class any propel model must inherit
  *
- *  @author alphalemon <webmaster@alphalemon.com>
+ *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInterface
 {

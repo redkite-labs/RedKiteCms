@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 /**
  * Thrown when the language you are trying to add already exists
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class LanguageExistsException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
 {

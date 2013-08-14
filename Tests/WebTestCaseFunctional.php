@@ -29,7 +29,7 @@ use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
 /**
  * WebTestCase
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class WebTestCaseFunctional extends WebTestCase
 {

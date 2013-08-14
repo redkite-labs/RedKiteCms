@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception;
 /**
  * Thrown when a
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ThemeSlotsInvalidConfigurationException extends \InvalidConfigurationException
 {

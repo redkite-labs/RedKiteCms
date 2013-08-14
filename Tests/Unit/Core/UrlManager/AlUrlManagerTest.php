@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInte
 /**
  * AlUrlManagerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlUrlManagerTest extends BaseAlUrlManager
 {

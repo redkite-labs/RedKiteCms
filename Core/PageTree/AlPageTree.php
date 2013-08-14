@@ -32,7 +32,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
  *
  * Extends the base AlPageTree object to fetch page information from the database
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPageTree extends BaseAlPageTree
 {

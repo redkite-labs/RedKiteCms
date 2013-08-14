@@ -31,7 +31,7 @@ class AlContentEventsHandlerTester extends AlContentEventsHandler
 /**
  * AlContentEventsHandlerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlContentEventsHandlerTest extends TestCase
 {

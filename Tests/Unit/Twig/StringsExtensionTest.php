@@ -8,7 +8,7 @@ use RedKiteLabs\RedKiteCmsBundle\Twig\StringsExtension;
 /**
  * StringExtensionTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class StringsExtensionTest extends TestCase
 {

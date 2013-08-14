@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
 /**
  * Implements the base object that defines a template
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

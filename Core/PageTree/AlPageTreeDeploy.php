@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
  *
  * The AlPageTree object used when deploying the website
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPageTreeDeploy extends AlPageTree
 {

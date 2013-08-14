@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
 /**
  * Thrown when someone tries to remove the website homepage
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class RemoveHomePageException extends \RuntimeException implements AlphaLemonExceptionInterface
 {

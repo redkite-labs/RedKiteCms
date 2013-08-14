@@ -27,7 +27,7 @@ class BaseActionEventTester extends BaseActionEvent
 /**
  * BaseActionEventTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class BaseActionEventTest extends TestCase
 {

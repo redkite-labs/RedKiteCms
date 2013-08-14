@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor;
 /**
  * Defines the methods to execute one or more console commands
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlCommandsProcessorInterface
 {

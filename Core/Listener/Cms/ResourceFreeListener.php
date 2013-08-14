@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeE
  * it stops the request propagation and returns a response warning the user that the
  * resouce is locked, when it is available, it locks the resource for the current user.
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

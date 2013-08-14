@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Defines the embedded object mapped with the languages form
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

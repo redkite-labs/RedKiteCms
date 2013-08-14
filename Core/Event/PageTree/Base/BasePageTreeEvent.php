@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 /**
  * Defines the base event raised when the website is deployed
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

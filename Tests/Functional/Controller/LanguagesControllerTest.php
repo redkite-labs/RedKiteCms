@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 /**
  * LanguagesControllerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class LanguagesControllerTest extends WebTestCaseFunctional
 {
