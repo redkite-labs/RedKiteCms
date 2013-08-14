@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\General;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when the given argument is not valid
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class InvalidArgumentException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
+class InvalidArgumentException extends \InvalidArgumentException implements RedKiteCmsExceptionInterface
 {
 }

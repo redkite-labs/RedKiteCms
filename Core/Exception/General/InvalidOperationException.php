@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\General;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when an invalid operation is made
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class InvalidOperationException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
+class InvalidOperationException extends \InvalidArgumentException implements RedKiteCmsExceptionInterface
 {
 }

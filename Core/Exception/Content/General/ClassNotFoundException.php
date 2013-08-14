@@ -17,13 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when a factory tries to instantiate an object that does not exist
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class ClassNotFoundException extends \InvalidArgumentException implements AlphaLemonExceptionInterface
+class ClassNotFoundException extends \InvalidArgumentException implements RedKiteCmsExceptionInterface
 {
 }

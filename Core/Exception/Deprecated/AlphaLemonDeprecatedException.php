@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when a method or a class has been deprecated
@@ -25,6 +25,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\AlphaLemonExceptionInterface;
  * @author RedKite Labs <webmaster@redkite-labs.com>
  * @api
  */
-class AlphaLemonDeprecatedException extends \Exception implements AlphaLemonExceptionInterface
+class AlphaLemonDeprecatedException extends \Exception implements RedKiteCmsExceptionInterface
 {
 }

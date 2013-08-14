@@ -18,12 +18,12 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception;
 
 /**
- * Defines a generic AlphaLemon Cms exception
+ * Defines a generic RedKite Cms exception
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  * 
  * @api
  */
-interface AlphaLemonExceptionInterface
+interface RedKiteCmsExceptionInterface
 {
 }
