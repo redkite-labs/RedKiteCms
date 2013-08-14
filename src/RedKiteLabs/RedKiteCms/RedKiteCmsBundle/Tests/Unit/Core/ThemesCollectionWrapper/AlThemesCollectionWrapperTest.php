@@ -35,7 +35,7 @@ class AlThemesCollectionWrapperTest extends TestCase
     {
         parent::setUp();
 
-        $this->themesCollection = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+        $this->themesCollection = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -79,13 +79,13 @@ class AlThemesCollectionWrapperTest extends TestCase
             ->with($template);
 
         $this->assertEquals($this->templateManager, $this->themesCollectionWrapper->assignTemplate('fakeTheme', 'fakeTemplate'));
-        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', ($this->themesCollectionWrapper->getThemesCollection()));
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', ($this->themesCollectionWrapper->getThemesCollection()));
         $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager', ($this->themesCollectionWrapper->getTemplateManager()));
     }
 
     private function setUpTheme()
     {
-        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
         $this->themesCollection->expects($this->once())
             ->method('getTheme')
             ->will($this->returnValue($theme));
@@ -96,7 +96,7 @@ class AlThemesCollectionWrapperTest extends TestCase
     private function setUpTemplate()
     {
         $theme = $this->setUpTheme();
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                                 ->disableOriginalConstructor()
                                 ->getMock();
         $theme->expects($this->once())

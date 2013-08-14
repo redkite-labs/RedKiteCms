@@ -36,7 +36,7 @@ class AlTwigDeployerProduction extends AlTwigDeployer
      */
     protected function getTemplatesFolder()
     {
-        return $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder');
+        return $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder');
     }
 
     /**

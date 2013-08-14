@@ -56,7 +56,7 @@ class CmsBootstrapListenerTest extends TestCase
         
         $this->container->expects($this->at(2))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy_bundle')
+            ->with('red_kite_labs_theme_engine.deploy_bundle')
             ->will($this->returnValue('@AcmeWebSiteBundle'));
 
         $this->container->expects($this->at(3))
@@ -113,7 +113,7 @@ class CmsBootstrapListenerTest extends TestCase
         $this->pageTree->expects($this->once())
             ->method('setup');
 
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                             ->disableOriginalConstructor()
                             ->getMock();
 

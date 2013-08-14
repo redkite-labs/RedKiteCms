@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
-use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 use Symfony\Component\DependencyInjection\Container;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 
 /**
  * {@inheritdoc}
@@ -131,7 +131,7 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Returns the current AlTheme object
      *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme
      *
      * @api
      */
@@ -359,7 +359,7 @@ class AlPageTree extends BaseAlPageTree
             $this->addExtraAssets($assetsCollection, $parameter);
 
             // merges assets for theme engine registered listeners
-            $registeredListeners = $this->container->get('alpha_lemon_theme_engine.registed_listeners');
+            $registeredListeners = $this->container->get('red_kite_labs_theme_engine.registed_listeners');
             
             foreach ($registeredListeners as $registeredListener) {
                 // Assets from page_renderer.before_page_rendering listeners
@@ -500,7 +500,7 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Adds a range of assets to the assets collection
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
      * @param string                                                     $parameter        The parameter to fetch from the Container
      */
     protected function addAssetsFromContainer(&$assetsCollection, $parameter)
@@ -516,7 +516,7 @@ class AlPageTree extends BaseAlPageTree
     /**
      * Adds to the assets collection the extra parameters defined by extraAssetsSuffixes
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
      * @param string                                                     $baseParam
      */
     protected function addExtraAssets(&$assetsCollection, $baseParam)

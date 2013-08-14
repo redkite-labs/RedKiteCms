@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
  * AlPageTreeTest
@@ -41,7 +41,7 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -69,7 +69,7 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
 
         $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
@@ -667,7 +667,7 @@ class AlPageTreeTest extends TestCase
         $this->assertEquals($this->page, $pageTree->getAlPage());
         $this->assertTrue($pageTree->isValid());
         $this->assertTrue($pageTree->isCmsMode());
-        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme', $pageTree->getTheme());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme', $pageTree->getTheme());
         $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlSeo', $pageTree->getAlSeo());
     }
     
@@ -730,7 +730,7 @@ class AlPageTreeTest extends TestCase
         
         $this->container->expects($this->at(5))
             ->method('get')
-            ->with('alpha_lemon_theme_engine.registed_listeners')
+            ->with('red_kite_labs_theme_engine.registed_listeners')
             ->will($this->returnValue($listeners));
         
         $startIndex = 6;
@@ -1512,7 +1512,7 @@ class AlPageTreeTest extends TestCase
     {
         $this->container->expects($this->at(4))
             ->method('get')
-            ->with('alpha_lemon_theme_engine.registed_listeners')
+            ->with('red_kite_labs_theme_engine.registed_listeners')
             ->will($this->returnValue($listeners['listener']));
     }
     

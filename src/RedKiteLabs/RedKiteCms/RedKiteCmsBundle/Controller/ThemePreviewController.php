@@ -18,8 +18,8 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 
 class ThemePreviewController extends AlCmsController
 {
@@ -32,10 +32,10 @@ class ThemePreviewController extends AlCmsController
     public function previewThemeAction($languageName, $pageName, $themeName, $templateName)
     {
         $this->kernel = $this->container->get('kernel');
-        $this->themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        $this->themes = $this->container->get('red_kite_labs_theme_engine.themes');
         $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $this->blocksFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
-        $this->activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
+        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
         $this->blocksRepository = $this->factoryRepository->createRepository('Block');
         
         $theme = $this->themes->getTheme($themeName);
@@ -58,7 +58,7 @@ class ThemePreviewController extends AlCmsController
             'theme_name' => $themeName,
             'template_name' => $template->getTemplateName(),
             'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
-            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+            'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'internal_stylesheets' => $this->pageTree->getInternalStylesheets(),
             'internal_javascripts' => $this->pageTree->getInternalJavascripts(),
             'templateStylesheets' => $this->pageTree->getExternalStylesheets(),

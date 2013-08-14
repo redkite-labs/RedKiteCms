@@ -38,7 +38,7 @@ class LanguagesController extends Base\BaseController
         $form = $this->container->get('form.factory')->create($languagesForm);
 
         $params = array(
-            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+            'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
             'active_language' => $request->get('language'),
             'form' => $form->createView(),

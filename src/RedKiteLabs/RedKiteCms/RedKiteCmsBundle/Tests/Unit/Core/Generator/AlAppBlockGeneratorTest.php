@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Generator\Base\AlAppGeneratorBase;
+use RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Generator\Base\AlAppGeneratorBase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
 use org\bovigo\vfs\vfsStream;
 

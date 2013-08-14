@@ -91,7 +91,7 @@ class AlSiteBootstrapTest extends TestCase
         ;
         
         $this->template = 
-            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;

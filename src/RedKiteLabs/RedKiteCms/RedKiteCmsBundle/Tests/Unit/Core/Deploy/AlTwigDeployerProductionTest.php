@@ -54,7 +54,7 @@ class AlTwigDeployerProductionTest extends AlTwigDeployer
         
          $this->container->expects($this->at(9))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy.templates_folder')
+            ->with('red_kite_labs_theme_engine.deploy.templates_folder')
             ->will($this->returnValue($this->templatesFolder));
         
         $this->container->expects($this->at(16))

@@ -19,14 +19,14 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Template;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
@@ -60,8 +60,8 @@ class AlTemplateManager extends AlTemplateBase
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate                                $template
-     * @param \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface          $pageBlocks
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                                $template
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface          $pageBlocks
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      */
@@ -92,7 +92,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the current AlTemplate object
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate                  $template
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                  $template
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
@@ -110,7 +110,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current AlTemplateobject
      *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      *
      * @api
      */
@@ -122,7 +122,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the current AlTemplateSlots object
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface $templateSlots
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface $templateSlots
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
@@ -137,7 +137,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current AlTemplateSlots object
      *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
      *
      * @api
      */
@@ -149,7 +149,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the page contents container object
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface $pageBlocks
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface $pageBlocks
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
@@ -475,7 +475,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Create the slot manager for the given slot
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $slot
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $slot
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      */
     protected function createSlotManager(AlSlot $slot)

@@ -20,8 +20,8 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Page;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
-use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 
 /**
  * Implements the form to manage the website pages
@@ -38,8 +38,8 @@ class PagesForm extends AbstractType
     /**
      * Constructor
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme                 $activeTheme
-     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme                 $activeTheme
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
      */
     public function __construct(AlActiveTheme $activeTheme, AlThemesCollection $themes)
     {

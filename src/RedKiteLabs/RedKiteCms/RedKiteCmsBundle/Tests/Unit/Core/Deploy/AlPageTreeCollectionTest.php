@@ -207,7 +207,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
     {     
         $this->setUpLanguagesAndPages($languages, $pages);
 
-        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())
             ->method('getActiveTheme')
             ->will($this->returnValue('BusinessWebsiteTheme'));

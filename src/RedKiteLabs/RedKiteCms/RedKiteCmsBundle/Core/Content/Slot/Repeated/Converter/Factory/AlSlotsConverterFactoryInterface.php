@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 /**
  * Used by the Slots converter factory to create the appropriate converter to change the

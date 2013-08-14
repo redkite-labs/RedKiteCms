@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Template;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 /**
  * AlTemplateManagerTest
@@ -32,8 +32,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
     {
         parent::setUp();
         
-        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                            ->disableOriginalConstructor()
                             ->getMock();
         $this->template->expects($this->any())
@@ -82,7 +82,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         
     public function testTemplateInjectedBySetters()
     {        
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                          ->disableOriginalConstructor()
                          ->getMock();
         $template->expects($this->any())
@@ -118,7 +118,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     public function testTemplateSlotsInjectedBySetters()
     {        
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
         
         $this->assertEquals($templateManager, $templateManager->setTemplateSlots($templateSlots));
@@ -186,7 +186,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
      */
     public function testAnExceptionIsThrownWhenTheTemplateSlotsObjectIsNull()
     {
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                            ->disableOriginalConstructor()
                             ->getMock();
         $template->expects($this->any())

@@ -42,7 +42,7 @@ class ThemePreviewControllerTest extends TestCase
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         
         $this->themes = 
-            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -79,7 +79,7 @@ class ThemePreviewControllerTest extends TestCase
         ;
         
         $this->activeTheme = 
-            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -118,7 +118,7 @@ class ThemePreviewControllerTest extends TestCase
             $blocksSequence++;
         }
         
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -131,7 +131,7 @@ class ThemePreviewControllerTest extends TestCase
                 
         $method = ($templateName == 'none') ? 'getHomeTemplate' : 'getTemplate';
         
-        $theme = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme')
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -215,7 +215,7 @@ class ThemePreviewControllerTest extends TestCase
     
     protected function initSlot($type, $content)
     {
-        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -270,7 +270,7 @@ class ThemePreviewControllerTest extends TestCase
         $this->container
              ->expects($this->at(1))
              ->method('get')
-             ->with('alpha_lemon_theme_engine.themes')
+             ->with('red_kite_labs_theme_engine.themes')
              ->will($this->returnValue($this->themes));
 
         $this->container
@@ -288,7 +288,7 @@ class ThemePreviewControllerTest extends TestCase
         $this->container
              ->expects($this->at(4))
              ->method('get')
-             ->with('alpha_lemon_theme_engine.active_theme')
+             ->with('red_kite_labs_theme_engine.active_theme')
              ->will($this->returnValue($this->activeTheme));
         
         $templateManager =

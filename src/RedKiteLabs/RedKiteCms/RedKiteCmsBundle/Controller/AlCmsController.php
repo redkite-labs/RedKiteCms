@@ -18,8 +18,8 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -102,7 +102,7 @@ class AlCmsController extends BaseFrontendController
                 'language' => $languageId,
                 'page_name' => $pageName,
                 'language_name' => $languageName,
-                'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+                'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
                 'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks(),

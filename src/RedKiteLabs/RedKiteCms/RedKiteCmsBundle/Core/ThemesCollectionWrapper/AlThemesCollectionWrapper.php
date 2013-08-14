@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper;
 
-use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException;
 
@@ -35,7 +35,7 @@ class AlThemesCollectionWrapper
     /**
      * Constructor
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection  $themes
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection  $themes
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
      */
     public function __construct(AlThemesCollection $themes, AlTemplateManager $templateManager)
@@ -47,7 +47,7 @@ class AlThemesCollectionWrapper
     /**
      * Returns the managed themes collection
      *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection
      */
     public function getThemesCollection()
     {
@@ -68,7 +68,7 @@ class AlThemesCollectionWrapper
      * Returns the theme from its name
      *
      * @param  string                                           $themeName
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme
      */
     public function getTheme($themeName)
     {
@@ -80,7 +80,7 @@ class AlThemesCollectionWrapper
      *
      * @param  string                                                 $themeName
      * @param  string                                                 $templateName
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function getTemplate($themeName, $templateName)
     {

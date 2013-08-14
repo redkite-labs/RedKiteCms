@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks as AlPageBlocksBase;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks as AlPageBlocksBase;
 
 /**
  * Extends the AlPageBlocks class to load blocks from the database

@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
 
 /**
@@ -38,7 +38,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     {
         parent::setUp();
 
-        $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
 
         $this->slotsConverterFactory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
         $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
@@ -430,7 +430,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     {
         $slots = array();
         foreach ($slotValues as $slotValue) {         
-            $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+            $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
                  ->disableOriginalConstructor()
                  ->getMock();
             

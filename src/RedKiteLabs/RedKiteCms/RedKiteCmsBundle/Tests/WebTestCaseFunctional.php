@@ -109,7 +109,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         
         $factoryRepository = new AlFactoryRepository('Propel');
         
-        $themes = $client->getContainer()->get('alpha_lemon_theme_engine.themes');
+        $themes = $client->getContainer()->get('red_kite_labs_theme_engine.themes');
         $theme = $themes->getTheme('BootbusinessThemeBundle');
         $template = $theme->getTemplate('home');
 

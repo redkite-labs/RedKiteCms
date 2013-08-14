@@ -47,7 +47,7 @@ class ThemesControllerTest extends TestCase
         
         $this->siteBootstrap = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrapInterface');
                 
-        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -69,7 +69,7 @@ class ThemesControllerTest extends TestCase
              ->method('refresh')
         ;
         
-        $this->theme = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme')
+        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -80,7 +80,7 @@ class ThemesControllerTest extends TestCase
              ->will($this->returnValue($this->template))
         ;
         
-        $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
         $this->themes
              ->expects($this->once())
              ->method('getTheme')
@@ -130,7 +130,7 @@ class ThemesControllerTest extends TestCase
          
         $sequence = 4;
         if ($result) {
-            $activeTheme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+            $activeTheme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
             $activeTheme
                  ->expects($this->once())
                  ->method('writeActiveTheme')
@@ -181,7 +181,7 @@ class ThemesControllerTest extends TestCase
         $this->container
              ->expects($this->at(1))
              ->method('get')
-             ->with('alpha_lemon_theme_engine.themes')
+             ->with('red_kite_labs_theme_engine.themes')
              ->will($this->returnValue($this->themes));
 
         $this->container

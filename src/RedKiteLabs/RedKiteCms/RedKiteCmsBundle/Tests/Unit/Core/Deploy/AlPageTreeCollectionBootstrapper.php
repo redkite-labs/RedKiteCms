@@ -190,7 +190,7 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
     protected function initTemplateManager()
     {
         // Prepares the template object
-        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
@@ -230,12 +230,12 @@ abstract class AlPageTreeCollectionBootstrapper extends TestCase
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
         
-        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
         $theme->expects($this->exactly($expected))
             ->method('getTemplate')
             ->will($this->returnValue($this->template));
 
-        $themesCollection = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $themesCollection = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
         $themesCollection->expects($this->exactly($expected))
             ->method('getTheme')
             ->will($this->returnValue($theme));

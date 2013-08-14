@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
  * Bootstraps AlphaLemon CMS
@@ -66,7 +66,7 @@ class CmsBootstrapListener
     private function setUpRequiredFolders()
     {
         $folders = array();
-        $basePath = $this->locate($this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir'));
+        $basePath = $this->locate($this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir'));
         $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
         $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
         $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
