@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use AlphaLemon\ThemeEngineBundle\Controller\ThemesController as BaseController;
+use RedKiteLabs\ThemeEngineBundle\Controller\ThemesController as BaseController;
 use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
@@ -63,7 +63,7 @@ class ThemesController extends BaseController
             $themeName = $request->get('themeName');            
             $currentTheme = $this->getActiveTheme();            
             $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
-            $themes = $this->container->get('alpha_lemon_theme_engine.themes');            
+            $themes = $this->container->get('red_kite_labs_theme_engine.themes');            
             $previousTheme = $themes->getTheme($currentTheme->getActiveTheme());
             $theme = $themes->getTheme($themeName);
             $themeChanger->change($previousTheme, $theme, $this->container->getParameter('alpha_lemon_cms.theme_structure_file'), $map);
@@ -146,7 +146,7 @@ class ThemesController extends BaseController
         $request = $this->container->get('request');
         $themeName = $request->get('themeName');
         
-        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         $theme = $themes->getTheme($themeName);
         $template = $theme->getHomeTemplate();
 
@@ -181,7 +181,7 @@ class ThemesController extends BaseController
         $request = $this->container->get('request');
         $themeName = $request->get('themeName'); 
 
-        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         
         $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
         $pagesRepository = $factoryRepository->createRepository('Page');
@@ -211,7 +211,7 @@ class ThemesController extends BaseController
     {
         $values = array();        
         $activeTheme = $this->getActiveTheme()->getActiveTheme();
-        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         foreach($themes as $theme)
         {
             if ($activeTheme !== null && $activeTheme == $theme->getThemeName()) {
@@ -223,8 +223,8 @@ class ThemesController extends BaseController
             $values['available_themes']["themes"][] = $this->retrieveThemeInfo($theme);
         }
 
-        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'), array(
-            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'), array(
+            'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'panel_sections' => 'RedKiteCmsBundle:Themes:theme_panel_sections.html.twig',
             'theme_skeleton' => 'RedKiteCmsBundle:Themes:theme_skeleton.html.twig',
             'values' => $values,

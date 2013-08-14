@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
 
 /**
  * AlThemeChanger is deputated to change the website template
@@ -56,8 +56,8 @@ class AlThemeChanger
     /**
      * Changes the current theme
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $previousTheme
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $previousTheme
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
      * @param string                                                    $path
      * @param array                                                     $templatesMap
      */
@@ -164,7 +164,7 @@ class AlThemeChanger
      * Changes the website templates with the new ones provided into the $templatesMap
      * array
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
      * @param  array                                                     $templatesMap
      * @throws \Exception
      */
@@ -199,7 +199,7 @@ class AlThemeChanger
     /**
      * Saves the current theme structure into a file
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
      * @param  type                                                      $themeStructureFile
      * @throws \Exception
      */

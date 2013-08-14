@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
-use AlphaLemon\ThemeEngineBundle\Command\Generate\BaseGenerateBundle;
+use RedKiteLabs\ThemeEngineBundle\Command\Generate\BaseGenerateBundle;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateAppBlockBundleCommand extends BaseGenerateBundle

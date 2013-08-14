@@ -47,7 +47,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('getRootDir')
             ->will($this->returnValue(vfsStream::url('app')));
 
-        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->blockManagerFactory = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
@@ -99,7 +99,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
 
-        $activeTheme = $this->getMock('\AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())
             ->method('getActiveTheme')
             ->will($this->returnValue('BootbusinessTheme'));
@@ -144,21 +144,21 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('getSlots')
             ->will($this->returnValue($this->initTemplateSlots()));
         
-        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $slot->expects($this->any())
             ->method('getRepeated')
             ->will($this->returnValue('site'));
             
-        $slot1 = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot1 = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $slot1->expects($this->any())
             ->method('getRepeated')
             ->will($this->returnValue('language'));
             
-        $slot2 = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot2 = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $slot2->expects($this->any())
@@ -235,7 +235,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue($blockRepository))
         ;
         
-        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
         
         $c = 1;
         $templates = array();
@@ -270,7 +270,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->will($this->returnValue($templates))
         ;
 
-        $themes = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+        $themes = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -429,7 +429,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
 
         $this->container->expects($this->at(2))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy_bundle')
+            ->with('red_kite_labs_theme_engine.deploy_bundle')
             ->will($this->returnValue('AcmeWebSiteBundle'));
 
         $this->container->expects($this->at(3))
@@ -486,14 +486,14 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->with('alpha_lemon_cms.love')
             ->will($this->returnValue('yes'));
         
-        $activeTheme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getActiveTheme')
             ->will($this->returnValue('BootbusinessThemeBundle'));
             
         $this->container->expects($this->at(14))
             ->method('get')
-            ->with('alpha_lemon_theme_engine.active_theme')
+            ->with('red_kite_labs_theme_engine.active_theme')
             ->will($this->returnValue($activeTheme));
     }
     
@@ -526,7 +526,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
     
     private function initTemplate($templateName)
     {
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
             ->disableOriginalConstructor()
             ->getMock();
 

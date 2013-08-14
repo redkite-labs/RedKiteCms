@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Twig;
 
-use AlphaLemon\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
+use RedKiteLabs\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;

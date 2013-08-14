@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
@@ -37,7 +37,7 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * Constructor
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface         $pageContentsContainer
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface         $pageContentsContainer
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
@@ -51,7 +51,7 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot                                $slot
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                                $slot
      * @param  string                                                                                 $newRepeatedStatus
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ClassNotFoundException

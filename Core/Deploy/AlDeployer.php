@@ -21,7 +21,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy;
 use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
@@ -95,7 +95,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->container = $container;
         $this->kernel = $this->container->get('kernel');
         $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-        $this->deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
+        $this->deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
 
         $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.config_dir');
@@ -110,7 +110,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->webFolderPath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path');
         $this->dispatcher = $this->container->get('event_dispatcher');
         $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;
-        $this->activeTheme = $this->container->get('alpha_lemon_theme_engine.active_theme');
+        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
         $this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
         
         $this->fileSystem = new Filesystem();

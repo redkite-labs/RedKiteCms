@@ -623,7 +623,7 @@ class AlThemeChangerTest extends TestCase
         foreach ($languages as $language) {
             foreach ($pages as $page) {
                 
-                $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+                $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                     ->disableOriginalConstructor()
                     ->getMock()
                 ;
@@ -718,7 +718,7 @@ class AlThemeChangerTest extends TestCase
     protected function initTheme($themeName)
     {
         $theme = $this
-            ->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
             ->disableOriginalConstructor()
             ->getMock()
         ;

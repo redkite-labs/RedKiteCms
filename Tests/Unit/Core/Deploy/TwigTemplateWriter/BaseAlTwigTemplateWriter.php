@@ -39,9 +39,9 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         
-        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -143,7 +143,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
         
         $alSlots = array();
         foreach($slots as $slotName => $slotAttributes) {
-            $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+            $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
                     ->disableOriginalConstructor()
                     ->getMock();
             

@@ -8,7 +8,7 @@
 namespace AlphaLemon\Block\FileBundle\Core\Block;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
@@ -55,7 +55,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $description = (array_key_exists('description', $item)) ? $item['description'] : '';
         
         $kernel = $this->container->get('kernel');
-        $deployBundle = $this->container->getParameter('alpha_lemon_theme_engine.deploy_bundle');
+        $deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
         $deployBundleAsset = new AlAsset($kernel, $deployBundle);
 
         return ($opened)

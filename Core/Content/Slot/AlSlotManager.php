@@ -21,7 +21,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateBase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
@@ -50,7 +50,7 @@ class AlSlotManager extends AlTemplateBase
      * Constructor
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot                               $slot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                               $slot
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface   $blockRepository
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
@@ -68,7 +68,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets the slot object
      *
-     * @param  \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $v
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      *
      * @api
@@ -83,7 +83,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the slot object
      *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
      *
      * @api
      */
@@ -110,7 +110,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Returns the block manager object
      *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
      */
     public function getBlockRepository()
     {

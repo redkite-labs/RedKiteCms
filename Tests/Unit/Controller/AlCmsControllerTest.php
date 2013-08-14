@@ -144,7 +144,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue(array()));
         ;
         
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;

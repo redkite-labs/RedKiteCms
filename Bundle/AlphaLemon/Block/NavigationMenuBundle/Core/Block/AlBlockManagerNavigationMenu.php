@@ -20,7 +20,7 @@ namespace AlphaLemon\Block\NavigationMenuBundle\Core\Block;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
 use AlphaLemon\Block\NavigationMenuBundle\Core\Form\LanguagesForm;
 use Symfony\Component\Finder\Finder;

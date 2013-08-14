@@ -35,7 +35,7 @@ class AlTemplateSlotsTest extends TestCase
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         
         $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $this->themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollectionInterface');
+        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollectionInterface');
         
         $this->blockRepository = 
             $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
@@ -44,7 +44,7 @@ class AlTemplateSlotsTest extends TestCase
         ;
         
         $this->themes = 
-            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -103,7 +103,7 @@ class AlTemplateSlotsTest extends TestCase
         $this->container
              ->expects($this->at(2))
              ->method('get')
-             ->with('alpha_lemon_theme_engine.themes')
+             ->with('red_kite_labs_theme_engine.themes')
              ->will($this->returnValue($this->themes))
         ;
         
@@ -158,12 +158,12 @@ class AlTemplateSlotsTest extends TestCase
             $sequence++;
         }
         
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
              ->disableOriginalConstructor()
              ->getMock()
         ;
         
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         
         $templateSlots->expects($this->any())
                 ->method('getSlots')
@@ -173,7 +173,7 @@ class AlTemplateSlotsTest extends TestCase
             ->method('getTemplateSlots')
             ->will($this->returnValue($templateSlots));
         
-        $theme = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme')
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -225,7 +225,7 @@ class AlTemplateSlotsTest extends TestCase
         return array(
             array(
                 array(
-                    'test' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
+                    'test' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
                 ),
                 array(
                    'test' => $this->initBlock('test'),
@@ -233,8 +233,8 @@ class AlTemplateSlotsTest extends TestCase
             ),
             array( 
                 array(
-                    'test' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
-                    'test1' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'page')),
+                    'test' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
+                    'test1' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'page')),
                 ),
                 array(
                     'test' => $this->initBlock('test'),
@@ -242,8 +242,8 @@ class AlTemplateSlotsTest extends TestCase
             ),
             array(
                 array(
-                    'test' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
-                    'test1' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'page')),
+                    'test' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
+                    'test1' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'page')),
                 ),
                 array(
                     'test' => $this->initBlock('test'),
@@ -252,9 +252,9 @@ class AlTemplateSlotsTest extends TestCase
             ),
             array(
                 array(
-                    'test1' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'site')),
-                    'test2' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test2', array('repeated' => 'language')),
-                    'test' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
+                    'test1' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'site')),
+                    'test2' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test2', array('repeated' => 'language')),
+                    'test' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
                 ),
                 array(
                     'test' => $this->initBlock('test'),
@@ -264,10 +264,10 @@ class AlTemplateSlotsTest extends TestCase
             ),
             array(
                 array(
-                    'test1' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'site')),
-                    'test2' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test2', array('repeated' => 'language')),
-                    'test' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
-                    'test3' => new \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test3', array('repeated' => 'page')),
+                    'test1' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test1', array('repeated' => 'site')),
+                    'test2' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test2', array('repeated' => 'language')),
+                    'test' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test', array('repeated' => 'page')),
+                    'test3' => new \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot('test3', array('repeated' => 'page')),
                 ),
                 array(
                     'test' => $this->initBlock('test'),

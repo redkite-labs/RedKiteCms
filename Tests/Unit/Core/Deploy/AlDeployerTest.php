@@ -59,7 +59,7 @@ class AlDeployerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
             ->method('getRootDir')
             ->will($this->returnValue('home'));
 
-        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
         $this->blockManagerFactory = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
@@ -95,7 +95,7 @@ class AlDeployerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
 
         $this->container->expects($this->at(2))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy_bundle')
+            ->with('red_kite_labs_theme_engine.deploy_bundle')
             ->will($this->returnValue('AcmeWebSiteBundle'));
 
         $this->container->expects($this->at(3))

@@ -29,12 +29,12 @@ class PagesController extends Base\BaseController
 {
     public function indexAction()
     {
-        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('alpha_lemon_theme_engine.themes')));
+        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('alphalemon_theme_engine.active_theme'), $this->container->get('red_kite_labs_theme_engine.themes')));
         $seoForm = $this->container->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
         $request = $this->container->get('request');
         $params = array(
-            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
+            'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'pages' => $this->getPages(),
             'pagesForm' => $pagesForm->createView(),
             'pageAttributesForm' => $seoForm->createView(),

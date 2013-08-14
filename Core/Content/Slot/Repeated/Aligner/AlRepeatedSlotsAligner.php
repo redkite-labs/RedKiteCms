@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
-use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
  * AlRepeatedSlotsAligner is responsibile to align the slots repeated status when
@@ -40,7 +40,7 @@ class AlRepeatedSlotsAligner
     /**
      * Constructor
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection                                        $themesCollection
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection                                        $themesCollection
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface $slotsConverterFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface                          $factoryRepository
      *

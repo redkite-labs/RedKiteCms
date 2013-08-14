@@ -297,7 +297,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
     {
         $this->container->expects($this->at(4))
                         ->method('getParameter')
-                        ->with('alpha_lemon_theme_engine.deploy_bundle')                
+                        ->with('red_kite_labs_theme_engine.deploy_bundle')                
                         ->will($this->returnValue('AcmeWebsiteBundle'));
     }
     

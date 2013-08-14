@@ -40,13 +40,13 @@ class PagesFormTest extends AlBaseType
     protected function getForm()
     {
         $activeTheme = 
-            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $themesCollection = 
-            $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;

@@ -20,8 +20,8 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
-use AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
  * Implements some static method to fetch the values used in the interfaces forms from
