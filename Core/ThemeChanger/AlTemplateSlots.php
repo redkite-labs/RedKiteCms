@@ -68,7 +68,7 @@ class AlTemplateSlots
         $previousThemeFile = $this->container->getParameter('alpha_lemon_cms.theme_structure_file');
         if (file_exists($previousThemeFile)) {
             $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-            $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+            $themes = $this->container->get('red_kite_labs_theme_engine.themes');
             $this->initPagesBlocks($languageId, $pageId);
 
             $previousThemeStructure = json_decode(file_get_contents($previousThemeFile), true);
@@ -79,6 +79,11 @@ class AlTemplateSlots
             }
             $previousTemplateName = $previousThemeStructure["Templates"][$templateKey];
             $previousTheme = $themes->getTheme($previousThemeName);
+            
+            if (null === $previousTheme) {
+                return $this;
+            }
+            
             $template = $previousTheme->getTemplate($previousTemplateName);
             $this->initTemplateManager($template);
 
