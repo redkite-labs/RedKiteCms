@@ -29,7 +29,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
 /**
  * Implements the actions to manage the blocks on a slot's page
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class BlocksController extends Base\BaseController
 {

@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
 /**
  * Listens for kernel exception
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ExceptionListener
 {

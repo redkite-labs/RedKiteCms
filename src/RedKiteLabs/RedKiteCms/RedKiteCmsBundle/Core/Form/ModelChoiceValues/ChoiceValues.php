@@ -27,7 +27,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
  * Implements some static method to fetch the values used in the interfaces forms from
  * the database
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  * @codeCoverageIgnore
  */
 class ChoiceValues

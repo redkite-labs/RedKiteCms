@@ -9,7 +9,7 @@ use org\bovigo\vfs\vfsStream;
 /**
  * ImageThumbnailExtensionTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ImageThumbnailExtensionTest extends TestCase
 {

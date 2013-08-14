@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
 /**
  * BlockEditorEventTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class BlockEditorEventTest extends TestCase
 {

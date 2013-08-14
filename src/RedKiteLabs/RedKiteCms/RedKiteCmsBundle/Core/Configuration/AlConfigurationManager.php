@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
  * Implements the AlConfigurationInterface to manage a set of configration parameters 
  * from a database
  * 
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlConfigurationManager implements AlConfigurationInterface
 {

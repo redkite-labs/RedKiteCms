@@ -28,7 +28,7 @@ use Symfony\Component\Form\Exception\InvalidConfigurationException;
 /**
  * Loads the CMS parameters into the DIC
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class RedKiteCmsExtension extends Extension
 {

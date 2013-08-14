@@ -27,7 +27,7 @@ class PageTreeEventTester extends BasePageTreeEvent
 /**
  * PageTreeEventTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class PageTreeEventTest extends TestCase
 {

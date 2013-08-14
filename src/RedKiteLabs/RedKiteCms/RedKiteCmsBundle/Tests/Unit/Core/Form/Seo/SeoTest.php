@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo;
 /**
  * SeoTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class SeoTest extends TestCase
 {

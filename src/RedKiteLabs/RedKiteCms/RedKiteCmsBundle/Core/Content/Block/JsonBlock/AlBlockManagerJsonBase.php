@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 /**
  * AlBlockManagerJson is the base object deputated to handle a json content
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

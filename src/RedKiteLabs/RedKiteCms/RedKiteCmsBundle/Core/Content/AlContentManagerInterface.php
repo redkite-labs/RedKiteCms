@@ -23,7 +23,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content;
  * AlphaLemon CMS defines each entity releated to a web page as a Content, so blocks,
  * slots, pages, languages and templates are all Contents
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface  AlContentManagerInterface
 {

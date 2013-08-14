@@ -27,7 +27,7 @@ use Symfony\Component\Config\Definition\Processor;
 /**
  * NavigationMenuExtension
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class NavigationMenuExtension extends Extension
 {

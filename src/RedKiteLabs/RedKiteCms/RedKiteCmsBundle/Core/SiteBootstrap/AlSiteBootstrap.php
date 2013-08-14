@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
  * AlSiteBootstrap is responsibile to boostrap a web site from the scratch, for a
  * given theme
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

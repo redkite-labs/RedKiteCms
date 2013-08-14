@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 /**
  * BaseSecured
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseSecured extends WebTestCaseFunctional
 {

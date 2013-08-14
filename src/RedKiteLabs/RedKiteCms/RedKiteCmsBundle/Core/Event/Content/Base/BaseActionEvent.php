@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
 /**
  * Defines a base event raised from a ContentManager
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseActionEvent extends Event
 {

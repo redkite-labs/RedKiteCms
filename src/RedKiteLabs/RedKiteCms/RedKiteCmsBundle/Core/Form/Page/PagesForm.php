@@ -26,7 +26,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 /**
  * Implements the form to manage the website pages
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

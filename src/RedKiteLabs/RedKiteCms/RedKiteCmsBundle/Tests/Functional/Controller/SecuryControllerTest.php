@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
 /**
  * SecurityControllerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class SecurityControllerTest extends BaseSecured
 {

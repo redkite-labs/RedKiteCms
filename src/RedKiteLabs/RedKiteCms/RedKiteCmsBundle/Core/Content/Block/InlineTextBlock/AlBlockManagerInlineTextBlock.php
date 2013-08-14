@@ -27,7 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
  * AlBlockManagerInlineTextBlock is the base object deputated to handle an inline editor
  * to manage an hypertext block
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverIn
  * Listens for kernel exceptions to intercept the AccessDeniedException during an Ajax
  * request
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

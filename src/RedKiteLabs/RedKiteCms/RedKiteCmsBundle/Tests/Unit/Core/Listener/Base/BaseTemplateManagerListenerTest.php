@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base;
 /**
  * BaseTestListener
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseTemplateManagerListenerTest extends BaseListenerTest
 {

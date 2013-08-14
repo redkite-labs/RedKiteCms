@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\ImagesBlock;
 
 /**
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  * @deprecated since 1.1.0
  */
 interface ImagesListenerInterface

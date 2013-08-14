@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
  * AlSiteBootstrapInterface defines the methos to boostrap an AlphaLemon website from
  * the scratch for a given theme
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

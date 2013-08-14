@@ -31,7 +31,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollection
  * The object deputated to deploy the website from development, AlphaLemon CMS, to production,
  * the deploy bundle.
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

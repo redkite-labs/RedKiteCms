@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  * AlBlockManagerJsonBlockContainer extends the AlBlockManagerJson base object with
  * the Symfony2 Container object
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
 {

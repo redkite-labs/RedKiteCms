@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 /**
  * BaseTestListener
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseListenerTest extends TestCase
 {

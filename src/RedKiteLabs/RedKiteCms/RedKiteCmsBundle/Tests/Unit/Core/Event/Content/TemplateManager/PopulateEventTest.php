@@ -27,7 +27,7 @@ class PopulateEventTester extends BasePopulateEvent
 /**
  * PopulateEventTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class PopulateEventTest extends TestCase
 {

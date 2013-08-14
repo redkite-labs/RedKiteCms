@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpected
  * manager itself and a description. Optionally accepts the group attribute, to group
  * togheter the blocks that belongs the same group
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

@@ -26,7 +26,7 @@ use Propel\PropelBundle\Command\ModelBuildCommand;
 /**
  * Upgrades to AlphaLemonCms Beta4 release
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class UpdateTo11xRC4Command extends Base\BaseUpdateCommand
 {

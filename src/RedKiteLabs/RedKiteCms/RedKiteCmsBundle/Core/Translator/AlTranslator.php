@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface;
 /**
  * A base class to add translation capabilities to derived objects
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

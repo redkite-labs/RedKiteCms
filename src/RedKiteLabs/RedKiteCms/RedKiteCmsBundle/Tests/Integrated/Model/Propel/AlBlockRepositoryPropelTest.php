@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 /**
  * AlBlockRepositoryPropelTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
 {

@@ -24,7 +24,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
  * repeated status of a slot to another one
  *
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlSlotsConverterFactoryInterface
 {

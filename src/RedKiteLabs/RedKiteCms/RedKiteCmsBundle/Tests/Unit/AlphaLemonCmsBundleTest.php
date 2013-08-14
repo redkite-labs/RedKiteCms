@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
 /**
  * AlphaLemonCmsBundleTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlphaLemonCmsBundleTest extends TestCase
 {

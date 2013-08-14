@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInte
  * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
  * when this last one is changing its repeated status
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

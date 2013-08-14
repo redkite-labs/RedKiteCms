@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
  *
  * All those events are tagged as alcms.event_listener
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

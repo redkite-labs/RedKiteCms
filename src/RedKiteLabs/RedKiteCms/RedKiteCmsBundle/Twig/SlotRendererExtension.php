@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 /**
  * Adds the renderSlot function to Twig engine
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class SlotRendererExtension extends BaseSlotRendererExtension
 {

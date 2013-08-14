@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedE
 /**
  * Renders the editor to manipulate a Json list of items
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @deprecated since 1.1.0
  * @codeCoverageIgnore

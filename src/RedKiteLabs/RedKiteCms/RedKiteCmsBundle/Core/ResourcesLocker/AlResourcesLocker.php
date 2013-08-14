@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
  *
  * A user could not lock more that a resource a time
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

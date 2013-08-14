@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\Language;
 /**
  * LanguageTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class LanguageTest extends TestCase
 {

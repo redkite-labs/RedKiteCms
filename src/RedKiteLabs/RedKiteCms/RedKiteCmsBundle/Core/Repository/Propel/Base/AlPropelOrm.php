@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
 /**
  *  Implements the OrmInterface for Propel Orm
  *
- *  @author alphalemon <webmaster@alphalemon.com>
+ *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPropelOrm implements OrmInterface
 {

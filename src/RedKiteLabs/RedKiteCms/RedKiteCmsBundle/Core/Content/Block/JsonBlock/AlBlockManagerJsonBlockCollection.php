@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  * AlBlockManagerJsonBlockCollection is the base object deputated to handle a json content
  * which defines a collection of objects
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

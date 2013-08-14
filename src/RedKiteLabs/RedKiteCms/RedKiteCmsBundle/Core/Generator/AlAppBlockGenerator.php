@@ -8,7 +8,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Generator\AlBaseGenerator;
 /**
  * AlAppBlockGenerator generates an App-Block bundle
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

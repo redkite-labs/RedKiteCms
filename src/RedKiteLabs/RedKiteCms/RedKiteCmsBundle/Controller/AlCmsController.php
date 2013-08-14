@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Implements the controller to load AlphaLemon CMS
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlCmsController extends BaseFrontendController
 {

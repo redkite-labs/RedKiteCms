@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
 /**
  *
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlUrlManagerStage extends AlUrlManager
 {

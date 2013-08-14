@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlUserRepositoryPropel;
 /**
  * AlUserRepositoryTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlUserRepositoryTest extends TestCase
 {

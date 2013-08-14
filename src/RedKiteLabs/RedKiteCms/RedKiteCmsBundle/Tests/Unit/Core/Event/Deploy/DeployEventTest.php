@@ -27,7 +27,7 @@ class DeployEventTester extends BaseDeployEvent
 /**
  * DeployEventTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class DeployEventTest extends TestCase
 {

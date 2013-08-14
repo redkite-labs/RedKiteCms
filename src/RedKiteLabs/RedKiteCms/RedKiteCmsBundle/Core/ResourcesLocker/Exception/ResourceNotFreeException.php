@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception;
 /**
  * Thrown when any a locked resource is not free
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ResourceNotFreeException extends \RuntimeException
 {

@@ -24,7 +24,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks as AlPag
 /**
  * Extends the AlPageBlocks class to load blocks from the database
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

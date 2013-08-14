@@ -22,7 +22,7 @@ use AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu;
 /**
  * AlBlockManagerMenuVertical
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerMenuVertical extends AlBlockManagerMenu
 {

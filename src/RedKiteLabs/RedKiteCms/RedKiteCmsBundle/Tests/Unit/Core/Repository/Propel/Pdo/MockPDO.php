@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo;
 /**
  * Wraps PropelPDO class to make it mockable
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class MockPDO extends \PropelPDO
 {

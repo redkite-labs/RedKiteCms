@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryProp
 /**
  * Defines the page attributes form
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */

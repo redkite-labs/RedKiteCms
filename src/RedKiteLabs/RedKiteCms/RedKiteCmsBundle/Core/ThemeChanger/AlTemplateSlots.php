@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception\ThemeSlotsInvalidCo
  * AlTemplateSlots is deputated to fetch the slots from the previous theme structure
  * and group them by repeated status
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateSlots
 {

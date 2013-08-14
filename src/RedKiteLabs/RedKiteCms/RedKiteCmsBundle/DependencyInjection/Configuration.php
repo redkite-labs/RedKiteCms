@@ -23,7 +23,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * Configures the CMS parameters
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class Configuration implements ConfigurationInterface
 {

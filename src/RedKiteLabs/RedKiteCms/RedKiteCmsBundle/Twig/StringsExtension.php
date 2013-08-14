@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Twig;
 /**
  * Adds some functions to Twig engine to manupulate strings from twig
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class StringsExtension extends \Twig_Extension
 {

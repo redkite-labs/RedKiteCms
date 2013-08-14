@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\UrlManager;
 /**
  * Defines the methods to manages an url to be used when in CMS mode and for production mode
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlUrlManagerInterface
 {

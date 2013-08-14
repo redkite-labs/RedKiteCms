@@ -21,7 +21,7 @@ use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 /**
  * BaseModelPropel
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseModelPropel extends WebTestCaseFunctional
 {

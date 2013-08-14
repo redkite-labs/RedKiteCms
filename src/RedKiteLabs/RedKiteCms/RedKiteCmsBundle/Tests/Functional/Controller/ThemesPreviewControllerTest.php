@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 /**
  * ThemesControllerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ThemesPreviewControllerTest extends WebTestCaseFunctional
 {

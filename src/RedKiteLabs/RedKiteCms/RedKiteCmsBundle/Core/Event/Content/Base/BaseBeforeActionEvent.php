@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
 /**
  * Defines a base event raised by a Content before an action occours
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseBeforeActionEvent extends BaseActionEvent
 {

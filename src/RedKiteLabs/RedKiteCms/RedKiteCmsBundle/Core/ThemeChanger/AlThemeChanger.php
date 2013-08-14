@@ -25,7 +25,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
 /**
  * AlThemeChanger is deputated to change the website template
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlThemeChanger
 {

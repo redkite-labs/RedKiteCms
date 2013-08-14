@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNot
  * AlFactoryRepository object instantiates repository objects according with the orm
  * and the repository type
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlFactoryRepository implements AlFactoryRepositoryInterface
 {
