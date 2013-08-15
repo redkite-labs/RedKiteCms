@@ -30,8 +30,8 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedExce
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 
 /**
- * AlBlockManager is the base object that wraps an AlBlock object and implements an
- * AlphaLemonCMS Block object
+ * AlBlockManager is the base object that wraps an AlBlock object and implements a
+ * RedKiteCms Block object
  *
  *
  * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete
@@ -390,7 +390,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * When true, attaches the internal javascript code to html when the editor is active
      *
-     * Return false to avoid AlphaLemon add the internal javascript code to html when the content is displayed on the
+     * Return false to avoid RedKiteCms adds the internal javascript code to html when the content is displayed on the
      * web page
      *
      * @return boolean

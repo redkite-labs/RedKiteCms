@@ -21,7 +21,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
- * Extends the AlphaLemonCms AlPageTree object to display the page in preview mode
+ * Extends RedKiteCms AlPageTree object to display the page in preview mode
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

@@ -42,7 +42,7 @@ abstract class BaseUpdateCommand extends ContainerAwareCommand
                 catch (\PropelException $ex) {echo $ex->getMessage();}
             }
         } else {
-            throw new \Exception(sprintf('The file %s has not been found. AlphaLemon provides only the mysql queries required to updated the database. To fix this, please create a %s folder under the %s and adjust the provided queries for your database, then launch the command again.', $sqlFile, $input->getOption('driver'), dirname($sqlFile)));
+            throw new \Exception(sprintf('The file %s has not been found. RedKiteCms provides only the mysql queries required to updated the database. To fix this, please create a %s folder under the %s and adjust the provided queries for your database, then launch the command again.', $sqlFile, $input->getOption('driver'), dirname($sqlFile)));
         }
     }
     

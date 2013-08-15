@@ -22,7 +22,7 @@ Install RedKiteCms
 To install RedKiteCms you just need to download the [RedKiteCms Sandbox](https://github.com/alphalemon/AlphaLemonCmsSandbox)
 and follow the intructions that comes with the sandbox itself.
 
-If you want to install AlphaLemon CSM for an existing application or from the scratch,
+If you want to install RedKiteCms for an existing application or from the scratch,
 just read the [RedKiteCms install chapter](https://alphalemon.com/how-to-install-alphalemon-cms)
 
 
@@ -61,9 +61,9 @@ lives at github.
 
 Support
 -------
-If you require support you can ask for help at [AlphaLemon CSM users forum](https://groups.google.com/forum/?hl=it#!forum/alphalemoncms-users).
+If you require support you can ask for help at [RedKiteCms users forum](https://groups.google.com/forum/?hl=it#!forum/alphalemoncms-users).
 
-If you want to collaborate, just introduce yourself at [AlphaLemon CSM developers forum](https://groups.google.com/forum/?hl=it#!forum/alphalemoncms-dev).
+If you want to collaborate, just introduce yourself at [RedKiteCms developers forum](https://groups.google.com/forum/?hl=it#!forum/alphalemoncms-dev).
 
 
 Stay in touch
