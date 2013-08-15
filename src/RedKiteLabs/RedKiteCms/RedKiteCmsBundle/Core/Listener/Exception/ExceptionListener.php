@@ -61,7 +61,7 @@ class ExceptionListener
         $parameters = array(
             'message' => '',
             'parameters' => array(),
-            'domain' => 'AlphaLemonCmsBundle',
+            'domain' => 'RedKiteCmsBundle',
             'locale' => null,
         ); 
         $cleanedParameters = array_intersect_key($jsonMessage, $parameters);

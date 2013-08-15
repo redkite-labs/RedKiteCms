@@ -234,7 +234,7 @@ class ThemesController extends BaseController
         return $responseContent;
     }
     
-    protected function translate($message, array $params = array(), $catalogue = "AlphaLemonCmsBundle")
+    protected function translate($message, array $params = array(), $catalogue = "RedKiteCmsBundle")
     {
         if (null === $this->translator) {
             $this->translator = $this->container->get('alpha_lemon_cms.translator');

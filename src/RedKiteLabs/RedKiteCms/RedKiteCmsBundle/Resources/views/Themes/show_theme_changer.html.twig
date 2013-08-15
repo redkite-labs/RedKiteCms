@@ -18,7 +18,7 @@
 {% block theme_panel %}
 <div id="al_theme_fixer">
     <div>
-        <b>{{ "Theme:"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</b> <span id="al-theme">{{ themeName }}</span>
+        <b>{{ "Theme:"|trans({}, 'RedKiteCmsBundle', cms_language) }}</b> <span id="al-theme">{{ themeName }}</span>
     </div>    
     <form id="al_theme_changer_form">
         <table>
@@ -41,8 +41,8 @@
         {% endfor %}
         </table>
         <div class="pull-right">
-            <button id="al_template_changer" class="btn btn-primary" value="Change template">{{ "Change"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</button> 
-            <a href="#" id="al_close_dialog" class="btn" value="Change template">{{ "Close"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a> 
+            <button id="al_template_changer" class="btn btn-primary" value="Change template">{{ "Change"|trans({}, 'RedKiteCmsBundle', cms_language) }}</button> 
+            <a href="#" id="al_close_dialog" class="btn" value="Change template">{{ "Close"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a> 
         </div>
         <div class="clearfix"></div>
         {% if error is defined and error != "" %}
