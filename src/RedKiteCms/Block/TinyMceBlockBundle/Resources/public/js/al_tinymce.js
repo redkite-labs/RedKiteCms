@@ -1,9 +1,9 @@
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteCms CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.

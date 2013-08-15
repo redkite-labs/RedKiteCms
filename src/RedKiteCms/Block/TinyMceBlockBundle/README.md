@@ -1,7 +1,7 @@
 TinyMceBlockBundle
 ------------------
 
-Adds the TinyMceBlockBundle web editor to AlphaLemon CMS to manage hypertext contents.
+Adds the TinyMceBlockBundle web editor to RedKiteCms CMS to manage hypertext contents.
 
 [![Build Status](https://secure.travis-ci.org/alphalemon/TinyMceBlockBundle.png)](http://travis-ci.org/alphalemon/TinyMceBlockBundle)
 

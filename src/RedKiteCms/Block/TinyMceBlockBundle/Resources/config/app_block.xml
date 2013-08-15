@@ -8,16 +8,16 @@
             <parameter>@TinyMceBlockBundle/Resources/public/vendor/tinymce/tinymce.min.js</parameter>
             <parameter>@TinyMceBlockBundle/Resources/public/js/al_tinymce.js</parameter>
         </parameter>
-        <parameter key="tiny_mce_block.block.class">AlphaLemon\Block\TinyMceBlockBundle\Core\Block\AlBlockManagerTinyMceBlock</parameter>        
+        <parameter key="tiny_mce_block.block.class">RedKiteCms\Block\TinyMceBlockBundle\Core\Block\AlBlockManagerTinyMceBlock</parameter>        
     </parameters>
 
     <services>
         <service id="tiny_mce_block.block" class="%tiny_mce_block.block.class%">
             <tag name="alphalemon_cms.blocks_factory.block" description="Hypertext (TinyMCE)" type="Text" group="alphalemon_internals" />
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.parameters_validator" />
-            <argument type="service" id="alpha_lemon_cms.translator" />
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.parameters_validator" />
+            <argument type="service" id="red_kite_cms.translator" />
         </service>
     </services>
 </container>

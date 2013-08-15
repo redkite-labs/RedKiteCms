@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteCms CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,15 +15,15 @@
  *
  */
 
-namespace AlphaLemon\Block\TinyMceBlockBundle\Tests\Unit\Core\Block;
+namespace RedKiteCms\Block\TinyMceBlockBundle\Tests\Unit\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use AlphaLemon\Block\TinyMceBlockBundle\Core\Block\AlBlockManagerTinyMceBlock;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteCms\Block\TinyMceBlockBundle\Core\Block\AlBlockManagerTinyMceBlock;
 
 /**
  * AlBlockManagerTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKiteCms <webmaster@alphalemon.com>
  */
 class AlBlockManagerTinyMceTest extends AlBlockManagerContainerBase
 {
@@ -54,7 +54,7 @@ class AlBlockManagerTinyMceTest extends AlBlockManagerContainerBase
     
     private function initBlock($value)
     {
-        $block = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getId')
               ->will($this->returnValue(2));

@@ -4,7 +4,7 @@
  * under the MIT LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\Block\TinyMceBlockBundle\Controller;
+namespace RedKiteCms\Block\TinyMceBlockBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,7 @@ class TinyMceController extends Controller
 {
     public function createLinksListAction()
     {
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $seoRepository = $factoryRepository->createRepository('Seo');
         $seoAttributes = $seoRepository->fromLanguageName($this->getRequest()->get('language'));
         

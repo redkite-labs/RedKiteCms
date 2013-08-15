@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\Block\TinyMceBlockBundle;
+namespace RedKiteCms\Block\TinyMceBlockBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -6,7 +6,7 @@
 
     <!--
     <parameters>
-        <parameter key="tiny_mce_block.example.class">AlphaLemon\Block\TinyMceBlockBundle\Example</parameter>
+        <parameter key="tiny_mce_block.example.class">RedKiteCms\Block\TinyMceBlockBundle\Example</parameter>
     </parameters>
 
     <services>

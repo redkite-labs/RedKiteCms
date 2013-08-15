@@ -4,7 +4,7 @@
  * under the MIT LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,14 +15,14 @@
  *
  */
 
-namespace AlphaLemon\Block\TinyMceBlockBundle\Core\Block;
+namespace RedKiteCms\Block\TinyMceBlockBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
 
 /**
  * Defines the Block Manager to handle a hypertext block managed by the tinyMce editor
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKiteCms <webmaster@alphalemon.com>
  */
 class AlBlockManagerTinyMceBlock extends AlBlockManagerInlineTextBlock
 {

@@ -1,12 +1,12 @@
 {
     "name": "alphalemon/app-tinymce-block-bundle",
-    "description": "Adds the TinyMCE editor to AlphaLemon CMS to manage an hipertext content",
+    "description": "Adds the TinyMCE editor to RedKiteCms CMS to manage an hipertext content",
     "keywords": ["alphalemon", "cms", "app"],
     "homepage": "http://alphalemon.com",
     "type": "alphalemon-block-bundle",
     "license": "MIT",
     "authors": [{
-      "name": "AlphaLemon",
+      "name": "RedKiteCms",
       "email": "info@alphalemon.com"
     }],
     "repositories": [
@@ -20,9 +20,9 @@
         "willdurand/propel-typehintable-behavior": "dev-master"
     },
     "autoload": {
-        "psr-0": { "AlphaLemon\\Block\\TinyMceBlockBundle": ""
+        "psr-0": { "RedKiteCms\\Block\\TinyMceBlockBundle": ""
         }
     },
-    "target-dir" : "AlphaLemon/Block/TinyMceBlockBundle",
+    "target-dir" : "RedKiteCms/Block/TinyMceBlockBundle",
     "minimum-stability": "dev"
 }

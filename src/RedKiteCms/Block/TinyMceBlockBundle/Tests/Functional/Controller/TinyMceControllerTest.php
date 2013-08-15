@@ -4,7 +4,7 @@
  * under the MIT LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\Block\TinyMceBlockBundle\Tests\Functional\Controller;
+namespace RedKiteCms\Block\TinyMceBlockBundle\Tests\Functional\Controller;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\WebTestCaseFunctional;
+use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 
 /**
  * TinyMceControllerTest
