@@ -39,7 +39,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         $content = "";
         try {
             $slotContents = array();
-            $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+            $pageTree = $this->container->get('red_kite_cms.page_tree');
             $blockManagers = $pageTree->getBlockManagers($slotName);
 
             foreach ($blockManagers as $blockManager) {
@@ -140,7 +140,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         if (is_array($content)) {
             $result = "";
             if (\array_key_exists('RenderView', $content)) {
-                $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
+                $viewsRenderer = $this->container->get('red_kite_cms.view_renderer');
                 $result = $viewsRenderer->render($content['RenderView']); 
             }
         }
@@ -171,13 +171,13 @@ class SlotRendererExtension extends BaseSlotRendererExtension
     
     public function renderIncludedBlock($key, AlBlockManager $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $extraAttributes = "")
     {
-        $blocksRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $blocksRepository = $this->container->get('red_kite_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
         $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3)); 
         
         if (count($blocks) > 0) { 
             $alBlock = $blocks[0];
-            $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+            $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
             $blockManager = $blockManagerFactory->createBlockManager($alBlock->getType());
             $blockManager->set($alBlock);
             if (null !== $parent) {
@@ -191,7 +191,7 @@ class SlotRendererExtension extends BaseSlotRendererExtension
                     throw new RuntimeException("You must provide a valid AlBlockManager instance to automatically add a new Block");
                 }
                 
-                $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+                $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
                 $blockManager = $blockManagerFactory->createBlockManager($type);
                 $blockManager->setEditorDisabled($parent->getEditorDisabled());
                 

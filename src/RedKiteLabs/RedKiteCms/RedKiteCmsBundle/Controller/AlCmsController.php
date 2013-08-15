@@ -41,17 +41,17 @@ class AlCmsController extends BaseFrontendController
         //$a = $this->container->get('bootstrap_thumbnail.form');;
         //echo "G";exit;
         $this->kernel = $this->container->get('kernel');
-        $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+        $pageTree = $this->container->get('red_kite_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
-        $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');        
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
-        $this->configuration = $this->container->get('alpha_lemon_cms.configuration');
+        $this->configuration = $this->container->get('red_kite_cms.configuration');
         
         $params = array(
             'template' => 'RedKiteCmsBundle:Cms:welcome.html.twig',
-            'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
+            'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
             'templateStylesheets' => null,
             'templateJavascripts' => null,
             'available_blocks' => null,
@@ -61,7 +61,7 @@ class AlCmsController extends BaseFrontendController
             'is_secure' => $isSecure,
             'page' => 0,
             'language' => 0,
-            'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
+            'available_languages' => $this->container->getParameter('red_kite_cms.available_languages'),
             'frontController' => $this->getFrontcontroller($request),
             'configuration' => $this->configuration,
         );
@@ -81,7 +81,7 @@ class AlCmsController extends BaseFrontendController
                 $languageName = $pageTree->getAlLanguage()->getLanguageName();
             }
             
-            $templateSlots = $this->container->get('alpha_lemon_cms.template_slots');            
+            $templateSlots = $this->container->get('red_kite_cms.template_slots');            
             $slots = $templateSlots
                 ->run($languageId, $pageId)
                 ->getSlots()
@@ -105,7 +105,7 @@ class AlCmsController extends BaseFrontendController
                 'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
-                'available_blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks(),
+                'available_blocks' => $this->container->get('red_kite_cms.block_manager_factory')->getBlocks(),
                 'slots' => $slots,
                 )
             );
@@ -202,7 +202,7 @@ class AlCmsController extends BaseFrontendController
     {
         $asset = new AlAsset($this->kernel, '@RedKiteCmsBundle');
 
-        return $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('alpha_lemon_cms.skin');
+        return $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('red_kite_cms.skin');
     }
     
     protected function getFrontcontroller(Request $request = null)

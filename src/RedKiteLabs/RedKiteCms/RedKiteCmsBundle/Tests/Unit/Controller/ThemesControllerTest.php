@@ -147,7 +147,7 @@ class ThemesControllerTest extends TestCase
             $this->container
                 ->expects($this->at($sequence))
                  ->method('get')
-                 ->with('alpha_lemon_cms.translator')
+                 ->with('red_kite_cms.translator')
                  ->will($this->returnValue($this->translator)); 
             $sequence++;    
         }
@@ -187,13 +187,13 @@ class ThemesControllerTest extends TestCase
         $this->container
              ->expects($this->at(2))
              ->method('get')
-             ->with('alpha_lemon_cms.template_manager')
+             ->with('red_kite_cms.template_manager')
              ->will($this->returnValue($this->templateManager));
         
         $this->container
              ->expects($this->at(3))
              ->method('get')
-             ->with('alpha_lemon_cms.site_bootstrap')
+             ->with('red_kite_cms.site_bootstrap')
              ->will($this->returnValue($this->siteBootstrap));
     }
 }

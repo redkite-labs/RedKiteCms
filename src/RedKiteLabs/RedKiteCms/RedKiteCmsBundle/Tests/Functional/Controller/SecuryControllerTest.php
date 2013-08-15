@@ -435,7 +435,7 @@ class SecurityControllerTest extends BaseSecured
 
     private function fetchUser($client, $username)
     {
-        $factoryRepository = $client->getContainer()->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $client->getContainer()->get('red_kite_cms.factory_repository');
         $repository = $factoryRepository->createRepository('User');
 
         return $repository->fromUserName($username);
@@ -443,7 +443,7 @@ class SecurityControllerTest extends BaseSecured
 
     private function fetchRole($client, $rolename)
     {
-        $factoryRepository = $client->getContainer()->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $client->getContainer()->get('red_kite_cms.factory_repository');
         $repository = $factoryRepository->createRepository('Role');
 
         return $repository->fromRoleName($rolename);

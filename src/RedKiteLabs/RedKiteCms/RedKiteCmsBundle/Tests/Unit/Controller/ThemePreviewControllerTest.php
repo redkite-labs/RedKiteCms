@@ -276,13 +276,13 @@ class ThemePreviewControllerTest extends TestCase
         $this->container
              ->expects($this->at(2))
              ->method('get')
-             ->with('alpha_lemon_cms.factory_repository')
+             ->with('red_kite_cms.factory_repository')
              ->will($this->returnValue($this->factoryRepository));
         
         $this->container
              ->expects($this->at(3))
              ->method('get')
-             ->with('alpha_lemon_cms.block_manager_factory')
+             ->with('red_kite_cms.block_manager_factory')
              ->will($this->returnValue($this->blocksFactory));
         
         $this->container
@@ -318,7 +318,7 @@ class ThemePreviewControllerTest extends TestCase
         $this->container
              ->expects($this->at(5))
              ->method('get')
-             ->with('alpha_lemon_cms.themes_collection_wrapper')
+             ->with('red_kite_cms.themes_collection_wrapper')
              ->will($this->returnValue($themesCollectionWrapper));
         
         $session =
@@ -343,7 +343,7 @@ class ThemePreviewControllerTest extends TestCase
         $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $this->container->expects($this->at(15))
             ->method('get')
-            ->with('alpha_lemon_cms.configuration')
+            ->with('red_kite_cms.configuration')
             ->will($this->returnValue($this->configuration))
         ;
         

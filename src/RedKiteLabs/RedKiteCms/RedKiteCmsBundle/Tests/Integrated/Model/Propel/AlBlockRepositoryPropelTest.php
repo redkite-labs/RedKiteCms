@@ -31,7 +31,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
         parent::setUp();
         
         $container = $this->client->getContainer();
-        $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $container->get('red_kite_cms.factory_repository');
         $this->blockRepository = $factoryRepository->createRepository('Block');
     }
 

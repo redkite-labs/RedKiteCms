@@ -33,8 +33,8 @@ class ThemePreviewController extends AlCmsController
     {
         $this->kernel = $this->container->get('kernel');
         $this->themes = $this->container->get('red_kite_labs_theme_engine.themes');
-        $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
-        $this->blocksFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+        $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
+        $this->blocksFactory = $this->container->get('red_kite_cms.block_manager_factory');
         $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
         $this->blocksRepository = $this->factoryRepository->createRepository('Block');
         
@@ -49,7 +49,7 @@ class ThemePreviewController extends AlCmsController
             ->setTemplate($template)
             ->setPageBlocks($pageBlocks)
         ;
-        $this->container->set('alpha_lemon_cms.page_tree', $this->pageTree);
+        $this->container->set('red_kite_cms.page_tree', $this->pageTree);
 
         $twigTemplate = $this->findTemplate($this->pageTree);
         $baseParams = array(
@@ -57,7 +57,7 @@ class ThemePreviewController extends AlCmsController
             'skin_path' => $this->getSkin(),
             'theme_name' => $themeName,
             'template_name' => $template->getTemplateName(),
-            'available_languages' => $this->container->getParameter('alpha_lemon_cms.available_languages'),
+            'available_languages' => $this->container->getParameter('red_kite_cms.available_languages'),
             'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'internal_stylesheets' => $this->pageTree->getInternalStylesheets(),
             'internal_javascripts' => $this->pageTree->getInternalJavascripts(),
@@ -65,10 +65,10 @@ class ThemePreviewController extends AlCmsController
             'templateJavascripts' => $this->fixAssets($this->pageTree->getExternalJavascripts()),
             'templates' => array_keys($theme->getTemplates()),
             'frontController' => $this->getFrontcontroller(),
-            'enable_yui_compressor' => $this->container->getParameter('alpha_lemon_cms.enable_yui_compressor'),
+            'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
             'language_name' => $languageName,
             'page_name' => $pageName,
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
         
         return $this->render('RedKiteCmsBundle:Preview:index.html.twig', $baseParams);

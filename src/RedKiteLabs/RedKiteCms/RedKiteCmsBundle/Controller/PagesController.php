@@ -39,7 +39,7 @@ class PagesController extends Base\BaseController
             'pagesForm' => $pagesForm->createView(),
             'pageAttributesForm' => $seoForm->createView(),
             'active_page' => $request->get('page'),
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
 
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Pages:index.html.twig', $params);
@@ -84,8 +84,8 @@ class PagesController extends Base\BaseController
 
         $alPage = null;
         $pageBlocks = null;
-        $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
-        $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+        $pageManager = $this->container->get('red_kite_cms.page_manager');
+        $pageTree = $this->container->get('red_kite_cms.page_tree');
         if ($request->get('pageId') != 'none') {
             $pageRepository = $this->createRepository('Page');
             $alPage = $pageRepository->fromPk($request->get('pageId'));
@@ -98,17 +98,17 @@ class PagesController extends Base\BaseController
         }
 
         $activeTheme = $this->container->get('alphalemon_theme_engine.active_theme');
-        $template = $this->container->get('alpha_lemon_cms.themes_collection_wrapper')->getTemplate(
+        $template = $this->container->get('red_kite_cms.themes_collection_wrapper')->getTemplate(
             $activeTheme->getActiveTheme(),
             $request->get('templateName')
         );
 
         $templateManager = new AlTemplateManager(
-            $this->container->get('alpha_lemon_cms.events_handler'),
-            $this->container->get('alpha_lemon_cms.factory_repository'),
+            $this->container->get('red_kite_cms.events_handler'),
+            $this->container->get('red_kite_cms.factory_repository'),
             $template,
             $pageBlocks,
-            $this->container->get('alpha_lemon_cms.block_manager_factory')
+            $this->container->get('red_kite_cms.block_manager_factory')
         );
 
         $pageManager->set($alPage);
@@ -143,7 +143,7 @@ class PagesController extends Base\BaseController
     public function deletePageAction()
     {
         $request = $this->container->get('request');
-        $pageManager = $this->container->get('alpha_lemon_cms.page_manager');
+        $pageManager = $this->container->get('red_kite_cms.page_manager');
         
         $alPage = null;
         if ($request->get('pageId') != 'none') {
@@ -178,7 +178,7 @@ class PagesController extends Base\BaseController
     {
         $pageManager->getPageRepository()->startTransaction();
         try {
-            $result = $this->container->get('alpha_lemon_cms.seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
+            $result = $this->container->get('red_kite_cms.seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
             if ($result) {
                 $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
             }
@@ -229,7 +229,7 @@ class PagesController extends Base\BaseController
 
     private function createRepository($repository)
     {
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
 
         return $factoryRepository->createRepository($repository);
     }

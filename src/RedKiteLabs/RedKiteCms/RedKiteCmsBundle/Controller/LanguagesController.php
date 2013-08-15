@@ -42,7 +42,7 @@ class LanguagesController extends Base\BaseController
             'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
             'active_language' => $request->get('language'),
             'form' => $form->createView(),
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
 
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Languages:index.html.twig', $params);
@@ -51,7 +51,7 @@ class LanguagesController extends Base\BaseController
     public function saveLanguageAction()
     {
         $request = $this->container->get('request');            
-        $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
+        $languageManager = $this->container->get('red_kite_cms.language_manager');
         $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
         $languageManager->set($alLanguage);
 
@@ -74,7 +74,7 @@ class LanguagesController extends Base\BaseController
     public function deleteLanguageAction()
     {
         $request = $this->container->get('request');
-        $languageManager = $this->container->get('alpha_lemon_cms.language_manager');
+        $languageManager = $this->container->get('red_kite_cms.language_manager');
         $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
         if (null === $alLanguage) {    
             throw new RuntimeException('Any language has been choosen for removing');
@@ -132,14 +132,14 @@ class LanguagesController extends Base\BaseController
 
     private function createLanguageRepository()
     {
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
 
         return $factoryRepository->createRepository('Language');
     }
 
     private function fetchLanguage($id, $languageManager = null)
     {
-        $languageManager = (null === $languageManager) ? $this->container->get('alpha_lemon_cms.language_manager') : $languageManager;
+        $languageManager = (null === $languageManager) ? $this->container->get('red_kite_cms.language_manager') : $languageManager;
         $languageRepository = $languageManager->getLanguageRepository();
 
         return ($id != 'none') ? $languageRepository->fromPk($id) : null;

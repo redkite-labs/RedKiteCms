@@ -37,7 +37,7 @@
         <table>
             <tr>
                 {% if theme_values.buttons is defined %}            
-                    <td><a id="al_theme_selector" rel="tooltip" title="{{ 'Previews the theme'|trans({}, "RedKiteCmsBundle", cms_language) }}" href="{{ path('alpha_lemon_cms_preview_theme', {'languageName': app.request.get('language'), 'pageName': app.request.get('page'), 'themeName' : theme_values.theme_title}) }}" class="btn">{{ "Preview"|trans({}, "RedKiteCmsBundle", cms_language) }}</a></td>
+                    <td><a id="al_theme_selector" rel="tooltip" title="{{ 'Previews the theme'|trans({}, "RedKiteCmsBundle", cms_language) }}" href="{{ path('red_kite_cms_preview_theme', {'languageName': app.request.get('language'), 'pageName': app.request.get('page'), 'themeName' : theme_values.theme_title}) }}" class="btn">{{ "Preview"|trans({}, "RedKiteCmsBundle", cms_language) }}</a></td>
                     <td><a href="#" rel="tooltip" title="{{ 'Activates the theme'|trans({}, "RedKiteCmsBundle", cms_language) }}" class="btn al_themes_changer" data-theme-name="{{ theme_values.theme_title }}">{{ "Activate"|trans({}, "RedKiteCmsBundle", cms_language) }}</a></td>
                     <td><a href="#" rel="tooltip" title="{{ 'Resets and starts using this theme'|trans({}, "RedKiteCmsBundle", cms_language) }}" class="btn btn-danger al_start_from_theme" data-theme-name="{{ theme_values.theme_title }}">{{ "Start from this Theme"|trans({}, "RedKiteCmsBundle", cms_language) }}</a></td>
                 {% endif %}

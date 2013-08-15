@@ -19,35 +19,35 @@
         <default key="_locale">en</default>
     </route>
 
-    <route id="alpha_lemon_cms_user_list" pattern="/backend/users/{_locale}/al_userList">
+    <route id="red_kite_cms_user_list" pattern="/backend/users/{_locale}/al_userList">
         <default key="_controller">RedKiteCmsBundle:Security:listUsers</default>
         <default key="_locale">en</default>
     </route>
 
-    <route id="alpha_lemon_cms_show_user" pattern="/backend/users/{_locale}/al_showUser/{locked}">
+    <route id="red_kite_cms_show_user" pattern="/backend/users/{_locale}/al_showUser/{locked}">
         <default key="_controller">RedKiteCmsBundle:Security:showUser</default>
         <default key="_locale">en</default>
         <default key="locked">user,id</default>
     </route>
 
-    <route id="alpha_lemon_cms_delete_user" pattern="/backend/users/{_locale}/al_deleteUser/{locked}">
+    <route id="red_kite_cms_delete_user" pattern="/backend/users/{_locale}/al_deleteUser/{locked}">
         <default key="_controller">RedKiteCmsBundle:Security:deleteUser</default>
         <default key="_locale">en</default>
         <default key="locked">user,id</default>
     </route>
 
-    <route id="alpha_lemon_cms_roles_list" pattern="/backend/users/{_locale}/al_rolesList">
+    <route id="red_kite_cms_roles_list" pattern="/backend/users/{_locale}/al_rolesList">
         <default key="_controller">RedKiteCmsBundle:Security:listRoles</default>
         <default key="_locale">en</default>
     </route>
 
-    <route id="alpha_lemon_cms_show_role" pattern="/backend/users/{_locale}/al_showRole/{locked}">
+    <route id="red_kite_cms_show_role" pattern="/backend/users/{_locale}/al_showRole/{locked}">
         <default key="_controller">RedKiteCmsBundle:Security:showRole</default>
         <default key="_locale">en</default>
         <default key="locked">role,id</default>
     </route>
 
-    <route id="alpha_lemon_cms_delete_role" pattern="/backend/users/{_locale}/al_deleteRole/{locked}">
+    <route id="red_kite_cms_delete_role" pattern="/backend/users/{_locale}/al_deleteRole/{locked}">
         <default key="_controller">RedKiteCmsBundle:Security:deleteRole</default>
         <default key="_locale">en</default>
         <default key="locked">role,id</default>

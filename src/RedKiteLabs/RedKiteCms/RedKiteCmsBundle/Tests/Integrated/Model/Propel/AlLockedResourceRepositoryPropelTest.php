@@ -37,8 +37,8 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
         parent::setUp();
 
         $container = $this->client->getContainer();
-        $this->resourcesLocker = $container->get('alpha_lemon_cms.resources_locker');
-        $this->factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
+        $this->resourcesLocker = $container->get('red_kite_cms.resources_locker');
+        $this->factoryRepository = $container->get('red_kite_cms.factory_repository');
         $this->lockedResourceRepository = $this->factoryRepository->createRepository('LockedResource');
     }
 

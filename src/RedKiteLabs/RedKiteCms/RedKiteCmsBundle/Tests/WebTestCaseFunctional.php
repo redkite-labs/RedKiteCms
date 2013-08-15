@@ -113,9 +113,9 @@ abstract class WebTestCaseFunctional extends WebTestCase
         $theme = $themes->getTheme('BootbusinessThemeBundle');
         $template = $theme->getTemplate('home');
 
-        $eventsHandler = $client->getContainer()->get('alpha_lemon_cms.events_handler');
+        $eventsHandler = $client->getContainer()->get('red_kite_cms.events_handler');
         $pageContentsContainer = new AlPageBlocks($factoryRepository);
-        $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('alpha_lemon_cms.block_manager_factory'));
+        $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('red_kite_cms.block_manager_factory'));
         $templateManager->refresh();
 
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');

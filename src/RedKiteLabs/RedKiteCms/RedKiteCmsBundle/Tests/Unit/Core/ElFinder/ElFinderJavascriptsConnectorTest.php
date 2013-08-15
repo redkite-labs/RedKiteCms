@@ -64,17 +64,17 @@ class ElFinderJavascriptsConnectorTest extends TestCase
         
         $container->expects($this->at(0))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
+            ->with('red_kite_cms.deploy_bundle.js_dir')
             ->will($this->returnValue('js')); 
        
         $container->expects($this->at(1))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_full_path')
+            ->with('red_kite_cms.upload_assets_full_path')
             ->will($this->returnValue('/full/base/path/to/web/uploads/assets')); 
         
         $container->expects($this->at(4))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_dir')
+            ->with('red_kite_cms.upload_assets_dir')
             ->will($this->returnValue('uploads/assets'));
 
         $espected = array

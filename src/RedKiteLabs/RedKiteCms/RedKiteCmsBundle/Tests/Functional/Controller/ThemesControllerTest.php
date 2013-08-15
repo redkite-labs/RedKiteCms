@@ -162,7 +162,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
     
     public function testFullFinalization()
     {
-        $fileStructure = $this->client->getContainer()->getParameter('alpha_lemon_cms.theme_structure_file');
+        $fileStructure = $this->client->getContainer()->getParameter('red_kite_cms.theme_structure_file');
         $blockRepository = new AlBlockRepositoryPropel();
         $this->assertNotCount(0, $blockRepository->retrieveContents(null, null, null, 2));
         $this->assertFileExists($fileStructure);

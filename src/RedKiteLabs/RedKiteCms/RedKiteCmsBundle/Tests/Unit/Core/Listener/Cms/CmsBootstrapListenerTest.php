@@ -61,47 +61,47 @@ class CmsBootstrapListenerTest extends TestCase
 
         $this->container->expects($this->at(3))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.assets_base_dir')
+            ->with('red_kite_cms.deploy_bundle.assets_base_dir')
             ->will($this->returnValue('asset-base-dir'));
 
         $this->container->expects($this->at(4))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.media_dir')
+            ->with('red_kite_cms.deploy_bundle.media_dir')
             ->will($this->returnValue('media'));
 
         $this->container->expects($this->at(5))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
+            ->with('red_kite_cms.deploy_bundle.js_dir')
             ->will($this->returnValue('js'));
 
         $this->container->expects($this->at(6))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.css_dir')
+            ->with('red_kite_cms.deploy_bundle.css_dir')
             ->will($this->returnValue('css'));
 
         $this->container->expects($this->at(7))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_full_path')
+            ->with('red_kite_cms.upload_assets_full_path')
             ->will($this->returnValue(vfsStream::url('root/cms-assets/uploades-base-dir')));
 
         $this->container->expects($this->at(8))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.media_dir')
+            ->with('red_kite_cms.deploy_bundle.media_dir')
             ->will($this->returnValue('media'));
 
         $this->container->expects($this->at(9))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.js_dir')
+            ->with('red_kite_cms.deploy_bundle.js_dir')
             ->will($this->returnValue('js'));
 
         $this->container->expects($this->at(10))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.css_dir')
+            ->with('red_kite_cms.deploy_bundle.css_dir')
             ->will($this->returnValue('css'));
 
         $this->container->expects($this->at(11))
             ->method('get')
-            ->with('alpha_lemon_cms.repeated_slots_aligner')
+            ->with('red_kite_cms.repeated_slots_aligner')
             ->will($this->returnValue($this->aligner));
 
         $this->setupFolders();
@@ -182,7 +182,7 @@ class CmsBootstrapListenerTest extends TestCase
 
          $this->container->expects($this->at(1))
             ->method('get')
-            ->with('alpha_lemon_cms.page_tree')
+            ->with('red_kite_cms.page_tree')
             ->will($this->returnValue($this->pageTree));
     }
 }

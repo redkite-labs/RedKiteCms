@@ -46,7 +46,7 @@ class CmsBootstrapListener
     {
         $this->container = $container;
         $this->kernel = $container->get('kernel');
-        $this->pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+        $this->pageTree = $this->container->get('red_kite_cms.page_tree');
     }
 
     /**
@@ -66,16 +66,16 @@ class CmsBootstrapListener
     private function setUpRequiredFolders()
     {
         $folders = array();
-        $basePath = $this->locate($this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir'));
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
+        $basePath = $this->locate($this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle') . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.assets_base_dir'));
+        $folders[] = $basePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.media_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.js_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir');
 
-        $basePath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
+        $basePath = $this->container->getParameter('red_kite_cms.upload_assets_full_path');
         $folders[] = $basePath;
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.js_dir');
-        $folders[] = $basePath . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.media_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.js_dir');
+        $folders[] = $basePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir');
 
         $fs = new Filesystem();
         $fs->mkdir($folders);
@@ -106,7 +106,7 @@ class CmsBootstrapListener
         $languageId = (null !== $language) ? $language->getId() : null;
         $pageId = (null !== $page) ? $page->getId() : null;
 
-        $slotsAligner = $this->container->get('alpha_lemon_cms.repeated_slots_aligner');
+        $slotsAligner = $this->container->get('red_kite_cms.repeated_slots_aligner');
         $slotsAligner
             ->setLanguageId($languageId)
             ->setPageId($pageId)

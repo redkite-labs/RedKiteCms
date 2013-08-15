@@ -212,7 +212,7 @@ abstract class AlTwigTemplateWriter
         $internalJavascript = $this->pageTree->getInternalJavascripts();
         $this->assetsSection = $this->writeComment("Assets section");
         $container = $this->pageTree->getContainer();
-        $yuiEnabled = $container->getParameter('alpha_lemon_cms.enable_yui_compressor');
+        $yuiEnabled = $container->getParameter('red_kite_cms.enable_yui_compressor');
         if (!empty($externalStylesheets)) {
             $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';
             $filter = $yuiEnabled ? '?yui_css,cssrewrite' : '?cssrewrite';

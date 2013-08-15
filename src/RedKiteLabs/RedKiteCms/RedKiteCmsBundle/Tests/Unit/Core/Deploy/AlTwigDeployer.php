@@ -126,7 +126,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         while ($i < $numberOfCalls + 1) {
             $this->container->expects($this->at($i))
                 ->method('get')
-                ->with('alpha_lemon_cms.block_manager_factory')
+                ->with('red_kite_cms.block_manager_factory')
                 ->will($this->returnValue($activeTheme));
             $i = $i + 3;
         }
@@ -302,7 +302,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $this->container->expects($this->at(15))
                 ->method('get')
-                ->with('alpha_lemon_cms.themes_collection_wrapper')
+                ->with('red_kite_cms.themes_collection_wrapper')
                 ->will($this->returnValue($themesCollectionWrapper));
     }
     
@@ -424,7 +424,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
 
         $this->container->expects($this->at(1))
             ->method('get')
-            ->with('alpha_lemon_cms.factory_repository')
+            ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
 
         $this->container->expects($this->at(2))
@@ -434,17 +434,17 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
 
         $this->container->expects($this->at(3))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.config_dir')
+            ->with('red_kite_cms.deploy_bundle.config_dir')
             ->will($this->returnValue('Resources/config'));
 
         $this->container->expects($this->at(4))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.assets_base_dir')
+            ->with('red_kite_cms.deploy_bundle.assets_base_dir')
             ->will($this->returnValue('Resources/public/'));
 
         $this->container->expects($this->at(5))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_full_path')
+            ->with('red_kite_cms.upload_assets_full_path')
             ->will($this->returnValue(vfsStream::url('root/web/uploads/assets')));
 
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
@@ -458,22 +458,22 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $this->container->expects($this->at(7))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_dir')
+            ->with('red_kite_cms.upload_assets_dir')
             ->will($this->returnValue('uploads/assets'));
         
         $this->container->expects($this->at(8))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.controller')
+            ->with('red_kite_cms.deploy_bundle.controller')
             ->will($this->returnValue('WebSite'));
         
         $this->container->expects($this->at(10))
                 ->method('get')
-                ->with('alpha_lemon_cms.view_renderer')
+                ->with('red_kite_cms.view_renderer')
                 ->will($this->returnValue($this->viewRenderer));
                 
         $this->container->expects($this->at(11)) 
             ->method('getParameter')
-            ->with('alpha_lemon_cms.web_folder_full_path')
+            ->with('red_kite_cms.web_folder_full_path')
             ->will($this->returnValue(vfsStream::url('root')));
         
         $this->container->expects($this->at(12))
@@ -483,7 +483,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         
         $this->container->expects($this->at(13))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.love')
+            ->with('red_kite_cms.love')
             ->will($this->returnValue('yes'));
         
         $activeTheme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');

@@ -36,7 +36,7 @@ class BlocksController extends Base\BaseController
     public function showAvailableBlocksAction()
     {
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig', array(
-            'blocks' => $this->container->get('alpha_lemon_cms.block_manager_factory')->getBlocks()
+            'blocks' => $this->container->get('red_kite_cms.block_manager_factory')->getBlocks()
         ));
     }
 
@@ -46,7 +46,7 @@ class BlocksController extends Base\BaseController
         
         $request = $this->container->get('request');
         $slotName = $request->get('slotName');  
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $blockRepository = $factoryRepository->createRepository('Block');
         
         if(null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN))
@@ -72,7 +72,7 @@ class BlocksController extends Base\BaseController
             }
             $template = 'RedKiteCmsBundle:Cms:render_included_block.html.twig';
 
-            $blockManagerFactory = $this->container->get('alpha_lemon_cms.block_manager_factory');
+            $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
             $blockManager = $blockManagerFactory->createBlockManager($contentType);
 
             $values = array(
@@ -86,7 +86,7 @@ class BlocksController extends Base\BaseController
             $blockManager->save($values);
         }
 
-        $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+        $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
         $message = $this->translate('The block has been successfully added'); 
 
         $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
@@ -169,7 +169,7 @@ class BlocksController extends Base\BaseController
         $slotManager = $this->fetchSlotManager($request);
         $res = $slotManager->deleteBlock($request->get('idBlock'));
         if (null !== $res) {
-            $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+            $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
             $message = ($res) 
             ? 
                 $this->translate('The block has been successfully removed')
@@ -210,7 +210,7 @@ class BlocksController extends Base\BaseController
 
     private function checkPageIsValid()
     {
-        $pageTree = $this->container->get('alpha_lemon_cms.page_tree');
+        $pageTree = $this->container->get('red_kite_cms.page_tree');
         if (!$pageTree->isValid()) {
             throw new RuntimeException("The page you are trying to edit does not exist");
         }
@@ -222,7 +222,7 @@ class BlocksController extends Base\BaseController
             $request = $this->container->get('request');
         }
         
-        $slotManager = $this->container->get('alpha_lemon_cms.template_manager')->getSlotManager($request->get('slotName'));
+        $slotManager = $this->container->get('red_kite_cms.template_manager')->getSlotManager($request->get('slotName'));
         if ($throwExceptionWhenNull && null === $slotManager) {
             throw new RuntimeException("You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty");
         }
@@ -244,11 +244,11 @@ class BlocksController extends Base\BaseController
     {
         try {
             $request = $this->container->get('request');
-            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+            $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
             $blockRepository = $factoryRepository->createRepository('Block');
             $block = $blockRepository->fromPK($request->get('idBlock'));
             if ($block != null) {
-                $alBlockManager = $this->container->get('alpha_lemon_cms.block_manager_factory')->createBlockManager($block);
+                $alBlockManager = $this->container->get('red_kite_cms.block_manager_factory')->createBlockManager($block);
                 $dispatcher = $this->container->get('event_dispatcher');
                 if (null !== $dispatcher) {
                     $event = new Block\BlockEditorRenderingEvent($this->container, $request, $alBlockManager);
@@ -280,7 +280,7 @@ class BlocksController extends Base\BaseController
 
                 return $response;
             } else {
-                $cmsLanguage = $this->container->get('alpha_lemon_cms.configuration')->read('language');
+                $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
                 
                 throw new RuntimeException('The block does not exist anymore or the slot has any block inside');
             }

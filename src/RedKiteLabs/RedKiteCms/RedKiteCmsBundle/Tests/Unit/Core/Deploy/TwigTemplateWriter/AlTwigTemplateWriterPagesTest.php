@@ -718,7 +718,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $this->container->expects($this->once())
             ->method('getParameter')
-            ->with('alpha_lemon_cms.enable_yui_compressor')
+            ->with('red_kite_cms.enable_yui_compressor')
             ->will($this->returnValue($yuiEnabled));
     }
 }

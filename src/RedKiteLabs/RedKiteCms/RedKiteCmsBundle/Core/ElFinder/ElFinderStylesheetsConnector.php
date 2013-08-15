@@ -29,7 +29,7 @@ class ElFinderStylesheetsConnector extends ElFinderBaseConnector
      */
     protected function configure()
     {
-        $stylesheetsFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.css_dir') ;
+        $stylesheetsFolder = $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir') ;
 
         return $this->generateOptions($stylesheetsFolder, 'Stylesheets');
     }

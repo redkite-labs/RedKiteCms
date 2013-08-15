@@ -65,9 +65,9 @@ class AlTemplateSlots
      */
     public function run($languageId, $pageId)
     {
-        $previousThemeFile = $this->container->getParameter('alpha_lemon_cms.theme_structure_file');
+        $previousThemeFile = $this->container->getParameter('red_kite_cms.theme_structure_file');
         if (file_exists($previousThemeFile)) {
-            $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+            $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
             $themes = $this->container->get('red_kite_labs_theme_engine.themes');
             $this->initPagesBlocks($languageId, $pageId);
 
@@ -106,11 +106,11 @@ class AlTemplateSlots
     private function initTemplateManager($template)
     {
         $this->templateManager = new AlTemplateManager(
-            $this->container->get('alpha_lemon_cms.events_handler'),
+            $this->container->get('red_kite_cms.events_handler'),
             $this->factoryRepository,
             $template,
             $this->pageBlocks,
-            $this->container->get('alpha_lemon_cms.block_manager_factory')
+            $this->container->get('red_kite_cms.block_manager_factory')
         );
     }
 
@@ -120,7 +120,7 @@ class AlTemplateSlots
             throw new ThemeSlotsInvalidConfigurationException('Template slots cannot be initialized');
         }
 
-        $viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
+        $viewsRenderer = $this->container->get('red_kite_cms.view_renderer');
 
         $slotManagers = $this->templateManager
             ->refresh()

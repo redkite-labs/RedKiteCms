@@ -27,7 +27,7 @@ class ConfigurationController extends Base\BaseController
             $request = $this->container->get('request');
             $languageName = $request->get('languageName');  
             
-            $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+            $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
             $configurationRepository = $factoryRepository->createRepository('Configuration');
             $configuration = $configurationRepository->fetchParameter('language');                        
             $result = $configurationRepository

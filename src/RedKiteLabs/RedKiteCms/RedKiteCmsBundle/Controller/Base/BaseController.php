@@ -35,7 +35,7 @@ abstract class BaseController extends ContainerAware
     protected function translate($message, array $params = array(), $catalogue = "RedKiteCmsBundle")
     {
         if (null === $this->translator) {
-            $this->translator = $this->container->get('alpha_lemon_cms.translator');
+            $this->translator = $this->container->get('red_kite_cms.translator');
         }
         
         return $this->translator->translate(

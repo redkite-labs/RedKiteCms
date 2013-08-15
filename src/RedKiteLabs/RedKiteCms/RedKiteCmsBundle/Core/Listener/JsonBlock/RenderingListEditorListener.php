@@ -116,7 +116,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
      */
     protected function fetchBlock($blockId)
     {
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $repository = $factoryRepository->createRepository('Block');
         $block = $repository->fromPk($blockId);
 
