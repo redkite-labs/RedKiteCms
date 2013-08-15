@@ -1,2 +1,0 @@
-imports:
-- { resource: "@ImageBundle/Resources/config/app_block.xml" }

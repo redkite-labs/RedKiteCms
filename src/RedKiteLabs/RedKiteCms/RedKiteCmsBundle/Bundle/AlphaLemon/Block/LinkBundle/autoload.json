@@ -1,7 +1,0 @@
-{
-    "bundles" : {
-        "AlphaLemon\\Block\\LinkBundle\\LinkBundle" : {
-            "environments" : ["all"]
-        }
-    }
-}

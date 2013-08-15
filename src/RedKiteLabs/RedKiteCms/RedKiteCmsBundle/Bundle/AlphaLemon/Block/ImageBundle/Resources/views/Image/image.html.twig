@@ -1,5 +1,0 @@
-{% extends "ImageBundle:Image:_image_params.html.twig" %}
-
-{% block body %}
-<img {% if src != "" %}src="{{ src }}"{% endif %} title="{{ title }}" alt="{{ alt }}" {% if data_src != "" %}data-src="{{ data_src }}"{% endif %} {{ editor|raw }} />
-{% endblock %}
