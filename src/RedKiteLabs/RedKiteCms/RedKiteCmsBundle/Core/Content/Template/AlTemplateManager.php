@@ -34,8 +34,8 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
- * AlTemplateManager wrap an AlTemplate object to manage the template's slots when the
- * AlphaLemon Cms editor is active
+ * AlTemplateManager wrap an AlTemplate object to manage the template's slots when
+ * RedKiteCms editor is active
  *
  *
  * The AlTemplateManager object collects the slots from the templated defined by an object derived
