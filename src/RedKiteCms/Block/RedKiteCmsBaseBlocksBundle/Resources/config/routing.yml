@@ -1,0 +1,2 @@
+_redkite_cms_base_blocks_file:
+    resource: "@RedKiteCmsBaseBlocksBundle/Resources/config/routing/file/file.xml"

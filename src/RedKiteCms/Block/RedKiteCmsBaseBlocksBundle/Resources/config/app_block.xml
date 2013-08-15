@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!-- IMAGE -->
+        <parameter key="image.external_javascripts.cms" type="collection">
+            <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/image/js/image_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="image.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage</parameter>
+        <parameter key="image.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Image\AlImageType</parameter>
+        
+        <!-- SCRIPT -->
+        <parameter key="script.external_javascripts.cms" type="collection">
+            <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/script/js/script_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="script.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript</parameter>
+        
+        <!-- MENU -->
+        <parameter key="menu.external_javascripts.cms" type="collection">
+            <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/menu/js/menu_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="menu.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu</parameter>
+        <parameter key="menu_vertical.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenuVertical</parameter>
+        
+        <!-- LINK -->
+        <parameter key="link.external_javascripts.cms" type="collection">
+            <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/link/js/link_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="link.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link\AlBlockManagerLink</parameter>
+        <parameter key="bootstrap_link.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Link\AlLinkType</parameter>
+        
+        <!-- FILE -->
+        <parameter key="file.external_javascripts.cms" type="collection">
+            <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/file/js/file_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="file.base_folder">files</parameter>
+        <parameter key="el_finder.file_connector">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\ElFinder\File\ElFinderFileConnector</parameter>        
+        <parameter key="file.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File\AlBlockManagerFile</parameter>
+        <parameter key="file.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\AlFileType</parameter>
+        
+        <!-- LANGUAGES MENU -->
+        <parameter key="languages_menu.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu\AlBlockManagerLanguagesMenu</parameter>
+    </parameters>
+
+    <services>        
+        <!-- IMAGE -->
+        <service id="image.block" class="%image.block.class%">
+            <tag name="alphalemon_cms.blocks_factory.block" description="Image block" type="Image" group="alphalemon_internals" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="image.form" class="%image.form.class%">
+        </service>
+
+        <!-- SCRIPT -->
+        <service id="script.block" class="%script.block.class%">
+            <argument type="service" id="service_container" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Script block" type="Script" group="alphalemon_internals" />
+        </service>
+        
+        <!-- MENU -->
+        <service id="menu.block" class="%menu.block.class%">
+            <argument type="service" id="service_container" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Menu" type="Menu" group="alphalemon_internals" />
+        </service>
+        
+        <service id="menu_vertical.block" class="%menu_vertical.block.class%">
+            <argument type="service" id="service_container" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Vertical Menu" type="MenuVertical" group="alphalemon_internals" />
+        </service>
+        
+        <!-- LINK -->
+        <service id="link.block" class="%link.block.class%">
+            <tag name="alphalemon_cms.blocks_factory.block" description="Link" type="Link" group="alphalemon_internals" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_link.form" class="%bootstrap_link.form.class%">
+        </service>
+        
+        <!-- FILE -->
+        <service id="el_finder.file_connector" class="%el_finder.file_connector%" >
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="file.block" class="%file.block.class%">
+            <argument type="service" id="service_container" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="File block" type="File" group="alphalemon_internals" />
+        </service>
+
+        <service id="file.form" class="%file.form.class%">
+        </service>
+        
+        <!-- LANGUAGES MENU -->
+        <service id="languages_menu.block" class="%languages_menu.block.class%">
+            <argument type="service" id="service_container" />
+            <tag name="alphalemon_cms.blocks_factory.block" description="Languages navigation menu" type="LanguagesMenu" group="alphalemon_internals" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,7 @@
+{
+    "bundles" : {
+        "RedKiteCms\\Block\\RedKiteCmsBaseBlocksBundle\\RedKiteCmsBaseBlocksBundle" : {
+            "environments" : ["all"]
+        }
+    }
+}
