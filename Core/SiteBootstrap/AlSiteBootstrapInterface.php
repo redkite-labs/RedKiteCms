@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
- * AlSiteBootstrapInterface defines the methos to boostrap an AlphaLemon website from
+ * AlSiteBootstrapInterface defines the methos to boostrap a RedKiteCms website from
  * the scratch for a given theme
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

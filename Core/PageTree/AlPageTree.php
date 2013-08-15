@@ -168,7 +168,7 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
-     * AlphaLemon is in CMS mode
+     * RedKiteCms is in CMS mode
      *
      * @return boolean
      */
