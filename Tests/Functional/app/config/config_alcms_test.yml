@@ -29,7 +29,7 @@ propel:
 alpha_lemon_bootstrap:
     vendor_dir: "%kernel.root_dir%/../../../vendor"
 
-alpha_lemon_cms:
+red_kite_cms:
     enable_yui_compressor: true
 
 red_kite_labs_theme_engine:

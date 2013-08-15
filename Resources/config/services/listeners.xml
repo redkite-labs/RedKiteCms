@@ -4,97 +4,97 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>        
-        <parameter key="alpha_lemon_cms.cms_bootstrap_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
-        <parameter key="alpha_lemon_cms.resource_free_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\ResourceFreeListener</parameter>
-        <parameter key="alpha_lemon_cms.access_deniend_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
-        <parameter key="alpha_lemon_cms.add_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\AddSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.add_page_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.edit_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\EditSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.remove_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\DeleteSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.remove_page_contents_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.update_permalink_on_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.language_add_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.language_add_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.language_remove_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\DeleteLanguageSeoListener</parameter>
-        <parameter key="alpha_lemon_cms.language_remove_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\DeleteLanguageBlocksListener</parameter>
-        <parameter key="alpha_lemon_cms.exception_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Exception\ExceptionListener</parameter>
+        <parameter key="red_kite_cms.cms_bootstrap_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\CmsBootstrapListener</parameter>
+        <parameter key="red_kite_cms.resource_free_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\ResourceFreeListener</parameter>
+        <parameter key="red_kite_cms.access_deniend_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Security\AccessDeniedListener</parameter>
+        <parameter key="red_kite_cms.add_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\AddSeoListener</parameter>
+        <parameter key="red_kite_cms.add_page_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\AddPageBlocksListener</parameter>
+        <parameter key="red_kite_cms.edit_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\EditSeoListener</parameter>
+        <parameter key="red_kite_cms.remove_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\DeleteSeoListener</parameter>
+        <parameter key="red_kite_cms.remove_page_contents_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\DeletePageBlocksListener</parameter>
+        <parameter key="red_kite_cms.update_permalink_on_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener</parameter>
+        <parameter key="red_kite_cms.language_add_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageSeoListener</parameter>
+        <parameter key="red_kite_cms.language_add_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageBlocksListener</parameter>
+        <parameter key="red_kite_cms.language_remove_seo_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\DeleteLanguageSeoListener</parameter>
+        <parameter key="red_kite_cms.language_remove_blocks_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\DeleteLanguageBlocksListener</parameter>
+        <parameter key="red_kite_cms.exception_listener.class">RedKiteLabs\RedKiteCmsBundle\Core\Listener\Exception\ExceptionListener</parameter>
     </parameters>
 
     <services>
-        <service id="alpha_lemon_cms.exception_listener" class="%alpha_lemon_cms.exception_listener.class%">
+        <service id="red_kite_cms.exception_listener" class="%red_kite_cms.exception_listener.class%">
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
             <argument type="service" id="templating" />
-            <argument type="service" id="alpha_lemon_cms.translator" />
+            <argument type="service" id="red_kite_cms.translator" />
         </service>
         
-        <service id="alpha_lemon_cms.cms_bootstrap_listener" class="%alpha_lemon_cms.cms_bootstrap_listener.class%">
+        <service id="red_kite_cms.cms_bootstrap_listener" class="%red_kite_cms.cms_bootstrap_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="alpha_lemon_cms.resource_free_listener" class="%alpha_lemon_cms.resource_free_listener.class%">
+        <service id="red_kite_cms.resource_free_listener" class="%red_kite_cms.resource_free_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="0" />
             <argument type="service" id="security.context" on-invalid="ignore" />
-            <argument type="service" id="alpha_lemon_cms.resources_locker" />
+            <argument type="service" id="red_kite_cms.resources_locker" />
         </service>
 
-        <service id="alpha_lemon_cms.access_deniend_listener" class="%alpha_lemon_cms.access_deniend_listener.class%">
+        <service id="red_kite_cms.access_deniend_listener" class="%red_kite_cms.access_deniend_listener.class%">
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
             <argument type="service" id="security.context" />
             <argument type="service" id="security.authentication.trust_resolver" />
         </service>
 
-        <service id="alpha_lemon_cms.add_seo_listener" class="%alpha_lemon_cms.add_seo_listener.class%">
+        <service id="red_kite_cms.add_seo_listener" class="%red_kite_cms.add_seo_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.seo_manager" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.seo_manager" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.edit_seo_listener" class="%alpha_lemon_cms.edit_seo_listener.class%">
+        <service id="red_kite_cms.edit_seo_listener" class="%red_kite_cms.edit_seo_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_edit_page_commit" method="onBeforeEditPageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.seo_manager" />
+            <argument type="service" id="red_kite_cms.seo_manager" />
         </service>
 
-        <service id="alpha_lemon_cms.add_page_blocks_listener" class="%alpha_lemon_cms.add_page_blocks_listener.class%">
+        <service id="red_kite_cms.add_page_blocks_listener" class="%red_kite_cms.add_page_blocks_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.remove_seo_listener" class="%alpha_lemon_cms.remove_seo_listener.class%">
+        <service id="red_kite_cms.remove_seo_listener" class="%red_kite_cms.remove_seo_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.seo_manager" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.seo_manager" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.remove_page_contents_listener" class="%alpha_lemon_cms.remove_page_contents_listener.class%">
+        <service id="red_kite_cms.remove_page_contents_listener" class="%red_kite_cms.remove_page_contents_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.update_permalink_on_blocks_listener" class="%alpha_lemon_cms.update_permalink_on_blocks_listener.class%">
+        <service id="red_kite_cms.update_permalink_on_blocks_listener" class="%red_kite_cms.update_permalink_on_blocks_listener.class%">
             <tag name="alcms.event_listener" event="seo.before_edit_seo_commit" method="onBeforeEditSeoCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.block_manager_factory" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
         </service>
 
-        <service id="alpha_lemon_cms.language_add_seo_listener" class="%alpha_lemon_cms.language_add_seo_listener.class%">
+        <service id="red_kite_cms.language_add_seo_listener" class="%red_kite_cms.language_add_seo_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_add_language_commit" method="onBeforeAddLanguageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.seo_manager" />
+            <argument type="service" id="red_kite_cms.seo_manager" />
         </service>
 
-        <service id="alpha_lemon_cms.language_add_blocks_listener" class="%alpha_lemon_cms.language_add_blocks_listener.class%">
+        <service id="red_kite_cms.language_add_blocks_listener" class="%red_kite_cms.language_add_blocks_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_add_language_commit" method="onBeforeAddLanguageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.block_manager" />
+            <argument type="service" id="red_kite_cms.block_manager" />
         </service>
 
-        <service id="alpha_lemon_cms.language_remove_seo_listener" class="%alpha_lemon_cms.language_remove_seo_listener.class%">
+        <service id="red_kite_cms.language_remove_seo_listener" class="%red_kite_cms.language_remove_seo_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_delete_language_commit" method="onBeforeDeleteLanguageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.seo_manager" />
+            <argument type="service" id="red_kite_cms.seo_manager" />
         </service>
 
-        <service id="alpha_lemon_cms.language_remove_blocks_listener" class="%alpha_lemon_cms.language_remove_blocks_listener.class%">
+        <service id="red_kite_cms.language_remove_blocks_listener" class="%red_kite_cms.language_remove_blocks_listener.class%">
             <tag name="alcms.event_listener" event="pages.before_delete_language_commit" method="onBeforeDeleteLanguageCommit" priority="0" />
-            <argument type="service" id="alpha_lemon_cms.block_manager" />
+            <argument type="service" id="red_kite_cms.block_manager" />
         </service>
     </services>
 </container>

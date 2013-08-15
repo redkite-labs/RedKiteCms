@@ -42,8 +42,8 @@ abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         $this->container = $container;
-        $eventsHandler = $container->get('alpha_lemon_cms.events_handler');
-        $factoryRepository = $container->get('alpha_lemon_cms.factory_repository');
+        $eventsHandler = $container->get('red_kite_cms.events_handler');
+        $factoryRepository = $container->get('red_kite_cms.factory_repository');
 
         parent::__construct($eventsHandler, $factoryRepository, $validator);
     }

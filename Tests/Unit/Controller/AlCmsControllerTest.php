@@ -214,7 +214,7 @@ class AlCmsControllerTest extends TestCase
         
         $this->container->expects($this->at(9))
             ->method('get')
-            ->with('alpha_lemon_cms.template_slots')
+            ->with('red_kite_cms.template_slots')
             ->will($this->returnValue($templateSlots));
         
         $this->container->expects($this->at(10))
@@ -230,7 +230,7 @@ class AlCmsControllerTest extends TestCase
         
         $this->container->expects($this->at(13))
             ->method('get')
-            ->with('alpha_lemon_cms.block_manager_factory')
+            ->with('red_kite_cms.block_manager_factory')
             ->will($this->returnValue($blockManagerFactory));
                 
         $this->container->expects($this->at(14))
@@ -269,7 +269,7 @@ class AlCmsControllerTest extends TestCase
         
         $this->container->expects($this->at(2))
             ->method('get')
-            ->with('alpha_lemon_cms.page_tree')
+            ->with('red_kite_cms.page_tree')
             ->will($this->returnValue($pageTree));
 
         $this->container->expects($this->at(3))
@@ -279,7 +279,7 @@ class AlCmsControllerTest extends TestCase
         
         $this->container->expects($this->at(4))
             ->method('get')
-            ->with('alpha_lemon_cms.factory_repository')
+            ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
         
         $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
@@ -291,7 +291,7 @@ class AlCmsControllerTest extends TestCase
         
         $this->container->expects($this->at(5))
             ->method('get')
-            ->with('alpha_lemon_cms.configuration')
+            ->with('red_kite_cms.configuration')
             ->will($this->returnValue($this->configuration));
     }
     

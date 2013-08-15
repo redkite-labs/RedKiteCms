@@ -49,7 +49,7 @@ class SecurityController extends Base\BaseController
             $template = 'RedKiteCmsBundle:Security:login.html.twig';
         }
 
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $pageReporitory = $factoryRepository->createRepository('Page');
         $languageReporitory = $factoryRepository->createRepository('Language');
 
@@ -136,7 +136,7 @@ class SecurityController extends Base\BaseController
             'form' => $form->createView(),
             'errors' => $errors,
             'message' => $message,
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
     }
 
@@ -174,7 +174,7 @@ class SecurityController extends Base\BaseController
             'form' => $form->createView(),
             'errors' => $errors,
             'message' => $message,
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
     }
 
@@ -232,7 +232,7 @@ class SecurityController extends Base\BaseController
     {
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
     }
 
@@ -240,14 +240,14 @@ class SecurityController extends Base\BaseController
     {
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
     }
 
     private function factoryRepository()
     {
         if (null === $this->factoryRepository) {
-            $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+            $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         }
 
         return $this->factoryRepository;

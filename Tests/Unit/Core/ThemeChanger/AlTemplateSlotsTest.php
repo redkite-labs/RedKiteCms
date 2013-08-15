@@ -72,7 +72,7 @@ class AlTemplateSlotsTest extends TestCase
         $this->container
              ->expects($this->at(0))
              ->method('getParameter')
-             ->with('alpha_lemon_cms.theme_structure_file')
+             ->with('red_kite_cms.theme_structure_file')
              ->will($this->returnValue(vfsStream::url('root\Resources\.site_structure')))
         ;
         
@@ -89,14 +89,14 @@ class AlTemplateSlotsTest extends TestCase
         $this->container
              ->expects($this->at(0))
              ->method('getParameter')
-             ->with('alpha_lemon_cms.theme_structure_file')
+             ->with('red_kite_cms.theme_structure_file')
              ->will($this->returnValue(vfsStream::url('root\Resources\.site_structure')))
         ;
     
         $this->container
              ->expects($this->at(1))
              ->method('get')
-             ->with('alpha_lemon_cms.factory_repository')
+             ->with('red_kite_cms.factory_repository')
              ->will($this->returnValue($this->factoryRepository))
         ;
         
@@ -110,21 +110,21 @@ class AlTemplateSlotsTest extends TestCase
         $this->container
              ->expects($this->at(3))
              ->method('get')
-             ->with('alpha_lemon_cms.events_handler') 
+             ->with('red_kite_cms.events_handler') 
              ->will($this->returnValue($this->eventsHandler))
         ;
         
         $this->container
              ->expects($this->at(4))
              ->method('get')
-             ->with('alpha_lemon_cms.block_manager_factory')
+             ->with('red_kite_cms.block_manager_factory')
              ->will($this->returnValue($this->blockManagerFactory))
         ;
         
         $this->container
              ->expects($this->at(5))
              ->method('get')
-             ->with('alpha_lemon_cms.view_renderer')
+             ->with('red_kite_cms.view_renderer')
              ->will($this->returnValue($this->viewRenderer))
         ;
         

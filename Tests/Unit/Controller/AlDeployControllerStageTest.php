@@ -24,7 +24,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
  */
 class AlDeployControllerStageTest extends BaseDeployControllerTest
 {
-    protected $deployerServiceName = 'alpha_lemon_cms.stage_deployer';
+    protected $deployerServiceName = 'red_kite_cms.stage_deployer';
     
     protected function executeAction()
     {

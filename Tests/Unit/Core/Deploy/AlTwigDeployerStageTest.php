@@ -58,22 +58,22 @@ class AlTwigDeployerStageTest extends AlTwigDeployer
          
         $this->container->expects($this->at(17))
             ->method('get')
-            ->with('alpha_lemon_cms.block_manager_factory')
+            ->with('red_kite_cms.block_manager_factory')
             ->will($this->returnValue($this->blockManagerFactory));
 
         $this->container->expects($this->at(18))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.views_dir')
+            ->with('red_kite_cms.deploy_bundle.views_dir')
             ->will($this->returnValue('Resources/views'));
         
         $this->container->expects($this->at(19))
             ->method('get')
-            ->with('alpha_lemon_cms.url_manager_stage')
+            ->with('red_kite_cms.url_manager_stage')
             ->will($this->returnValue($this->urlManager));
                 
         $this->container->expects($this->at(20))
             ->method('get')
-            ->with('alpha_lemon_cms.themes_collection_wrapper')
+            ->with('red_kite_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
         
         $this->containerAtSequenceAfterObjectCreation = 21;

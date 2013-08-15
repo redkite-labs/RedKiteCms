@@ -4,141 +4,141 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="alpha_lemon_cms.slots_converter_factory.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
-        <parameter key="alpha_lemon_cms.block_manager_service.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService</parameter>
-        <parameter key="alpha_lemon_cms.page_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager</parameter>
-        <parameter key="alpha_lemon_cms.seo_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager</parameter>
-        <parameter key="alpha_lemon_cms.language_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
-        <parameter key="alpha_lemon_cms.page_tree.class">RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree</parameter>
-        <parameter key="alpha_lemon_cms.page_blocks.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
-        <parameter key="alpha_lemon_cms.template_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
-        <parameter key="alpha_lemon_cms.parameters_validator.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator</parameter>
-        <parameter key="alpha_lemon_cms.language_manager_parameters_validator.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
-        <parameter key="alpha_lemon_cms.page_manager_parameters_validator.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
-        <parameter key="alpha_lemon_cms.repeated_slots_aligner.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
-        <parameter key="alpha_lemon_cms.slots_converter_factory.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
-        <parameter key="alpha_lemon_cms.production_deployer.class">RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployerProduction</parameter>
-        <parameter key="alpha_lemon_cms.stage_deployer.class">RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployerStage</parameter>
-        <parameter key="alpha_lemon_cms.block_manager_factory.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
-        <parameter key="alpha_lemon_cms.themes_collection_wrapper.class">RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
-        <parameter key="alpha_lemon_cms.factory_repository.class">RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
-        <parameter key="alpha_lemon_cms.url_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManager</parameter>
-        <parameter key="alpha_lemon_cms.url_manager_stage.class">RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerStage</parameter>
-        <parameter key="alpha_lemon_cms.commands_processor.class">RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor</parameter>
-        <parameter key="alpha_lemon_cms.images_thumbnailer.class">RedKiteLabs\RedKiteCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
-        <parameter key="alpha_lemon_cms.events_handler.class">RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler</parameter>
-        <parameter key="alpha_lemon_cms.resources_locker.class">RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker</parameter>        
-        <parameter key="alpha_lemon_cms.site_bootstrap.class">RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap</parameter>    
-        <parameter key="alpha_lemon_cms.view_renderer.class">RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer</parameter>               
-        <parameter key="alpha_lemon_cms.theme_changer.class">RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlThemeChanger</parameter>               
-        <parameter key="alpha_lemon_cms.template_slots.class">RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots</parameter>
-        <parameter key="alpha_lemon_cms.configuration.class">RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager</parameter>    
-        <parameter key="alpha_lemon_cms.translator.class">RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator</parameter>        
+        <parameter key="red_kite_cms.slots_converter_factory.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="red_kite_cms.block_manager_service.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService</parameter>
+        <parameter key="red_kite_cms.page_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager</parameter>
+        <parameter key="red_kite_cms.seo_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager</parameter>
+        <parameter key="red_kite_cms.language_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
+        <parameter key="red_kite_cms.page_tree.class">RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree</parameter>
+        <parameter key="red_kite_cms.page_blocks.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
+        <parameter key="red_kite_cms.template_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
+        <parameter key="red_kite_cms.parameters_validator.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator</parameter>
+        <parameter key="red_kite_cms.language_manager_parameters_validator.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
+        <parameter key="red_kite_cms.page_manager_parameters_validator.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
+        <parameter key="red_kite_cms.repeated_slots_aligner.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
+        <parameter key="red_kite_cms.slots_converter_factory.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="red_kite_cms.production_deployer.class">RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployerProduction</parameter>
+        <parameter key="red_kite_cms.stage_deployer.class">RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployerStage</parameter>
+        <parameter key="red_kite_cms.block_manager_factory.class">RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+        <parameter key="red_kite_cms.themes_collection_wrapper.class">RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper</parameter>
+        <parameter key="red_kite_cms.factory_repository.class">RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
+        <parameter key="red_kite_cms.url_manager.class">RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManager</parameter>
+        <parameter key="red_kite_cms.url_manager_stage.class">RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerStage</parameter>
+        <parameter key="red_kite_cms.commands_processor.class">RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor</parameter>
+        <parameter key="red_kite_cms.images_thumbnailer.class">RedKiteLabs\RedKiteCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
+        <parameter key="red_kite_cms.events_handler.class">RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler</parameter>
+        <parameter key="red_kite_cms.resources_locker.class">RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker</parameter>        
+        <parameter key="red_kite_cms.site_bootstrap.class">RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap</parameter>    
+        <parameter key="red_kite_cms.view_renderer.class">RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer</parameter>               
+        <parameter key="red_kite_cms.theme_changer.class">RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlThemeChanger</parameter>               
+        <parameter key="red_kite_cms.template_slots.class">RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots</parameter>
+        <parameter key="red_kite_cms.configuration.class">RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager</parameter>    
+        <parameter key="red_kite_cms.translator.class">RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator</parameter>        
         <parameter key="el_finder.media_connector">RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
     </parameters>
 
     <services>
-        <service id="alpha_lemon_cms.translator" class="%alpha_lemon_cms.translator.class%">
+        <service id="red_kite_cms.translator" class="%red_kite_cms.translator.class%">
             <argument type="service" id="translator" />
-            <argument type="service" id="alpha_lemon_cms.configuration" />
+            <argument type="service" id="red_kite_cms.configuration" />
         </service>
         
-        <service id="alpha_lemon_cms.view_renderer" class="%alpha_lemon_cms.view_renderer.class%">
+        <service id="red_kite_cms.view_renderer" class="%red_kite_cms.view_renderer.class%">
             <argument type="service" id="templating" />
         </service>
         
-        <service id="alpha_lemon_cms.events_handler" class="%alpha_lemon_cms.events_handler.class%">
+        <service id="red_kite_cms.events_handler" class="%red_kite_cms.events_handler.class%">
             <argument type="service" id="event_dispatcher" />
         </service>
 
-        <service id="alpha_lemon_cms.factory_repository" class="%alpha_lemon_cms.factory_repository.class%">
-            <argument type="string">%alpha_lemon_cms.orm%</argument>
+        <service id="red_kite_cms.factory_repository" class="%red_kite_cms.factory_repository.class%">
+            <argument type="string">%red_kite_cms.orm%</argument>
         </service>
         
-        <service id="alpha_lemon_cms.configuration" class="%alpha_lemon_cms.configuration.class%">
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.configuration" class="%red_kite_cms.configuration.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.block_manager_factory" class="%alpha_lemon_cms.block_manager_factory.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />  
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.block_manager_factory" class="%red_kite_cms.block_manager_factory.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />  
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.url_manager" class="%alpha_lemon_cms.url_manager.class%">
+        <service id="red_kite_cms.url_manager" class="%red_kite_cms.url_manager.class%">
             <argument type="service" id="kernel" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
         
-        <service id="alpha_lemon_cms.url_manager_stage" class="%alpha_lemon_cms.url_manager_stage.class%">
+        <service id="red_kite_cms.url_manager_stage" class="%red_kite_cms.url_manager_stage.class%">
             <argument type="service" id="kernel" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.parameters_validator" class="%alpha_lemon_cms.parameters_validator.class%">
+        <service id="red_kite_cms.parameters_validator" class="%red_kite_cms.parameters_validator.class%">
             <argument type="service" id="translator" />
         </service>
 
-        <service id="alpha_lemon_cms.language_manager_parameters_validator" class="%alpha_lemon_cms.language_manager_parameters_validator.class%">
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.language_manager_parameters_validator" class="%red_kite_cms.language_manager_parameters_validator.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.page_manager_parameters_validator" class="%alpha_lemon_cms.page_manager_parameters_validator.class%">
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.page_manager_parameters_validator" class="%red_kite_cms.page_manager_parameters_validator.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.page_blocks" class="%alpha_lemon_cms.page_blocks.class%">
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.page_blocks" class="%red_kite_cms.page_blocks.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.template_manager" class="%alpha_lemon_cms.template_manager.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.template_manager" class="%red_kite_cms.template_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
             <argument>null</argument>
-            <argument type="service" id="alpha_lemon_cms.page_blocks" />
-            <argument type="service" id="alpha_lemon_cms.block_manager_factory" />
+            <argument type="service" id="red_kite_cms.page_blocks" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
         </service>
 
-        <service id="alpha_lemon_cms.themes_collection_wrapper" class="%alpha_lemon_cms.themes_collection_wrapper.class%">
+        <service id="red_kite_cms.themes_collection_wrapper" class="%red_kite_cms.themes_collection_wrapper.class%">
             <argument type="service" id="red_kite_labs_theme_engine.themes" />
-            <argument type="service" id="alpha_lemon_cms.template_manager" />
+            <argument type="service" id="red_kite_cms.template_manager" />
         </service>
 
-        <service id="alpha_lemon_cms.block_manager" class="%alpha_lemon_cms.block_manager_service.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.parameters_validator" />
+        <service id="red_kite_cms.block_manager" class="%red_kite_cms.block_manager_service.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.parameters_validator" />
         </service>
 
-        <service id="alpha_lemon_cms.page_tree" class="%alpha_lemon_cms.page_tree.class%">
+        <service id="red_kite_cms.page_tree" class="%red_kite_cms.page_tree.class%">
             <argument type="service" id="service_container" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.themes_collection_wrapper" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.themes_collection_wrapper" />
         </service>
 
-        <service id="alpha_lemon_cms.page_manager" class="%alpha_lemon_cms.page_manager.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
-            <argument type="service" id="alpha_lemon_cms.template_manager" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.page_manager_parameters_validator" />
+        <service id="red_kite_cms.page_manager" class="%red_kite_cms.page_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.template_manager" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.page_manager_parameters_validator" />
         </service>
 
-        <service id="alpha_lemon_cms.seo_manager" class="%alpha_lemon_cms.seo_manager.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.parameters_validator" />
+        <service id="red_kite_cms.seo_manager" class="%red_kite_cms.seo_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.parameters_validator" />
         </service>
 
-        <service id="alpha_lemon_cms.language_manager" class="%alpha_lemon_cms.language_manager.class%">
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.language_manager_parameters_validator" />
+        <service id="red_kite_cms.language_manager" class="%red_kite_cms.language_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.language_manager_parameters_validator" />
         </service>
 
-        <service id="alpha_lemon_cms.slots_converter_factory" class="%alpha_lemon_cms.slots_converter_factory.class%">
-            <argument type="service" id="alpha_lemon_cms.page_blocks" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.slots_converter_factory" class="%red_kite_cms.slots_converter_factory.class%">
+            <argument type="service" id="red_kite_cms.page_blocks" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
         <service id="el_finder_media_connector" class="%el_finder.media_connector%">
@@ -153,44 +153,44 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="alpha_lemon_cms.repeated_slots_aligner" class="%alpha_lemon_cms.repeated_slots_aligner.class%">
+        <service id="red_kite_cms.repeated_slots_aligner" class="%red_kite_cms.repeated_slots_aligner.class%">
             <argument type="service" id="red_kite_labs_theme_engine.themes" />
-            <argument type="service" id="alpha_lemon_cms.slots_converter_factory" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.slots_converter_factory" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
-        <service id="alpha_lemon_cms.production_deployer" class="%alpha_lemon_cms.production_deployer.class%">
+        <service id="red_kite_cms.production_deployer" class="%red_kite_cms.production_deployer.class%">
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="alpha_lemon_cms.stage_deployer" class="%alpha_lemon_cms.stage_deployer.class%">
+        <service id="red_kite_cms.stage_deployer" class="%red_kite_cms.stage_deployer.class%">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="alpha_lemon_cms.commands_processor" class="%alpha_lemon_cms.commands_processor.class%">
+        <service id="red_kite_cms.commands_processor" class="%red_kite_cms.commands_processor.class%">
             <argument type="string">%kernel.root_dir%</argument>
         </service>
 
-        <service id="alpha_lemon_cms.images_thumbnailer" class="%alpha_lemon_cms.images_thumbnailer.class%">
+        <service id="red_kite_cms.images_thumbnailer" class="%red_kite_cms.images_thumbnailer.class%">
         </service>
         
-        <service id="alpha_lemon_cms.resources_locker" class="%alpha_lemon_cms.resources_locker.class%">
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
+        <service id="red_kite_cms.resources_locker" class="%red_kite_cms.resources_locker.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
         
-        <service id="alpha_lemon_cms.site_bootstrap" class="%alpha_lemon_cms.site_bootstrap.class%">
-            <argument type="service" id="alpha_lemon_cms.language_manager" />
-            <argument type="service" id="alpha_lemon_cms.page_manager" />
-            <argument type="service" id="alpha_lemon_cms.block_manager" />
+        <service id="red_kite_cms.site_bootstrap" class="%red_kite_cms.site_bootstrap.class%">
+            <argument type="service" id="red_kite_cms.language_manager" />
+            <argument type="service" id="red_kite_cms.page_manager" />
+            <argument type="service" id="red_kite_cms.block_manager" />
         </service>
         
-        <service id="alpha_lemon_cms.theme_changer" class="%alpha_lemon_cms.theme_changer.class%">
-            <argument type="service" id="alpha_lemon_cms.template_manager" />
-            <argument type="service" id="alpha_lemon_cms.factory_repository" />
-            <argument type="service" id="alpha_lemon_cms.block_manager_factory" />
+        <service id="red_kite_cms.theme_changer" class="%red_kite_cms.theme_changer.class%">
+            <argument type="service" id="red_kite_cms.template_manager" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
         </service>
         
-        <service id="alpha_lemon_cms.template_slots" class="%alpha_lemon_cms.template_slots.class%">
+        <service id="red_kite_cms.template_slots" class="%red_kite_cms.template_slots.class%">
             <argument type="service" id="service_container" />
         </service>
     </services>

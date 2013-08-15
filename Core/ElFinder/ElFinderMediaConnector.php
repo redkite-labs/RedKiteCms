@@ -29,7 +29,7 @@ class ElFinderMediaConnector extends ElFinderBaseConnector
      */
     protected function configure()
     {
-        $mediaFolder = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.media_dir');
+        $mediaFolder = $this->container->getParameter('red_kite_cms.deploy_bundle.media_dir');
 
         return $this->generateOptions($mediaFolder, 'Media');
     }

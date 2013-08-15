@@ -30,7 +30,7 @@ abstract class ElFinderBaseConnector extends AlphaLemonElFinderBaseConnector
      */
     protected function generateOptions($folder, $rootAlias)
     {
-        $assetsPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path') . '/' . $folder;
+        $assetsPath = $this->container->getParameter('red_kite_cms.upload_assets_full_path') . '/' . $folder;
         if (!is_dir($assetsPath)) {
             @mkdir($assetsPath);
         }

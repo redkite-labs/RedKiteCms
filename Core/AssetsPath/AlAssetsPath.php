@@ -43,7 +43,7 @@ class AlAssetsPath
             $baseUrl .= '/';
         }
 
-        return $baseUrl . $container->getParameter('alpha_lemon_cms.upload_assets_dir');
+        return $baseUrl . $container->getParameter('red_kite_cms.upload_assets_dir');
     }
 
     /**

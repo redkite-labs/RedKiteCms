@@ -108,7 +108,7 @@ abstract class BaseDeployControllerTest extends TestCase
         
         $this->container->expects($this->at(3))
             ->method('get')
-            ->with('alpha_lemon_cms.commands_processor')
+            ->with('red_kite_cms.commands_processor')
             ->will($this->returnValue($this->comandsProcessor));
 
         $this->comandsProcessor->expects($this->once())

@@ -546,7 +546,7 @@ class PagesControllerTest extends WebTestCaseFunctional
 
     private function retrievePageSlots()
     {
-        $pageTree = $this->client->getContainer()->get('alpha_lemon_cms.page_tree');
+        $pageTree = $this->client->getContainer()->get('red_kite_cms.page_tree');
         $templateSlots = $pageTree->getTemplateManager()->getTemplateSlots();
         $slots = $templateSlots->toArray();
 

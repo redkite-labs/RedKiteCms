@@ -58,12 +58,12 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
     {
         $this->container->expects($this->at(0))
                         ->method('get')
-                        ->with('alpha_lemon_cms.events_handler')
+                        ->with('red_kite_cms.events_handler')
                         ->will($this->returnValue($this->eventsHandler));
         
         $this->container->expects($this->at(1))
                         ->method('get')
-                        ->with('alpha_lemon_cms.factory_repository')
+                        ->with('red_kite_cms.factory_repository')
                         ->will($this->returnValue($this->factoryRepository));
     }
 

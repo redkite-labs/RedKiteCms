@@ -99,7 +99,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $this->container->expects($this->once())
                         ->method('get')
-                        ->with('alpha_lemon_cms.page_tree')
+                        ->with('red_kite_cms.page_tree')
                         ->will($this->returnValue($this->pageTree));
         
         $this->slotRenderer->renderSlot('logo');
@@ -134,7 +134,7 @@ class SlotRendererExtensionTest extends TestCase
         
         $this->container->expects($this->at(0))
                         ->method('get')
-                        ->with('alpha_lemon_cms.page_tree')
+                        ->with('red_kite_cms.page_tree')
                         ->will($this->returnValue($this->pageTree));
 
         $this->container->expects($this->at(1))
@@ -174,7 +174,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $this->container->expects($this->at(0))
                         ->method('get')
-                        ->with('alpha_lemon_cms.page_tree')
+                        ->with('red_kite_cms.page_tree')
                         ->will($this->returnValue($this->pageTree));
 
         $this->container->expects($this->at(1))
@@ -270,7 +270,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $this->container->expects($this->at(0))
                         ->method('get')
-                        ->with('alpha_lemon_cms.page_tree')
+                        ->with('red_kite_cms.page_tree')
                         ->will($this->returnValue($this->pageTree));
 
         $this->container->expects($this->at(1))
@@ -280,7 +280,7 @@ class SlotRendererExtensionTest extends TestCase
         
         $this->container->expects($this->at(2))
                         ->method('get')
-                        ->with('alpha_lemon_cms.view_renderer')
+                        ->with('red_kite_cms.view_renderer')
                         ->will($this->returnValue($viewRenderer));
         
         $this->slotRenderer->renderSlot('logo');
@@ -324,7 +324,7 @@ class SlotRendererExtensionTest extends TestCase
         
         $this->container->expects($this->at(1))
                         ->method('get')
-                        ->with('alpha_lemon_cms.view_renderer')
+                        ->with('red_kite_cms.view_renderer')
                         ->will($this->returnValue($viewRenderer));
 
         $this->slotRenderer->renderBlock($blockManager);
@@ -370,7 +370,7 @@ class SlotRendererExtensionTest extends TestCase
         
         $this->container->expects($this->at(0))
             ->method('get')
-            ->with('alpha_lemon_cms.factory_repository')
+            ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($factoryRepository))
         ;
         
@@ -414,7 +414,7 @@ class SlotRendererExtensionTest extends TestCase
         
         $this->container->expects($this->at(0))
             ->method('get')
-            ->with('alpha_lemon_cms.factory_repository')
+            ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($factoryRepository))
         ;
         
@@ -454,7 +454,7 @@ class SlotRendererExtensionTest extends TestCase
 
             $this->container->expects($this->at(1))
                 ->method('get')
-                ->with('alpha_lemon_cms.block_manager_factory')
+                ->with('red_kite_cms.block_manager_factory')
                 ->will($this->returnValue($blockManagerFactory))
             ;
         }
@@ -483,7 +483,7 @@ class SlotRendererExtensionTest extends TestCase
 
             $this->container->expects($this->at(1))
                 ->method('get')
-                ->with('alpha_lemon_cms.block_manager_factory')
+                ->with('red_kite_cms.block_manager_factory')
                 ->will($this->returnValue($blockManagerFactory))
             ;
         }
@@ -908,7 +908,7 @@ class SlotRendererExtensionTest extends TestCase
 
         $this->container->expects($this->once())
                         ->method('get')
-                        ->with('alpha_lemon_cms.page_tree')
+                        ->with('red_kite_cms.page_tree')
                         ->will($this->returnValue($this->pageTree));
     }
 

@@ -1,30 +1,30 @@
-alpha_lemon_cms_configuration:
+red_kite_cms_configuration:
     resource: "@RedKiteCmsBundle/Resources/config/routing/configuration.xml"
     
-alpha_lemon_cms_security:
+red_kite_cms_security:
     resource: "@RedKiteCmsBundle/Resources/config/routing/security.xml"
 
-alpha_lemon_cms_pages:
+red_kite_cms_pages:
     resource: "@RedKiteCmsBundle/Resources/config/routing/pages.xml"
 
-alpha_lemon_cms_languages:
+red_kite_cms_languages:
     resource: "@RedKiteCmsBundle/Resources/config/routing/languages.xml"
 
-alpha_lemon_cms_theme_preview:
+red_kite_cms_theme_preview:
     resource: "@RedKiteCmsBundle/Resources/config/routing/theme-preview.xml"
 
-alpha_lemon_cms_themes:
+red_kite_cms_themes:
     resource: "@RedKiteCmsBundle/Resources/config/routing/themes.xml"
 
-alpha_lemon_cms_blocks:
+red_kite_cms_blocks:
     resource: "@RedKiteCmsBundle/Resources/config/routing/blocks.xml"
 
-alpha_lemon_cms_deploy:
+red_kite_cms_deploy:
     resource: "@RedKiteCmsBundle/Resources/config/routing/deploy.xml"
 
-alpha_lemon_cms_elfinder:
+red_kite_cms_elfinder:
     resource: "@RedKiteCmsBundle/Resources/config/routing/elfinder.xml"
 
-alpha_lemon_cms_navigation:
+red_kite_cms_navigation:
   pattern:  /backend/{_locale}/{page}/{locked}
   defaults: { _controller: RedKiteCmsBundle:AlCms:show, _locale: en, page: index, locked: pageId }

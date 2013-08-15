@@ -100,17 +100,17 @@ class AlDeployerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
 
         $this->container->expects($this->at(3))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.config_dir')
+            ->with('red_kite_cms.deploy_bundle.config_dir')
             ->will($this->returnValue('Resources/config'));
 
         $this->container->expects($this->at(4))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.assets_base_dir')
+            ->with('red_kite_cms.deploy_bundle.assets_base_dir')
             ->will($this->returnValue('Resources/public/'));
 
         $this->container->expects($this->at(5))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_full_path')
+            ->with('red_kite_cms.upload_assets_full_path')
             ->will($this->returnValue(''));
 
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
@@ -124,12 +124,12 @@ class AlDeployerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
         
         $this->container->expects($this->at(7))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.upload_assets_dir')
+            ->with('red_kite_cms.upload_assets_dir')
             ->will($this->returnValue('uploads/assets'));
         
         $this->container->expects($this->at(8))
             ->method('getParameter')
-            ->with('alpha_lemon_cms.deploy_bundle.controller')
+            ->with('red_kite_cms.deploy_bundle.controller')
             ->will($this->returnValue('WebSite'));
     }
 }

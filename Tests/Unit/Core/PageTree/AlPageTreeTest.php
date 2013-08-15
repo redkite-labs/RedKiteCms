@@ -1477,7 +1477,7 @@ class AlPageTreeTest extends TestCase
         
         $this->container->expects($this->at(1))
             ->method('get')
-            ->with('alpha_lemon_cms.block_manager_factory')
+            ->with('red_kite_cms.block_manager_factory')
             ->will($this->returnValue($this->blocksManagerFactory));
         
         $this->container->expects($this->at(2))

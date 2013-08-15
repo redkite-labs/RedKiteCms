@@ -94,24 +94,24 @@ abstract class AlDeployer implements AlDeployerInterface
     {
         $this->container = $container;
         $this->kernel = $this->container->get('kernel');
-        $this->factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
 
-        $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.config_dir');
-        $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('alpha_lemon_cms.deploy_bundle.assets_base_dir');
+        $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir');
+        $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.assets_base_dir');
 
-        $this->uploadAssetsFullPath = $this->container->getParameter('alpha_lemon_cms.upload_assets_full_path');
+        $this->uploadAssetsFullPath = $this->container->getParameter('red_kite_cms.upload_assets_full_path');
         $this->uploadAssetsAbsolutePath = AlAssetsPath::getAbsoluteUploadFolder($this->container);
 
-        $this->deployController = $this->container->getParameter('alpha_lemon_cms.deploy_bundle.controller');
+        $this->deployController = $this->container->getParameter('red_kite_cms.deploy_bundle.controller');
         $this->deployFolder = $this->getTemplatesFolder();
-        $this->viewsRenderer = $this->container->get('alpha_lemon_cms.view_renderer');
-        $this->webFolderPath = $this->container->getParameter('alpha_lemon_cms.web_folder_full_path');
+        $this->viewsRenderer = $this->container->get('red_kite_cms.view_renderer');
+        $this->webFolderPath = $this->container->getParameter('red_kite_cms.web_folder_full_path');
         $this->dispatcher = $this->container->get('event_dispatcher');
-        $this->credits = ($this->container->getParameter('alpha_lemon_cms.love') == 'no') ? false : true;
+        $this->credits = ($this->container->getParameter('red_kite_cms.love') == 'no') ? false : true;
         $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
-        $this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
+        $this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
         
         $this->fileSystem = new Filesystem();
     }
@@ -326,7 +326,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $blockRepository = $this->factoryRepository->createRepository('Block');
         
         $themeName = $this->activeTheme->getActiveTheme();
-        //$this->themesCollectionWrapper = $this->container->get('alpha_lemon_cms.themes_collection_wrapper');
+        //$this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
         $templateManager = $this->themesCollectionWrapper->getTemplateManager();
         $templates = $this->themesCollectionWrapper->getTheme($themeName)->getTemplates();
 

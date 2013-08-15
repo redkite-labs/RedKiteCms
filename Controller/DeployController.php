@@ -22,7 +22,7 @@ class DeployController extends Base\BaseController
     public function productionAction()
     {
         try {
-            $deployer = $this->container->get('alpha_lemon_cms.production_deployer');
+            $deployer = $this->container->get('red_kite_cms.production_deployer');
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
             
@@ -37,7 +37,7 @@ class DeployController extends Base\BaseController
     public function stageAction()
     {
         try {
-            $deployer = $this->container->get('alpha_lemon_cms.stage_deployer');
+            $deployer = $this->container->get('red_kite_cms.stage_deployer');
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
             
@@ -52,8 +52,8 @@ class DeployController extends Base\BaseController
     protected function clearEnvironment($environment)
     {
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
-        $command = sprintf('assets:install %s %s', $this->container->getParameter('alpha_lemon_cms.web_folder_full_path'), $symlink);
-        $commandProcessor = $this->container->get('alpha_lemon_cms.commands_processor');
+        $command = sprintf('assets:install %s %s', $this->container->getParameter('red_kite_cms.web_folder_full_path'), $symlink);
+        $commandProcessor = $this->container->get('red_kite_cms.commands_processor');
         $commandProcessor->executeCommands(array(
             $command => null,
             'assetic:dump' => null,

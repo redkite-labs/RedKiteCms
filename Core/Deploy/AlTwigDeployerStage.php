@@ -42,7 +42,7 @@ class AlTwigDeployerStage extends AlTwigDeployer
         parent::__construct($container);
 
         $this->assetsDir .= '/stage';
-        $this->urlManager = $this->container->get('alpha_lemon_cms.url_manager_stage');
+        $this->urlManager = $this->container->get('red_kite_cms.url_manager_stage');
     }
 
     /**

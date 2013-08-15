@@ -62,11 +62,11 @@ class ThemesController extends BaseController
             
             $themeName = $request->get('themeName');            
             $currentTheme = $this->getActiveTheme();            
-            $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+            $themeChanger = $this->container->get('red_kite_cms.theme_changer');
             $themes = $this->container->get('red_kite_labs_theme_engine.themes');            
             $previousTheme = $themes->getTheme($currentTheme->getActiveTheme());
             $theme = $themes->getTheme($themeName);
-            $themeChanger->change($previousTheme, $theme, $this->container->getParameter('alpha_lemon_cms.theme_structure_file'), $map);
+            $themeChanger->change($previousTheme, $theme, $this->container->getParameter('red_kite_cms.theme_structure_file'), $map);
             $currentTheme->writeActiveTheme($themeName);
             
             return new Response($this->translate('The theme has been changed. Please wait while your site is reloading'), 200);            
@@ -81,7 +81,7 @@ class ThemesController extends BaseController
         $sourceSlotName = $request->get('sourceSlotName');        
         $targetSlotName = $request->get('targetSlotName');
         
-        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+        $themeChanger = $this->container->get('red_kite_cms.theme_changer');
         $message = $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
         
         $templateSlots = new AlTemplateSlots($this->container);
@@ -99,7 +99,7 @@ class ThemesController extends BaseController
                 'key' => 'slots',
                 'value' => $this->container->get('templating')->render('RedKiteCmsBundle:Themes:template_slots_panel.html.twig', array(
                     'slots' => $slots, 
-                    'configuration' => $this->container->get('alpha_lemon_cms.configuration')
+                    'configuration' => $this->container->get('red_kite_cms.configuration')
                 )),            
             ), 
         );
@@ -114,7 +114,7 @@ class ThemesController extends BaseController
     {
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:show_theme_finalizer.html.twig',
             array(
-                'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+                'configuration' => $this->container->get('red_kite_cms.configuration'),
             )
         );
     }
@@ -124,7 +124,7 @@ class ThemesController extends BaseController
         $request = $this->container->get('request');
         $action = $request->get('action');
            
-        $themeChanger = $this->container->get('alpha_lemon_cms.theme_changer');
+        $themeChanger = $this->container->get('red_kite_cms.theme_changer');
         $result = $themeChanger->finalize($action);  
         
         $message = $this->translate('The theme has not been finalized due to an error occoured when saving to database');
@@ -134,7 +134,7 @@ class ThemesController extends BaseController
             $statusCode = 200;
             
             if ($action == 'full') {
-                unlink($this->container->getParameter('alpha_lemon_cms.theme_structure_file'));
+                unlink($this->container->getParameter('red_kite_cms.theme_structure_file'));
             }
         }
 
@@ -150,12 +150,12 @@ class ThemesController extends BaseController
         $theme = $themes->getTheme($themeName);
         $template = $theme->getHomeTemplate();
 
-        $templateManager = $this->container->get('alpha_lemon_cms.template_manager');
+        $templateManager = $this->container->get('red_kite_cms.template_manager');
         $templateManager
             ->setTemplate($template)
             ->refresh();
         
-        $siteBootstrap = $this->container->get('alpha_lemon_cms.site_bootstrap');        
+        $siteBootstrap = $this->container->get('red_kite_cms.site_bootstrap');        
         $result = $siteBootstrap
                     ->setTemplateManager($templateManager)
                     ->bootstrap();
@@ -183,7 +183,7 @@ class ThemesController extends BaseController
 
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $pagesRepository = $factoryRepository->createRepository('Page');
         
         $currentTemplates = array();
@@ -201,7 +201,7 @@ class ThemesController extends BaseController
             'current_templates' => $currentTemplates, 
             'themeName' => $themeName, 
             'error' => $error,
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
 
         return new Response($output, $status);
@@ -228,7 +228,7 @@ class ThemesController extends BaseController
             'panel_sections' => 'RedKiteCmsBundle:Themes:theme_panel_sections.html.twig',
             'theme_skeleton' => 'RedKiteCmsBundle:Themes:theme_skeleton.html.twig',
             'values' => $values,
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'),
+            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
 
         return $responseContent;
@@ -237,7 +237,7 @@ class ThemesController extends BaseController
     protected function translate($message, array $params = array(), $catalogue = "RedKiteCmsBundle")
     {
         if (null === $this->translator) {
-            $this->translator = $this->container->get('alpha_lemon_cms.translator');
+            $this->translator = $this->container->get('red_kite_cms.translator');
         }
         
         return $this->translator->translate(

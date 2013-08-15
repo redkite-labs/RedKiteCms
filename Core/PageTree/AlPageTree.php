@@ -66,14 +66,14 @@ class AlPageTree extends BaseAlPageTree
                                 AlFactoryRepositoryInterface $factoryRepository,
                                 AlThemesCollectionWrapper $themesCollectionWrapper = null)
     {
-        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('alpha_lemon_cms.themes_collection_wrapper') : $themesCollectionWrapper;
+        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('red_kite_cms.themes_collection_wrapper') : $themesCollectionWrapper;
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->dispatcher = $container->get('event_dispatcher');
         $this->templateManager = $this->themesCollectionWrapper->getTemplateManager();
-        $this->blockManagerFactory = $container->get('alpha_lemon_cms.block_manager_factory');
+        $this->blockManagerFactory = $container->get('red_kite_cms.block_manager_factory');
         
         parent::__construct($container);
     }

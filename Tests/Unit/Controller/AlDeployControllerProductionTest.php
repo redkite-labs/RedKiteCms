@@ -24,7 +24,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
  */
 class AlDeployControllerProductionTest extends BaseDeployControllerTest
 {
-    protected $deployerServiceName = 'alpha_lemon_cms.production_deployer';
+    protected $deployerServiceName = 'red_kite_cms.production_deployer';
     
     protected function executeAction()
     {

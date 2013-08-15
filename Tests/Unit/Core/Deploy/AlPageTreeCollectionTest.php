@@ -214,7 +214,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         
         $this->container->expects($this->at(0))
             ->method('get')
-            ->with('alpha_lemon_cms.themes_collection_wrapper')
+            ->with('red_kite_cms.themes_collection_wrapper')
             ->will($this->returnValue($this->themesCollectionWrapper));
         
         $dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
@@ -234,7 +234,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         while ($i < $numberOfCalls + 1) {
             $this->container->expects($this->at($i))
                 ->method('get')
-                ->with('alpha_lemon_cms.block_manager_factory')
+                ->with('red_kite_cms.block_manager_factory')
                 ->will($this->returnValue($activeTheme));  
         
             $i = $i + 3; 
