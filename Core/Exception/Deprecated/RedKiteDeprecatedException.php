@@ -25,6 +25,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
  * @author RedKite Labs <webmaster@redkite-labs.com>
  * @api
  */
-class AlphaLemonDeprecatedException extends \Exception implements RedKiteCmsExceptionInterface
+class RedKiteDeprecatedException extends \Exception implements RedKiteCmsExceptionInterface
 {
 }
