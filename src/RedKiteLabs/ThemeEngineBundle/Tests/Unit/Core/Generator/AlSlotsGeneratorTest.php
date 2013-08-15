@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Generator;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Generator;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\Generator\AlSlotsGenerator;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\Generator\AlSlotsGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
  * AlTemplateParserTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlSlotsGeneratorTest extends Base\AlGeneratorBase
 {
@@ -240,7 +240,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home.slots.logo" class="%alpha_lemon_theme_engine.slot.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home.slots.logo" class="%red_kite_labs_theme_engine.slot.class%" public="false">' . PHP_EOL;
         $expected .= '            <argument type="string">logo</argument>' . PHP_EOL;
         $expected .= '            <argument type="collection" >' . PHP_EOL;
         $expected .= '                <argument key="repeated">site</argument>' . PHP_EOL;
@@ -294,7 +294,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home.slots.logo" class="%alpha_lemon_theme_engine.slot.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home.slots.logo" class="%red_kite_labs_theme_engine.slot.class%" public="false">' . PHP_EOL;
         $expected .= '            <argument type="string">logo</argument>' . PHP_EOL;
         $expected .= '            <tag name="fake_theme.theme.template.home.slots" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;

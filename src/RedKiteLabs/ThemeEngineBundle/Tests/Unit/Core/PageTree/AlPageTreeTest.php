@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,15 +15,15 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\PageTree;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree;
 
 /**
  * AlPageTreeTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPageTreeTest extends TestCase
 {
@@ -36,7 +36,7 @@ class AlPageTreeTest extends TestCase
         parent::setUp();
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->setMethods(
                                         array(
@@ -52,7 +52,7 @@ class AlPageTreeTest extends TestCase
                                     )                
                                     ->getMock();
 
-        $this->pageBlocks = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks')
+        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -189,14 +189,14 @@ class AlPageTreeTest extends TestCase
     
     public function testPageBlocks()
     {
-        $pageBlock = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface');
+        $pageBlock = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface');
         $this->assertEquals($this->pageTree, $this->pageTree->setPageBlocks($pageBlock));
         $this->assertEquals($pageBlock, $this->pageTree->getPageBlocks());
     }
     
     public function testTemplate()
     {
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                          ->disableOriginalConstructor()
                          ->getMock();
         $this->assertEquals($this->pageTree, $this->pageTree->setTemplate($template));
@@ -206,7 +206,7 @@ class AlPageTreeTest extends TestCase
     private function setUpAssetsCollection(array $storedAssets)
     {
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $assetsCollection = new \AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection($kernel, $storedAssets);
+        $assetsCollection = new \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection($kernel, $storedAssets);
                 
         return $assetsCollection;
     }

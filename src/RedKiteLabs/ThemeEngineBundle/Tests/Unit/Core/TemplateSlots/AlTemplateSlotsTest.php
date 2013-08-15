@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots;
 
 /**
  * AlTemplateSlotTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateSlotsTest extends TestCase
 {
@@ -147,7 +147,7 @@ class AlTemplateSlotsTest extends TestCase
     
     private function setUpSlot($slotName = 'logo', $numberOfTimes = 1)
     {
-        $slot = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         

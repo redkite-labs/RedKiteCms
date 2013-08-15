@@ -46,5 +46,5 @@ swiftmailer:
     password:  %mailer_password%
     spool:     { type: memory }
     
-alpha_lemon_theme_engine:
+red_kite_labs_theme_engine:
     deploy_bundle: AlphaLemonWebSiteBundle

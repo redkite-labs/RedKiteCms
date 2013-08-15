@@ -1,2 +1,2 @@
 _theme_engine:
-    resource: "@AlphaLemonThemeEngineBundle/Resources/config/routing.yml"
+    resource: "@RedKiteLabsThemeEngineBundle/Resources/config/routing.yml"

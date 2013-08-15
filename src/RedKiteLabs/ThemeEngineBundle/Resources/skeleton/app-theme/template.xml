@@ -57,7 +57,7 @@
 {% endif %}
 
     <services>
-        <service id="{{ extension_alias }}.theme.template_assets.{{ template_name }}" class="%alpha_lemon_theme_engine.template_assets.class%" public="false">
+        <service id="{{ extension_alias }}.theme.template_assets.{{ template_name }}" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
 {% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0 %}
             <call method="setExternalStylesheets">
                 <argument>%{{ extension_alias }}.{{ template_name }}.external_stylesheets%</argument>
@@ -70,11 +70,11 @@
 {% endif %}
         </service>
 
-        <service id="{{ extension_alias }}.theme.template.{{ template_name }}.slots" class="%alpha_lemon_theme_engine.template_slots.class%" public="false">
+        <service id="{{ extension_alias }}.theme.template.{{ template_name }}.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">
             <tag name="{{ extension_alias }}.theme.template.{{ template_name }}" />
         </service>
 
-        <service id="{{ extension_alias }}.theme.template.{{ template_name }}" class="%alpha_lemon_theme_engine.template.class%" public="false">
+        <service id="{{ extension_alias }}.theme.template.{{ template_name }}" class="%red_kite_labs_theme_engine.template.class%" public="false">
             <argument type="service" id="kernel" />
             <argument type="service" id="{{ extension_alias }}.theme.template_assets.{{ template_name }}" />
             <argument type="service" id="{{ extension_alias }}.theme.template.{{ template_name }}.slots" />

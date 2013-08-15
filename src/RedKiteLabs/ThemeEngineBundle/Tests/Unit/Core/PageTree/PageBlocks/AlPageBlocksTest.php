@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,15 +15,15 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\PageBlocks;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\PageBlocks;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks;
 
 /**
  * AlPageBlocksTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPageBlocksTest extends TestCase
 {
@@ -103,7 +103,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
+     * @expectedException RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAnExeptionIsThrowsWhenTryingToClearANonExistentSlot()
     {
@@ -133,7 +133,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
+     * @expectedException RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAnExeptionIsThrowsWhenTryingToRemoveANonExistentSlot()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Generator;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Generator;
 
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Symfony\Component\DependencyInjection\Container;
@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Container;
 /**
  * AlSlotsGenerator generates the slots file for the given template
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlSlotsGenerator extends Generator
 {

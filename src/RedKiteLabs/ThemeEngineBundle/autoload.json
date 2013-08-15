@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "AlphaLemon\\ThemeEngineBundle\\AlphaLemonThemeEngineBundle" : {
+        "RedKiteLabs\\ThemeEngineBundle\\RedKiteLabsThemeEngineBundle" : {
             "environments" : ["all"]
         },
         "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {

@@ -1,10 +1,10 @@
 <?php
 /*
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,19 +14,19 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
+namespace RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots;
 
 /**
  * Defines the template slots methods
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlTemplateSlotsInterface
 {
     /**
      * Adds a slot object
      *
-     * @param \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
      */
     public function addSlot(AlSlot $slot);
 

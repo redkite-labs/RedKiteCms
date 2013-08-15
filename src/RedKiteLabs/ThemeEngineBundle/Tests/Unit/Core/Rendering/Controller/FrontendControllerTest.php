@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Controller\Listener;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Controller\Listener;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller\FrontendController;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Controller\FrontendController;
 
 class FrontendControllerTester extends FrontendController
 {
@@ -28,7 +28,7 @@ class FrontendControllerTester extends FrontendController
 /**
  * FrontendControllerTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class FrontendControllerTest extends TestCase
 {
@@ -155,17 +155,17 @@ class FrontendControllerTest extends TestCase
     {
         $this->container->expects($this->at(0))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy.templates_folder')
+            ->with('red_kite_labs_theme_engine.deploy.templates_folder')
             ->will($this->returnValue($templatesFolder));
         
         $this->container->expects($this->at(2))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.deploy_bundle')
+            ->with('red_kite_labs_theme_engine.deploy_bundle')
             ->will($this->returnValue('AcmeWebsiteBundle'));
         
         $this->container->expects($this->at(3))
             ->method('getParameter')
-            ->with('alpha_lemon_theme_engine.base_template')
+            ->with('red_kite_labs_theme_engine.base_template')
             ->will($this->returnValue('ThemeEngineBundle:Fake:template.html.twig'));
     }
 

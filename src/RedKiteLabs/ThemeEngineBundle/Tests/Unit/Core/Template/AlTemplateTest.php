@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,15 +15,15 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 
 /**
  * AlTemplateTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateTest extends TestCase
 {
@@ -33,16 +33,16 @@ class AlTemplateTest extends TestCase
 
     protected function setUp()
     {
-        $this->templateAssets = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets');      
+        $this->templateAssets = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets');      
         
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
     }
 
     public function testBlockManagerFactoryInjectedBySetters()
     {        
         $this->initAssets();
-        $templateSlots = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');  
+        $templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');  
         
         $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);           
         $this->assertEquals($this->template, $this->template->setTemplateSlots($templateSlots));
@@ -207,9 +207,9 @@ class AlTemplateTest extends TestCase
         $this->assertTrue(count($this->template->getInternalStylesheets()) == $expectedElements);
         $this->assertTrue(count($this->template->getExternalJavascripts()) == $expectedElements);
         $this->assertTrue(count($this->template->getInternalJavascripts()) == $expectedElements);
-        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getExternalStylesheets());
-        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getInternalStylesheets());
-        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getExternalJavascripts());
-        $this->assertInstanceOf('\AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getInternalJavascripts());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getExternalStylesheets());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getInternalStylesheets());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getExternalJavascripts());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getInternalJavascripts());
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,14 +14,14 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Theme;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Theme;
 
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 
 /**
  * AlThemeInterface
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlThemeInterface
 {
@@ -51,8 +51,8 @@ interface AlThemeInterface
      * Sets the template for the given key
      *
      * @param string  The name of the template to set
-     * @param \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate  The template to set
-     * @return null | \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate  The template to set
+     * @return null | \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function setTemplate($key, AlTemplate $template);
 
@@ -60,7 +60,7 @@ interface AlThemeInterface
      * Returns the template from its name
      *
      * @param string  The name of the theme to retrieve
-     * @return null | \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return null | \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function getTemplate($name);
 }

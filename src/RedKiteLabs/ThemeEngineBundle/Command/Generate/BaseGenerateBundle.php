@@ -1,13 +1,13 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Command\Generate;
+namespace RedKiteLabs\ThemeEngineBundle\Command\Generate;
 
 use Sensio\Bundle\GeneratorBundle\Command\GenerateBundleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
-use AlphaLemon\ThemeEngineBundle\Core\Generator\AlAppBlockGenerator;
+use RedKiteLabs\ThemeEngineBundle\Core\Generator\AlAppBlockGenerator;
 //use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 

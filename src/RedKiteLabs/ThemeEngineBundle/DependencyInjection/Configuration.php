@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\DependencyInjection;
+namespace RedKiteLabs\ThemeEngineBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('alpha_lemon_theme_engine');
+        $rootNode = $treeBuilder->root('red_kite_labs_theme_engine');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

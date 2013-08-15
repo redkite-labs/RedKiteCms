@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\DependencyInjection;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

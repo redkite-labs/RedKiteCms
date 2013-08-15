@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon FrontendBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,11 +15,11 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler\EventListenersRegistrator;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\EventListenersRegistrator;
 
 class RegisterRenderingListenersPass implements CompilerPassInterface
 {
@@ -28,7 +28,7 @@ class RegisterRenderingListenersPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        EventListenersRegistrator::registerByTaggedServiceId($container, 'alpha_lemon_theme_engine.event_listener');
+        EventListenersRegistrator::registerByTaggedServiceId($container, 'red_kite_labs_theme_engine.event_listener');
     }
 }
 

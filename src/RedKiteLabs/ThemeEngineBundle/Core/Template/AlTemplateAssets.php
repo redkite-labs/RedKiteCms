@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,12 +14,12 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Template;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Template;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
  * AlTemplateAssets
@@ -37,7 +37,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
  * @method     AlTemplateAssets addExternalJavascripts() Adds some assets to the external javascripts collection
  * @method     AlTemplateAssets addInternalJavascripts() Adds some assets to the internal javascripts collection
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateAssets
 {
@@ -54,7 +54,7 @@ class AlTemplateAssets
      * Sets the template name
      *
      * @param string $v
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets
      */
     public function setTemplateName($v)
     {
@@ -69,7 +69,7 @@ class AlTemplateAssets
      * Sets the theme name
      *
      * @param string $v
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets
      */
     public function setThemeName($v)
     {

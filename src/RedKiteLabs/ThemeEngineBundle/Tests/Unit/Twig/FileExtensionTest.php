@@ -1,15 +1,15 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Twig;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Twig;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Twig\FileExtension;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Twig\FileExtension;
 use org\bovigo\vfs\vfsStream;
 
 /**
  * AlphaLemonCmsExtensionTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class FileExtensionTest extends TestCase
 {

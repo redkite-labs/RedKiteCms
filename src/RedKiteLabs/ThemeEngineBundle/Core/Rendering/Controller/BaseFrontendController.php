@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon FrontendBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,14 +15,14 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Controller;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\Event\PageRendererEvents;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRendererEvents;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Defines the base controller application should inherit from
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BaseFrontendController extends Controller
 {

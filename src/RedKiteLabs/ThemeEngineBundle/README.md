@@ -34,7 +34,7 @@ Open the AppKernel configuration file and add the bundle to the registerBundles(
     {
         $bundles = array(
             ...
-            new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle(),
+            new RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle(),
         )
     }
 
@@ -49,7 +49,7 @@ Register the ThemeEngineBundle namespaces in `app/autoload.php`:
 Import the routing configuration into the routing.yml file:
 
     _alphaLemonThemeEngineBundle:
-        resource: "@AlphaLemonThemeEngineBundle/Resources/config/routing.yml"
+        resource: "@RedKiteLabsThemeEngineBundle/Resources/config/routing.yml"
         
 To complete the bundle configuration you must install assets as follows:
 
@@ -73,7 +73,7 @@ given directory:
 
     app/AppKernel.php
 
-    use AlphaLemon\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader;
+    use RedKiteLabs\ThemeEngineBundle\Core\Autoloader\ThemesAutoloader;
 
     public function registerBundles()
     {

@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Asset;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Asset;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * The AlAsset object extracts the asset's full path and the absolute path to the
  * web/bundle's folder
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlAsset
 {

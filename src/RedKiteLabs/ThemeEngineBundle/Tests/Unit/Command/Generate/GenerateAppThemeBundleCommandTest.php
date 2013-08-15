@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Command;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Command;
 
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -24,7 +24,7 @@ use org\bovigo\vfs\vfsStream;
 /**
  * GenerateAppThemeBundleCommandTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
 {
@@ -65,7 +65,7 @@ class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-            ->getMockBuilder('AlphaLemon\ThemeEngineBundle\Command\Generate\GenerateAppThemeBundleCommand')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Command\Generate\GenerateAppThemeBundleCommand')
             ->setMethods(array('checkAutoloader', 'updateKernel'))
             ->getMock()
         ;
@@ -81,7 +81,7 @@ class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
     {
         // get a noop generator
         return $this
-            ->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Generator\AlAppThemeGenerator')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Generator\AlAppThemeGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateExt'))
             ->getMock()

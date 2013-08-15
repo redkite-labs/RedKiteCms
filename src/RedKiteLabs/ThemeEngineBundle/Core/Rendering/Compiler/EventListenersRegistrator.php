@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,14 +14,14 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Register the listeners by their tags
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class EventListenersRegistrator
 {
@@ -32,7 +32,7 @@ class EventListenersRegistrator
         }
         
         $definition = $container->getDefinition('event_dispatcher');
-        $registedListenersDefinition = $container->getDefinition('alpha_lemon_theme_engine.registed_listeners');
+        $registedListenersDefinition = $container->getDefinition('red_kite_labs_theme_engine.registed_listeners');
         foreach ($container->findTaggedServiceIds($tagServiceId) as $id => $events) {
             foreach ($events as $event) {
                 $priority = isset($event['priority']) ? $event['priority'] : 0;
@@ -48,7 +48,7 @@ class EventListenersRegistrator
                     ), array('strtoupper("\\0")', ''), $event['event']);
                 }
                 
-                if ($tagServiceId == 'alpha_lemon_theme_engine.event_listener') {
+                if ($tagServiceId == 'red_kite_labs_theme_engine.event_listener') {
                     $registedListenersDefinition->addMethodCall('addListenerId', array($id));
                 }
                 

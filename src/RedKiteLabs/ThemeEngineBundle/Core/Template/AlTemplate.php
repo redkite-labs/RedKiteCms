@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,12 +14,12 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Template;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Template;
 
 use Symfony\Component\HttpKernel\KernelInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets;
-use AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets;
+use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
  * The class deputate to manage a template
@@ -41,7 +41,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  * @method     AlTemplate setExternalStylesheets() Returns the external javascripts
  * @method     AlTemplate setInternalStylesheets() Returns the internal javascripts
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplate
 {
@@ -92,7 +92,7 @@ class AlTemplate
      * Sets the theme name for the associated AlTemplateAssets object
      *
      * @param string $v
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function setThemeName($v)
     {
@@ -105,7 +105,7 @@ class AlTemplate
      * Sets the template name for the associated AlTemplateAssets object
      *
      * @param string $v
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function setTemplateName($v)
     {
@@ -138,7 +138,7 @@ class AlTemplate
      * Sets the current AlTemplateSlots object
      *
      * @param AlTemplateSlotsInterface $templateSlots
-     * @return \AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function setTemplateSlots(AlTemplateSlotsInterface $templateSlots)
     {
@@ -150,7 +150,7 @@ class AlTemplate
     /**
      * Returns the current AlTemplateSlots object
      *
-     * @return \AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
      */
     public function getTemplateSlots()
     {

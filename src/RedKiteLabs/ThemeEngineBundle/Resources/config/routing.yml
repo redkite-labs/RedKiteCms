@@ -1,2 +1,2 @@
 _themes:
-    resource: "@AlphaLemonThemeEngineBundle/Resources/config/routing/themes.xml"
+    resource: "@RedKiteLabsThemeEngineBundle/Resources/config/routing/themes.xml"

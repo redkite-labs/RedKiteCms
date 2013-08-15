@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\DependencyInjection;
+namespace RedKiteLabs\ThemeEngineBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class AlphaLemonThemeEngineExtension extends Extension
+class RedKiteLabsThemeEngineExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -43,23 +43,23 @@ class AlphaLemonThemeEngineExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         if (isset($config['base_template'])) {
-            $container->setParameter('alpha_lemon_theme_engine.base_template', $config['base_template']);
+            $container->setParameter('red_kite_labs_theme_engine.base_template', $config['base_template']);
         }
         
         if (isset($config['active_theme_file'])) {
-            $container->setParameter('alpha_lemon_theme_engine.active_theme_file', $config['active_theme_file']);
+            $container->setParameter('red_kite_labs_theme_engine.active_theme_file', $config['active_theme_file']);
         }
 
         if (isset($config['themes_panel']['base_theme'])) {
-            $container->setParameter('alpha_lemon_theme_engine.themes_panel.base_theme', $config['themes_panel']['base_theme']);
+            $container->setParameter('red_kite_labs_theme_engine.themes_panel.base_theme', $config['themes_panel']['base_theme']);
         }
 
         if (isset($config['themes_panel']['theme_section'])) {
-            $container->setParameter('alpha_lemon_theme_engine.themes_panel.theme_section', $config['themes_panel']['theme_section']);
+            $container->setParameter('red_kite_labs_theme_engine.themes_panel.theme_section', $config['themes_panel']['theme_section']);
         }
 
         if (isset($config['themes_panel']['theme_skeleton'])) {
-            $container->setParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton', $config['themes_panel']['theme_skeleton']);
+            $container->setParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton', $config['themes_panel']['theme_skeleton']);
         }
         
         if (isset($config['render_slot_class'])) {
@@ -67,14 +67,14 @@ class AlphaLemonThemeEngineExtension extends Extension
         }
         
         if (isset($config['templates_folder'])) {
-            $container->setParameter('alpha_lemon_theme_engine.deploy.templates_folder', $config['templates_folder']);
+            $container->setParameter('red_kite_labs_theme_engine.deploy.templates_folder', $config['templates_folder']);
         }
         
-        $container->setParameter('alpha_lemon_theme_engine.deploy_bundle', $config['deploy_bundle']);
+        $container->setParameter('red_kite_labs_theme_engine.deploy_bundle', $config['deploy_bundle']);
     }
 
     public function getAlias()
     {
-        return 'alpha_lemon_theme_engine';
+        return 'red_kite_labs_theme_engine';
     }
 }

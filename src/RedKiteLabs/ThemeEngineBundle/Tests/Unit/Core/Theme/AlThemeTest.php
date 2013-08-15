@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,20 +15,20 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 
 /**
  * AlThemeTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlThemeTest extends TestCase
 {
     /**
-     * @expectedException \AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException
+     * @expectedException \RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAnExceptionIsThrownsWhenTheAlThemeNotReceiveAString()
     {
@@ -48,7 +48,7 @@ class AlThemeTest extends TestCase
     {
         $template = $this->setUpTemplate();
         $theme = $this->setUpTheme('FakeBundle', $template);
-        $otherTemplate = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $otherTemplate = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertSame($template, $theme->getTemplate('home'));
@@ -121,7 +121,7 @@ class AlThemeTest extends TestCase
 
     private function setUpTemplate($templateName = 'Home')
     {
-        $template = $this->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $template->expects($this->once())

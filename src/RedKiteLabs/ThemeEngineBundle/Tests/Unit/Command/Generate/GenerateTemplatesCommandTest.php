@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Command;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Command;
 
 use Symfony\Component\DependencyInjection\Container;
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
@@ -25,7 +25,7 @@ use org\bovigo\vfs\vfsStream;
 /**
  * GenerateAppThemeBundleCommandTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class GenerateTemplatesCommandTest extends GenerateCommandTest
 {
@@ -271,7 +271,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getCommand($templateParser, $templateGenerator, $slotsGenerator, $input)
     {
         $command = $this
-            ->getMockBuilder('AlphaLemon\ThemeEngineBundle\Command\Generate\GenerateTemplatesCommand')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Command\Generate\GenerateTemplatesCommand')
             ->setMethods(array('checkAutoloader', 'updateKernel'))
             ->getMock()
         ;
@@ -317,7 +317,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getTemplateParser($values)
     {
         $templateParser = $this
-            ->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Generator\TemplateParser\AlTemplateParser')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Generator\TemplateParser\AlTemplateParser')
             ->disableOriginalConstructor()
             ->setMethods(array('parse'))
             ->getMock()
@@ -334,7 +334,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getTemplateGenerator()
     {
         return $this
-            ->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Generator\AlTemplateGenerator')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Generator\AlTemplateGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateTemplate'))
             ->getMock()
@@ -344,7 +344,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getSlotsGenerator()
     {
         return $this
-            ->getMockBuilder('AlphaLemon\ThemeEngineBundle\Core\Generator\AlSlotsGenerator')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Generator\AlSlotsGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateSlots'))
             ->getMock()

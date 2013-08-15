@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,13 +14,12 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\TemplateSlots;
+namespace RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots;
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\FileLocator;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
-use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidFixtureConfigurationException;
-use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidTemplateNameException;
+use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidFixtureConfigurationException;
+use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidTemplateNameException;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**

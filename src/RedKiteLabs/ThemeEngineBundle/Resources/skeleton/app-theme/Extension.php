@@ -17,7 +17,7 @@
 
 namespace  {{ namespace }}\DependencyInjection;
 
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\DependencyInjection\BaseExtension;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\DependencyInjection\BaseExtension;
 
 class {{ bundle_basename }}Extension extends BaseExtension
 {

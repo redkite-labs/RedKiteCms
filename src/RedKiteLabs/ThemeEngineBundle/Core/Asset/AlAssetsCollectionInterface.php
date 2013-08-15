@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,16 +14,15 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Asset;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Asset;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\PageTreeBundle\Core\Tools\AlToolkit;
 
 /**
  * Defines the methods to add and remove one or more items from the
  * AlAssetsCollect
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlAssetsCollectionInterface extends \Iterator, \Countable
 {

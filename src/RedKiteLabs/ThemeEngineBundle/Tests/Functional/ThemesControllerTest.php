@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,14 +15,14 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Functional\Controller;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Functional\Controller;
 
-use AlphaLemon\ThemeEngineBundle\Tests\WebTestCaseFunctional;
+use RedKiteLabs\ThemeEngineBundle\Tests\WebTestCaseFunctional;
 
 /**
  * ThemesControllerTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ThemesControllerTest extends WebTestCaseFunctional
 {

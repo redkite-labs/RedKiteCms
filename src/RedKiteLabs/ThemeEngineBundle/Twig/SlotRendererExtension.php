@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,16 +14,16 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Twig;
+namespace RedKiteLabs\ThemeEngineBundle\Twig;
 
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 /**
  * Adds the renderSlot function to Twig engine
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  * @codeCoverageIgnore
  */
 class SlotRendererExtension extends \Twig_Extension
@@ -47,13 +47,13 @@ class SlotRendererExtension extends \Twig_Extension
         {
             $result = '';
 
-            if (!$this->container->has('alpha_lemon_theme_engine.page_tree')) {
+            if (!$this->container->has('red_kite_labs_theme_engine.page_tree')) {
                 return $result;
             }
             
             $slotContents = $this
                 ->container
-                ->get('alpha_lemon_theme_engine.page_tree')
+                ->get('red_kite_labs_theme_engine.page_tree')
                 ->getPageBlocks()
                 ->getSlotBlocks($slotName);
             if(count($slotContents) > 0)

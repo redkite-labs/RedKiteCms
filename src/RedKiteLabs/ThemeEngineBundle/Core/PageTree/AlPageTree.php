@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,11 +14,11 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\PageTree;
+namespace RedKiteLabs\ThemeEngineBundle\Core\PageTree;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate;
-use AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface;
 
 /**
  * The AlPageTree object is responsibile to store and collect all the information required to
@@ -83,7 +83,7 @@ class AlPageTree
      * Sets the template object
      *
      * @param AlTemplate $v
-     * @return \AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree
      */
     public function setTemplate(AlTemplate $v)
     {
@@ -96,7 +96,7 @@ class AlPageTree
      * Sets the pageBlocks object
      *
      * @param AlPageBlocksInterface $v
-     * @return \AlphaLemon\ThemeEngineBundle\Core\PageTree\AlPageTree
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree
      */
     public function setPageBlocks(AlPageBlocksInterface $v)
     {

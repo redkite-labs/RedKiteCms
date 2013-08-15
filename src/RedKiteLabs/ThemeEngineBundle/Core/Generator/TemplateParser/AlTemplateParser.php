@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Generator\TemplateParser;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Generator\TemplateParser;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
  * AlTemplateParser parses the twig templates from a given folder to look for
  * the information that defines the slot's attributes
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateParser
 {

@@ -1,18 +1,18 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Command\Generate;
+namespace RedKiteLabs\ThemeEngineBundle\Command\Generate;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Generator\AlTemplateGenerator;
+use RedKiteLabs\ThemeEngineBundle\Core\Generator\AlTemplateGenerator;
 use Symfony\Component\DependencyInjection\Container;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
-use AlphaLemon\ThemeEngineBundle\Core\Generator\TemplateParser\AlTemplateParser;
-use AlphaLemon\ThemeEngineBundle\Core\Generator\AlSlotsGenerator;
-use AlphaLemon\ThemeEngineBundle\Core\Generator\AlExtensionGenerator;
+use RedKiteLabs\ThemeEngineBundle\Core\Generator\TemplateParser\AlTemplateParser;
+use RedKiteLabs\ThemeEngineBundle\Core\Generator\AlSlotsGenerator;
+use RedKiteLabs\ThemeEngineBundle\Core\Generator\AlExtensionGenerator;
 
 class GenerateTemplatesCommand extends ContainerAwareCommand
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\DependencyInjection;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\DependencyInjection;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\DependencyInjection\AlphaLemonThemeEngineExtension;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\DependencyInjection\AlphaLemonThemeEngineExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * AlphaLemonThemeEngineExtensionTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlphaLemonThemeEngineExtensionTest extends TestCase
 {
@@ -24,19 +24,19 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
     public function testGetAlias()
     {
         $extension = new AlphaLemonThemeEngineExtension();
-        $this->assertEquals('alpha_lemon_theme_engine', $extension->getAlias());
+        $this->assertEquals('red_kite_labs_theme_engine', $extension->getAlias());
     }
 
     public function testDefaultConfiguration()
     {
         $extension = new AlphaLemonThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle')), $this->container);
-        $this->assertEquals('AlphaLemonThemeEngineBundle:Theme:base.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.base_template'));
-        $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:index.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'));
-        $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:theme_panel_sections.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_section'));
-        $this->assertEquals('AlphaLemonThemeEngineBundle:Themes:theme_skeleton.html.twig', $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton'));
-        $this->assertEquals('AlphaLemon', $this->container->getParameter('alpha_lemon_theme_engine.deploy.templates_folder'));
-        $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('alpha_lemon_theme_engine.active_theme_file'));
+        $this->assertEquals('RedKiteLabsThemeEngineBundle:Theme:base.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.base_template'));
+        $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:index.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'));
+        $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:theme_panel_sections.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_section'));
+        $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:theme_skeleton.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton'));
+        $this->assertEquals('AlphaLemon', $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder'));
+        $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_labs_theme_engine.active_theme_file'));
         $this->assertEquals(
             array(
                 'title',
@@ -46,58 +46,58 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
                 'website',
                 'email',
                 'version',
-            ), $this->container->getParameter('alpha_lemon_theme_engine.info_valid_entries'));
-        $this->assertEquals('AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme', $this->container->getParameter('alpha_lemon_theme_engine.active_theme.class'));
-        $this->assertEquals('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', $this->container->getParameter('alpha_lemon_theme_engine.themes.class'));
-        $this->assertEquals('AlphaLemon\ThemeEngineBundle\Core\Theme\AlTheme', $this->container->getParameter('alpha_lemon_theme_engine.theme.class'));
-        $this->assertEquals('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlSlot', $this->container->getParameter('alpha_lemon_theme_engine.slot.class'));
-        $this->assertEquals('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplate', $this->container->getParameter('alpha_lemon_theme_engine.template.class'));
-        $this->assertEquals('AlphaLemon\ThemeEngineBundle\Core\Template\AlTemplateAssets', $this->container->getParameter('alpha_lemon_theme_engine.template_assets.class'));
-        $this->assertEquals('AlphaLemon\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots', $this->container->getParameter('alpha_lemon_theme_engine.template_slots.class'));
+            ), $this->container->getParameter('red_kite_labs_theme_engine.info_valid_entries'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme', $this->container->getParameter('red_kite_labs_theme_engine.active_theme.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', $this->container->getParameter('red_kite_labs_theme_engine.themes.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme', $this->container->getParameter('red_kite_labs_theme_engine.theme.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot', $this->container->getParameter('red_kite_labs_theme_engine.slot.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate', $this->container->getParameter('red_kite_labs_theme_engine.template.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets', $this->container->getParameter('red_kite_labs_theme_engine.template_assets.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots', $this->container->getParameter('red_kite_labs_theme_engine.template_slots.class'));
     }
 
     public function testBaseTemplate()
     {
-        $this->scalarNodeParameter('alpha_lemon_theme_engine.base_template', 'base_template', 'AlphaLemonCmsBundle:Theme:base.html.twig');
+        $this->scalarNodeParameter('red_kite_labs_theme_engine.base_template', 'base_template', 'RedKiteCmsBundle:Theme:base.html.twig');
     }
 
     public function testAtiveThemeFile()
     {
-        $this->scalarNodeParameter('alpha_lemon_theme_engine.active_theme_file', 'active_theme_file', '%kernel.root_dir%/new/path');
+        $this->scalarNodeParameter('red_kite_labs_theme_engine.active_theme_file', 'active_theme_file', '%kernel.root_dir%/new/path');
     }
     
     public function testRenderSlotClass()
     {
-        $this->scalarNodeParameter('twig.extension.render_slot.class', 'render_slot_class', 'AlphaLemon\AlphaLemonCmsBundle\Twig\SlotRendererExtension');
+        $this->scalarNodeParameter('twig.extension.render_slot.class', 'render_slot_class', 'RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension');
     }
     
     public function testRenderSlotClass1()
     {
-        $this->scalarNodeParameter('alpha_lemon_theme_engine.deploy.templates_folder', 'templates_folder', 'AlphaLemon');
+        $this->scalarNodeParameter('red_kite_labs_theme_engine.deploy.templates_folder', 'templates_folder', 'AlphaLemon');
     }
 
     public function testThemesPanelBaseTheme()
     {
-        $value = 'AlphaLemonCmsBundle:Themes:index.html.twig';
+        $value = 'RedKiteCmsBundle:Themes:index.html.twig';
         $extension = new AlphaLemonThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('base_theme' => $value))), $this->container);
-        $this->assertEquals($value, $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'));
+        $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'));
     }
     
     public function testThemesPanelThemeSection()
     {
-        $value = 'AlphaLemonCmsBundle:Themes:theme_panel_sections.html.twig';
+        $value = 'RedKiteCmsBundle:Themes:theme_panel_sections.html.twig';
         $extension = new AlphaLemonThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('theme_section' => $value))), $this->container);
-        $this->assertEquals($value, $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_section'));
+        $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_section'));
     }
     
     public function testThemesPanelThemeSKeleton()
     {
-        $value = 'AlphaLemonCmsBundle:Themes:theme_skeleton.html.twig';
+        $value = 'RedKiteCmsBundle:Themes:theme_skeleton.html.twig';
         $extension = new AlphaLemonThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('theme_skeleton' => $value))), $this->container);
-        $this->assertEquals($value, $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton'));
+        $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton'));
     }
     
     private function scalarNodeParameter($parameter, $configKey, $configValue)

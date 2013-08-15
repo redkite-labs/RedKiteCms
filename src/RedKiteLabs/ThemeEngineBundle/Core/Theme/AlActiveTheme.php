@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,14 +14,14 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Theme;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Theme;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * AlActiveTheme is the object deputated to manage the active theme
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlActiveTheme implements AlActiveThemeInterface
 {
@@ -39,7 +39,7 @@ class AlActiveTheme implements AlActiveThemeInterface
     {
         if (!file_exists($this->getActiveThemeFile()))
         {
-            $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+            $themes = $this->container->get('red_kite_labs_theme_engine.themes');
             foreach ($themes as $theme) break;
 
             $themeName = $theme->getThemeName();
@@ -66,6 +66,6 @@ class AlActiveTheme implements AlActiveThemeInterface
      */
     protected function getActiveThemeFile()
     {
-        return $this->container->getParameter('alpha_lemon_theme_engine.active_theme_file');
+        return $this->container->getParameter('red_kite_labs_theme_engine.active_theme_file');
     }
 }

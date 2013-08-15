@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\PageTree\PageBlocks;
+namespace RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks;
 
-use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
+use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
  * AlPageBlocks is the object responsible to manage the blocks on a web page. A block on a web
@@ -27,7 +27,7 @@ use AlphaLemon\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
  * Providing the page id and language id, it retrieves the contents and arrange them
  * into an array which keys are the name of slot where the contents live.
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPageBlocks implements AlPageBlocksInterface
 {

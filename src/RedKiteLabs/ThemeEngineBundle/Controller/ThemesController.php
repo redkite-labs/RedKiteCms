@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,10 +15,10 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Controller;
+namespace RedKiteLabs\ThemeEngineBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use AlphaLemon\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Yaml\Yaml;
 
@@ -53,7 +53,7 @@ class ThemesController extends ContainerAware
         if(file_exists($fileName))
         {
             $t = Yaml::parse($fileName);
-            $info["info"] = \array_intersect_key($t["info"], \array_flip($this->container->getParameter('alpha_lemon_theme_engine.info_valid_entries')));
+            $info["info"] = \array_intersect_key($t["info"], \array_flip($this->container->getParameter('red_kite_labs_theme_engine.info_valid_entries')));
         }
 
         $screenshotPath = 'images/screenshot.png';
@@ -67,7 +67,7 @@ class ThemesController extends ContainerAware
 
     protected function retriveDefaultScreenshot()
     {
-        $fileName = '@AlphaLemonThemeEngineBundle/Resources/public/images/screenshot.png';
+        $fileName = '@RedKiteLabsThemeEngineBundle/Resources/public/images/screenshot.png';
         $screenShotAsset = new AlAsset($this->container->get('kernel'), $fileName);
 
         return '/' . $screenShotAsset->getAbsolutePath();
@@ -78,7 +78,7 @@ class ThemesController extends ContainerAware
         $values = array();
 
         $activeTheme = $this->getActiveTheme()->getActiveTheme();
-        $themes = $this->container->get('alpha_lemon_theme_engine.themes');
+        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         foreach($themes as $theme)
         {
             if ($activeTheme !== null && $activeTheme == $theme->getThemeName()) {
@@ -90,10 +90,10 @@ class ThemesController extends ContainerAware
             $values['available_themes']["themes"][] = $this->retrieveThemeInfo($theme);
         }
 
-        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('alpha_lemon_theme_engine.themes_panel.base_theme'), array(
-            'base_template' => $this->container->getParameter('alpha_lemon_theme_engine.base_template'),
-            'panel_sections' => $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_section'),
-            'theme_skeleton' => $this->container->getParameter('alpha_lemon_theme_engine.themes_panel.theme_skeleton'),
+        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'), array(
+            'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
+            'panel_sections' => $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_section'),
+            'theme_skeleton' => $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton'),
             'stylesheets' => array(),
             'values' => $values,
             'valum' => array()

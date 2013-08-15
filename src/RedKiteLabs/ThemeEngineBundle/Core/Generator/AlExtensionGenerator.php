@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Generator;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Generator;
 
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Symfony\Component\DependencyInjection\Container;
@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Container;
  * AlExtensionGenerator generates the DI Extension file, overriding the one generated
  * by the bundle generator
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlExtensionGenerator extends Generator
 {

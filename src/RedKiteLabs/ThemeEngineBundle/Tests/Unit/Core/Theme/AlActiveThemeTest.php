@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Asset;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
-use AlphaLemon\ThemeEngineBundle\Tests\TestCase;
-use AlphaLemon\ThemeEngineBundle\Core\Theme\AlActiveTheme;
+use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme;
 use org\bovigo\vfs\vfsStream;
 
 /**
  * AlActiveThemeTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlActiveThemeTest extends TestCase
 {
@@ -54,12 +54,12 @@ class AlActiveThemeTest extends TestCase
 
     public function testWhenActiveThemFileDoesNotExistTheFirstThemeIsChoosen()
     {
-        $theme = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
         $theme->expects($this->once())
             ->method('getThemeName')
             ->will($this->returnValue('BusinessWebsiteThemeBundle'));
 
-        $themes = $this->getMock('AlphaLemon\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
         $themes->expects($this->at(1))
              ->method('valid')
              ->will($this->returnValue(true));

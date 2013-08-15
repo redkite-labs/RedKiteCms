@@ -1,10 +1,10 @@
 <?php
 /*
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,26 +14,26 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\Listener;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Listener;
 
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Implements a basec listener to replace a content when the page is rendered and ready
  * to be returned with the response.
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BasePageRenderingListener
 {
     protected $container;
 
     /**
-     * Returns an array of \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
+     * Returns an array of \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
      * objects.
      * 
      * @return array

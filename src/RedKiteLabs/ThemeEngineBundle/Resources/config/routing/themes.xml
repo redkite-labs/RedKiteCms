@@ -5,12 +5,12 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="_themes" pattern="/backend/{_locale}/al_showThemes">
-        <default key="_controller">AlphaLemonThemeEngineBundle:Themes:show</default>
+        <default key="_controller">RedKiteLabsThemeEngineBundle:Themes:show</default>
         <default key="_locale">en</default>
     </route>
 
     <route id="_activate_theme" pattern="/backend/{_locale}/al_activateTheme/{themeName}">
-        <default key="_controller">AlphaLemonThemeEngineBundle:Themes:activateTheme</default>
+        <default key="_controller">RedKiteLabsThemeEngineBundle:Themes:activateTheme</default>
         <default key="_locale">en</default>
     </route>
 </routes>

@@ -1,13 +1,13 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Generator;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Generator;
 
 use Symfony\Component\DependencyInjection\Container;
 
 /**
  * AlAppThemeGenerator
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlAppThemeGenerator extends AlBaseGenerator
 {

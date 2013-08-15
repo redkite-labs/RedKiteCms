@@ -1,10 +1,10 @@
 <?php
 /*
- * This file is part of the AlphaLemon FrontendBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,13 +15,13 @@
  * 
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent;
 
 /**
  * AlSlotContent stores the information related to the content to replace
  * ona slot
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlSlotContent
 {
@@ -42,7 +42,7 @@ class AlSlotContent
     /**
      * Sets the name of the slot
      * 
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
      */
     public function setSlotName($slotName)
     {
@@ -67,7 +67,7 @@ class AlSlotContent
     /**
      * Sets the content to replace
      * 
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
      */
     public function setContent($content)
     {
@@ -92,7 +92,7 @@ class AlSlotContent
     /**
      * The slotContent is configured to replace the content on the slot
      * 
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
      */
     public function replace()
     {
@@ -104,7 +104,7 @@ class AlSlotContent
     /**
      * The slotContent is configured to inject the content into the slot
      * 
-     * @return \AlphaLemon\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent 
      */
     public function inject()
     {

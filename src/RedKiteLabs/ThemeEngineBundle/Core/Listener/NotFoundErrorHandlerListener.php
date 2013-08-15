@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Listener;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 /**
  * Listens for kernel exception
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class NotFoundErrorHandlerListener
 {
@@ -51,7 +51,7 @@ class NotFoundErrorHandlerListener
                 'message' => $exception->getMessage(),
             );
             
-            $event->setResponse($this->templating->renderResponse('AlphaLemonThemeEngineBundle:Error:error.html.twig', $values, $response));
+            $event->setResponse($this->templating->renderResponse('RedKiteLabsThemeEngineBundle:Error:error.html.twig', $values, $response));
         }
     }
 }

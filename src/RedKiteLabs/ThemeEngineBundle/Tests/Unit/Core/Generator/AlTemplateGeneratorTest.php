@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,15 +15,15 @@
  *
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Tests\Unit\Core\Generator;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Generator;
 
-use AlphaLemon\ThemeEngineBundle\Core\Generator\AlTemplateGenerator;
+use RedKiteLabs\ThemeEngineBundle\Core\Generator\AlTemplateGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
  * AlTemplateParserTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateGeneratorTest extends Base\AlGeneratorBase
 {
@@ -71,14 +71,14 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%alpha_lemon_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%alpha_lemon_theme_engine.template_slots.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">' . PHP_EOL;
         $expected .= '            <tag name="fake_theme.theme.template.home" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home" class="%alpha_lemon_theme_engine.template.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home" class="%red_kite_labs_theme_engine.template.class%" public="false">' . PHP_EOL;
         $expected .= '            <argument type="service" id="kernel" />' . PHP_EOL;
         $expected .= '            <argument type="service" id="fake_theme.theme.template_assets.home" />' . PHP_EOL;
         $expected .= '            <argument type="service" id="fake_theme.theme.template.home.slots" />' . PHP_EOL;
@@ -108,7 +108,7 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $contents .= '@BusinessWebsiteThemeBundle/Resources/public/css/layout.css' . PHP_EOL;
         $contents .= 'END-EXTERNAL-STYLESHEETS #}' . PHP_EOL;
         $contents .= '{# BEGIN-EXTERNAL-JAVASCRIPTS' . PHP_EOL;
-        $contents .= '@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
+        $contents .= '@RedKiteLabsThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
         $contents .= 'END-EXTERNAL-JAVASCRIPTS #}' . PHP_EOL;        
         $contents .= $this->fetchBaseContents();
         
@@ -128,14 +128,14 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '        <parameter key="fake_theme.home.external_javascripts" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
+        $expected .= '            <parameter>@RedKiteLabsThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '        <parameter key="fake_theme.home.external_stylesheets.cms" type="collection">' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '    </parameters>' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%alpha_lemon_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
         $expected .= '            <call method="setExternalStylesheets">' . PHP_EOL;
         $expected .= '                <argument>%fake_theme.home.external_stylesheets%</argument>' . PHP_EOL;
         $expected .= '            </call>' . PHP_EOL;
@@ -144,11 +144,11 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '            </call>' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%alpha_lemon_theme_engine.template_slots.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">' . PHP_EOL;
         $expected .= '            <tag name="fake_theme.theme.template.home" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home" class="%alpha_lemon_theme_engine.template.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home" class="%red_kite_labs_theme_engine.template.class%" public="false">' . PHP_EOL;
         $expected .= '            <argument type="service" id="kernel" />' . PHP_EOL;
         $expected .= '            <argument type="service" id="fake_theme.theme.template_assets.home" />' . PHP_EOL;
         $expected .= '            <argument type="service" id="fake_theme.theme.template.home.slots" />' . PHP_EOL;
@@ -177,14 +177,14 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $contents .= '@BusinessWebsiteThemeBundle/Resources/public/css/cms_fix.css' . PHP_EOL;
         $contents .= 'END-CMS-STYLESHEETS #}' . PHP_EOL;
         $contents .= '{# BEGIN-CMS-JAVASCRIPTS' . PHP_EOL;
-        $contents .= '@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
+        $contents .= '@RedKiteLabsThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
         $contents .= 'END-CMS-JAVASCRIPTS #}';
         $contents .= '{# BEGIN-EXTERNAL-STYLESHEETS' . PHP_EOL;
         $contents .= '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css' . PHP_EOL;
         $contents .= '@BusinessWebsiteThemeBundle/Resources/public/css/layout.css' . PHP_EOL;
         $contents .= 'END-EXTERNAL-STYLESHEETS #}' . PHP_EOL;
         $contents .= '{# BEGIN-EXTERNAL-JAVASCRIPTS' . PHP_EOL;
-        $contents .= '@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
+        $contents .= '@RedKiteLabsThemeEngineBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
         $contents .= 'END-EXTERNAL-JAVASCRIPTS #}' . PHP_EOL;        
         $contents .= $this->fetchBaseContents();
         
@@ -204,18 +204,18 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '        <parameter key="fake_theme.home.external_javascripts" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
+        $expected .= '            <parameter>@RedKiteLabsThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '        <parameter key="fake_theme.home.external_stylesheets.cms" type="collection">' . PHP_EOL;
         $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/cms_fix.css</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '        <parameter key="fake_theme.home.external_javascripts.cms" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@AlphaLemonThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
+        $expected .= '            <parameter>@RedKiteLabsThemeEngineBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
         $expected .= '        </parameter>' . PHP_EOL;
         $expected .= '    </parameters>' . PHP_EOL;
         $expected .=  PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%alpha_lemon_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
         $expected .= '            <call method="setExternalStylesheets">' . PHP_EOL;
         $expected .= '                <argument>%fake_theme.home.external_stylesheets%</argument>' . PHP_EOL;
         $expected .= '            </call>' . PHP_EOL;
@@ -224,11 +224,11 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '            </call>' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%alpha_lemon_theme_engine.template_slots.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">' . PHP_EOL;
         $expected .= '            <tag name="fake_theme.theme.template.home" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
-        $expected .= '        <service id="fake_theme.theme.template.home" class="%alpha_lemon_theme_engine.template.class%" public="false">' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme.template.home" class="%red_kite_labs_theme_engine.template.class%" public="false">' . PHP_EOL;
         $expected .= '            <argument type="service" id="kernel" />' . PHP_EOL;
         $expected .= '            <argument type="service" id="fake_theme.theme.template_assets.home" />' . PHP_EOL;
         $expected .= '            <argument type="service" id="fake_theme.theme.template.home.slots" />' . PHP_EOL;

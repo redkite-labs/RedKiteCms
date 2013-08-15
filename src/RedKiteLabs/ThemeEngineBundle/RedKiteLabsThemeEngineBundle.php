@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,14 +14,14 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle;
+namespace RedKiteLabs\ThemeEngineBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\Compiler\RegisterRenderingListenersPass;
-use AlphaLemon\ThemeEngineBundle\Core\Compiler\AlThemesCollectionCompilerPass;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\RegisterRenderingListenersPass;
+use RedKiteLabs\ThemeEngineBundle\Core\Compiler\AlThemesCollectionCompilerPass;
 
-class AlphaLemonThemeEngineBundle extends Bundle
+class RedKiteLabsThemeEngineBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

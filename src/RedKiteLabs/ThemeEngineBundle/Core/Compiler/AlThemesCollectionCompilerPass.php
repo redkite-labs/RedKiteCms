@@ -1,10 +1,10 @@
 <?php
 /**
- * This file is part of the AlphaLemonPageTreeBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Compiler;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Compiler;
 
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -23,18 +23,18 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Register the themes by their tags
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlThemesCollectionCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('alpha_lemon_theme_engine.themes')) {
+        if (false === $container->hasDefinition('red_kite_labs_theme_engine.themes')) {
             return;
         }
 
-        $definition = $container->getDefinition('alpha_lemon_theme_engine.themes');
-        foreach ($container->findTaggedServiceIds('alpha_lemon_theme_engine.themes.theme') as $id => $attributes) {
+        $definition = $container->getDefinition('red_kite_labs_theme_engine.themes');
+        foreach ($container->findTaggedServiceIds('red_kite_labs_theme_engine.themes.theme') as $id => $attributes) {
             foreach($attributes as $tagAttributes) {
                 $definition->addMethodCall('addTheme', array(new Reference($id)));
             }

@@ -1,8 +1,8 @@
-alpha_lemon_theme_engine:
-    base_template: AlphaLemonThemeEngineBundle:Frontend:base.html.twig
+red_kite_labs_theme_engine:
+    base_template: RedKiteLabsThemeEngineBundle:Frontend:base.html.twig
 
 assetic:
-    bundles: [ AlphaLemonThemeEngineBundle ]
+    bundles: [ RedKiteLabsThemeEngineBundle ]
     filters:
         cssrewrite: ~
         yui_css:

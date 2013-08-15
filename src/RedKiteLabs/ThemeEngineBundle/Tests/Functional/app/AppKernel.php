@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new AlphaLemon\Theme\BusinessWebsiteThemeBundle\BusinessWebsiteThemeBundle(),
         );
         
-        $bundles[] = new AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle();
+        $bundles[] = new RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle();
 
         return $bundles;
     }

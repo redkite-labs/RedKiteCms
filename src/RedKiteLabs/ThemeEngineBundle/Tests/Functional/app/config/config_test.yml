@@ -13,5 +13,5 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
     
-alpha_lemon_theme_engine:
+red_kite_labs_theme_engine:
     active_theme_file: %kernel.root_dir%/Resources/.tests_active_theme

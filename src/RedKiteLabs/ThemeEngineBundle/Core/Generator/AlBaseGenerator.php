@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\ThemeEngineBundle\Core\Generator;
+namespace RedKiteLabs\ThemeEngineBundle\Core\Generator;
 
 use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 use Symfony\Component\Filesystem\Filesystem;
@@ -8,7 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * AlBaseGenerator defines the base generator
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class AlBaseGenerator extends BundleGenerator
 {
