@@ -2,13 +2,13 @@
 
 {% block content %}
 <div class="al_security_item">    
-    <h2>{{ "Manage user"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</h2>
+    <h2>{{ "Manage user"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
     <form class="al_security_form">
         <div id="al_user_data">
             <table>
                 <tr>
                     <td>
-                        {{ form_label(form.username, "Username"|trans({}, 'AlphaLemonCmsBundle', cms_language)) }}
+                        {{ form_label(form.username, "Username"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.username) }}
@@ -17,7 +17,7 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ form_label(form.password, "Password"|trans({}, 'AlphaLemonCmsBundle', cms_language)) }}
+                        {{ form_label(form.password, "Password"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.password) }}
@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ form_label(form.email, "Email"|trans({}, 'AlphaLemonCmsBundle', cms_language)) }}
+                        {{ form_label(form.email, "Email"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.email) }}
@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     <td>
-                        {{ form_label(form.AlRole, "Role"|trans({}, 'AlphaLemonCmsBundle', cms_language)) }}
+                        {{ form_label(form.AlRole, "Role"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.AlRole) }}
@@ -56,8 +56,8 @@
 
     <div class="al_security_commands_box">
         <ul class="inline pull-right">
-            <li><input type="submit" id="al_save_user" value="{{ "Save"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}" class="input btn btn-primary" /></li>
-            <li><input type="submit" value="{{ "Users"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}" class="al_list_users btn btn-info" /></li>
+            <li><input type="submit" id="al_save_user" value="{{ "Save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="input btn btn-primary" /></li>
+            <li><input type="submit" value="{{ "Users"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="al_list_users btn btn-info" /></li>
         </ul>
         <div class="clearfix"></div>
     </div>

@@ -109,7 +109,7 @@ class AlTranslator implements AlTranslatorInterface
             /**/
             if ($domain != 'messages') {
                 //$domain = $locale . "_" . $domain;
-                $domain = 'AlphaLemonCmsBundle';
+                $domain = 'RedKiteCmsBundle';
             }
         }
         

@@ -2,13 +2,13 @@
 
 {% block content %}
 <div class="al_security_item">    
-    <h2>{{ "Manage role"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</h2>
+    <h2>{{ "Manage role"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
     <form class="al_security_form">
         <div id="al_role_data">
             <table>
                 <tr>
                     <td>
-                        {{ form_label(form.role, "Role"|trans({}, 'AlphaLemonCmsBundle', cms_language)) }}
+                        {{ form_label(form.role, "Role"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
                     </td>
                     <td>
                         {{ form_errors(form.role) }}
@@ -28,8 +28,8 @@
 
     <div class="al_security_commands_box">
         <ul class="inline pull-right">
-            <li><input type="submit" id="al_save_role" value="{{ "Save"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}" class="input btn btn-primary" /></li>
-            <li><input type="submit" value="{{ "Roles"|trans({}, 'AlphaLemonCmsBundle', cms_language) }}" class="al_list_roles btn btn-info" /></li>
+            <li><input type="submit" id="al_save_role" value="{{ "Save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="input btn btn-primary" /></li>
+            <li><input type="submit" value="{{ "Roles"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="al_list_roles btn btn-info" /></li>
         </ul>
         <div class="clearfix"></div>
     </div>
