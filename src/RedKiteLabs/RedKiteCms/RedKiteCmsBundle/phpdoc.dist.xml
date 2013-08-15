@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdoc>
-    <title>AlphaLemon CMS Bundle</title>
+    <title>RedKiteCms Bundle</title>
     <parser>
         <target>output</target>
         <markers>

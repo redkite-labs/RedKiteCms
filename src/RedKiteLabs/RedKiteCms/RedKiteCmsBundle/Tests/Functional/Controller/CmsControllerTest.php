@@ -67,8 +67,8 @@ class CmsControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/fake');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Welcome to AlphaLemon CMS")')->count() > 0);
-        $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("Welcome to RedKiteCms")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("This is the RedKiteCms background and usually it should be hide")')->count() > 0);
     }
 
     public function testExistingPageIsOpened()
@@ -76,7 +76,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/index');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() == 0);
+        $this->assertTrue($crawler->filter('html:contains("This is the RedKiteCms background and usually it should be hide")')->count() == 0);
 
         $this->checkCms($crawler);
         $this->assertCount(1, $crawler->filter('#block_21'));
@@ -111,7 +111,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $link = $crawler->selectLink('Another page')->link();
         $crawler = $this->client->click($link);
         
-        $this->assertTrue($crawler->filter('html:contains("This is the AlphaLemon CMS background and usually it should be hide")')->count() == 0);
+        $this->assertTrue($crawler->filter('html:contains("This is the RedKiteCms background and usually it should be hide")')->count() == 0);
         $this->assertCount(1, $crawler->filter('#block_25'));
         $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-name="block_25"]'));
         $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-editor="enabled"]'));

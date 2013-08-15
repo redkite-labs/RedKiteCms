@@ -460,7 +460,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Returns the html content when AlphaLemon CMS is active.
+     * Returns the html content when RedKiteCms is active.
      *
      * By default the internal javascript is concatenated to the block's html content: this behavior
      * can be changed overriding the getExecuteInternalJavascript() method.

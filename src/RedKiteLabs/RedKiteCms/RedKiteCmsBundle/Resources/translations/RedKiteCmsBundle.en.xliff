@@ -532,8 +532,8 @@
             <target>Opens the panel to add, modify, delete users from the website</target>
         </trans-unit>
         <trans-unit id="cms-controller-16">
-            <source>Logs out from AlphaLemon CMS</source>
-            <target>Logs out from AlphaLemon CMS</target>
+            <source>Logs out from RedKiteCms</source>
+            <target>Logs out from RedKiteCms</target>
         </trans-unit>
         <trans-unit id="cms-controller-17">
             <source>Security</source>
@@ -953,12 +953,12 @@
         <!-- WELCOME -->
         
         <trans-unit id="welcome-1">
-            <source>Welcome to AlphaLemon CMS</source>
-            <target>Welcome to AlphaLemon CMS</target>
+            <source>Welcome to RedKiteCms</source>
+            <target>Welcome to RedKiteCms</target>
         </trans-unit>
         <trans-unit id="welcome-2">
-            <source>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</source>
-            <target>This is the AlphaLemon CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</target>
+            <source>This is the RedKiteCms background and usually it should be hide. There are many reasons you are seeing it, the most common are:</source>
+            <target>This is the RedKiteCms background and usually it should be hide. There are many reasons you are seeing it, the most common are:</target>
         </trans-unit>
         <trans-unit id="welcome-3">
             <source>The page and/or the language you have requested does not exist</source>

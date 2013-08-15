@@ -402,7 +402,7 @@ class AlSiteBootstrapTest extends TestCase
             array(true, true, '', null, array(
                 'PageName' => 'another page',
                 'Permalink' => 'another page',
-                'MetaTitle' => 'A website made with AlphaLemon CMS',
+                'MetaTitle' => 'A website made with RedKiteCms',
                 'MetaDescription' => 'Website homepage',
                 'MetaKeywords' => '',
             )),

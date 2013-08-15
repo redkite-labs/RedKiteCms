@@ -29,7 +29,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\EventListenersRegistra
 class RegisterCmsListenersPass implements CompilerPassInterface
 {
     /**
-     * Registers the AlphaLemon CMS events
+     * Registers the RedKiteCms events
      * 
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @codeCoverageIgnore

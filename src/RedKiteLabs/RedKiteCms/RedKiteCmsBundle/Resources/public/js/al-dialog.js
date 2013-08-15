@@ -21,7 +21,7 @@
         var defaultOptions = {
         autoOpen: false,
         width: 800,
-        title: 'AlphaLemon CMS',
+        title: 'RedKiteCms',
         buttons: {
             "Close": function() {
                 $(this).dialog("close");
