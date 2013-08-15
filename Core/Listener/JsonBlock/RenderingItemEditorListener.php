@@ -33,7 +33,7 @@ abstract class RenderingItemEditorListener extends BaseRenderingEditorListener
     
     public function __construct()
     {
-        throw new RedKiteDeprecatedException("RenderingItemEditorListener has been deprecated since AlphaLemon 1.1.0");
+        throw new RedKiteDeprecatedException("RenderingItemEditorListener has been deprecated since RedKiteCms 1.1.0");
     }
     
     /**
