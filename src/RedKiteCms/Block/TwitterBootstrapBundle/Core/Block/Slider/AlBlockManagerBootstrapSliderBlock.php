@@ -81,7 +81,7 @@ class AlBlockManagerBootstrapSliderBlock  extends AlBlockManagerImages
             "form" => $form->createView(),
             'form_name' => $form->getName(),
             'items' => $items,
-            'configuration' => $this->container->get('alpha_lemon_cms.configuration'), 
+            'configuration' => $this->container->get('red_kite_cms.configuration'), 
         );
     }
     

@@ -134,7 +134,7 @@ class JstreeDropdownButtonControllerTest extends TestCase
         
         $container->expects($this->at(1))
             ->method('get')
-            ->with('alpha_lemon_cms.factory_repository')
+            ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($factoryRepository))
         ;
         

@@ -18,7 +18,6 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock;
-//use AlphaLemon\Block\TwitterBootstrapBundle\Core\Block\AlBlockManagerBootstrapDropdownButtonBlock;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
 
 /**

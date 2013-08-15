@@ -18,7 +18,7 @@
 </style>
 <div class="images_list">
     <div class="images_contents pull-left">
-        {% include "RedKiteCmsBundle:ImagesList:_list.html.twig" with { 'images': editor.items, 'form_name' : editor.form_name } %}
+        {% include "RedKiteCmsBaseBlocksBundle:Content:Image/_list.html.twig" with { 'images': editor.items, 'form_name' : editor.form_name } %}
     </div>
     <div class="images_attributes pull-right">
         {% include "TwitterBootstrapBundle:Editor:Slider/item.html.twig" with {'configuration': editor.configuration } %}

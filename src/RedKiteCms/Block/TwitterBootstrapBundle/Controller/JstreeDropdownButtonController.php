@@ -33,7 +33,7 @@ class JstreeDropdownButtonController extends Controller
     {
         $request = $this->container->get('request');
         
-        $factoryRepository = $this->container->get('alpha_lemon_cms.factory_repository');
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $blocksRepository = $factoryRepository->createRepository('Block');
         $block = $blocksRepository->fromPk($request->get('idBlock'));
         

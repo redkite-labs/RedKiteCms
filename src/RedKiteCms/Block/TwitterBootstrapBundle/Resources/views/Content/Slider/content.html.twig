@@ -11,7 +11,7 @@
         {% set active = " active" %}
         {% for item in items %}
             <div class="item{{ active }}">
-                {% include "ImageBundle:Image:image.html.twig" with {"image" : item, "enabled" : false } %}
+                {% include "RedKiteCmsBaseBlocksBundle:Content:Image/image.html.twig" with {"image" : item, "enabled" : false } %}
             {% if (item.caption_title is defined and item.caption_title != "") or (item.caption_body is defined and item.caption_body != "") %}
                 <div class="carousel-caption">
                     {% if item.caption_title is defined %}{% endif %}<h4>{{ item.caption_title }}</h4>
