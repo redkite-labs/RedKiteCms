@@ -1,6 +1,6 @@
 <?php
 /**
- * An AlphaLemonCms Block
+ * A RedKiteCms Block
  */
 
 namespace {{ namespace }}\Core\Block;
