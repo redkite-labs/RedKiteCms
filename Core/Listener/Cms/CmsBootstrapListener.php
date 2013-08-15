@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 
 /**
- * Bootstraps AlphaLemon CMS
+ * Bootstraps RedKiteCms
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
@@ -50,7 +50,7 @@ class CmsBootstrapListener
     }
 
     /**
-     * Listen to onKernelRequest to check and configure AlphaLemon CMS
+     * Listen to onKernelRequest to check and configure RedKiteCms
      *
      * @param GetResponseEvent $event
      *

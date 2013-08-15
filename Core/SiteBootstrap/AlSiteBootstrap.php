@@ -47,7 +47,7 @@ class AlSiteBootstrap
         'PageName' => 'index',
         'Permalink' => 'homepage',
         'IsPublished' => '1',
-        'MetaTitle' => 'A website made with AlphaLemon CMS',
+        'MetaTitle' => 'A website made with RedKiteCms',
         'MetaDescription' => 'Website homepage',
         'MetaKeywords' => '',
     );

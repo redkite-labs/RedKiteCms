@@ -315,7 +315,7 @@ abstract class AlTwigTemplateWriter
             $this->contentsSection .= '{% endblock %}' . PHP_EOL. PHP_EOL;
             $this->contentsSection .= '{% block body %}' . PHP_EOL;
             $this->contentsSection .= '  {{ parent() }}' . PHP_EOL. PHP_EOL;
-            $this->contentsSection .= '  <div class="al-credits"><a href="http://alphalemon.com">Powered by AlphaLemon CMS</div>' . PHP_EOL;
+            $this->contentsSection .= '  <div class="al-credits"><a href="http://alphalemon.com">Powered by RedKiteCms</div>' . PHP_EOL;
             $this->contentsSection .= '{% endblock %}' . PHP_EOL;
         }
     }

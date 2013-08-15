@@ -295,13 +295,13 @@ class AlPageTree extends BaseAlPageTree
     }
 
     /**
-     * Sets the external assets suffixes. These suffixes tells AlphaLemon CMS that there are some parameters
+     * Sets the external assets suffixes. These suffixes tells RedKiteCms that there are some parameters
      * declared in the DIC that must be used when the CMS is active.
      *
-     * By default, AlphaLemon CMS, lets you add a parameter that must be added only when the CMS
+     * By default, RedKiteCms, lets you add a parameter that must be added only when the CMS
      * is active simply adding a .cms suffix to that parameter.
      *
-     * For example, let's suppose you have a block with an absolute position declared. AlphaLemon CMS
+     * For example, let's suppose you have a block with an absolute position declared. RedKiteCms
      * has a fixed toolbar that has a certain height, so, to display that content properly, you must add a new
      * stylesheet that must be loaded only when you are in CMS mode. That task is achieved adding a parameter
      * suffixed with the ".cms" suffix (businesswebsitetheme.home.external_stylesheets.cms)

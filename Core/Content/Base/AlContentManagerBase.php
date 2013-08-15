@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException;
 /**
  * The base class that defines a content manager object
  *
- * Several entities are considered "content" by AlphaLemon CMS:
+ * Several entities are considered "content" by RedKiteCms:
  *
  *   - Languages
  *   - Pages

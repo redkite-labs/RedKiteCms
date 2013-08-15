@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
- * The object deputated to deploy the website from development, AlphaLemon CMS, to production,
+ * The object deputated to deploy the website from development, RedKiteCms, to production,
  * the deploy bundle.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

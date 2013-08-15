@@ -23,7 +23,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Implements the controller to load AlphaLemon CMS
+ * Implements the controller to load RedKiteCms
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
