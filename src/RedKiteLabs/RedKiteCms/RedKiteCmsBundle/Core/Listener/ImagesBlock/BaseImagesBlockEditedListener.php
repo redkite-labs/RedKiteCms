@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\ImagesBlock;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
  * Renders the editor to manage a collection of images
@@ -45,7 +45,7 @@ abstract class BaseImagesBlockEditedListener
      */
     public function __construct(EngineInterface $templateEngine)
     {
-        throw new AlphaLemonDeprecatedException("BaseImagesBlockEditedListener has been deprecated since AlphaLemon 1.1.0");
+        throw new RedKiteDeprecatedException("BaseImagesBlockEditedListener has been deprecated since AlphaLemon 1.1.0");
             
         $this->templateEngine = $templateEngine;
     }

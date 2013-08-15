@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
  * AlBlockManagerTinyMce provides support for TinyMce library
@@ -45,7 +45,7 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlUrlManagerInterface $urlManager, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManagerTinyMce has been deprecated since AlphaLemon 1.1.0");
+        throw new RedKiteDeprecatedException("AlBlockManagerTinyMce has been deprecated since AlphaLemon 1.1.0");
         
         parent::__construct($eventsHandler, $factoryRepository, $validator);
 

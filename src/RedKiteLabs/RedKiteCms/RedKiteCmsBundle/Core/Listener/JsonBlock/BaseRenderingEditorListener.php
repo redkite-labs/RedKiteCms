@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\JsonBlock;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
  * Provides a base class to render a Json block manager editor
@@ -58,7 +58,7 @@ abstract class BaseRenderingEditorListener
     
     public function __construct()
     {
-        throw new AlphaLemonDeprecatedException("BaseRenderingEditorListener has been deprecated since AlphaLemon 1.1.0");
+        throw new RedKiteDeprecatedException("BaseRenderingEditorListener has been deprecated since AlphaLemon 1.1.0");
     }
     
     /**

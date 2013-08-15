@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\ImagesBlock;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
  * Renders the editor to manipulate a Json item
@@ -34,7 +34,7 @@ abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
     
     public function __construct()
     {
-        throw new AlphaLemonDeprecatedException("BaseImagesBlockEditorListener has been deprecated since AlphaLemon 1.1.0");
+        throw new RedKiteDeprecatedException("BaseImagesBlockEditorListener has been deprecated since AlphaLemon 1.1.0");
     }
     
     /**

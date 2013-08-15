@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\AlphaLemonDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 
 /**
@@ -400,7 +400,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getExecuteInternalJavascript()
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getExecuteInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
+        throw new RedKiteDeprecatedException("AlBlockManager->getExecuteInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
     }
     
     /**
@@ -413,7 +413,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getExternalJavascript()
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getExternalJavascript has been deprecated. You can implement a new App Block to do the same things");
+        throw new RedKiteDeprecatedException("AlBlockManager->getExternalJavascript has been deprecated. You can implement a new App Block to do the same things");
     }
 
     /**
@@ -426,7 +426,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getExternalStylesheet()
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getExternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
+        throw new RedKiteDeprecatedException("AlBlockManager->getExternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
     }
 
     /**
@@ -443,7 +443,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getInternalJavascript($safe = true)
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
+        throw new RedKiteDeprecatedException("AlBlockManager->getInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
     }
 
     /**
@@ -456,7 +456,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function getInternalStylesheet()
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getInternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
+        throw new RedKiteDeprecatedException("AlBlockManager->getInternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
     }
 
     /**
@@ -471,7 +471,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     final public function getHtmlCmsActive()
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
+        throw new RedKiteDeprecatedException("AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**
@@ -495,7 +495,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     protected function getEditorWidth()
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->getEditorWidth is no longer used so it has been deprecated");
+        throw new RedKiteDeprecatedException("AlBlockManager->getEditorWidth is no longer used so it has been deprecated");
     }
 
     /**
@@ -517,7 +517,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     protected function formatHtmlCmsActive()
     {
-        throw new AlphaLemonDeprecatedException("AlBlockManager->formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
+        throw new RedKiteDeprecatedException("AlBlockManager->formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**
