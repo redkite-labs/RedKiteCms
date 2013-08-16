@@ -1,7 +1,7 @@
 {
     "bundles" : {
-        "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
-            "environments" : "all"
+        "RedKiteLabs\\ElFinderBundle\\RedKiteLabsElFinderBundle" : {
+            "environments" : ["all"]
         }
     }
 }

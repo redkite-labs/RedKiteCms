@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\ElFinderBundle\DependencyInjection;
+namespace RedKiteLabs\ElFinderBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

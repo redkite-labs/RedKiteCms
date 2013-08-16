@@ -5,10 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="_show_el_finder" pattern="/al_showElFinder">
-        <default key="_controller">AlphaLemonElFinderBundle:ElFinder:show</default>
+        <default key="_controller">RedKiteLabsElFinderBundle:ElFinder:show</default>
     </route>
 
     <route id="_connect" pattern="/al_elFinderConnect">
-        <default key="_controller">AlphaLemonElFinderBundle:ElFinder:connect</default>
+        <default key="_controller">RedKiteLabsElFinderBundle:ElFinder:connect</default>
     </route>
 </routes>

@@ -1,27 +1,27 @@
 <?php
 /*
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteLabs <webmaster@RedKiteLabs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://RedKiteLabs.com
  * 
  * @license    MIT License
  */
 
-namespace AlphaLemon\ElFinderBundle\Core\Connector;
+namespace RedKiteLabs\ElFinderBundle\Core\Connector;
 
 /**
  * Configures the connector
  *
- * @author AlphaLemon
+ * @author RedKiteLabs
  */
-class AlphaLemonElFinderConnector extends AlphaLemonElFinderBaseConnector
+class RedKiteLabsElFinderConnector extends RedKiteLabsElFinderBaseConnector
 {
     protected function configure()
     {
@@ -31,8 +31,8 @@ class AlphaLemonElFinderConnector extends AlphaLemonElFinderBaseConnector
             'roots' => array(
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-                    'path'          => 'bundles/alphalemonelfinder/vendor/ElFinder/files/',         // path to files (REQUIRED)
-                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/bundles/alphalemonelfinder/vendor/ElFinder/files/', // URL to files (REQUIRED)
+                    'path'          => 'bundles/redkitelabselfinder/vendor/ElFinder/files/',         // path to files (REQUIRED)
+                    'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/bundles/redkitelabselfinder/vendor/ElFinder/files/', // URL to files (REQUIRED)
                     'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
                 )
             )

@@ -1,2 +1,2 @@
 _elfinder:
-    resource: "@AlphaLemonElFinderBundle/Resources/config/routing.xml"
+    resource: "@RedKiteLabsElFinderBundle/Resources/config/routing.xml"

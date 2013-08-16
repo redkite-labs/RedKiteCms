@@ -1,20 +1,20 @@
 <?php
 /*
- * This file is part of the AlphaLemonThemeEngineBundle and it is distributed
+ * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteLabs <webmaster@RedKiteLabs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://RedKiteLabs.com
  * 
  * @license    MIT License
  */
 
-namespace AlphaLemon\ElFinderBundle\Core\Connector;
+namespace RedKiteLabs\ElFinderBundle\Core\Connector;
 
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,9 +30,9 @@ include_once dirname(__FILE__).'/../../Resources/public/vendor/ElFinder/php/elFi
 /**
  * Instantiates the elFinder connector
  *
- * @author AlphaLemon
+ * @author RedKiteLabs
  */
-abstract class AlphaLemonElFinderBaseConnector
+abstract class RedKiteLabsElFinderBaseConnector
 {
     protected $options = array();
     protected $container = array();

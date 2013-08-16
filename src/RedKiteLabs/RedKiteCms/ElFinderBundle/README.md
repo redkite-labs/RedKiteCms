@@ -2,9 +2,9 @@
 The ElFinderBundle encapsulates the elFinder file manager to be used in Symfony2. 
 
 ## Installation
-Clone this bundle in the vendor/bundles/AlphaLemon directory:
+Clone this bundle in the vendor/bundles/RedKiteLabs directory:
 
-    git clone git://github.com/alphalemon/ElFinderBundle.git vendor/bundles/AlphaLemon/ElFinderBundle
+    git clone git://github.com/RedKiteLabs/ElFinderBundle.git vendor/bundles/RedKiteLabs/ElFinderBundle
     
 
 **OR (if you're using deps file)**
@@ -13,8 +13,8 @@ Add the following to the deps file:
 
 ```
 [ElFinderBundle]
-    git=git://github.com/alphalemon/ElFinderBundle.git
-    target=bundles/AlphaLemon/ElFinderBundle
+    git=git://github.com/RedKiteLabs/ElFinderBundle.git
+    target=bundles/RedKiteLabs/ElFinderBundle
 ```
 
 
@@ -30,7 +30,7 @@ Open the AppKernel configuration file and add the bundle to the registerBundles(
     {
         $bundles = array(
             ...
-            new AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle(),
+            new RedKiteLabs\ElFinderBundle\RedKiteLabsElFinderBundle(),
         )
     }
 
@@ -38,19 +38,19 @@ Register the ElFinderBundle namespaces in `app/autoload.php`:
 
     $loader->registerNamespaces(array(
         ...
-        'AlphaLemon'                     => __DIR__.'/../vendor/bundles',
+        'RedKiteLabs'                     => __DIR__.'/../vendor/bundles',
     ));
 
 Import the routing configuration into the routing.yml file:
 
-    _AlphaLemonElFinderBundle:
-        resource: "@AlphaLemonElFinderBundle/Resources/config/routing.yml"
+    _RedKiteLabsElFinderBundle:
+        resource: "@RedKiteLabsElFinderBundle/Resources/config/routing.yml"
 
 Register the bundle into the Assetic bundles in config.yml:
 
     # Assetic Configuration
     assetic:
-        bundles: [ "AlphaLemonElFinderBundle" ]
+        bundles: [ "RedKiteLabsElFinderBundle" ]
 
 Initialize submodules grabbing the ElFinder vendor library. Move inside the ElFinder folder than give this commands:
 
@@ -64,7 +64,7 @@ To complete the bundle configuration you must install assets as follows:
     app/console assetic:dump
 
 ## Using the object
-AlphaLemonElFinderBundle provides a ready to use controller to display the ElFinder:
+RedKiteLabsElFinderBundle provides a ready to use controller to display the ElFinder:
 
     http://[yoursite]/al_showElFinder
 
@@ -76,7 +76,7 @@ base one:
 
     /path/to/your/twig/template
 
-    {% extends 'AlphaLemonElFinderBundle:ElFinder:show.html.twig' %}
+    {% extends 'RedKiteLabsElFinderBundle:ElFinder:show.html.twig' %}
 
 This template has four blocks you may override:
 
@@ -118,7 +118,7 @@ In the example above the al_elFinderMediaConnect route is called and the action 
 You may notice that the connector has been injected into the Dependency Injector Container, and its implementation is:
 
     <parameters>
-        <parameter key="el_finder.media_connector">Path\To\AlphaLemonElFinderMediaConnector</parameter>
+        <parameter key="el_finder.media_connector">Path\To\RedKiteLabsElFinderMediaConnector</parameter>
     </parameters>
 
     <services>
@@ -127,13 +127,13 @@ You may notice that the connector has been injected into the Dependency Injector
         </service>
     </services>
 
-The class AlphaLemonElFinderMediaConnector is instantiated into the DIC. Follows a sample of its implementation:
+The class RedKiteLabsElFinderMediaConnector is instantiated into the DIC. Follows a sample of its implementation:
 
-    namespace Path\To\AlphaLemonElFinderMediaConnector;
+    namespace Path\To\RedKiteLabsElFinderMediaConnector;
     
-    use AlphaLemon\ElFinderBundle\Core\Connector\AlphaLemonElFinderBaseConnector;
+    use RedKiteLabs\ElFinderBundle\Core\Connector\RedKiteLabsElFinderBaseConnector;
 
-    class AlphaLemonElFinderMediaConnector extends AlphaLemonElFinderBaseConnector
+    class RedKiteLabsElFinderMediaConnector extends RedKiteLabsElFinderBaseConnector
     {
         protected function configure()
         {
@@ -143,8 +143,8 @@ The class AlphaLemonElFinderMediaConnector is instantiated into the DIC. Follows
                 'roots' => array(
                     array(
                         'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-                        'path'          => 'bundles/alphalemonelfinder/files/',         // path to files (REQUIRED)
-                        'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/bundles/alphalemonelfinder/files/', // URL to files (REQUIRED)
+                        'path'          => 'bundles/RedKiteLabselfinder/files/',         // path to files (REQUIRED)
+                        'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/bundles/RedKiteLabselfinder/files/', // URL to files (REQUIRED)
                         'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
                     )
                 )
@@ -154,5 +154,5 @@ The class AlphaLemonElFinderMediaConnector is instantiated into the DIC. Follows
         }
     }
 
-The connector extends the AlphaLemonElFinderBaseConnector which requires the derived class to implement a configure() method where the elFinder connector's options
+The connector extends the RedKiteLabsElFinderBaseConnector which requires the derived class to implement a configure() method where the elFinder connector's options
 must be declared. This function must return an array of options.

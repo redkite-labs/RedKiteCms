@@ -1,2 +1,2 @@
 assetic:
-    bundles: [AlphaLemonElFinderBundle]
+    bundles: [RedKiteLabsElFinderBundle]
