@@ -2,7 +2,7 @@
   "name": "alphalemon/theme-engine-bundle",
   "description": "ThemeEngineBundle adds theming feature to any Symfony2 application, adding themes packed as standard Symfony2 Bundles",
   "keywords": ["theme", "themes", "cms"],
-  "homepage": "http://alphalemon.com",
+  "homepage": "http://www.redkite-labs.com",
   "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
