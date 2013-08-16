@@ -66,7 +66,7 @@ class AlPageTree
     {
         $this->container = $container;
         $this->pageBlocks = $pageBlocks;
-        $this->activeTheme = $this->container->get('alphalemon_theme_engine.active_theme');
+        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
     }
     
     /**

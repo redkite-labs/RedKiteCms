@@ -104,7 +104,7 @@ class ThemesController extends ContainerAware
 
     protected function getActiveTheme()
     {
-        return $this->container->get('alphalemon_theme_engine.active_theme');
+        return $this->container->get('red_kite_labs_theme_engine.active_theme');
     }
 }
 

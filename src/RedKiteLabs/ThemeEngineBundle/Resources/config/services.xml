@@ -41,11 +41,11 @@
         <service id="red_kite_labs_theme_engine.themes" class="%red_kite_labs_theme_engine.themes.class%">
         </service>
 
-        <service id="alphalemon_theme_engine.active_theme" class="%red_kite_labs_theme_engine.active_theme.class%">
+        <service id="red_kite_labs_theme_engine.active_theme" class="%red_kite_labs_theme_engine.active_theme.class%">
             <argument type="service" id="service_container"></argument>
         </service>
 
-        <service id="alphalemon_theme_engine.page_tree" class="%red_kite_labs_theme_engine.page_tree.class%">
+        <service id="red_kite_labs_theme_engine.page_tree" class="%red_kite_labs_theme_engine.page_tree.class%">
             <argument type="service" id="service_container"></argument>
         </service>
         

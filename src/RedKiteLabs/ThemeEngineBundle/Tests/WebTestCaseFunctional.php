@@ -9,7 +9,7 @@
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://www.alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
@@ -37,7 +37,7 @@ class WebTestCaseFunctional extends WebTestCase
             )
         );
 
-        $activeThemeManager = $this->client->getContainer()->get('alphalemon_theme_engine.active_theme');
+        $activeThemeManager = $this->client->getContainer()->get('red_kite_labs_theme_engine.active_theme');
         $activeThemeManager->writeActiveTheme('BusinessWebsiteThemeBundle');
     }
 }
