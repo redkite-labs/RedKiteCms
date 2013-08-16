@@ -140,7 +140,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= PHP_EOL;        
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake_block.block" class="%fake_block.block.class%">' . PHP_EOL;
-        $expected .= '            <tag name="alphalemon_cms.blocks_factory.block" description="Fake block" type="FakeBlock" group="fake-group" />' . PHP_EOL;
+        $expected .= '            <tag name="red_kite_cms.blocks_factory.block" description="Fake block" type="FakeBlock" group="fake-group" />' . PHP_EOL;
         $expected .= '            <argument type="service" id="service_container" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .= PHP_EOL;        
