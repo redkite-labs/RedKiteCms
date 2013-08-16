@@ -80,7 +80,7 @@
     <services>
         <!-- SLIDER -->
         <service id="bootstrap_slider_block.block" class="%bootstrap_slider_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Carousel" type="BootstrapSliderBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Carousel" type="BootstrapSliderBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
@@ -89,7 +89,7 @@
         
         <!-- LABEL -->        
         <service id="bootstrap_label_block.block" class="%bootstrap_label_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Label" type="BootstrapLabelBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Label" type="BootstrapLabelBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
                 
@@ -98,7 +98,7 @@
         
         <!-- BADGE --> 
         <service id="bootstrap_badge_block.block" class="%bootstrap_badge_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Badge" type="BootstrapBadgeBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Badge" type="BootstrapBadgeBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
@@ -107,18 +107,18 @@
         
         <!-- ACORDION -->
         <service id="bootstrap_accordion_block.block" class="%bootstrap_accordion_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Accordion" type="BootstrapAccordionBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Accordion" type="BootstrapAccordionBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
         <!-- NAVBAR -->
         <service id="bootstrap_navbar_block.block" class="%bootstrap_navbar_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Navbar" type="BootstrapNavbarBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Navbar" type="BootstrapNavbarBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
         <service id="bootstrap_navbar_dropbown_block" class="%bootstrap_navbar_dropbown_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Nav dropdown" type="BootstrapNavbarDropdownBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav dropdown" type="BootstrapNavbarDropdownBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
@@ -130,36 +130,36 @@
         </service>
         
         <service id="bootstrap_button_block.block" class="%bootstrap_button_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Button" type="BootstrapButtonBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Button" type="BootstrapButtonBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
         <!-- DROPDOWN BUTTON -->
         <service id="bootstrap_dropdown_button_block.block" class="%bootstrap_dropdown_button_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Dropdown button" type="BootstrapDropdownButtonBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Dropdown button" type="BootstrapDropdownButtonBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
         <!-- SPLITDROPDOWN BUTTON -->
         <service id="bootstrap_split_dropdown_button_block.block" class="%bootstrap_split_dropdown_button_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Split Dropdown Button" type="BootstrapSplitDropdownButtonBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Split Dropdown Button" type="BootstrapSplitDropdownButtonBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
         <!-- BUTTONS -->
         <service id="bootstrap_buttons_group_block.block" class="%bootstrap_buttons_group_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Buttons Group" type="BootstrapButtonsGroupBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Buttons Group" type="BootstrapButtonsGroupBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
         <!-- THUMBNAIL --> 
         <service id="bootstrap_thumbnail.block" class="%bootstrap_thumbnail.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Thumbnail" type="BootstrapThumbnailBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnail" type="BootstrapThumbnailBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
         <service id="bootstrap_thumbnails.block" class="%bootstrap_thumbnails.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Thumbnails list" type="BootstrapThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnails list" type="BootstrapThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
