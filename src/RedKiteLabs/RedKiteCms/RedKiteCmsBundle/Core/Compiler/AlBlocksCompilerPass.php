@@ -38,7 +38,7 @@ class AlBlocksCompilerPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition('red_kite_cms.block_manager_factory');
-        foreach ($container->findTaggedServiceIds('alphalemon_cms.blocks_factory.block') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds('red_kite_cms.blocks_factory.block') as $id => $attributes) {
             foreach ($attributes as $tagAttributes) {
                 $tagAttributes['id'] = $id;
                 $definition->addMethodCall('addBlockManager', array(new Reference($id), $tagAttributes));
