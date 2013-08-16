@@ -244,7 +244,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         while ($i < $numberOfCalls + 2) {
             $this->container->expects($this->at($i))
                 ->method('get')
-                ->with('alphalemon_theme_engine.active_theme')
+                ->with('red_kite_labs_theme_engine.active_theme')
                 ->will($this->returnValue($activeTheme));  
         
             $i = $i + 3; 

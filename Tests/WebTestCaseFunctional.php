@@ -76,7 +76,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
             )    
         );
 
-        $activeThemeManager = $this->client->getContainer()->get('alphalemon_theme_engine.active_theme');
+        $activeThemeManager = $this->client->getContainer()->get('red_kite_labs_theme_engine.active_theme');
         $activeThemeManager->writeActiveTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle
     }
 
