@@ -16,7 +16,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
 /**
  * Description of AlBlockManagerFile
  *
- * @author RedKite Labs <webmaster@redkite-labs.com>
+ * @author RedKite Labs <info@redkite-labs.com>
  */
 class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 {
