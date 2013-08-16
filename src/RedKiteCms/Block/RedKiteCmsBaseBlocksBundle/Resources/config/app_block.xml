@@ -52,7 +52,7 @@
     <services>        
         <!-- IMAGE -->
         <service id="image.block" class="%image.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Image block" type="Image" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Image block" type="Image" group="alphalemon_internals" />
             <argument type="service" id="service_container" />
         </service>
         
@@ -62,23 +62,23 @@
         <!-- SCRIPT -->
         <service id="script.block" class="%script.block.class%">
             <argument type="service" id="service_container" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Script block" type="Script" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Script block" type="Script" group="alphalemon_internals" />
         </service>
         
         <!-- MENU -->
         <service id="menu.block" class="%menu.block.class%">
             <argument type="service" id="service_container" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Menu" type="Menu" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Menu" type="Menu" group="alphalemon_internals" />
         </service>
         
         <service id="menu_vertical.block" class="%menu_vertical.block.class%">
             <argument type="service" id="service_container" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Vertical Menu" type="MenuVertical" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Vertical Menu" type="MenuVertical" group="alphalemon_internals" />
         </service>
         
         <!-- LINK -->
         <service id="link.block" class="%link.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Link" type="Link" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Link" type="Link" group="alphalemon_internals" />
             <argument type="service" id="service_container" />
         </service>
         
@@ -92,7 +92,7 @@
 
         <service id="file.block" class="%file.block.class%">
             <argument type="service" id="service_container" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="File block" type="File" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="File block" type="File" group="alphalemon_internals" />
         </service>
 
         <service id="file.form" class="%file.form.class%">
@@ -101,7 +101,7 @@
         <!-- LANGUAGES MENU -->
         <service id="languages_menu.block" class="%languages_menu.block.class%">
             <argument type="service" id="service_container" />
-            <tag name="alphalemon_cms.blocks_factory.block" description="Languages navigation menu" type="LanguagesMenu" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Languages navigation menu" type="LanguagesMenu" group="alphalemon_internals" />
         </service>
     </services>
 </container>
