@@ -1,32 +1,32 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Tests\Unit\Script;
+namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Script;
 
-use AlphaLemon\BootstrapBundle\Core\Script\PreBootUninstallerScript;
+use RedKiteLabs\BootstrapBundle\Core\Script\PreBootUninstallerScript;
 use org\bovigo\vfs\vfsStream;
-use AlphaLemon\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
+use RedKiteLabs\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
-use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManager;
+use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManager;
 
 
 /**
  * PackagesBootstrapperTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class PreBootUninstallerScriptTest extends BaseFilesystem
 {
@@ -76,12 +76,12 @@ class PreBootUninstallerScriptTest extends BaseFilesystem
     {
         $this->setUpFileSystemForUninstall();
 
-        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageUninstalledPreBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageUninstalledPreBoot', false);
 
-        $actionManagerGenerator = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
+        $actionManagerGenerator = $this->getMock('RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
         $actionManagerGenerator->expects($this->once())
             ->method('generate');
 
@@ -98,11 +98,11 @@ class PreBootUninstallerScriptTest extends BaseFilesystem
     {
         $this->setUpFileSystemForUninstall();
 
-        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageUninstalledPreBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageUninstalledPreBoot');
-        $actionManagerGenerator = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
+        $actionManagerGenerator = $this->getMock('RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
         $actionManagerGenerator->expects($this->once())
             ->method('generate');
 
@@ -116,7 +116,7 @@ class PreBootUninstallerScriptTest extends BaseFilesystem
 
     private function initActionsManager($method, $returnValue = null)
     {
-        $actionsManagerPost = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface');
+        $actionsManagerPost = $this->getMock('RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface');
         $actionsManagerPost->expects($this->once())
             ->method($method)
             ->will($this->returnValue($returnValue));
@@ -126,8 +126,8 @@ class PreBootUninstallerScriptTest extends BaseFilesystem
 
     private function setUpFileSystemForUninstall()
     {
-        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
+        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
         $this->createFolder('root/app/config/bundles/cache/BusinessCarouselFakeBundle');
-        copy(vfsStream::url('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/ActionManagerBusinessCarousel.php'), vfsStream::url('root/app/config/bundles/cache/BusinessCarouselFakeBundle/ActionManagerBusinessCarousel.php'));
+        copy(vfsStream::url('root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/ActionManagerBusinessCarousel.php'), vfsStream::url('root/app/config/bundles/cache/BusinessCarouselFakeBundle/ActionManagerBusinessCarousel.php'));
     }
 }

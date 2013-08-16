@@ -1,10 +1,10 @@
 <?php
 
-namespace AlphaLemon\BootstrapBundle\Core\Listener;
+namespace RedKiteLabs\BootstrapBundle\Core\Listener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use AlphaLemon\BootstrapBundle\Core\Script\Factory as ScriptFactory;
+use RedKiteLabs\BootstrapBundle\Core\Script\Factory as ScriptFactory;
 
 /**
  * Executes the post action

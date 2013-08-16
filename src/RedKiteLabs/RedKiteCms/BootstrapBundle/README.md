@@ -1,12 +1,12 @@
-# AlphaLemonBootstrapBundle
-AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer
+# RedKiteLabsBootstrapBundle
+RedKiteLabsBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer
 could add an autoloader.json file to a bundle and configure it to autoload that bundle, without have to enable it
 manually in the AppKernel file.
 
 [![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapBundle.png)](http://travis-ci.org/alphalemon/BootstrapBundle)
 
-## Install the AlphaLemonBootstrapBundle
-To install the AlphaLemonBootstrapBundle, simply require it in your composer.json:
+## Install the RedKiteLabsBootstrapBundle
+To install the RedKiteLabsBootstrapBundle, simply require it in your composer.json:
 
     "require": {
         [...]
@@ -22,7 +22,7 @@ At last the bundle must be added to the AppKernel.php file:
     public function registerBundles()
     {
         $bundles = array(
-            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
+            new RedKiteLabs\BootstrapBundle\RedKiteLabsBootstrapBundle(),
 
             [...]
         );
@@ -40,7 +40,7 @@ The mandatory **bundles** section contains the bundles you want to autoload. Let
 
     {
         "bundles" : {
-            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
+            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
         }
     }
 
@@ -52,7 +52,7 @@ as follows:
 
     {
         "bundles" : {
-            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
+            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
                 "environments" : ["dev", "test"]
             }
         }
@@ -66,7 +66,7 @@ To specifiy all the enviroments you can use the **all** keyword:
 
     {
         "bundles" : {
-            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
+            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
                 "environments" : ["all"]
             }
         }
@@ -80,7 +80,7 @@ after the overriden one. The **overrides** option can be used to achieve this ta
 
     {
         "bundles" : {
-            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
+            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
                 "environments" : ["dev", "test"],
                 "overrides" : ["BusinessCarouselBundle"]
             }
@@ -98,10 +98,10 @@ write the BusinessDropCapBundle's autoloader as follows to autoload it:
 
     {
         "bundles" : {
-            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
+            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
 				"environments" : ["dev", "test"]
 			},
-			"AlphaLemon\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle" : ""
+			"RedKiteLabs\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle" : ""
         }
     }
 
@@ -127,9 +127,9 @@ To declare your ActionManager class in your autoloader.json file, you just need 
 
     {
         "bundles" : {
-            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
+            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
         },
-        "actionManager" : "\\AlphaLemon\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"
+        "actionManager" : "\\RedKiteLabs\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"
     }
 
 ## Configuration files
@@ -158,7 +158,7 @@ option to the autoloader.json file, as follows:
 
     {
         "bundles" : {
-            "AlphaLemon\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
+            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
         },
         "routing" : {
             "priority" : "128"
@@ -169,13 +169,13 @@ Each bundle gets zero as routing priority when the option is not specified. To l
 to load the routing file before, specify a value lower than zero.
 
 ### A practical example
-For example, AlphaLemon CMS uses assetic to manage its assets, so the user who want to use that bundle should add the following configuration
+For example, RedKiteLabs CMS uses assetic to manage its assets, so the user who want to use that bundle should add the following configuration
 to the config.yml file of his application:
 
     app/config/config.yml
 
     assetic:
-    bundles: [AlphaLemonCmsBundle]
+    bundles: [RedKiteLabsCmsBundle]
     filters:
         cssrewrite: ~
         yui_css:
@@ -183,13 +183,13 @@ to the config.yml file of his application:
         yui_js:
             jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
 
-With the BootstrapBundle these setting have been added to the config.yml file of AlphaLemonCms bundle so the user has the
+With the BootstrapBundle these setting have been added to the config.yml file of RedKiteLabsCms bundle so the user has the
 generic configuration ready to be used and doesn't require to add nothing to the **config.yml** file.
 
 ## Enabling the routing autoloader
 To enable the routing autoloader the following configuration must be added to the **routing.yml** configuration file:
 
-    AlphaLemonBootstrapBundle:
+    RedKiteLabsBootstrapBundle:
         resource: .
         type: bootstrap
 
@@ -202,7 +202,7 @@ a new **BundlesAutoloader** object, as follows:
     {
         [...]
 
-        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
+        $bootstrapper = new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->getBundles();
 
         return $bundles;

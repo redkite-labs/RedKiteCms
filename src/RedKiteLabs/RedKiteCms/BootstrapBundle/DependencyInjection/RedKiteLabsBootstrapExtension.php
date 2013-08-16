@@ -1,20 +1,20 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\DependencyInjection;
+namespace RedKiteLabs\BootstrapBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class AlphaLemonBootstrapExtension extends Extension
+class RedKiteLabsBootstrapExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -40,16 +40,16 @@ class AlphaLemonBootstrapExtension extends Extension
         $loader->load('services.xml');
 
         if (isset($config['routing_dir'])) {
-            $container->setParameter('alphalemon_bootstrap.routing_dir', $config['routing_dir']);
+            $container->setParameter('red_kite_labs_bootstrap.routing_dir', $config['routing_dir']);
         }
         
         if (isset($config['vendor_dir'])) {
-            $container->setParameter('alphalemon_bootstrap.vendor_dir', $config['vendor_dir']);
+            $container->setParameter('red_kite_labs_bootstrap.vendor_dir', $config['vendor_dir']);
         }
     }
 
     public function getAlias()
     {
-        return 'alpha_lemon_bootstrap';
+        return 'red_kite_labs_bootstrap';
     }
 }

@@ -1,30 +1,30 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Tests\Unit\Json;
+namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Json;
 
 use org\bovigo\vfs\vfsStream;
-use AlphaLemon\BootstrapBundle\Tests\TestCase;
-use AlphaLemon\BootstrapBundle\Core\Json\Bundle\Bundle;
+use RedKiteLabs\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle;
 
 
 /**
  * BundleTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class BundleTest extends TestCase
 {
@@ -38,19 +38,19 @@ class BundleTest extends TestCase
     }
     
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonParameterException
-     * @expectedExceptionMessage The class AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselBundl does not seem to be a valid bundle class. Check your autoloader.json file
+     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonParameterException
+     * @expectedExceptionMessage The class RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarouselBundl does not seem to be a valid bundle class. Check your autoloader.json file
      */
     public function testAnExceptionIsThrownWhenTheGivenClassIsInvalid()
     {
-        $this->bundle->setClass("AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselBundl");
+        $this->bundle->setClass("RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselBundl");
     }
     
     public function testSettingTheClassPropertySetsTheBundleIdToo()
     {
         $this->assertNull($this->bundle->getId());
-        $this->bundle->setClass("AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle");
-        $this->assertEquals("AlphaLemon\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle", $this->bundle->getClass());        
+        $this->bundle->setClass("RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle");
+        $this->assertEquals("RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle", $this->bundle->getClass());        
         $this->assertEquals("BusinessCarouselFakeBundle", $this->bundle->getId());
         $this->assertEquals("BusinessCarouselFakeBundle", $this->bundle->__toString());
     }

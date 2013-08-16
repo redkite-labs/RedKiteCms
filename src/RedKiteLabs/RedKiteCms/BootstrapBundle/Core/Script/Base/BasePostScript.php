@@ -1,30 +1,30 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Script\Base;
+namespace RedKiteLabs\BootstrapBundle\Core\Script\Base;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AlphaLemon\BootstrapBundle\Core\Exception\MissingDependencyException;
-use AlphaLemon\BootstrapBundle\Core\Script\PostScriptInterface;
-use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerGenerator;
+use RedKiteLabs\BootstrapBundle\Core\Exception\MissingDependencyException;
+use RedKiteLabs\BootstrapBundle\Core\Script\PostScriptInterface;
+use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerGenerator;
 
 /**
  * Extends the BaseScript object for the post scripts
  * 
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 abstract class BasePostScript extends BaseScript implements PostScriptInterface
 {
@@ -48,7 +48,7 @@ abstract class BasePostScript extends BaseScript implements PostScriptInterface
      * Sets the container
      * 
      * @param ContainerInterface $container
-     * @return \AlphaLemon\BootstrapBundle\Core\Script\Base\BasePostScript 
+     * @return \RedKiteLabs\BootstrapBundle\Core\Script\Base\BasePostScript 
      */
     public function setContainer(ContainerInterface $container)
     {

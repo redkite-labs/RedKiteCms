@@ -1,40 +1,40 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Autoloader;
+namespace RedKiteLabs\BootstrapBundle\Core\Autoloader;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use AlphaLemon\BootstrapBundle\Core\Exception\InvalidProjectException;
-use AlphaLemon\BootstrapBundle\Core\Exception\InvalidAutoloaderException;
-use AlphaLemon\BootstrapBundle\Core\Json\JsonAutoloader;
-use AlphaLemon\BootstrapBundle\Core\Event\BootstrapperEvents;
-use AlphaLemon\BootstrapBundle\Core\Event\PackageInstalledEvent;
-use AlphaLemon\BootstrapBundle\Core\Event\PackageUninstalledEvent;
-use AlphaLemon\BootstrapBundle\Core\Script;
-use AlphaLemon\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
+use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidProjectException;
+use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidAutoloaderException;
+use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloader;
+use RedKiteLabs\BootstrapBundle\Core\Event\BootstrapperEvents;
+use RedKiteLabs\BootstrapBundle\Core\Event\PackageInstalledEvent;
+use RedKiteLabs\BootstrapBundle\Core\Event\PackageUninstalledEvent;
+use RedKiteLabs\BootstrapBundle\Core\Script;
+use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 
 /**
  * Parses the bundles installed by composer, checks if the bundle has an autoload.json file in its main root
  * folder and when the file is present, copies the autoloader.json, the routing.yml and config.yml under the
  * app/config/bundles folder, to autoconfigure the bundle.
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class BundlesAutoloader
 {
@@ -63,14 +63,20 @@ class BundlesAutoloader
      * @param string $environment   The current environment
      * @param array $bundles        The bundles already loaded
      * @param Script\Factory\ScriptFactoryInterface $scriptFactory
-     * @param null|array $extraFolders   Adds extra folders to be parsed to look for other budles to autoload. When null looks for AlphaLemon's blocks
+     * @param null|array $extraFolders   Adds extra folders to be parsed to look for other budles to autoload. When null looks for RedKiteLabs's blocks
      */
     public function __construct($kernelDir, $environment, array $bundles, Script\Factory\ScriptFactoryInterface $scriptFactory = null, $extraFolders = null)
     {
         $this->environment = $environment;
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
-        $this->extraFolders = (null === $extraFolders) ? array($this->kernelDir . '/../src/AlphaLemon/Block', $this->kernelDir . '/../src/AlphaLemon/Theme') : $extraFolders;
+        $defaultSearchFolders = array(
+            $this->kernelDir . '/../src/AlphaLemon/Block', 
+            $this->kernelDir . '/../src/AlphaLemon/Theme', 
+            $this->kernelDir . '/../src/RedKiteCms/Block', 
+            $this->kernelDir . '/../src/RedKiteCms/Theme',
+        );
+        $this->extraFolders = (null === $extraFolders) ? $defaultSearchFolders : $extraFolders;
         $this->filesystem = new Filesystem();
         
         $this->setupFolders();
@@ -90,7 +96,7 @@ class BundlesAutoloader
     public function getBundles()
     {
         $this->run();
-
+        
         return $this->bundles;
     }
 
@@ -98,7 +104,7 @@ class BundlesAutoloader
      * Sets the vendor directory path
      *
      * @param type $vendorDir
-     * @return \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader
+     * @return \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader
      */
     public function setVendorDir($vendorDir)
     {
@@ -187,7 +193,7 @@ class BundlesAutoloader
                 $bundleClass = $bundle->getClass();
                 if (empty($this->instantiatedBundles) || !in_array($bundleClass, $this->instantiatedBundles)) {
 
-                    if (!class_exists($bundleClass)) {
+                    if ( ! class_exists($bundleClass)) {
                         throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem", $bundleClass, get_class($this)));
                     }
                     
@@ -195,7 +201,9 @@ class BundlesAutoloader
                         $instantiatedBundle = new $bundleClass;
                         $this->bundles[$bundle->getId()] = $instantiatedBundle;
                         $overridedBundles = $bundle->getOverrides();
-                        if (!empty($overridedBundles)) $this->overridedBundles[$bundle->getId()] = $overridedBundles;
+                        if ( ! empty($overridedBundles)) {
+                            $this->overridedBundles[$bundle->getId()] = $overridedBundles;
+                        }
                         $this->instantiatedBundles[] = $bundleClass;
                     }
                 }

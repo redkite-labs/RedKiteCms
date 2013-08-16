@@ -1,30 +1,30 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Tests\Unit\Autoloader;
+namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Autoloader;
 
-use AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader;
+use RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
-use AlphaLemon\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
+use RedKiteLabs\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
 
 /**
  * BundlesAutoloaderTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class BundlesAutoloaderTest extends BaseFilesystem
 {
@@ -33,12 +33,12 @@ class BundlesAutoloaderTest extends BaseFilesystem
     protected function setUp()
     {
         parent::setUp();
-        $this->scriptFactory = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
+        $this->scriptFactory = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
 
         $folders = array('app' => array(),
                          'src' => array(
                              'Acme' => array(),
-                             'AlphaLemon' => 
+                             'RedKiteLabs' => 
                                 array(
                                     'Block' => array(),
                                 ),
@@ -51,7 +51,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
     }
 
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidProjectException
+     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidProjectException
      * @expectedExceptionMessage "composer" folder has not been found. Be sure to use this bundle on a project managed by Composer
      */
     public function testAnExceptionIsThrownWhenTheProjectIsNotManagedByComposer()
@@ -94,10 +94,10 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', false); // This bundle has any autoload.json file
 
         $this->scriptFactory->expects($this->exactly(2))
@@ -116,19 +116,19 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    },' . PHP_EOL;
-        $autoload .= '    "actionManager" : "\\\\AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"';
+        $autoload .= '    "actionManager" : "\\\\RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"';
         $autoload .= '}';
 
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
-        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
+        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -146,7 +146,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
         $configFolder = $bundleFolder . 'Resources/config';
         $this->createFolder($configFolder);
@@ -166,18 +166,18 @@ class BundlesAutoloaderTest extends BaseFilesystem
     }
 
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\InvalidAutoloaderException
-     * @expectedExceptionMessage The bundle class AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarousellBundle does not exist. Check the bundle's autoload.json to fix the problem
+     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidAutoloaderException
+     * @expectedExceptionMessage The bundle class RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarousellBundle does not exist. Check the bundle's autoload.json to fix the problem
      */
     public function testAnExceptionIsThrownWhenTheClassGIvenInTheAutoloaderHasNotBeenFound()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarousellBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarousellBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
@@ -196,11 +196,11 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["dev"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
@@ -221,11 +221,11 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["dev"],' . PHP_EOL;
         $autoload .= '           "overrides" : ["BusinessDropCapFakeBundle"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
@@ -233,7 +233,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
@@ -250,11 +250,11 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
 
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"],' . PHP_EOL;
         $autoload .= '           "overrides" : ["BusinessDropCapFakeBundle"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
@@ -262,7 +262,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
@@ -279,19 +279,19 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsFakeBundle\\\\AlphaLemonCmsFakeBundle" : ""' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\RedKiteLabsCms\\\\RedKiteLabsCmsFakeBundle\\\\RedKiteLabsCmsFakeBundle" : ""' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCms/AlphaLemonCmsFakeBundle/';
-        $this->createBundle($bundleFolder, 'AlphaLemonCmsFakeBundle', false, 'AlphaLemon\AlphaLemonCms');
+        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/';
+        $this->createBundle($bundleFolder, 'RedKiteLabsCmsFakeBundle', false, 'RedKiteLabs\RedKiteLabsCms');
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -300,30 +300,30 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertCount(2, $bundles);
-        $this->assertEquals(array('BusinessCarouselFakeBundle', 'AlphaLemonCmsFakeBundle'), array_keys($bundles));
+        $this->assertEquals(array('BusinessCarouselFakeBundle', 'RedKiteLabsCmsFakeBundle'), array_keys($bundles));
     }
 
     public function testABundleDelaredInSeveralAutoloadersIsInstantiatedOnce()
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessDropCapFakeBundle\\\\BusinessDropCapFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessDropCapFakeBundle\\\\BusinessDropCapFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["dev"]' . PHP_EOL;
         $autoload .= '        }' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
@@ -344,30 +344,30 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsFakeBundle\\\\AlphaLemonCmsFakeBundle" : ""' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\RedKiteLabsCms\\\\RedKiteLabsCmsFakeBundle\\\\RedKiteLabsCmsFakeBundle" : ""' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/AlphaLemon/Block/BusinessDropCapFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $autoload = '{' . PHP_EOL;
         $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\Block\\\\BusinessDropCapFakeBundle\\\\BusinessDropCapFakeBundle" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessDropCapFakeBundle\\\\BusinessDropCapFakeBundle" : {' . PHP_EOL;
         $autoload .= '           "environments" : ["all"]' . PHP_EOL;
         $autoload .= '        },' . PHP_EOL;
-        $autoload .= '        "AlphaLemon\\\\AlphaLemonCms\\\\AlphaLemonCmsFakeBundle\\\\AlphaLemonCmsFakeBundle" : ""' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\RedKiteLabsCms\\\\RedKiteLabsCmsFakeBundle\\\\RedKiteLabsCmsFakeBundle" : ""' . PHP_EOL;
         $autoload .= '    }' . PHP_EOL;
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', $autoload);
 
-        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCms/AlphaLemonCmsFakeBundle/';
-        $this->createBundle($bundleFolder, 'AlphaLemonCmsFakeBundle', false, 'AlphaLemon\AlphaLemonCms');
+        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/';
+        $this->createBundle($bundleFolder, 'RedKiteLabsCmsFakeBundle', false, 'RedKiteLabs\RedKiteLabsCms');
 
         $this->scriptFactory->expects($this->exactly(2))
             ->method('createScript')
@@ -376,7 +376,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertCount(3, $bundles);
-        $this->assertEquals(array('BusinessCarouselFakeBundle', 'AlphaLemonCmsFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
+        $this->assertEquals(array('BusinessCarouselFakeBundle', 'RedKiteLabsCmsFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
     }
 
     public function testUninstall()
@@ -384,7 +384,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $this->createAutoloadNamespacesFile();
 
         // Autoloads a bundle
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
         $configFolder = $bundleFolder . 'Resources/config';
         $this->createFolder($configFolder);
@@ -405,13 +405,13 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $fs = new \Symfony\Component\Filesystem\Filesystem();
         $fs->remove(vfsStream::url($bundleFolder));
 
-        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
+        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
 
-        $script = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\ScriptInterface');
+        $script = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\ScriptInterface');
         $script->expects($this->exactly(2))
             ->method('executeActions');
 
-        $scriptFactory = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
+        $scriptFactory = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
         $scriptFactory->expects($this->exactly(2))
             ->method('createScript')
             ->will($this->returnValue($script));
@@ -427,10 +427,10 @@ class BundlesAutoloaderTest extends BaseFilesystem
     {
         $this->createAutoloadNamespacesFile();
 
-        $bundleFolder = 'root/src/AlphaLemon/Block/BusinessSliderFakeBundle/';
+        $bundleFolder = 'root/src/RedKiteLabs/Block/BusinessSliderFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessSliderFakeBundle');
         
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
@@ -450,7 +450,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/src/Acme/Blocks/BusinessMenuFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessMenuFakeBundle');
         
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
@@ -470,7 +470,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/src/Acme/Blocks/BusinessMenuFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessMenuFakeBundle');
         
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
         $this->scriptFactory->expects($this->exactly(2))
@@ -484,7 +484,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
 
     private function createScript()
     {
-        $script = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\ScriptInterface');
+        $script = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\ScriptInterface');
         $script->expects($this->exactly(2))
             ->method('executeActions');
 

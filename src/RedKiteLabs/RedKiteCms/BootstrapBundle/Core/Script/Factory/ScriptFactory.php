@@ -1,28 +1,28 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Script\Factory;
+namespace RedKiteLabs\BootstrapBundle\Core\Script\Factory;
 
-use AlphaLemon\BootstrapBundle\Core\Exception\CreateScriptException;
-use AlphaLemon\BootstrapBundle\Core\Script\ScriptInterface;
+use RedKiteLabs\BootstrapBundle\Core\Exception\CreateScriptException;
+use RedKiteLabs\BootstrapBundle\Core\Script\ScriptInterface;
 
 /**
  * Generates a ScriptInterface object
  * 
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ScriptFactory implements ScriptFactoryInterface
 {
@@ -44,7 +44,7 @@ class ScriptFactory implements ScriptFactoryInterface
     public function createScript($script)
     {
         if (null !== $script && is_string($script)) {
-            $scriptClass = '\AlphaLemon\BootstrapBundle\Core\Script\\' . $script . 'Script';
+            $scriptClass = '\RedKiteLabs\BootstrapBundle\Core\Script\\' . $script . 'Script';
             if (class_exists($scriptClass)) {
                 $script = new $scriptClass($this->configFolderPath);
                 if ($script instanceof ScriptInterface) {

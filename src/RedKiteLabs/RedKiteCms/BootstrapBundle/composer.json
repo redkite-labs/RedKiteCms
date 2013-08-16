@@ -1,13 +1,13 @@
 {
   "name": "alphalemon/alphalemon-bootstrap-bundle",
-  "description": "AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.",
+  "description": "RedKiteLabsBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.",
   "keywords": ["alphalemon", "bootstrap", "bundle", "autoload"],
-  "homepage": "http://alphalemon.com",
+  "homepage": "http://redkite-labs.com",
   "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
     {
-      "name": "AlphaLemon",
+      "name": "RedKiteLabs",
       "email": "info@alphalemon.com"
     }
   ],
@@ -32,9 +32,9 @@
   },
   "autoload": {
     "psr-0": {
-        "AlphaLemon\\BootstrapBundle": ""
+        "RedKiteLabs\\BootstrapBundle": ""
     }
   },
   "minimum-stability": "dev",
-  "target-dir" : "AlphaLemon/BootstrapBundle"
+  "target-dir" : "RedKiteLabs/BootstrapBundle"
 }

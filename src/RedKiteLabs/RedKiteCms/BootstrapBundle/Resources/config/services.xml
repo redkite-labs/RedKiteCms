@@ -5,26 +5,32 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="alphalemon_bootstrap.autoloaders_collection.class">AlphaLemon\BootstrapBundle\Core\Json\JsonAutoloaderCollection</parameter>
-        <parameter key="alphalemon_bootstrap.routing.loader.class">AlphaLemon\BootstrapBundle\Core\Loader\RoutingLoader</parameter>
-        <parameter key="alphalemon_bootstrap.post_actions.class">AlphaLemon\BootstrapBundle\Core\Listener\ExecutePostActionsListener</parameter>
-        <parameter key="alphalemon_bootstrap.routing_dir">%kernel.root_dir%/config/bundles/routing</parameter>
-        <parameter key="alphalemon_bootstrap.vendor_dir">%kernel.root_dir%/../vendor</parameter>
+        <parameter key="red_kite_labs_bootstrap.autoloaders_collection.class">RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection</parameter>
+        <parameter key="red_kite_labs_bootstrap.routing.loader.class">RedKiteLabs\BootstrapBundle\Core\Loader\RoutingLoader</parameter>
+        <parameter key="red_kite_labs_bootstrap.post_actions.class">RedKiteLabs\BootstrapBundle\Core\Listener\ExecutePostActionsListener</parameter>
+        <parameter key="red_kite_labs_bootstrap.routing_dir">%kernel.root_dir%/config/bundles/routing</parameter>
+        <parameter key="red_kite_labs_bootstrap.vendor_dir">%kernel.root_dir%/../vendor</parameter>
     </parameters>
 
     <services>
-        <service id="alphalemon_bootstrap.autoloaders_collection" class="%alphalemon_bootstrap.autoloaders_collection.class%">
-            <argument type="string">%alphalemon_bootstrap.vendor_dir%</argument>
+        <service id="red_kite_labs_bootstrap.autoloaders_collection" class="%red_kite_labs_bootstrap.autoloaders_collection.class%">
+            <argument type="string">%red_kite_labs_bootstrap.vendor_dir%</argument>
+            <argument type="collection">
+                <argument>%kernel.root_dir%/../src/RedKiteCms/Block</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteCms/Theme</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteLabsCms/Block</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteLabsCms/Theme</argument>
+            </argument>
         </service>
 
-        <service id="alphalemon_bootstrap.routing_loader" class="%alphalemon_bootstrap.routing.loader.class%">
+        <service id="red_kite_labs_bootstrap.routing_loader" class="%red_kite_labs_bootstrap.routing.loader.class%">
             <argument type="service" id="file_locator" />
-            <argument type="service" id="alphalemon_bootstrap.autoloaders_collection" />
-            <argument type="string">%alphalemon_bootstrap.routing_dir%</argument>
+            <argument type="service" id="red_kite_labs_bootstrap.autoloaders_collection" />
+            <argument type="string">%red_kite_labs_bootstrap.routing_dir%</argument>
             <tag name="routing.loader" />
         </service>
 
-        <service id="alphalemon_bootstrap.post_actions" class="%alphalemon_bootstrap.post_actions.class%">
+        <service id="red_kite_labs_bootstrap.post_actions" class="%red_kite_labs_bootstrap.post_actions.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="99999" />
             <argument type="service" id="service_container" />
         </service>

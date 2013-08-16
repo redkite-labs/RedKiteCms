@@ -1,29 +1,29 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Tests\Unit\Listener;
+namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Listener;
 
-use AlphaLemon\BootstrapBundle\Core\Listener\ExecutePostActionsListener;
-use AlphaLemon\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\BootstrapBundle\Core\Listener\ExecutePostActionsListener;
+use RedKiteLabs\BootstrapBundle\Tests\TestCase;
 
 
 /**
  * ExecutePostActionsListenerTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ExecutePostActionsListenerTest extends TestCase
 {
@@ -38,7 +38,7 @@ class ExecutePostActionsListenerTest extends TestCase
              ->method('getParameter')
              ->will($this->returnValue('base/path'));
 
-        $this->scriptFactory = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
+        $this->scriptFactory = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
         $this->listener = new ExecutePostActionsListener($this->container, $this->scriptFactory);
     }
 
@@ -55,7 +55,7 @@ class ExecutePostActionsListenerTest extends TestCase
 
     private function initScript()
     {
-        $script = $this->getMock('AlphaLemon\BootstrapBundle\Core\Script\PostScriptInterface');
+        $script = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\PostScriptInterface');
         $script->expects($this->once())
                ->method('setContainer')
                ->will($this->returnSelf());

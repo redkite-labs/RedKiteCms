@@ -1,25 +1,25 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Core\Json;
+namespace RedKiteLabs\BootstrapBundle\Core\Json;
 
-use AlphaLemon\BootstrapBundle\Core\Json\Bundle\Bundle;
-use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface;
-use AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonFormatException;
-use AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
+use RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle;
+use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface;
+use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonFormatException;
+use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
 
 
 
@@ -27,7 +27,7 @@ use AlphaLemon\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
 /**
  * Parses a json autoloader and converts it into an object
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class JsonAutoloader extends JsonToolkit
 {
@@ -85,7 +85,7 @@ class JsonAutoloader extends JsonToolkit
     /**
      * Returns the ActionManger object from the class declared in the autoloader json
      *
-     * @return null|AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface
+     * @return null|RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface
      */
     public function getActionManager()
     {

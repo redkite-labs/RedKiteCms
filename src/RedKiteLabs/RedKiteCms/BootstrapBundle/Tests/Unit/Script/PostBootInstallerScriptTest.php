@@ -1,32 +1,32 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Tests\Unit\Script;
+namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Script;
 
-use AlphaLemon\BootstrapBundle\Core\Script\PostBootInstallerScript;
+use RedKiteLabs\BootstrapBundle\Core\Script\PostBootInstallerScript;
 use org\bovigo\vfs\vfsStream;
-use AlphaLemon\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
+use RedKiteLabs\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
-use AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManager;
+use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManager;
 
 
 /**
  * PostBootInstallerScriptTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class PostBootInstallerScriptTest extends BaseFilesystem
 {
@@ -51,13 +51,13 @@ class PostBootInstallerScriptTest extends BaseFilesystem
     }
 
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\MissingDependencyException
+     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\MissingDependencyException
      * @expectedExceptionMessage You must give a ContainerInterface object to execute a post action. Use the setContainer method to fix it up
      */
     public function testAnExceptionIsThrownWhenTheContainerHasNotBeenGiven()
     {
         $this->setUpFileSystemForInstall();
-        $actionsManagerPost = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface');
+        $actionsManagerPost = $this->getMock('RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface');
         $actionsManagerPost->expects($this->never())
             ->method('packageInstalledPostBoot');
         $actionsManagers = array('BusinessCarouselFakeBundle' => $actionsManagerPost);
@@ -90,12 +90,12 @@ class PostBootInstallerScriptTest extends BaseFilesystem
     {
         $this->setUpFileSystemForInstall();
 
-        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPostBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageInstalledPostBoot', false);
 
-        $actionManagerGenerator = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
+        $actionManagerGenerator = $this->getMock('RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
         $actionManagerGenerator->expects($this->once())
             ->method('generate');
 
@@ -113,11 +113,11 @@ class PostBootInstallerScriptTest extends BaseFilesystem
     {
         $this->setUpFileSystemForInstall();
 
-        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\AlphaLemon\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
+        $notExecutedActions = array('BusinessCarouselFakeBundle' => '\RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarouselFakeBundle');
         file_put_contents(vfsStream::url('root/app/config/bundles/.packageInstalledPostBoot'), json_encode($notExecutedActions));
 
         $actionManager = $this->initActionsManager('packageInstalledPostBoot');
-        $actionManagerGenerator = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
+        $actionManagerGenerator = $this->getMock('RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerGenerator');
         $actionManagerGenerator->expects($this->once())
             ->method('generate');
 
@@ -133,7 +133,7 @@ class PostBootInstallerScriptTest extends BaseFilesystem
 
     private function initActionsManager($method, $returnValue = null)
     {
-        $actionsManagerPost = $this->getMock('AlphaLemon\BootstrapBundle\Core\ActionManager\ActionManagerInterface');
+        $actionsManagerPost = $this->getMock('RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface');
         $actionsManagerPost->expects($this->once())
             ->method($method)
             ->will($this->returnValue($returnValue));
@@ -143,10 +143,10 @@ class PostBootInstallerScriptTest extends BaseFilesystem
 
     private function setUpFileSystemForInstall()
     {
-        $fileContents = '"businesscarousel":"AlphaLemon\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel"';
+        $fileContents = '"businesscarousel":"RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel"';
         $this->createFile('root/app/config/bundles/.postInstall', $fileContents);
 
-        $classFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/AlphaLemon/Block/BusinessCarouselFakeBundle/Core/ActionManager/';
+        $classFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/';
         $this->createFolder($classFolder);
         $this->createFile($classFolder . 'ActionManagerBusinessCarousel.php');
     }

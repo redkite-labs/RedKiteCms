@@ -1,29 +1,29 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Tests\Unit\Script;
+namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Script;
 
-use AlphaLemon\BootstrapBundle\Core\Script\Factory\ScriptFactory;
-use AlphaLemon\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\BootstrapBundle\Core\Script\Factory\ScriptFactory;
+use RedKiteLabs\BootstrapBundle\Tests\TestCase;
 
 
 /**
  * ScriptFactoryTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class ScriptFactoryTest extends TestCase
 {
@@ -37,7 +37,7 @@ class ScriptFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\CreateScriptException
+     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\CreateScriptException
      * @expectedExceptionMessage ScriptFactory requires a not null string value to be able to create a new Script object
      */
     public function testAnExceptionIsThrownWhenANullValueIsGiven()
@@ -46,7 +46,7 @@ class ScriptFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\CreateScriptException
+     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\CreateScriptException
      * @expectedExceptionMessage ScriptFactory requires a not null string value to be able to create a new Script object
      */
     public function testAnExceptionIsThrownWhenAnInvalidValueIsGiven()
@@ -55,8 +55,8 @@ class ScriptFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException \AlphaLemon\BootstrapBundle\Core\Exception\CreateScriptException
-     * @expectedExceptionMessage \AlphaLemon\BootstrapBundle\Core\Script\fakeScript class has not been found
+     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\CreateScriptException
+     * @expectedExceptionMessage \RedKiteLabs\BootstrapBundle\Core\Script\fakeScript class has not been found
      */
     public function testAnExceptionIsThrownWhenTheClassDoesNotExist()
     {

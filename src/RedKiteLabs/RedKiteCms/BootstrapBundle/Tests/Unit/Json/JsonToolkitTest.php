@@ -1,30 +1,30 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteLabsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://redkite-labs.com
  *
  * @license    MIT License
  */
 
-namespace AlphaLemon\BootstrapBundle\Tests\Unit\Json;
+namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Json;
 
 use org\bovigo\vfs\vfsStream;
-use AlphaLemon\BootstrapBundle\Tests\TestCase;
-use AlphaLemon\BootstrapBundle\Core\Json\JsonToolkit;
+use RedKiteLabs\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\BootstrapBundle\Core\Json\JsonToolkit;
 
 
 /**
  * JsonAutoloaderTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class JsonToolkitTest extends TestCase
 {
@@ -37,7 +37,7 @@ class JsonToolkitTest extends TestCase
 
         $this->jsonAutoload = '{' . PHP_EOL;
         $this->jsonAutoload .= '  "bundels" : {' . PHP_EOL;
-        $this->jsonAutoload .= '    "AlphaLemon\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $this->jsonAutoload .= '    "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
         $this->jsonAutoload .= '       "environments" : ["all"]' . PHP_EOL;
         $this->jsonAutoload .= '    }' . PHP_EOL;
         $this->jsonAutoload .= '  }' . PHP_EOL;
