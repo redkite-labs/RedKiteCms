@@ -1482,7 +1482,7 @@ class AlPageTreeTest extends TestCase
         
         $this->container->expects($this->at(2))
             ->method('get')
-            ->with('alphalemon_theme_engine.active_theme')
+            ->with('red_kite_labs_theme_engine.active_theme')
             ->will($this->returnValue($this->activeTheme));
         
         if (null !== $request) {

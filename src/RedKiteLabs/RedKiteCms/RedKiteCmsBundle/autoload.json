@@ -3,9 +3,6 @@
         "RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
-        "AlphaLemon\\ElFinderBundle\\AlphaLemonElFinderBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
-        },
         "Propel\\PropelBundle\\PropelBundle" : {
             "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
         },
