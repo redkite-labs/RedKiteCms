@@ -13,7 +13,7 @@
 
     <services>
         <service id="tiny_mce_block.block" class="%tiny_mce_block.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Hypertext (TinyMCE)" type="Text" group="alphalemon_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Hypertext (TinyMCE)" type="Text" group="alphalemon_internals" />
             <argument type="service" id="red_kite_cms.events_handler" />
             <argument type="service" id="red_kite_cms.factory_repository" />
             <argument type="service" id="red_kite_cms.parameters_validator" />
