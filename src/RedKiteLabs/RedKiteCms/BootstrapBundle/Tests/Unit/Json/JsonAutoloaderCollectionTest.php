@@ -4,7 +4,7 @@
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,7 +23,7 @@ use org\bovigo\vfs\vfsStream;
 /**
  * BundlesAutoloaderTest
  *
- * @author RedKite Labs <webmaster@redkite-labs.com>
+ * @author RedKite Labs <info@redkite-labs.com>
  */
 class JsonAutoloaderCollectionTest extends BaseFilesystem
 {
