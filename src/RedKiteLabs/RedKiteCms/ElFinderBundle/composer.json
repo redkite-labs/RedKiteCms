@@ -1,5 +1,5 @@
 {
-    "name": "RedKiteLabs/elfinder-bundle",
+    "name": "redkite-labs/redkite-labs-elfinder-bundle",
     "description": "The ElFinderBundle encapsulates the elFinder file manager to be used in Symfony2.",
     "keywords": ["elfinder", "ajax", "file manager", "cms", "RedKiteLabs"],
     "homepage": "http://RedKiteLabs.com",
@@ -7,8 +7,8 @@
     "license": "MIT",
     "authors": [
     {
-      "name": "RedKiteLabs",
-      "email": "info@RedKiteLabs.com"
+      "name": "RedKite Labs",
+      "email": "info@redkite-labs.com"
     }
     ],
     "require": {
