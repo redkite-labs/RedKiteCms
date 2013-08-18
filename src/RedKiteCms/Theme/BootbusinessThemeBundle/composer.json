@@ -18,7 +18,7 @@
         }
   ],
   "require": {
-    "redkite-cms/redkite-cms-twitter-bootstrap": "dev-master"
+    "redkite-cms/twitter-bootstrap": "dev-master"
   },
   "autoload": {
     "psr-0": { "RedKiteCms\\Theme\\BootbusinessThemeBundle": ""
