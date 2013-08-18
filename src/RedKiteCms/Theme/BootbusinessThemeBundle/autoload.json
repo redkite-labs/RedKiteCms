@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "AlphaLemon\\Theme\\BootbusinessThemeBundle\\BootbusinessThemeBundle" : {
+        "RedKiteTheme\\Theme\\BootbusinessThemeBundle\\BootbusinessThemeBundle" : {
             "environments" : ["all"]
         }
     }

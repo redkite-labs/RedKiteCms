@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="bootbusiness_theme.theme.template.empty.slots.page_title" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.empty.slots.page_title" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">page_title</argument>
             <argument type="collection" >
                 <argument key="htmlContent">
@@ -13,7 +13,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.empty.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.empty.slots.content" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.empty.slots.content" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">content</argument>
             <tag name="bootbusiness_theme.theme.template.empty.slots" />
         </service>

@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\Theme\BootbusinessThemeBundle\DependencyInjection;
+namespace RedKiteTheme\Theme\BootbusinessThemeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

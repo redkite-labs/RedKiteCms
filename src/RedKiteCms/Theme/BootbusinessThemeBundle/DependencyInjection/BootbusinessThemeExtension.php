@@ -4,7 +4,7 @@
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * (c) Since 2011 AlphaLemon
+ * (c) Since 2011 RedKiteTheme
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  *
  */
 
-namespace  AlphaLemon\Theme\BootbusinessThemeBundle\DependencyInjection;
+namespace  RedKiteTheme\Theme\BootbusinessThemeBundle\DependencyInjection;
 
-use AlphaLemon\ThemeEngineBundle\Core\Rendering\DependencyInjection\BaseExtension;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\DependencyInjection\BaseExtension;
 
 class BootbusinessThemeExtension extends BaseExtension
 {

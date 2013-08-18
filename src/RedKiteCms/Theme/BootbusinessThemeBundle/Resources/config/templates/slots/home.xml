@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="bootbusiness_theme.theme.template.home.slots.slider_box" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.home.slots.slider_box" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">slider_box</argument>
             <argument type="collection" >
                 <argument key="repeated">page</argument>
@@ -26,7 +26,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.home.slots.content_title_1" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.home.slots.content_title_1" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">content_title_1</argument>
             <argument type="collection" >
                 <argument key="repeated">page</argument>
@@ -36,7 +36,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.home.slots.content_body_1" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.home.slots.content_body_1" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">content_body_1</argument>
             <argument type="collection" >
                 <argument key="repeated">page</argument>
@@ -44,7 +44,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.home.slots.content_title_2" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.home.slots.content_title_2" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">content_title_2</argument>
             <argument type="collection" >
                 <argument key="repeated">page</argument>
@@ -54,7 +54,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.home.slots.content_body_2" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.home.slots.content_body_2" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">content_body_2</argument>
             <argument type="collection" >
                 <argument key="repeated">page</argument>

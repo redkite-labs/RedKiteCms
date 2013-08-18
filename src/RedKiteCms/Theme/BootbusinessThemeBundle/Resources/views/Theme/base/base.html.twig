@@ -1,8 +1,8 @@
 {% extends base_template %}
 
 {% block external_stylesheets %}
-    {% stylesheets  filter='?yui_css,cssrewrite' 'components/alphalemoncms/twitter-bootstrap/css/bootstrap.min.css' 
-                                                 'components/alphalemoncms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+    {% stylesheets  filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css' 
+                                                 'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
     %}        
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
@@ -19,7 +19,7 @@
 
 {% block external_javascripts %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js' 
-                                     'components/alphalemoncms/twitter-bootstrap/js/bootstrap.min.js' 
+                                     'components/redkitecms/twitter-bootstrap/js/bootstrap.min.js' 
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -276,7 +276,7 @@ END-SLOT #}
             name: alphalemon_love
             repeated: site
             htmlContent: |
-                <a href="http://alphalemon.com">Powered by AlphaLemon CMS</a>
+                <a href="http://alphalemon.com">Powered by RedKiteTheme CMS</a>
         END-SLOT #}
         {{ renderSlot('alphalemon_love') }}
     {% endblock %}   

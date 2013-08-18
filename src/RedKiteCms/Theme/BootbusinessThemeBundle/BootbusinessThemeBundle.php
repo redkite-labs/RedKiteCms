@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\Theme\BootbusinessThemeBundle;
+namespace RedKiteTheme\Theme\BootbusinessThemeBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

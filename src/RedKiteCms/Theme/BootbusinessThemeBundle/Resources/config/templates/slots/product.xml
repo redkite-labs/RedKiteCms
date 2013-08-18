@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="bootbusiness_theme.theme.template.product.slots.product_title" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.product.slots.product_title" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">product_title</argument>
             <argument type="collection" >
                 <argument key="htmlContent">
@@ -13,14 +13,14 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.product.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.product.slots.product_image" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.product.slots.product_image" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">product_image</argument>
             <argument type="collection" >
                 <argument key="blockType">Image</argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.product.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.product.slots.product_description" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.product.slots.product_description" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">product_description</argument>
             <argument type="collection" >
                 <argument key="htmlContent">
@@ -44,7 +44,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.product.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.product.slots.product_features" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.product.slots.product_features" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">product_features</argument>
             <argument type="collection" >
                 <argument key="htmlContent">
@@ -61,7 +61,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.product.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.product.slots.product_buy" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.product.slots.product_buy" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">product_buy</argument>
             <argument type="collection" >
                 <argument key="htmlContent">
@@ -72,7 +72,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.product.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.product.slots.product_contact" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.product.slots.product_contact" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">product_contact</argument>
             <argument type="collection" >
                 <argument key="htmlContent">
@@ -83,7 +83,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.product.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.product.slots.product_faq" class="%alpha_lemon_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.product.slots.product_faq" class="%red_kite_labs_theme_engine.slot.class%">
             <argument type="string">product_faq</argument>
             <argument type="collection" >
                 <argument key="htmlContent">
