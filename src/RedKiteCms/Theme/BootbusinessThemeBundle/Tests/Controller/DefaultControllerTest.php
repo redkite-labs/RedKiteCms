@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteTheme\Theme\BootbusinessThemeBundle\Tests\Controller;
+namespace RedKiteCms\Theme\BootbusinessThemeBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

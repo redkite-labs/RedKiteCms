@@ -4,7 +4,7 @@
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * (c) Since 2011 RedKiteTheme
+ * (c) Since 2011 RedKiteCms
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@
  *
  */
 
-namespace  RedKiteTheme\Theme\BootbusinessThemeBundle\DependencyInjection;
+namespace  RedKiteCms\Theme\BootbusinessThemeBundle\DependencyInjection;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\DependencyInjection\BaseExtension;
 

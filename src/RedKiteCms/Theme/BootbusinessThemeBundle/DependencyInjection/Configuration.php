@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteTheme\Theme\BootbusinessThemeBundle\DependencyInjection;
+namespace RedKiteCms\Theme\BootbusinessThemeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "RedKiteTheme\\Theme\\BootbusinessThemeBundle\\BootbusinessThemeBundle" : {
+        "RedKiteCms\\Theme\\BootbusinessThemeBundle\\BootbusinessThemeBundle" : {
             "environments" : ["all"]
         }
     }

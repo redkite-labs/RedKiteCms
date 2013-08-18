@@ -187,7 +187,7 @@
             <argument type="collection" >
                 <argument key="repeated">site</argument>
                 <argument key="htmlContent">
-                    <![CDATA[<a href="http://alphalemon.com">Powered by RedKiteTheme CMS</a>]]>
+                    <![CDATA[<a href="http://alphalemon.com">Powered by RedKiteCms CMS</a>]]>
                 </argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />

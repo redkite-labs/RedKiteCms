@@ -1,13 +1,13 @@
 {
   "name": "alphalemon/bootbusiness-theme-bundle",
-  "description": "RedKiteTheme CMS Bootsiness Website Theme porting",
+  "description": "RedKiteCms CMS Bootsiness Website Theme porting",
   "keywords": ["alphalemon", "cms", "app", "theme"],
   "homepage": "http://alphalemon.com",
   "type": "alphalemon-theme-bundle",
   "license": "MIT",
   "authors": [
     {
-      "name": "RedKiteTheme",
+      "name": "RedKiteCms",
       "email": "info@alphalemon.com"
     }
   ],
@@ -27,9 +27,9 @@
     "alphalemon/app-bootstrap-accordion-bundle": "dev-master"
   },
   "autoload": {
-    "psr-0": { "RedKiteTheme\\Theme\\BootbusinessThemeBundle": ""
+    "psr-0": { "RedKiteCms\\Theme\\BootbusinessThemeBundle": ""
     }
   },
-  "target-dir" : "RedKiteTheme/Theme/BootbusinessThemeBundle",
+  "target-dir" : "RedKiteCms/Theme/BootbusinessThemeBundle",
   "minimum-stability": "dev"
 }
