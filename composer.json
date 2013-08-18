@@ -40,9 +40,9 @@
     "sensio/framework-extra-bundle": "2.3.*",
     "sensio/generator-bundle": "2.3.*",
     "incenteev/composer-parameter-handler": "~2.0",
-    "redkite-cms/app-tinymce-block-bundle": "dev-master",
+    "redkite-cms/tinymce-block-bundle": "dev-master",
     "redkite-cms/bootbusiness-theme-bundle": "dev-master",
-    "redkite-cms/app-sunshine-theme-bundle": "dev-master",
+    "redkite-cms/sunshine-theme-bundle": "dev-master",
     "willdurand/propel-typehintable-behavior": "dev-master",  
     "mikey179/vfsStream": "1.1.0"
   },
