@@ -1,4 +1,22 @@
 {
+    "name": "redkite-cms/redkite-cms-twitter-bootstrap",
+    "description": "RedKite Cms base blocks",
+    "keywords": ["redkite", "redkite labs", "redkite cms", "cms"],
+    "homepage": "http://redkite-labs.com",
+    "type": "redkite-cms-app",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "RedKite Labs",
+        "email": "info@redkite-labs.com"
+      }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://apps.redkite-labs.com/"
+        }
+    ],
     "autoload": {
         "psr-0": { "RedKiteCms\\Block\\TwitterBootstrapBundle": ""
         }
