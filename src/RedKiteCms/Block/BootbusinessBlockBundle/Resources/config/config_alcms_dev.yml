@@ -1,2 +1,2 @@
 imports:
-- { resource: "@BootbusinessProductBlockBundle/Resources/config/config_alcms.yml" }
+- { resource: "@BootbusinessBlockBundle/Resources/config/config_alcms.yml" }

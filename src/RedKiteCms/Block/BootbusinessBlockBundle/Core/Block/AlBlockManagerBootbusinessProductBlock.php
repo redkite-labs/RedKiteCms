@@ -1,15 +1,15 @@
 <?php
 /**
- * An AlphaLemonCms Block
+ * A RedKiteCms Block
  */
 
-namespace AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block;
+namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
 
-use AlphaLemon\Block\BootstrapThumbnailBlockBundle\Core\Block\AlBlockManagerBootstrapThumbnailsBlock;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapThumbnailsBlock;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
 
 /**
- * Description of AlBlockManagerBootbusinessProductBlock
+ * Description of AlBlockManagerBootbusinessBlock
  */
 class AlBlockManagerBootbusinessProductBlock extends AlBlockManagerBootstrapThumbnailsBlock
 {
@@ -33,7 +33,7 @@ class AlBlockManagerBootbusinessProductBlock extends AlBlockManagerBootstrapThum
         $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
         
         return array('RenderView' => array(
-            'view' => 'BootbusinessProductBlockBundle:Product:product.html.twig',
+            'view' => 'BootbusinessBlockBundle:Product:product.html.twig',
             'options' => array('values' => $items, 'parent' => $this->alBlock),
         ));
     }

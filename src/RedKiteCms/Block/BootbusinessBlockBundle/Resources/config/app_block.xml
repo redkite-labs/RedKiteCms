@@ -5,41 +5,41 @@
 
     <parameters>    
         <parameter key="bootbusinessproductblock.external_javascripts.cms" type="collection">
-            <parameter>@BootbusinessProductBlockBundle/Resources/public/js/bootbusiness_product.js</parameter>
+            <parameter>@BootbusinessBlockBundle/Resources/public/js/bootbusiness_product.js</parameter>
         </parameter>
         
-        <parameter key="bootbusiness_product.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessProductBlock</parameter>
-        <parameter key="bootbusiness_product_thumbnail.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessProductThumbnailBlock</parameter>
-        <parameter key="bootbusinessproductblock.form.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Form\AlButtonType</parameter>
-        <parameter key="bootbusiness_member.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessMemberBlock</parameter>
-        <parameter key="bootbusiness_event.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessEventBlock</parameter>
-        <parameter key="bootbusiness_contact_office.block.class">AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block\AlBlockManagerBootbusinessContactOfficeBlock</parameter>
+        <parameter key="bootbusiness_product.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessProductBlock</parameter>
+        <parameter key="bootbusiness_product_thumbnail.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessProductThumbnailBlock</parameter>
+        <parameter key="bootbusinessproductblock.form.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Form\AlButtonType</parameter>
+        <parameter key="bootbusiness_member.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessMemberBlock</parameter>
+        <parameter key="bootbusiness_event.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessEventBlock</parameter>
+        <parameter key="bootbusiness_contact_office.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessContactOfficeBlock</parameter>
     </parameters>
 
     <services>
         <service id="bootbusiness_product.block" class="%bootbusiness_product.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Product" type="BootbusinessProductBlock" group="Bootbusiness,Bootbusiness product" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Bootbusiness Product" type="BootbusinessProductBlock" group="Bootbusiness,Bootbusiness product" />
             <argument type="service" id="service_container" />
         </service>
         
         <service id="bootbusiness_product_thumbnail.block" class="%bootbusiness_product_thumbnail.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Product Thumbnail" type="BootbusinessProductThumbnailBlock" group="Bootbusiness,Bootbusiness product" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Bootbusiness Product Thumbnail" type="BootbusinessProductThumbnailBlock" group="Bootbusiness,Bootbusiness product" />
             <argument type="service" id="service_container" />
         </service>
         
         <service id="bootbusiness_member.block" class="%bootbusiness_member.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Member" type="BootbusinessMemberBlock" group="Bootbusiness,Bootbusiness product" />
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Bootbusiness Member" type="BootbusinessMemberBlock" group="Bootbusiness,Bootbusiness product" />
+            <argument type="service" id="red_kite_cms.events_handler" />
         </service>
         
         <service id="bootbusiness_event.block" class="%bootbusiness_event.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Event" type="BootbusinessEventBlock" group="Bootbusiness,Bootbusiness product" />
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Bootbusiness Event" type="BootbusinessEventBlock" group="Bootbusiness,Bootbusiness product" />
+            <argument type="service" id="red_kite_cms.events_handler" />
         </service>
         
         <service id="bootbusiness_contact_office.block" class="%bootbusiness_contact_office.block.class%">
-            <tag name="alphalemon_cms.blocks_factory.block" description="Bootbusiness Contact Office" type="BootbusinessContactOfficeBlock" group="Bootbusiness,Bootbusiness product" />
-            <argument type="service" id="alpha_lemon_cms.events_handler" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Bootbusiness Contact Office" type="BootbusinessContactOfficeBlock" group="Bootbusiness,Bootbusiness product" />
+            <argument type="service" id="red_kite_cms.events_handler" />
         </service>
         
         <service id="bootbusinessproductblock.form" class="%bootbusinessproductblock.form.class%">

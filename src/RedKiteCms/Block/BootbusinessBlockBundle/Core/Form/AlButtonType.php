@@ -4,7 +4,7 @@
  * under the MIT LICENSE. To use this application you must leave intact this copyright 
  * notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +15,9 @@
  * 
  */
 
-namespace AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Form;
+namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Form;
 
-use AlphaLemon\Block\BootstrapButtonBlockBundle\Core\Form\AlButtonType as BaseButtonType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\AlButtonType as BaseButtonType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class AlButtonType extends BaseButtonType

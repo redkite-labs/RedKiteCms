@@ -1,2 +1,2 @@
 imports:
-- { resource: "@BootbusinessProductBlockBundle/Resources/config/app_block.xml" }
+- { resource: "@BootbusinessBlockBundle/Resources/config/app_block.xml" }

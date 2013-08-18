@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaLemon\Block\BootbusinessProductBlockBundle\Tests\Controller;
+namespace RedKiteCms\Block\BootbusinessBlockBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

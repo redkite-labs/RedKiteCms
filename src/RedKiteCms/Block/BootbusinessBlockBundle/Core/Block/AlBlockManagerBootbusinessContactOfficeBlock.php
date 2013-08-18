@@ -1,14 +1,14 @@
 <?php
 /**
- * An AlphaLemonCms Block
+ * A RedKiteCms Block
  */
 
-namespace AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block;
+namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
- * Description of AlBlockManagerBootbusinessProductBlock
+ * Description of AlBlockManagerBootbusinessBlock
  */
 class AlBlockManagerBootbusinessContactOfficeBlock extends AlBlockManager
 {
@@ -20,7 +20,7 @@ class AlBlockManagerBootbusinessContactOfficeBlock extends AlBlockManager
     protected function renderHtml()
     {
         return array('RenderView' => array(
-            'view' => 'BootbusinessProductBlockBundle:ContactOffice:contact_office.html.twig',
+            'view' => 'BootbusinessBlockBundle:ContactOffice:contact_office.html.twig',
         ));
     }
 }

@@ -1,16 +1,16 @@
 <?php
 /**
- * An AlphaLemonCms Block
+ * A RedKiteCms Block
  */
 
-namespace AlphaLemon\Block\BootbusinessProductBlockBundle\Core\Block;
+namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
 
-use AlphaLemon\Block\BootstrapThumbnailBlockBundle\Core\Block\AlBlockManagerBootstrapThumbnailBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapThumbnailBlock;
 
 /**
- * Description of AlBlockManagerBootstrapThumbnailBlock
+ * Description of AlBlockManagerBootbusinessProductThumbnailBlock
  */
 class AlBlockManagerBootbusinessProductThumbnailBlock extends AlBlockManagerBootstrapThumbnailBlock
 {
-    protected $blockTemplate = 'BootbusinessProductBlockBundle:Thumbnail:thumbnail.html.twig';
+    protected $blockTemplate = 'BootbusinessBlockBundle:Thumbnail:thumbnail.html.twig';
 }
