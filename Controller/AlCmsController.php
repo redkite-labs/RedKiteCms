@@ -38,8 +38,6 @@ class AlCmsController extends BaseFrontendController
     public function showAction()
     {
         $request = $this->container->get('request');
-        //$a = $this->container->get('bootstrap_thumbnail.form');;
-        //echo "G";exit;
         $this->kernel = $this->container->get('kernel');
         $pageTree = $this->container->get('red_kite_cms.page_tree');
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
