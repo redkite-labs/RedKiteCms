@@ -1,14 +1,14 @@
 {
-  "name": "alphalemon/theme-engine-bundle",
-  "description": "ThemeEngineBundle adds theming feature to any Symfony2 application, adding themes packed as standard Symfony2 Bundles",
+  "name": "redkite-labs/theme-engine-bundle",
+  "description": "ThemeEngineBundle handles themes packed as standard Symfony2 Bundles",
   "keywords": ["theme", "themes", "cms"],
   "homepage": "http://www.redkite-labs.com",
   "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
     {
-      "name": "AlphaLemon",
-      "email": "info@alphalemon.com"
+      "name": "RedKite Labs",
+      "email": "info@redkite-labs.com"
     }
   ],
   "require": {
@@ -30,9 +30,9 @@
     "mikey179/vfsStream": "1.1.0"
   },
   "autoload": {
-    "psr-0": { "AlphaLemon\\ThemeEngineBundle": ""
+    "psr-0": { "RedKiteLabs\\ThemeEngineBundle": ""
     }
   },
   "minimum-stability": "dev",
-  "target-dir" : "AlphaLemon/ThemeEngineBundle"
+  "target-dir" : "RedKiteLabs/ThemeEngineBundle"
 }
