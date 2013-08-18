@@ -1,5 +1,5 @@
 {
-  "name": "redkite-labs/theme-engine-bundle",
+  "name": "redkite-labs/redkite-labs-theme-engine-bundle",
   "description": "ThemeEngineBundle handles themes packed as standard Symfony2 Bundles",
   "keywords": ["theme", "themes", "cms"],
   "homepage": "http://www.redkite-labs.com",
