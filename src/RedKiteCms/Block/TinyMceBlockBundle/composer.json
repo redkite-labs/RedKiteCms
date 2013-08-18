@@ -1,22 +1,24 @@
 {
-    "name": "alphalemon/app-tinymce-block-bundle",
-    "description": "Adds the TinyMCE editor to RedKiteCms CMS to manage an hipertext content",
-    "keywords": ["alphalemon", "cms", "app"],
-    "homepage": "http://alphalemon.com",
-    "type": "alphalemon-block-bundle",
+    "name": "redkite-cms/tinymce-block-bundle",
+    "description": "Adds the TinyMCE editor to RedKite CMS to manage an hipertext content on the webpage",
+    "keywords": ["redkite", "cms", "app"],
+    "homepage": "http://redkite-labs.com",
+    "type": "redkite-cms-app",
     "license": "MIT",
-    "authors": [{
-      "name": "RedKiteCms",
-      "email": "info@alphalemon.com"
-    }],
+    "authors": [
+        {
+          "name": "RedKite Labs",
+          "email": "info@redkite-labs.com"
+        }
+    ],
     "repositories": [
-      {
-         "type": "composer",
-         "url": "http://apps.alphalemon.com/"
-      }
+        {
+            "type": "composer",
+            "url": "http://apps.redkite-labs.com/"
+        }
     ],
     "require-dev": {
-        "alphalemon/alphalemon-cms-bundle": "dev-master",
+        "redkite-labs/redkite-cms-bundle": "dev-master",
         "willdurand/propel-typehintable-behavior": "dev-master"
     },
     "autoload": {

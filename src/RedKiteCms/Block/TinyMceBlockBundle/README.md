@@ -15,7 +15,7 @@ file:
 
     {
         "require": {
-            "alphalemon/app-tinymce-block-bundle": "1.0.*"
+            "redkite-cms/tinymce-block-bundle": "1.0.*"
         }
     }
 
