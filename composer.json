@@ -1,20 +1,20 @@
  {
-  "name": "alphalemon/alphalemon-cms-bundle",
-  "description": "RedKiteCms is an Open Source Content Management System Application, built on top of Symfony2 Framework, providing an easy an intuitive user-interface, to improve the website's content management experience",
-  "keywords": ["alphalemon", "cms"],
-  "homepage": "http://alphalemon.com",
+  "name": "redkite-labs/redkite-cms-bundle",
+  "description": "RedKiteCms is an Open Source Content Management System Application, built on top of Symfony2 and TwitterBootstrap frameworks, providing an easy an intuitive user-interface, to improve the website's content management experience",
+  "keywords": ["redkite", "redkite labs", "redkite cms", "cms"],
+  "homepage": "http://redkite-labs.com",
   "type": "symfony-bundle",
   "license": "GPLv2",
   "authors": [
     {
-      "name": "AlphaLemon",
-      "email": "webmaster@alphalemon.com"
+      "name": "RedKite Labs",
+      "email": "info@redkite-labs.com"
     }
   ],
   "repositories": [
       {
           "type": "composer",
-          "url": "http://apps.alphalemon.com/"
+          "url": "http://apps.redkite-labs.com/"
       }
   ],
   "require": {
@@ -23,9 +23,10 @@
     "propel/propel-bundle": "1.2.*",
     "propel/propel1": "1.6.*",
     "phing/phing": "2.4.12",
-    "alphalemon/alphalemon-bootstrap-bundle": "dev-master",
-    "alphalemon/theme-engine-bundle": "dev-master",
-    "alphalemon/elfinder-bundle": "dev-master"
+    "redkite-labs/redkite-labs-bootstrap-bundle": "dev-master",
+    "redkite-labs/theme-engine-bundle": "dev-master",
+    "redkite-labs/elfinder-bundle": "dev-master",
+    "redkite-cms/redkite-cms-base-blocks": "dev-master",
   },
   "require-dev": {    
     "symfony/symfony": "2.3.*",
@@ -39,24 +40,16 @@
     "sensio/framework-extra-bundle": "2.3.*",
     "sensio/generator-bundle": "2.3.*",
     "incenteev/composer-parameter-handler": "~2.0",
-    "alphalemon/app-tinymce-block-bundle": "dev-master",
-    "alphalemon/bootbusiness-theme-bundle": "dev-master",
-    "alphalemon/app-sunshine-theme-bundle": "dev-master",
+    "redkite-cms/app-tinymce-block-bundle": "dev-master",
+    "redkite-cms/bootbusiness-theme-bundle": "dev-master",
+    "redkite-cms/app-sunshine-theme-bundle": "dev-master",
     "willdurand/propel-typehintable-behavior": "dev-master",  
     "mikey179/vfsStream": "1.1.0"
   },
   "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
-        "AlphaLemon\\AlphaLemonCmsBundle": "",
-        "AlphaLemon\\Block": "Bundle/",
-        "AlphaLemon\\Block\\TextBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\ImageBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\MenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\FileBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\ScriptBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\NavigationMenuBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/",
-        "AlphaLemon\\Block\\LinkBundle" : "AlphaLemon/AlphaLemonCmsBundle/Bundle/"
+        "AlphaLemon\\AlphaLemonCmsBundle": ""
     }
   },
   "target-dir" : "AlphaLemon/AlphaLemonCmsBundle"
