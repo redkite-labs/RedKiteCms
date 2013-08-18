@@ -24,8 +24,8 @@
     "propel/propel1": "1.6.*",
     "phing/phing": "2.4.12",
     "redkite-labs/redkite-labs-bootstrap-bundle": "dev-master",
-    "redkite-labs/theme-engine-bundle": "dev-master",
-    "redkite-labs/elfinder-bundle": "dev-master",
+    "redkite-labs/redkite-labs-theme-engine-bundle": "dev-master",
+    "redkite-labs/redkite-labs-elfinder-bundle": "dev-master",
     "redkite-cms/redkite-cms-base-blocks": "dev-master"
   },
   "require-dev": {    
