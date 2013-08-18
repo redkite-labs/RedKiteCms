@@ -26,7 +26,7 @@
     "redkite-labs/redkite-labs-bootstrap-bundle": "dev-master",
     "redkite-labs/theme-engine-bundle": "dev-master",
     "redkite-labs/elfinder-bundle": "dev-master",
-    "redkite-cms/redkite-cms-base-blocks": "dev-master",
+    "redkite-cms/redkite-cms-base-blocks": "dev-master"
   },
   "require-dev": {    
     "symfony/symfony": "2.3.*",
@@ -49,8 +49,8 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
-        "AlphaLemon\\AlphaLemonCmsBundle": ""
+        "RedKiteLabs\\RedKiteCmsBundle": ""
     }
   },
-  "target-dir" : "AlphaLemon/AlphaLemonCmsBundle"
+  "target-dir" : "RedKiteLabs/RedKiteCmsBundle"
 }
