@@ -1,16 +1,22 @@
 {
-    "name": "alphalemon/app-bootbusiness-product-bundle",
-    "description": "An RedKiteCms CMS app-block to add a complex html content to represent a product in BootbusinessTheme",
-    "keywords": ["alphalemon", "cms", "app"],
-    "homepage": "http://alphalemon.com",
-    "type": "alphalemon-block-bundle",
+    "name": "redkite-cms/bootbusiness-product-bundle",
+    "description": "A RedKite CMS app-block to add a complex html content to represent a product in BootbusinessTheme",
+    "keywords": ["redkite", "cms", "app"],
+    "homepage": "http://redkite-labs..com",
+    "type": "redkite-cms-app",
     "license": "MIT",
     "authors": [{
       "name": "RedKiteCms",
       "email": "info@alphalemon.com"
     }],
+    "authors": [
+        {
+          "name": "RedKite Labs",
+          "email": "info@redkite-labs.com"
+        }
+    ],
     "require-dev": {
-        "alphalemon/alphalemon-cms-bundle": "dev-master"
+        "redkite-labs/redkite-cms-bundle": "dev-master",
     },
     "autoload": {
         "psr-0": { "RedKiteCms\\Block\\BootbusinessBlockBundle": ""
