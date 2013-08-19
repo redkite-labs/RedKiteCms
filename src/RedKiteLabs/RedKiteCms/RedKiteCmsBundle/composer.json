@@ -1,5 +1,5 @@
  {
-  "name": "redkite-labs/redkite-cms-bundle",
+  "name": "redkite-cms/redkite-cms-bundle",
   "description": "RedKiteCms is an Open Source Content Management System Application, built on top of Symfony2 and TwitterBootstrap frameworks, providing an easy an intuitive user-interface, to improve the website's content management experience",
   "keywords": ["redkite", "redkite labs", "redkite cms", "cms"],
   "homepage": "http://redkite-labs.com",
