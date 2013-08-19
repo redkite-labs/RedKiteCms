@@ -1,30 +1,30 @@
 <?php
 /*
- * This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+ * This file is part of the RedKiteCmsCMS InstallerBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://www.alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
  */
 
-namespace AlphaLemon\CmsInstallerBundle\Controller;
+namespace RedKiteCms\InstallerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use AlphaLemon\CmsInstallerBundle\Core\Form\AlphaLemonCmsParametersType;
-use AlphaLemon\CmsInstallerBundle\Core\Installer\Installer;
+use RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsCmsParametersType;
+use RedKiteCms\InstallerBundle\Core\Installer\Installer;
 
 /**
- * Implements the controller to install AlphaLemon CMS
+ * Implements the controller to install RedKiteCms CMS
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -32,7 +32,7 @@ class InstallerController extends Controller
 {
     public function installAction()
     {
-        $type = new AlphaLemonCmsParametersType();
+        $type = new RedKiteCmsCmsParametersType();
         $form = $this->container->get('form.factory')->create($type, array('company' => 'Acme',
                                                                            'bundle' => 'WebSiteBundle',
                                                                            'host' => 'localhost',
@@ -63,7 +63,7 @@ class InstallerController extends Controller
 
                 if(!empty($dsn)) {
                    try {
-                       $response = $this->render('AlphaLemonCmsInstallerBundle:Installer:install_success.html.twig', array(
+                       $response = $this->render('RedKiteCmsInstallerBundle:Installer:install_success.html.twig', array(
                             'scheme'    => $scheme,
                         ));
                        $installer = new Installer($this->container->getParameter('kernel.root_dir') . '/../vendor');
@@ -81,7 +81,7 @@ class InstallerController extends Controller
             }
         }
 
-        return $this->render('AlphaLemonCmsInstallerBundle:Installer:install.html.twig', array(
+        return $this->render('RedKiteCmsInstallerBundle:Installer:install.html.twig', array(
             'form'    => $form->createView(),
         ));
     }

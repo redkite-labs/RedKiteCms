@@ -1,10 +1,10 @@
 <?php
 /*
- * This file is part of the AlphaLemonBootstrapBundle and it is distributed
+ * This file is part of the RedKiteCmsBootstrapBundle and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,10 +14,10 @@
  * @license    MIT License
  */
 
-namespace AlphaLemon\CmsInstallerBundle\Tests\Unit\Installer;
+namespace RedKiteCms\InstallerBundle\Tests\Unit\Installer;
 
-use AlphaLemon\CmsInstallerBundle\Tests\TestCase;
-use AlphaLemon\CmsInstallerBundle\Core\Installer\Installer;
+use RedKiteCms\InstallerBundle\Tests\TestCase;
+use RedKiteCms\InstallerBundle\Core\Installer\Installer;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
@@ -25,7 +25,7 @@ use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 /**
  * InstallerTest
  *
- * @author AlphaLemon <webmaster@alphalemon.com>
+ * @author RedKiteCms <webmaster@alphalemon.com>
  */
 class InstallerTest extends TestCase
 {
@@ -56,7 +56,7 @@ class InstallerTest extends TestCase
                                 )
                              ),
                          'web' => array('js' => array('tiny_mce' => array())),
-                         'vendor' => array('phing' => array(), 'propel' => array(), 'alphalemon' => array('alphalemon-cms-bundle' => array('AlphaLemon' => array()))),
+                         'vendor' => array('phing' => array(), 'propel' => array(), 'alphalemon' => array('alphalemon-cms-bundle' => array('RedKiteCms' => array()))),
                         );*/
         $folders = array('app' => array(),
                          'src' => array(
@@ -75,28 +75,28 @@ class InstallerTest extends TestCase
         $this->root = vfsStream::setup('root', null, $folders);
 /*
         vfsStream::copyFromFileSystem(__DIR__ . '/../../../Functional/Resources', $this->root->getChild('app'));
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon', $this->root->getChild('vendor')->getChild('alphalemon')->getChild('alphalemon-cms-bundle')->getChild('AlphaLemon'));
+        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../vendor/alphalemon/alphalemon-cms-bundle/RedKiteCms', $this->root->getChild('vendor')->getChild('alphalemon')->getChild('alphalemon-cms-bundle')->getChild('RedKiteCms'));
 */
 
-        $this->orm = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm\OrmInterface');
-        $this->processConsole = $this->getMock('AlphaLemon\AlphaLemonCmsBundle\Core\ProcessConsole\ProcessConsoleInterface');
+        $this->orm = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface');
+        $this->processConsole = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ProcessConsole\ProcessConsoleInterface');
         $this->installer = new Installer(vfsStream::url('root/vendor'), $this->orm, $this->processConsole);
     }
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage An error occoured. AlphaLemon CMS requires phing installed into vfs://root/vendor folder. Please install the required library then run the script again.
+     * @expectedExceptionMessage An error occoured. RedKiteCms CMS requires phing installed into vfs://root/vendor folder. Please install the required library then run the script again.
      */
-    public function testAlphaLemonCmsRequiresPhing()
+    public function testRedKiteCmsCmsRequiresPhing()
     {
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
     }
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage An error occoured. AlphaLemon CMS requires tiny_mce installed into vfs://root/vendor/../web/js folder. Please install the required library then run the script again.
+     * @expectedExceptionMessage An error occoured. RedKiteCms CMS requires tiny_mce installed into vfs://root/vendor/../web/js folder. Please install the required library then run the script again.
      */
-    public function testAlphaLemonCmsRequiresTinyMCE()
+    public function testRedKiteCmsCmsRequiresTinyMCE()
     {
         $this->addPhing();
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
@@ -104,9 +104,9 @@ class InstallerTest extends TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage An error occoured. AlphaLemon CMS requires yuicompressor.jar installed into vfs://root/vendor/../app/Resources/java folder. Please install the required library then run the script again.
+     * @expectedExceptionMessage An error occoured. RedKiteCms CMS requires yuicompressor.jar installed into vfs://root/vendor/../app/Resources/java folder. Please install the required library then run the script again.
      */
-    public function testAlphaLemonCmsRequiresYuicompressor()
+    public function testRedKiteCmsCmsRequiresYuicompressor()
     {
         $this->addPhing();
         $this->addTinyMCE();
@@ -117,7 +117,7 @@ class InstallerTest extends TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage The required vfs://root/vendor/../app/AppKernel.php file has not been found
      */
-    public function testAlphaLemonCmsRequiresAppKernel()
+    public function testRedKiteCmsCmsRequiresAppKernel()
     {
         $this->addPhing();
         $this->addTinyMCE();
@@ -176,7 +176,7 @@ class InstallerTest extends TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage An error has occoured executing the "propel:insert-sql --force --env=alcms_dev" command
      */
-    public function testAlphaLemonCmsHasBeenInstalled1()
+    public function testRedKiteCmsCmsHasBeenInstalled1()
     {
         $this->addPhing();
         $this->addTinyMCE();
@@ -192,7 +192,7 @@ class InstallerTest extends TestCase
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
     }
 
-    public function testAlphaLemonCmsHasBeenInstalled()
+    public function testRedKiteCmsCmsHasBeenInstalled()
     {
         $this->addPhing();
         $this->addTinyMCE();
@@ -207,8 +207,8 @@ class InstallerTest extends TestCase
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
 
         $appKernelContents = file_get_contents(vfsStream::url('root/app/AppKernel.php'));
-        $this->assertRegExp("/AlphaLemon\\\\BootstrapBundle\\\\AlphaLemonBootstrapBundle\(\),/s", $appKernelContents);
-        $this->assertRegExp('/\$bootstrapper = new \\\\AlphaLemon\\\\BootstrapBundle\\\\Core\\\\Autoloader\\\\BundlesAutoloader\(__DIR__, \$this-\>getEnvironment\(\), \$bundles\);/s', $appKernelContents);
+        $this->assertRegExp("/RedKiteCms\\\\BootstrapBundle\\\\RedKiteCmsBootstrapBundle\(\),/s", $appKernelContents);
+        $this->assertRegExp('/\$bootstrapper = new \\\\RedKiteCms\\\\BootstrapBundle\\\\Core\\\\Autoloader\\\\BundlesAutoloader\(__DIR__, \$this-\>getEnvironment\(\), \$bundles\);/s', $appKernelContents);
         $this->assertRegExp('/\$bundles = \$bootstrapper-\>getBundles\(\);/s', $appKernelContents);
         $this->assertRegExp('/\$configFolder = __DIR__ . \'\/config\/bundles\/config\';/s', $appKernelContents);
 
@@ -243,8 +243,8 @@ class InstallerTest extends TestCase
     {
         vfsStream::copyFromFileSystem(__DIR__ . '/../../../Functional/Resources', $this->root->getChild('app'));
 
-        mkdir(vfsStream::url('root/vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon'), 0777, true);
-        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../vendor/alphalemon/alphalemon-cms-bundle/AlphaLemon', $this->root->getChild('vendor')->getChild('alphalemon')->getChild('alphalemon-cms-bundle')->getChild('AlphaLemon'));
+        mkdir(vfsStream::url('root/vendor/alphalemon/alphalemon-cms-bundle/RedKiteCms'), 0777, true);
+        vfsStream::copyFromFileSystem(__DIR__ . '/../../../../vendor/alphalemon/alphalemon-cms-bundle/RedKiteCms', $this->root->getChild('vendor')->getChild('alphalemon')->getChild('alphalemon-cms-bundle')->getChild('RedKiteCms'));
     }
 
     private function addConfigFile()

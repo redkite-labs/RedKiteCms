@@ -397,7 +397,7 @@
         "name": "alphalemon/app-business-carousel-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/Block/BusinessCarouselBundle",
+        "target-dir": "RedKiteCms/Block/BusinessCarouselBundle",
         "time": "2012-07-24 03:57:14",
         "source": {
             "type": "git",
@@ -417,13 +417,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "An AlphaLemon CMS app that adds a cool carousel content type and the related editor to manage it",
+        "description": "An RedKiteCms CMS app that adds a cool carousel content type and the related editor to manage it",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "cms",
@@ -432,7 +432,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\Block\\BusinessCarouselBundle": ""
+                "RedKiteCms\\Block\\BusinessCarouselBundle": ""
             }
         }
     },
@@ -440,7 +440,7 @@
         "name": "alphalemon/app-business-slider-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/Block/BusinessSliderBundle",
+        "target-dir": "RedKiteCms/Block/BusinessSliderBundle",
         "time": "2012-07-20 14:05:52",
         "source": {
             "type": "git",
@@ -460,13 +460,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "An AlphaLemon CMS app that adds a slider content type and the related editor to manage it",
+        "description": "An RedKiteCms CMS app that adds a slider content type and the related editor to manage it",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "cms",
@@ -475,7 +475,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\Block\\BusinessSliderBundle": ""
+                "RedKiteCms\\Block\\BusinessSliderBundle": ""
             }
         }
     },
@@ -483,7 +483,7 @@
         "name": "alphalemon/app-business-menu-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/Block/BusinessMenuBundle",
+        "target-dir": "RedKiteCms/Block/BusinessMenuBundle",
         "time": "2012-07-20 14:04:24",
         "source": {
             "type": "git",
@@ -503,13 +503,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "An AlphaLemon CMS app that adds a cool navigation menu content type and the related editor to manage it",
+        "description": "An RedKiteCms CMS app that adds a cool navigation menu content type and the related editor to manage it",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "cms",
@@ -518,7 +518,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\Block\\BusinessMenuBundle": ""
+                "RedKiteCms\\Block\\BusinessMenuBundle": ""
             }
         }
     },
@@ -526,7 +526,7 @@
         "name": "alphalemon/app-business-dropcap-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/Block/BusinessDropCapBundle",
+        "target-dir": "RedKiteCms/Block/BusinessDropCapBundle",
         "time": "2012-07-20 14:04:57",
         "source": {
             "type": "git",
@@ -546,13 +546,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "An AlphaLemon CMS app that adds a dropcap title content type and the related editor to manage it",
+        "description": "An RedKiteCms CMS app that adds a dropcap title content type and the related editor to manage it",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "cms",
@@ -561,7 +561,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\Block\\BusinessDropCapBundle": ""
+                "RedKiteCms\\Block\\BusinessDropCapBundle": ""
             }
         }
     },
@@ -569,7 +569,7 @@
         "name": "alphalemon/business-website-theme-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/Theme/BusinessWebsiteThemeBundle",
+        "target-dir": "RedKiteCms/Theme/BusinessWebsiteThemeBundle",
         "time": "2012-07-13 16:32:38",
         "source": {
             "type": "git",
@@ -595,13 +595,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "AlphaLemon CMS Template's Monster Business Website Theme porting",
+        "description": "RedKiteCms CMS Template's Monster Business Website Theme porting",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "theme",
@@ -611,7 +611,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\Theme\\BusinessWebsiteThemeBundle": ""
+                "RedKiteCms\\Theme\\BusinessWebsiteThemeBundle": ""
             }
         }
     },
@@ -1258,7 +1258,7 @@
         "name": "alphalemon/al-valum-uploader-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/AlValumUploaderBundle",
+        "target-dir": "RedKiteCms/AlValumUploaderBundle",
         "time": "2012-07-19 11:36:32",
         "source": {
             "type": "git",
@@ -1290,7 +1290,7 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
@@ -1305,7 +1305,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\AlValumUploaderBundle": ""
+                "RedKiteCms\\AlValumUploaderBundle": ""
             }
         }
     },
@@ -1313,7 +1313,7 @@
         "name": "alphalemon/al-pagetree-bundle",
         "version": "dev-revisioning-pagetree-objects",
         "version_normalized": "dev-revisioning-pagetree-objects",
-        "target-dir": "AlphaLemon/PageTreeBundle",
+        "target-dir": "RedKiteCms/PageTreeBundle",
         "time": "2012-07-19 11:35:18",
         "source": {
             "type": "git",
@@ -1345,7 +1345,7 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
@@ -1362,7 +1362,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\PageTreeBundle": ""
+                "RedKiteCms\\PageTreeBundle": ""
             }
         }
     },
@@ -1370,7 +1370,7 @@
         "name": "alphalemon/theme-engine-bundle",
         "version": "dev-revisioning-theme-objects",
         "version_normalized": "dev-revisioning-theme-objects",
-        "target-dir": "AlphaLemon/ThemeEngineBundle",
+        "target-dir": "RedKiteCms/ThemeEngineBundle",
         "time": "2012-07-20 16:21:50",
         "source": {
             "type": "git",
@@ -1406,7 +1406,7 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
@@ -1421,7 +1421,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\ThemeEngineBundle": ""
+                "RedKiteCms\\ThemeEngineBundle": ""
             }
         }
     },
@@ -1460,7 +1460,7 @@
         "name": "alphalemon/alphalemon-bootstrap-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/BootstrapBundle",
+        "target-dir": "RedKiteCms/BootstrapBundle",
         "time": "2012-08-03 16:43:15",
         "source": {
             "type": "git",
@@ -1493,13 +1493,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "AlphaLemonBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.",
+        "description": "RedKiteCmsBootstrapBundle takes care to autoload and configure bundles on a composer base application. The responsibility to configure the bundle is delegated to the bundle's author, who implements an autoloader.json file, where declares the bundle's configuration.",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "autoload",
@@ -1509,7 +1509,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\BootstrapBundle": ""
+                "RedKiteCms\\BootstrapBundle": ""
             }
         }
     },
@@ -1727,7 +1727,7 @@
         "name": "alphalemon/frontend-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/FrontendBundle",
+        "target-dir": "RedKiteCms/FrontendBundle",
         "time": "2012-07-24 03:27:12",
         "source": {
             "type": "git",
@@ -1759,13 +1759,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "FrontendBundle provides a Frontend environment for an AlphaLemon CMS websites",
+        "description": "FrontendBundle provides a Frontend environment for an RedKiteCms CMS websites",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "cms",
@@ -1773,7 +1773,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\FrontendBundle": ""
+                "RedKiteCms\\FrontendBundle": ""
             }
         }
     },
@@ -1781,7 +1781,7 @@
         "name": "alphalemon/elfinder-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/ElFinderBundle",
+        "target-dir": "RedKiteCms/ElFinderBundle",
         "time": "2012-07-19 11:37:07",
         "source": {
             "type": "git",
@@ -1813,7 +1813,7 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "info@alphalemon.com",
                 "homepage": null,
                 "role": null
@@ -1830,7 +1830,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\ElFinderBundle": ""
+                "RedKiteCms\\ElFinderBundle": ""
             }
         }
     },
@@ -1838,16 +1838,16 @@
         "name": "alphalemon/alphalemon-cms-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "AlphaLemon/AlphaLemonCmsBundle",
+        "target-dir": "RedKiteCms/RedKiteCmsCmsBundle",
         "time": "2012-07-24 16:53:53",
         "source": {
             "type": "git",
-            "url": "git://github.com/alphalemon/AlphaLemonCmsBundle.git",
+            "url": "git://github.com/alphalemon/RedKiteCmsCmsBundle.git",
             "reference": "0cbb086ac434e43dbd407c94b7cf380653694155"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/alphalemon/AlphaLemonCmsBundle/zipball/0cbb086ac434e43dbd407c94b7cf380653694155",
+            "url": "https://github.com/alphalemon/RedKiteCmsCmsBundle/zipball/0cbb086ac434e43dbd407c94b7cf380653694155",
             "reference": "0cbb086ac434e43dbd407c94b7cf380653694155",
             "shasum": ""
         },
@@ -1888,13 +1888,13 @@
         ],
         "authors": [
             {
-                "name": "AlphaLemon",
+                "name": "RedKiteCms",
                 "email": "webmaster@alphalemon.com",
                 "homepage": null,
                 "role": null
             }
         ],
-        "description": "AlphaLemon CMS is an Open Source Content Management System Application, built on top of Symfony2 Framework, providing an easy an intuitive user-interface, to improve the website's content management experience",
+        "description": "RedKiteCms CMS is an Open Source Content Management System Application, built on top of Symfony2 Framework, providing an easy an intuitive user-interface, to improve the website's content management experience",
         "homepage": "http://alphalemon.com",
         "keywords": [
             "cms",
@@ -1902,12 +1902,12 @@
         ],
         "autoload": {
             "psr-0": {
-                "AlphaLemon\\AlphaLemonCmsBundle": "",
-                "AlphaLemon\\Block\\TextBundle": "Bundle/",
-                "AlphaLemon\\Block\\MenuBundle": "Bundle/",
-                "AlphaLemon\\Block\\MediaBundle": "Bundle/",
-                "AlphaLemon\\Block\\ScriptBundle": "Bundle/",
-                "AlphaLemon\\Block\\NavigationMenuBundle": "Bundle/"
+                "RedKiteCms\\RedKiteCmsCmsBundle": "",
+                "RedKiteCms\\Block\\TextBundle": "Bundle/",
+                "RedKiteCms\\Block\\MenuBundle": "Bundle/",
+                "RedKiteCms\\Block\\MediaBundle": "Bundle/",
+                "RedKiteCms\\Block\\ScriptBundle": "Bundle/",
+                "RedKiteCms\\Block\\NavigationMenuBundle": "Bundle/"
             }
         }
     }

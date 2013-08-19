@@ -1,26 +1,26 @@
 <?php
 /*
- * This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+ * This file is part of the RedKiteCmsCMS InstallerBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://www.alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
  */
 
-namespace AlphaLemon\CmsInstallerBundle\Core\Installer;
+namespace RedKiteCms\InstallerBundle\Core\Installer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
-use AlphaLemon\AlphaLemonCmsBundle\Core\CommandsProcessor;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Orm\OrmInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
 
 /**
  * Description of installer
@@ -92,9 +92,9 @@ class Installer {
         $this->checkClass('propel', '\Propel');
         $this->checkFolder($this->vendorDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
-        $this->checkClass('AlphaLemonCmsBundle', 'AlphaLemon\AlphaLemonCmsBundle\AlphaLemonCmsBundle');
-        $this->checkClass('ElFinderBundle', 'AlphaLemon\ElFinderBundle\AlphaLemonElFinderBundle');
-        $this->checkClass('ThemeEngineBundle', 'AlphaLemon\ThemeEngineBundle\AlphaLemonThemeEngineBundle');
+        $this->checkClass('RedKiteCmsCmsBundle', 'RedKiteLabs\RedKiteCmsBundle\RedKiteCmsCmsBundle');
+        $this->checkClass('ElFinderBundle', 'RedKiteCms\ElFinderBundle\RedKiteCmsElFinderBundle');
+        $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteCmsThemeEngineBundle');
         
         $appKernelFile = $this->vendorDir . '/../app/AppKernel.php';
         $this->checkFile($appKernelFile);
@@ -103,7 +103,7 @@ class Installer {
         preg_match("/[\s|\t]+new " . $this->companyName . "\\\\" . $this->bundleName . "/s", $contents, $match);
         if(empty ($match))
         {
-            $message = "\nAlphaLemon CMS requires an existing bundle to work with. You enter as working bundle the following: $this->companyName\\$this->bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
+            $message = "\nRedKiteCms CMS requires an existing bundle to work with. You enter as working bundle the following: $this->companyName\\$this->bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -116,17 +116,17 @@ class Installer {
         $this->backUpFile($kernelFile);
         $contents = file_get_contents($kernelFile);
 
-        if(strpos($contents, 'new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle()') === false)
+        if(strpos($contents, 'new RedKiteCms\BootstrapBundle\RedKiteCmsBootstrapBundle()') === false)
         {
-            $cmsBundles = "\n            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),\n";
+            $cmsBundles = "\n            new RedKiteCms\BootstrapBundle\RedKiteCmsBootstrapBundle(),\n";
             $cmsBundles .= "        );";
             $contents = preg_replace('/[\s]+\);/s', $cmsBundles, $contents);
             $updateFile = true;
         }
 
-        if(strpos($contents, 'new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
+        if(strpos($contents, 'new \RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
         {
-            $cmsBundles = "\n\n        \$bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, \$this->getEnvironment(), \$bundles);\n";
+            $cmsBundles = "\n\n        \$bootstrapper = new \RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, \$this->getEnvironment(), \$bundles);\n";
             $cmsBundles .= "        \$bundles = \$bootstrapper->getBundles();\n\n";
             $cmsBundles .= "        return \$bundles;";
             $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
@@ -158,7 +158,7 @@ class Installer {
     {
         if(!class_exists($className))
         {
-            $message = "\nAn error occoured. AlphaLemon CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
+            $message = "\nAn error occoured. RedKiteCms CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -168,7 +168,7 @@ class Installer {
     {
         if(!is_dir($dirName))
         {
-            $message = "\nAn error occoured. AlphaLemon CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
+            $message = "\nAn error occoured. RedKiteCms CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -195,14 +195,14 @@ class Installer {
 
     protected function setUpEnvironments()
     {
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->vendorDir . '/../web/alcms.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/AlphaLemon/ThemeEngineBundle/Resources/environments/frontcontrollers/stage.php', $this->vendorDir . '/../web/stage.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/AlphaLemon/ThemeEngineBundle/Resources/environments/frontcontrollers/stage_dev.php', $this->vendorDir . '/../web/stage_dev.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->vendorDir . '/../web/alcms.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/RedKiteCms/ThemeEngineBundle/Resources/environments/frontcontrollers/stage.php', $this->vendorDir . '/../web/stage.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/RedKiteCms/ThemeEngineBundle/Resources/environments/frontcontrollers/stage_dev.php', $this->vendorDir . '/../web/stage_dev.php', true);
         $this->filesystem ->mkdir($this->vendorDir . '/../web/uploads/assets');
-        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/media');
-        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/js');
-        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/AlphaLemon/AlphaLemonCmsBundle/Resources/public/uploads/assets/css');
+        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/public/uploads/assets/media');
+        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/public/uploads/assets/js');
+        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/public/uploads/assets/css');
 
         $this->filesystem ->mkdir($this->vendorDir . '/../app/propel/sql');
     }
@@ -241,8 +241,8 @@ class Installer {
         if (!is_file($configFile)) {
             $contents = "imports:\n";
             $contents .= "    - { resource: parameters.yml }\n";
-            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/config_alcms.yml\" }\n";
-            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/security.yml\" }";
+            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_alcms.yml\" }\n";
+            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/security.yml\" }";
             $contents .= $this->writeDatabaseConfiguration($this->dsn);
             file_put_contents($configFile, $contents);
         }
@@ -251,7 +251,7 @@ class Installer {
         if (!is_file($configFile)) {
             $contents = "imports:\n";
             $contents .= "    - { resource: config_alcms.yml }\n";
-            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/config_alcms_dev.yml\" }";
+            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_alcms_dev.yml\" }";
             file_put_contents($configFile, $contents);
         }
 
@@ -259,7 +259,7 @@ class Installer {
         if (!is_file($configFile)) {
             $contents = "imports:\n";
             $contents .= "    - { resource: config_alcms_dev.yml }\n";
-            $contents .= "    - { resource: \"@AlphaLemonCmsBundle/Resources/config/config_alcms_test.yml\" }";
+            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_alcms_test.yml\" }";
             $contents .= $this->writeDatabaseConfiguration($this->shortDsn . ';dbname=' . $this->database . '_test');
             file_put_contents($configFile, $contents);
         }
@@ -334,14 +334,14 @@ class Installer {
         $configFile = $this->vendorDir . '/../app/config/routing_alcms.yml';
         if (!is_file($configFile)) {
             $contents = "_alcms:\n";
-            $contents .= "    resource: \"@AlphaLemonCmsBundle/Resources/config/routing_alcms.yml\"";
+            $contents .= "    resource: \"@RedKiteCmsBundle/Resources/config/routing_alcms.yml\"";
             file_put_contents($configFile, $contents);
         }
 
         $configFile = $this->vendorDir . '/../app/config/routing_alcms_dev.yml';
         if (!is_file($configFile)) {
             $contents = "_alcms:\n";
-            $contents .= "    resource: \"@AlphaLemonCmsBundle/Resources/config/routing_alcms_dev.yml\"\n\n";
+            $contents .= "    resource: \"@RedKiteCmsBundle/Resources/config/routing_alcms_dev.yml\"\n\n";
             $contents .= "_alcms_dev:\n";
             $contents .= "    resource: routing_alcms.yml";
             file_put_contents($configFile, $contents);
@@ -380,7 +380,7 @@ class Installer {
             $dsn = (null === $dsn) ? $this->dsn : $dsn;
 
             $connection = new \PropelPDO($dsn, $this->user, $this->password);
-            $this->orm = new \AlphaLemon\AlphaLemonCmsBundle\Core\Repository\Propel\Base\AlPropelOrm($connection);
+            $this->orm = new \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelOrm($connection);
         }
         catch(\Exception $ex)
         {

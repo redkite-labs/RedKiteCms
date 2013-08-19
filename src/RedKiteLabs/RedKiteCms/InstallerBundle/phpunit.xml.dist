@@ -13,7 +13,7 @@
   bootstrap="./Tests/bootstrap.php">
 
     <testsuites>
-        <testsuite name="AlphaLemonCmsInstallBundle Test Suite">
+        <testsuite name="RedKiteCmsCmsInstallBundle Test Suite">
             <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>

@@ -1,13 +1,13 @@
 {
   "name": "alphalemon/alphalemon-cms-installer-bundle",
-  "description": "Provides a web interface and some commands to install AlphaLemonCMS Bundle",
+  "description": "Provides a web interface and some commands to install RedKiteCmsCMS Bundle",
   "keywords": ["alphalemon", "cms", "installer"],
   "homepage": "http://alphalemon.com",
   "type": "symfony-bundle",
   "license": "GPLv2",
   "authors": [
     {
-      "name": "AlphaLemon",
+      "name": "RedKiteCms",
       "email": "info@alphalemon.com"
     }
   ],
@@ -20,8 +20,8 @@
   },
   "autoload": {
     "psr-0": {
-        "AlphaLemon\\CmsInstallerBundle": ""
+        "RedKiteCms\\InstallerBundle": ""
     }
   },
-  "target-dir" : "AlphaLemon/CmsInstallerBundle"
+  "target-dir" : "RedKiteCms/InstallerBundle"
 }

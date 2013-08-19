@@ -1,21 +1,21 @@
 <?php
 /*
- * This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+ * This file is part of the RedKiteCmsCMS InstallerBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://www.alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
  */
 
-namespace AlphaLemon\CmsInstallerBundle\Command;
+namespace RedKiteCms\InstallerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
@@ -24,17 +24,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Language\AlLanguageManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
 
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlUser;
-use AlphaLemon\AlphaLemonCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Validator;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
 
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\Template\AlTemplateManager;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use AlphaLemon\AlphaLemonCmsBundle\Core\Deploy\AlTwigDeployerProduction;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployerProduction;
 
 /**
  * Populates the database after a fresh install

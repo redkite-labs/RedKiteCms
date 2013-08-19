@@ -1,31 +1,31 @@
 <?php
 /*
- * This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+ * This file is part of the RedKiteCmsCMS InstallerBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license infomation, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://www.alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
  */
 
-namespace AlphaLemon\CmsInstallerBundle\Command;
+namespace RedKiteCms\InstallerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use AlphaLemon\CmsInstallerBundle\Core\Installer\Installer;
+use RedKiteCms\InstallerBundle\Core\Installer\Installer;
 
 /**
- * Installs the AlphaLemon CMS for your system
+ * Installs the RedKiteCms CMS for your system
  *
  * @author alphalemon <webmaster@alphalemon.com>
  */
@@ -37,7 +37,7 @@ class InstallCmsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setDescription('Installs the AlphaLemon CMS for your system')
+            ->setDescription('Installs the RedKiteCms CMS for your system')
             ->setDefinition(array(
                 new InputOption('company', '', InputOption::VALUE_REQUIRED, 'Your company name, where the main bundle that manages your site lives'),
                 new InputOption('bundle', '', InputOption::VALUE_REQUIRED, 'The bundle that manages your site'),
@@ -72,17 +72,17 @@ class InstallCmsCommand extends ContainerAwareCommand
     {
         $output->writeln(array(
             '',
-            'This command helps you to configure <comment>AlphaLemon CMS</comment> easily.',
+            'This command helps you to configure <comment>RedKiteCms CMS</comment> easily.',
             '',
-            'AlphaLemon CMS requires an active bundle to work, which is the one that manages your website.' .
+            'RedKiteCms CMS requires an active bundle to work, which is the one that manages your website.' .
             'The bundle name is always made by the company name and a name that define the bundle itself.',
             '',
-            'The <comment>AlphaLemon CMS sandbox</comment> comes with a predefined bundle called <comment>AcmeWebSiteBundle</comment>,' .
+            'The <comment>RedKiteCms CMS sandbox</comment> comes with a predefined bundle called <comment>AcmeWebSiteBundle</comment>,' .
             'where <comment>Acme</comment> is the company name and <comment>WebSiteBundle</comment> is the name of the bundle. ' .
             'You may use another bundle, but it must be created and added to the AppKernel class before starting the CMS setup.',
             '',
-            'AlphaLemon CMS requires a database and uses <comment>Propel</comment> as predefined ORM, so you will be asked to enter ' .
-            'the parameters required to configure it. Though AlphaLemon CMS uses Propel, <comment>it doesn\'t mean that you must use ' .
+            'RedKiteCms CMS requires a database and uses <comment>Propel</comment> as predefined ORM, so you will be asked to enter ' .
+            'the parameters required to configure it. Though RedKiteCms CMS uses Propel, <comment>it doesn\'t mean that you must use ' .
             'that Orm for your project</comment>, if fact you may use your preferred Orm for your project',
             '',
             'If you prefer to use a <comment>web interface</comment> instead of the console, you may open your browser at http://localhost/install',

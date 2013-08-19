@@ -1,21 +1,21 @@
 <?php
 /*
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteCms CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license infpageRepositoryation, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://www.alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Functional\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -85,7 +85,7 @@ class InstallerControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', 'install');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("AlphaLemon CMS requires a bundle where AlphaLemon CMS will save the contents you insert")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("RedKiteCms CMS requires a bundle where RedKiteCms CMS will save the contents you insert")')->count() > 0);
         $this->assertEquals(1, $crawler->filter('#alphalemon_cms_parameters_company')->count());
         $this->assertEquals(1, $crawler->filter('#alphalemon_cms_parameters_bundle')->count());
         $this->assertEquals(1, $crawler->filter('#alphalemon_cms_parameters_driver')->count());

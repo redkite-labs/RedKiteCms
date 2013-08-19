@@ -19,9 +19,9 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            new AlphaLemon\CmsInstallerBundle\AlphaLemonCmsInstallerBundle(),
+            new RedKiteCms\InstallerBundle\RedKiteCmsInstallerBundle(),
             new Acme\WebSiteBundle\AcmeWebSiteBundle(),
-            new AlphaLemon\BootstrapBundle\AlphaLemonBootstrapBundle(),
+            new RedKiteCms\BootstrapBundle\RedKiteCmsBootstrapBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -31,7 +31,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
 
-        $bootstrapper = new \AlphaLemon\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
+        $bootstrapper = new \RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->getBundles();
 
         return $bundles;

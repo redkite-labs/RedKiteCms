@@ -6,7 +6,7 @@
 
     <!--
     <parameters>
-        <parameter key="alpha_lemon_web_installer.example.class">AlphaLemon\CmsInstallerBundle\Example</parameter>
+        <parameter key="alpha_lemon_web_installer.example.class">RedKiteCms\InstallerBundle\Example</parameter>
     </parameters>
 
     <services>

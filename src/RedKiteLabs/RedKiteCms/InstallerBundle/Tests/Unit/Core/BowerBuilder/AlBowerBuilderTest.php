@@ -1,23 +1,23 @@
 <?php
 /**
- * This file is part of the AlphaLemon CMS Application and it is distributed
+ * This file is part of the RedKiteCms CMS Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://www.alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
  */
 
-namespace AlphaLemon\AlphaLemonCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
-use AlphaLemon\AlphaLemonCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -33,12 +33,12 @@ class AlBowerBuilderTest extends TestCase
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         
-        $this->bower = new \AlphaLemon\AlphaLemonCmsBundle\Core\BowerBuilder\AlBowerBuilder($this->kernel);
+        $this->bower = new \RedKiteLabs\RedKiteCmsBundle\Core\BowerBuilder\AlBowerBuilder($this->kernel);
     }
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage File vfs://root/AlphaLemonCmsBundle/component.json has an error: please check the syntax consistency
+     * @expectedExceptionMessage File vfs://root/RedKiteCmsCmsBundle/component.json has an error: please check the syntax consistency
      */
     public function testBuildFailsBecauseAFileHasASyntaxError()
     {        
@@ -97,7 +97,7 @@ class AlBowerBuilderTest extends TestCase
                             "bootstrap": "2.2.2"
                         }
                     }',
-                    '{"name":"AlphaLemon CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
             ),
             array('
                     {
@@ -112,7 +112,7 @@ class AlBowerBuilderTest extends TestCase
                             "bootstrap": "2.2.2"
                         }
                     }',
-                    '{"name":"AlphaLemon CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
             ),
             array('
                     {
@@ -127,7 +127,7 @@ class AlBowerBuilderTest extends TestCase
                             "bootstrap": "2.2.2"
                         }
                     }',
-                    '{"name":"AlphaLemon CMS","dependencies":{"jquery":"1.9.0","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.9.0","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
             ),
             array('
                     {
@@ -142,7 +142,7 @@ class AlBowerBuilderTest extends TestCase
                             "bootstrap": "2.2.2"
                         }
                     }',
-                    '{"name":"AlphaLemon CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
             ),
         );
     }
@@ -153,7 +153,7 @@ class AlBowerBuilderTest extends TestCase
         $structure =
             array(
                 'FooBundle' => array('component.json' => $component1),
-                'AlphaLemonCmsBundle' => array('component.json' => $component2),
+                'RedKiteCmsCmsBundle' => array('component.json' => $component2),
                 'BarBundle' => array(),                
             )
         ;        
@@ -163,7 +163,7 @@ class AlBowerBuilderTest extends TestCase
     private function getBundles()
     {
         $bundles[] = $this->initBundle('root/FooBundle');
-        $bundles[] = $this->initBundle('root/AlphaLemonCmsBundle');
+        $bundles[] = $this->initBundle('root/RedKiteCmsCmsBundle');
         
         return $bundles;
     }

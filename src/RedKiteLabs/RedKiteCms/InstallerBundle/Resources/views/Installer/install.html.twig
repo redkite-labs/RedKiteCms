@@ -1,20 +1,20 @@
 {#
-   This file is part of the AlphaLemonCMS InstallerBundle and it is distributed
+   This file is part of the RedKiteCmsCMS InstallerBundle and it is distributed
    under the GPL LICENSE Version 2.0. To use this application you must leave
    intact this copyright notice.
 
-   Copyright (c) AlphaLemon <webmaster@alphalemon.com>
+   Copyright (c) RedKiteCms <webmaster@alphalemon.com>
 
    For the full copyright and license information, please view the LICENSE
    file that was distributed with this source code.
 
-   For extra documentation and help please visit http://www.alphalemon.com
+   For extra documentation and help please visit http://www.redkite-labs.com
 
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'AlphaLemonCmsInstallerBundle:Installer:main.html.twig' %}
-{% form_theme form "AlphaLemonCmsInstallerBundle::Installer/form.html.twig" %}
+{% extends 'RedKiteCmsInstallerBundle:Installer:main.html.twig' %}
+{% form_theme form "RedKiteCmsInstallerBundle::Installer/form.html.twig" %}
 
 {% block external_javascripts %}
 <script src="{{ asset('bundles/alphalemoncmsinstaller/js/jquery-last.min.js') }}"></script>
@@ -62,10 +62,10 @@
 {% endblock %}
 
 {% block contents %}
-<h1>AlphaLemonCMS Web-Installer interface</h1>
+<h1>RedKiteCmsCMS Web-Installer interface</h1>
 <div>
     <p>
-        Welcome to AlphaLemon CMS installer. Please fill the form below to install AlphaLemon CMS.
+        Welcome to RedKiteCms CMS installer. Please fill the form below to install RedKiteCms CMS.
     </p>
 </div>
 <div>
@@ -79,9 +79,9 @@
         <div>
             <h2>Bundle data</h2>
             <p>
-            AlphaLemon CMS requires a bundle where AlphaLemon CMS will save the contents you insert. Every time
+            RedKiteCms CMS requires a bundle where RedKiteCms CMS will save the contents you insert. Every time
             you start a new Symfony2 project you always create a new bundle where your application lives: this is
-            the bundle required by AlphaLemon CMS.
+            the bundle required by RedKiteCms CMS.
             </p>
         </div>
         <div id="al_bundle_section">
