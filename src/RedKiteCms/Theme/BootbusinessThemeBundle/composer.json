@@ -1,5 +1,5 @@
 {
-  "name": "redkite-cms/bootbusiness-theme-bundle",
+  "name": "redkite-labs/bootbusiness-theme-bundle",
   "description": "RedKite CMS Bootsiness Theme porting",
   "keywords": ["redkite", "cms", "app", "theme"],
   "homepage": "http://redkite-labs.com",
@@ -18,7 +18,8 @@
         }
   ],
   "require": {
-    "redkite-cms/twitter-bootstrap": "dev-master"
+    "redkite-cms/twitter-bootstrap": "dev-master",
+    "redkite-cms/bootbusiness-product-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": { "RedKiteCms\\Theme\\BootbusinessThemeBundle": ""
