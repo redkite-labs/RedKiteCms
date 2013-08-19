@@ -1,14 +1,14 @@
 {
-  "name": "alphalemon/alphalemon-cms-installer-bundle",
-  "description": "Provides a web interface and some commands to install RedKiteCmsCMS Bundle",
-  "keywords": ["alphalemon", "cms", "installer"],
-  "homepage": "http://alphalemon.com",
+  "name": "redkite-cms/installer-bundle",
+  "description": "Provides a web interface and CLI commands to install RedKiteCmsCMS Bundle",
+  "keywords": ["redkite", "cms", "installer"],
+  "homepage": "http://redkite-labs.com",
   "type": "symfony-bundle",
   "license": "GPLv2",
   "authors": [
     {
-      "name": "RedKiteCms",
-      "email": "info@alphalemon.com"
+      "name": "RedKite Labs",
+      "email": "info@redkite-labs.com"
     }
   ],
   "minimum-stability": "dev",
@@ -16,7 +16,7 @@
         "php": ">=5.3.2"
   },
   "require-dev": {
-        "alphalemon/alphalemon-cms-bundle": "dev-master"
+        "redkite-labs/redkite-cms-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": {
