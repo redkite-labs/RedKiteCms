@@ -70,10 +70,10 @@
 </div>
 <div>
     <form action="{{ path('_install') }}" method="POST">
-        {% if app.session.hasFlash('error') %}
+        {% if app.session.getFlashBag().has('error') %}
         <div id="al_process_errors">
             <h2>Ops. Something was wrong</h2>
-            <p>{{ app.session.flash('error') }}</p>
+            <p>{{ app.session.getFlashBag().has('error') }}</p>
         </div>
         {% endif %}
         <div>

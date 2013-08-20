@@ -30,11 +30,11 @@ assetic:
     #     1: path/to/javascript
         
     # deploy:
-    #     xliff_skeleton: RedKiteCmsCmsBundle/Resources/data/xml/xliff-skeleton.xml
-    #     xml_skeleton: RedKiteCmsCmsBundle/Resources/data/xml/page-skeleton.xml
+    #     xliff_skeleton: RedKiteCmsBundle/Resources/data/xml/xliff-skeleton.xml
+    #     xml_skeleton: RedKiteCmsBundle/Resources/data/xml/page-skeleton.xml
         
     # assets:
-    #     skeletons_folder: RedKiteCmsCmsBundle/Resources/data/assets
+    #     skeletons_folder: RedKiteCmsBundle/Resources/data/assets
     #     output_folder: Resources/views/Assets
     
 framework:

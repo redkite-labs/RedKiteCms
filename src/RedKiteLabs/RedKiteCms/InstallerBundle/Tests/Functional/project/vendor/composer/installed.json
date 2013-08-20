@@ -1838,16 +1838,16 @@
         "name": "alphalemon/alphalemon-cms-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
-        "target-dir": "RedKiteCms/RedKiteCmsCmsBundle",
+        "target-dir": "RedKiteCms/RedKiteCmsBundle",
         "time": "2012-07-24 16:53:53",
         "source": {
             "type": "git",
-            "url": "git://github.com/alphalemon/RedKiteCmsCmsBundle.git",
+            "url": "git://github.com/alphalemon/RedKiteCmsBundle.git",
             "reference": "0cbb086ac434e43dbd407c94b7cf380653694155"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/alphalemon/RedKiteCmsCmsBundle/zipball/0cbb086ac434e43dbd407c94b7cf380653694155",
+            "url": "https://github.com/alphalemon/RedKiteCmsBundle/zipball/0cbb086ac434e43dbd407c94b7cf380653694155",
             "reference": "0cbb086ac434e43dbd407c94b7cf380653694155",
             "shasum": ""
         },
@@ -1902,7 +1902,7 @@
         ],
         "autoload": {
             "psr-0": {
-                "RedKiteCms\\RedKiteCmsCmsBundle": "",
+                "RedKiteCms\\RedKiteCmsBundle": "",
                 "RedKiteCms\\Block\\TextBundle": "Bundle/",
                 "RedKiteCms\\Block\\MenuBundle": "Bundle/",
                 "RedKiteCms\\Block\\MediaBundle": "Bundle/",

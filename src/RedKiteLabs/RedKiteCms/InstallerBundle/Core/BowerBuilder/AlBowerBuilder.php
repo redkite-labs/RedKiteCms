@@ -71,7 +71,7 @@ class AlBowerBuilder
                 if (null === $bundleComponents) {
                     throw new \InvalidArgumentException(sprintf('File %s has an error: please check the syntax consistency', $componentPath));
                 }
-                $components = ($bundle->getName() == "RedKiteCmsCmsBundle") ? $bundleComponents['dependencies'] + $components : array_merge($components, $bundleComponents['dependencies']);
+                $components = ($bundle->getName() == "RedKiteCmsBundle") ? $bundleComponents['dependencies'] + $components : array_merge($components, $bundleComponents['dependencies']);
             }
         }
 

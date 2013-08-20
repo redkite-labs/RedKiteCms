@@ -43,6 +43,6 @@ return array(
     'RedKiteCms\\Block\\BusinessMenuBundle' => $vendorDir . '/alphalemon/app-business-menu-bundle/',
     'RedKiteCms\\Block\\BusinessDropCapBundle' => $vendorDir . '/alphalemon/app-business-dropcap-bundle/',
     'RedKiteCms\\Block\\BusinessCarouselBundle' => $vendorDir . '/alphalemon/app-business-carousel-bundle/',
-    'RedKiteCms\\RedKiteCmsCmsBundle' => $vendorDir . '/alphalemon/alphalemon-cms-bundle/',
+    'RedKiteCms\\RedKiteCmsBundle' => $vendorDir . '/alphalemon/alphalemon-cms-bundle/',
     'RedKiteCms\\AlValumUploaderBundle' => $vendorDir . '/alphalemon/al-valum-uploader-bundle/',
 );

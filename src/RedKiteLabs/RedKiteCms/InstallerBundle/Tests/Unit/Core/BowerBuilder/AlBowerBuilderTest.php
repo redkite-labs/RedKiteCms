@@ -38,7 +38,7 @@ class AlBowerBuilderTest extends TestCase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage File vfs://root/RedKiteCmsCmsBundle/component.json has an error: please check the syntax consistency
+     * @expectedExceptionMessage File vfs://root/RedKiteCmsBundle/component.json has an error: please check the syntax consistency
      */
     public function testBuildFailsBecauseAFileHasASyntaxError()
     {        
@@ -153,7 +153,7 @@ class AlBowerBuilderTest extends TestCase
         $structure =
             array(
                 'FooBundle' => array('component.json' => $component1),
-                'RedKiteCmsCmsBundle' => array('component.json' => $component2),
+                'RedKiteCmsBundle' => array('component.json' => $component2),
                 'BarBundle' => array(),                
             )
         ;        
@@ -163,7 +163,7 @@ class AlBowerBuilderTest extends TestCase
     private function getBundles()
     {
         $bundles[] = $this->initBundle('root/FooBundle');
-        $bundles[] = $this->initBundle('root/RedKiteCmsCmsBundle');
+        $bundles[] = $this->initBundle('root/RedKiteCmsBundle');
         
         return $bundles;
     }

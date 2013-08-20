@@ -20,7 +20,7 @@ namespace RedKiteCms\InstallerBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsCmsParametersType;
+use RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
 use RedKiteCms\InstallerBundle\Core\Installer\Installer;
 
 /**
@@ -32,7 +32,7 @@ class InstallerController extends Controller
 {
     public function installAction()
     {
-        $type = new RedKiteCmsCmsParametersType();
+        $type = new RedKiteCmsParametersType();
         $form = $this->container->get('form.factory')->create($type, array('company' => 'Acme',
                                                                            'bundle' => 'WebSiteBundle',
                                                                            'host' => 'localhost',

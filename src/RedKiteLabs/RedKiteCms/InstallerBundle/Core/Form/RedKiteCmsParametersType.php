@@ -21,11 +21,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * RedKiteCmsCms Form Type.
+ * RedKiteCms Form Type.
  *
  * @author alphalemon <webmaster@alphalemoncms.com>
  */
-class RedKiteCmsCmsParametersType extends AbstractType
+class RedKiteCmsParametersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

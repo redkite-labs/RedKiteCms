@@ -87,7 +87,7 @@ class InstallerTest extends TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage An error occoured. RedKiteCms CMS requires phing installed into vfs://root/vendor folder. Please install the required library then run the script again.
      */
-    public function testRedKiteCmsCmsRequiresPhing()
+    public function testRedKiteCmsRequiresPhing()
     {
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
     }
@@ -96,7 +96,7 @@ class InstallerTest extends TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage An error occoured. RedKiteCms CMS requires tiny_mce installed into vfs://root/vendor/../web/js folder. Please install the required library then run the script again.
      */
-    public function testRedKiteCmsCmsRequiresTinyMCE()
+    public function testRedKiteCmsRequiresTinyMCE()
     {
         $this->addPhing();
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
@@ -106,7 +106,7 @@ class InstallerTest extends TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage An error occoured. RedKiteCms CMS requires yuicompressor.jar installed into vfs://root/vendor/../app/Resources/java folder. Please install the required library then run the script again.
      */
-    public function testRedKiteCmsCmsRequiresYuicompressor()
+    public function testRedKiteCmsRequiresYuicompressor()
     {
         $this->addPhing();
         $this->addTinyMCE();
@@ -117,7 +117,7 @@ class InstallerTest extends TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage The required vfs://root/vendor/../app/AppKernel.php file has not been found
      */
-    public function testRedKiteCmsCmsRequiresAppKernel()
+    public function testRedKiteCmsRequiresAppKernel()
     {
         $this->addPhing();
         $this->addTinyMCE();
@@ -176,7 +176,7 @@ class InstallerTest extends TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage An error has occoured executing the "propel:insert-sql --force --env=alcms_dev" command
      */
-    public function testRedKiteCmsCmsHasBeenInstalled1()
+    public function testRedKiteCmsHasBeenInstalled1()
     {
         $this->addPhing();
         $this->addTinyMCE();
@@ -192,7 +192,7 @@ class InstallerTest extends TestCase
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
     }
 
-    public function testRedKiteCmsCmsHasBeenInstalled()
+    public function testRedKiteCmsHasBeenInstalled()
     {
         $this->addPhing();
         $this->addTinyMCE();
