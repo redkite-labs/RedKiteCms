@@ -15,7 +15,7 @@ monolog:
 assetic:
     use_controller: true
     
-#alpha_lemon_cms:
+#red_kite_cms:
     # skin: alphaLemon
     # page_blocks:
         #BundleName: Bundle description

@@ -55,7 +55,7 @@ class PopulateCommand extends ContainerAwareCommand
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
             ))
-            ->setName('alphalemon:populate');
+            ->setName('redkitecms:populate');
     }
 
     /**
@@ -109,25 +109,25 @@ class PopulateCommand extends ContainerAwareCommand
         $user->save();
 
         $themeName = 'BootbusinessThemeBundle';
-        $factoryRepository = $this->getContainer()->get('alphalemon_cms.factory_repository');
-        $themes = $this->getContainer()->get('alphalemon_theme_engine.themes');
+        $factoryRepository = $this->getContainer()->get('red_kite_cms.factory_repository');
+        $themes = $this->getContainer()->get('red_kite_labs_theme_engine.themes');
         $theme = $themes->getTheme($themeName);
         $template = $theme->getTemplate('home');
 
         $pageContentsContainer = new AlPageBlocks($factoryRepository);
-        $templateManager = new AlTemplateManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, $template, $pageContentsContainer, $this->getContainer()->get('alphalemon_cms.block_manager_factory'));
+        $templateManager = new AlTemplateManager($this->getContainer()->get('red_kite_cms.events_handler'), $factoryRepository, $template, $pageContentsContainer, $this->getContainer()->get('red_kite_cms.block_manager_factory'));
         $templateManager->refresh();
         
-        $languageManager = new AlLanguageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
-        $pageManager = new AlPageManager($this->getContainer()->get('alpha_lemon_cms.events_handler'), $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
-        $siteBootstrap = $this->getContainer()->get('alpha_lemon_cms.site_bootstrap');        
+        $languageManager = new AlLanguageManager($this->getContainer()->get('red_kite_cms.events_handler'), $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
+        $pageManager = new AlPageManager($this->getContainer()->get('red_kite_cms.events_handler'), $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
+        $siteBootstrap = $this->getContainer()->get('red_kite_cms.site_bootstrap');        
         $result = $siteBootstrap
                     ->setLanguageManager($languageManager)
                     ->setPageManager($pageManager)
                     ->setTemplateManager($templateManager)
                     ->bootstrap();
         
-        $activeTheme = $this->getContainer()->get('alphalemon_theme_engine.active_theme');
+        $activeTheme = $this->getContainer()->get('red_kite_labs_theme_engine.active_theme');
         $activeTheme->writeActiveTheme($themeName);
         
         if ($result) {

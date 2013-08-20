@@ -50,6 +50,6 @@ class RedKiteCmsCmsParametersType extends AbstractType
 
     public function getName()
     {
-        return 'alphalemon_cms_parameters';
+        return 'red_kite_cms_parameters';
     }
 }

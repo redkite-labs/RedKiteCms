@@ -92,9 +92,9 @@ class Installer {
         $this->checkClass('propel', '\Propel');
         $this->checkFolder($this->vendorDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
-        $this->checkClass('RedKiteCmsCmsBundle', 'RedKiteLabs\RedKiteCmsBundle\RedKiteCmsCmsBundle');
-        $this->checkClass('ElFinderBundle', 'RedKiteCms\ElFinderBundle\RedKiteCmsElFinderBundle');
-        $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteCmsThemeEngineBundle');
+        $this->checkClass('RedKiteCmsBundle', 'RedKiteLabs\RedKiteCmsBundle\RedKiteCmsBundle');
+        $this->checkClass('ElFinderBundle', 'RedKiteLabs\ElFinderBundle\RedKiteLabsElFinderBundle');
+        $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle');
         
         $appKernelFile = $this->vendorDir . '/../app/AppKernel.php';
         $this->checkFile($appKernelFile);
@@ -103,7 +103,7 @@ class Installer {
         preg_match("/[\s|\t]+new " . $this->companyName . "\\\\" . $this->bundleName . "/s", $contents, $match);
         if(empty ($match))
         {
-            $message = "\nRedKiteCms CMS requires an existing bundle to work with. You enter as working bundle the following: $this->companyName\\$this->bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
+            $message = "\nRedKite CMS requires an existing bundle to work with. You enter as working bundle the following: $this->companyName\\$this->bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -116,17 +116,17 @@ class Installer {
         $this->backUpFile($kernelFile);
         $contents = file_get_contents($kernelFile);
 
-        if(strpos($contents, 'new RedKiteCms\BootstrapBundle\RedKiteCmsBootstrapBundle()') === false)
+        if(strpos($contents, 'new RedKiteLabs\BootstrapBundle\RedKiteLabsBootstrapBundle()') === false)
         {
-            $cmsBundles = "\n            new RedKiteCms\BootstrapBundle\RedKiteCmsBootstrapBundle(),\n";
+            $cmsBundles = "\n            new RedKiteLabs\BootstrapBundle\RedKiteLabsBootstrapBundle(),\n";
             $cmsBundles .= "        );";
             $contents = preg_replace('/[\s]+\);/s', $cmsBundles, $contents);
             $updateFile = true;
         }
 
-        if(strpos($contents, 'new \RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
+        if(strpos($contents, 'new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
         {
-            $cmsBundles = "\n\n        \$bootstrapper = new \RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, \$this->getEnvironment(), \$bundles);\n";
+            $cmsBundles = "\n\n        \$bootstrapper = new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, \$this->getEnvironment(), \$bundles);\n";
             $cmsBundles .= "        \$bundles = \$bootstrapper->getBundles();\n\n";
             $cmsBundles .= "        return \$bundles;";
             $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
@@ -158,7 +158,7 @@ class Installer {
     {
         if(!class_exists($className))
         {
-            $message = "\nAn error occoured. RedKiteCms CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
+            $message = "\nAn error occoured. RedKite CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -168,7 +168,7 @@ class Installer {
     {
         if(!is_dir($dirName))
         {
-            $message = "\nAn error occoured. RedKiteCms CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
+            $message = "\nAn error occoured. RedKite CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -195,14 +195,14 @@ class Installer {
 
     protected function setUpEnvironments()
     {
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->vendorDir . '/../web/alcms.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/RedKiteCms/ThemeEngineBundle/Resources/environments/frontcontrollers/stage.php', $this->vendorDir . '/../web/stage.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/alphalemon/theme-engine-bundle/RedKiteCms/ThemeEngineBundle/Resources/environments/frontcontrollers/stage_dev.php', $this->vendorDir . '/../web/stage_dev.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->vendorDir . '/../web/alcms.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/redkite-labs/redkite-labs-theme-engine-bundle/RedKiteLabs/ThemeEngineBundle/Resources/environments/frontcontrollers/stage.php', $this->vendorDir . '/../web/stage.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/redkite-labs/redkite-labs-theme-engine-bundle/RedKiteLabs/ThemeEngineBundle/Resources/environments/frontcontrollers/stage_dev.php', $this->vendorDir . '/../web/stage_dev.php', true);
         $this->filesystem ->mkdir($this->vendorDir . '/../web/uploads/assets');
-        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/public/uploads/assets/media');
-        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/public/uploads/assets/js');
-        $this->filesystem ->mkdir($this->vendorDir . '/alphalemon/alphalemon-cms-bundle/RedKiteCms/RedKiteCmsCmsBundle/Resources/public/uploads/assets/css');
+        $this->filesystem ->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/media');
+        $this->filesystem ->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/js');
+        $this->filesystem ->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/css');
 
         $this->filesystem ->mkdir($this->vendorDir . '/../app/propel/sql');
     }
@@ -232,7 +232,7 @@ class Installer {
 
         preg_match('/deploy_bundle:[\s]+' . $this->deployBundle . '/s', $contents, $match);
         if (empty($match)) {
-            $contents .= "\nalpha_lemon_theme_engine:\n";
+            $contents .= "\nred_kite_labs_theme_engine:\n";
             $contents .= "    deploy_bundle: $this->deployBundle\n\n";
         }
         file_put_contents($configFile, $contents);
@@ -285,7 +285,7 @@ class Installer {
 
     private function writeDatabaseConfiguration($dsn)
     {
-        $contents = "\n\nalpha_lemon_theme_engine:\n";
+        $contents = "\n\nred_kite_labs_theme_engine:\n";
         $contents .= "    deploy_bundle: " . $this->deployBundle;
         $contents .= "\n\npropel:\n";
         $contents .= "    path:       \"%kernel.root_dir%/../vendor/propel/propel1\"\n";
@@ -411,7 +411,8 @@ class Installer {
     {
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
         $assetsInstall = 'assets:install --env=alcms_dev ' . $this->vendorDir . '/../web' . $symlink;
-        $populate = sprintf('alphalemon:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);
+        $populate = sprintf('redkitecms:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);
+        
         $commands = array('propel:build --insert-sql --env=alcms_dev' => null,
                           $assetsInstall => null,
                           $populate => null,

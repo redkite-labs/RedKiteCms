@@ -24,8 +24,8 @@
     <script>
     $(document).ready(function(){
 
-        setByDriver($('#alphalemon_cms_parameters_driver').val());
-        $('#alphalemon_cms_parameters_driver').change(function(){
+        setByDriver($('#red_kite_cms_parameters_driver').val());
+        $('#red_kite_cms_parameters_driver').change(function(){
 
             setByDriver($(this).val());
             return false;
@@ -35,11 +35,11 @@
             switch(driver) {
                 case 'mysql':
                     showStandardDbParams();
-                    $('#alphalemon_cms_parameters_port').val('3306');
+                    $('#red_kite_cms_parameters_port').val('3306');
                     break;
                 case 'pgsql':
                     showStandardDbParams();
-                    $('#alphalemon_cms_parameters_port').val('5432');
+                    $('#red_kite_cms_parameters_port').val('5432');
                     break;
                 default:
                     showDsnDbParams();
@@ -53,7 +53,7 @@
         }
 
         function showStandardDbParams() {
-            $('#alphalemon_cms_parameters_dsn').val('');
+            $('#red_kite_cms_parameters_dsn').val('');
             $('#al_db_standard_section').show();
             $('#al_db_dsn_section').hide();
         }

@@ -49,7 +49,7 @@ class InstallCmsCommand extends ContainerAwareCommand
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
                 new InputOption('dsn', '', InputOption::VALUE_OPTIONAL, 'The dsn to connect the database'),
             ))
-            ->setName('alphalemon:install-cms');
+            ->setName('redkitecms:install');
     }
 
     /**

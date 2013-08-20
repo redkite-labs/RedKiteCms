@@ -40,7 +40,7 @@ class BowerBuildCommand extends ContainerAwareCommand
             ->setDescription('Builds the bower component.json file')->setDefinition(array(
                 new InputOption('web-folder', '', InputOption::VALUE_OPTIONAL, 'The web folder of your application', 'web'),
             ))
-            ->setName('alphalemon:build:bower');
+            ->setName('redkitecms:build:bower');
     }
 
     /**
