@@ -72,7 +72,7 @@ class AlSlotContent
     public function setContent($content)
     {
         if (!is_string($content)) {
-            throw new \InvalidArgumentException('The content passed to "AlphaLemon\FrontendBundle\Core\SlotContent\AlSlotContent" must be a string');
+            throw new \InvalidArgumentException('The content passed to "RedKiteLabs\FrontendBundle\Core\SlotContent\AlSlotContent" must be a string');
         }  
         $this->content = $content;
         

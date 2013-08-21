@@ -28,8 +28,8 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
 
     protected function checkStrictNamespace($namespace)
     {
-        if (preg_match('/^AlphaLemon\\\\Theme\\\\[\w]+ThemeBundle/', $namespace) == false) {
-            throw new \RuntimeException('A strict AlphaLemon App-Theme namespace must start with AlphaLemon\Theme and the bundle must be suffixed as ThemeBundle');
+        if (preg_match('/^RedKiteCms\\\\Theme\\\\[\w]+ThemeBundle/', $namespace) == false) {
+            throw new \RuntimeException('A strict RedKiteCms App-Theme namespace must start with RedKiteCms\Theme and the bundle must be suffixed as ThemeBundle');
         }
     }
 
