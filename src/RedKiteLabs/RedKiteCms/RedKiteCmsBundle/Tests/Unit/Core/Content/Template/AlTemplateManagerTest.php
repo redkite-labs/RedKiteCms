@@ -55,7 +55,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->blockManager = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
+        $this->blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                                 ->disableOriginalConstructor()
                                 ->getMock();
         $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')

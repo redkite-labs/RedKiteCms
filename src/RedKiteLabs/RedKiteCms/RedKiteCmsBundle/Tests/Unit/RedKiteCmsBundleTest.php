@@ -18,16 +18,16 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\AlphaLemonCmsBundle;
 use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
 use RedKiteLabs\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+use RedKiteLabs\RedKiteCmsBundle\RedKiteCmsBundle;
 
 /**
- * AlphaLemonCmsBundleTest
+ * RedKiteCmsBundleTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlphaLemonCmsBundleTest extends TestCase
+class RedKiteCmsBundleTest extends TestCase
 {
     public function testPdoConnectionInjectedBySetters()
     {
@@ -49,7 +49,7 @@ class AlphaLemonCmsBundleTest extends TestCase
              ->with(new AlBlocksCompilerPass())
         ;
         
-        $this->alphaLemonCmsBundle = new AlphaLemonCmsBundle();
+        $this->alphaLemonCmsBundle = new RedKiteCmsBundle();
         $this->alphaLemonCmsBundle->build($containerBuilder);
     }
 }

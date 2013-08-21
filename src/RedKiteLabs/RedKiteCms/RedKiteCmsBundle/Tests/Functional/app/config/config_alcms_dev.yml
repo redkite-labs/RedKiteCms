@@ -20,5 +20,5 @@ monolog:
             level: info
 
 assetic:
-    bundles: [RedKiteCmsBundle, AlphaLemonElFinderBundle, BootbusinessThemeBundle]
+    bundles: [RedKiteCmsBundle, RedKiteLabsElFinderBundle, BootbusinessThemeBundle]
     use_controller: true

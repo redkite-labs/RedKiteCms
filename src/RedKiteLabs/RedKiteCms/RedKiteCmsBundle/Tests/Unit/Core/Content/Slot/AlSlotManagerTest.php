@@ -178,7 +178,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $block = $this->initBlock();
         $this->setUpRepositoryBehavior(0, 1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
 
         $this
@@ -196,7 +196,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $block = $this->initBlock();
         $this->setUpRepositoryBehavior(0, 1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block, 'save', false);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block, 'save', false);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertFalse($this->slotManager->addBlock(2, 2));
     }
@@ -206,13 +206,13 @@ class AlSlotManagerTest extends AlContentManagerBase
         $block = $this->initBlock(null, 'Text', 2, 2);
         $this->setUpRepositoryBehavior();
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2));
         
         $blockManagers = $this->slotManager->getBlockManagers();
         $this->assertCount(1, $blockManagers);
-        $this->assertInstanceOf('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $blockManagers[0]);
+        $this->assertInstanceOf('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $blockManagers[0]);
         $this->assertEquals(1, $this->slotManager->length());
         $this->assertEquals(2, $this->slotManager->first()->get()->getLanguageId());
         $this->assertEquals(2, $this->slotManager->first()->get()->getPageId());
@@ -226,7 +226,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $block = $this->initBlock();
         $this->setUpRepositoryBehavior();
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
         $this->assertEquals(1 ,$this->slotManager->length());
@@ -250,16 +250,16 @@ class AlSlotManagerTest extends AlContentManagerBase
         ;
 
         $block = $this->initBlock(1, array('Text', 0), null, null, array(1, 0));
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         
         $block = $this->initBlock(null, array('Script', 0), null, null, array(3, 2));
-        $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu')
+        $blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -287,16 +287,16 @@ class AlSlotManagerTest extends AlContentManagerBase
         ;
 
         $block = $this->initBlock(1, 'Text', null, null, 1);
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         
         $block = $this->initBlock(null, 'Script', null, null, array(3, 3));
-        $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu')
+        $blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -332,17 +332,17 @@ class AlSlotManagerTest extends AlContentManagerBase
         ;
 
         $block = $this->initBlock(1, 'Text', null, null, 1);
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         
         $block = $this->initBlock(null, 'Script', null, null, array(3, 3));
-        $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Script"));
 
         $block = $this->initBlock(null, 'Menu', null, null, 2);        
-        $factory = $this->setUpFactory('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Menu", 1));
 
@@ -360,12 +360,12 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(2);
         
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
         $block = $this->initBlock(null, 'Script');
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Script", 99999999));
 
@@ -381,7 +381,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock(null, null, $languageId, $pageId);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => $repeated)), $this->blockRepository, $factory, $this->validator);
         $this->assertTrue($slotManager->addBlock(2, 2, "Text"));
 
@@ -394,7 +394,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock(1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, "Text"));
 
@@ -409,7 +409,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
 
         $this->blockManager
@@ -427,7 +427,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1, null, null, null, null);
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block, 'save', false);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block, 'save', false);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block));
         $res = $slotManager->editBlock(1, array('Content' => 'fake'));
@@ -439,7 +439,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock(1, null, null, null, null, 'fake');
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $slotManager = new AlSlotManager($this->eventsHandler, new AlSlot('test', array('repeated' => 'language')), $this->blockRepository, $factory, $this->validator);
         $slotManager->setUpBlockManagers(array($block));
         $res = $slotManager->editBlock(1, array('Content' => 'fake'));
@@ -455,7 +455,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1);
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
+        $blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -481,7 +481,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block = $this->initBlock(1);
 
-        $blockManager = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
+        $blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -528,7 +528,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->returnValue(true));        
         
         $block1 = $this->initBlock(1, 'Text', null, null, 1);
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
+        $blockManager1 = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -541,7 +541,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->returnValue($block1));
         
         $block2 = $this->initBlock(null, 'Script', null, null, array(1, 2));
-        $blockManager2 = $this->getMockBuilder('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript')
+        $blockManager2 = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -574,7 +574,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block1 = $this->initBlock();
 
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
+        $blockManager1 = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -602,7 +602,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(0, 1);
         $block1 = $this->initBlock();
 
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
+        $blockManager1 = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -630,7 +630,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(1);
         $block1 = $this->initBlock();
 
-        $blockManager1 = $this->getMockBuilder('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage')
+        $blockManager1 = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -644,7 +644,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
         // Block Manager 2
         $block2 = $this->initBlock();
-        $blockManager2 = $this->getMockBuilder('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript')
+        $blockManager2 = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -687,7 +687,7 @@ class AlSlotManagerTest extends AlContentManagerBase
 
         $this->assertNull($this->slotManager->first());
 
-        $this->addMoreBlocks('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage');
 
         $this->assertEquals('Text', $this->slotManager->first()->get()->getType());
     }
@@ -698,10 +698,10 @@ class AlSlotManagerTest extends AlContentManagerBase
 
         $this->assertNull($this->slotManager->last());
 
-        $this->addMoreBlocks('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage');
         $this->assertEquals('Text', $this->slotManager->last()->get()->getType());
 
-        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', 'Script');
         $this->assertEquals('Script', $this->slotManager->last()->get()->getType());
     }
 
@@ -720,17 +720,17 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertNull($this->slotManager->lastAdded());
         $block = $this->initBlock(1, 'Text');
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, 'Text'));
         $this->assertEquals('Text', $this->slotManager->lastAdded()->get()->getType());
 
-        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', 'Script');
         $this->assertEquals('Script', $this->slotManager->lastAdded()->get()->getType());
 
         $block = $this->initBlock(null, 'Menu');
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, 'Menu', 1));
         $this->assertEquals('Menu', $this->slotManager->lastAdded()->get()->getType());
@@ -742,9 +742,9 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(3);
 
         $this->assertNull($this->slotManager->indexAt(0));
-        $this->addMoreBlocks('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage');
-        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
-        $this->addMoreBlocks('AlphaLemon\Block\MenuBundle\Core\Block\AlBlockManagerMenu', 'Menu');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu', 'Menu');
         $this->assertNull($this->slotManager->indexAt(-1));
         $this->assertNull($this->slotManager->indexAt(3));
         $this->assertEquals('Text', $this->slotManager->indexAt(0)->get()->getType());
@@ -757,9 +757,9 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior(2);
 
         $this->assertEquals(0, $this->slotManager->length());
-        $this->addMoreBlocks('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage');
         $this->assertEquals(1, $this->slotManager->length());
-        $this->addMoreBlocks('AlphaLemon\Block\ScriptBundle\Core\Block\AlBlockManagerScript', 'Script');
+        $this->addMoreBlocks('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript', 'Script');
         $this->assertEquals(2, $this->slotManager->length());
     }
 
@@ -771,7 +771,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertNull($this->slotManager->lastAdded());
         
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
         $this->slotManager->setBlockManagerFactory($factory);
         $this->assertTrue($this->slotManager->addBlock(2, 2, 'Text'));
 
@@ -781,7 +781,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     public function testToArray()
     {
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
 
         $this->slotManager->setBlockManagerFactory($factory);
 
@@ -791,7 +791,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->assertTrue($this->slotManager->addBlock(2, 2));
 
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
 
         $this->slotManager->setBlockManagerFactory($factory);
 
@@ -807,7 +807,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     public function testForceAttributes()
     {
         $block = $this->initBlock();
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
 
         $this->blockManager->expects($this->once())
                 ->method('set')
@@ -831,7 +831,7 @@ class AlSlotManagerTest extends AlContentManagerBase
         $this->setUpRepositoryBehavior();
         $block = $this->initBlock();
 
-        $factory = $this->setUpFactory('AlphaLemon\Block\ImageBundle\Core\Block\AlBlockManagerImage', $block);
+        $factory = $this->setUpFactory('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage', $block);
 
         $this->blockManager
             ->expects($this->once())

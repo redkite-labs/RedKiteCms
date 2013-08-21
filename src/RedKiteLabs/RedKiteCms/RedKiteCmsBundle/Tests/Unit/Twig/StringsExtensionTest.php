@@ -48,7 +48,7 @@ class StringsExtensionTest extends TestCase
     public function testLeftReturnsTheStringAtTheRequiredLength()
     {
         $value = 'redkitecms';
-        $this->assertEquals('alphalemon', $this->stringExtension->left($value, 10));
+        $this->assertEquals('redkitecms', $this->stringExtension->left($value, 10));
     }
 
     public function testRightReturnsTheGivenValueWhenRequiredLengthIsZeroOrNegative()
@@ -86,6 +86,6 @@ class StringsExtensionTest extends TestCase
     public function testTruncateReturnsTheStringAtTheRequiredLength()
     {
         $value = 'redkitecms';
-        $this->assertEquals('alpha...', $this->stringExtension->truncate($value, 5));
+        $this->assertEquals('redki...', $this->stringExtension->truncate($value, 5));
     }
 }
