@@ -1,35 +1,37 @@
-LOVE ALPHALEMONCMS
-Since AlphaLemon 1.0.0 stable a "Powered By RedKiteCms" link is automatically added
-to each page of the website, when it is deployed.
+Love RedKite CMS
+================
 
-This is the only advertise to spread the world about RedKiteCms, so if you are
-satisfied with this application, we will be glad if you could give some love to
-AlphaLemon Cms, giving us a link back.
+RedKite CMS automatically adds a "Powered By RedKite CMS" link to each page of the 
+website, when it is deployed.
+
+This is an important advertise to help us to spread the world about RedKite CMS, so, 
+if you are satisfied with this application, we will be glad if you could give some 
+love to RedKite CMS, leaving this adverise active.
 
 Integration with your website
 -----------------------------
-You can perfecttly integrate the RedKiteCms link into your website adding a new
+You can perfecttly integrate the RedKite CMS link into your website adding a new
 slot to your base template to render it in all the website's pages as follows:
 
-    {% block alphalemon_love %}
+    {% block redkitecms_love %}
         {# BEGIN-SLOT
-            name: alphalemon_love
+            name: redkitecms_love
             repeated: site
             htmlContent: |
-                <a href="http://alphalemon.com">Powered by RedKiteCms</a>
+                <a href="http://redkite-labs.com">Powered by RedKite CMS</a>
         END-SLOT #}
-        {{ renderSlot('alphalemon_love') }}
+        {{ renderSlot('redkitecms_love') }}
     {% endblock %}   
 
 Avoid rendering the "Powered by link"
 -------------------------------------
 You might choose to avoid rendering this link, but you must expressly say that you
-don't love RedKiteCms - yes, we're trying to make you feel guilty ;-) -
+don't love RedKite CMS - yes, we're trying to make you feel guilty ;-)
 
 Simply open the config_alcms.yml and add the following configuration under the alphalemon
 key:
 
-    alphalemon:
+    red_kit_cms:
         [...]
         love: no
 

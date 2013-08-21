@@ -271,7 +271,7 @@ abstract class AlTwigTemplateWriter
                     $content = $this->rewriteLinksForProduction($content);
 
                     // @codeCoverageIgnoreStart
-                    if ($needsCredits && $slotName == 'alphalemon_love' && preg_match('/\<a[^\>]+href="http:\/\/alphalemon\.com[^\>]+\>powered by alphalemon cms\<\/a\>/is', strtolower($content))) {
+                    if ($needsCredits && $slotName == 'redkitecms_love' && preg_match('/\<a[^\>]+href="http:\/\/redkite\-labs\.com[^\>]+\>powered by redkite cms\<\/a\>/is', strtolower($content))) {
                         $needsCredits = false;
                     }
                     // @codeCoverageIgnoreEnd
