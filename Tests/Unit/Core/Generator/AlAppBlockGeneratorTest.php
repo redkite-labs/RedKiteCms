@@ -43,14 +43,14 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
             'description' => 'Fake block',
             'group' => 'fake-group',
         );
-        $this->blockGenerator->generateExt('AlphaLemon\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
+        $this->blockGenerator->generateExt('RedKiteCms\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
 
         $expected = '<?php' . PHP_EOL;
         $expected .= '/**' . PHP_EOL;
-        $expected .= ' * An AlphaLemonCms Block' . PHP_EOL;
+        $expected .= ' * A RedKiteCms Block' . PHP_EOL;
         $expected .= ' */' . PHP_EOL;
         $expected .= PHP_EOL;
-        $expected .= 'namespace AlphaLemon\Block\FakeBlockBundle\Core\Block;' . PHP_EOL;
+        $expected .= 'namespace RedKiteCms\Block\FakeBlockBundle\Core\Block;' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= 'use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;' . PHP_EOL;
         $expected .= PHP_EOL;
@@ -99,7 +99,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    }' . PHP_EOL;
         $expected .= '}';
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
         
@@ -108,7 +108,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= ' * A base form to edit App-Blocks attributes' . PHP_EOL;
         $expected .= ' */' . PHP_EOL;
         $expected .= PHP_EOL;    
-        $expected .= 'namespace AlphaLemon\Block\FakeBlockBundle\Core\Form;' . PHP_EOL;
+        $expected .= 'namespace RedKiteCms\Block\FakeBlockBundle\Core\Form;' . PHP_EOL;
         $expected .= PHP_EOL;    
         $expected .= 'use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;' . PHP_EOL;
         $expected .= 'use Symfony\Component\Form\FormBuilderInterface;' . PHP_EOL;
@@ -124,7 +124,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    }' . PHP_EOL;
         $expected .= '}';
         //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Core/Form/AlFakeBlockType.php');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Form/AlFakeBlockType.php');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
@@ -134,8 +134,8 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <parameters>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_block.block.class">AlphaLemon\Block\FakeBlockBundle\Core\Block\AlBlockManagerFakeBlock</parameter>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_block.form.class">AlphaLemon\Block\FakeBlockBundle\Core\Form\AlFakeBlockType</parameter>' . PHP_EOL;
+        $expected .= '        <parameter key="fake_block.block.class">RedKiteCms\Block\FakeBlockBundle\Core\Block\AlBlockManagerFakeBlock</parameter>' . PHP_EOL;
+        $expected .= '        <parameter key="fake_block.form.class">RedKiteCms\Block\FakeBlockBundle\Core\Form\AlFakeBlockType</parameter>' . PHP_EOL;
         $expected .= '    </parameters>' . PHP_EOL;
         $expected .= PHP_EOL;        
         $expected .= '    <services>' . PHP_EOL;
@@ -149,60 +149,60 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    </services>' . PHP_EOL;
         $expected .= '</container>' . PHP_EOL;
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/app_block.xml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/app_block.xml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
         $expected = 'imports:' . PHP_EOL;
         $expected .= '- { resource: "@FakeBlockBundle/Resources/config/app_block.xml" }';
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms.yml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
         $expected = 'imports:' . PHP_EOL;
         $expected .= '- { resource: "@FakeBlockBundle/Resources/config/config_alcms.yml" }';
         
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms_dev.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_dev.yml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms_test.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_test.yml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
         $expected = '{' . PHP_EOL;
         $expected .= '    "bundles" : {' . PHP_EOL;
-        $expected .= '        "AlphaLemon\\\\Block\\\\FakeBlockBundle\\\\FakeBlockBundle" : {' . PHP_EOL;
+        $expected .= '        "RedKiteCms\\\\Block\\\\FakeBlockBundle\\\\FakeBlockBundle" : {' . PHP_EOL;
         $expected .= '            "environments" : ["all"]' . PHP_EOL;
         $expected .= '        }' . PHP_EOL;
         $expected .= '    }' . PHP_EOL;
         $expected .= '}';
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/autoload.json');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/autoload.json');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
         $expected = '{' . PHP_EOL;
         $expected .= '    "autoload": {' . PHP_EOL;
-        $expected .= '        "psr-0": { "AlphaLemon\\\\Block\\\\FakeBlockBundle": ""' . PHP_EOL;
+        $expected .= '        "psr-0": { "RedKiteCms\\\\Block\\\\FakeBlockBundle": ""' . PHP_EOL;
         $expected .= '        }' . PHP_EOL;
         $expected .= '    },' . PHP_EOL;
-        $expected .= '    "target-dir" : "AlphaLemon/Block/FakeBlockBundle",' . PHP_EOL;
+        $expected .= '    "target-dir" : "RedKiteCms/Block/FakeBlockBundle",' . PHP_EOL;
         $expected .= '    "minimum-stability": "dev"' . PHP_EOL;
         $expected .= '}';
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/composer.json');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/composer.json');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
         
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Content/fakeblock.html.twig');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/views/Content/fakeblock.html.twig');
         $this->assertFileExists($file);
         
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Editor/fakeblock.html.twig');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/views/Editor/fakeblock.html.twig');
         $this->assertFileExists($file);
         $this->assertEquals('{% include "RedKiteCmsBundle:Editor:base_editor_form.html.twig" %}', file_get_contents($file));
         
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/DependencyInjection/FakeBlockExtension.php');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/DependencyInjection/FakeBlockExtension.php');
         $this->assertFileExists($file);
     }
 

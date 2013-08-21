@@ -30,7 +30,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
 {
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage A strict AlphaLemon App-Block namespace must start with AlphaLemon\Block
+     * @expectedExceptionMessage A strict RedKiteCms App-Block namespace must start with RedKiteCms\Block suffix
      */
     public function testAnExceptionIsThrownWhenTheNamespaceIsInvalidInStrictMode()
     {
@@ -79,7 +79,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
         return array(
             array($options, "Foo/BarBundle\n", array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, 'Fake block', 'fake-group', true)),
             array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true, '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), "Foo/BarBundle\n", array('Foo\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'yml', true, 'Fake block', 'fake-group', true)),
-            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--format' => 'annotation', '--bundle-name' => 'BarBundle', '--structure' => true), "AlphaLemon/Block/BarBundle\n", array('AlphaLemon\Block\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'annotation', true, 'Fake block', 'fake-group', false)),
+            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--format' => 'annotation', '--bundle-name' => 'BarBundle', '--structure' => true), "RedKiteCms/Block/BarBundle\n", array('RedKiteCms\Block\BarBundle', 'BarBundle', vfsStream::url('root').'/', 'annotation', true, 'Fake block', 'fake-group', false)),
         );
     }
     
@@ -114,7 +114,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
         return array(
             array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true, '--namespace' => 'Foo/BarBundle'), array('Foo\BarBundle', 'FooBarBundle', vfsStream::url('root/'), 'annotation', false, 'Fake block', 'fake-group', true)),
             array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--no-strict' => true, '--namespace' => 'Foo/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('Foo\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, 'Fake block', 'fake-group', true)),
-            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--namespace' => 'AlphaLemon/Block/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('AlphaLemon\Block\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, 'Fake block', 'fake-group', false)),
+            array(array('--dir' => vfsStream::url('root'), '--description' => 'Fake block', '--group' => 'fake-group', '--namespace' => 'RedKiteCms/Block/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true), array('RedKiteCms\Block\BarBundle', 'BarBundle', vfsStream::url('root/'), 'yml', true, 'Fake block', 'fake-group', false)),
         );
     }
     
