@@ -44,7 +44,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocksInterface
  * @method     AlPageTree setMetaDescription() Sets the seo meta title
  * @method     AlPageTree setMetaKeywords() Sets Returns the seo meta title
  *
- * @author AlphaLemon
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlPageTree
 {

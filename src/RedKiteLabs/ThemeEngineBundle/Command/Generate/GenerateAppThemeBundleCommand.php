@@ -14,8 +14,8 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
     protected function configure()
     {
         $this
-            ->setName('alphalemon:generate:app-theme')
-            ->setDescription('Generate a App-Block bundle')
+            ->setName('redkitecms:generate:app-theme')
+            ->setDescription('Generates a RedKite CMS theme')
             ->setDefinition(array(
                 new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create'),
                 new InputOption('dir', '', InputOption::VALUE_REQUIRED, 'The directory where to create the bundle'),

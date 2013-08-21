@@ -21,7 +21,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
  * This class represents a slot on a page. The slot is the last html tag, usually a DIV tag,
  * where the displayed content lives.
  *
- * @author AlphaLemon
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlSlot
 {

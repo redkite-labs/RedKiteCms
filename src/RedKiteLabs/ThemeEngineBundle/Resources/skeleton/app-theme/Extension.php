@@ -4,7 +4,7 @@
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * (c) Since 2011 AlphaLemon
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.

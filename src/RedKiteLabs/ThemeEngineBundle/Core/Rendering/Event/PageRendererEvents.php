@@ -19,7 +19,7 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event;
 /**
  * Defines the event names
  *
- * @author AlphaLemon
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 final class PageRendererEvents
 {

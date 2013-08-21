@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 /**
  * AlTemplateSlots is the object deputated to collect and manage the template's slots
  *
- * @author AlphaLemon
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlTemplateSlots implements AlTemplateSlotsInterface
 {

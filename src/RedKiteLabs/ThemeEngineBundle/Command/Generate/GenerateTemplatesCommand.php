@@ -64,8 +64,8 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('alphalemon:generate:templates')
-            ->setDescription('Generate the templates config files for the given theme')
+            ->setName('redkitecms:generate:templates')
+            ->setDescription('Generate the templates config files for a theme')
             ->setDefinition(array(
                 new InputArgument('theme', InputArgument::REQUIRED, 'The name of the theme bundle which gets the template'),
             ));
