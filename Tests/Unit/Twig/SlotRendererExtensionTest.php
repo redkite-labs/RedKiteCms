@@ -4,10 +4,9 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Twig;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * AlphaLemonCmsExtensionTest
+ * SlotRendererExtensionTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
@@ -226,7 +225,7 @@ class SlotRendererExtensionTest extends TestCase
                 "Type" => "Text",
             ),
             "Content" => array("RenderView" => array(
-                "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
+                "view" => "AcmeWebSite:Template:my_template.twig.html",
                 "options" => array("foo" => "bar"),
             )),
             "InternalJavascript" => "",
@@ -258,7 +257,7 @@ class SlotRendererExtensionTest extends TestCase
                              ->getMock();
         
         $viewRendererExpected = array(
-            "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
+            "view" => "AcmeWebSite:Template:my_template.twig.html",
             "options" => array(
                 "foo" => "bar"
             ),
@@ -299,7 +298,7 @@ class SlotRendererExtensionTest extends TestCase
             ),
             "Content" => array(
                 "RenderView" => array(
-                    "view" => "AlphaLemonWebSite:Template:my_template.twig.html",
+                    "view" => "AcmeWebSite:Template:my_template.twig.html",
                     "options" => array(),
                 )
             ),

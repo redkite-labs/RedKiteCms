@@ -41,7 +41,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         $this->kernel->expects($this->any())
             ->method('locateResource')
-            ->will($this->onConsecutiveCalls(vfsStream::url('AcmeWebSiteBundle'), vfsStream::url('AlphaLemonCmsBundle')));
+            ->will($this->onConsecutiveCalls(vfsStream::url('AcmeWebSiteBundle'), vfsStream::url('RedKiteCmsBundle')));
 
         $this->kernel->expects($this->any())
             ->method('getRootDir')
@@ -64,7 +64,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
                                             )
                                         ),
                          'AcmeWebSiteBundle' => array('Resources' => array()),
-                         'AlphaLemonCmsBundle' => array(),
+                         'RedKiteCmsBundle' => array(),
                         );
         $this->root = vfsStream::setup('root', null, $folders);
         

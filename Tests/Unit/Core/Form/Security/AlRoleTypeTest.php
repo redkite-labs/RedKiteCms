@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Security;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlRoleType;

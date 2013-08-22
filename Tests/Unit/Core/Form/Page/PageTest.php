@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Language;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Page;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page;

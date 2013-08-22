@@ -29,7 +29,7 @@ class AlTwigDeployerProductionTest extends AlTwigDeployer
 {
     protected function setUp()
     {
-        $this->templatesFolder = 'AlphaLemon';
+        $this->templatesFolder = 'RedKiteCms';
         $this->siteRoutingFile = 'site_routing.yml';
         $this->assetsFolder = 'root\AcmeWebSiteBundle\Resources\public\\';
         

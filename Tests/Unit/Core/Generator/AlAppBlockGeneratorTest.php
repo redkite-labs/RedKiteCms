@@ -213,28 +213,28 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
             'group' => 'fake-group',
             'no-strict' => true
         );
-        $this->blockGenerator->generateExt('AlphaLemon\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
+        $this->blockGenerator->generateExt('RedKiteCms\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/app_block.xml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/app_block.xml');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms.yml');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms_dev.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_dev.yml');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/config/config_alcms_test.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_test.yml');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/autoload.json');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/autoload.json');
         $this->assertFileExists($file);
 
-        $this->assertFileNotExists(vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/composer.json'));
+        $this->assertFileNotExists(vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/composer.json'));
 
-        $file = vfsStream::url('root/src/AlphaLemon/Block/FakeBlockBundle/Resources/views/Block/fake_block_editor.html.twig');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/views/Block/fake_block_editor.html.twig');
     }
 }

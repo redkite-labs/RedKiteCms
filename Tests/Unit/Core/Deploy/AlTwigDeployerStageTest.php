@@ -29,7 +29,7 @@ class AlTwigDeployerStageTest extends AlTwigDeployer
 {
     protected function setUp()
     {
-        $this->templatesFolder = 'AlphaLemonStage';
+        $this->templatesFolder = 'RedKiteCmsStage';
         $this->siteRoutingFile = 'site_routing_stage.yml';
         $this->assetsFolder = 'root\AcmeWebSiteBundle\Resources\public\stage\\';
         

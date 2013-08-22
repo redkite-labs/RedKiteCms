@@ -47,7 +47,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
         $twigTemplateWriter->generateTemplate();
         
-        $this->assertEquals("{% extends 'AcmeWebsiteBundle:AlphaLemon:en/base/home.html.twig' %}" . PHP_EOL, $twigTemplateWriter->getTemplateSection());
+        $this->assertEquals("{% extends 'AcmeWebsiteBundle:RedKiteCms:en/base/home.html.twig' %}" . PHP_EOL, $twigTemplateWriter->getTemplateSection());
     }
 
     public function testJustTheMetaTagsTitleSectionIsCreated()
@@ -642,7 +642,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
                 ->will($this->returnValue('<div>Lorem ipsum <ul><li><a href="my-awesome-page">Fancy page</a></li></ul></div>'))
             ;
 
-        $section = "{% extends 'AcmeWebsiteBundle:AlphaLemon:en/base/home.html.twig' %}" . PHP_EOL;
+        $section = "{% extends 'AcmeWebsiteBundle:RedKiteCms:en/base/home.html.twig' %}" . PHP_EOL;
         $section .= "\n{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block title %}A title{% endblock %}" . PHP_EOL;
         $section .= "{% block description %}A description{% endblock %}" . PHP_EOL;

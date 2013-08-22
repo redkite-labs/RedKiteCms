@@ -1204,12 +1204,12 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testSlugify()
     {
-        $this->assertEquals('alphalemon', AlPageManager::slugify('AlphaLemon'));
-        $this->assertEquals('alpha-lemon', AlPageManager::slugify('alpha lemon'));        
-        $this->assertEquals('alpha-lemon', AlPageManager::slugify('alpha    lemon'));                
-        $this->assertEquals('alphalemon', AlPageManager::slugify('    alphalemon'));                        
-        $this->assertEquals('alphalemon', AlPageManager::slugify('alphalemon    '));                               
-        $this->assertEquals('alpha-lemon', AlPageManager::slugify('alpha,lemon'));                             
+        $this->assertEquals('redkitecms', AlPageManager::slugify('RedKiteCms'));
+        $this->assertEquals('redkite-cms', AlPageManager::slugify('redkite cms'));        
+        $this->assertEquals('redkite-cms', AlPageManager::slugify('redkite    cms'));                
+        $this->assertEquals('redkitecms', AlPageManager::slugify('    redkitecms'));                        
+        $this->assertEquals('redkitecms', AlPageManager::slugify('redkitecms    '));                               
+        $this->assertEquals('redkite-cms', AlPageManager::slugify('redkite,cms'));                             
         $this->assertEquals('n-a', AlPageManager::slugify(''));                                    
         $this->assertEquals('n-a', AlPageManager::slugify(' - '));
         $this->assertEquals('developpeur-web', AlPageManager::slugify('Développeur Web'));
