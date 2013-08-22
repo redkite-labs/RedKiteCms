@@ -18,7 +18,7 @@
         }
     ],
     "require-dev": {
-        "redkite-cms/redkite-cms-bundle": "dev-master",
+        "redkite-labs/redkite-cms-bundle": "dev-master",
         "mikey179/vfsStream": "1.1.0", 
         "willdurand/propel-typehintable-behavior": "dev-master"
     },
