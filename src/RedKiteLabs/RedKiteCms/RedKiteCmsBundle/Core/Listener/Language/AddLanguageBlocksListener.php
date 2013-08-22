@@ -91,7 +91,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
             return $content;
         }
 
-        $urlManager = $this->container->get('alphalemon_cms.urlManager');
+        $urlManager = $this->container->get('red_kite_cms.url_manager');
         $languageName =  $this->languageManager->get()->getLanguageName();
 
         return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager, $languageName) {
