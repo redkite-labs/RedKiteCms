@@ -5,7 +5,7 @@ TwitterBootstrapBundle is RedKite CMS app-block to add to a website, common twit
 bootstrap elements like buttons, thumbnails, labels, badges, accordions, sliders and 
 more.
 
-[![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapThumbnailBlockBundle.png)](http://travis-ci.org/alphalemon/BootstrapThumbnailBlockBundle)
+[![Build Status](https://secure.travis-ci.org/redkite-blocks/TwitterBootstrapBundle.png)](http://travis-ci.org/redkite-blocks/TwitterBootstrapBundle)
 
 Installation
 ------------
@@ -17,7 +17,7 @@ file of your application:
 
     {
         "require": {
-            "redkite-apps/twitter-bootstrap-bundle": "1.0.*"
+            "redkite-apps/twitter-bootstrap-bundle": "dev-master"
         }
     }
 
