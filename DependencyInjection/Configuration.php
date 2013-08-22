@@ -42,7 +42,7 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('orm')->defaultValue('Propel')->end()
-                ->scalarNode('skin')->defaultValue('alphaLemon')->end()
+                ->scalarNode('skin')->defaultValue('bootstrap')->end()
                 ->scalarNode('web_folder_dir')->defaultValue('web')->end()
                 ->scalarNode('web_folder_dir_full_path')->defaultValue('%kernel.root_dir%/../%red_kite_cms.web_folder%')->end()
                 ->scalarNode('upload_assets_dir')->defaultValue('uploads/assets')->end()
