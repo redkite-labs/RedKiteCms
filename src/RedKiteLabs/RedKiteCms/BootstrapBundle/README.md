@@ -3,14 +3,14 @@ RedKiteLabsBootstrapBundle takes care to autoload and configure bundles on a com
 could add an autoloader.json file to a bundle and configure it to autoload that bundle, without have to enable it
 manually in the AppKernel file.
 
-[![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapBundle.png)](http://travis-ci.org/alphalemon/BootstrapBundle)
+[![Build Status](https://secure.travis-ci.org/redkite-labs/BootstrapBundle.png)](http://travis-ci.org/redkite-labs/BootstrapBundle)
 
 ## Install the RedKiteLabsBootstrapBundle
 To install the RedKiteLabsBootstrapBundle, simply require it in your composer.json:
 
     "require": {
         [...]
-        "alphalemon/alphalemon-bootstrap-bundle": "dev-master"
+        "redkite-labs/bootbusiness-theme-bundle": "dev-master"
     }
 
 then install/update the packages:

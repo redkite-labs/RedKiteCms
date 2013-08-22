@@ -42,10 +42,10 @@ class JsonAutoloaderCollectionTest extends BaseFilesystem
     {
         $this->initFilesystem(array('vendor/composer' => array()));
         $this->createAutoloadNamespacesFile();
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
+        $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', false);
 
         $autoloaderCollection = new JsonAutoloaderCollection(vfsStream::url('root/vendor'));
@@ -56,13 +56,13 @@ class JsonAutoloaderCollectionTest extends BaseFilesystem
     {
         $this->initFilesystem(array('vendor/composer' => array()));
         $this->createAutoloadNamespacesFile();
-        $bundleFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
+        $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
-        $bundleFolder = 'root/vendor/alphalemon/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
+        $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
 
-        $bundleFolder = 'root/vendor/alphalemon/alphalemon-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/';
+        $bundleFolder = 'root/vendor/redkite-cms/redkite-cms-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/';
         $this->createBundle($bundleFolder, 'RedKiteLabsCmsFakeBundle');
 
         $autoloaderCollection = new JsonAutoloaderCollection(vfsStream::url('root/vendor'));

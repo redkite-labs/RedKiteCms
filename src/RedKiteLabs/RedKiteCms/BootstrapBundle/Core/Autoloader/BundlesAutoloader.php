@@ -71,8 +71,6 @@ class BundlesAutoloader
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
         $defaultSearchFolders = array(
-            $this->kernelDir . '/../src/AlphaLemon/Block', 
-            $this->kernelDir . '/../src/AlphaLemon/Theme', 
             $this->kernelDir . '/../src/RedKiteCms/Block', 
             $this->kernelDir . '/../src/RedKiteCms/Theme',
         );

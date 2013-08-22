@@ -90,9 +90,9 @@ class BaseFilesystem extends TestCase
             $autoloadNamespaces .= '$vendorDir = dirname(__DIR__);' . PHP_EOL;
             $autoloadNamespaces .= '$baseDir = dirname($vendorDir);' . PHP_EOL;
             $autoloadNamespaces .= 'return array(' . PHP_EOL;
-            $autoloadNamespaces .= '    \'RedKiteLabs\\Block\\BusinessCarouselFakeBundle\' => $vendorDir . \'/alphalemon/app-business-carousel-bundle/\',' . PHP_EOL;
-            $autoloadNamespaces .= '    \'RedKiteLabs\\Block\\BusinessDropCapFakeBundle\' => $vendorDir . \'/alphalemon/app-business-dropcap-bundle/\',' . PHP_EOL;
-            $autoloadNamespaces .= '    \'RedKiteLabs\\RedKiteLabsCms\\RedKiteLabsCmsFakeBundle\' => $vendorDir . \'/alphalemon/alphalemon-cms-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'RedKiteLabs\\Block\\BusinessCarouselFakeBundle\' => $vendorDir . \'/redkite-cms/app-business-carousel-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'RedKiteLabs\\Block\\BusinessDropCapFakeBundle\' => $vendorDir . \'/redkite-cms/app-business-dropcap-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'RedKiteLabs\\RedKiteLabsCms\\RedKiteLabsCmsFakeBundle\' => $vendorDir . \'/redkite-cms/redkite-cms-cms-bundle/\',' . PHP_EOL;
             $autoloadNamespaces .= ');' . PHP_EOL;
         }
 

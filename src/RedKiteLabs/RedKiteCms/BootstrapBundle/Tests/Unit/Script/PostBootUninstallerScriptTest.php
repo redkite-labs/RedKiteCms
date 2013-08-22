@@ -147,8 +147,8 @@ class PostBootUninstallerScriptTest extends BaseFilesystem
         $fileContents = '"businesscarousel":"RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel"';
         $this->createFile('root/app/config/bundles/.postUninstall', $fileContents);
 
-        $this->addClassManager('root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
+        $this->addClassManager('root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
         $this->createFolder('root/app/config/bundles/cache/BusinessCarouselFakeBundle');
-        copy(vfsStream::url('root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/ActionManagerBusinessCarousel.php'), vfsStream::url('root/app/config/bundles/cache/BusinessCarouselFakeBundle/ActionManagerBusinessCarousel.php'));
+        copy(vfsStream::url('root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/ActionManagerBusinessCarousel.php'), vfsStream::url('root/app/config/bundles/cache/BusinessCarouselFakeBundle/ActionManagerBusinessCarousel.php'));
     }
 }

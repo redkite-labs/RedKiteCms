@@ -146,7 +146,7 @@ class PostBootInstallerScriptTest extends BaseFilesystem
         $fileContents = '"businesscarousel":"RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel"';
         $this->createFile('root/app/config/bundles/.postInstall', $fileContents);
 
-        $classFolder = 'root/vendor/alphalemon/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/';
+        $classFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/';
         $this->createFolder($classFolder);
         $this->createFile($classFolder . 'ActionManagerBusinessCarousel.php');
     }
