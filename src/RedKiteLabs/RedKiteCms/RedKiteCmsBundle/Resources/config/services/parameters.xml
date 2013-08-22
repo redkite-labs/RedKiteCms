@@ -5,7 +5,7 @@
 
     <parameters>
         <parameter key="red_kite_cms.orm">Propel</parameter>
-        <parameter key="red_kite_cms.skin">alphaLemon</parameter>
+        <parameter key="red_kite_cms.skin">bootstrap</parameter>
         <parameter key="red_kite_cms.web_folder">web</parameter>
         <parameter key="red_kite_cms.web_folder_full_path">%kernel.root_dir%/../%red_kite_cms.web_folder%</parameter>
 
