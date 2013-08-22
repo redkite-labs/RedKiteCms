@@ -20,11 +20,11 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        alphalemon_login:
+        red_kite_cms_login:
             pattern:  ^/backend/login$
             security: false
 
-        alphalemon:
+        red_kite_cms:
             pattern:    ^/backend
             form_login:
                 check_path:  /backend/login_check
