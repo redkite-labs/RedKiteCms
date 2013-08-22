@@ -17,6 +17,10 @@
             "url": "http://apps.redkite-labs.com/"
         }
     ],
+    "require-dev": {
+        "redkite-labs/redkite-cms-bundle": "dev-master",
+        "willdurand/propel-typehintable-behavior": "dev-master"
+    },
     "autoload": {
         "psr-0": { "RedKiteCms\\Block\\TwitterBootstrapBundle": ""
         }
