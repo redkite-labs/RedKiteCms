@@ -3,15 +3,15 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\DependencyInjection;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\AlphaLemonCmsExtension;
+use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\RedKiteCmsExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * AlphaLemonCmsExtensionTest
+ * RedKiteCmsExtensionTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlphaLemonCmsExtensionTest extends TestCase
+class RedKiteCmsExtensionTest extends TestCase
 {
     private $container;
 
@@ -22,13 +22,13 @@ class AlphaLemonCmsExtensionTest extends TestCase
 
     public function testAlias()
     {
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $this->assertEquals('red_kite_cms', $extension->getAlias());
     }
 
     public function testDefaultConfiguration()
     {
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array()), $this->container);
         $this->assertEquals('Propel', $this->container->getParameter('red_kite_cms.orm'));
         $this->assertEquals('alphaLemon', $this->container->getParameter('red_kite_cms.skin'));
@@ -79,7 +79,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testDeployResourcesDir()
     {
         $value = 'Assets';
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('resources_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.resources_dir'));
     }
@@ -87,7 +87,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testDeployAssetsBaseDir()
     {
         $value = 'Assets/pub';
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('assets_base_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.assets_base_dir'));
     }
@@ -95,7 +95,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testDeployConfigDir()
     {
         $value = 'Assets/conf';
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('config_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir'));
     }
@@ -103,7 +103,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testDeployViewDir()
     {
         $value = 'MyRes/templates';
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('views_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.views_dir'));
     }
@@ -111,7 +111,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testDeployMediaDir()
     {
         $value = 'MyRes/images';
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('media_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.media_dir'));
     }
@@ -119,7 +119,7 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testDeployJsDir()
     {
         $value = 'MyRes/javascripts';
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('js_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.js_dir'));
     }
@@ -127,14 +127,14 @@ class AlphaLemonCmsExtensionTest extends TestCase
     public function testDeployCssDir()
     {
         $value = 'MyRes/stylesheets';
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('css_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir'));
     }
 
     private function scalarNodeParameter($parameter, $configKey, $configValue)
     {
-        $extension = new AlphaLemonCmsExtension();
+        $extension = new RedKiteCmsExtension();
         $extension->load(array(array($configKey => $configValue)), $this->container);
         $this->assertEquals($configValue, $this->container->getParameter($parameter));
     }

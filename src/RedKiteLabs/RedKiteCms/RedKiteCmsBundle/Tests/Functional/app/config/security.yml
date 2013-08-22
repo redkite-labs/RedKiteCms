@@ -24,7 +24,7 @@ security:
             pattern:  ^/backend/login$
             security: false
 
-        alphalemon_cms:
+        red_kite_cms:
             pattern:    ^/backend
             form_login:
                 check_path:  /backend/login_check

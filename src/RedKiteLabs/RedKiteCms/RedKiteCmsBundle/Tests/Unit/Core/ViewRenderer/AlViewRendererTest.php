@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\UrlManager;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\ViewRenderer;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer;
@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer;
 /**
  * AlViewRendererTest
  *
- * @author RedKite Labs <webmaster@redkite-labs.com>
+ * @author RedKite Labs <webmaster@retestAnEmptyContentIsReturnedWhenAnyOptionIsRecognized1dkite-labs.com>
  */
 class AlViewRendererTest extends TestCase
 {
