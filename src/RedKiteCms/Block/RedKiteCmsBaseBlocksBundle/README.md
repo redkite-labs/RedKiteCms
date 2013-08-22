@@ -3,7 +3,7 @@ RedKiteCmsBaseBlocksBundle
 
 RedKiteCmsBaseBlocksBundle contains the base blocks used by RedKite CMS.
 
-[![Build Status](https://secure.travis-ci.org/alphalemon/BootstrapThumbnailBlockBundle.png)](http://travis-ci.org/alphalemon/BootstrapThumbnailBlockBundle)
+[![Build Status](https://secure.travis-ci.org/redkite-blocks/RedKiteCmsBaseBlocksBundle.png)](http://travis-ci.org/redkite-blocks/RedKiteCmsBaseBlocksBundle.png)
 
 Installation
 ------------
@@ -15,7 +15,7 @@ file of your application:
 
     {
         "require": {
-            "redkite-apps/redKite-cms-base-blocks-bundle": "1.0.*"
+            "redkite-apps/redKite-cms-base-blocks-bundle": "dev-master"
         }
     }
 
