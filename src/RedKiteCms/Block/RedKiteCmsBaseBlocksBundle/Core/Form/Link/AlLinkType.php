@@ -20,6 +20,11 @@ namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Link;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Defines the link editor form
+ *
+ * @author RedKite Labs <info@redkite-labs.com>
+ */
 class AlLinkType extends JsonBlockType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

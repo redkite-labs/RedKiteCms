@@ -20,9 +20,9 @@ namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
 
 /**
- * AlBlockManagerMenu
+ * AlBlockManagerMenu handles a menu block
  *
- * @author RedKite Labs <info@redkite-labs.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
 {

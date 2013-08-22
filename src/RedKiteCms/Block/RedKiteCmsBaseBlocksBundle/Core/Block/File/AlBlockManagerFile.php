@@ -1,8 +1,18 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This file is part of the RedKiteCmsBaseBlocksBundle and it is distributed
+ * under the MIT License. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    MIT License
+ *
  */
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File;
@@ -14,9 +24,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
- * Description of AlBlockManagerFile
+ * AlBlockManagerFile handles a file block
  *
- * @author RedKite Labs <info@redkite-labs.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 {

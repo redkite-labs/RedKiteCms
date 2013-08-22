@@ -20,9 +20,9 @@ namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu;
 
 /**
- * AlBlockManagerMenuVertical
+ * AlBlockManagerMenu handles a vertical menu block
  *
- * @author RedKite Labs <info@redkite-labs.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerMenuVertical extends AlBlockManagerMenu
 {

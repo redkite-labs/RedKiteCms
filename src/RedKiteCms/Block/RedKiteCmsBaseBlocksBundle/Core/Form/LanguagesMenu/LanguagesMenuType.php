@@ -20,6 +20,11 @@ namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\LanguagesMenu;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Defines the languages menu editor form
+ *
+ * @author RedKite Labs <info@redkite-labs.com>
+ */
 class LanguagesMenuType extends JsonBlockType
 {
     protected $flagsDirectories;

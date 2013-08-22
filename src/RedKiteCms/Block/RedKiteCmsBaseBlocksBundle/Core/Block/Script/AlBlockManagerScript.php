@@ -22,9 +22,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
- * ScriptExtension
+ * AlBlockManagerScript handles a script block
  *
- * @author RedKite Labs <info@redkite-labs.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerScript extends AlBlockManagerContainer
 {
