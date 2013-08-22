@@ -101,7 +101,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
         
         $container->expects($this->at(1))
             ->method('get')
-            ->with('alphalemon_cms.urlManager')
+            ->with('red_kite_cms.url_manager')
             ->will($this->returnValue($this->urlManager));
         
         return $container;

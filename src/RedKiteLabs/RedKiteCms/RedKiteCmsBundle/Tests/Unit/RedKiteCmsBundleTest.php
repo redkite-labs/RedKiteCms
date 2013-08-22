@@ -49,7 +49,7 @@ class RedKiteCmsBundleTest extends TestCase
              ->with(new AlBlocksCompilerPass())
         ;
         
-        $this->alphaLemonCmsBundle = new RedKiteCmsBundle();
-        $this->alphaLemonCmsBundle->build($containerBuilder);
+        $redKiteCmsBundle = new RedKiteCmsBundle();
+        $redKiteCmsBundle->build($containerBuilder);
     }
 }

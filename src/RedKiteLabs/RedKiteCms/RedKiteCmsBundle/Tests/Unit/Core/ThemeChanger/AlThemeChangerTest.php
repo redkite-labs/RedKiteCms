@@ -434,7 +434,7 @@ class AlThemeChangerTest extends TestCase
                         'result' => true,
                     ),
                 ),
-                "AlphaLemonThemeBundle",
+                "RedKiteLabsThemeBundle",
                 "BootbusinessThemeBundle",
                 array(
                     'home' => 'home', 
@@ -460,7 +460,7 @@ class AlThemeChangerTest extends TestCase
                         'result' => false,
                     ),
                 ),
-                "AlphaLemonThemeBundle",
+                "RedKiteLabsThemeBundle",
                 "BootbusinessThemeBundle",
                 array(
                     'home' => 'home', 
@@ -491,7 +491,7 @@ class AlThemeChangerTest extends TestCase
                         'result' => true,
                     ),
                 ),
-                "AlphaLemonThemeBundle",
+                "RedKiteLabsThemeBundle",
                 "BootbusinessThemeBundle",
                 array(
                     'home' => 'home', 
@@ -523,7 +523,7 @@ class AlThemeChangerTest extends TestCase
                         'result' => true,
                     ),
                 ),
-                "AlphaLemonThemeBundle",
+                "RedKiteLabsThemeBundle",
                 "BootbusinessThemeBundle",
                 array(
                     'home' => 'home', 

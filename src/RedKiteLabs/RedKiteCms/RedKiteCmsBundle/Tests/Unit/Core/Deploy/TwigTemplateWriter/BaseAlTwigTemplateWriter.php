@@ -77,7 +77,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
         $this->blockManagerFactory = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         
         $this->deployBundle = "AcmeWebsiteBundle";
-        $this->templatesFolder = 'AlphaLemon';
+        $this->templatesFolder = 'RedKiteCms';
 
         $this->root = vfsStream::setup('root');
     }
@@ -213,7 +213,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
         $content .= "{% endblock %}" . PHP_EOL . PHP_EOL;
         $content .= "{% block body %}" . PHP_EOL;
         $content .= "  {{ parent() }}" . PHP_EOL . PHP_EOL;
-        $content .= "  <div class=\"al-credits\"><a href=\"http://alphalemon.com\">Powered by RedKiteCms</div>" . PHP_EOL;
+        $content .= "  <div class=\"al-credits\"><a href=\"http://redkite-labs.com\">Powered by RedKiteCms</div>" . PHP_EOL;
         $content .= "{% endblock %}" . PHP_EOL;
         
         return $content;

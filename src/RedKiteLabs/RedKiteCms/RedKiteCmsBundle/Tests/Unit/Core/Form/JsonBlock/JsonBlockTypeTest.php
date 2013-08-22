@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\Block\ImageBundle\Tests\Unit\Core\Form;
+namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\JsonBlock;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;

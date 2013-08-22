@@ -31,7 +31,7 @@ class RedKiteCmsExtensionTest extends TestCase
         $extension = new RedKiteCmsExtension();
         $extension->load(array(array()), $this->container);
         $this->assertEquals('Propel', $this->container->getParameter('red_kite_cms.orm'));
-        $this->assertEquals('alphaLemon', $this->container->getParameter('red_kite_cms.skin'));
+        $this->assertEquals('bootstrap', $this->container->getParameter('red_kite_cms.skin'));
         $this->assertEquals('web', $this->container->getParameter('red_kite_cms.web_folder'));
         $this->assertEquals('%kernel.root_dir%/../%red_kite_cms.web_folder%', $this->container->getParameter('red_kite_cms.web_folder_full_path'));
         $this->assertEquals(array('en' => 'English', 'it' => 'Italian',), $this->container->getParameter('red_kite_cms.available_languages'));
