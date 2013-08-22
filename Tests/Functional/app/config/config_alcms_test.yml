@@ -26,7 +26,7 @@ propel:
         attributes:           {}
         default_connection:   default
 
-alpha_lemon_bootstrap:
+red_kite_labs_bootstrap:
     vendor_dir: "%kernel.root_dir%/../../../vendor"
 
 red_kite_cms:

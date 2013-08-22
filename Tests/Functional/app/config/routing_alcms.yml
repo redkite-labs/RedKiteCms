@@ -2,7 +2,7 @@ _assetic:
     resource: .
     type:     assetic
 
-_AlphaLemonBootstrapBundle:
+_RedKiteLabsBootstrapBundle:
     resource: .
     type: bootstrap
 

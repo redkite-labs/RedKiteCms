@@ -15,7 +15,7 @@
  *
  */
 
-class AlphaLemonPropelQuickBuilder extends \PropelQuickBuilder
+class RedKiteCmsPropelQuickBuilder extends \PropelQuickBuilder
 {
     public function buildClasses(array $classTargets = null)
     {
