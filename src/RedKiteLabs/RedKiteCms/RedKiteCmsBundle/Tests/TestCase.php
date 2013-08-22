@@ -18,43 +18,4 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-    protected $connection = null;
-
-    protected function setUp()
-    {
-        $this->connection = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Pdo\MockPDO');
-    }
-
-    public static function setUpBeforeClass()
-    {
-        $config = array("datasources" => array (
-            "default" => array (
-                "adapter" => "mysql",
-                "connection" => array
-                (
-                    "dsn" => "mysql:host=localhost;dbname=alphalemon_test",
-                    "user" => "root",
-                    "password" => "",
-                    "classname" => "DebugPDO",
-                    "options" => array(),
-                    "attributes" => array (),
-                    "settings" => array (),
-                )
-            )
-        ));
-
-        if (!\Propel::isInit()) {
-            \Propel::setConfiguration($config);
-            \Propel::initialize();
-        }
-    }
-
-    protected static function callMethod($obj, $name, array $args = array())
-    {
-        $object = new \ReflectionClass($obj);
-        $method = $object->getMethod($name);
-        $method->setAccesible(true);
-
-        return $method->invokeArgs($obj, $args);
-    }
 }
