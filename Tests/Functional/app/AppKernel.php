@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new RedKiteLabs\BootstrapBundle\RedKiteLabsBootstrapBundle(),
         );
         
-        $bootstrapper = new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles, null, array(__DIR__ . '/../../../Bundle/AlphaLemon/Block'));
+        $bootstrapper = new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
                                 ->getBundles();
         

@@ -22,16 +22,3 @@ red_kite_labs_theme_engine:
     render_slot_class: RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension
     themes_panel:
       theme_skeleton: RedKiteCmsBundle:Themes:theme_skeleton.html.twig
-
-propel:
-    path:       "%kernel.root_dir%/../vendor/propel/propel1"
-    phing_path: "%kernel.root_dir%/../vendor/phing/phing"
-
-    dbal:
-        driver:               mysql
-        user:                 root
-        password:
-        dsn:                  mysql:host=localhost;port=3306;dbname=alphalemon_test
-        options:              {}
-        attributes:           {}
-        default_connection:   default
