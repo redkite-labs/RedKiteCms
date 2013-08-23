@@ -1,0 +1,42 @@
+security:
+    encoders:
+        RedKiteLabs\RedKiteCmsBundle\Model\AlUser:
+            algorithm: sha512
+            #encode_as_base64: true
+            #iterations: 5000
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        main:
+          propel:
+              class: RedKiteLabs\RedKiteCmsBundle\Model\AlUser
+              property: username
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/backend/login$
+            security: false
+
+        red_kite_cms:
+            pattern:    ^/backend
+            form_login:
+                check_path:  /backend/login_check
+                login_path:  /backend/login
+            logout:
+                path:   /backend/logout
+                target: /backend/
+            http_basic:
+            #anonymous: ~
+            #    realm: "Secured Demo Area"
+
+    access_control:
+        - { path: "^/backend/[a-z]+/al_productionDeploy", role: ROLE_ADMIN }
+        - { path: ^/backend/users, roles: ROLE_ADMIN }
+        - { path: ^/backend, roles: ROLE_USER }

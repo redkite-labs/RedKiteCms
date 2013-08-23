@@ -18,7 +18,20 @@
         }
     ],
     "require-dev": {
+        "symfony/symfony": "2.3.*",
+        "doctrine/orm": ">=2.2.3,<2.4-dev",
+        "doctrine/doctrine-bundle": "1.2.*",
+        "twig/extensions": "1.0.*",
+        "symfony/assetic-bundle": "2.3.*",
+        "symfony/swiftmailer-bundle": "2.3.*",
+        "symfony/monolog-bundle": "2.3.*",
+        "sensio/distribution-bundle": "2.3.*",
+        "sensio/framework-extra-bundle": "2.3.*",
+        "sensio/generator-bundle": "2.3.*",
+        "incenteev/composer-parameter-handler": "~2.0",
         "redkite-cms/redkite-cms-bundle": "dev-master",
+        "redkite-cms/redkite-cms-base-blocks": "dev-master",
+        "redkite-labs/bootbusiness-theme-bundle": "dev-master",
         "willdurand/propel-typehintable-behavior": "dev-master"
     },
     "autoload": {

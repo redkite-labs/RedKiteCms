@@ -1,0 +1,13 @@
+_assetic:
+    resource: .
+    type:     assetic
+
+_RedKiteLabsBootstrapBundle:
+    resource: .
+    type: bootstrap
+
+_main:
+    resource: routing.yml
+    
+_al_tinymce_bundle:
+    resource: "@TinyMceBlockBundle/Resources/config/routing.yml"

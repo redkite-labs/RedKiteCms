@@ -1,0 +1,67 @@
+slots:
+  slider_box:
+    blockType: BusinessSlider
+    htmlContent: |
+      /bundles/businessslider/images/img1.jpg,/bundles/businessslider/images/img2.jpg,/bundles/businessslider/images/img3.jpg,/bundles/businessslider/images/img4.jpg
+    internalJavascript: |
+      $(".slider").startSlider();
+  top_section_title_1:
+    blockType: BusinessDropCap
+    htmlContent: |
+      {
+        "dropcap": "A",
+        "title": "Business",
+        "subtitle": "plannig"
+      }
+  top_section_1:
+    htmlContent: |
+      <p class="pad_bot1">Progress is one of <a href="http://blog.templatemonster.com/free-website-templates/" target="_blank">free website templates</a> created by TemplateMonster.com, optimized for 1024x768 res.</p>
+      <a href="#" class="link1">Read More</a>
+  top_section_title_2:
+    blockType: BusinessDropCap
+    htmlContent: |
+      {
+        "dropcap": "B",
+        "title": "Business",
+        "subtitle": "strategies"
+      }
+  top_section_2:
+    htmlContent: |
+      <p class="pad_bot1">This <a href="http://blog.templatemonster.com/2011/07/11/free-website-template-slider-typography/">Progress Template</a> goes with two packages â€“ with PSD source files and without them.</p>
+      <a href="#" class="link1">Read More</a>
+  top_section_title_3:
+    blockType: BusinessDropCap
+    htmlContent: |
+      {
+        "dropcap": "C",
+        "title": "Powerful",
+        "subtitle": "analytics"
+      }
+  top_section_3:
+    htmlContent: |
+      <p class="pad_bot1">PSD source files are available for free for registered members. The basic package is available for anyone.</p>
+      <a href="#" class="link1">Read More</a>
+  top_section_title_4:
+    blockType: BusinessDropCap
+    htmlContent: |
+      {
+        "dropcap": "D",
+        "title": "Worldwide",
+        "subtitle": "solutions"
+      }
+  top_section_4:
+    htmlContent: |
+      <p class="pad_bot1">This website template has several pages: Home, News, Services, Products, Contacts (contact form doesnâ€™t work).</p>
+      <a href="#" class="link1">Read More</a>
+  left_sidebar_content:
+    htmlContent: |
+      <h2>Welcome, dear visitor!</h2>
+      <figure class="left marg_right1"><img src="/bundles/businesswebsitetheme/images/page1_img1.jpg" alt=""></figure>
+      <p class="pad_bot1">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa.</p>
+      <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+  right_sidebar_content:
+    blockType: BusinessCarousel
+    htmlContent: |
+      none
+    internalJavascript: |
+      $(".carousel").startCarousel();

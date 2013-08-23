@@ -1,0 +1,40 @@
+imports:
+    - { resource: config_alcms_dev.yml }
+    - { resource: security.yml }
+
+framework:
+    test: ~
+    router:   { resource: "%kernel.root_dir%/config/routing_alcms_test.yml" }
+    session:
+        storage_id: session.storage.filesystem
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+propel:
+    path:       "%kernel.root_dir%/../../../vendor/propel/propel1"
+    phing_path: "%kernel.root_dir%/../../../vendor/phing/phing"
+
+    dbal:
+        driver:               sqlite
+        dsn:                  "sqlite::memory:"
+        options:              {}
+        attributes:           {}
+        default_connection:   default
+
+red_kite_labs_bootstrap:
+    vendor_dir: "%kernel.root_dir%/../../../vendor"
+
+red_kite_cms:
+    enable_yui_compressor: true
+
+red_kite_labs_theme_engine:
+    render_slot_class: RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension
+    deploy_bundle: AcmeWebSiteBundle
+    themes_panel:
+      theme_skeleton: RedKiteCmsBundle:Themes:theme_skeleton.html.twig
+    active_theme_file: %kernel.root_dir%/Resources/.tests_active_theme
