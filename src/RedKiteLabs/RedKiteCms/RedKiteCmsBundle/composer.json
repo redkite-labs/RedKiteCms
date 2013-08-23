@@ -25,8 +25,7 @@
     "phing/phing": "2.4.12",
     "redkite-labs/redkite-labs-bootstrap-bundle": "dev-master",
     "redkite-labs/redkite-labs-theme-engine-bundle": "dev-master",
-    "redkite-labs/redkite-labs-elfinder-bundle": "dev-master",
-    "redkite-cms/redkite-cms-base-blocks": "dev-master"
+    "redkite-labs/redkite-labs-elfinder-bundle": "dev-master"
   },
   "require-dev": {    
     "symfony/symfony": "2.3.*",
@@ -40,6 +39,7 @@
     "sensio/framework-extra-bundle": "2.3.*",
     "sensio/generator-bundle": "2.3.*",
     "incenteev/composer-parameter-handler": "~2.0",
+    "redkite-cms/redkite-cms-base-blocks": "dev-master",
     "redkite-cms/tinymce-block-bundle": "dev-master",
     "redkite-labs/bootbusiness-theme-bundle": "dev-master",
     "redkite-labs/sunshine-theme-bundle": "dev-master",
