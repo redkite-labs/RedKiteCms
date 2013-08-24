@@ -3,15 +3,15 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\DependencyInjection;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\DependencyInjection\AlphaLemonThemeEngineExtension;
+use RedKiteLabs\ThemeEngineBundle\DependencyInjection\RedKiteLabsThemeEngineExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * AlphaLemonThemeEngineExtensionTest
+ * RedKiteLabsThemeEngineExtensionTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlphaLemonThemeEngineExtensionTest extends TestCase
+class RedKiteLabsThemeEngineExtensionTest extends TestCase
 {
     private $container;
 
@@ -23,19 +23,19 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
     
     public function testGetAlias()
     {
-        $extension = new AlphaLemonThemeEngineExtension();
+        $extension = new RedKiteLabsThemeEngineExtension();
         $this->assertEquals('red_kite_labs_theme_engine', $extension->getAlias());
     }
 
     public function testDefaultConfiguration()
     {
-        $extension = new AlphaLemonThemeEngineExtension();
+        $extension = new RedKiteLabsThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle')), $this->container);
         $this->assertEquals('RedKiteLabsThemeEngineBundle:Theme:base.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.base_template'));
         $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:index.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'));
         $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:theme_panel_sections.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_section'));
         $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:theme_skeleton.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton'));
-        $this->assertEquals('AlphaLemon', $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder'));
+        $this->assertEquals('RedKiteCms', $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder'));
         $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_labs_theme_engine.active_theme_file'));
         $this->assertEquals(
             array(
@@ -79,7 +79,7 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
     public function testThemesPanelBaseTheme()
     {
         $value = 'RedKiteCmsBundle:Themes:index.html.twig';
-        $extension = new AlphaLemonThemeEngineExtension();
+        $extension = new RedKiteLabsThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('base_theme' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'));
     }
@@ -87,7 +87,7 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
     public function testThemesPanelThemeSection()
     {
         $value = 'RedKiteCmsBundle:Themes:theme_panel_sections.html.twig';
-        $extension = new AlphaLemonThemeEngineExtension();
+        $extension = new RedKiteLabsThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('theme_section' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_section'));
     }
@@ -95,14 +95,14 @@ class AlphaLemonThemeEngineExtensionTest extends TestCase
     public function testThemesPanelThemeSKeleton()
     {
         $value = 'RedKiteCmsBundle:Themes:theme_skeleton.html.twig';
-        $extension = new AlphaLemonThemeEngineExtension();
+        $extension = new RedKiteLabsThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('theme_skeleton' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton'));
     }
     
     private function scalarNodeParameter($parameter, $configKey, $configValue)
     {
-        $extension = new AlphaLemonThemeEngineExtension();
+        $extension = new RedKiteLabsThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', $configKey => $configValue)), $this->container);
         $this->assertEquals($configValue, $this->container->getParameter($parameter));
     }

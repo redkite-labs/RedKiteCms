@@ -1,3 +1,0 @@
-BusinessSliderBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: BusinessSliderBundle:Default:index }

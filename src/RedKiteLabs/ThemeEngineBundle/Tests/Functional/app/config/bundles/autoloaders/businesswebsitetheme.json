@@ -1,8 +1,0 @@
-{
-    "bundles" : {
-        "AlphaLemon\\Theme\\BusinessWebsiteThemeBundle\\BusinessWebsiteThemeBundle" : {
-            "environments" : "all"
-        }
-    },
-    "actionManager" : "\\AlphaLemon\\Theme\\BusinessWebsiteThemeBundle\\Core\\ActionManager\\ActionManagerBusinessWebsiteTheme"
-}

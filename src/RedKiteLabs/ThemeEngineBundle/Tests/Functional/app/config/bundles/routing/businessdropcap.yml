@@ -1,3 +1,0 @@
-BusinessDropCapBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: BusinessDropCapBundle:Default:index }

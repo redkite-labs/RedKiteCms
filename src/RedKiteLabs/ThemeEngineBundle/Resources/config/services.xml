@@ -22,7 +22,6 @@
             <parameter>version</parameter>
         </parameter>
 
-        <parameter key="red_kite_labs_theme_engine.page_tree.class">RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree</parameter>
         <parameter key="red_kite_labs_theme_engine.active_theme.class">RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme</parameter>
         <parameter key="red_kite_labs_theme_engine.themes.class">RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
         <parameter key="red_kite_labs_theme_engine.theme.class">RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
@@ -30,7 +29,6 @@
         <parameter key="red_kite_labs_theme_engine.template.class">RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate</parameter>
         <parameter key="red_kite_labs_theme_engine.template_assets.class">RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets</parameter>
         <parameter key="red_kite_labs_theme_engine.template_slots.class">RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots</parameter>
-        <parameter key="red_kite_labs_theme_engine.404_error_handler.class">RedKiteLabs\ThemeEngineBundle\Core\Listener\NotFoundErrorHandlerListener</parameter>
         <parameter key="red_kite_labs_theme_engine.registed_listeners.class">RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListenersCollection\AlThemeEngineListenersCollection</parameter>        
     </parameters>
 
@@ -43,15 +41,6 @@
 
         <service id="red_kite_labs_theme_engine.active_theme" class="%red_kite_labs_theme_engine.active_theme.class%">
             <argument type="service" id="service_container"></argument>
-        </service>
-
-        <service id="red_kite_labs_theme_engine.page_tree" class="%red_kite_labs_theme_engine.page_tree.class%">
-            <argument type="service" id="service_container"></argument>
-        </service>
-        
-        <service id="red_kite_labs_theme_engine.404_error_handler" class="%red_kite_labs_theme_engine.404_error_handler.class%">
-            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="255" />
-            <argument type="service" id="templating"></argument>
         </service>
     </services>
 </container>

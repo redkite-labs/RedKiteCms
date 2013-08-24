@@ -1,3 +1,0 @@
-BusinnessMenuBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: BusinnessMenuBundle:Default:index }

@@ -59,7 +59,7 @@ class AlSlotContentTester extends TestCase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The content passed to "AlphaLemon\FrontendBundle\Core\SlotContent\AlSlotContent" must be a string
+     * @expectedExceptionMessage The content passed to "RedKiteLabs\FrontendBundle\Core\SlotContent\AlSlotContent" must be a string
      */
     public function testSetContentAcceptsOnlyStrings()
     {
