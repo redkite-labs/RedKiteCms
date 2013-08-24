@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
-use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks as AlPageBlocksBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Extends the AlPageBlocks class to load blocks from the database
@@ -28,7 +28,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageBlocks\AlPageBlocks as AlPag
  *
  * @api
  */
-class AlPageBlocks extends AlPageBlocksBase
+class AlPageBlocks implements AlPageBlocksInterface
 {
     /**
      * @var int
@@ -49,7 +49,8 @@ class AlPageBlocks extends AlPageBlocksBase
      * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
      */
     protected $blockRepository;
-
+    
+    protected $blocks = array();
     protected $alBlocks = null;
 
     /**
@@ -170,6 +171,119 @@ class AlPageBlocks extends AlPageBlocksBase
         }
         
         return $types;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($slotName, $value, $position = null)
+    {
+        if(null !== $position && array_key_exists($position, $this->blocks[$slotName]))
+        {
+            $this->blocks[$slotName][$position] = $value;
+        }
+        else
+        {
+            $this->blocks[$slotName][] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addRange(array $values, $override = false)
+    {
+        foreach($values as $slotName => $contents)
+        {
+            if (array_key_exists($slotName, $this->blocks) && $override) {
+                $this->clearSlotBlocks($slotName);
+            }
+
+            if(null !== $contents)
+            {
+                foreach($contents as $content)
+                {
+                    $this->add($slotName, $content);
+                }
+            }
+            else
+            {
+                $this->blocks[$slotName] = null;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearSlotBlocks($slotName)
+    {
+        $this->checkSlotExists($slotName);
+
+        $this->blocks[$slotName] = array();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearSlots()
+    {
+        foreach ($this->blocks as $slotName => $block) {
+            $this->clearSlotBlocks($slotName);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeSlot($slotName)
+    {
+        $this->checkSlotExists($slotName);
+
+        unset($this->blocks[$slotName]);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeSlots()
+    {
+        $this->blocks = array();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSlotBlocks($slotName)
+    {
+        return (array_key_exists($slotName, $this->blocks)) ? $this->blocks[$slotName] : array();
+    }
+
+    protected function checkSlotExists($slotName)
+    {
+        if (!array_key_exists($slotName, $this->blocks)) {
+            throw new InvalidArgumentException(sprintf('The slot "%s" does not exist. Nothing to clear', $slotName));
+        }
     }
 
     /**

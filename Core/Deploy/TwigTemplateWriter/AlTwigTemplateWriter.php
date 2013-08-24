@@ -450,17 +450,11 @@ abstract class AlTwigTemplateWriter
     {
         $formattedContent = $this->MarkSlotContents($slotName, $content);
 
-        if (!empty($content)) {
-            $formattedContent = $this->identateContent($formattedContent) . PHP_EOL;
-            $formattedContent .= "  {% else %}" . PHP_EOL;
-            $formattedContent .= "    {{ parent() }}" . PHP_EOL;
+        if ( ! empty($content)) {
+            $formattedContent = $this->identateContent($formattedContent);
         }
 
-        $block = "  {% if(slots.$slotName is not defined) %}" . PHP_EOL;
-        $block .= $formattedContent;
-        $block .= "  {% endif %}";
-
-        return $block;
+        return $formattedContent;
     }
 
     /**

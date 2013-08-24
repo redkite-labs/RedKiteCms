@@ -4,11 +4,17 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="twig.extension.render_slot.class"> RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension</parameter>
         <parameter key="twig.extension.strings.class">RedKiteLabs\RedKiteCmsBundle\Twig\StringsExtension</parameter>
         <parameter key="twig.extension.images.class">RedKiteLabs\RedKiteCmsBundle\Twig\ImageThumbnailExtension</parameter>
     </parameters>
 
     <services>
+        <service id="twig.extension.render_slot" class="%twig.extension.render_slot.class%" public="false">
+            <tag name="twig.extension" alias="slotRenderer" />
+            <argument type="service" id="service_container" />
+        </service>
+        
         <service id="twig.extension.strings" class="%twig.extension.strings.class%" public="false">
             <tag name="twig.extension" alias="strings" />
         </service>

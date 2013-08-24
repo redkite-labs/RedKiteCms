@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+{% for slot_name, attributes in slots %}
+        <service id="{{ theme_name }}.theme.template.{{ template_name }}.slots.{{ slot_name }}" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">{{ slot_name }}</argument>
+{% if attributes is defined and attributes|length > 0 %}
+            <argument type="collection" >
+{% if attributes.repeated is defined %}
+                <argument key="repeated">{{ attributes.repeated }}</argument>
+{% endif %}
+{% if attributes.blockType is defined %}
+                <argument key="blockType">{{ attributes.blockType }}</argument>
+{% endif %}
+{% if attributes.htmlContent is defined %}
+                <argument key="htmlContent">
+                    <![CDATA[{% spaceless %}{{ attributes.htmlContent }}{% endspaceless %}]]>
+                </argument>
+{% endif %}
+            </argument>
+{% endif %}
+            <tag name="{{ theme_name }}.theme.template.{{ template_name }}.slots" />
+        </service>
+{% endfor %}
+    </services>
+</container>

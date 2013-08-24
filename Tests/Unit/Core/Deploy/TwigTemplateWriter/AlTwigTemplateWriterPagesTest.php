@@ -306,13 +306,10 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
             ->will($this->returnValue(null));
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
-        $section .= "{% block logo %}" . PHP_EOL;
-        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
-        $section .= "" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL . PHP_EOL;
         $section .= "<!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
         $section .= "" . PHP_EOL;
-        $section .= "<!-- END LOGO BLOCK -->" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "<!-- END LOGO BLOCK -->" . PHP_EOL. PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
@@ -333,13 +330,9 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
-        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
         $section .= "    Formatted content for deploying" . PHP_EOL;
         $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
         
@@ -361,13 +354,9 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
-        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
         $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">" . PHP_EOL;
         $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
@@ -399,13 +388,9 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
-        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
         $section .= "    <ul><li><a href=\"my-awesome-page\">Fancy page</a></li></ul>" . PHP_EOL;
         $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
@@ -431,13 +416,9 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
-        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
         $section .= "    <ul><li><a href=\"{{ path('_en_index') }}\">Fancy page</a></li></ul>" . PHP_EOL;
         $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
@@ -471,12 +452,10 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block fake_slot %}" . PHP_EOL;
-        $section .= "  {% if(slots.fake_slot is not defined) %}" . PHP_EOL;
         $section .= "" . PHP_EOL;
         $section .= "<!-- BEGIN FAKE_SLOT BLOCK -->" . PHP_EOL;
         $section .= "" . PHP_EOL;
-        $section .= "<!-- END FAKE_SLOT BLOCK -->" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
+        $section .= "<!-- END FAKE_SLOT BLOCK -->" . PHP_EOL . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
@@ -541,24 +520,16 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
-        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
         $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">" . PHP_EOL;
         $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}" . PHP_EOL;
         $section .= "" . PHP_EOL;
         $section .= "{% block nav-menu %}" . PHP_EOL;
-        $section .= "  {% if(slots.nav-menu is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN NAV-MENU BLOCK -->" . PHP_EOL;
         $section .= "    <div>A new content</div>" . PHP_EOL;
         $section .= "    <div>Some other text <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/image.png\"></div>" . PHP_EOL;
         $section .= "    <!-- END NAV-MENU BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
@@ -666,25 +637,17 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
-        $section .= "  {% if(slots.logo is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
         $section .= "    <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/download.png\">" . PHP_EOL;
         $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}" . PHP_EOL;
         $section .= "" . PHP_EOL;
         $section .= "{% block nav-menu %}" . PHP_EOL;
-        $section .= "  {% if(slots.nav-menu is not defined) %}" . PHP_EOL;
         $section .= "    <!-- BEGIN NAV-MENU BLOCK -->" . PHP_EOL;
         $section .= "    <div>A new content</div>" . PHP_EOL;
         $section .= "    <div>Some other text <img width=\"381\" height=\"87\" title=\"Download\" alt=\"download.png\" src=\"/bundles/acmewebsite/media/image.png\"></div>" . PHP_EOL;
         $section .= "    <div>Lorem ipsum <ul><li><a href=\"{{ path('_en_index') }}\">Fancy page</a></li></ul></div>" . PHP_EOL;
         $section .= "    <!-- END NAV-MENU BLOCK -->" . PHP_EOL;
-        $section .= "  {% else %}" . PHP_EOL;
-        $section .= "    {{ parent() }}" . PHP_EOL;
-        $section .= "  {% endif %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 

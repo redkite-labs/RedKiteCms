@@ -130,6 +130,135 @@ class AlPageBlocksTest extends TestCase
         $this->assertEquals(2, count($this->pageContentsContainer->getSlotBlocks('logo')));
         $this->assertEquals(1, count($this->pageContentsContainer->getSlotBlocks('menu')));
     }
+    
+    public function testBlockIsAdded()
+    {
+        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->add("logo", array('Content' => 'My value')));
+
+        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $this->checkOneBlock('logo', 'My value');
+    }
+
+    public function testBlockIsEdited()
+    {
+        $this->pageContentsContainer->add("logo", array('Content' => 'My value'));
+        $this->pageContentsContainer->add("logo", array('Content' => 'My new value'), 0);
+
+        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $this->checkOneBlock('logo', 'My new value');
+    }
+
+    public function testBlockIsAddedWhenAnInvalidPositionNumberIsGiven()
+    {
+        $this->pageContentsContainer->add("logo", array('Content' => 'My value'));
+        $this->pageContentsContainer->add("logo", array('Content' => 'My new value'), 5);
+
+        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertCount(2, $block);
+    }
+    
+    public function testNullContents()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => null));
+
+        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertNull($block);
+    }
+
+    public function testARangeOfBlocksIsAdded()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
+
+        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertCount(2, $block);
+        $this->assertEquals('My value', $block[0]['Content']);
+        $this->assertEquals('My new value', $block[1]['Content']);
+    }
+    
+    public function testARangeOfBlocksIsOverriden()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'Overrided value'))), true);
+
+        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertCount(1, $block);
+        $this->assertEquals('Overrided value', $block[0]['Content']);
+    }
+
+    public function testARangeOfBlocksIsAddedOnMoreSlots()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value')),
+            "nav_menu" => array(array('Content' => 'My value'))));
+
+        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
+    }
+
+    /**
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
+     */
+    public function testAnExeptionIsThrowsWhenTryingToClearANonExistentSlot()
+    {
+        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->clearSlotBlocks('logo'));
+    }
+
+    public function testASlotIsCleared()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'))));
+        $this->assertCount(1, $this->pageContentsContainer->getSlotBlocks('logo'));
+
+        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->clearSlotBlocks('logo'));
+        $this->assertCount(0, $this->pageContentsContainer->getSlotBlocks('logo'));
+    }
+
+    public function testAllSlotsAreCleared()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
+        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
+        $this->assertCount(1, $this->pageContentsContainer->getSlotBlocks('logo'));
+        $this->assertCount(1, $this->pageContentsContainer->getSlotBlocks('nav-menu'));
+
+        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->clearSlots());
+        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
+        $this->assertCount(0, $this->pageContentsContainer->getSlotBlocks('logo'));
+        $this->assertCount(0, $this->pageContentsContainer->getSlotBlocks('nav-menu'));
+    }
+
+    /**
+     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
+     */
+    public function testAnExeptionIsThrowsWhenTryingToRemoveANonExistentSlot()
+    {
+        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->removeSlot('logo'));
+    }
+
+    public function testASlotIsRemoved()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'))));
+        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+
+        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->removeSlot('logo'));
+        $this->assertCount(0, $this->pageContentsContainer->getBlocks());
+    }
+
+    public function testAllSlotsAreRemoved()
+    {
+        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
+        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
+
+        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->removeSlots());
+        $this->assertCount(0, $this->pageContentsContainer->getBlocks());
+    }
+
+    private function checkOneBlock($slotName, $expectedContent)
+    {
+        $block = $this->pageContentsContainer->getSlotBlocks($slotName);
+        $this->assertTrue(count($block) == 1);
+        $this->assertEquals($expectedContent, $block[0]['Content']);
+    }
 
     private function setUpBlock($slotName)
     {
