@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 
-use RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
+//use RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
@@ -26,6 +26,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 use Symfony\Component\DependencyInjection\Container;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
 
 /**
  * {@inheritdoc}
@@ -34,8 +35,15 @@ use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlPageTree extends BaseAlPageTree
+class AlPageTree 
 {
+    protected $container = null;
+    protected $template = null;
+    protected $pageBlocks;
+    protected $metaTitle = "";
+    protected $metaDescription = "";
+    protected $metaKeywords = "";
+    protected $activeTheme;
     protected $alPage = null;
     protected $alLanguage = null;
     protected $alSeo = null;
@@ -75,8 +83,118 @@ class AlPageTree extends BaseAlPageTree
         $this->templateManager = $this->themesCollectionWrapper->getTemplateManager();
         $this->blockManagerFactory = $container->get('red_kite_cms.block_manager_factory');
         
-        parent::__construct($container);
+        $this->container = $container;
+        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
     }
+
+    /**
+     * Returns the container
+     *
+     * @return Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Sets the pageBlocks object
+     *
+     * @param AlPageBlocksInterface $v
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree
+     */
+    public function setPageBlocks(AlPageBlocksInterface $v)
+    {
+        $this->pageBlocks = $v;
+
+        return $this;
+    }
+
+    /**
+     * Returns the current pageBlocks object
+     *
+     * @return AlPageBlocksInterface
+     */
+    public function getPageBlocks()
+    {
+        return $this->pageBlocks;
+    }
+
+
+    /**
+     * Sets the page metatags
+     *
+     *
+     * The metatags array could have the following keys:
+     *
+     *      - title
+     *      - description
+     *      - keywords
+     *
+     * @param array $metatags
+     */
+    public function setMetatags(array $metatags)
+    {
+        if(array_key_exists('title', $metatags)) $this->metaTitle = $metatags['title'];
+        if(array_key_exists('description', $metatags)) $this->metaDescription = $metatags['description'];
+        if(array_key_exists('keywords', $metatags)) $this->metaKeywords = $metatags['keywords'];
+
+        return $this;
+    }
+
+    /**
+     * Catches the methods to manage assets and metatags
+     *
+     * @param string $name the method name
+     * @param mixed $params the values to pass to the called method
+     * @return mixed Depends on method called
+     */
+    public function __call($name, $params)
+    {
+        if(preg_match('/^(add)?(External)?([Styleshee|Javascrip]+t)$/', $name, $matches))
+        {
+            $method = $matches[0];
+            $this->getTemplate()->$method($params[0]);
+
+            return $this;
+        }
+
+        if(preg_match('/^(add)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
+        {
+            $method = $matches[0];
+            $this->getTemplate()->$method($params);
+
+            return $this;
+        }
+
+        if(preg_match('/^(get)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
+        {
+            return $this->getAssets($matches[0], strtolower($matches[3]), strtolower($matches[2]));
+        }
+
+        if(preg_match('/^(get)?(Internal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
+        {
+            return implode("", $this->getAssets($matches[0], strtolower($matches[3]), strtolower($matches[2])));
+        }
+
+        if(preg_match('/^(get)?(Meta)?([Title|Description|Keywords]+)$/', $name, $matches))
+        {
+            $property = strtolower($matches[2]) . $matches[3];
+
+            return $this->$property;
+        }
+
+        if(preg_match('/^(set)?(Meta)?([Title|Description|Keywords]+)$/', $name, $matches))
+        {
+            $property = strtolower($matches[2]) . $matches[3];
+            $this->$property = $params[0];
+
+            return $this;
+        }
+
+        throw new \RuntimeException('Call to undefined method: ' . $name);
+    }
+
 
     /**
      * Returns the current AlPage object
@@ -525,6 +643,34 @@ class AlPageTree extends BaseAlPageTree
             $parameter = sprintf('%s.%s', $baseParam, $suffix);
             $this->addAssetsFromContainer($assetsCollection, $parameter);
         }
+    }
+
+
+
+    /**
+     * Returns an array that contains the absolute path of each asset
+     *
+     * @param string $method The method to retrieve the current ArrayObject tha stores the requiredassets
+     * @param string $assetType The assets type (stylesheet/javascript)
+     * @param string $type The required type (internal/external)
+     * @return array
+     */
+    protected function getAssets($method, $assetType, $type)
+    {
+        $assetsCollection = $this->mergeAssets($method, $assetType, $type);
+        if(null === $assetsCollection) {
+            return array();
+        }
+
+        $assets = array();
+        foreach($assetsCollection as $asset)
+        {
+            $absolutePath = $asset->getAbsolutePath();
+            $originalAsset = $asset->getAsset();
+            $assets[] = ($type == 'external') ? (empty($absolutePath)) ? $originalAsset : $absolutePath : $originalAsset;
+        }
+
+        return $assets;
     }
 
     private function initTheme()

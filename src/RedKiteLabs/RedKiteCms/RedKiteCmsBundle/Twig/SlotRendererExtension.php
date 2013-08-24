@@ -17,7 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Twig;
 
-use RedKiteLabs\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
+//use RedKiteLabs\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
@@ -27,8 +28,22 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class SlotRendererExtension extends BaseSlotRendererExtension
+class SlotRendererExtension extends \Twig_Extension
 {
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName() {
+        return 'slotRenderer';
+    }
+    
     /**
      * Overrides the base renderSlot method
      */
@@ -216,5 +231,22 @@ class SlotRendererExtension extends BaseSlotRendererExtension
         }
         
         return $content;
+    }
+
+    /**
+     * Validates the slot name
+     *
+     * @param string $slotName
+     * @throws \InvalidArgumentException
+     */
+    protected function checkSlotName($slotName)
+    {
+        if (null === $slotName) {
+            throw new \InvalidArgumentException("renderSlot function requires a valid slot name to render the contents");
+        }
+
+        if (!is_string($slotName)) {
+            throw new \InvalidArgumentException("renderSlot function requires a string as argument to identify the slot name");
+        }
     }
 }

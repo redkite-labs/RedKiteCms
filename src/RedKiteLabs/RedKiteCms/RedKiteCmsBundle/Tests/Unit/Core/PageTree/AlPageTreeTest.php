@@ -97,6 +97,60 @@ class AlPageTreeTest extends TestCase
         $this->assertEquals($templateManager, $pageTree->getTemplateManager());
         $this->assertNotSame($this->templateManager, $pageTree->getTemplateManager());
     }
+    
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testAnExceptionIsThrowsWhenCalledMethodDoesNotExist()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+
+        $pageTree->fake();
+    }
+    
+    public function testGetNotInitializedAssets()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+
+        $this->assertEmpty($pageTree->getExternalStylesheets());
+    }
+    
+    public function testMetatags()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+
+        $metas = array(
+            'title' => 'An awesome page title',
+            'description' => 'An awesome page description',
+            'keywords' => 'some,awesome,keywords',
+        );
+        
+        $pageTree->setMetatags($metas);
+        $this->assertEquals($metas['title'], $pageTree->getMetaTitle());
+        $this->assertEquals($metas['description'], $pageTree->getMetaDescription());
+        $this->assertEquals($metas['keywords'], $pageTree->getMetaKeywords());
+        
+        $title = "another title";
+        $pageTree->setMetaTitle($title);
+        $this->assertEquals($title, $pageTree->getMetaTitle());
+        
+        $desription = "another description";
+        $pageTree->setMetaDescription($desription);
+        $this->assertEquals($desription, $pageTree->getMetaDescription());
+        
+        $keywords = "another,keyword";
+        $pageTree->setMetaKeywords($keywords);
+        $this->assertEquals($keywords, $pageTree->getMetaKeywords());
+    }
+    
+    public function testPageBlocks()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+
+        $pageBlock = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface');
+        $this->assertEquals($pageTree, $pageTree->setPageBlocks($pageBlock));
+        $this->assertEquals($pageBlock, $pageTree->getPageBlocks());
+    }
 
     public function testGetBlockManagerReturnsAnEmptyArrayWhenTemplateManagerIsNull()
     {

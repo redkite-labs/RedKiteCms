@@ -18,13 +18,34 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use RedKiteLabs\ThemeEngineBundle\Controller\ThemesController as BaseController;
 use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
+use Symfony\Component\Yaml\Yaml;
 
-class ThemesController extends BaseController
+class ThemesController extends Base\BaseController
 {
-    protected $translator;
+    //protected $translator;
+    
+    
+    public function showAction()
+    {
+        return $this->renderThemesPanel();
+    }
+
+    public function activateThemeAction($themeName)
+    {
+        try
+        {
+            $this->getActiveTheme()->writeActiveTheme($themeName);
+
+            return $this->renderThemesPanel();
+        }
+        catch(Exception $e)
+        {
+            throw new NotFoundHttpException($e->getMessage());
+        }
+    }
     
     public function showThemeChangerAction()
     {
@@ -234,6 +255,41 @@ class ThemesController extends BaseController
         return $responseContent;
     }
     
+    protected function retriveDefaultScreenshot()
+    {
+        $fileName = '@RedKiteLabsThemeEngineBundle/Resources/public/images/screenshot.png';
+        $screenShotAsset = new AlAsset($this->container->get('kernel'), $fileName);
+
+        return '/' . $screenShotAsset->getAbsolutePath();
+    }
+    
+    protected function getActiveTheme()
+    {
+        return $this->container->get('red_kite_labs_theme_engine.active_theme');
+    }
+    
+    protected function retrieveThemeInfo($theme, $buttons = true)
+    {
+        $themeName = $theme->getThemeName();
+        $asset = new AlAsset($this->container->get('kernel'), $themeName);
+
+        $info = array('theme_title' => $themeName);
+        $fileName = \sprintf('%s/Resources/data/info.yml', $asset->getRealPath());
+        if(file_exists($fileName))
+        {
+            $t = Yaml::parse($fileName);
+            $info["info"] = \array_intersect_key($t["info"], \array_flip($this->container->getParameter('red_kite_labs_theme_engine.info_valid_entries')));
+        }
+
+        $screenshotPath = 'images/screenshot.png';
+        $fileName = \sprintf('%s/Resources/public/%s', $asset->getRealPath(), $screenshotPath);
+        $info["screenshot"] = (file_exists($fileName)) ? "/" . $asset->getAbsolutePath() . "/" . $screenshotPath : $this->retriveDefaultScreenshot();
+
+        if ($buttons) $info['buttons'] = $buttons;
+
+        return $info;
+    }
+    /*
     protected function translate($message, array $params = array(), $catalogue = "RedKiteCmsBundle")
     {
         if (null === $this->translator) {
@@ -245,5 +301,5 @@ class ThemesController extends BaseController
             $params, 
             $catalogue
         );
-    }
+    }*/
 }
