@@ -54,7 +54,7 @@ class BundlesAutoloader
     private $cachePath;
     private $filesystem;
     private $bootstrapped = false;
-    private $extraFolders;
+    private $searchFolders;
 
     /**
      * Constructor
@@ -63,18 +63,20 @@ class BundlesAutoloader
      * @param string $environment   The current environment
      * @param array $bundles        The bundles already loaded
      * @param Script\Factory\ScriptFactoryInterface $scriptFactory
-     * @param null|array $extraFolders   Adds extra folders to be parsed to look for other budles to autoload. When null looks for RedKiteLabs's blocks
+     * @param null|array $searchFolders   Adds extra folders to be parsed to look for other budles to autoload. When null looks for RedKiteLabs's blocks
      */
-    public function __construct($kernelDir, $environment, array $bundles, Script\Factory\ScriptFactoryInterface $scriptFactory = null, $extraFolders = null)
+    public function __construct($kernelDir, $environment, array $bundles, Script\Factory\ScriptFactoryInterface $scriptFactory = null, $searchFolders = null)
     {
         $this->environment = $environment;
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
-        $defaultSearchFolders = array(
+        $this->searchFolders = array(
             $this->kernelDir . '/../src/RedKiteCms/Block', 
             $this->kernelDir . '/../src/RedKiteCms/Theme',
         );
-        $this->extraFolders = (null === $extraFolders) ? $defaultSearchFolders : $extraFolders;
+        if (null !== $searchFolders) {
+            $this->searchFolders = $searchFolders;
+        }
         $this->filesystem = new Filesystem();
         
         $this->setupFolders();
@@ -117,7 +119,7 @@ class BundlesAutoloader
     protected function run()
     {
         if (!$this->bootstrapped) {
-            $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir, $this->extraFolders);
+            $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir, $this->searchFolders);
             $this->retrieveInstalledBundles();
             $this->install();
             $this->uninstall();

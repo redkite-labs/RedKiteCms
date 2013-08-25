@@ -91,7 +91,14 @@ abstract class BasePostScript extends BaseScript implements PostScriptInterface
         foreach ($actionManagers as $bundleName => $actionManager) {
             $this->actionManagerGenerator->generate($actionManager);
             $actionManagerClass = $this->actionManagerGenerator->getActionManagerClass();
-            if (false === $this->actionManagerGenerator->getActionManager()->$method($this->container)) $actions['notExecuted'][$bundleName] = $actionManagerClass;
+            $actionManager = $this->actionManagerGenerator->getActionManager();
+            if (null === $actionManager) {
+                continue;
+            }
+            
+            if (false === $actionManager->$method($this->container)) {
+                $actions['notExecuted'][$bundleName] = $actionManagerClass;
+            }
             $actions['post'][$bundleName] = $actionManagerClass;
         }
 
