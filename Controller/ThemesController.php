@@ -244,10 +244,8 @@ class ThemesController extends Base\BaseController
             $values['available_themes']["themes"][] = $this->retrieveThemeInfo($theme);
         }
 
-        $responseContent = $this->container->get('templating')->renderResponse($this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'), array(
+        $responseContent = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:index.html.twig', array(
             'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
-            'panel_sections' => 'RedKiteCmsBundle:Themes:theme_panel_sections.html.twig',
-            'theme_skeleton' => 'RedKiteCmsBundle:Themes:theme_skeleton.html.twig',
             'values' => $values,
             'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
