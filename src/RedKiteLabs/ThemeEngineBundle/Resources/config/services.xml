@@ -7,9 +7,6 @@
     <parameters>
         <parameter key="red_kite_labs_theme_engine.base_template">RedKiteLabsThemeEngineBundle:Theme:base.html.twig</parameter>
         <parameter key="red_kite_labs_theme_engine.active_theme_file">%kernel.root_dir%/Resources/.active_theme</parameter>
-        <parameter key="red_kite_labs_theme_engine.themes_panel.base_theme">RedKiteLabsThemeEngineBundle:Themes:index.html.twig</parameter>
-        <parameter key="red_kite_labs_theme_engine.themes_panel.theme_section">RedKiteLabsThemeEngineBundle:Themes:theme_panel_sections.html.twig</parameter>
-        <parameter key="red_kite_labs_theme_engine.themes_panel.theme_skeleton">RedKiteLabsThemeEngineBundle:Themes:theme_skeleton.html.twig</parameter>     
         <parameter key="red_kite_labs_theme_engine.deploy.templates_folder">RedKiteCms</parameter>
         <parameter key="red_kite_labs_theme_engine.deploy.stage_templates_folder">RedKiteCmsStage</parameter>
         <parameter key="red_kite_labs_theme_engine.info_valid_entries" type="collection">

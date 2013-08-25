@@ -49,18 +49,6 @@ class RedKiteLabsThemeEngineExtension extends Extension
         if (isset($config['active_theme_file'])) {
             $container->setParameter('red_kite_labs_theme_engine.active_theme_file', $config['active_theme_file']);
         }
-
-        if (isset($config['themes_panel']['base_theme'])) {
-            $container->setParameter('red_kite_labs_theme_engine.themes_panel.base_theme', $config['themes_panel']['base_theme']);
-        }
-
-        if (isset($config['themes_panel']['theme_section'])) {
-            $container->setParameter('red_kite_labs_theme_engine.themes_panel.theme_section', $config['themes_panel']['theme_section']);
-        }
-
-        if (isset($config['themes_panel']['theme_skeleton'])) {
-            $container->setParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton', $config['themes_panel']['theme_skeleton']);
-        }
         
         if (isset($config['render_slot_class'])) {
             $container->setParameter('twig.extension.render_slot.class', $config['render_slot_class']);

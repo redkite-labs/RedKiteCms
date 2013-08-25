@@ -32,9 +32,6 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
         $extension = new RedKiteLabsThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle')), $this->container);
         $this->assertEquals('RedKiteLabsThemeEngineBundle:Theme:base.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.base_template'));
-        $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:index.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'));
-        $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:theme_panel_sections.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_section'));
-        $this->assertEquals('RedKiteLabsThemeEngineBundle:Themes:theme_skeleton.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton'));
         $this->assertEquals('RedKiteCms', $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder'));
         $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_labs_theme_engine.active_theme_file'));
         $this->assertEquals(
@@ -76,30 +73,6 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
         $this->scalarNodeParameter('red_kite_labs_theme_engine.deploy.templates_folder', 'templates_folder', 'AlphaLemon');
     }
 
-    public function testThemesPanelBaseTheme()
-    {
-        $value = 'RedKiteCmsBundle:Themes:index.html.twig';
-        $extension = new RedKiteLabsThemeEngineExtension();
-        $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('base_theme' => $value))), $this->container);
-        $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.base_theme'));
-    }
-    
-    public function testThemesPanelThemeSection()
-    {
-        $value = 'RedKiteCmsBundle:Themes:theme_panel_sections.html.twig';
-        $extension = new RedKiteLabsThemeEngineExtension();
-        $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('theme_section' => $value))), $this->container);
-        $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_section'));
-    }
-    
-    public function testThemesPanelThemeSKeleton()
-    {
-        $value = 'RedKiteCmsBundle:Themes:theme_skeleton.html.twig';
-        $extension = new RedKiteLabsThemeEngineExtension();
-        $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle', 'themes_panel' => array('theme_skeleton' => $value))), $this->container);
-        $this->assertEquals($value, $this->container->getParameter('red_kite_labs_theme_engine.themes_panel.theme_skeleton'));
-    }
-    
     private function scalarNodeParameter($parameter, $configKey, $configValue)
     {
         $extension = new RedKiteLabsThemeEngineExtension();
