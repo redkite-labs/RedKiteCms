@@ -17,6 +17,9 @@
             "url": "http://apps.redkite-labs.com/"
         }
     ],
+    "require": {
+        "redkite-cms/jstree-bundle": "dev-master"
+    },
     "require-dev": {
         "redkite-cms/redkite-cms-bundle": "dev-master",
         "willdurand/propel-typehintable-behavior": "dev-master"
