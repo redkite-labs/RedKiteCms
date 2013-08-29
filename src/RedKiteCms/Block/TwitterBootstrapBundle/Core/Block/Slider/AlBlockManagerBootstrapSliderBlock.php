@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapSliderBlock  extends AlBlockManagerImages
+class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
 {
     /**
      * {@inheritdoc}
@@ -112,6 +112,7 @@ class AlBlockManagerBootstrapSliderBlock  extends AlBlockManagerImages
     protected function edit(array $values)
     {
         $values = $this->removeFormNameReference($values);
+        $values["Content"] = urldecode($values["Content"]);
         
         return parent::edit($values);
     }
