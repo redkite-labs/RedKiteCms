@@ -66,8 +66,8 @@
                         var el = $(this);
                         var field = el.attr('id');
                         var value = image.attr('data-' + field);
-                        if (null == value) {
-                            value = "";
+                        if (null == value || value == "") {
+                            value = " ";
                         }
                         imageValues[field] = encodeURIComponent(value);
                     });
