@@ -17,6 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\Exception;
 
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+
 /**
  * Thrown when the form which must be used with JsonBlock is not configured properly
  *
@@ -24,6 +26,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\Exception;
  *
  * @api
  */
-class InvalidFormConfigurationException extends \InvalidArgumentException
+class InvalidFormConfigurationException extends \InvalidArgumentException implements RedKiteCmsExceptionInterface
 {
 }
