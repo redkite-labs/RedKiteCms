@@ -195,8 +195,8 @@ class Installer {
 
     protected function setUpEnvironments()
     {
-        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/alcms.php', $this->vendorDir . '/../web/alcms.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/alcms_dev.php', $this->vendorDir . '/../web/alcms_dev.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/rkcms.php', $this->vendorDir . '/../web/rkcms.php', true);
+        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/rkcms_dev.php', $this->vendorDir . '/../web/rkcms_dev.php', true);
         $this->filesystem ->copy($this->vendorDir . '/redkite-labs/redkite-labs-theme-engine-bundle/RedKiteLabs/ThemeEngineBundle/Resources/environments/frontcontrollers/stage.php', $this->vendorDir . '/../web/stage.php', true);
         $this->filesystem ->copy($this->vendorDir . '/redkite-labs/redkite-labs-theme-engine-bundle/RedKiteLabs/ThemeEngineBundle/Resources/environments/frontcontrollers/stage_dev.php', $this->vendorDir . '/../web/stage_dev.php', true);
         $this->filesystem ->mkdir($this->vendorDir . '/../web/uploads/assets');
@@ -237,29 +237,29 @@ class Installer {
         }
         file_put_contents($configFile, $contents);
 
-        $configFile = $this->vendorDir . '/../app/config/config_alcms.yml';
+        $configFile = $this->vendorDir . '/../app/config/config_rkcms.yml';
         if (!is_file($configFile)) {
             $contents = "imports:\n";
             $contents .= "    - { resource: parameters.yml }\n";
-            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_alcms.yml\" }\n";
+            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms.yml\" }\n";
             $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/security.yml\" }";
             $contents .= $this->writeDatabaseConfiguration($this->dsn);
             file_put_contents($configFile, $contents);
         }
 
-        $configFile = $this->vendorDir . '/../app/config/config_alcms_dev.yml';
+        $configFile = $this->vendorDir . '/../app/config/config_rkcms_dev.yml';
         if (!is_file($configFile)) {
             $contents = "imports:\n";
-            $contents .= "    - { resource: config_alcms.yml }\n";
-            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_alcms_dev.yml\" }";
+            $contents .= "    - { resource: config_rkcms.yml }\n";
+            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms_dev.yml\" }";
             file_put_contents($configFile, $contents);
         }
 
-        $configFile = $this->vendorDir . '/../app/config/config_alcms_test.yml';
+        $configFile = $this->vendorDir . '/../app/config/config_rkcms_test.yml';
         if (!is_file($configFile)) {
             $contents = "imports:\n";
-            $contents .= "    - { resource: config_alcms_dev.yml }\n";
-            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_alcms_test.yml\" }";
+            $contents .= "    - { resource: config_rkcms_dev.yml }\n";
+            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms_test.yml\" }";
             $contents .= $this->writeDatabaseConfiguration($this->shortDsn . ';dbname=' . $this->database . '_test');
             file_put_contents($configFile, $contents);
         }
@@ -331,26 +331,26 @@ class Installer {
             file_put_contents($siteRoutingFile, "");
         }
 
-        $configFile = $this->vendorDir . '/../app/config/routing_alcms.yml';
+        $configFile = $this->vendorDir . '/../app/config/routing_rkcms.yml';
         if (!is_file($configFile)) {
-            $contents = "_alcms:\n";
-            $contents .= "    resource: \"@RedKiteCmsBundle/Resources/config/routing_alcms.yml\"";
+            $contents = "_rkcms:\n";
+            $contents .= "    resource: \"@RedKiteCmsBundle/Resources/config/routing_rkcms.yml\"";
             file_put_contents($configFile, $contents);
         }
 
-        $configFile = $this->vendorDir . '/../app/config/routing_alcms_dev.yml';
+        $configFile = $this->vendorDir . '/../app/config/routing_rkcms_dev.yml';
         if (!is_file($configFile)) {
-            $contents = "_alcms:\n";
-            $contents .= "    resource: \"@RedKiteCmsBundle/Resources/config/routing_alcms_dev.yml\"\n\n";
-            $contents .= "_alcms_dev:\n";
-            $contents .= "    resource: routing_alcms.yml";
+            $contents = "_rkcms:\n";
+            $contents .= "    resource: \"@RedKiteCmsBundle/Resources/config/routing_rkcms_dev.yml\"\n\n";
+            $contents .= "_rkcms_dev:\n";
+            $contents .= "    resource: routing_rkcms.yml";
             file_put_contents($configFile, $contents);
         }
 
-        $configFile = $this->vendorDir . '/../app/config/routing_alcms_test.yml';
+        $configFile = $this->vendorDir . '/../app/config/routing_rkcms_test.yml';
         if (!is_file($configFile)) {
-            $contents = "_alcms_dev:\n";
-            $contents .= "    resource: resource: routing_alcms_dev.yml\n\n";
+            $contents = "_rkcms_dev:\n";
+            $contents .= "    resource: resource: routing_rkcms_dev.yml\n\n";
             $contents .= "_al_text_bundle:\n";
             $contents .= "    resource: \"@TextBundle/Resources/config/routing/routing.xml\"";
             file_put_contents($configFile, $contents);
@@ -410,14 +410,14 @@ class Installer {
     protected function setup()
     {
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? ' --symlink' : '';
-        $assetsInstall = 'assets:install --env=alcms_dev ' . $this->vendorDir . '/../web' . $symlink;
-        $populate = sprintf('redkitecms:populate --env=alcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);
+        $assetsInstall = 'assets:install --env=rkcms_dev ' . $this->vendorDir . '/../web' . $symlink;
+        $populate = sprintf('redkitecms:populate --env=rkcms_dev "%s" --user=%s --password=%s', $this->dsn, $this->user, $this->password);
         
-        $commands = array('propel:build --insert-sql --env=alcms_dev' => null,
+        $commands = array('propel:build --insert-sql --env=rkcms_dev' => null,
                           $assetsInstall => null,
                           $populate => null,
-                          'assetic:dump --env=alcms_dev' => null,
-                          'cache:clear --env=alcms_dev' => null,
+                          'assetic:dump --env=rkcms_dev' => null,
+                          'cache:clear --env=rkcms_dev' => null,
             );
 
         $this->commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });

@@ -174,7 +174,7 @@ class InstallerTest extends TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage An error has occoured executing the "propel:insert-sql --force --env=alcms_dev" command
+     * @expectedExceptionMessage An error has occoured executing the "propel:insert-sql --force --env=rkcms_dev" command
      */
     public function testRedKiteCmsHasBeenInstalled1()
     {
@@ -187,7 +187,7 @@ class InstallerTest extends TestCase
 
         $this->processConsole->expects($this->once())
                 ->method('executeCommands')
-                ->will($this->throwException(new \RuntimeException('An error has occoured executing the "propel:insert-sql --force --env=alcms_dev" command')));
+                ->will($this->throwException(new \RuntimeException('An error has occoured executing the "propel:insert-sql --force --env=rkcms_dev" command')));
 
         $this->installer->install('Acme', 'WebSiteBundle', 'mysql:host=localhost;port=3306;dbname=alphalemon_test', 'alphalemon_test', 'root', '', 'mysql');
     }
