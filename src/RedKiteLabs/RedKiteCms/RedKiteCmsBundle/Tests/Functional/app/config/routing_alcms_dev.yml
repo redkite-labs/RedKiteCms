@@ -15,4 +15,4 @@ _configurator:
     prefix:   /_configurator
 
 _redkitecms:
-    resource: routing_alcms.yml
+    resource: routing_rkcms.yml

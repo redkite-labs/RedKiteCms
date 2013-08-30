@@ -26,7 +26,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
  */
 final class BlockEvents
 {
-    // alcms.event_listener
+    // rkcms.event_listener
 
     const BEFORE_ADD_BLOCK = 'blocks.before_block_adding';
     const AFTER_ADD_BLOCK = 'blocks.after_block_added';

@@ -36,6 +36,6 @@ class RegisterCmsListenersPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        EventListenersRegistrator::registerByTaggedServiceId($container, 'alcms.event_listener');
+        EventListenersRegistrator::registerByTaggedServiceId($container, 'rkcms.event_listener');
     }
 }

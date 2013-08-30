@@ -37,7 +37,7 @@ abstract class BaseSecured extends WebTestCaseFunctional
 
         $client = static::createClient(
             array(
-                'environment' => 'alcms_test',
+                'environment' => 'rkcms_test',
                 'debug'       => true,
             ),
             $credentials

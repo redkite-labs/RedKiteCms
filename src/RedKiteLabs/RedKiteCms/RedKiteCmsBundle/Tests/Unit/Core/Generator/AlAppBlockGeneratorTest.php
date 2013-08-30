@@ -156,18 +156,18 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected = 'imports:' . PHP_EOL;
         $expected .= '- { resource: "@FakeBlockBundle/Resources/config/app_block.xml" }';
 
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_rkcms.yml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
         $expected = 'imports:' . PHP_EOL;
-        $expected .= '- { resource: "@FakeBlockBundle/Resources/config/config_alcms.yml" }';
+        $expected .= '- { resource: "@FakeBlockBundle/Resources/config/config_rkcms.yml" }';
         
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_dev.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_rkcms_dev.yml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_test.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_rkcms_test.yml');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
@@ -221,13 +221,13 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/app_block.xml');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_rkcms.yml');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_dev.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_rkcms_dev.yml');
         $this->assertFileExists($file);
 
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_alcms_test.yml');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/config_rkcms_test.yml');
         $this->assertFileExists($file);
 
         $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/autoload.json');

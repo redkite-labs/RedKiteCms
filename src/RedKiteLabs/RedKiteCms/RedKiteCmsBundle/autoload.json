@@ -1,19 +1,19 @@
 {
     "bundles" : {
         "RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
         },
         "Propel\\PropelBundle\\PropelBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
         },
         "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {
-            "environments" : ["alcms_dev", "alcms_test"]
+            "environments" : ["rkcms_dev", "rkcms_test"]
         },
         "Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle" : {
-            "environments" : ["alcms_dev", "alcms_test"]
+            "environments" : ["rkcms_dev", "rkcms_test"]
         },
         "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test"]
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test"]
         }
     },
     "routing" : {

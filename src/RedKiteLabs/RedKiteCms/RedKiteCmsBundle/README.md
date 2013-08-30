@@ -30,21 +30,21 @@ Start RedKiteCms
 --------------------
 To browse your site, simply open a browser and point to **http://localhost** or whatever your domain is.
 
-To work with RedKiteCms simply point to **http://localhost/alcms.php/backend/login**
+To work with RedKiteCms simply point to **http://localhost/rkcms.php/backend/login**
 
-You may debug your application using the alcms_dev.php environment: **http://localhost/alcms_dev.php/backend/login**
+You may debug your application using the rkcms_dev.php environment: **http://localhost/rkcms_dev.php/backend/login**
 
 
 The page is blank
 -----------------
 If you encounter a blank web page, something went wrong. To understand what's appened, you could open
-the same page in the _dev environment or open the alcms.php and change the following row from:
+the same page in the _dev environment or open the rkcms.php and change the following row from:
 
-    $kernel = new AppKernel('alcms', false);
+    $kernel = new AppKernel('rkcms', false);
 
 to
 
-    $kernel = new AppKernel('alcms', true);
+    $kernel = new AppKernel('rkcms', true);
 
 
 Documentation

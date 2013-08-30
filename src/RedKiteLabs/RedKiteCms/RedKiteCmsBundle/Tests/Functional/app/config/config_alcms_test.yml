@@ -1,10 +1,10 @@
 imports:
-    - { resource: config_alcms_dev.yml }
+    - { resource: config_rkcms_dev.yml }
     - { resource: security.yml }
 
 framework:
     test: ~
-    router:   { resource: "%kernel.root_dir%/config/routing_alcms_test.yml" }
+    router:   { resource: "%kernel.root_dir%/config/routing_rkcms_test.yml" }
     session:
         storage_id: session.storage.filesystem
 

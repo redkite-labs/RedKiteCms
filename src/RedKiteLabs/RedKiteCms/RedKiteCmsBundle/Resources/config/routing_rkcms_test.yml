@@ -1,5 +1,5 @@
-_alcms_dev:
-    resource: routing_alcms_dev.yml
+_rkcms_dev:
+    resource: routing_rkcms_dev.yml
 
 _al_text_bundle:
     resource: "@TextBundle/Resources/config/routing/routing.xml"

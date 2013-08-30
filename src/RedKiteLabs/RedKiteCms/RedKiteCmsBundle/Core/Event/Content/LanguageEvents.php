@@ -26,7 +26,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
  */
 final class LanguageEvents
 {
-    // alcms.event_listener
+    // rkcms.event_listener
 
     const BEFORE_ADD_LANGUAGE = 'languages.before_language_adding';
     const BEFORE_ADD_LANGUAGE_COMMIT = 'pages.before_add_language_commit';

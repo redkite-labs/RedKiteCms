@@ -26,7 +26,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy;
  */
 final class DeployEvents
 {
-    // alcms.event_listener
+    // rkcms.event_listener
     const BEFORE_DEPLOY = 'deploy.before_deploy';
     const AFTER_DEPLOY = 'deploy.after_deploy';
 }

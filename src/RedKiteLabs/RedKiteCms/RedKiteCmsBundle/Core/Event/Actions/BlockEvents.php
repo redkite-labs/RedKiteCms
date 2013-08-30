@@ -26,7 +26,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions;
  */
 final class BlockEvents
 {
-    // alcms.event_listener
+    // rkcms.event_listener
 
     const BLOCK_EDITED= 'actions.block_edited';
     const BLOCK_EDITOR_RENDERING = 'actions.block_editor_rendering';
