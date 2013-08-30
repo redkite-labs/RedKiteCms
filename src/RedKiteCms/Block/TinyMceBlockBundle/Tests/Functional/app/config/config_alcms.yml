@@ -17,7 +17,7 @@ assetic:
     use_controller: true
 
 framework:
-    router:   { resource: "%kernel.root_dir%/config/routing_alcms.yml" }
+    router:   { resource: "%kernel.root_dir%/config/routing_rkcms.yml" }
 
 red_kite_labs_theme_engine:
     render_slot_class: RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension

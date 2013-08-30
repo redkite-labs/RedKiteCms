@@ -1,7 +1,7 @@
 {
     "bundles" : {
         "RedKiteCms\\Block\\TinyMceBlockBundle\\TinyMceBlockBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
         }
     }
 }
