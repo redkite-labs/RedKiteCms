@@ -1,2 +1,0 @@
-imports:
-- { resource: "@BootbusinessBlockBundle/Resources/config/config_alcms.yml" }

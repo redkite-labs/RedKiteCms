@@ -1,0 +1,2 @@
+imports:
+- { resource: "@BootbusinessBlockBundle/Resources/config/config_rkcms.yml" }
