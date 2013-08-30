@@ -26,7 +26,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
  */
 final class SeoEvents
 {
-    // alcms.event_listener
+    // rkcms.event_listener
 
     const BEFORE_ADD_SEO = 'seo.before_seo_adding';
     const BEFORE_ADD_SEO_COMMIT = 'seo.before_add_seo_commit';

@@ -14,7 +14,7 @@ framework:
     translator:      { fallback: %locale% }
     secret:          %secret%
     router:
-        resource: "%kernel.root_dir%/config/routing_alcms.yml"
+        resource: "%kernel.root_dir%/config/routing_rkcms.yml"
         strict_requirements: %kernel.debug%
     form:            true
     csrf_protection: true

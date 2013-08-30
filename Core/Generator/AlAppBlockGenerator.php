@@ -51,9 +51,9 @@ class AlAppBlockGenerator extends AlBaseGenerator
         $this->renderFile('Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
         $this->renderFile('FormType.php', $dir.'/Core/Form/Al'.$bundleBasename.'Type.php', $parameters);
         $this->renderFile('app_block.xml', $dir.'/Resources/config/app_block.xml', $parameters);
-        $this->renderFile('config_alcms.yml', $dir.'/Resources/config/config_alcms.yml', $parameters);
-        $this->renderFile('config_alcms_dev.yml', $dir.'/Resources/config/config_alcms_dev.yml', $parameters);
-        $this->renderFile('config_alcms_test.yml', $dir.'/Resources/config/config_alcms_test.yml', $parameters);
+        $this->renderFile('config_rkcms.yml', $dir.'/Resources/config/config_rkcms.yml', $parameters);
+        $this->renderFile('config_rkcms_dev.yml', $dir.'/Resources/config/config_rkcms_dev.yml', $parameters);
+        $this->renderFile('config_rkcms_test.yml', $dir.'/Resources/config/config_rkcms_test.yml', $parameters);
         $this->renderFile('autoload.json', $dir.'/autoload.json', $parameters);
         if (!array_key_exists("no-strict", $options) || $options["no-strict"] == false) {
             $this->renderFile('composer.json', $dir.'/composer.json', $parameters);

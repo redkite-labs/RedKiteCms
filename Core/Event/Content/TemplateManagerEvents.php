@@ -26,7 +26,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
  */
 final class TemplateManagerEvents
 {
-    // alcms.event_listener
+    // rkcms.event_listener
     const BEFORE_POPULATE = 'template_manager.before_populate';
     const BEFORE_POPULATE_COMMIT = 'template_manager.before_populate_commit';
     const AFTER_POPULATE = 'template_manager.after_populate';

@@ -26,7 +26,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
  */
 final class PageTreeEvents
 {
-    // alcms.event_listener
+    // rkcms.event_listener
     const BEFORE_PAGE_TREE_SETUP = 'page_tree.before_setup';
     const AFTER_PAGE_TREE_SETUP = 'page_tree.after_setup';
 

@@ -25,7 +25,7 @@ abstract class AlBlockManagerImages extends AlBlockManagerContainer
     protected function edit(array $values)
     {
         $values["Content"] = $this->arrangeImages($values);
-
+        
         return $this->doBaseEdit($values);
     }
 

@@ -28,7 +28,7 @@ Avoid rendering the "Powered by link"
 You might choose to avoid rendering this link, but you must expressly say that you
 don't love RedKite CMS - yes, we're trying to make you feel guilty ;-)
 
-Simply open the config_alcms.yml and add the following configuration under the alphalemon
+Simply open the config_rkcms.yml and add the following configuration under the alphalemon
 key:
 
     red_kit_cms:

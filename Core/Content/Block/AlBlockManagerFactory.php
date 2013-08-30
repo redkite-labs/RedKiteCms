@@ -103,7 +103,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if (empty($attributes['type'])) {
             return;
         }
-
+        
         $blockManager->setFactoryRepository($this->factoryRepository);
         $this->blockManagersItems[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
     }
@@ -120,7 +120,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if ($items == 0) {
             return null;
         }
-
+        
         foreach ($this->blockManagersItems as $blockManagerItem) {
             if ($blockManagerItem->getType() == $blockType) {
                 $blockManager = $blockManagerItem->getBlockManager();
@@ -132,9 +132,10 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
             }
         }
 
+        /* TDOO
         if ($isAlBlock) {
             $this->removeBlock($block);
-        }
+        }*/
 
         return null;
     }

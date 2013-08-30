@@ -1,2 +1,2 @@
 imports:
-- { resource: "@{{ bundle }}/Resources/config/config_alcms.yml" }
+- { resource: "@{{ bundle }}/Resources/config/config_rkcms.yml" }

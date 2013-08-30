@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
 /**
  * Defines the names for the page events
  *
- * All those events are tagged as alcms.event_listener
+ * All those events are tagged as rkcms.event_listener
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

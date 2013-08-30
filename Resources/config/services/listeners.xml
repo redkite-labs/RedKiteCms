@@ -45,55 +45,55 @@
         </service>
 
         <service id="red_kite_cms.add_seo_listener" class="%red_kite_cms.add_seo_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.seo_manager" />
             <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
         <service id="red_kite_cms.edit_seo_listener" class="%red_kite_cms.edit_seo_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_edit_page_commit" method="onBeforeEditPageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_edit_page_commit" method="onBeforeEditPageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.seo_manager" />
         </service>
 
         <service id="red_kite_cms.add_page_blocks_listener" class="%red_kite_cms.add_page_blocks_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_add_page_commit" method="onBeforeAddPageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
         <service id="red_kite_cms.remove_seo_listener" class="%red_kite_cms.remove_seo_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.seo_manager" />
             <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
         <service id="red_kite_cms.remove_page_contents_listener" class="%red_kite_cms.remove_page_contents_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_delete_page_commit" method="onBeforeDeletePageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.factory_repository" />
         </service>
 
         <service id="red_kite_cms.update_permalink_on_blocks_listener" class="%red_kite_cms.update_permalink_on_blocks_listener.class%">
-            <tag name="alcms.event_listener" event="seo.before_edit_seo_commit" method="onBeforeEditSeoCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="seo.before_edit_seo_commit" method="onBeforeEditSeoCommit" priority="0" />
             <argument type="service" id="red_kite_cms.factory_repository" />
             <argument type="service" id="red_kite_cms.block_manager_factory" />
         </service>
 
         <service id="red_kite_cms.language_add_seo_listener" class="%red_kite_cms.language_add_seo_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_add_language_commit" method="onBeforeAddLanguageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_add_language_commit" method="onBeforeAddLanguageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.seo_manager" />
         </service>
 
         <service id="red_kite_cms.language_add_blocks_listener" class="%red_kite_cms.language_add_blocks_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_add_language_commit" method="onBeforeAddLanguageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_add_language_commit" method="onBeforeAddLanguageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.block_manager" />
         </service>
 
         <service id="red_kite_cms.language_remove_seo_listener" class="%red_kite_cms.language_remove_seo_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_delete_language_commit" method="onBeforeDeleteLanguageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_delete_language_commit" method="onBeforeDeleteLanguageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.seo_manager" />
         </service>
 
         <service id="red_kite_cms.language_remove_blocks_listener" class="%red_kite_cms.language_remove_blocks_listener.class%">
-            <tag name="alcms.event_listener" event="pages.before_delete_language_commit" method="onBeforeDeleteLanguageCommit" priority="0" />
+            <tag name="rkcms.event_listener" event="pages.before_delete_language_commit" method="onBeforeDeleteLanguageCommit" priority="0" />
             <argument type="service" id="red_kite_cms.block_manager" />
         </service>
     </services>

@@ -69,7 +69,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
         $container = $this->initContainer();
         $this->urlManager->expects($this->any())
             ->method('getInternalUrl')
-            ->will($this->returnValue('/alcms.php/backend/my-permalink'));
+            ->will($this->returnValue('/rkcms.php/backend/my-permalink'));
 
         $this->setUpTestToCopyFromRequestLanguage();
         $testListener = new AddLanguageBlocksListener($this->manager, $container);

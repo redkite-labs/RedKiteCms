@@ -67,7 +67,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
     {
         $this->client = static::createClient(
             array(
-                'environment' => 'alcms_test',
+                'environment' => 'rkcms_test',
                 'debug'       => true,
             ),
             array(
@@ -83,7 +83,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
     protected static function populateDb()
     {
         $client = static::createClient(array(
-            'environment' => 'alcms_test',
+            'environment' => 'rkcms_test',
             'debug'       => true,
         ));
             

@@ -1,5 +1,5 @@
 imports:
-    - { resource: config_alcms.yml }
+    - { resource: config_rkcms.yml }
 
 framework:
     router:   { resource: "%kernel.root_dir%/config/routing_dev.yml" }
