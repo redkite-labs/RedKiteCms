@@ -1,2 +1,0 @@
-imports:
-- { resource: "@RedKiteCmsBaseBlocksBundle/Resources/config/config_alcms.yml" }

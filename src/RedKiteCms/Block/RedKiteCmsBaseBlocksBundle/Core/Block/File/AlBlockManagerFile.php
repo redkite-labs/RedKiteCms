@@ -69,8 +69,8 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $deployBundleAsset = new AlAsset($kernel, $deployBundle);
 
         return ($opened)
-            ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('red_kite_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
-            : sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, ( ! empty($description)) ? $description : basename($file));        
+            ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('red_kite_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)          
+            : sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, ( ! empty($description)) ? $description : basename($file));
     }
         
     public function editorParameters()
