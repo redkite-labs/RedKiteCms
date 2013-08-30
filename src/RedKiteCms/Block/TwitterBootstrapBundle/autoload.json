@@ -1,7 +1,7 @@
 {
     "bundles" : {
         "RedKiteCms\\Block\\TwitterBootstrapBundle\\TwitterBootstrapBundle" : {
-            "environments" : ["alcms", "alcms_dev", "alcms_test", "test"]
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
         }
     }
 }
