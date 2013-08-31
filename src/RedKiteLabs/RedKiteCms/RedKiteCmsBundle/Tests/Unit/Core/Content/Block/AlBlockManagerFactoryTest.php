@@ -149,32 +149,6 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->assertNotSame($this->blockManager, $blockManager);
     }
     
-    public function testFactoryRemovesABlockThatDoesNotExist()
-    {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-              ->method('getType')
-              ->will($this->returnValue('Removed'));
-        $this->initBlockManager();
-
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
-                                      ->disableOriginalConstructor()
-                                      ->getMock();
-        $this->blockRepository->expects($this->once())
-                              ->method('setRepositoryObject')
-                              ->with($block);
-
-        $this->blockRepository->expects($this->once())
-                              ->method('delete');
-
-        $this->blockManager->expects($this->once())
-                           ->method('getBlockRepository')
-                           ->will($this->returnValue($this->blockRepository));
-
-        $blockManager = $this->blockManagerFactory->createBlockManager($block);
-        $this->assertNull($blockManager);
-    }
-    
     public function blocksProvider()
     {
         return array(

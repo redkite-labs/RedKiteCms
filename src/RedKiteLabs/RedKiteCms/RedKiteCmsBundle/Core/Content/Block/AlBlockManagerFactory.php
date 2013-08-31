@@ -132,11 +132,6 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
             }
         }
 
-        /* TDOO
-        if ($isAlBlock) {
-            $this->removeBlock($block);
-        }*/
-
         return null;
     }
 
