@@ -45,6 +45,14 @@ class AlThemesCollectionWrapperTest extends TestCase
 
         $this->themesCollectionWrapper = new AlThemesCollectionWrapper($this->themesCollection, $this->templateManager);
     }
+    
+    /**
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\ThemeNotFoundException
+     */
+    public function testAnExceptionIsThrownWhenTheRequestedThemeDoesNotExists()
+    {
+        $this->themesCollectionWrapper->getTheme('fakeTh1eme');
+    }
 
     public function testFetchAThemeFromTheThemesCollection()
     {
@@ -61,7 +69,7 @@ class AlThemesCollectionWrapperTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\TemplateNotFoundException
      */
     public function testAnExceptionIsThrownWhenTheRequiredTemplateDoesNotExist()
     {
