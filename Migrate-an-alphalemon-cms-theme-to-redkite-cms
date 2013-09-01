@@ -70,3 +70,16 @@ Clear the cache for all the environments:
     php app/console ca:c
     php app/console ca:c --env=rkcms_dev
     php app/console --env=rkcms redkitecms:generate:templates [YOUR THEME BUNDLE]
+
+Multi languages websites
+------------------------
+
+The block type, which handles the languages menu for multilanguages websites, has called
+with another name, so the database m.ust be updated. Ru n the following command from the
+console:
+
+.. code:: text
+
+    redkitecms:update-to-red-kite-cms
+
+This step can safety be omitted if you rwebsite has only a language.
