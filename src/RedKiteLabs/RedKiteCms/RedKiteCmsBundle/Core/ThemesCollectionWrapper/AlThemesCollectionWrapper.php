@@ -19,7 +19,8 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper;
 
 use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\NonExistentTemplateException;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\TemplateNotFoundException;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\Exception\ThemeNotFoundException;
 
 /**
  * Handles the themes collection object to provide an easy way to deal with themes
@@ -72,7 +73,18 @@ class AlThemesCollectionWrapper
      */
     public function getTheme($themeName)
     {
-        return $this->themes->getTheme($themeName);
+        $theme = $this->themes->getTheme($themeName);
+        if (null === $theme) {
+            $exception = array(
+                'message' => 'The theme %theme_name% has not been loaded. You should check out the theme\'s configuration to fix the problem. If you want to use another theme, edit manually the app/Resources/.active_theme hidden file, changing the current theme name with the one you want to use.',
+                'parameters' => array(
+                    '%theme_name%' => $themeName,
+                ),
+            );            
+            throw new ThemeNotFoundException(json_encode($exception));
+        }
+        
+        return $theme;
     }
 
     /**
@@ -85,7 +97,7 @@ class AlThemesCollectionWrapper
     public function getTemplate($themeName, $templateName)
     {
         $theme = $this->getTheme($themeName);
-
+        
         return $theme->getTemplate($templateName);
     }
 
@@ -95,7 +107,7 @@ class AlThemesCollectionWrapper
      * @param  string                                                                  $themeName
      * @param  string                                                                  $templateName
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
-     * @throws NonExistentTemplateException
+     * @throws TemplateNotFoundException
      */
     public function assignTemplate($themeName, $templateName)
     {
@@ -108,7 +120,7 @@ class AlThemesCollectionWrapper
                     '%themeName%' => $themeName,
                 ),
             );
-            throw new NonExistentTemplateException(json_encode($exception));
+            throw new TemplateNotFoundException(json_encode($exception));
         }
 
         $this->templateManager->setTemplate($template);
