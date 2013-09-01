@@ -28,7 +28,7 @@ use Propel\PropelBundle\Command\ModelBuildCommand;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class UpdateTo11xRC4Command extends Base\BaseUpdateCommand
+class UpdateToRedKiteCmsCommand extends Base\BaseUpdateCommand
 {
     /**
      * @see Command
@@ -36,14 +36,14 @@ class UpdateTo11xRC4Command extends Base\BaseUpdateCommand
     protected function configure()
     {
         $this
-            ->setDescription('Updates the database to AlphaLemon 1.1.x RC4')
+            ->setDescription('Updates the database from AlphaLemon 1.1.x RC4 to RedKite CMS')
             ->setDefinition(array(
                 new InputArgument('dsn', InputArgument::REQUIRED, 'The dsn to connect the database'),
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
                 new InputOption('driver', null, InputOption::VALUE_OPTIONAL, 'The database driver', 'mysql'),
             ))
-            ->setName('alphalemon:update-to-1-1-x-RC4');
+            ->setName('redkitecms:update-to-red-kite-cms');
     }
 
     /**
@@ -53,7 +53,7 @@ class UpdateTo11xRC4Command extends Base\BaseUpdateCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $connection = new \PropelPDO($input->getArgument('dsn'), $input->getOption('user'), $input->getOption('password'));
-        $sqlFile = sprintf(__DIR__ . '/../../Resources/dbupdate/%s/AlphaLemonCms11xRC4.sql', $input->getOption('driver'));
+        $sqlFile = sprintf(__DIR__ . '/../../Resources/dbupdate/%s/FromAlphaLemonToRedKiteCms.sql', $input->getOption('driver'));
         $this->executeQueries($connection, $sqlFile);
         $this->buildModel($input, $output);
     }
