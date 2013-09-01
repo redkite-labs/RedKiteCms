@@ -17,11 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception;
 
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+
 /**
  * Thrown when the FactoryRepository cannot create a new repository
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class RepositoryNotFoundException extends \InvalidArgumentException
+class RepositoryNotFoundException extends \InvalidArgumentException implements RedKiteCmsExceptionInterface
 {
 }

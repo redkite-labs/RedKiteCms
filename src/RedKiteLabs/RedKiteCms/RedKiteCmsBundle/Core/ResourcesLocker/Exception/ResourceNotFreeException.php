@@ -17,11 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception;
 
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+
 /**
  * Thrown when any a locked resource is not free
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class ResourceNotFreeException extends \RuntimeException
+class ResourceNotFreeException extends \RuntimeException implements RedKiteCmsExceptionInterface
 {
 }
