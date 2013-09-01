@@ -17,11 +17,13 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception;
 
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+
 /**
  * Thrown when a
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class ThemeSlotsInvalidConfigurationException extends \InvalidConfigurationException
+class ThemeSlotsInvalidConfigurationException extends \InvalidConfigurationException implements RedKiteCmsExceptionInterface
 {
 }
