@@ -41,6 +41,10 @@
         <parameter key="bootstrap_navbar_dropbown.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\NavbarDropdown\AlNavbarDropdownType</parameter>
         
         <!-- BUTTON -->
+        <parameter key="bootstrapbuttonblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/button/js/button.js</parameter>
+        </parameter>
+        
         <parameter key="bootstrap_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBootstrapButtonBlock</parameter>
         <parameter key="bootstrap_button_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\AlButtonType</parameter>
         
@@ -60,7 +64,7 @@
         
         <!-- BUTTONS -->
         <parameter key="bootstrapbuttonsgroupblock.external_javascripts.cms" type="collection">
-            <parameter>@TwitterBootstrapBundle/Resources/public/js/buttons_group.js</parameter>
+            <parameter>@TwitterBootstrapBundle/Resources/public/buttons/js/buttons_group.js</parameter>
         </parameter>
         
         <parameter key="bootstrap_buttons_group_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup\AlBlockManagerBootstrapButtonsGroupBlock</parameter>

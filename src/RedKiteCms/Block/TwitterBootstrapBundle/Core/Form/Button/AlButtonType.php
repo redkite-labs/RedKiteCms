@@ -39,5 +39,7 @@ class AlButtonType extends JsonBlockType
         $builder->add('button_attribute', 'choice', array('choices' => array("" => "normal", "btn-mini" => "mini", "btn-small" => "small", "btn-large" => "large")));
         $builder->add('button_block', 'choice', array('choices' => array("" => "normal", "btn-block" => "block")));
         $builder->add('button_enabled', 'choice', array('choices' => array("" => "enabled", "disabled" => "disabled")));
+        
+        $builder->add('button_href');
     }
 }
