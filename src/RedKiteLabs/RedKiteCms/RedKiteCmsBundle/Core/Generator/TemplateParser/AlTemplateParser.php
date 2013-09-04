@@ -58,9 +58,6 @@ class AlTemplateParser
             $templateContents = file_get_contents($template);
             
             $slots = $this->fetchSlots($templateContents);
-            if (empty($slots)) {
-                continue;
-            }
             
             $templates[$templateName]['assets']['external_stylesheets'] = $this->fetchExternalStylesheets($templateContents);
             $templates[$templateName]['assets']['external_javascripts'] = $this->fetchExternalJavascripts($templateContents);

@@ -169,7 +169,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
                         "generate_template" => false,
                     ),
                 ),
-                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'base.xml',\n[\s]+\),/",
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/",
             ),
             array(
                 array(
@@ -210,7 +210,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
                         "generate_slot" => false, // this option does not belong the values array in the real world and it is used only for test pourpose
                     ),
                 ),
-                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'base.xml',\n[\s]+\),/"
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/"
             ),
         );
     }
