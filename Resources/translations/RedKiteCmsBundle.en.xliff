@@ -194,10 +194,6 @@
             <source>AlTemplateManager requires a template to set up the template slots: any given</source>
             <target>AlTemplateManager requires a template to set up the template slots: any given</target>
         </trans-unit>
-        <trans-unit id="exceptions-49">
-            <source>The template "%templateName%" has any slot attached. Please check your template's configuration</source>
-            <target>The template "%templateName%" has any slot attached. Please check your template's configuration</target>
-        </trans-unit>
         <trans-unit id="exceptions-50">
             <source>AlValidator cannot check that at least once parameter exists because any "required parameters" has been given</source>
             <target>AlValidator cannot check that at least once parameter exists because any "required parameters" has been given</target>
