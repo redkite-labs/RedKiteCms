@@ -40,11 +40,37 @@ class AlExtensionGeneratorTest extends Base\AlGeneratorBase
         $this->extensionGenerator = new AlExtensionGenerator(vfsStream::url('root/app-theme'));
     }
 
+    public function testExtensionFileHasBeenGeneratedWithEmptySlots()
+    {
+        $templates = array('home.html.twig');
+        $slots = array();
+
+        $message = $this->extensionGenerator->generateExtension('my/namespace/', vfsStream::url('root/DependencyInjection'), 'FakeThemeBundle', $templates, $slots);
+
+        $expected = '';
+
+        $file = vfsStream::url('root/DependencyInjection/FakeThemeExtension.php');
+        $this->assertFileExists($file);
+        $extensionContents = file_get_contents($file);
+        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'fake_theme.xml',\n[\s]+\),/";
+        $this->assertRegExp($pattern, $extensionContents);
+        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
+        $this->assertRegExp($pattern, $extensionContents);
+        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+\),/";
+        $this->assertRegExp($pattern, $extensionContents);
+        $pattern = "/return 'fake_theme';/";
+        $this->assertRegExp($pattern, $extensionContents);
+
+        $expected = 'The extension file <info>FakeThemeExtension.php</info> has been generated into <info>vfs://root/DependencyInjection</info>';
+        $this->assertEquals($expected, $message);
+    }
+
     public function testExtensionFileHasBeenGenerated()
     {
-        $templates = array('home.html.twig' => array());
+        $templates = array('home.html.twig');
+        $slots = array('home.html.twig');
 
-        $message = $this->extensionGenerator->generateExtension('my/namespace/', vfsStream::url('root/DependencyInjection'), 'FakeThemeBundle', $templates);
+        $message = $this->extensionGenerator->generateExtension('my/namespace/', vfsStream::url('root/DependencyInjection'), 'FakeThemeBundle', $templates, $slots);
 
         $expected = '';
 
@@ -58,28 +84,6 @@ class AlExtensionGeneratorTest extends Base\AlGeneratorBase
         $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
         $this->assertRegExp($pattern, $extensionContents);
         $pattern = "/return 'fake_theme';/";
-        $this->assertRegExp($pattern, $extensionContents);
-
-        $expected = 'The extension file <info>FakeThemeExtension.php</info> has been generated into <info>vfs://root/DependencyInjection</info>';
-        $this->assertEquals($expected, $message);
-    }
-
-    public function testBaseFileIsSkippedForTemplates()
-    {
-        $templates = array('home.html.twig' => array(), 'base.html.twig' => array());
-
-        $message = $this->extensionGenerator->generateExtension('my/namespace/', vfsStream::url('root/DependencyInjection'), 'FakeThemeBundle', $templates);
-
-        $expected = '';
-
-        $file = vfsStream::url('root/DependencyInjection/FakeThemeExtension.php');
-        $this->assertFileExists($file);
-        $extensionContents = file_get_contents($file);
-        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'fake_theme.xml',\n[\s]+\),/";
-        $this->assertRegExp($pattern, $extensionContents);
-        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
-        $this->assertRegExp($pattern, $extensionContents);
-        $pattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'base.xml',\n[\s]+\),/";
         $this->assertRegExp($pattern, $extensionContents);
 
         $expected = 'The extension file <info>FakeThemeExtension.php</info> has been generated into <info>vfs://root/DependencyInjection</info>';
