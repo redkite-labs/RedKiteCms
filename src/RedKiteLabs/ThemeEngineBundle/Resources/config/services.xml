@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="red_kite_labs_theme_engine.base_template">RedKiteLabsThemeEngineBundle:Theme:base.html.twig</parameter>
+        <parameter key="red_kite_labs_theme_engine.base_template">RedKiteLabsThemeEngineBundle:Frontend:base.html.twig</parameter>
         <parameter key="red_kite_labs_theme_engine.active_theme_file">%kernel.root_dir%/Resources/.active_theme</parameter>
         <parameter key="red_kite_labs_theme_engine.deploy.templates_folder">RedKiteCms</parameter>
         <parameter key="red_kite_labs_theme_engine.deploy.stage_templates_folder">RedKiteCmsStage</parameter>

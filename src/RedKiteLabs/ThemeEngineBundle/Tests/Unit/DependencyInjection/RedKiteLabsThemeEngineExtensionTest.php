@@ -31,7 +31,7 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
     {
         $extension = new RedKiteLabsThemeEngineExtension();
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle')), $this->container);
-        $this->assertEquals('RedKiteLabsThemeEngineBundle:Theme:base.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.base_template'));
+        $this->assertEquals('RedKiteLabsThemeEngineBundle:Frontend:base.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.base_template'));
         $this->assertEquals('RedKiteCms', $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder'));
         $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_labs_theme_engine.active_theme_file'));
         $this->assertEquals(
