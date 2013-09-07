@@ -4,12 +4,12 @@
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
- * (c) Since 2011 RedKiteCms
+ * Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * For extra documentation and help please visit http://alphalemon.com
+ * For extra documentation and help please visit http://www.redkite-labs.com
  *
  * @license    GPL LICENSE Version 2.0
  *
@@ -37,12 +37,12 @@ class BootbusinessThemeExtension extends BaseExtension
                             'path' => __DIR__.'/../Resources/config/templates',
                             'configFiles' =>
                             array(
-                                'product.xml',
-                                'two_columns.xml',
-                                'home.xml',
-                                'all_products.xml',
-                                'contacts.xml',
                                 'empty.xml',
+                                'product.xml',
+                                'contacts.xml',
+                                'two_columns.xml',
+                                'all_products.xml',
+                                'home.xml',
                             ),
                             'configuration' =>
                             array(
@@ -50,13 +50,12 @@ class BootbusinessThemeExtension extends BaseExtension
                                     'path' => __DIR__.'/../Resources/config/templates/slots',
                                     'configFiles' =>
                                     array(
-                                        'product.xml',
-                                        'two_columns.xml',
-                                        'home.xml',
-                                        'all_products.xml',
-                                        'contacts.xml',
-                                        'base.xml',
                                         'empty.xml',
+                                        'product.xml',
+                                        'contacts.xml',
+                                        'two_columns.xml',
+                                        'all_products.xml',
+                                        'home.xml',
                                     ),
                                 ),
                             ),

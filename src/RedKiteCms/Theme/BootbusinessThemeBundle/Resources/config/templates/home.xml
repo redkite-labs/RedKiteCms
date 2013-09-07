@@ -5,14 +5,14 @@
 
 
     <services>
-        <service id="bootbusiness_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%">
+        <service id="bootbusiness_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
         </service>
 
-        <service id="bootbusiness_theme.theme.template.home.slots" class="%red_kite_labs_theme_engine.template_slots.class%">
+        <service id="bootbusiness_theme.theme.template.home.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">
             <tag name="bootbusiness_theme.theme.template.home" />
         </service>
 
-        <service id="bootbusiness_theme.theme.template.home" class="%red_kite_labs_theme_engine.template.class%">
+        <service id="bootbusiness_theme.theme.template.home" class="%red_kite_labs_theme_engine.template.class%" public="false">
             <argument type="service" id="kernel" />
             <argument type="service" id="bootbusiness_theme.theme.template_assets.home" />
             <argument type="service" id="bootbusiness_theme.theme.template.home.slots" />
