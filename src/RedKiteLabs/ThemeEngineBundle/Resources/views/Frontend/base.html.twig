@@ -42,12 +42,12 @@
 
             {% block post_external_javascripts %}
             {% endblock %}
-        {% endblock %}
         
-        {% block internal_header_javascripts %}{% endblock %}
-        {% block internal_header_stylesheets %}{% endblock %}
-        
-        {% block conditional_assets %}
+            {% block internal_header_javascripts %}{% endblock %}
+            {% block internal_header_stylesheets %}{% endblock %}
+
+            {% block conditional_assets %}
+            {% endblock %}
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
