@@ -21,7 +21,7 @@
         $(tinymceContainer).attr('id', 'rk-tinymce-container');
         $(tinymceContainer)
             .css('position', 'absolute')
-            .css('z-index', '9999999999')
+            .css('z-index', '60000')
             .css('width', '715px')
             .css('height', '69px')
         ;
