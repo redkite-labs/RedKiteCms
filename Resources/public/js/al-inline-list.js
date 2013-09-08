@@ -66,13 +66,13 @@
             $(addButton)
                 .addClass("al-add-item-list")
                 .attr('data-item', $this.attr('data-item'))
-                .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a>')
+                .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a>')                
                 .appendTo($this)
                 .position({
                     my: "left+10 top",
                     at: "left bottom",
                     of: $this
-                })  
+                }) 
                 .show()
             ;
             
@@ -97,7 +97,8 @@
             
             // Adds a custom value            
             $('.al-add-item-list')
-                .click(function(){
+                .click(function(event){
+                    event.stopPropagation(); 
                     $(document).data('data-item', $(this).attr('data-item'));
                 })
                 .blocksMenu('add')
@@ -121,7 +122,8 @@
         else {
         
             // Adds an included block
-            $('.al-add-item-list').click(function() {  
+            $('.al-add-item-list').click(function(event) {  
+                event.stopPropagation(); 
                 var value = settings.addValue;
                 if ($.parseJSON(value) != null) {
                     value = value.substring(0, value.length-1) + ', "item": "' + $(this).attr('data-item') + '"}';
@@ -137,13 +139,14 @@
             });
         }
         
-        $('.al-delete-item-list').click(function(){
-            if (confirm(translate('Are you sure to remove the active item'))) {    
+        $('.al-delete-item-list').click(function(event){
+            event.stopPropagation(); 
+            if (confirm(translate('Are you sure to remove the active item'))) {   
                 var deleteItemCallback = settings.deleteItemCallback;  
                 $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "slotName": "' + $(this).attr('data-slot-name') + '"}', null, function()
                 {
                     Holder.run();                    
-                    deleteItemCallback();
+                    deleteItemCallback(); 
                 });
             }
         });
