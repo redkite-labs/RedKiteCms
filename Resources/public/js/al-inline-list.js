@@ -46,7 +46,7 @@
             .css("position", "static")
             .css("float", "left")
             .attr('data-item', '-1')
-            .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a>')            
+            .append('<a class="btn btn-mini btn-primary"><i class="icon-plus"></i></a>')            
             .show()
         ;
         
@@ -66,7 +66,7 @@
             $(addButton)
                 .addClass("al-add-item-list")
                 .attr('data-item', $this.attr('data-item'))
-                .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white" /></a>')                
+                .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')                
                 .appendTo($this)
                 .position({
                     my: "left+10 top",
@@ -81,7 +81,7 @@
                 .addClass("al-delete-item-list")
                 .attr('data-item', $this.attr('data-item'))
                 .attr('data-slot-name', $this.attr('data-slot-name'))
-                .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white" /></a>')
+                .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
                 .appendTo($this) 
                 .position({
                     my: "left+38 top",
