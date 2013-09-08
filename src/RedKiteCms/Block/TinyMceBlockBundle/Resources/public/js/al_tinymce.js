@@ -17,12 +17,35 @@
  $(document).ready(function() {
     $(document).on("cmsStarted", function(event, block)
     {
+        var tinymceContainer = document.createElement("div");
+        $(tinymceContainer).attr('id', 'rk-tinymce-container');
+        $(tinymceContainer)
+            .css('position', 'absolute')
+            .css('z-index', '9999999999')
+        ;
+        $(tinymceContainer).show();
+        $('body').append(tinymceContainer);
+        
         initTinyMCE();        
     });
     
     $(document).on("cmsStopped", function(event, block)
     {
         tinymce.remove();
+        $('#rk-tinymce-container').remove();
+    });
+    
+    $(document).on("blockEditing", function(event, block){
+        if (block.attr('data-type') != 'Text') {
+            return;
+        }
+        
+        block.highligther('deactivate');
+        $('#rk-tinymce-container').position({
+            my: "left bottom",
+            at: "left top",
+            of: block
+        });
     });
 });
 
@@ -32,6 +55,7 @@ function initTinyMCE()
         selector: ".al-editable-inline",
         inline: true,
         image_advtab: true,
+        fixed_toolbar_container: "#rk-tinymce-container",
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code ",
