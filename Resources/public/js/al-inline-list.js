@@ -52,9 +52,9 @@
         
         element
         .before(addButton)
-        .find(settings.target).each(function(){ 
+        .find(settings.target).each(function(){
             var $this = $(this); 
-            if ($this.hasClass('al-empty')) {
+            if ($this.hasClass('al-empty')) { 
                 return;
             }
             
@@ -93,10 +93,9 @@
         });
         
         $('.al-add-item-list').show();
-                
         if (settings.addValue == null) {
             
-            // Adds an included block
+            // Adds a custom value            
             $('.al-add-item-list')
                 .click(function(){
                     $(document).data('data-item', $(this).attr('data-item'));
@@ -105,23 +104,15 @@
             ;
             $('.al_block_adder').unbind().each(function(){ 
                 var addItemCallback = settings.addItemCallback;  
-                $(this).click(function(){
+                $(this).click(function(){ 
                     var value = '{"operation": "add", "item": "' + $(document).data('data-item') + '", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
-                    $('body').EditBlock("Content", value, null, function(activeBlock)
+                    $('body').EditBlock("Content", value, null, function()
                     {
-                        activeBlock
-                            .blocksEditor('stopEditElement')
-                            .find('[data-editor="enabled"]')
-                            .blocksEditor('startEditElement')
-                        ; 
-                       
-                        Holder.run();
-                    
+                        Holder.run();                    
                         addItemCallback();  
                     }); 
-                                     
-                    stopBlocksMenu = false;
-                    $('#al_blocks_list').hide();
+                                    
+                    $('#al_close_block_menu').click();
                     
                     return false;
                 });
@@ -129,23 +120,18 @@
         }
         else {
         
-            // Adds a custom value
+            // Adds an included block
             $('.al-add-item-list').click(function() {  
                 var value = settings.addValue;
                 if ($.parseJSON(value) != null) {
                     value = value.substring(0, value.length-1) + ', "item": "' + $(this).attr('data-item') + '"}';
                 }
                 
-                var addItemCallback = settings.addItemCallback;         
-                $('body').EditBlock("Content", value, null, function(activeBlock)
+                var addItemCallback = settings.addItemCallback;   
+                
+                $('body').EditBlock("Content", value, null, function()
                 {
-                    activeBlock
-                        .blocksEditor('stopEditElement')
-                        .find('[data-editor="enabled"]')
-                        .blocksEditor('startEditElement')
-                    ;   
-                    Holder.run();
-                    
+                    Holder.run();                    
                     addItemCallback();                    
                 });            
             });
@@ -154,15 +140,9 @@
         $('.al-delete-item-list').click(function(){
             if (confirm(translate('Are you sure to remove the active item'))) {    
                 var deleteItemCallback = settings.deleteItemCallback;  
-                $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "slotName": "' + $(this).attr('data-slot-name') + '"}', null, function(activeBlock)
+                $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "slotName": "' + $(this).attr('data-slot-name') + '"}', null, function()
                 {
-                    activeBlock
-                        .blocksEditor('stopEditElement')
-                        .find('[data-editor="enabled"]')
-                        .blocksEditor('startEditElement')
-                    ;
-                    Holder.run();
-                    
+                    Holder.run();                    
                     deleteItemCallback();
                 });
             }
