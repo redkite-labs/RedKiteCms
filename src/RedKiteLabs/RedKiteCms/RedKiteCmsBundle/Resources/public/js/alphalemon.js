@@ -236,6 +236,35 @@
         element.popover('show');
 
         $('.al-popover:visible').each(function(){
+            //var pos = element.offset();
+            var popover = $(this);
+            
+            // prevents to close editor when interacting with the included elements 
+            // like inputs, textarea and so on
+            popover
+                .mouseenter(function(){
+                    isCursorOverEditor = true;
+                })
+                .mouseleave(function(){
+                    isCursorOverEditor = false;
+                })
+            ;
+
+            popover.position({
+                my: "left top+10px",
+                at: "left bottom",
+                of: element,
+                collision: "flipfit none"
+            });
+            
+            $('.arrow').position({
+                my: "left+20px top",
+                at: "left bottom",
+                of: element
+            });
+        });
+        /* OLD METHOD: WAIT BEFORE REMOVE IT 
+        $('.al-popover:visible').each(function(){
             var pos = element.offset();
             var popover = $(this);
             
@@ -258,7 +287,7 @@
             } else {
                 popover.offset({left: actualLeft + (actualWidth / 5) - actualWidth}).find('.arrow').css('left', '90%');
             }
-        });
+        });*/
         
         $('.al_editor_save').each(function(){ 
             var $this = $(this);
