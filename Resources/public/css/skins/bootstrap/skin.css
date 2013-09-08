@@ -231,7 +231,6 @@
 }
 
 .al_edit_on {
-  /*:border $highligtherBorder */
   min-height: 20px;
 }
 
@@ -300,6 +299,7 @@
   left: 0;
   width: 100%;
   z-index: 5300;
+  font: normal 14px/16px Arial, Verdana, Helvetica, sans-serif;
 }
 
 #al_control_panel_body {
@@ -437,6 +437,10 @@
 #al_editor_tabs {
   font-size: 14px;
   line-height: 20px;
+}
+
+#al_blocks_list {
+  font: normal 14px/16px Arial, Verdana, Helvetica, sans-serif;
 }
 
 .al_items_list ul, .al_commands_box ul {
