@@ -22,6 +22,8 @@
         $(tinymceContainer)
             .css('position', 'absolute')
             .css('z-index', '9999999999')
+            .css('width', '715px')
+            .css('height', '69px')
         ;
         $(tinymceContainer).show();
         $('body').append(tinymceContainer);
@@ -44,7 +46,8 @@
         $('#rk-tinymce-container').position({
             my: "left bottom",
             at: "left top",
-            of: block
+            of: block,
+            collision: "flipfit flipfit"
         });
     });
 });
