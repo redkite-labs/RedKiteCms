@@ -71,7 +71,7 @@
         
         <!-- THUMBNAIL -->        
         <parameter key="bootstrapthumbnailsblock.external_javascripts.cms" type="collection">
-            <parameter>@TwitterBootstrapBundle/Resources/public/js/thumbnail_editor.js</parameter>
+            <parameter>@TwitterBootstrapBundle/Resources/public/thumbnail/js/thumbnail_editor.js</parameter>
         </parameter>
         
         <parameter key="bootstrap_thumbnail.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\AlThumbnailType</parameter>
