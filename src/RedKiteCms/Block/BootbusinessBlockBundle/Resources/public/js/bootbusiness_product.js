@@ -1,7 +1,7 @@
 $(document).ready(function() 
 {
-    $(document).on("blockEditing", function(event, element){
-        if (element.attr('data-type') != 'BootbusinessBlock') {
+    $(document).on("blockEditing", function(event, element){console.log(element.attr('data-type'));
+        if (element.attr('data-type') != 'BootbusinessProductBlock') {
             return;
         }
         
@@ -11,7 +11,7 @@ $(document).ready(function()
     });
     
     $(document).on("blockStopEditing", function(event, element){ 
-        if (element.attr('data-type') != 'BootbusinessBlock') {
+        if (element.attr('data-type') != 'BootbusinessProductBlock') {
             return;
         }
                 
