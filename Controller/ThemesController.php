@@ -214,7 +214,10 @@ class ThemesController extends Base\BaseController
         }
         
         $theme = $themes->getTheme($themeName);
-        $templates = array_keys($theme->getTemplates());
+        $templates = array();
+        if (null !== $theme) {
+            $templates = array_keys($theme->getTemplates());
+        }
 
         $status = null === $error ? 200 : 404;
         $output = $this->container->get('templating')->render('RedKiteCmsBundle:Themes:show_theme_changer.html.twig', array(

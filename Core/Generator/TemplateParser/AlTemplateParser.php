@@ -51,87 +51,56 @@ class AlTemplateParser
             $directories[] = $globalResourcesFolder;
         }
         
+        $slots = array();
         $templateFiles = $finder->files('*.twig')->in($directories);
+        foreach ($templateFiles as $template) {
+            $template = (string)$template;
+            $templateFolder = dirname($template);
+            $templateName = basename($template);
+            $templateContents = file_get_contents($template);
+
+            $slots[$templateName] = array(
+                "slots" => $this->fetchSlots($templateContents),
+                "extends" => null,
+            );
+            
+            preg_match('/extends["\'\s]+(.*?)["\']+?/s', $templateContents, $matches);
+            if ( ! array_key_exists(1, $matches)) {
+                continue;
+            }
+            
+            $tokens = explode(':', $matches[1]);
+            if ( ! array_key_exists(2, $tokens)) {
+                continue;
+            }
+            
+            $slots[$templateName]["extends"] = basename($tokens[2]);
+        }
+
+        $templates = array();
         foreach ($templateFiles as $template) {
             $template = (string)$template;
             $templateName = basename($template);
             $templateContents = file_get_contents($template);
             
-            $slots = $this->fetchSlots($templateContents);
-            if (empty($slots)) {
-                continue;
-            }
+            $currentTemplateName = $templateName;
+            $currentSlots = array();
+            do {
+                $currentTemplateSlots = $slots[$currentTemplateName]["slots"];
+                if(null === $currentTemplateSlots) {
+                    $currentTemplateSlots = array();
+                }
+                $currentSlots = array_merge($currentSlots, $currentTemplateSlots);
+                $currentTemplateName = $slots[$currentTemplateName]["extends"];
+
+            } while($currentTemplateName != null);
             
-            $templates[$templateName]['assets']['external_stylesheets'] = $this->fetchExternalStylesheets($templateContents);
-            $templates[$templateName]['assets']['external_javascripts'] = $this->fetchExternalJavascripts($templateContents);
-            $templates[$templateName]['assets']['external_stylesheets_cms'] = $this->fetchExternalStylesheetsCms($templateContents);
-            $templates[$templateName]['assets']['external_javascripts_cms'] = $this->fetchExternalJavascriptsCms($templateContents);
-            $templates[$templateName]['slots'] = $slots;
-            if (strpos($template, $this->kernelDir) === false) {
-                $templates[$templateName]['generate_template'] = dirname($template) == $this->templatesDir;
+            if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir && ! (empty($currentSlots))) {
+                $templates[$templateName]['slots'] = $currentSlots;   
             }
         }
-        
+
         return $templates;
-    }
-
-    /**
-     * Fetches the external stylesheets
-     *
-     * @param string $templateContents
-     * @return array
-     */
-    protected function fetchExternalStylesheets($templateContents)
-    {
-        return $this->fetchAssets($templateContents, 'EXTERNAL-STYLESHEETS');
-    }
-
-    /**
-     * Fetches the external javascripts
-     *
-     * @param string $templateContents
-     * @return array
-     */
-    protected function fetchExternalJavascripts($templateContents)
-    {
-        return $this->fetchAssets($templateContents, 'EXTERNAL-JAVASCRIPTS');
-    }
-
-    /**
-     * Fetches the external stylesheets loaded when in cms mode
-     *
-     * @param string $templateContents
-     * @return array
-     */
-    protected function fetchExternalStylesheetsCms($templateContents)
-    {
-        return $this->fetchAssets($templateContents, 'CMS-STYLESHEETS');
-    }
-
-    /**
-     * Fetches the external javascripts loaded when in cms mode
-     *
-     * @param string $templateContents
-     * @return array
-     */
-    protected function fetchExternalJavascriptsCms($templateContents)
-    {
-        return $this->fetchAssets($templateContents, 'CMS-JAVASCRIPTS');
-    }
-
-    /**
-     * Fetches the assets attributes indentified by a section
-     *
-     * @param string $templateContents
-     * @param string $section
-     * @return array
-     */
-    protected function fetchAssets($templateContents, $section)
-    {
-        $pattern = sprintf('/BEGIN-%1$s[^\w\s]*[\r\n](.*?)[\r\n][^\w]*END-%1$s/s', $section);
-        preg_match($pattern, $templateContents, $matches);
-        
-        return ( ! empty($matches)) ? explode("\n", $matches[1]) : array();
     }
 
     /**

@@ -62,7 +62,7 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         file_put_contents(vfsStream::url('root/home.html.twig'), $this->fetchBaseContents());
 
         $information = $this->parser->parse();
-        $message = $this->templateGenerator->generateTemplate(vfsStream::url('root/template'), 'FakeThemeBundle', 'home', $information['home.html.twig']['assets']);
+        $message = $this->templateGenerator->generateTemplate(vfsStream::url('root/template'), 'FakeThemeBundle', 'home');
 
         $expected = '<?xml version="1.0" encoding="UTF-8" ?>' . PHP_EOL;
         $expected .= '<container xmlns="http://symfony.com/schema/dic/services"' . PHP_EOL;
@@ -121,29 +121,11 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '<container xmlns="http://symfony.com/schema/dic/services"' . PHP_EOL;
         $expected .= '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' . PHP_EOL;
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
-        $expected .= PHP_EOL;
-        $expected .= '    <parameters>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_theme.home.external_stylesheets" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/reset.css</parameter>' . PHP_EOL;
-        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</parameter>' . PHP_EOL;
-        $expected .= '        </parameter>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_theme.home.external_javascripts" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@RedKiteLabsRedKiteCmsBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
-        $expected .= '        </parameter>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_theme.home.external_stylesheets.cms" type="collection">' . PHP_EOL;
-        $expected .= '        </parameter>' . PHP_EOL;
-        $expected .= '    </parameters>' . PHP_EOL;
-        $expected .= PHP_EOL;
+        
+        $expected .= PHP_EOL . PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
-        $expected .= '            <call method="setExternalStylesheets">' . PHP_EOL;
-        $expected .= '                <argument>%fake_theme.home.external_stylesheets%</argument>' . PHP_EOL;
-        $expected .= '            </call>' . PHP_EOL;
-        $expected .= '            <call method="setExternalJavascripts">' . PHP_EOL;
-        $expected .= '                <argument>%fake_theme.home.external_javascripts%</argument>' . PHP_EOL;
-        $expected .= '            </call>' . PHP_EOL;
-        $expected .= '        </service>' . PHP_EOL;
-        $expected .=  PHP_EOL;
+        $expected .= '        </service>' . PHP_EOL. PHP_EOL;
         $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">' . PHP_EOL;
         $expected .= '            <tag name="fake_theme.theme.template.home" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
@@ -186,7 +168,7 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $contents .= '{# BEGIN-EXTERNAL-JAVASCRIPTS' . PHP_EOL;
         $contents .= '@RedKiteLabsRedKiteCmsBundle/Resources/public/js/vendor/jquery/*' . PHP_EOL;
         $contents .= 'END-EXTERNAL-JAVASCRIPTS #}' . PHP_EOL;        
-        $contents .= $this->fetchBaseContents();
+        $contents = $this->fetchBaseContents();
         
         file_put_contents(vfsStream::url('root/home.html.twig'), $contents);
 
@@ -197,31 +179,9 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         $expected .= '<container xmlns="http://symfony.com/schema/dic/services"' . PHP_EOL;
         $expected .= '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' . PHP_EOL;
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
-        $expected .= PHP_EOL;
-        $expected .= '    <parameters>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_theme.home.external_stylesheets" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/reset.css</parameter>' . PHP_EOL;
-        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/layout.css</parameter>' . PHP_EOL;
-        $expected .= '        </parameter>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_theme.home.external_javascripts" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@RedKiteLabsRedKiteCmsBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
-        $expected .= '        </parameter>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_theme.home.external_stylesheets.cms" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@BusinessWebsiteThemeBundle/Resources/public/css/cms_fix.css</parameter>' . PHP_EOL;
-        $expected .= '        </parameter>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_theme.home.external_javascripts.cms" type="collection">' . PHP_EOL;
-        $expected .= '            <parameter>@RedKiteLabsRedKiteCmsBundle/Resources/public/js/vendor/jquery/*</parameter>' . PHP_EOL;
-        $expected .= '        </parameter>' . PHP_EOL;
-        $expected .= '    </parameters>' . PHP_EOL;
-        $expected .=  PHP_EOL;
+        $expected .= PHP_EOL . PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
         $expected .= '        <service id="fake_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">' . PHP_EOL;
-        $expected .= '            <call method="setExternalStylesheets">' . PHP_EOL;
-        $expected .= '                <argument>%fake_theme.home.external_stylesheets%</argument>' . PHP_EOL;
-        $expected .= '            </call>' . PHP_EOL;
-        $expected .= '            <call method="setExternalJavascripts">' . PHP_EOL;
-        $expected .= '                <argument>%fake_theme.home.external_javascripts%</argument>' . PHP_EOL;
-        $expected .= '            </call>' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .=  PHP_EOL;
         $expected .= '        <service id="fake_theme.theme.template.home.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">' . PHP_EOL;

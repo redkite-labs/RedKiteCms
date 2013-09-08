@@ -101,26 +101,22 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             $this->extensionGenerator = new AlExtensionGenerator();
         }
 
-        $baseSlots = array();
+        $baseSlots = $slotFiles = array();
         $templates = $this->templateParser->parse();
         $this->addOption('template-name', '', InputOption::VALUE_NONE, '');
         foreach ($templates as $templateFileName => $elements) {
             $templateName = basename($templateFileName, '.html.twig');
-            if ($elements['generate_template']) {
-                $message = $this->templateGenerator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName, $elements['assets']);
-                $output->writeln($message);
-                
-                $slots = $elements['slots'];
-                if (!empty($slots)) {
-                    $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
-                    $output->writeln($message);
-                }
-            } else {
-                $baseSlots = array_merge($baseSlots, $elements['slots']);
-                if ($templateName != 'base') {
-                    unset($templates[$templateFileName]);
-                }
-            }            
+            $message = $this->templateGenerator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName);
+            $output->writeln($message);
+
+            $slots = $elements['slots'];
+            if (empty($slots)) {
+                continue;
+            }
+
+            $slotFiles[] = $templateName;
+            $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
+            $output->writeln($message);
         }
         
         if ( ! empty($baseSlots)) {
@@ -128,7 +124,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             $output->writeln($message);
         }
         
-        $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, $templates);
+        $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, array_keys($templates), $slotFiles);
         $output->writeln($message);
     }
 }

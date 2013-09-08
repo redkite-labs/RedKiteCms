@@ -32,7 +32,7 @@ class AlTemplateGenerator extends Generator
      * @param array $assets
      * @return string A message formatted to be displayed on the console
      */
-    public function generateTemplate($dir, $themeName, $templateName, $assets)
+    public function generateTemplate($dir, $themeName, $templateName)
     {
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
@@ -41,7 +41,6 @@ class AlTemplateGenerator extends Generator
             'theme_name' => $themeName,
             'template_name' => $templateName,
             'extension_alias' => $extensionAlias,
-            'assets' => $assets,
         );
 
         $templateFile = $templateName.'.xml';
