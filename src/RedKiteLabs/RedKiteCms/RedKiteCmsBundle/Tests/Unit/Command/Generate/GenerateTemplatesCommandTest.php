@@ -35,56 +35,11 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
         $this->root = vfsStream::setup('root', null, array('DependencyInjection' => array('Extension.php' => '')));
     }
 
-    public function testATemplateNotPlacedOnThemeFolderDoesNotGenerateATemplateConfig()
-    {
-        $values = array(
-            "base.html.twig" => array(
-                "slots" => array
-                (
-                    "page_content" => array
-                    (
-                        "htmlContent" => "<p>Some content",
-                    ),
-                ),
-                "generate_template" => false,
-            ),
-        );
-
-        $themeName = 'FakeThemeBundle';
-        $template = array_keys($values);
-        $template = $template[0];
-        $templateName = basename($template, '.html.twig');
-
-        $templateParser = $this->getTemplateParser($values);
-        $templateGenerator = $this->getTemplateGenerator();
-        $templateGenerator
-            ->expects($this->never())
-            ->method('generateTemplate')
-        ;
-
-        $slotsGenerator = $this->getSlotsGenerator();
-        $slotsGenerator
-            ->expects($this->once())
-            ->method('generateSlots')
-            ->with(vfsStream::url('root/Resources/config/templates/slots'), null, $templateName, $values[$template]['slots'])
-        ;
-
-        $tester = new CommandTester($this->getCommand($templateParser, $templateGenerator, $slotsGenerator, ''));
-        $tester->execute(array(array('theme' => $themeName)), array('interactive' => false));
-    }
-
     public function testAnySlotFileIsGeneratedWhenSlotsAreNotDefined()
     {
         $values = array(
             "home.html.twig" => array(
-                "assets" => array(
-                    "external_stylesheets" => array(
-                        "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
-                    ),
-                ),
                 "slots" => array(),
-                "generate_template" => true,
-                "generate_slot" => false, // this option does not belong the values array in the real world and it is used only for test pourpose
             ),
         );
         $this->generationTest($values);
@@ -93,7 +48,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     /**
      * @dataProvider templatesProvider 
      */
-    public function testTemplatesGeneration($values, $slotPattern)
+    public function testTemplatesGeneration($values, $templatePattern, $slotPattern)
     {
         $fakeCode = '{' . PHP_EOL;
         $fakeCode .= '        $loader->load(\'services.xml\');' . PHP_EOL;
@@ -102,8 +57,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
 
         $this->generationTest($values);
         $extensionContents = file_get_contents(vfsStream::url('root/DependencyInjection/Extension.php'));
-        
-        $templatePattern = "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/";
+        ;
         $this->assertRegExp($templatePattern, $extensionContents);
         $this->assertRegExp($slotPattern, $extensionContents);
     }
@@ -124,11 +78,6 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
             array(
                 array(
                     "home.html.twig" => array(
-                        "assets" => array(
-                            "external_stylesheets" => array(
-                                "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
-                            ),
-                        ),
                         "slots" => array
                         (
                             "page_content" => array
@@ -139,16 +88,12 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
                         "generate_template" => true,
                     ),
                 ),
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/",
                 "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+\),/",
             ),
             array(
                 array(
                     "home.html.twig" => array(
-                        "assets" => array(
-                            "external_stylesheets" => array(
-                                "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
-                            ),
-                        ),
                         "slots" => array
                         (
                             "page_content" => array
@@ -156,47 +101,6 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
                                 "htmlContent" => "<p>Some content",
                             ),
                         ),
-                        "generate_template" => true,
-                    ),
-                    "base.html.twig" => array(
-                        "slots" => array
-                        (
-                            "logo" => array
-                            (
-                                "htmlContent" => "<p>Some content",
-                            ),
-                        ),
-                        "generate_template" => false,
-                    ),
-                ),
-                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'base.xml',\n[\s]+\),/",
-            ),
-            array(
-                array(
-                    "home.html.twig" => array(
-                        "assets" => array(
-                            "external_stylesheets" => array(
-                                "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
-                            ),
-                        ),
-                        "slots" => array
-                        (
-                            "page_content" => array
-                            (
-                                "htmlContent" => "<p>Some content",
-                            ),
-                        ),
-                        "generate_template" => true,
-                    ),
-                    "base.html.twig" => array(
-                        "slots" => array
-                        (
-                            "logo" => array
-                            (
-                                "htmlContent" => "<p>Some content",
-                            ),
-                        ),
-                        "generate_template" => false,
                     ),
                     "template.html.twig" => array(
                         "slots" => array
@@ -206,11 +110,10 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
                                 "htmlContent" => "<p>Some content",
                             ),
                         ),
-                        "generate_template" => false,
-                        "generate_slot" => false, // this option does not belong the values array in the real world and it is used only for test pourpose
                     ),
                 ),
-                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'base.xml',\n[\s]+\),/"
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'template.xml',\n[\s]+\),/",
+                "/'path' =\> __DIR__\.'\/\.\.\/Resources\/config\/templates\/slots',\n[\s]+'configFiles' =\>\n[\s]+array\(\n[\s]+'home.xml',\n[\s]+'template.xml',\n[\s]+\),/",
             ),
         );
     }
@@ -220,11 +123,6 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
         if (null === $values) {
             $values = array(
                 "home.html.twig" => array(
-                    "assets" => array(
-                        "external_stylesheets" => array(
-                            "@BusinessWebsiteThemeBundle/Resources/public/css/reset.css",
-                        ),
-                    ),
                     "slots" => array
                     (
                         "page_content" => array
@@ -232,7 +130,6 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
                             "htmlContent" => "<p>Some content",
                         ),
                     ),
-                    "generate_template" => true,
                 ),
             );
         }   
@@ -240,28 +137,36 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
         $slotsGenerator = $this->getSlotsGenerator();
         $themeName = 'FakeThemeBundle';
         
+        $t = 0;
         $c = 0;
+        $templateParser = $this->getTemplateParser($values);        
+        $templateGenerator = $this->getTemplateGenerator();
         foreach($values as $template => $value) {
             $templateName = basename($template, '.html.twig');
             
-            if ($value["generate_template"]) {
-                $templateParser = $this->getTemplateParser($values);
-                $templateGenerator = $this->getTemplateGenerator();
-                $templateGenerator
-                    ->expects($this->once())
-                    ->method('generateTemplate')
-                    ->with(vfsStream::url('root/Resources/config/templates'), null, $templateName, $values[$template]['assets'])
-                ;
+            
+            $templateGenerator
+                ->expects($this->at($t))
+                ->method('generateTemplate')
+                ->with(vfsStream::url('root/Resources/config/templates'), null, $templateName)
+            ;
+            $t++;
+            
+            if ( empty($value['slots']) ) {
+                $slotsGenerator
+                    ->expects($this->never())
+                    ->method('generateSlots');
+                
+                continue;
             }
             
-            if (!array_key_exists("generate_slot", $value) || $value["generate_slot"] == true ) {
-                $slotsGenerator
-                    ->expects($this->at($c))
-                    ->method('generateSlots')
-                    ->with(vfsStream::url('root/Resources/config/templates/slots'), null, $templateName, $values[$template]['slots'])
-                ;
-                $c++;
-            }
+            $slotsGenerator
+                ->expects($this->at($c))
+                ->method('generateSlots')
+                ->with(vfsStream::url('root/Resources/config/templates/slots'), null, $templateName, $value['slots'])
+            ;
+            $c++;
+            
         }
 
         $tester = new CommandTester($this->getCommand($templateParser, $templateGenerator, $slotsGenerator, ''));
@@ -322,6 +227,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
             ->setMethods(array('parse'))
             ->getMock()
         ;
+        
         $templateParser
             ->expects($this->once())
             ->method('parse')
@@ -351,3 +257,15 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
         ;
     }
 }
+
+/*
+<h1>App Blocks</h1>
+<p>A list of available App Blocks to extend and improve your application powered by RedKite CMS.</p>
+<p><a href="redkite-cms-app-twitter-bootstrap">Twitter Bootstrap</a> - Adds several Twitter Boostrap elements like buttons, dropdown buttons, labels, badges, carousels, thumbnails and more.</p>
+<p><a href="redkite-cms-app-tiny-mce">TinyMCE Editor</a> - Adds the TinyMCE webeditor to manage html contents inline on the page.</p>
+<p><a href="redkite-cms-app-ckeditor">CKEditor</a> - Adds the&nbsp;CKEditor webeditor to manage html contents inline on the page.</p>
+<p><a href="redkite-cms-app-block-social-bundle">Social Buttons</a> - Add social buttons to your website, like the Twitter share or the Facebook like buttons.</p>
+<p><strong>Search Bundle </strong>- A search engine for your website, built on top of elasticsearch. (not available yet)</p>
+<p>Want to share your awesome App-Block? <a href="getting-started-contributing-to-redkite-cms">Learn how</a></p>
+ * 
+ */

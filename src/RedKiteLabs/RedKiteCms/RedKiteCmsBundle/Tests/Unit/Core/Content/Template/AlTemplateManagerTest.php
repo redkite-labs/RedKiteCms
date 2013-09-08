@@ -197,24 +197,6 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $templateManager->refresh();
     }
 
-    /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception\EmptyTemplateSlotsException
-     */
-    public function testAnExceptionIsThrownWhenAnySlotIsGiven()
-    {
-        $this->templateSlots->expects($this->once())
-                ->method('getSlots')
-                ->will($this->returnValue(array()));
-
-        $this->pageBlocks->expects($this->never())
-                ->method('getSlotBlocks')
-                ->will($this->returnValue(array()));
-
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
-        $templateManager->setTemplateSlots($this->templateSlots)
-                ->refresh();
-    }
-
     public function testCreatesASlotManagerWithoutAnyBlockManagerInstantiated()
     {
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
@@ -431,20 +413,6 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $result = $templateManager->populate(2, 2, $skip);
         $this->assertTrue($result);
-    }
-
-    /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception\EmptyTemplateSlotsException
-     */
-    public function testAnyBlockIsClearedWhenSlotsAreEmpty()
-    {
-        $this->templateSlots->expects($this->once())
-                ->method('getSlots')
-                ->will($this->returnValue(array()));
-
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
-        $templateManager->setTemplateSlots($this->templateSlots)
-                ->refresh();
     }
 
     /**

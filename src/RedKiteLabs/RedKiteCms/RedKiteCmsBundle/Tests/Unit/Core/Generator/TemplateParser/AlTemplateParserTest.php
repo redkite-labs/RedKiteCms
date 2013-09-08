@@ -97,7 +97,6 @@ class AlTemplateParserTest extends AlGeneratorBase
         file_put_contents(vfsStream::url('root/Theme/home.html.twig'), $contents);
         $information = $this->parser->parse();
         $slot = $information['home.html.twig']['slots']['logo'];
-        $this->assertTrue(array_key_exists('generate_template', $information['home.html.twig']));
         $this->assertTrue(array_key_exists('repeated', $slot));
         $this->assertTrue(array_key_exists('htmlContent', $slot));
         $this->assertFalse(array_key_exists('fake', $slot));
@@ -127,7 +126,6 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->importDefaultTheme();
         $this->parser = new AlTemplateParser(vfsStream::url('root/Theme'), vfsStream::url('root/app'), 'BootbusinessThemeBundle');
         $information = $this->parser->parse();
-        $this->assertTrue(array_key_exists('base.html.twig', $information));
         $this->assertTrue(array_key_exists('all_products.html.twig', $information));
         $this->assertTrue(array_key_exists('contacts.html.twig', $information));
         $this->assertTrue(array_key_exists('empty.html.twig', $information));
@@ -135,111 +133,18 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->assertTrue(array_key_exists('product.html.twig', $information));
         $this->assertTrue(array_key_exists('two_columns.html.twig', $information));
         
-        $this->checkTemplateInfo(
-            $information['base.html.twig'], 
-            false, 
-            array(
-                'assets' => 4,
-                'external_stylesheets' => 0,
-                'external_javascripts' => 0,
-                'external_stylesheets_cms' => 0,
-                'external_javascripts_cms' => 0,
-            ), 
-            19
-        );
-        
-        $this->checkTemplateInfo(
-            $information['home.html.twig'], 
-            true, 
-            array(
-                'assets' => 4,
-                'external_stylesheets' => 0,
-                'external_javascripts' => 0,
-                'external_stylesheets_cms' => 0,
-                'external_javascripts_cms' => 0,
-            ), 
-            5
-        );
-        
-        $this->checkTemplateInfo(
-            $information['all_products.html.twig'], 
-            true, 
-            array(
-                'assets' => 4,
-                'external_stylesheets' => 0,
-                'external_javascripts' => 0,
-                'external_stylesheets_cms' => 0,
-                'external_javascripts_cms' => 0,
-            ), 
-            3
-        );
-        
-        $this->checkTemplateInfo(
-            $information['contacts.html.twig'], 
-            true, 
-            array(
-                'assets' => 4,
-                'external_stylesheets' => 0,
-                'external_javascripts' => 0,
-                'external_stylesheets_cms' => 0,
-                'external_javascripts_cms' => 0,
-            ), 
-            5
-        );
-        
-        $this->checkTemplateInfo(
-            $information['empty.html.twig'], 
-            true, 
-            array(
-                'assets' => 4,
-                'external_stylesheets' => 0,
-                'external_javascripts' => 0,
-                'external_stylesheets_cms' => 0,
-                'external_javascripts_cms' => 0,
-            ), 
-            2
-        );
-        
-        $this->checkTemplateInfo(
-            $information['product.html.twig'], 
-            true, 
-            array(
-                'assets' => 4,
-                'external_stylesheets' => 0,
-                'external_javascripts' => 0,
-                'external_stylesheets_cms' => 0,
-                'external_javascripts_cms' => 0,
-            ), 
-            7
-        );
-        
-        $this->checkTemplateInfo(
-            $information['two_columns.html.twig'], 
-            true, 
-            array(
-                'assets' => 4,
-                'external_stylesheets' => 0,
-                'external_javascripts' => 0,
-                'external_stylesheets_cms' => 0,
-                'external_javascripts_cms' => 0,
-            ), 
-            2
-        );
+        $this->checkSlots($information['home.html.twig'], 24);
+        $this->checkSlots($information['all_products.html.twig'], 22);
+        $this->checkSlots($information['contacts.html.twig'], 24);
+        $this->checkSlots($information['empty.html.twig'], 21);
+        $this->checkSlots($information['product.html.twig'], 26);
+        $this->checkSlots($information['two_columns.html.twig'], 23);
     }
     
-    private function checkTemplateInfo($template, $generated, $assets, $slots)
+    private function checkSlots($information, $slots)
     {
-        $this->assertTrue(array_key_exists('assets', $template));
-        $this->assertTrue(array_key_exists('generate_template', $template));
-        $this->assertEquals($generated, $template['generate_template']);
-        $templateAssets = $template['assets'];
-        $this->assertCount($assets['assets'], $templateAssets);
-        $this->assertCount($assets['external_stylesheets'], $templateAssets['external_stylesheets']);
-        $this->assertCount($assets['external_javascripts'], $templateAssets['external_javascripts']);
-        $this->assertCount($assets['external_stylesheets_cms'], $templateAssets['external_stylesheets_cms']);
-        $this->assertCount($assets['external_javascripts_cms'], $templateAssets['external_javascripts_cms']);
-        $this->assertTrue(array_key_exists('slots', $template));
-        $this->assertCount($slots, $template['slots']);
+        $this->assertTrue(array_key_exists('slots', $information));
+        $this->assertCount($slots, $information['slots']);
     }
     
     public function testOverrideTemplate()
@@ -248,7 +153,7 @@ class AlTemplateParserTest extends AlGeneratorBase
         $information = $this->parser->parse();
 
         $template = $information['home.html.twig'];
-        $this->assertCount(6, $template['slots']);
+        $this->assertCount(25, $template['slots']);
     }
 
     protected function importDefaultTheme($overrideTemplate = false)
