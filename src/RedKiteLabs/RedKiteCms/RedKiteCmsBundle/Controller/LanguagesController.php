@@ -60,7 +60,8 @@ class LanguagesController extends Base\BaseController
             'LanguageName' => $request->get('newLanguage'),
         );
         if ($languageManager->save($parameters)) {
-            $language = (null === $alLanguage) ? $languageManager->get() : $alLanguage;
+            $language = $languageManager->getLanguageRepository()->fromLanguageName($request->get('language'));
+            
             $message = $this->translate('The language has been successfully saved');
                             
             return $this->buildJSonHeader($message, $language);
