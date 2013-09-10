@@ -126,10 +126,5 @@ class AlDeployerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
             ->method('getParameter')
             ->with('red_kite_cms.upload_assets_dir')
             ->will($this->returnValue('uploads/assets'));
-        
-        $this->container->expects($this->at(8))
-            ->method('getParameter')
-            ->with('red_kite_cms.deploy_bundle.controller')
-            ->will($this->returnValue('WebSite'));
     }
 }
