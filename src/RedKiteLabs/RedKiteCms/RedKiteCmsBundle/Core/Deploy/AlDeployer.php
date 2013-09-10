@@ -54,6 +54,7 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $themesCollectionWrapper = null;
     private $webFolderPath = null;
     private $pageTreeCollection = null;
+    private $websiteUrl = null;
 
     /**
      * Save the page from an AlPageTree object
@@ -97,7 +98,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
-
+        
         $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir');
         $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.assets_base_dir');
 
@@ -112,6 +113,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->credits = ($this->container->getParameter('red_kite_cms.love') == 'no') ? false : true;
         $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
         $this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
+        $this->websiteUrl = $this->container->getParameter('red_kite_cms.website_url');
         
         $this->fileSystem = new Filesystem();
     }
@@ -300,9 +302,14 @@ abstract class AlDeployer implements AlDeployerInterface
             }
 
             $seo = $pageTree->getAlSeo();
-            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", "http://alphalemon.com/" . $seo->getPermalink(), $seo->getSitemapChangefreq(), $seo->getSitemapPriority());
+            $permalink = "";
+            if ( ! $pageTree->getAlLanguage()->getMainLanguage() || ! $pageTree->getAlPage()->getIsHome()) {
+                $permalink = $seo->getPermalink();
+            }
+            
+            $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", $this->websiteUrl . $permalink, $seo->getSitemapChangefreq(), $seo->getSitemapPriority());
         }
-
+        
         return @file_put_contents($this->webFolderPath . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
     }
 
