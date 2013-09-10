@@ -48,6 +48,7 @@ class InstallCmsCommand extends ContainerAwareCommand
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
                 new InputOption('dsn', '', InputOption::VALUE_OPTIONAL, 'The dsn to connect the database'),
+                new InputOption('website-url', '', InputOption::VALUE_OPTIONAL, 'The website url. This is required to build the website sitemap'),
             ))
             ->setName('redkitecms:install');
     }
@@ -65,7 +66,8 @@ class InstallCmsCommand extends ContainerAwareCommand
                 $input->getOption('database'),
                 $input->getOption('user'),
                 $input->getOption('password'),
-                $input->getOption('driver'));
+                $input->getOption('driver'),
+                $input->getOption('website-url'));
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -162,6 +164,14 @@ class InstallCmsCommand extends ContainerAwareCommand
                     $dsn = sprintf('%s:host=%s;port=%s;dbname=%s;user=%s;password=%s', $driver, $host, $port, $database, $user, $password);
                     break;
             }
+            
+            $defaultValue = "";
+            $question = array(
+                "<info>Website url:</info> [<comment>$defaultValue</comment>] ",
+            );
+
+            $website = $this->askAndValidateRegex($output, $question, $defaultValue, '/^http:\/\/?[^\/]+\/$/i', 'Website url must start with "http://" and must end with "/"');
+            $input->setOption('website-url', $website);
         }
         else {
             $defaultValue = "";
@@ -177,11 +187,11 @@ class InstallCmsCommand extends ContainerAwareCommand
         $input->setOption('dsn', $dsn);
     }
 
-    private function askAndValidateRegex(OutputInterface $output, array $question, $defaultValue, $regex = null)
+    private function askAndValidateRegex(OutputInterface $output, array $question, $defaultValue, $regex = null, $message = 'The entered value contains invalid characters')
     {
-        $value = $this->getHelper('dialog')->askAndValidate($output, $question, function($input) use($regex) {
+        $value = $this->getHelper('dialog')->askAndValidate($output, $question, function($input) use($regex, $message) {
             if (null !== $regex && !preg_match($regex, $input)) {
-                throw new \InvalidArgumentException('The entered value contains invalid characters.');
+                throw new \InvalidArgumentException($message);
             }
 
             return $input;

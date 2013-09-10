@@ -41,7 +41,8 @@ class Installer {
     protected $filesystem;
     protected $orm;
     protected $commandsProcessor;
-
+    protected $websiteUrl;
+    
     public function __construct($vendorDir, OrmInterface $orm = null, CommandsProcessor\AlCommandsProcessorInterface $commandsProcessor = null)
     {
         $this->vendorDir = $this->normalizePath($vendorDir);
@@ -51,7 +52,7 @@ class Installer {
         $this->filesystem = new Filesystem();
     }
 
-    public function install($companyName, $bundleName, $dsn, $database, $user, $password, $driver)
+    public function install($companyName, $bundleName, $dsn, $database, $user, $password, $driver, $websiteUrl)
     {
         $this->companyName = $companyName;
         $this->bundleName = $bundleName;
@@ -65,6 +66,7 @@ class Installer {
         $this->password = $password;
         $this->driver = $driver;
         $this->deployBundle = $companyName . $bundleName;
+        $this->websiteUrl = $websiteUrl;
 
         if(null === $this->orm) $this->setUpOrm($this->shortDsn);
         $this->checkPrerequisites();
@@ -244,6 +246,9 @@ class Installer {
             $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms.yml\" }\n";
             $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/security.yml\" }";
             $contents .= $this->writeDatabaseConfiguration($this->dsn);
+            $contents .= "red_kite_cms:\n";
+            $contents .= "    website_url: " . $this->websiteUrl;
+            
             file_put_contents($configFile, $contents);
         }
 
