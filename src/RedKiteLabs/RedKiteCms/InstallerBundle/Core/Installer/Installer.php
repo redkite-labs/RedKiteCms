@@ -178,7 +178,7 @@ class Installer {
 
     protected function checkFile($fileName, $message = null)
     {
-        if(!is_file($fileName))
+        if( ! is_file($fileName))
         {
             $message = (null === $message) ? PHP_EOL . 'The required ' . $fileName . ' file has not been found' : $message;
 
@@ -190,9 +190,17 @@ class Installer {
     {
         $backupFile = $fileName . '.bak';
         
-        if ( !file_exists($backupFile)) {
-            $this->filesystem ->copy($fileName, $backupFile);
+        // Have I already installed?
+        if (file_exists($backupFile)) {
+            
+            // Restore original file
+            unlink($fileName);
+            $this->filesystem ->copy($backupFile, $fileName);
+            
+            return;
         }
+        
+        $this->filesystem ->copy($fileName, $backupFile);
     }
 
     protected function setUpEnvironments()
@@ -240,52 +248,42 @@ class Installer {
         file_put_contents($configFile, $contents);
 
         $configFile = $this->vendorDir . '/../app/config/config_rkcms.yml';
-        if (!is_file($configFile)) {
-            $contents = "imports:\n";
-            $contents .= "    - { resource: parameters.yml }\n";
-            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms.yml\" }\n";
-            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/security.yml\" }";
-            $contents .= $this->writeDatabaseConfiguration($this->dsn);
-            $contents .= "red_kite_cms:\n";
-            $contents .= "    website_url: " . $this->websiteUrl;
-            
-            file_put_contents($configFile, $contents);
-        }
+        $contents = "imports:\n";
+        $contents .= "    - { resource: parameters.yml }\n";
+        $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms.yml\" }\n";
+        $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/security.yml\" }";
+        $contents .= $this->writeDatabaseConfiguration($this->dsn);
+        $contents .= "red_kite_cms:\n";
+        $contents .= "    website_url: " . $this->websiteUrl;
+        $this->overrideConfigFile($configFile, $contents);
+        
 
         $configFile = $this->vendorDir . '/../app/config/config_rkcms_dev.yml';
-        if (!is_file($configFile)) {
-            $contents = "imports:\n";
-            $contents .= "    - { resource: config_rkcms.yml }\n";
-            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms_dev.yml\" }";
-            file_put_contents($configFile, $contents);
-        }
+        $contents = "imports:\n";
+        $contents .= "    - { resource: config_rkcms.yml }\n";
+        $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms_dev.yml\" }";
+        
 
         $configFile = $this->vendorDir . '/../app/config/config_rkcms_test.yml';
-        if (!is_file($configFile)) {
-            $contents = "imports:\n";
-            $contents .= "    - { resource: config_rkcms_dev.yml }\n";
-            $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms_test.yml\" }";
-            $contents .= $this->writeDatabaseConfiguration($this->shortDsn . ';dbname=' . $this->database . '_test');
-            file_put_contents($configFile, $contents);
-        }
+        $contents = "imports:\n";
+        $contents .= "    - { resource: config_rkcms_dev.yml }\n";
+        $contents .= "    - { resource: \"@RedKiteCmsBundle/Resources/config/config_rkcms_test.yml\" }";
+        $contents .= $this->writeDatabaseConfiguration($this->shortDsn . ';dbname=' . $this->database . '_test');
+        $this->overrideConfigFile($configFile, $contents);
         
         $configFile = $this->vendorDir . '/../app/config/config_stage.yml';
-        if (!is_file($configFile)) {
-            $contents = "imports:\n";
-            $contents .= "    - { resource: config.yml }\n\n";
-            $contents .= "framework:\n";
-            $contents .= "    router:   { resource: \"%kernel.root_dir%/config/routing_stage.yml\" }";
-            file_put_contents($configFile, $contents);
-        }
+        $contents = "imports:\n";
+        $contents .= "    - { resource: config.yml }\n\n";
+        $contents .= "framework:\n";
+        $contents .= "    router:   { resource: \"%kernel.root_dir%/config/routing_stage.yml\" }";
+        $this->overrideConfigFile($configFile, $contents);
 
         $configFile = $this->vendorDir . '/../app/config/config_stage_dev.yml';
-        if (!is_file($configFile)) {
-            $contents = "imports:\n";
-            $contents .= "    - { resource: config_dev.yml }\n\n";
-            $contents .= "framework:\n";
-            $contents .= "    router:   { resource: \"%kernel.root_dir%/config/routing_stage_dev.yml\" }";
-            file_put_contents($configFile, $contents);
-        }
+        $contents = "imports:\n";
+        $contents .= "    - { resource: config_dev.yml }\n\n";
+        $contents .= "framework:\n";
+        $contents .= "    router:   { resource: \"%kernel.root_dir%/config/routing_stage_dev.yml\" }";
+        $this->overrideConfigFile($configFile, $contents);
     }
 
     private function writeDatabaseConfiguration($dsn)
@@ -314,6 +312,15 @@ class Installer {
         if (empty($match)) {
             file_put_contents($configFile, $contents . $sectionContents);
         }
+    }
+    
+    protected function overrideConfigFile($configFile, $contents)
+    {
+        if (is_file($configFile)) {
+            unlink($configFile);
+        }
+
+        file_put_contents($configFile, $contents);
     }
 
     protected function writeRoutes()
