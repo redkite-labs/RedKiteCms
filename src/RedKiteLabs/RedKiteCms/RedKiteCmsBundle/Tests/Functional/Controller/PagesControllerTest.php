@@ -174,7 +174,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', '/backend/en/page1');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(0, $crawler->filter('#block_20'));
+        $this->assertCount(0, $crawler->filter('#block_1')); 
         $this->assertCount(1, $crawler->filter('#block_25'));
         $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-name="block_25"]'));
         $this->assertCount(0, $crawler->filter('#block_31'));
@@ -285,7 +285,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', '/backend/en/another-page');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(0, $crawler->filter('#block_20'));
+        $this->assertCount(0, $crawler->filter('#block_1'));
         $this->assertCount(1, $crawler->filter('#block_57'));
         $this->assertCount(1, $crawler->filter('#block_57')->filter('[data-name="block_57"]'));
         $this->assertCount(0, $crawler->filter('#block_31'));
