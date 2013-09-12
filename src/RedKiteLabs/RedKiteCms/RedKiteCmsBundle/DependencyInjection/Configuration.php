@@ -51,6 +51,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('theme_structure_file')->defaultValue('%kernel.root_dir%/Resources/.theme_structure')->end()
                 ->booleanNode('enable_yui_compressor')->defaultFalse()->end()
                 ->scalarNode('love')->defaultValue('yes')->end()
+                ->scalarNode('website_url')->defaultValue('')->end()
                 ->arrayNode('deploy_bundle')
                     ->children()
                         ->scalarNode('resources_dir')->defaultValue('Resources')->end()

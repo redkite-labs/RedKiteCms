@@ -304,6 +304,12 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
                 ->method('get')
                 ->with('red_kite_cms.themes_collection_wrapper')
                 ->will($this->returnValue($themesCollectionWrapper));
+        
+            
+        $this->container->expects($this->at(16))
+            ->method('getParameter')
+            ->with('red_kite_cms.website_url')
+            ->will($this->returnValue('http://redkite-labs.com/'));
     }
     
     protected function checkTemplateExtension($languages, $pages)
@@ -327,8 +333,12 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
     {
         $sitemapItems = array();
         foreach($seo as $seoAttributes) {
+            $sitemapPermalink = $seoAttributes["permalink"];
+            if ($seoAttributes["homepage"]) {
+                $sitemapPermalink = "";
+            }
             $sitemapItem = '<url>' . PHP_EOL;
-            $sitemapItem .= sprintf('	<loc>http://alphalemon.com/%s</loc>' . PHP_EOL, $seoAttributes["permalink"]);
+            $sitemapItem .= sprintf('	<loc>http://redkite-labs.com/%s</loc>' . PHP_EOL, $sitemapPermalink);
             $sitemapItem .= sprintf('	<changefreq>%s</changefreq>' . PHP_EOL, array_key_exists('changefreq', $seoAttributes) ? $seoAttributes["changefreq"] : '');
             $sitemapItem .= sprintf('	<priority>%s</priority>' . PHP_EOL, array_key_exists('priority', $seoAttributes) ? $seoAttributes["priority"] : '');
             $sitemapItem .= '</url>';
