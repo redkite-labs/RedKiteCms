@@ -85,7 +85,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("add-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("insertAfter", $json[1]));
-        $this->assertEquals("block_21", $json[1]["insertAfter"]);
+        $this->assertEquals("block_" . $referenceBlockId, $json[1]["insertAfter"]);
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("content_title_1", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
