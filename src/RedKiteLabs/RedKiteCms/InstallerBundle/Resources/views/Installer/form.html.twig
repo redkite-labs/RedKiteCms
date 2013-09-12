@@ -15,30 +15,56 @@
 
 {% extends "form_div_layout.html.twig" %}
 
-{% block field_rows %}
-    <div class="al-form-errors">
-        {{ form_errors(form) }}
-    </div>
-    {% for child in form.children %}
-        {{ form_row(child) }}
-    {% endfor %}
-{% endblock field_rows %}
-
-{% block field_row %}
-    <div class="al-form-row">
-        {{ form_label(form) }}
-        <div class="al-form-field">
-            {{ form_widget(form) }}
-            <div class="al-form-errors">
-                {{ form_errors(form) }}
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
-{% block field_label %}
-    {{ block('form_label') }}
-    {% if required %}
-        <span class="al-form-required" title="This field is required">*</span>
+{% block form_label %}
+{% spaceless %}
+    {% if label is not sameas(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %} class="control-label{% if required %} required{% endif %}">{{ label|trans({}, translation_domain) }}</label> 
     {% endif %}
-{% endblock %}
+{% endspaceless %}
+{% endblock form_label %}
+        
+{% block form_widget_simple %}
+{% spaceless %}
+    {% set type = type|default('text') %}
+    <div class="controls">
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    </div>
+{% endspaceless %}
+{% endblock form_widget_simple %}
+        
+{% block form_row %}
+{% spaceless %}
+    <div class="control-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+        
+{% block choice_widget_collapsed %}
+{% spaceless %}
+    <div class="controls">
+        <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {% if empty_value is not none %}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
+            {% endif %}
+            {% if preferred_choices|length > 0 %}
+                {% set options = preferred_choices %}
+                {{ block('choice_widget_options') }}
+                {% if choices|length > 0 and separator is not none %}
+                    <option disabled="disabled">{{ separator }}</option>
+                {% endif %}
+            {% endif %}
+            {% set options = choices %}
+            {{ block('choice_widget_options') }}
+        </select>
+    </div>
+{% endspaceless %}
+{% endblock choice_widget_collapsed %}

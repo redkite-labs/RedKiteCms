@@ -16,16 +16,13 @@
 {% extends 'RedKiteCmsInstallerBundle:Installer:base.html.twig' %}
 
 {% block external_stylesheets %}
+<link href="{{ asset('components/redkitecms/twitter-bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 <link href="{{ asset('bundles/redkitecmsinstaller/css/style.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body %}
-<div id="al_background_basement">
-    <div id="al_background_image">
-        <div id="al_contents">
-            {% block contents %}
-            {% endblock %}
-        </div>
-    </div>
+<div id="al_contents">
+    {% block contents %}
+    {% endblock %}
 </div>
 {% endblock %}

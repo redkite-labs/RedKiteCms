@@ -14,10 +14,12 @@
 #}
 
 {% extends 'RedKiteCmsInstallerBundle:Installer:main.html.twig' %}
-{% form_theme form "RedKiteCmsInstallerBundle::Installer/form.html.twig" %}
+{% form_theme form "RedKiteCmsInstallerBundle:Installer:form.html.twig" %}
+
 
 {% block external_javascripts %}
-<script src="{{ asset('bundles/alphalemoncmsinstaller/js/jquery-last.min.js') }}"></script>
+<script src="{{ asset('components/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('components/redkitecms/twitter-bootstrap/js/bootstrap.min.js') }}"></script>
 {% endblock %}
 
 {% block internal_header_stylesheets %}
@@ -57,73 +59,93 @@
             $('#al_db_standard_section').show();
             $('#al_db_dsn_section').hide();
         }
+        
+        $('.rk-popover').popover();
     });
     </script>
 {% endblock %}
 
 {% block contents %}
+    
+<img src="/bundles/redkitecmsinstaller/images/rklogo-64.png" width="32" height="32" class="rklogo pull-left"/>
 <h1>RedKiteCmsCMS Web-Installer interface</h1>
-<div>
-    <p>
-        Welcome to RedKiteCms CMS installer. Please fill the form below to install RedKiteCms CMS.
-    </p>
+<div>  
+    Welcome to RedKiteCms CMS installer. Please fill the form below to install RedKiteCms CMS.
 </div>
 <div>
-    <form action="{{ path('_install') }}" method="POST">
+    <form action="{{ path('_install') }}" method="POST" class="form-horizontal">
         {% if app.session.getFlashBag().has('error') %}
         <div id="al_process_errors">
-            <h2>Ops. Something was wrong</h2>
-            <p>{{ app.session.getFlashBag().has('error') }}</p>
+            <h2>Ops. Something went wrong</h2>
+            {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-error">
+            {{ flashMessage }}
+            </div>
+            {% endfor %}
         </div>
         {% endif %}
         <div>
-            <h2>Bundle data</h2>
-            <p>
-            RedKiteCms CMS requires a bundle where RedKiteCms CMS will save the contents you insert. Every time
-            you start a new Symfony2 project you always create a new bundle where your application lives: this is
-            the bundle required by RedKiteCms CMS.
-            </p>
+            <div class="pull-left">
+                <h2>Bundle data</h2>
+            </div>
+            <div class="pull-left rkinfo-img">
+                <a href="#" class="rk-popover" data-content="<p>A new Symfony2 project always requires a new bundle where your application will live: RedKiteCms CMS requires that is the bundle too.</p><p><a href='http://symfony.com/doc/current/book/page_creation.html#before-you-begin-create-the-bundle'>Learn more about this topic</a></p>" data-placement="bottom" rel="popover" data-title="Bundle" data-html="true">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </div>
+            <div class="clearfix"></div>
         </div>
         <div id="al_bundle_section">
-            <div class="al_column">
             {{ form_row(form.company) }}
-            </div>
-            <div class="al_column">
             {{ form_row(form.bundle) }}
-            </div>
-            <div class="al_clear"></div>
         </div>
         <div>
-            <h2>Database</h2>
-            <p>
-            Please provide the information required to access your database
-            </p>
+            <div class="pull-left">
+                <h2>Database</h2>
+            </div>
+            <div class="pull-left rkinfo-img">
+                <a href="#" class="rk-popover" data-content="<p>Please provide the information required to access your database.<p></p>All information are required except the password which could be an empty value.</p>" data-placement="bottom" rel="popover" data-title="Database" data-html="true">
+                    <i class="icon-info-sign"></i>
+                </a>
+            </div>
+            <div class="clearfix"></div>
         </div>
         <div>
             {{ form_row(form.driver) }}
         </div>
         <div id="al_db_standard_section">
-            <div class="al_column">
             {{ form_row(form.host) }}
             {{ form_row(form.database) }}
             {{ form_row(form.port) }}
-            </div>
-            <div class="al_column">
             {{ form_row(form.user) }}
             {{ form_row(form.password) }}
-            </div>
-            <div class="al_clear"></div>
         </div>
         <div id="al_db_dsn_section" style="display:none">
             {{ form_row(form.dsn) }}
         </div>
         <div id="al_dsn_section">
+            {# form_row(form.url) #}
+            <div class="control-group">
+                <div class="pull-left">
+                {{ form_label(form.url) }}
+                {{ form_errors(form.url) }}
+                {{ form_widget(form.url) }}
+                </div>
+                <div class="pull-left rkinfo-img">
+                    <a href="#" class="rk-popover" data-content="<p>This is the url where your website will live and it is required to generate the website sitemap.</p><p>You must provide this information using the following format: <strong>http://[Website Url]/</strong></p><p>Do not forget the slash at the end of the url and keep in mind that you can change this value at any time</p>" data-placement="top" rel="popover" data-title="Url" data-html="true">
+                        <i class="icon-info-sign"></i>
+                    </a>
+                </div>
+            </div>
+                
+                
             {{ form_rest(form) }}
         </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary btn-large">Install</button>
+            </div>
         <div>
-            <p>* Required field</p>
-            <input type="submit" value="install" />
-        </div>
     </form>
 </div>
 {% endblock %}

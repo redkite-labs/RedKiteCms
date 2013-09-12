@@ -18,7 +18,6 @@
 namespace RedKiteCms\InstallerBundle\Core\Installer;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\Kernel;
 use RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
 

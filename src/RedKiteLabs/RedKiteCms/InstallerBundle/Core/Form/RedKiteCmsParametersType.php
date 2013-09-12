@@ -44,7 +44,8 @@ class RedKiteCmsParametersType extends AbstractType
                 'second_name'     => 'password_again',
                 'invalid_message' => 'The password fields must match.',
             ))
-            ->add('dsn', 'text', array('required' => false))
+            ->add('dsn', 'text', array('required' => false, 'attr' => array('class' => 'input-xxlarge')))
+            ->add('url', 'text')
         ;
     }
 

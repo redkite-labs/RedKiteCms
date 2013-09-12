@@ -36,7 +36,7 @@ class InstallerController extends Controller
         $form = $this->container->get('form.factory')->create($type, array('company' => 'Acme',
                                                                            'bundle' => 'WebSiteBundle',
                                                                            'host' => 'localhost',
-                                                                           'database' => 'alphalemon',
+                                                                           'database' => 'redkite',
                                                                            'user' => 'root',
                                                                            'driver' => 'mysql',
                                                                            'port' => '3306',
@@ -63,20 +63,24 @@ class InstallerController extends Controller
 
                 if(!empty($dsn)) {
                    try {
+                       
                        $response = $this->render('RedKiteCmsInstallerBundle:Installer:install_success.html.twig', array(
                             'scheme'    => $scheme,
                         ));
+                       
+                       ob_start();
                        $installer = new Installer($this->container->getParameter('kernel.root_dir') . '/../vendor');
-                       $installer->install($data['company'], $data['bundle'], $dsn, $data['database'], $data['user'], $data['password'], $data['driver']);
-
+                       $installer->install($data['company'], $data['bundle'], $dsn, $data['database'], $data['user'], $data['password'], $data['driver'], $data['url']);
+                       ob_end_clean();
+                       
                        return $response;
                     }
                     catch(\Exception $ex) {
-                       $this->get('session')->setFlash('error', $ex->getMessage());
+                       $this->container->get('session')->getFlashBag()->add('error', $ex->getMessage());
                     }
                 }
                 else {
-                    $this->get('session')->setFlash('error', "It seems that any data source has been configured");
+                    $this->container->get('session')->getFlashBag()->add('error', "It seems that any data source has been configured");
                 }
             }
         }

@@ -1,100 +1,32 @@
 body {
   color: #414141;
-  background-color: #76f1ff;
+  background-color: white;
   font: normal 16px/24px Arial, Verdana, Helvetica, sans-serif;
 }
 
-#al_background_basement {
-  width: 100%;
-  top: 0;
-  left: 0;
-  position: absolute;
-  background: #76f1ff url(images/bg.png) top center repeat-x;
-  padding: 0;
-  margin: 0;
-}
-
-#al_background_image {
-  width: 100%;
-  min-height: 1000px;
-  position: absolute;
-  background: #76f1ff url(images/al_bg.jpg) top center no-repeat;
-}
-
 #al_contents {
-  width: 540px;
+  width: 800px;
   background-color: white;
   margin: 20px auto;
-  border: 1px solid #525252;
-  padding: 10px 20px;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -o-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -khtml-border-radius: 20px;
-  border-radius: 20px;
 }
 
-#al_contents .al-form-row {
-  padding: 4px 0;
-  font-weight: bold;
-}
-
-#al_contents .al-form-field {
-  padding: 4px;
-}
-
-#al_contents .al-form-error {
-  padding: 4px;
-  color: #c20000;
-}
-
-#al_contents input, #al_contents select {
-  color: #525252;
-  padding: 2px;
-  -moz-box-shadow: #666666 3px 3px 3px;
-  -webkit-box-shadow: #666666 3px 3px 3px;
-  -o-box-shadow: #666666 3px 3px 3px;
-  box-shadow: #666666 3px 3px 3px;
+#al_contents h1, #al_contents h2 {
+  padding: 0;
+  margin: 6px 0;
 }
 
 #al_contents h1 {
-  color: #000066;
-  padding: 0;
-  margin: 6px 0;
   font: bold 26px/28px Arial, Verdana, Helvetica, sans-serif;
 }
 
 #al_contents h2 {
-  color: #000066;
-  padding: 0;
-  margin: 6px 0;
   font: bold 22px/24px Arial, Verdana, Helvetica, sans-serif;
 }
 
-#al_contents p {
-  margin: 0;
+.rklogo {
+  margin-right: 8px;
 }
 
-#al_contents a {
-  color: #ff6600;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-#al_process_errors {
-  padding: 4px;
-  color: #c20000;
-}
-#al_process_errors h2 {
-  color: #c20000;
-}
-
-.al_column {
-  float: left;
-  padding: 10px 20px 10px 0;
-}
-
-.al_clear {
-  clear: left;
+.rkinfo-img {
+  margin-left: 8px;
 }

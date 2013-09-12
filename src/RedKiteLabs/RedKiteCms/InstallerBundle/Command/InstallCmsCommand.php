@@ -43,7 +43,7 @@ class InstallCmsCommand extends ContainerAwareCommand
                 new InputOption('bundle', '', InputOption::VALUE_REQUIRED, 'The bundle that manages your site'),
                 new InputOption('driver', '', InputOption::VALUE_REQUIRED, 'The database driver to use', 'mysql'),
                 new InputOption('host', '', InputOption::VALUE_OPTIONAL, 'The database host', 'localhost'),
-                new InputOption('database', '', InputOption::VALUE_OPTIONAL, 'The database name', 'alphalemon'),
+                new InputOption('database', '', InputOption::VALUE_OPTIONAL, 'The database name', 'redkite'),
                 new InputOption('port', '', InputOption::VALUE_OPTIONAL, 'The database port', '3306'),
                 new InputOption('user', '', InputOption::VALUE_OPTIONAL, 'The database user', 'root'),
                 new InputOption('password', null, InputOption::VALUE_OPTIONAL, 'The database password', ''),
@@ -128,7 +128,7 @@ class InstallCmsCommand extends ContainerAwareCommand
             $host = $this->askAndValidateRegex($output, $question, $defaultValue, '/[a-z0-9\.]+/');
             $input->setOption('host', $host);
 
-            $defaultValue = "alphalemon";
+            $defaultValue = "redkite";
             $question = array(
                 "<info>Database name:</info> [<comment>$defaultValue</comment>]  ",
             );
