@@ -163,6 +163,15 @@ with this one:
         deploy_bundle: [YOUR DEPLOY BUNDLE]
 
 
+Add the website_url
+
+.. code:: text
+
+    red_kite_cms:
+        website_url: [YOUR WEB SITE URL ACCORDING THIS FORMAT: http://redkite-labs.com/]
+
+Don't forget the slash at the end. This setting is used to generate the sitemap for your website.
+
 Open the config_rkcms_dev.yml file and replace the following code:
 
 .. code:: text
