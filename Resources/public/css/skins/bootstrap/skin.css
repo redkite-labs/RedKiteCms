@@ -244,53 +244,18 @@
   z-index: 5100;
 }
 
-#al_cms_background_basement {
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  position: absolute;
-  background: #76f1ff url(images/cms/bg.png) top center repeat-x;
-  padding: 0;
-  margin: 0;
-}
-
-#al_cms_background_image {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background: transparent url(images/cms/al_bg.jpg) top center no-repeat;
-}
-
-#al_cms_background {
-  width: 600px;
-  min-height: 400px;
-  margin: 120px auto;
-  padding: 8px 16px;
-  font: bold 16px/20px Arial, Verdana, Helvetica, sans-serif;
-  font-weight: normal;
-  color: #525252;
-  background-color: white;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
-  -webkit-box-shadow: #666666 6px 6px 6px;
-  -moz-box-shadow: #666666 6px 6px 6px;
-  box-shadow: #666666 6px 6px 6px;
-}
-#al_cms_background p {
-  margin: 0;
-  margin-bottom: 6px;
-}
-#al_cms_background h1 {
-  font: bold 24px/28px Arial, Verdana, Helvetica, sans-serif;
-}
-
 .al-empty-slot-placeholer {
   color: #990000;
   font-style: italic;
+}
+
+.box-centered {
+  margin: 100px auto 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 #al_control_panel {
@@ -512,6 +477,22 @@
   padding-right: 40px;
 }
 
+#rk-signin-form {
+  width: 550px;
+  color: #525252;
+}
+#rk-signin-form h1 {
+  font: bold 32px/36px Arial, Verdana, Helvetica, sans-serif;
+  margin-left: 40px;
+}
+#rk-signin-form img {
+  margin-top: 5px;
+}
+
+#rk-container {
+  margin-left: 70px;
+}
+
 #al_pages {
   overflow: auto;
 }
@@ -528,14 +509,6 @@
 
 .tab-height-page {
   height: 390px;
-}
-
-#al_login_form {
-  margin-top: 0;
-  padding: 20px;
-}
-#al_login_form div {
-  margin-bottom: 10px;
 }
 
 #al_user_panel {
@@ -851,4 +824,19 @@
   z-index: 5225;
   width: auto;
   color: #525252;
+}
+
+#rk-welcome {
+  width: 650px;
+  color: #525252;
+}
+#rk-welcome h1 {
+  font: bold 36px/40px Arial, Verdana, Helvetica, sans-serif;
+  margin-left: 40px;
+}
+#rk-welcome img {
+  margin-top: 15px;
+}
+#rk-welcome p, #rk-welcome li {
+  font: normal 18px/24px Arial, Verdana, Helvetica, sans-serif;
 }

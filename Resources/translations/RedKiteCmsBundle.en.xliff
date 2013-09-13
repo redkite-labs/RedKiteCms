@@ -949,12 +949,12 @@
         <!-- WELCOME -->
         
         <trans-unit id="welcome-1">
-            <source>Welcome to RedKiteCms</source>
-            <target>Welcome to RedKiteCms</target>
+            <source>Welcome to RedKite CMS</source>
+            <target>Welcome to RedKite CMS</target>
         </trans-unit>
         <trans-unit id="welcome-2">
-            <source>This is the RedKiteCms background and usually it should be hide. There are many reasons you are seeing it, the most common are:</source>
-            <target>This is the RedKiteCms background and usually it should be hide. There are many reasons you are seeing it, the most common are:</target>
+            <source>This is the RedKite CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</source>
+            <target>This is the RedKite CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:</target>
         </trans-unit>
         <trans-unit id="welcome-3">
             <source>The page and/or the language you have requested does not exist</source>

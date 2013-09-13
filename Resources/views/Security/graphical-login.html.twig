@@ -13,12 +13,16 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'RedKiteCmsBundle:Cms:cms-background.html.twig' %}
+{% extends 'RedKiteLabsThemeEngineBundle:Theme:base.html.twig' %}
 
-{% block cms_content %}
-    {% stylesheets  filter='?yui_css,cssrewrite' 'bundles/redkitecms/css/skins/alphaLemon/skin.css' %}
+{% block external_stylesheets %}
+    {% stylesheets  filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                                 'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                                 'bundles/redkitecms/css/skins/bootstrap/skin.css' %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
+{% endblock %}
 
+{% block body %}
     {% include('RedKiteCmsBundle:Security:login.html.twig') %}
 {% endblock %}
