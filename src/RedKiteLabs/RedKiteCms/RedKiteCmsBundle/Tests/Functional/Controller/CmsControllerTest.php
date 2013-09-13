@@ -79,15 +79,15 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertTrue($crawler->filter('html:contains("This is the RedKiteCms background and usually it should be hide")')->count() == 0);
 
         $this->checkCms($crawler);
-        $this->assertCount(1, $crawler->filter('#block_21'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-name="block_21"]'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-editor="enabled"]'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-hide-when-edit="false"]'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-included=""]'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-type="Text"]'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-slot-name="content_title_1"]'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-block-id="21"]'));
-        $this->assertCount(1, $crawler->filter('#block_21')->filter('[data-content-editable="true"]'));
+        $this->assertCount(1, $crawler->filter('#block_2'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-name="block_2"]'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-editor="enabled"]'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-hide-when-edit="false"]'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-included=""]'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-type="Text"]'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-slot-name="content_title_1"]'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-block-id="2"]'));
+        $this->assertCount(1, $crawler->filter('#block_2')->filter('[data-content-editable="true"]'));
         $this->checkIncludedBlock($crawler);
         $this->assertCount(43, $crawler->filter('[data-editor="enabled"]'));
     }
@@ -138,7 +138,7 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertCount(1, $crawler->filter('[data-name="block_28"]'));
         $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-included="1"]'));
         $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-type="Link"]'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-slot-name="1-0"]'));
+        $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-slot-name="6-0"]'));
     }
     
     private function checkCms($crawler)
