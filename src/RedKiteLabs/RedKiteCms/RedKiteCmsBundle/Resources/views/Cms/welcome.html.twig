@@ -13,21 +13,28 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'RedKiteCmsBundle:Cms:cms-background.html.twig' %}
+{% extends 'RedKiteLabsThemeEngineBundle:Frontend:base.html.twig' %}
 
 {% set cms_language = configuration.read('language') %}
 
-{% block cms_content %}
-    <h1>{{ 'Welcome to RedKiteCms'|trans({}, 'RedKiteCmsBundle', cms_language) }}</h1>
-    <p>{{ 'This is the RedKiteCms background and usually it should be hide. There are many reasons you are seeing it, the most common are:'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
-    <ul>
-        <li>{{ 'The page and/or the language you have requested does not exist'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
-        <li>{{ 'The page has assigned a template not included in the theme you are using on your website'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
-        <li>{{ 'Your website has any page and/or language and/or theme'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
-        <li>{{ 'Something has gone wrong during the install process'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
-    </ul>
-    {% if app.session.getFlashBag.has('notice') %}
-    <p style="font-weight: bold">{{ 'The action you made returns this response:'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
-    <p class="text-error">{{ app.session.flashbag.get('notice') }}</p>
-    {% endif %}
+{% block body %}
+    <div id="rk-welcome" class="box-centered">
+        <img src="/bundles/redkitecms/css/skins/bootstrap/images/rklogo-64.png" width="36" height="36" class="pull-left"/>
+        <h1>{{ 'Welcome to RedKite CMS'|trans({}, 'RedKiteCmsBundle', cms_language) }}</h1>
+        <p>{{ 'This is the RedKite CMS background and usually it should be hide. There are many reasons you are seeing it, the most common are:'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
+        <ol>
+            <li>{{ 'The page and/or the language you have requested does not exist'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+            <li>{{ 'The page has assigned a template not included in the theme you are using on your website'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+            <li>{{ 'Your website has any page and/or language and/or theme'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+            <li>{{ 'Something has gone wrong during the install process'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+        </ol>
+        {% if app.session.getFlashBag.has('notice') %}
+        <div class="alert alert-error">
+        <p><strong>{{ 'The action you made returns this response:'|trans({}, 'RedKiteCmsBundle', cms_language) }}</strong></p>
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+        <p>{{ flashMessage }}</p>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
 {% endblock %}

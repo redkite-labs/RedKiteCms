@@ -120,7 +120,7 @@ class AlCmsController extends BaseFrontendController
             );
             $this->container->get('session')->getFlashBag()->add('notice', $message);
         }
-
+        
         $response = $this->render('RedKiteCmsBundle:Cms:index.html.twig', $params);
 
         return $this->dispatchEvents($request, $response);
