@@ -519,7 +519,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The page adding action has been aborted
+     * @expectedExceptionMessage exception_page_adding_aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -773,7 +773,7 @@ class AlPageManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The page editing action has been aborted
+     * @expectedExceptionMessage exception_page_editing_aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -1140,7 +1140,7 @@ class AlPageManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The page deleting action has been aborted
+     * @expectedExceptionMessage exception_page_deleting_aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {

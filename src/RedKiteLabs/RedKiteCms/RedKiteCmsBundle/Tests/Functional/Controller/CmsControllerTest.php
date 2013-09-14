@@ -67,8 +67,8 @@ class CmsControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/fake');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Welcome to RedKiteCms")')->count() > 0);
-        $this->assertTrue($crawler->filter('html:contains("This is the RedKiteCms background and usually it should be hide")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("Welcome to RedKite CMS")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("This is the RedKite CMS background and usually it should be hide")')->count() > 0);
     }
 
     public function testExistingPageIsOpened()

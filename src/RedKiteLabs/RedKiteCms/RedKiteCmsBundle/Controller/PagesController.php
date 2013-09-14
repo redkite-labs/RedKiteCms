@@ -79,7 +79,7 @@ class PagesController extends Base\BaseController
     {
         $request = $this->container->get('request');
         if ('al_' === substr($request->get('pageName'), 0, 3)) {
-            throw new InvalidArgumentException('The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes');
+            throw new InvalidArgumentException('pages_controller_al_prefix_not_permitted');
         }
 
         $alPage = null;
@@ -131,7 +131,7 @@ class PagesController extends Base\BaseController
         
         if ( ! $pageManager->save($values)) {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException('The page has not been saved');
+            throw new RuntimeException('pages_controller_page_not_saved');
             // @codeCoverageIgnoreEnd
         } 
         
@@ -151,7 +151,7 @@ class PagesController extends Base\BaseController
         }
         
         if (null === $alPage) {          
-            throw new RuntimeException('Any page has been choosen for removing');
+            throw new RuntimeException('pages_controller_any_page_selected');
         }
         
         $pageManager->set($alPage);
@@ -164,7 +164,7 @@ class PagesController extends Base\BaseController
         $result = $pageManager->delete();
         if ( ! $result) {
            // @codeCoverageIgnoreStart
-           throw new RuntimeException('Nothing to delete with the given parameters');
+           throw new RuntimeException('pages_controller_nothing_to_delete');
             // @codeCoverageIgnoreEnd 
         }
         
@@ -186,7 +186,7 @@ class PagesController extends Base\BaseController
             if (false === $result) {
                 // @codeCoverageIgnoreStart
                 $pageManager->getPageRepository()->rollBack();
-                throw new RuntimeException('Nothing to delete with the given parameters');
+                throw new RuntimeException('pages_controller_nothing_to_delete');
                 // @codeCoverageIgnoreEnd
             }
                 

@@ -39,18 +39,18 @@ class ConfigurationController extends Base\BaseController
             $statusCode = 404;
             switch ($result) {
                 case null:
-                    $message = 'The language "%language%" is the one already in use';
+                    $message = 'configuration_controller_language_already_in_use';
                     $params = array(
                         '%language%' => $languageName,
                     );
                     break;
                 case false:
                     // @codeCoverageIgnoreStart
-                    $message = 'An error occoured when changing CMS language';
+                    $message = 'configuration_controller_changing_language_error';
                     break;
                     // @codeCoverageIgnoreEnd
                 case true:
-                     $message = 'CMS language has been changed. Please wait while your site is reloading';
+                     $message = 'configuration_controller_cms_language_changed';
                     $statusCode = 200;
                     break;
             }

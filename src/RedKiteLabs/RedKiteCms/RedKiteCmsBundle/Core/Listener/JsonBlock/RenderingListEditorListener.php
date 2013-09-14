@@ -95,7 +95,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
             $content = json_decode($block->getContent(), true);
 
             if (!array_key_exists($itemId, $content)) {
-                throw new \InvalidArgumentException('It seems that the item requested does not exist anymore');
+                throw new \InvalidArgumentException('exception_item_not_exists');
             }
 
             $item = $content[$itemId];

@@ -113,7 +113,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
-            throw new General\InvalidArgumentTypeException('AlSeoManager is able to manage only AlSeo objects');
+            throw new General\InvalidArgumentTypeException('exception_only_seo_objects_are_accepted');
         }
 
         $this->alSeo = $object;
@@ -146,7 +146,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     {
         if (null === $this->alSeo) {
             $exception = array(
-                'message' => 'The seo model object is null',
+                'message' => 'exception_seo_is_null',
                 'parameters' => array(
                     '%className%' => get_class($this),
                 ),
@@ -160,7 +160,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             SeoEvents::BEFORE_DELETE_SEO,
             array(),
             array(
-                'message' => 'The seo deleting action has been aborted',
+                'message' => 'exception_seo_deleting_aborted',
                 'domain' => 'exceptions',
             )
         );
@@ -240,7 +240,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 SeoEvents::BEFORE_ADD_SEO,
                 $values,
                 array(
-                    'message' => 'The seo adding action has been aborted',
+                    'message' => 'exception_seo_adding_aborted',
                     'domain' => 'exceptions',
                 )
             );
@@ -250,15 +250,15 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             $this->validator->checkRequiredParamsExists(array('PageId' => '', 'LanguageId' => '', 'Permalink' => ''), $values);
 
             if (empty($values['PageId'])) {
-                throw new General\ArgumentIsEmptyException('The PageId argument is mandatory to save a seo object');
+                throw new General\ArgumentIsEmptyException('exception_page_id_required_to_save_seo');
             }
 
             if (empty($values['LanguageId'])) {
-                throw new General\ArgumentIsEmptyException('The LanguageId argument is mandatory to save a seo object');
+                throw new General\ArgumentIsEmptyException('exception_language_id_required_to_save_seo');
             }
 
             if (empty($values['Permalink'])) {
-                throw new General\ArgumentIsEmptyException('The Permalink argument is mandatory to save a seo object');
+                throw new General\ArgumentIsEmptyException('exception_permalink_required_to_save_seo');
             }
                     
             $values["Permalink"] = AlPageManager::slugify($values["Permalink"]);
@@ -323,7 +323,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 SeoEvents::BEFORE_EDIT_SEO,
                 $values,
                 array(
-                    'message' => 'The seo editing action has been aborted',
+                    'message' => 'exception_seo_editing_aborted',
                     'domain' => 'exceptions',
                 )
             );

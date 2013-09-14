@@ -179,19 +179,19 @@ class AlUrlManager implements AlUrlManagerInterface
 
         if (is_string($language)) {
             $language = $languageRepository->fromLanguageName($language);
-            $this->checkNull($language, 'The requested language has not been found');
+            $this->checkNull($language, 'exception_language_not_found');
 
             return $language;
         }
 
         if (is_numeric($language)) {
             $language = $languageRepository->fromPK($language);
-            $this->checkNull($language, 'The requested language has not been found');
+            $this->checkNull($language, 'exception_language_not_found');
 
             return $language;
         }
         
-        throw new InvalidArgumentException('Cannnot fetch a valid language using the provided argument');
+        throw new InvalidArgumentException('exception_language_not_retrieved');
     }
 
     private function fetchAlPage($page)
@@ -204,19 +204,19 @@ class AlUrlManager implements AlUrlManagerInterface
 
         if (is_string($page)) {
             $page = $pageRepository->fromPageName($page);
-            $this->checkNull($page, 'The requested page has not been found');
+            $this->checkNull($page, 'exception_page_not_found');
 
             return $page;
         }
 
         if (is_numeric($page)) {
             $page = $pageRepository->fromPK($page);
-            $this->checkNull($page, 'The requested page has not been found');
+            $this->checkNull($page, 'exception_page_not_found');
 
             return $page;
         } 
         
-        throw new InvalidArgumentException('Cannnot fetch a valid page using the provided argument');
+        throw new InvalidArgumentException('exception_page_not_retrieved');
     }
 
     private function checkNull($object, $message)

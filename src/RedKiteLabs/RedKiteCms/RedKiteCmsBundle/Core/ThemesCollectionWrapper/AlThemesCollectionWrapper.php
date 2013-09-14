@@ -114,7 +114,7 @@ class AlThemesCollectionWrapper
         $template = $this->getTemplate($themeName, $templateName);
         if (null === $template) {
             $exception = array(
-                'message' => 'The template "%templateName%" does not seem to belong the "%themeName%" theme. Please check your template\'s configuration',
+                'message' => 'exception_template_not_found',
                 'parameters' => array(
                     '%templateName%' => $templateName,
                     '%themeName%' => $themeName,

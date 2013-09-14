@@ -56,7 +56,7 @@ class AlEventsHandlerTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
-     * @expectedExceptionMessage {"message":"\"%className%\" createEvent method requires the eventName argument to be a string","parameters":{"%className%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
+     * @expectedExceptionMessage {"message":"\"exception_invalid_argument_provided_for_event_name","parameters":{"%className%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenEventNameIsNotAString()
     {
@@ -65,7 +65,7 @@ class AlEventsHandlerTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
-     * @expectedExceptionMessage {"message":"The class \"%argumentClass%\" passed as argument for the \"%className%\" createEvent method does not exist","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
+     * @expectedExceptionMessage {"message":"exception_invalid_class_name_for_createEvent","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenTypeDoesNotExist()
     {
@@ -74,7 +74,7 @@ class AlEventsHandlerTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage {"message":"The class \"%argumentClass%\" passed as argument for the \"%className%\" createEvent must be an instance of \"Symfony\\Component\\EventDispatcher\\Event\"","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
+     * @expectedExceptionMessage {"message":"exception_invalid_class_instance_for_createEvent","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenClassIsNotInherithedByEventClass()
     {
@@ -117,7 +117,7 @@ class AlEventsHandlerTest extends TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Any event has been found to be dispatched
+     * @expectedExceptionMessage exception_no_events
      */
     public function testAnExceptionIsThrownWhenAnyEventHasBeenSet()
     {

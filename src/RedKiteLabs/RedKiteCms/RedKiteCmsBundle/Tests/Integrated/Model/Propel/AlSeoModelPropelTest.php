@@ -37,7 +37,7 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlSeoRepositoryPropel accepts only AlSeo propel objects
+     * @expectedExceptionMessage exception_only_propel_seo_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlSeoObjects()
     {
