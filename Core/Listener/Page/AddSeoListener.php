@@ -71,7 +71,7 @@ class AddSeoListener
         $values = $event->getValues();
 
         if (!is_array($values)) {
-            throw new InvalidArgumentException('The parameter "values" must be an array');
+            throw new InvalidArgumentException('exception_invalid_value_array_required');
         }
 
         try {

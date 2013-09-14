@@ -68,7 +68,7 @@ class ThemesController extends Base\BaseController
                 $mappedTemplateName = $mappedTemplate[1];
                 if (empty($mappedTemplateName)) {
                     $exception = array(
-                        'message' => 'It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme',
+                        'message' => 'themes_controller_some_templates_not_mapped',
                         'parameters' => array(
                             '%template_name%' => $templateName,
                         ),
@@ -90,7 +90,7 @@ class ThemesController extends Base\BaseController
             $themeChanger->change($previousTheme, $theme, $this->container->getParameter('red_kite_cms.theme_structure_file'), $map);
             $currentTheme->writeActiveTheme($themeName);
             
-            return new Response($this->translate('The theme has been changed. Please wait while your site is reloading'), 200);            
+            return new Response($this->translate('themes_controller_theme_changed'), 200);            
         } catch (\Exception $e) {
             return $this->renderThemeChanger($e->getMessage());
         }
@@ -148,7 +148,7 @@ class ThemesController extends Base\BaseController
         $themeChanger = $this->container->get('red_kite_cms.theme_changer');
         $result = $themeChanger->finalize($action);  
         
-        $message = $this->translate('The theme has not been finalized due to an error occoured when saving to database');
+        $message = $this->translate('themes_controller_finalization_failed');
         $statusCode = 404;      
         if ($result) {
             $message = "The theme has been finalized";
@@ -187,7 +187,7 @@ class ThemesController extends Base\BaseController
             $currentTheme = $this->getActiveTheme();    
             $currentTheme->writeActiveTheme($themeName);
             
-            $message = $this->translate('The site has been bootstrapped with the new theme. This page is reloading');
+            $message = $this->translate('themes_controller_site_bootstrapped');
             $statusCode = 200;
         }
         

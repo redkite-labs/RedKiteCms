@@ -373,7 +373,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('Any page has been choosen for removing', $crawler->text());
+        $this->assertEquals('Any page has been selected for removing', $crawler->text());
     }
 
     public function testDeletePageFailsBecauseAnInvalidPageIdIsGiven()
@@ -386,7 +386,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('Any page has been choosen for removing', $crawler->text());
+        $this->assertEquals('Any page has been selected for removing', $crawler->text());
     }
 
     public function testDeleteTheHomePageIsForbidden()

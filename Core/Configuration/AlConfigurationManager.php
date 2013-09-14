@@ -86,7 +86,7 @@ class AlConfigurationManager implements AlConfigurationInterface
         $configuration = $this->configurationRepository->fetchParameter($parameter);        
         if (null === $configuration) {
             $exception = array(
-                'message' => 'The configuration parameter %parameter% does not exist',
+                'message' => 'exception_parameter_does_not_exist',
                 'parameters' => array(
                     '%parameter%' => $parameter,
                 ),

@@ -52,7 +52,7 @@ abstract class BaseAlUrlManager extends TestCase
         $this->assertNull($urlManager->getPermalink());
         $this->assertNull($urlManager->getInternalUrl());
         $this->assertNull($urlManager->getProductionRoute());
-        $this->assertEquals('Cannnot fetch a valid language using the provided argument', $urlManager->getError());
+        $this->assertEquals('exception_language_not_retrieved', $urlManager->getError());
     }
 
     public function testUrlManagerDoesNotManageAnyUrlWhenTheRequestedPageIsNotValid()
@@ -72,7 +72,7 @@ abstract class BaseAlUrlManager extends TestCase
         $this->assertNull($urlManager->getPermalink());
         $this->assertNull($urlManager->getInternalUrl());
         $this->assertNull($urlManager->getProductionRoute());
-        $this->assertEquals('Cannnot fetch a valid page using the provided argument', $urlManager->getError());
+        $this->assertEquals('exception_page_not_retrieved', $urlManager->getError());
     }
 
     public function testUrlManagerDoesNotManageAnyUrlWhenTheRequestedLanguageFromLanguageNameHasNotBeenFound()
@@ -91,7 +91,7 @@ abstract class BaseAlUrlManager extends TestCase
         $this->assertNull($urlManager->getPermalink());
         $this->assertNull($urlManager->getInternalUrl());
         $this->assertNull($urlManager->getProductionRoute());
-        $this->assertEquals('The requested language has not been found', $urlManager->getError());
+        $this->assertEquals('exception_language_not_found', $urlManager->getError());
     }
 
     public function testUrlManagerDoesNotManageAnyUrlWhenTheRequestedLanguageFromPrimaryKeyHasNotBeenFound()
@@ -110,7 +110,7 @@ abstract class BaseAlUrlManager extends TestCase
         $this->assertNull($urlManager->getPermalink());
         $this->assertNull($urlManager->getInternalUrl());
         $this->assertNull($urlManager->getProductionRoute());
-        $this->assertEquals('The requested language has not been found', $urlManager->getError());
+        $this->assertEquals('exception_language_not_found', $urlManager->getError());
     }
 
     public function testInternalUrlIsNullWhenTheRequestedPageFromPageNameHasNotBeenFound()
@@ -132,7 +132,7 @@ abstract class BaseAlUrlManager extends TestCase
         $this->assertNull($urlManager->getPermalink());
         $this->assertNull($urlManager->getInternalUrl());
         $this->assertNull($urlManager->getProductionRoute());
-        $this->assertEquals('The requested page has not been found', $urlManager->getError());
+        $this->assertEquals('exception_page_not_found', $urlManager->getError());
     }
 
     public function testInternalUrlIsNullWhenTheRequestedPageFromPrimaryKeyHasNotBeenFound()
@@ -154,7 +154,7 @@ abstract class BaseAlUrlManager extends TestCase
         $this->assertNull($urlManager->getPermalink());
         $this->assertNull($urlManager->getInternalUrl());
         $this->assertNull($urlManager->getProductionRoute());
-        $this->assertEquals('The requested page has not been found', $urlManager->getError());
+        $this->assertEquals('exception_page_not_found', $urlManager->getError());
     }
 
     public function testInternalUrlIsNotBuiltWhenSeoIsNull()

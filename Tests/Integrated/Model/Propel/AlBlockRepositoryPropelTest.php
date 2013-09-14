@@ -37,7 +37,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlBlockRepositoryPropel accepts only AlBlock propel objects
+     * @expectedExceptionMessage exception_only_propel_blocks_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlBlockObjects()
     {

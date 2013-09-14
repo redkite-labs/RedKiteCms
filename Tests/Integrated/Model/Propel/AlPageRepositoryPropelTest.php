@@ -37,7 +37,7 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlPageRepositoryPropel accepts only AlPage propel objects
+     * @expectedExceptionMessage exception_only_propel_page_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlPageObjects()
     {

@@ -419,7 +419,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The operation to add a new block has been aborted
+     * @expectedExceptionMessage exception_block_adding_aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -663,7 +663,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The block editing action has been aborted
+     * @expectedExceptionMessage exception_block_editing_aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -853,7 +853,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The block deleting operation has been aborted
+     * @expectedExceptionMessage exception_block_removing_aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {

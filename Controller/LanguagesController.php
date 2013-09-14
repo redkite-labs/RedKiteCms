@@ -28,7 +28,7 @@ class LanguagesController extends Base\BaseController
     {
         // @codeCoverageIgnoreStart
         if (!extension_loaded('intl')) {
-            throw new RuntimeException('To manage languages you must enable the intl extension in your php.ini file. Operation aborted');
+            throw new RuntimeException('languages_controller_intl_extension_not_enabled');
         }
         // @codeCoverageIgnoreEnd
 
@@ -62,13 +62,13 @@ class LanguagesController extends Base\BaseController
         if ($languageManager->save($parameters)) {
             $language = $languageManager->getLanguageRepository()->fromLanguageName($request->get('language'));
             
-            $message = $this->translate('The language has been successfully saved');
+            $message = $this->translate('languages_controller_language_saved');
                             
             return $this->buildJSonHeader($message, $language);
         }
 
         // @codeCoverageIgnoreStart
-        throw new RuntimeException('The language has not been saved because an unespected error has been occoured when saving');
+        throw new RuntimeException('languages_controller_unespected_error_when_saving_language');
         // @codeCoverageIgnoreEnd
     }
 
@@ -78,7 +78,7 @@ class LanguagesController extends Base\BaseController
         $languageManager = $this->container->get('red_kite_cms.language_manager');
         $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
         if (null === $alLanguage) {    
-            throw new RuntimeException('Any language has been choosen for removing');
+            throw new RuntimeException('languages_controller_any_language_selected_for_removing');
         }
         
         $result = $languageManager
@@ -86,13 +86,13 @@ class LanguagesController extends Base\BaseController
             ->delete()
         ;
         if ($result) {      
-            $message = $this->translate('The language has been successfully deleted');              
+            $message = $this->translate('languages_controller_language_delete');              
             
             return $this->buildJSonHeader($message, $alLanguage);
         }
         
         // @codeCoverageIgnoreStart
-        throw new RuntimeException('The language has not been deleted');
+        throw new RuntimeException('languages_controller_language_not_delete');
         // @codeCoverageIgnoreEnd
     }
     

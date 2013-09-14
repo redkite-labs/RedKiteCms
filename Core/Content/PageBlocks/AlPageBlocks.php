@@ -78,7 +78,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     public function setIdPage($v)
     {
         if (!is_numeric($v)) {
-            throw new General\InvalidArgumentTypeException('The page id argument must be a numeric value');
+            throw new General\InvalidArgumentTypeException('exception_invalid_value_for_page_id');
         }
 
         $this->idPage = $v;
@@ -98,7 +98,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     public function setIdLanguage($v)
     {
         if (!is_numeric($v)) {
-            throw new General\InvalidArgumentTypeException('The language id argument must be a numeric value');
+            throw new General\InvalidArgumentTypeException('exception_invalid_value_for_language_id');
         }
 
         $this->idLanguage = $v;
@@ -294,11 +294,11 @@ class AlPageBlocks implements AlPageBlocksInterface
     protected function setUpBlocks()
     {
         if (null === $this->idLanguage) {
-            throw new General\ArgumentIsEmptyException('Blocks cannot be retrieved because the id language has not been set');
+            throw new General\ArgumentIsEmptyException('exception_language_id_not_set');
         }
 
         if (null === $this->idPage) {
-            throw new General\ArgumentIsEmptyException('Blocks cannot be retrieved because the id page has not been set');
+            throw new General\ArgumentIsEmptyException('exception_page_id_not_set');
         }
 
         $this->alBlocks = $this->fetchBlocks();

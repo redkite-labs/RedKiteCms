@@ -132,7 +132,7 @@ class AlSlotManager extends AlTemplateBase
     public function setForceSlotAttributes($v)
     {
         if ( ! is_bool($v)) {
-            throw new InvalidArgumentException('setForceSlotAttributes method accepts only boolean values');
+            throw new InvalidArgumentException('exception_boolean_value_required_for_setForceSlotAttributes');
         }
 
         $this->forceSlotAttributes = $v;
@@ -153,7 +153,7 @@ class AlSlotManager extends AlTemplateBase
     public function setSkipSiteLevelBlocks($v)
     {
         if ( ! is_bool($v)) {
-            throw new InvalidArgumentException('setSkipSiteLevelBlocks method accepts only boolean values');
+            throw new InvalidArgumentException('exception_boolean_value_required_for_setSkipSiteLevelBlocks');
         }
 
         $this->skipSiteLevelBlocks = $v;
@@ -289,11 +289,11 @@ class AlSlotManager extends AlTemplateBase
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
     { 
         if ((int) $idLanguage == 0) {
-            throw new InvalidArgumentTypeException('The language id argument must be a numeric value');
+            throw new InvalidArgumentTypeException('exception_invalid_value_for_language_id');
         }
 
         if ((int) $idPage == 0) {
-            throw new InvalidArgumentTypeException('The page id argument must be a numeric value');
+            throw new InvalidArgumentTypeException('exception_invalid_value_for_page_id');
         }
 
         try {
@@ -333,7 +333,7 @@ class AlSlotManager extends AlTemplateBase
             $alBlockManager = $this->blockManagerFactory->createBlockManager($type);
             if (null === $alBlockManager) {
                 $exception = array(
-                    'message' => 'The %type% type does not exist',
+                    'message' => 'exception_type_not_exists',
                     'parameters' => array(
                         '%type%' => $type,
                     ),
@@ -648,7 +648,7 @@ class AlSlotManager extends AlTemplateBase
             if (!in_array($op, $required)) {
                 // @codeCoverageIgnoreStart
                 $exception = array(
-                    'message' => 'The %className% adjustPosition protected method requires one of the following values: "%options%". Your input argument is: "%parameter%"',
+                    'message' => 'exception_invalid_argumento_for_adjustPosition',
                     'parameters' => array(
                         '%className%' => get_class($this),
                         '%options%' => $required, 

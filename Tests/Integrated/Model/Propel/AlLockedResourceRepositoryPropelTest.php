@@ -44,7 +44,7 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects
+     * @expectedExceptionMessage exception_only_propel_locked_resource_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlLockedResourceObjects()
     {
