@@ -922,6 +922,33 @@
             <source>welcome_returned_response</source>
             <target>The action you made returns this response:</target>
         </trans-unit>  
+        
+        <!-- TWIG EXTENSION -->
+               
+        <trans-unit id="twig-extension-1">
+            <source>twig_extension_empty_slot</source>
+            <target>This slot has any blocks inside</target>
+        </trans-unit>  
+        <trans-unit id="twig-extension-2">
+            <source>twig_extension_slot_rendering_error</source>
+            <target>Something went wrong rendering the %slot_name% slot. This is the returned error: %error%</target>
+        </trans-unit>  
+        <trans-unit id="twig-extension-3">
+            <source>twig_extension_script_not_rendered</source>
+            <target>A "Script" block is not rendered in editor mode</target>
+        </trans-unit> 
+        <trans-unit id="twig-extension-4">
+            <source>twig_extension_valid_block_manager_required</source>
+            <target>You must provide a valid AlBlockManager instance to automatically add a new Block</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-5">
+            <source>twig_extension_invalid_slot_name</source>
+            <target>renderSlot function requires a valid slot name to render the blocks</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-6">
+            <source>twig_extension_slot_name_must_be_string</source>
+            <target>renderSlot function requires a string as argument to identify the slot name</target>
+        </trans-unit>        
     </body>
     </file>
 </xliff>
