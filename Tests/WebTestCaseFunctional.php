@@ -78,6 +78,18 @@ abstract class WebTestCaseFunctional extends WebTestCase
 
         $activeThemeManager = $this->client->getContainer()->get('red_kite_labs_theme_engine.active_theme');
         $activeThemeManager->writeActiveTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle
+        /*
+        $this->client->getContainer()->get('translator')->addLoader(new \Symfony\Component\Translation\Loader\XliffFileLoader());
+        echo "G";exit;
+        $this->client->getContainer()->get('translator')->addResource('xliff', __DIR__ . '/../Resources/translations/RedKiteCmsBundle.en.xliff', 'en');
+        
+        $t = new \Symfony\Component\Translation\Translator('en');
+        $t->addLoader('xliff', new \Symfony\Component\Translation\Loader\XliffFileLoader());        
+        $t->addResource('xliff', __DIR__ . '/../Resources/translations/RedKiteCmsBundle.en.xliff', 'en');
+        $t1 = $this->client->getContainer()->get('red_kite_cms.translator');
+        $t1->setTranslator($t);
+        $this->client->getContainer()->set('red_kite_cms.translator', $t1);
+        */
     }
 
     protected static function populateDb()
