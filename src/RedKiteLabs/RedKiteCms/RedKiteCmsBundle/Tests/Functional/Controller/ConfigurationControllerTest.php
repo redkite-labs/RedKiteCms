@@ -67,7 +67,10 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals($statusCode, $response->getStatusCode());
         if (null !== $message) {
-            $this->assertCount(1, $crawler->filter('html:contains(\'' . $message . '\')'));
+            $this->assertRegExp(
+                "/configuration_controller_language_already_in_use|$message/si",
+                $response->getContent()
+            );
         }
         
         $this->assertEquals($newLanguage, $configurationRepository->fetchParameter('language')->getValue());

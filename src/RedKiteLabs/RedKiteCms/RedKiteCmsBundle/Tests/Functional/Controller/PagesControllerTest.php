@@ -73,7 +73,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes")')->count() > 0);
+        $this->assertRegExp(
+            '/pages_controller_al_prefix_not_permitted|The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes/si',
+            $response->getContent()
+        );
     }
 
     public function testAddPageFailsWhenPageNameParamIsMissing()
@@ -89,7 +92,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('The name to assign to the page cannot be null. Please provide a valid page name to add your page', $crawler->text());
+        $this->assertRegExp(
+            '/exception_invalid_page_name|The name to assign to the page cannot be null. Please provide a valid page name to add your page/si',
+            $response->getContent()
+        );
     }
 
     public function testAddPageFailsWhenTemplateNameParamIsMissing()
@@ -105,7 +111,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('The page requires at least a template. Please provide the template name to add your page', $crawler->text());
+        $this->assertRegExp(
+            '/exception_page_template_param_missing|The page requires at least a template. Please provide the template name to add your page/si',
+            $response->getContent()
+        );
     }
 
     public function testAddPage()
@@ -225,7 +234,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('The web site already contains the page you are trying to add. Please use another name for that page', $crawler->text());
+        $this->assertRegExp(
+            '/exception_page_already_exists|The web site already contains the page you are trying to add. Please use another name for that page/si',
+            $response->getContent()
+        );
     }
 
     public function testAddANewHomePage()
@@ -373,7 +385,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('Any page has been selected for removing', $crawler->text());
+        $this->assertRegExp(
+            '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+            $response->getContent()
+        );
     }
 
     public function testDeletePageFailsBecauseAnInvalidPageIdIsGiven()
@@ -386,7 +401,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('Any page has been selected for removing', $crawler->text());
+        $this->assertRegExp(
+            '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+            $response->getContent()
+        );
     }
 
     public function testDeleteTheHomePageIsForbidden()
@@ -400,7 +418,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one', $crawler->text());
+        $this->assertRegExp(
+            '/exception_home_page_cannot_be_removed|It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one/si',
+            $response->getContent()
+        );
     }
 
     public function testDeletePage()
