@@ -919,7 +919,34 @@
         <trans-unit id="welcome-7">
             <source>welcome_returned_response</source>
             <target>Il server riporta il seguente errore:</target>
-        </trans-unit>  
+        </trans-unit>   
+        
+        <!-- TWIG EXTENSION -->
+               
+        <trans-unit id="twig-extension-1">
+            <source>twig_extension_empty_slot</source>
+            <target>Lo slot non contiene blocchi</target>
+        </trans-unit>          
+        <trans-unit id="twig-extension-2">
+            <source>twig_extension_slot_rendering_error</source>
+            <target>Si è verificato un errore per lo slot %slot_name%. Questo è l'errore: %error%</target>
+        </trans-unit>   
+        <trans-unit id="twig-extension-3">
+            <source>twig_extension_script_not_rendered</source>
+            <target>Un blocco "Script" non viene inserito quando l'editor è attivo</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-4">
+            <source>twig_extension_valid_block_manager_required</source>
+            <target>Per aggiungere un blocco in automatico, devi fornire un valido oggetto di tipo AlBlockManager</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-5">
+            <source>twig_extension_invalid_slot_name</source>
+            <target>Il nome dello slot fornito non è valido per la funzione renderSlot</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-6">
+            <source>twig_extension_slot_name_must_be_string</source>
+            <target>Il nome dello slot deve essere di tipo stringa per la funzione renderSlot</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>
