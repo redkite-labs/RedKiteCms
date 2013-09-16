@@ -1,7 +1,7 @@
 Migrate an AlphaLemon CMS Theme to a RedKite CMS Theme
 ======================================================
 This document explains in detail how to migrate an existing AlphaLemon CMS Theme to
-a RedKite CMS Theme
+a RedKite CMS Theme.
 
 The AlphaLemon folder
 ---------------------
@@ -82,4 +82,4 @@ console:
 
     redkitecms:update-to-red-kite-cms
 
-This step can safety be omitted if you rwebsite has only a language.
+This step can safety be omitted if your website has only a language.
