@@ -50,7 +50,7 @@ class ExceptionListener
             return;
         }
         
-        $message = $exception->getMessage(); 
+        $message = $exception->getMessage();
         $jsonMessage = json_decode($message, true);
         if ( ! is_array($jsonMessage)) {
             $jsonMessage = array(
@@ -66,19 +66,20 @@ class ExceptionListener
         ); 
         $cleanedParameters = array_intersect_key($jsonMessage, $parameters);
         $parameters = array_merge($parameters, $cleanedParameters);
-        
+
         $message = $this->translator->translate(
             $parameters["message"],
             $parameters["parameters"],
             $parameters["domain"],
             $parameters["locale"]
         );
-        
-        $values = array(
-            'message' => $message,
+
+        $response = $this->templating->renderResponse(
+            'RedKiteCmsBundle:Dialog:dialog.html.twig',
+            array(
+                'message' => $message,
+            )
         );
-        
-        $response = $this->templating->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', $values);
         $response->setStatusCode(404);        
         $event->setResponse($response);
     }
