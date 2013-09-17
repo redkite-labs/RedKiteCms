@@ -22,6 +22,7 @@
     },
     "require-dev": {
         "redkite-cms/redkite-cms-bundle": "dev-master",
+        "redkite-cms/redkite-cms-base-blocks": "dev-master",
         "willdurand/propel-typehintable-behavior": "dev-master"
     },
     "autoload": {
