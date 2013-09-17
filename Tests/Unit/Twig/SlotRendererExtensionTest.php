@@ -19,10 +19,12 @@ class SlotRendererExtensionTest extends TestCase
         $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                ->disableOriginalConstructor()
                                ->getMock();
+        
+        $this->translator = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface");
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $this->slotRenderer = new SlotRendererExtension($this->container);
+        //$slotRenderer = new SlotRendererExtension($this->container);
     }
 
     public function testTwigFunctions()
@@ -33,25 +35,28 @@ class SlotRendererExtensionTest extends TestCase
             "blockContentToHtml",
             "renderIncludedBlock",
         );
-        $this->assertEquals($functions, array_keys($this->slotRenderer->getFunctions()));
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $this->assertEquals($functions, array_keys($slotRenderer->getFunctions()));
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage renderSlot function requires a valid slot name to render the contents
+     * @expectedExceptionMessage twig_extension_invalid_slot_name
      */
     public function testAnExceptionIsThrownWhenSlotNameIsNull()
     {
-        $this->slotRenderer->renderSlot();
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderSlot();
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage renderSlot function requires a string as argument to identify the slot name
+     * @expectedExceptionMessage twig_extension_slot_name_must_be_string
      */
     public function testAnExceptionIsThrownWhenSlotNameIsNotAString()
     {
-        $this->slotRenderer->renderSlot(array());
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderSlot(array());
     }
 
     public function testRenderAnEmptySlot()
@@ -60,8 +65,14 @@ class SlotRendererExtensionTest extends TestCase
         $this->pageTree->expects($this->once())
             ->method('getBlockManagers')
             ->will($this->returnValue(array()));
-
-        $this->assertEquals($this->renderEmptySlot(), $this->slotRenderer->renderSlot('logo'));
+        
+        $this->translator->expects($this->once())
+            ->method('translate')
+            ->with('twig_extension_empty_slot', array(), 'RedKiteCmsBundle')
+            ->will($this->returnValue('This slot has any content inside. Use the contextual menu to add a new one'));
+        
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $this->assertEquals($this->renderEmptySlot(), $slotRenderer->renderSlot('logo'));
     }
 
     public function testAnEmptySlotIsRenderedWhenAllBlockManagersAreNull()
@@ -70,8 +81,14 @@ class SlotRendererExtensionTest extends TestCase
         $this->pageTree->expects($this->once())
             ->method('getBlockManagers')
             ->will($this->returnValue(array(null)));
-
-        $this->assertEquals($this->renderEmptySlot(), $this->slotRenderer->renderSlot('logo'));
+        
+        $this->translator->expects($this->once())
+            ->method('translate')
+            ->with('twig_extension_empty_slot', array(), 'RedKiteCmsBundle')
+            ->will($this->returnValue('This slot has any content inside. Use the contextual menu to add a new one'));
+        
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $this->assertEquals($this->renderEmptySlot(), $slotRenderer->renderSlot('logo'));
     }
 
     public function testSlotHasNotBeenRenderedDueToAnUnexpectedException()
@@ -81,8 +98,20 @@ class SlotRendererExtensionTest extends TestCase
             ->method('getBlockManagers')
             ->will($this->throwException(new \RuntimeException('Impossible to do something')));
 
+        $this->translator->expects($this->once())
+            ->method('translate')
+            ->with('twig_extension_slot_rendering_error', 
+                array(
+                    '%slot_name%' => 'logo',
+                    '%error%' => 'Impossible to do something',
+                ), 
+                'RedKiteCmsBundle'
+            )
+            ->will($this->returnValue('Something was wrong rendering the logo slot. This is the returned error: Impossible to do something'));
+        
         $expectedValue = '<div class="al_logo">Something was wrong rendering the logo slot. This is the returned error: Impossible to do something</div>';
-        $this->assertEquals($expectedValue, $this->slotRenderer->renderSlot('logo'));
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $this->assertEquals($expectedValue, $slotRenderer->renderSlot('logo'));
     }
 
     public function testEmptySlot()
@@ -96,12 +125,9 @@ class SlotRendererExtensionTest extends TestCase
         $templating->expects($this->never())
                         ->method('render');
 
-        $this->container->expects($this->once())
-                        ->method('get')
-                        ->with('red_kite_cms.page_tree')
-                        ->will($this->returnValue($this->pageTree));
-        
-        $this->slotRenderer->renderSlot('logo');
+        $this->setUpContainer();
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderSlot('logo');
     }
     
     public function testScriptsAreNotRenderedInEditMode()
@@ -131,17 +157,14 @@ class SlotRendererExtensionTest extends TestCase
                         ->method('render')
         ;
         
-        $this->container->expects($this->at(0))
-                        ->method('get')
-                        ->with('red_kite_cms.page_tree')
-                        ->will($this->returnValue($this->pageTree));
-
-        $this->container->expects($this->at(1))
+        $this->setUpContainer();
+        $this->container->expects($this->at(2))
                         ->method('get')
                         ->with('templating')
                         ->will($this->returnValue($engine));
         
-        $this->slotRenderer->renderSlot('logo');
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderSlot('logo');
     }
     
     /**
@@ -171,17 +194,14 @@ class SlotRendererExtensionTest extends TestCase
                         ->with('RedKiteCmsBundle:Slot:_block.html.twig', $contentParameters)
         ;
 
-        $this->container->expects($this->at(0))
-                        ->method('get')
-                        ->with('red_kite_cms.page_tree')
-                        ->will($this->returnValue($this->pageTree));
-
-        $this->container->expects($this->at(1))
+        $this->setUpContainer();
+        $this->container->expects($this->at(2))
                         ->method('get')
                         ->with('templating')
                         ->will($this->returnValue($engine));
         
-        $this->slotRenderer->renderSlot('logo');
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderSlot('logo');
     }
     
     /**
@@ -210,10 +230,16 @@ class SlotRendererExtensionTest extends TestCase
 
         $this->container->expects($this->at(0))
                         ->method('get')
+                        ->with('red_kite_cms.translator')
+                        ->will($this->returnValue($this->translator));
+        
+        $this->container->expects($this->at(1))
+                        ->method('get')
                         ->with('templating')
                         ->will($this->returnValue($engine));
         
-        $this->slotRenderer->renderBlock($blockManager, $template, $included, $extraAttributes);
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderBlock($blockManager, $template, $included, $extraAttributes);
     }
     
     public function testRenderView()
@@ -266,23 +292,20 @@ class SlotRendererExtensionTest extends TestCase
         $viewRenderer->expects($this->once())
                         ->method('render')
                         ->with($viewRendererExpected);
-
-        $this->container->expects($this->at(0))
-                        ->method('get')
-                        ->with('red_kite_cms.page_tree')
-                        ->will($this->returnValue($this->pageTree));
-
-        $this->container->expects($this->at(1))
+        
+        $this->setUpContainer();
+        $this->container->expects($this->at(2))
                         ->method('get')
                         ->with('templating')
                         ->will($this->returnValue($templating));
         
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('red_kite_cms.view_renderer')
                         ->will($this->returnValue($viewRenderer));
         
-        $this->slotRenderer->renderSlot('logo');
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderSlot('logo');
     }
 
     /**
@@ -318,15 +341,21 @@ class SlotRendererExtensionTest extends TestCase
 
         $this->container->expects($this->at(0))
                         ->method('get')
+                        ->with('red_kite_cms.translator')
+                        ->will($this->returnValue($this->translator));
+        
+        $this->container->expects($this->at(1))
+                        ->method('get')
                         ->with('templating')
                         ->will($this->returnValue($templating));
         
-        $this->container->expects($this->at(1))
+        $this->container->expects($this->at(2))
                         ->method('get')
                         ->with('red_kite_cms.view_renderer')
                         ->will($this->returnValue($viewRenderer));
 
-        $this->slotRenderer->renderBlock($blockManager);
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderBlock($blockManager);
     }
     
     /**
@@ -367,19 +396,31 @@ class SlotRendererExtensionTest extends TestCase
             ->will($this->returnValue($blocksRepository))
         ;
         
+        $this->translator->expects($this->once())
+            ->method('translate')
+            ->with('twig_extension_valid_block_manager_required', array(), 'RedKiteCmsBundle')
+            ->will($this->returnValue('You must provide a valid AlBlockManager instance to automatically add a new Block'));
+        
+        
         $this->container->expects($this->at(0))
+                        ->method('get')
+                        ->with('red_kite_cms.translator')
+                        ->will($this->returnValue($this->translator));
+        
+        $this->container->expects($this->at(1))
             ->method('get')
             ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($factoryRepository))
         ;
         
-        $this->slotRenderer->renderIncludedBlock($key, null, 'Text', true);
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $slotRenderer->renderIncludedBlock($key, null, 'Text', true);
     }
     
     /**
      * @dataProvider renderIncludedBlockProvider
      */
-    public function testRenderIncludedBlock($key, $expectedResult, $blocks = array(), $arguments = null)
+    public function testRenderIncludedBlock($key, $expectedResult, $blocks = array(), $arguments = null, $translator = null)
     {
         $factoryRepository = 
             $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
@@ -412,6 +453,11 @@ class SlotRendererExtensionTest extends TestCase
         ;
         
         $this->container->expects($this->at(0))
+                        ->method('get')
+                        ->with('red_kite_cms.translator')
+                        ->will($this->returnValue($this->translator));
+        
+        $this->container->expects($this->at(1))
             ->method('get')
             ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($factoryRepository))
@@ -451,7 +497,7 @@ class SlotRendererExtensionTest extends TestCase
                 ->will($this->returnValue($blockManager))
             ;
 
-            $this->container->expects($this->at(1))
+            $this->container->expects($this->at(2))
                 ->method('get')
                 ->with('red_kite_cms.block_manager_factory')
                 ->will($this->returnValue($blockManagerFactory))
@@ -480,14 +526,22 @@ class SlotRendererExtensionTest extends TestCase
                 ->will($this->returnValue($blockManager))
             ;
 
-            $this->container->expects($this->at(1))
+            $this->container->expects($this->at(2))
                 ->method('get')
                 ->with('red_kite_cms.block_manager_factory')
                 ->will($this->returnValue($blockManagerFactory))
             ;
         }
         
-        $result = $this->slotRenderer->renderIncludedBlock($key, $arguments["parent"], $arguments["type"], $arguments["addWhenEmpty"], $arguments["defaultContent"], $arguments["extraAttributes"]);
+        if (null !== $translator) {
+            $this->translator->expects($this->once())
+                ->method('translate')
+                ->with($translator['arguments'])
+                ->will($this->returnValue($translator['message']));
+        } 
+        
+        $slotRenderer = new SlotRendererExtension($this->container);
+        $result = $slotRenderer->renderIncludedBlock($key, $arguments["parent"], $arguments["type"], $arguments["addWhenEmpty"], $arguments["defaultContent"], $arguments["extraAttributes"]);
         
         if (is_string($expectedResult)) {
             $this->assertEquals($expectedResult, $result);
@@ -501,6 +555,11 @@ class SlotRendererExtensionTest extends TestCase
                 '200-1',
                 '<div data-editor="enabled" data-block-id="0" data-slot-name="200-1" data-included="1">This slot has any content inside. Use the contextual menu to add a new one</div>',
                 array(),
+                null,
+                array(
+                    'arguments' => 'twig_extension_empty_slot', array(), 'RedKiteCmsBundle',
+                    'message' => 'This slot has any content inside. Use the contextual menu to add a new one',
+                ),
             ),
             array(
                 '200-1',
@@ -904,8 +963,13 @@ class SlotRendererExtensionTest extends TestCase
         $this->pageTree->expects($this->any())
                        ->method('isCmsMode')
                        ->will($this->returnValue(true));
+        
+        $this->container->expects($this->at(0))
+                        ->method('get')
+                        ->with('red_kite_cms.translator')
+                        ->will($this->returnValue($this->translator));
 
-        $this->container->expects($this->once())
+        $this->container->expects($this->at(1))
                         ->method('get')
                         ->with('red_kite_cms.page_tree')
                         ->will($this->returnValue($this->pageTree));

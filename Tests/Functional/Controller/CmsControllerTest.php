@@ -67,8 +67,14 @@ class CmsControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', 'backend/en/fake');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Welcome to RedKiteCms")')->count() > 0);
-        $this->assertTrue($crawler->filter('html:contains("This is the RedKiteCms background and usually it should be hide")')->count() > 0);
+        $this->assertRegExp(
+            '/welcome_title|Welcome to RedKite CMS/si',
+            $response->getContent()
+        );
+        $this->assertRegExp(
+            '/welcome_background|This is the RedKite CMS background and usually it should be hide/si',
+            $response->getContent()
+        );
     }
 
     public function testExistingPageIsOpened()
@@ -151,17 +157,17 @@ class CmsControllerTest extends WebTestCaseFunctional
     private function checkToolbar($crawler)
     {
         $this->assertEquals(1, $crawler->filter('#al_control_panel')->count());
-        $this->check($crawler, '#al_start_editor', "Edit");
-        $this->check($crawler, '#al_stop_editor', "Stop");
-        $this->check($crawler, '#al_open_pages_panel', "Pages");
-        $this->check($crawler, '#al_open_languages_panel', "Languages");
-        $this->check($crawler, '#al_open_themes_panel', "Themes");
-        $this->check($crawler, '#al_open_media_library', "Media Library");        
-        $this->check($crawler, '#al_languages_navigator', "en");        
+        $this->check($crawler, '#al_start_editor', "/cms_controller_label_edit|Edit/si");
+        $this->check($crawler, '#al_stop_editor', "/cms_controller_label_stop|Stop/si");
+        $this->check($crawler, '#al_open_pages_panel', "/cms_controller_label_pages|Pages/si");
+        $this->check($crawler, '#al_open_languages_panel', "/cms_controller_label_languages|Languages/si");
+        $this->check($crawler, '#al_open_themes_panel', "/cms_controller_label_themes|Themes/si");
+        $this->check($crawler, '#al_open_media_library', "/cms_controller_label_media_library|Media Library/si");        
+        $this->check($crawler, '#al_languages_navigator', "/en/si");        
         $el = $crawler->filter('.al_deployer');
         $this->assertEquals(2, $el->count());
-        $this->check($crawler, '#al_pages_navigator', "index");
-        $this->check($crawler, '#al_available_languages', "EnglishItalian");
+        $this->check($crawler, '#al_pages_navigator', "/index/si");
+        $this->check($crawler, '#al_available_languages', "/EnglishItalian/si");
     }
 
     private function checkStylesheets($crawler)
@@ -184,7 +190,10 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         $el = $crawler->filter($element);
         $this->assertEquals(1, $el->count());
-        $this->assertEquals($value, trim($el->text()));
+        $this->assertRegExp(
+            $value,
+            trim($el->text())
+        );
     }
 
     private static function ignoreAssetic($key)

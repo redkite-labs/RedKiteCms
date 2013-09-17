@@ -37,7 +37,7 @@ class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlLanguageRepositoryPropel accepts only AlLanguage propel objects
+     * @expectedExceptionMessage exception_only_propel_language_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlLanguageObjects()
     {

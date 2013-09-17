@@ -276,7 +276,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The seo adding action has been aborted
+     * @expectedExceptionMessage exception_seo_adding_aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -543,7 +543,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The seo editing action has been aborted
+     * @expectedExceptionMessage exception_seo_editing_aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -873,7 +873,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The seo deleting action has been aborted
+     * @expectedExceptionMessage exception_seo_deleting_aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {

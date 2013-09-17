@@ -98,7 +98,7 @@ class SecurityController extends Base\BaseController
         if ('POST' === $request->getMethod()) { 
             $userName = $request->get('al_username');
             if ($isNewUser && null !== $this->userRepository()->fromUsername($userName)) {
-                throw new RuntimeException('The username already exists');
+                throw new RuntimeException('exception_username_exists');
             }
             
             $alUser = $this->container->get('security.context')->getToken()->getUser();
@@ -119,9 +119,9 @@ class SecurityController extends Base\BaseController
                 $user->setSalt($salt);
                 $user->setPassword($password);
 
-                $message = "User has not been saved";
+                $message = "security_controller_user_not_saved";
                 if ($user->save() > 0) {
-                    $message = "User has been saved";
+                    $message = "security_controller_user_saved";
                 }
                 $message = $this->translate($message);
 
@@ -152,16 +152,16 @@ class SecurityController extends Base\BaseController
         if ('POST' === $request->getMethod()) {
             $roleName = strtoupper($request->get('al_rolename'));
             if ($isNewRole && null !== $this->roleRepository()->fromRolename($roleName)) {
-                throw new RuntimeException('The role already exists');
+                throw new RuntimeException('exception_role_exists');
             }
             
             $role->setRole($roleName);
             $validator = $this->container->get('validator');
             $errors = $validator->validate($role);
             if (count($errors) == 0) {
-                $message = "Role has not been saved";
+                $message = "security_controller_role_not_saved";
                 if ($role->save() > 0) {
-                    $message = "Role has been saved";
+                    $message = "security_controller_role_saved";
                 }
                 $message = $this->translate($message);
 

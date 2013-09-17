@@ -23,24 +23,24 @@
 <div id="al_languages" class="al_panel">
     {{ form_errors(form) }}
     <div>        
-        <h2>{{ "Language attributes" | trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+        <h2>{{ "languages_controller_language_attribute" | trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
         <form id="al_languages_form" class="form-horizontal">
             <div class="control-group bootstrap-form-item-margin-fixer">
-                {{ form_label(form.language, "Language"|trans({}, 'RedKiteCmsBundle', cms_language), { 'label_attr': {'class': 'control-label'} }) }}
+                {{ form_label(form.language, "languages_controller_label_language"|trans({}, 'RedKiteCmsBundle', cms_language), { 'label_attr': {'class': 'control-label'} }) }}
                 <div class="controls">
-                {{ form_errors(form.language) }} {{ form_widget(form.language, { 'attr': {'title': "Choose the language"|trans({}, 'RedKiteCmsBundle', cms_language) } }) }}
+                {{ form_errors(form.language) }} {{ form_widget(form.language, { 'attr': {'title': "languages_controller_choose_language"|trans({}, 'RedKiteCmsBundle', cms_language) } }) }}
                 </div>
             </div> 
             <div class="control-group">
                 <label class="checkbox pull-right">                
-                    {{ form_errors(form.isMain) }} {{ form_widget(form.isMain, { 'attr': {'title': "When checked, promotes the language as the website's main language, which is the one displayed when any language has been given"|trans({}, 'RedKiteCmsBundle', cms_language) } }) }}
-                    {{ form_label(form.isMain, "Is Main"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
+                    {{ form_errors(form.isMain) }} {{ form_widget(form.isMain, { 'attr': {'title': "languages_controller_is_main_language_explanation"|trans({}, 'RedKiteCmsBundle', cms_language) } }) }}
+                    {{ form_label(form.isMain, "languages_controller_is_main_language"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
                 </label> 
             </div>
             {{ form_rest(form) }}
         </form>
         
-        <input id="al_language_saver" type="submit" value="{{ "Save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="btn btn-primary pull-right" />       
+        <input id="al_language_saver" type="submit" value="{{ "common_label_save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="btn btn-primary pull-right" />       
     </div>
 </div>
 {% endblock %}
@@ -48,7 +48,7 @@
 {% block al_sidebar_right_inside %}
     <div id="al_pages_box" class="al_panel_box">        
         <div class="al_panel_box_header">
-            <span class="al_panel_box_header_title white-text-shadow">{{ "Languages selector"|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+            <span class="al_panel_box_header_title white-text-shadow">{{ "languages_controller_languages_selector"|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
         </div>
         <div id="al_languages_list"  class="al_panel_list">
             {% include 'RedKiteCmsBundle:Languages:languages_list.html.twig' %}

@@ -46,7 +46,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
             
             if ( ! array_key_exists("al_json_block", $unserializedData)) {
                 $exception = array(
-                    'message' => 'There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you',
+                    'message' => 'exception_json_configuration_error',
                     'parameters' => array(
                         '%className%' => get_class($this),
                     ),
@@ -79,7 +79,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
     {
         if ( ! array_key_exists($itemId, $content)) {
             $exception = array(
-                'message' => 'It seems that the item requested does not exist anymore',
+                'message' => 'exception_item_not_exists',
                 'domain' => 'exceptions',
             );
                 

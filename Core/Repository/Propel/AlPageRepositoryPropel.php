@@ -44,7 +44,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlPage) {
-            throw new InvalidArgumentTypeException('AlPageRepositoryPropel accepts only AlPage propel objects');
+            throw new InvalidArgumentTypeException('exception_only_propel_page_objects_are_accepted');
         }
 
         return parent::setRepositoryObject($object);
@@ -80,7 +80,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
         }
 
         if (!is_string($pageName)) {
-            throw new InvalidArgumentTypeException('fromPageName method accepts only string values');
+            throw new InvalidArgumentTypeException('exception_invalid_value_for_fromPageName_method');
         }
 
         return AlPageQuery::create()

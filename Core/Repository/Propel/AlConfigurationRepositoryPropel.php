@@ -43,7 +43,7 @@ class AlConfigurationRepositoryPropel extends Base\AlPropelRepository implements
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlConfiguration) {
-            throw new InvalidArgumentTypeException('AlConfigurationRepositoryPropel accepts only AlConfiguration propel objects');
+            throw new InvalidArgumentTypeException('exception_only_propel_configuration_objects_are_accepted');
         }
 
         return parent::setRepositoryObject($object);

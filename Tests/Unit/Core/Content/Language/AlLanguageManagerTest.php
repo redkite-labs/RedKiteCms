@@ -284,7 +284,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The language adding action has been aborted
+     * @expectedExceptionMessage exception_language_adding_aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -687,7 +687,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The language editing action has been aborted
+     * @expectedExceptionMessage exception_language_editing_aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
@@ -1076,7 +1076,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
-     * @expectedExceptionMessage The language deleting action has been aborted
+     * @expectedExceptionMessage exception_language_deleting_aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {

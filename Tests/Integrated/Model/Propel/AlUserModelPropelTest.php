@@ -37,7 +37,7 @@ class AlUserRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlUserRepositoryPropel accepts only AlUser propel objects
+     * @expectedExceptionMessage exception_only_propel_user_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlUserObjects()
     {

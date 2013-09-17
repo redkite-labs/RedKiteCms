@@ -83,7 +83,7 @@ class AlCmsControllerTest extends TestCase
         $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $translator->expects($this->once())
             ->method('trans')
-            ->with('It seems that the "%page%" does not exist for the "%language%" language')
+            ->with('cms_controller_page_not_exists_for_given_language')
             ->will($this->returnValue('It seems that the "index" does not exist for the en "language"'))
         ;
         

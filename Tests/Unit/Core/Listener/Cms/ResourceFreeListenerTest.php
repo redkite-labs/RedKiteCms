@@ -75,6 +75,10 @@ class ResourceFreeListenerTest extends TestCase
         $testListener->onKernelRequest($this->event);
     }
     
+    /**
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
+     * @expectedExceptionMessage Unknown propel error
+     */
     public function testSomethingGoesWrongUnlockingTheExpiredResources()
     {
         $user = $this->initUser();
@@ -87,12 +91,14 @@ class ResourceFreeListenerTest extends TestCase
              ->will($this->throwException(new \PropelException('Unknown propel error')))
         ;
         
-        $this->initEvent();
-        
         $testListener = $this->initTestListener();
         $testListener->onKernelRequest($this->event);
     }
     
+    /**
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
+     * @expectedExceptionMessage Unknown propel error
+     */
     public function testSomethingGoesWrongUnlockingTheResource()
     {
         $user = $this->initUser();
@@ -109,8 +115,6 @@ class ResourceFreeListenerTest extends TestCase
              ->method('unlockUserResource')
              ->will($this->throwException(new \PropelException('Unknown propel error')))
         ;
-        
-        $this->initEvent();
         
         $testListener = $this->initTestListener();
         $testListener->onKernelRequest($this->event);
@@ -144,44 +148,6 @@ class ResourceFreeListenerTest extends TestCase
         $this->resourcesLocker
              ->expects($this->never())
              ->method('lockResource')
-        ; 
-        
-        $testListener = $this->initTestListener();
-        $testListener->onKernelRequest($this->event);
-    }
-    
-    /**
-     * @dataProvider exceptionsProvider 
-     */
-    public function testLockResourcesException($exception)
-    {
-        $user = $this->initUser();
-        $token = $this->initToken($user);        
-        $this->initSecurityContext($token);
-        
-        $this->resourcesLocker
-             ->expects($this->once())
-             ->method('unlockExpiredResources')
-        ;
-        
-        $this->resourcesLocker
-             ->expects($this->once())
-             ->method('unlockUserResource')
-        ;
-        
-        $request = $this->initRequest('idBlock');
-        $this->event
-             ->expects($this->once())
-             ->method('getRequest')
-             ->will($this->returnValue($request))
-        ;  
-        
-        $this->initEvent(1);
-        
-        $this->resourcesLocker
-             ->expects($this->once())
-             ->method('lockResource')
-             ->will($this->throwException($exception))
         ; 
         
         $testListener = $this->initTestListener();
@@ -234,7 +200,7 @@ class ResourceFreeListenerTest extends TestCase
     {
         return array(
             array(new \PropelException('Unknown propel error')),
-            array(new \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException('The resource you requested is locked by another user. Please retry in a couple of minutes')),
+            array(new \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException('exception_resource_locked')),
             array(new \RuntimeException('Unespected error')),
         );
     }

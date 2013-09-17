@@ -117,7 +117,7 @@ class AlTemplateSlots
     private function setUpSlots()
     {
         if (null === $this->pageBlocks || null === $this->templateManager) {
-            throw new ThemeSlotsInvalidConfigurationException('Template slots cannot be initialized');
+            throw new ThemeSlotsInvalidConfigurationException('exception_slots_not_initialized');
         }
 
         $viewsRenderer = $this->container->get('red_kite_cms.view_renderer');

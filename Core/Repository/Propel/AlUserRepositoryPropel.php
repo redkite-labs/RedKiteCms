@@ -43,7 +43,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlUser) {
-            throw new InvalidArgumentTypeException('AlUserRepositoryPropel accepts only AlUser propel objects');
+            throw new InvalidArgumentTypeException('exception_only_propel_user_objects_are_accepted');
         }
 
         return parent::setRepositoryObject($object);

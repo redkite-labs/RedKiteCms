@@ -52,7 +52,7 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
             $blockTypeInfo = (null !== $blockType) ? ' for the block ' . $blockType . ' ' : '';
 
             $exception = array(
-                'message' => 'The content format %blockTypeInfo%is wrong. You should remove that block and add it again.',
+                'message' => 'exception_wrong_json_format',
                 'parameters' => array(
                     '%blockTypeInfo%' => $blockTypeInfo,
                 ),

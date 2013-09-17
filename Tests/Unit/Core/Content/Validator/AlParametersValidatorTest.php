@@ -59,7 +59,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage AlValidator cannot check that at least once parameter exists because any "required parameters" has been given
+     * @expectedExceptionMessage exception_any_parameter_given_to_AlValidatorn
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenRequiredParametersAreEmpty()
     {
@@ -68,7 +68,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage AlValidator cannot check that at least once parameter exists because any "value" has been given
+     * @expectedExceptionMessage exception_any_value_to_check_when_only_a_param_exists
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenValuesAreEmpty()
     {
@@ -77,7 +77,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
-     * @expectedExceptionMessage {"message":"At least one of those options are required: %required%. The options you gave are %values%","parameters":{"%required%":"param","%values%":"param1"}}
+     * @expectedExceptionMessage {"message":"exception_any_valid_option_provided","parameters":{"%required%":"param","%values%":"param1"}}
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFound()
     {
@@ -100,7 +100,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage AlValidator cannot check that all the required parameters exist because any "required parameters" has been given
+     * @expectedExceptionMessage exception_any_param_to_check_when_all_params_exist
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenRequiredParametersAreEmpty()
     {
@@ -109,7 +109,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage AlValidator cannot check that all the required parameters exist because any "value" has been given
+     * @expectedExceptionMessage exception_any_value_provided_to_check_when_all_params_exist
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenValuesAreEmpty()
     {
@@ -118,7 +118,7 @@ class AlParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
-     * @expectedExceptionMessage The following options are required: %required%. The options you gave are %values%
+     * @expectedExceptionMessage exception_some_required_options_are_not_provided
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErroraMessage()
     {

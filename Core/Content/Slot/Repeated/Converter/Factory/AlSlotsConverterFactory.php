@@ -61,7 +61,7 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
         $className = '\RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
         if (!class_exists($className)) {
             $exception = array(
-                'message' => 'The class %className% that shoud define a new Slot Converter does not exist',
+                'message' => 'exception_class_not_defined',
                 'parameters' => array(
                     '%className%' => $className,
                 ),

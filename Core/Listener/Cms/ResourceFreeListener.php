@@ -19,7 +19,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\HttpFoundation\Response;
 use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
 use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
@@ -98,23 +97,14 @@ class ResourceFreeListener
                             $key = ('locked' !== $locked) ? $locked . "=" . $param : $request->getUri() . '/locked';
                             $this->resourcesLocker->lockResource($userId, md5($key));
                         } catch (\PropelException $ex) {
-                            $errorMessage = 'The resource is not lockable because it was free but someone has locked it before you. This happens when two users tries to get a resource at the same time';
-                        } catch (ResourceNotFreeException $ex) {
-                            $errorMessage = $ex->getMessage();
-                        } catch (\Exception $ex) {
-                            $errorMessage = $ex->getMessage();
+                            $errorMessage = 'exception_resource_was_free_but_someone_locked_it';
                         }
                     }
                 }
 
                 // The resource is not free, stops the request
                 if ($errorMessage != '') {
-                    $response = new Response();
-                    $response->setStatusCode('404');
-                    $response->setContent($errorMessage);
-
-                    $event->setResponse($response);
-                    $event->stopPropagation();
+                    throw new ResourceNotFreeException($errorMessage);
                 }
             }
         }

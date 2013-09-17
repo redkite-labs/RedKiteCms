@@ -97,7 +97,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
     {
         if ( ! is_string($eventName)) {
             $exception = array(
-                'message' => '"%className%" createEvent method requires the eventName argument to be a string',
+                'message' => '"exception_invalid_argument_provided_for_event_name',
                 'parameters' => array(
                     '%className%' => get_class($this),
                 ),
@@ -107,7 +107,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
 
         if ( ! class_exists($class)) {
             $exception = array(
-                'message' => 'The class "%argumentClass%" passed as argument for the "%className%" createEvent method does not exist',
+                'message' => 'exception_invalid_class_name_for_createEvent',
                 'parameters' => array(
                     '%argumentClass%' => get_class($this),                    
                     '%className%' => get_class($this),
@@ -123,7 +123,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
         $event = new $class();
         if ( ! $event instanceof Event) {
             $exception = array(
-                'message' => 'The class "%argumentClass%" passed as argument for the "%className%" createEvent must be an instance of "Symfony\Component\EventDispatcher\Event"',
+                'message' => 'exception_invalid_class_instance_for_createEvent',
                 'parameters' => array(
                     '%argumentClass%' => get_class($this),                    
                     '%className%' => get_class($this),
@@ -171,7 +171,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
         }
 
         if (null === $event) {
-            throw new RuntimeException('Any event has been found to be dispatched');
+            throw new RuntimeException('exception_no_events');
         }
 
         $this->eventDispatcher->dispatch($eventName, $event);

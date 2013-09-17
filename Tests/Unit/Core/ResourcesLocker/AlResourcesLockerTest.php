@@ -55,7 +55,7 @@ class AlResourcesLockerTest extends TestCase
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
-     * @expectedExceptionMessage The resource you requested is locked by another user. Please retry in a couple of minutes
+     * @expectedExceptionMessage exception_resource_locked
      */
     public function testAnExceptionIsThrownWhenTheRequestedResourceIsNotFree()
     {        
@@ -67,7 +67,7 @@ class AlResourcesLockerTest extends TestCase
     
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage The resource has not been locked due to an error occoured during the saving operation
+     * @expectedExceptionMessage exception_resource_locking_error
      */
     public function testSomethingGoesWrongWhenSavingToDatabase()
     {

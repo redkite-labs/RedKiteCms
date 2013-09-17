@@ -55,7 +55,6 @@ assetic:
             jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
 
 red_kite_cms:
-    skin: bootstrap
     enable_yui_compressor: true
 
 red_kite_labs_theme_engine:

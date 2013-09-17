@@ -51,7 +51,7 @@ class BlocksController extends Base\BaseController
         
         if(null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN))
         {
-            throw new InvalidOperationException('You can add just one block into an included block');
+            throw new InvalidOperationException('blocks_controller_included_blocks_accept_only_a_block');
         }
 
         $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
@@ -60,7 +60,7 @@ class BlocksController extends Base\BaseController
             $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
             if ( ! $res) {
                 // @codeCoverageIgnoreStart
-                throw new RuntimeException('The block has not been added because an unespected error has occoured when saving');
+                throw new RuntimeException('blocks_controller_block_not_added_due_to_unespected_exception');
                 // @codeCoverageIgnoreEnd
             }
 
@@ -68,7 +68,7 @@ class BlocksController extends Base\BaseController
             $blockManager = $slotManager->lastAdded();
         } else {
             if ( ! $request->get('included')) {
-                throw new RuntimeException('You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty');
+                throw new RuntimeException('blocks_controller_invalid_or_empty_slot');
             }
             $template = 'RedKiteCmsBundle:Cms:render_included_block.html.twig';
 
@@ -87,7 +87,7 @@ class BlocksController extends Base\BaseController
         }
 
         $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
-        $message = $this->translate('The block has been successfully added'); 
+        $message = $this->translate('blocks_controller_block_added'); 
 
         $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
         $values = array(
@@ -126,12 +126,12 @@ class BlocksController extends Base\BaseController
         $result = $slotManager->editBlock($request->get('idBlock'), $values);
         if (false === $result) {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException('The block has not been edited because an unespected error has occoured when saving');
+            throw new RuntimeException('blocks_controller_block_editing_error');
             // @codeCoverageIgnoreEnd
         }
 
         if (null === $result) {
-            throw new RuntimeException('It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made');
+            throw new RuntimeException('blocks_controller_nothing_changed_with_these_values');
         }
 
         $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
@@ -148,7 +148,7 @@ class BlocksController extends Base\BaseController
         if (null === $response) {
             $template = ($request->get('included')) ? 'RedKiteCmsBundle:Cms:render_included_block.html.twig' :  'RedKiteCmsBundle:Cms:render_block.html.twig';
             $values = array(
-                array("key" => "message", "value" => $this->translate("The block has been successfully edited")),
+                array("key" => "message", "value" => $this->translate("blocks_controller_block_edited")),
                 array("key" => "edit-block",
                       "blockName" => "block_" . $blockManager->get()->getId(),
                       "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager)),
@@ -172,9 +172,9 @@ class BlocksController extends Base\BaseController
             $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
             $message = ($res) 
             ? 
-                $this->translate('The block has been successfully removed')
+                $this->translate('blocks_controller_block_removed')
             : 
-                $this->translate('The block has not been removed')
+                $this->translate('blocks_controller_block_not_removed')
             ;
 
             $values = array();
@@ -196,7 +196,7 @@ class BlocksController extends Base\BaseController
 
             return $this->buildJSonResponse($values);
         } else {
-            throw new RuntimeException('The block you tried to remove does not exist anymore in the website');
+            throw new RuntimeException('blocks_controller_block_does_not_exists');
         }
     }
     
@@ -212,7 +212,7 @@ class BlocksController extends Base\BaseController
     {
         $pageTree = $this->container->get('red_kite_cms.page_tree');
         if (!$pageTree->isValid()) {
-            throw new RuntimeException("The page you are trying to edit does not exist");
+            throw new RuntimeException("blocks_controller_page_does_not_exists");
         }
     }
 
@@ -224,7 +224,7 @@ class BlocksController extends Base\BaseController
         
         $slotManager = $this->container->get('red_kite_cms.template_manager')->getSlotManager($request->get('slotName'));
         if ($throwExceptionWhenNull && null === $slotManager) {
-            throw new RuntimeException("You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty");
+            throw new RuntimeException("blocks_controller_invalid_or_empty_slot");
         }
 
         return $slotManager;
@@ -282,7 +282,7 @@ class BlocksController extends Base\BaseController
             } else {
                 $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
                 
-                throw new RuntimeException('The block does not exist anymore or the slot has any block inside');
+                throw new RuntimeException('blocks_controller_block_not_found');
             }
         } catch (\Exception $e) {
             return $this->renderDialogMessage($e->getMessage());
