@@ -181,7 +181,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         }
 
         // First displayed group
-        $alphaLemonBlocks = array("Default" => $this->extractGroup('alphalemon_internals', $blockGroups));
+        $alphaLemonBlocks = array("Default" => $this->extractGroup('redkitecms_internals', $blockGroups));
         // Last displayed group
         $notGrouped = $this->extractGroup('none', $blockGroups);
         // Sorts
