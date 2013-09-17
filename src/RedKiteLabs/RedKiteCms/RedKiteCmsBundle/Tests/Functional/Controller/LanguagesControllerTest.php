@@ -271,7 +271,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
         $this->assertRegExp(
-            '/languages_controller_language_delete|The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again/si',
+            '/languages_controller_language_delete|The language has been successfully deleted/si',
             $json[0]["value"]
         );
         $this->assertTrue(array_key_exists("key", $json[1]));

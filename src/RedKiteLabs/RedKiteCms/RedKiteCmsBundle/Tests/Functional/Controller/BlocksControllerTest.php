@@ -317,7 +317,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("value", $json[0]));
         $this->assertRegExp(
             '/blocks_controller_block_removed|The block has been successfully removed/si',
-            $this->client->getResponse()->getContent()
+            $json[0]["value"]
         );
 
         $this->assertTrue(array_key_exists("key", $json[1]));
@@ -325,8 +325,11 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("slotName", $json[1]));
         $this->assertEquals("content_title_1", $json[1]["slotName"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/This slot has any content inside. Use the contextual menu to add a new one/s", $json[1]["value"]);
-
+        $this->assertRegExp(
+            '/twig_extension_empty_slot|This slot has any blocks inside/si',
+            $json[1]["value"]
+        );
+        
         $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(0, count($blocks));
     }
