@@ -80,8 +80,11 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The block has been successfully added", $json[0]["value"]);
-
+        $this->assertRegExp(
+            '/blocks_controller_block_added|The block has been successfully added/si',
+            $json[0]["value"]
+        );
+        
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("add-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("insertAfter", $json[1]));
@@ -119,8 +122,11 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(2, count($json));
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The block has been successfully added", $json[0]["value"]);
+        $this->assertTrue(array_key_exists("value", $json[0]));        
+        $this->assertRegExp(
+            '/blocks_controller_block_added|The block has been successfully added/si',
+            $json[0]["value"]
+        );
 
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("add-block", $json[1]["key"]);
@@ -153,15 +159,20 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testEditBlockFailsWhenTheRequiredBlockIdIsNull()
     {
         $crawler = $this->blockIdIsNull('/backend/en/editBlock');
-
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
+        $this->assertRegExp(
+            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     public function testEditBlockFailsWhenTheRequiredBlockDoesNotExist()
     {
         $crawler = $this->blockIdDoesNotExist('/backend/en/editBlock');
 
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
+        $this->assertRegExp(
+            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     public function testEditBlockDoesNothingWhenKeyDoesNotMatchAnyBlockFieldName()
@@ -180,7 +191,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
+        $this->assertRegExp(
+            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     public function testEditBlockDoesNothingWhenTheSameSavedValueIsGiven()
@@ -199,7 +213,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made")')->count() > 0);
+        $this->assertRegExp(
+            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     public function testEditBlock()
@@ -225,7 +242,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The block has been successfully edited", $json[0]["value"]);
+        $this->assertRegExp(
+            '/blocks_controller_block_edited|The block has been successfully edited/si',
+            $this->client->getResponse()->getContent()
+        );
 
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("edit-block", $json[1]["key"]);
@@ -256,15 +276,21 @@ class BlocksControllerTest extends WebTestCaseFunctional
     public function testDeleteBlockFailsWhenTheRequiredBlockIdIsNull()
     {
         $crawler = $this->blockIdIsNull('/backend/en/deleteBlock');
-
-        $this->assertTrue($crawler->filter('html:contains("The block you tried to remove does not exist anymore in the website")')->count() > 0);
+        
+        $this->assertRegExp(
+            '/blocks_controller_block_does_not_exists|The block you tried to remove does not exist anymore in the website/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     public function testDeleteBlockFailsWhenTheRequiredBlockDoesNotExist()
     {
         $crawler = $this->blockIdDoesNotExist('/backend/en/deleteBlock');
 
-        $this->assertTrue($crawler->filter('html:contains("The block you tried to remove does not exist anymore in the website")')->count() > 0);
+        $this->assertRegExp(
+            '/blocks_controller_block_does_not_exists|The block you tried to remove does not exist anymore in the website/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     public function testDeleteBlock()
@@ -289,7 +315,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The block has been successfully removed", $json[0]["value"]);
+        $this->assertRegExp(
+            '/blocks_controller_block_removed|The block has been successfully removed/si',
+            $this->client->getResponse()->getContent()
+        );
 
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("redraw-slot", $json[1]["key"]);
@@ -335,8 +364,11 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertEquals(2, count($json));
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The block has been successfully removed", $json[0]["value"]);
+        $this->assertTrue(array_key_exists("value", $json[0]));        
+        $this->assertRegExp(
+            '/blocks_controller_block_removed|The block has been successfully removed/si',
+            $this->client->getResponse()->getContent()
+        );
 
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("remove-block", $json[1]["key"]);
@@ -382,7 +414,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         
-        $this->assertEquals('You can add just one block into an included block', $crawler->text());
+        $this->assertRegExp(
+            '/blocks_controller_included_blocks_accept_only_a_block|You can add just one block into an included block/si',
+            $this->client->getResponse()->getContent()
+        );
         
         return $slotName;
     }
@@ -458,8 +493,11 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
     private function anyValidParameterIsGiven($route)
     {
-        $crawler = $this->browse($route); 
-        $this->assertTrue($crawler->filter('html:contains("The page you are trying to edit does not exist")')->count() > 0);
+        $crawler = $this->browse($route);
+        $this->assertRegExp(
+            '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     private function anyValidPageIsRetrievedWithGivenParameters($route)
@@ -467,7 +505,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $params = array('pageId' => '4',
                         'language' => 'en');
         $crawler = $this->browse($route, $params);
-        $this->assertTrue($crawler->filter('html:contains("The page you are trying to edit does not exist")')->count() > 0);
+        $this->assertRegExp(
+            '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     private function slotNameIsInvalid($route, $params = null)
@@ -475,7 +516,10 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $params = (null === $params) ? array('page' => 'index', 'language' => 'en', 'slotName' => 'fake') : $params;
 
         $crawler = $this->browse($route, $params);
-        $this->assertTrue($crawler->filter('html:contains("You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty")')->count() > 0);
+        $this->assertRegExp(
+            '/blocks_controller_invalid_or_empty_slot|You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty/si',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     private function blockIdIsNull($route)
