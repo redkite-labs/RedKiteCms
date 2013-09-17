@@ -60,7 +60,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException
-     * @expectedExceptionMessage The content format %blockTypeInfo%is wrong. You should remove that block and add it again.
+     * @expectedExceptionMessage exception_wrong_json_format
      */
     public function testAnExceptionIsThrownWhenTheJsonIsMalformed()
     {
