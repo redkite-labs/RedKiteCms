@@ -80,7 +80,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlPage) {
-            throw new General\InvalidArgumentTypeException('AlPageManager is able to manage only AlPage objects');
+            throw new General\InvalidArgumentTypeException('exception_only_page_objects_are_accepted');
         }
 
         $this->alPage = $object;
@@ -167,11 +167,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     public function delete()
     {
         if (null === $this->alPage) {
-            throw new General\ArgumentIsEmptyException('Any page has been selected: delete operation aborted');
+            throw new General\ArgumentIsEmptyException('exception_no_pages_selected_delete_skipped');
         }
         
         if (0 !== $this->alPage->getIsHome()) {
-            throw new Page\RemoveHomePageException("It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one");
+            throw new Page\RemoveHomePageException("exception_home_page_cannot_be_removed");
         }
         
         $this->dispatchBeforeOperationEvent(
@@ -179,7 +179,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             PageEvents::BEFORE_DELETE_PAGE,
             array(),
             array(
-                'message' => 'The page deleting action has been aborted',
+                'message' => 'exception_page_deleting_aborted',
                 'domain' => 'exceptions',
             )
         );
@@ -272,7 +272,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 PageEvents::BEFORE_ADD_PAGE,
                 $values,
                 array(
-                    'message' => 'The page adding action has been aborted',
+                    'message' => 'exception_page_adding_aborted',
                     'domain' => 'exceptions',
                 )
             );
@@ -282,19 +282,19 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             $this->validator->checkRequiredParamsExists(array('PageName' => '', 'TemplateName' => ''), $values);
 
             if (empty($values['PageName'])) {
-                throw new General\ArgumentIsEmptyException("The name to assign to the page cannot be null. Please provide a valid page name to add your page");
+                throw new General\ArgumentIsEmptyException("exception_invalid_page_name");
             }
 
             if (empty($values['TemplateName'])) {
-                throw new General\ArgumentIsEmptyException("The page requires at least a template. Please provide the template name to add your page");
+                throw new General\ArgumentIsEmptyException("exception_page_template_param_missing");
             }
 
             if ($this->validator->pageExists($values['PageName'])) {
-                throw new Page\PageExistsException("The web site already contains the page you are trying to add. Please use another name for that page");
+                throw new Page\PageExistsException("exception_page_already_exists");
             }
 
             if (!$this->validator->hasLanguages()) {
-                throw new Page\AnyLanguageExistsException("The web site has any language inserted. Please add a new language before adding a page");
+                throw new Page\AnyLanguageExistsException("exception_website_has_no_languages");
             }
 
             $result = true;
@@ -366,7 +366,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                     PageEvents::BEFORE_EDIT_PAGE,
                     $values,
                     array(
-                        'message' => 'The page editing action has been aborted',
+                        'message' => 'exception_page_editing_aborted',
                         'domain' => 'exceptions',
                     )
             );

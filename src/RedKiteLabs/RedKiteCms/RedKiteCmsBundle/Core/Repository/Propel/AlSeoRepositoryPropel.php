@@ -43,7 +43,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlSeo) {
-            throw new InvalidArgumentTypeException('AlSeoRepositoryPropel accepts only AlSeo propel objects');
+            throw new InvalidArgumentTypeException('exception_only_propel_seo_objects_are_accepted');
         }
 
         return parent::setRepositoryObject($object);
@@ -79,7 +79,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
         }
 
         if (!is_string($permalink)) {
-            throw new InvalidArgumentTypeException('fromPermalink method accepts only string values');
+            throw new InvalidArgumentTypeException('exception_invalid_value_for_fromPermalink_method');
         }
 
         return AlSeoQuery::create('a')

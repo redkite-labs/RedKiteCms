@@ -17,11 +17,11 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Twig;
 
-//use RedKiteLabs\ThemeEngineBundle\Twig\SlotRendererExtension as BaseSlotRendererExtension;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Adds the renderSlot function to Twig engine
@@ -31,10 +31,12 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 class SlotRendererExtension extends \Twig_Extension
 {
     private $container;
+    private $translator;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->translator = $this->container->get('red_kite_cms.translator');
     }
 
     /**
@@ -65,15 +67,15 @@ class SlotRendererExtension extends \Twig_Extension
                 $slotContents[] = $this->renderBlock($blockManager, null, false, $extraAttributes);
             }
 
-            if (count($slotContents) == 0 && $pageTree->isCmsMode()) {
-                $slotContents[] = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" class="al-empty-slot-placeholer">%s</div>', $slotName, 'This slot has any content inside. Use the contextual menu to add a new one');
+            if (empty($slotContents) && $pageTree->isCmsMode()) {
+                $slotContents[] = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" class="al-empty-slot-placeholer">%s</div>', $slotName, $this->translator->translate('twig_extension_empty_slot', array(), 'RedKiteCmsBundle'));
             }
 
             $content = implode(PHP_EOL, $slotContents);
             $content = AlTwigTemplateWriter::MarkSlotContents($slotName, $content);
 
         } catch (\Exception $ex) {
-            $content = sprintf("Something was wrong rendering the %s slot. This is the returned error: %s", $slotName, $ex->getMessage());
+            $content = $this->translator->translate('twig_extension_slot_rendering_error', array('%slot_name%' => $slotName, '%error%' => $ex->getMessage()), 'RedKiteCmsBundle');
         }
 
         return sprintf('<div class="al_%s">%s</div>', $slotName, $content);
@@ -100,7 +102,7 @@ class SlotRendererExtension extends \Twig_Extension
             $content = $this->blockContentToHtml($block['Content']);
             
             if (strpos($content, '<script') !== false) {
-                $content = "A script content is not rendered in editor mode";
+                $content = $this->translator->translate('twig_extension_script_not_rendered', array(), 'RedKiteCmsBundle');
             }
             
             if (null === $template) {
@@ -189,27 +191,31 @@ class SlotRendererExtension extends \Twig_Extension
         $blocksRepository = $this->container->get('red_kite_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
         $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3)); 
+        $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
         
         if (count($blocks) > 0) { 
             $alBlock = $blocks[0];
-            $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
-            $blockManager = $blockManagerFactory->createBlockManager($alBlock->getType());
-            $blockManager->set($alBlock);
-            if (null !== $parent) {
-                $blockManager->setEditorDisabled($parent->getEditorDisabled());
-            }
-            
-            $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
-        } else {
-            if (true === $addWhenEmpty) {
-                if (null === $parent) {
-                    throw new RuntimeException("You must provide a valid AlBlockManager instance to automatically add a new Block");
+            $type = $alBlock->getType();
+            $blockManager = $blockManagerFactory->createBlockManager($type);
+            if (null !== $blockManager) {
+                $blockManager->set($alBlock);
+                if (null !== $parent) {
+                    $blockManager->setEditorDisabled($parent->getEditorDisabled());
                 }
-                
-                $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
-                $blockManager = $blockManagerFactory->createBlockManager($type);
+
+                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
+            }            
+        } 
+        
+        if (true === $addWhenEmpty) {
+            if (null === $parent) { 
+                throw new RuntimeException($this->translator->translate('twig_extension_valid_block_manager_required', array(), 'RedKiteCmsBundle'));
+            }
+
+            $blockManager = $blockManagerFactory->createBlockManager($type);
+            if (null !== $blockManager) {
                 $blockManager->setEditorDisabled($parent->getEditorDisabled());
-                
+
                 $values = array(
                   "PageId"          => $parent->get()->getPageId(),
                   "LanguageId"      => $parent->get()->getLanguageId(),
@@ -217,36 +223,34 @@ class SlotRendererExtension extends \Twig_Extension
                   "Type"            => $type,
                   "ContentPosition" => 1,
                 );            
-                
+
                 if ( ! empty($defaultContent)) {
                     $values["Content"] = $defaultContent;
                 }
-                
+
                 $blockManager->save($values);
-                $content = $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
-            }
-            else {
-                $content = sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" data-included="1">%s</div>', $key, 'This slot has any content inside. Use the contextual menu to add a new one');
+
+                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
             }
         }
         
-        return $content;
+        return sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" data-included="1">%s</div>', $key, $this->translator->translate('twig_extension_empty_slot', array(), 'RedKiteCmsBundle'));
     }
 
     /**
      * Validates the slot name
      *
      * @param string $slotName
-     * @throws \InvalidArgumentException
+     * @throws RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     protected function checkSlotName($slotName)
     {
         if (null === $slotName) {
-            throw new \InvalidArgumentException("renderSlot function requires a valid slot name to render the contents");
+            throw new InvalidArgumentException("twig_extension_invalid_slot_name");
         }
 
         if (!is_string($slotName)) {
-            throw new \InvalidArgumentException("renderSlot function requires a string as argument to identify the slot name");
+            throw new InvalidArgumentException("twig_extension_slot_name_must_be_string");
         }
     }
 }

@@ -3,839 +3,783 @@
     <file source-language="en" datatype="plaintext" original="RedKiteCmsBundle.en.xliff">
     <body>
         <trans-unit id="exceptions-1">
-            <source>The configuration parameter %parameter% does not exist</source>
+            <source>exception_parameter_does_not_exist</source>
             <target>Il parametro di configurazione %parameter% non esiste</target>
         </trans-unit>
         <trans-unit id="exceptions-2">
-            <source>AlBlockManager is only able to manage AlBlock objects</source>
+            <source>exception_only_block_objects_are_accepted</source>
             <target>AlBlockManager puo' gestire solamente oggetti del tipo AlBlock</target>
         </trans-unit>
         <trans-unit id="exceptions-3">
-            <source>Any valid block has been setted. Nothing to delete</source>
+            <source>exception_no_blocks_set_delete_skipped</source>
             <target>Non è stato impostato nessun Blocco valido. Non è stato rimosso nulla</target>
         </trans-unit>
         <trans-unit id="exceptions-4">
-            <source>The abstract method getDefaultValue() defined for the object %className% must return an array</source>
+            <source>exception_method_returns_invalid_value</source>
             <target>Il metodo astratto getDefaultValue() definito per l'oggetto %className% deve restituire un array</target>
         </trans-unit>
         <trans-unit id="exceptions-5"> 
-            <source>The block deleting operation has been aborted</source>
+            <source>exception_block_removing_aborted</source>
             <target>L'operazione di rimozione del contenuto è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-6">
-            <source>The operation to add a new block has been aborted</source>
+            <source>exception_block_adding_aborted</source>
             <target>L'operazione di aggiunta di un nuovo Blocco è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-7"> 
-            <source>The block editing action has been aborted</source>
+            <source>exception_block_editing_aborted</source>
             <target>L'operazione di modifica del contenuto è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-8">
-            <source>AlBlockManagerFactoryItem expects the following attributes: "%attributes%". Check the definition of the "%class%" object, into the bundle that implements it</source>            
+            <source>exception_missing_expected_attributes</source>            
             <target>AlBlockManagerFactoryItem si aspetta i seguenti attributi: "%attributes%". Verifica che la definizione della "%class%" dell'oggetto, nel bundle che la implementa</target>
         </trans-unit>
         <trans-unit id="exceptions-9">
-            <source>The image file has already been added</source>
+            <source>exception_file_already_added</source>
             <target>L'immagine e' gia' stata aggiunta</target>
         </trans-unit>
         <trans-unit id="exceptions-10">
-            <source>There is a configuration error in the form that manages this block: you must call that form "al_json_block". The best way to add a block which uses the json format to manage its data, is extending the form "RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType" which already handles this configuration for you</source>
+            <source>exception_json_configuration_error</source>
             <target>Sembra esserci un errore di configurazione nel form che gestisce questo blocco: devi chiamare quel form "al_json_block". Il modo migliore per aggiungere un blocco che utilizza il formato json per la gestione del contenuto è di estendere la classe "RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType" che implementa nativamente questa configurazione</target>
         </trans-unit>
         <trans-unit id="exceptions-11">
-            <source>The content format %blockTypeInfo%is wrong. You should remove that block and add it again.</source>
-            <target>The content format %blockTypeInfo%is wrong. You should remove that block and add it again.</target>
+            <source>exception_wrong_json_format</source>
+            <target>exception_wrong_json_format</target>
         </trans-unit>
         <trans-unit id="exceptions-12">
-            <source>It seems that the item requested does not exist anymore</source>
+            <source>exception_item_not_exists</source>
             <target>Sembra che l'item richiesto non esista piu'</target>
         </trans-unit>
         <trans-unit id="exceptions-13">
-            <source>AlLanguageManager is able to manage only AlLanguage objects</source>
+            <source>exception_only_language_objects_are_accepted</source>
             <target>AlLanguageManager puo' gestire solamente oggetti del tipo AlLanguage</target>
         </trans-unit>
         <trans-unit id="exceptions-14">
-            <source>Any language has been selected: delete operation aborted</source>
+            <source>exception_no_languages_selected_delete_skipped</source>
             <target>Nessuna lingua è stata selezionata: l'operazione di cancellazione è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-15">
-            <source>The website main language cannot be deleted. To delete this language promote another one as main language, then delete it again</source>
+            <source>exception_website_main_languages_cannot_be_delete</source>
             <target>La lingua principale del sito non può essere rimossa. Per cancellare questa lingua promuovi un'altra lingua come linguaggio principale, poi procedi con la cancellazione</target>
         </trans-unit>
         <trans-unit id="exceptions-16">
-            <source>The language deleting action has been aborted</source>
-            <target>The language deleting action has been aborted</target>
+            <source>exception_language_deleting_aborted</source>
+            <target>exception_language_deleting_aborted</target>
         </trans-unit>
         <trans-unit id="exceptions-17">
-            <source>The language adding action has been aborted</source>
+            <source>exception_language_adding_aborted</source>
             <target>L'operazione per la rimozione della lingua è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-18">
-            <source>The language you are trying to add, already exists in the website</source>
+            <source>exception_language_already_exists</source>
             <target>La lingua che stai tentando di aggiungere è già presente nel tuo sito web</target>
         </trans-unit>
         <trans-unit id="exceptions-19">
-            <source>A language cannot be null. Please provide a valid language name to add the language</source>
+            <source>exception_null_language_name</source>
             <target>Fornisci un valido nome per la lingua che stai tentando di aggiungere</target>
         </trans-unit>
         <trans-unit id="exceptions-20">
-            <source>The language editing action has been aborted</source>
+            <source>exception_language_editing_aborted</source>
             <target>L'operazione di modifica della lingua è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-21">
-            <source>AlPageManager is able to manage only AlPage objects</source>
+            <source>exception_only_page_objects_are_accepted</source>
             <target>AlPageManager puo' gestire solamente oggetti del tipo AlPage</target>
         </trans-unit>
         <trans-unit id="exceptions-22">
-            <source>Any page has been selected: delete operation aborted</source>
+            <source>exception_no_pages_selected_delete_skipped</source>
             <target>Nessuna pagina è stata selezionata: l'operazione di cancellazione è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-23">
-            <source>The name to assign to the page cannot be null. Please provide a valid page name to add your page</source>
+            <source>exception_invalid_page_name</source>
             <target>Il nome da assegnare alla pagina non può essere vuoto. Fornisci un nome valido per poter aggiungere la pagina</target>
         </trans-unit>
         <trans-unit id="exceptions-24">
-            <source>The page deleting action has been aborted</source>
+            <source>exception_page_deleting_aborted</source>
             <target>L'operazione di cancellazione della pagina è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-25">
-            <source>The page adding action has been aborted</source>
+            <source>exception_page_adding_aborted</source>
             <target>L'operazione di aggiunta della nuova pagina è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-26">
-            <source>It is not allowed to remove the website's home page. Promote another page as the home of your website, then remove this one</source>
+            <source>exception_home_page_cannot_be_removed</source>
             <target>La pagina principale del sito non può essere rimossa. Per cancellare questa pagina promuovi un'altra pagina come homepage, poi procedi con la cancellazione</target>
         </trans-unit>
         <trans-unit id="exceptions-27">
-            <source>The page requires at least a template. Please provide the template name to add your page</source>
+            <source>exception_page_template_param_missing</source>
             <target>Devi selezionare un template per la nuova pagina per poterla aggiungere</target>
         </trans-unit>
         <trans-unit id="exceptions-28">
-            <source>The web site already contains the page you are trying to add. Please use another name for that page</source>
+            <source>exception_page_already_exists</source>
             <target>La pagina che stai tentando di aggiungere esiste già nel sito. Scegli un nome diverso per quella pagina</target>
         </trans-unit>
         <trans-unit id="exceptions-29">
-            <source>The web site has any language inserted. Please add a new language before adding a page</source>
+            <source>exception_website_has_no_languages</source>
             <target>Il sito web non ha nessuna lingua inserita. Aggiungi una nuova lingua, poi procedi con l'aggiunta della nuova pagina</target>
         </trans-unit>
         <trans-unit id="exceptions-30">
-            <source>The page editing action has been aborted</source>
+            <source>exception_page_editing_aborted</source>
             <target>La modifica della pagina è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-31">
-            <source>The page id argument must be a numeric value</source>
+            <source>exception_invalid_value_for_page_id</source>
             <target>L'identificativo della pagina deve essere un valore numerico</target>
         </trans-unit>
         <trans-unit id="exceptions-32">
-            <source>The language id argument must be a numeric value</source>
+            <source>exception_invalid_value_for_language_id</source>
             <target>L'identificativo della lingua deve essere un valore numerico</target>
         </trans-unit>
         <trans-unit id="exceptions-33">
-            <source>Blocks cannot be retrieved because the id language has not been set</source> 
+            <source>exception_language_id_not_set</source> 
             <target>I blocchi non possone essere recuperati perche' l'identificativo della lingua non è stato impostato</target>
         </trans-unit>
         <trans-unit id="exceptions-34">
-            <source>Blocks cannot be retrieved because the id page has not been set</source>
+            <source>exception_page_id_not_set</source>
             <target>I blocchi non possone essere recuperati perche' l'identificativo della pagina non è stato impostato</target>
         </trans-unit>
         <trans-unit id="exceptions-35">
-            <source>AlSeoManager is able to manage only AlSeo objects</source>
+            <source>exception_only_seo_objects_are_accepted</source>
             <target>AlSeoManager puo' gestire solamente oggetti del tipo AlSeo</target>
         </trans-unit>
         <trans-unit id="exceptions-36">
-            <source>The seo deleting action has been aborted</source>
+            <source>exception_seo_deleting_aborted</source>
             <target>L'operazione di rimozione degli attributi dei motori di ricerca è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-37">
-            <source>The seo model object is null</source>
+            <source>exception_seo_is_null</source>
             <target>L'oggetto seo è nullo</target>
         </trans-unit>
         <trans-unit id="exceptions-38">
-            <source>The seo adding action has been aborted</source>
+            <source>exception_seo_adding_aborted</source>
             <target>L'operazione di aggiunta di un nuovo attributo per i motori di ricerca è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-39">
-            <source>The LanguageId argument is mandatory to save a seo object</source>
+            <source>exception_language_id_required_to_save_seo</source>
             <target>L'argomento LanguageId è richiesto per poter salvare un nuovo oggetto di tipo seo</target>
         </trans-unit>
         <trans-unit id="exceptions-40">
-            <source>The Permalink argument is mandatory to save a seo object</source>
+            <source>exception_permalink_required_to_save_seo</source>
             <target>L'argomento Permalink è richiesto per poter salvare un nuovo oggetto di tipo seo</target>
         </trans-unit>
         <trans-unit id="exceptions-41">
-            <source>The seo editing action has been aborted</source>
+            <source>exception_seo_editing_aborted</source>
             <target>L'operazione di modifica degli attributi dei motori di ricerca è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-42">
-            <source>setForceSlotAttributes method accepts only boolean values</source>    
+            <source>exception_boolean_value_required_for_setForceSlotAttributes</source>    
             <target>Il metodo setForceSlotAttributes accetta solamente valori booleani</target>
         </trans-unit>
         <trans-unit id="exceptions-43">
-            <source>setSkipSiteLevelBlocks method accepts only boolean values</source>
+            <source>exception_boolean_value_required_for_setSkipSiteLevelBlocks</source>
             <target>Il metodo setSkipSiteLevelBlocks accetta solamente valori booleani</target>
         </trans-unit>
         <trans-unit id="exceptions-44">
-            <source>The %type% type does not exist</source>
+            <source>exception_type_not_exists</source>
             <target>Il tipo %type% non esiste</target>
         </trans-unit>
         <trans-unit id="exceptions-45">
-            <source>The %className% adjustPosition protected method requires one of the following values: "%options%". Your input argument is: "%parameter%"</source>
+            <source>exception_invalid_argumento_for_adjustPosition</source>
             <target>Il metodo protetto %className% adjustPosition richiede uno dei seguenti valori: "%options%". L'argomento fornito in ingresso è: "%parameter%"</target>
         </trans-unit>
         <trans-unit id="exceptions-46">
-            <source>The class %className% that shoud define a new Slot Converter does not exist</source>
+            <source>exception_class_not_defined</source>
             <target>La classe %className% che dovrebbe definre un nuovo "Slot Converter" non esiste</target>
         </trans-unit>
         <trans-unit id="exceptions-47">
-            <source>slotToArray method accepts only strings</source>
+            <source>exception_slotToArray_accepts_only_strings</source>
             <target>Il metodo slotToArray accetta solamente argomenti di tipo stringa</target>
         </trans-unit>
         <trans-unit id="exceptions-48">
-            <source>AlTemplateManager requires a template to set up the template slots: any given</source>
+            <source>exception_any_template_given</source>
             <target>Non è stato fornito alcun template all'oggetto AlTemplateManager per inizializzare gli slots</target>
         </trans-unit>
         <trans-unit id="exceptions-50">
-            <source>AlValidator cannot check that at least once parameter exists because any "required parameters" has been given</source>
+            <source>exception_any_parameter_given_to_AlValidatorn</source>
             <target>AlValidator non puo' verificare l'esistenza di almeno uno dei parametri richiesti, in quanto non è stato fornito nemmeno un parametro di riscontro</target>
         </trans-unit>
         <trans-unit id="exceptions-51">
-            <source>AlValidator cannot check that at least once parameter exists because any "value" has been given</source>
+            <source>exception_any_value_to_check_when_only_a_param_exists</source>
             <target>AlValidator non puo' verificare l'esistenza di almeno uno dei parametri richiesti, in quanto non è stato fornito alcun valore</target>
         </trans-unit>
         <trans-unit id="exceptions-52">
-            <source>At least one of those options are required: %required%. The options you gave are %values%</source>
+            <source>exception_any_valid_option_provided</source>
             <target>Almeno uno delle seguenti opzioni è richiesta: %required%. Le opzioni fornite sono: %values%</target>
         </trans-unit>
         <trans-unit id="exceptions-53">
-            <source>AlValidator cannot check that all the required parameters exist because any "required parameters" has been given</source>
+            <source>exception_any_param_to_check_when_all_params_exist</source>
             <target>AlValidator non puo' verificare l'esistenza di tutti i parametri richiesti, in quanto non è stato fornito nemmeno un parametro di riscontro</target>
         </trans-unit>
         <trans-unit id="exceptions-54">
-            <source>AlValidator cannot check that all the required parameters exist because any "value" has been given</source>
+            <source>exception_any_value_provided_to_check_when_all_params_exist</source>
             <target>AlValidator non puo' verificare l'esistenza di tutti i parametri richiesti, in quanto non è stato fornito alcun valore</target>
         </trans-unit>
         <trans-unit id="exceptions-55">
-            <source>The following options are required: %required%. The options you gave are %values%</source>
+            <source>exception_some_required_options_are_not_provided</source>
             <target>Le seguenti opzioni sono obbligatorie: %required%. Le opzioni fornite sono: %values%</target>
         </trans-unit>
         <trans-unit id="exceptions-56">
-            <source>"%className%" createEvent method requires the eventName argument to be a string</source>
+            <source>"exception_invalid_argument_provided_for_event_name</source>
             <target>Il metodo createEvent della classe "%className%" richiede che l'argomento eventName sia una stringa</target>
         </trans-unit>
         <trans-unit id="exceptions-57">
-            <source>The class "%argumentClass%" passed as argument for the "%className%" createEvent method does not exist</source>
+            <source>exception_invalid_class_name_for_createEvent</source>
             <target>La classe "%argumentClass%" passata come argomento per il metodo createEvent dell'oggetto "%className%" non esiste</target>
         </trans-unit>
         <trans-unit id="exceptions-58">
-            <source>The class "%argumentClass%" passed as argument for the "%className%" createEvent must be an instance of "Symfony\Component\EventDispatcher\Event"</source>
+            <source>exception_invalid_class_instance_for_createEvent</source>
             <target>La classe "%argumentClass%" passata come argomento per il metodo createEvent dell'oggetto "%className%" deve essere un'istanza della classe "Symfony\Component\EventDispatcher\Event"</target>
         </trans-unit>
         <trans-unit id="exceptions-59">
-            <source>Any event has been found to be dispatched</source>
+            <source>exception_no_events</source>
             <target>Non ci sono eventi da distribuire</target>
         </trans-unit>
         <trans-unit id="exceptions-60">
-            <source>The parameter "values" must be an array</source>
+            <source>exception_invalid_value_array_required</source>
             <target>Il parametro "values" deve essere un array</target>
         </trans-unit>
         <trans-unit id="exceptions-61">
-            <source>The repository for the "%blockType%" block type at the namespace "%namespace%" cannot be created</source>
+            <source>exception_invalid_namespace</source>
             <target>Il repository per il blocco di tipo "%blockType%" dischiarato nel namespace "%namespace%" non puo' essere creato</target>
         </trans-unit>
         <trans-unit id="exceptions-62">
-            <source>AlBlockRepositoryPropel accepts only AlBlock propel objects</source>
+            <source>exception_only_propel_blocks_are_accepted</source>
             <target>AlBlockRepositoryPropel può accettare solamenti oggetti di tipo AlBlock</target>
         </trans-unit>
         <trans-unit id="exceptions-63">
-            <source>AlConfigurationRepositoryPropel accepts only AlConfiguration propel objects</source>
+            <source>exception_only_propel_configuration_objects_are_accepted</source>
             <target>AlConfigurationRepositoryPropel può accettare solamenti oggetti di tipo AlConfiguration</target>
         </trans-unit>
         <trans-unit id="exceptions-64">
-            <source>AlLanguageRepositoryPropel accepts only AlLanguage propel objects</source>
+            <source>exception_only_propel_language_objects_are_accepted</source>
             <target>AlLanguageRepositoryPropel può accettare solamenti oggetti di tipo AlLanguage</target>
         </trans-unit>
         <trans-unit id="exceptions-65">
-            <source>fromLanguageName method accepts only string values</source>
+            <source>exception_invalid_value_for_fromLanguageName_method</source>
             <target>Il metodo fromLanguageName accetta solamente argomenti stringa</target>
         </trans-unit>
         <trans-unit id="exceptions-66">
-            <source>AlLockedResourceRepositoryPropel accepts only AlLockedResource propel objects</source>
+            <source>exception_only_propel_locked_resource_objects_are_accepted</source>
             <target>AlLockedResourceRepositoryPropel può accettare solamenti oggetti di tipo AlLockedResource</target>
         </trans-unit>
         <trans-unit id="exceptions-67">
-            <source>AlPageRepositoryPropel accepts only AlPage propel objects</source>
+            <source>exception_only_propel_page_objects_are_accepted</source>
             <target>AlPageRepositoryPropelpuò accettare solamenti oggetti di tipo AlPage</target>
         </trans-unit>
         <trans-unit id="exceptions-68">
-            <source>fromPageName method accepts only string values</source>
+            <source>exception_invalid_value_for_fromPageName_method</source>
             <target>Il metodo fromPageName accetta solamente argomenti stringa</target>
         </trans-unit>
         <trans-unit id="exceptions-69">
-            <source>AlRoleRepositoryPropel accepts only AlRole propel objects</source>
+            <source>exception_only_propel_role_objects_are_accepted</source>
             <target>AlRoleRepositoryPropel può accettare solamenti oggetti di tipo AlRole</target>
         </trans-unit>
         <trans-unit id="exceptions-70">
-            <source>AlSeoRepositoryPropel accepts only AlSeo propel objects</source>
+            <source>exception_only_propel_seo_objects_are_accepted</source>
             <target>AlSeoRepositoryPropel può accettare solamenti oggetti di tipo AlSeo</target>
         </trans-unit>
         <trans-unit id="exceptions-71">
-            <source>fromPermalink method accepts only string values</source>
+            <source>exception_invalid_value_for_fromPermalink_method</source>
             <target>Il metodo fromPermalink accetta solamente argomenti stringa</target>
         </trans-unit>
         <trans-unit id="exceptions-72">
-            <source>AlUserRepositoryPropel accepts only AlUser propel objects</source>
+            <source>exception_only_propel_user_objects_are_accepted</source>
             <target>AlUserRepositoryPropel può accettare solamenti oggetti di tipo AlUser</target>
         </trans-unit>
         <trans-unit id="exceptions-73">
-            <source>The resource you requested is locked by another user. Please retry in a couple of minutes</source>
+            <source>exception_resource_locked</source>
             <target>La risorsa che hai richiesto è usata da un altro utente: riprova tra due minuti</target>
         </trans-unit>
         <trans-unit id="exceptions-74">
-            <source>The resource has not been locked due to an error occoured during the saving operation</source>
+            <source>exception_resource_locking_error</source>
             <target>La risorsa richiesta non può essere bloccata a causa di un errore durante il salvataggio</target>
         </trans-unit>
         <trans-unit id="exceptions-75">
-            <source>The template "%templateName%" does not seem to belong the "%themeName%" theme. Please check your template\'s configuration</source>
+            <source>exception_template_not_found</source>
             <target>Il template "%templateName%" non sembra appartenere al tema "%themeName%". Verifica la configurazione del template stesso</target>
         </trans-unit>
         <trans-unit id="exceptions-76">
-            <source>Template slots cannot be initialized</source>
+            <source>exception_slots_not_initialized</source>
             <target>Gli slots del template non possono essere inizializzate</target>
         </trans-unit>
         <trans-unit id="exceptions-77">
-            <source>Cannnot fetch a valid language using the provided argument</source>
+            <source>exception_language_not_retrieved</source>
             <target>Non posso recuperare una lingua utilizzando gli argomenti forniti</target>
         </trans-unit>
         <trans-unit id="exceptions-78">
-            <source>Cannnot fetch a valid page using the provided argument</source>
+            <source>exception_page_not_retrieved</source>
             <target>Non posso recuperare una pagina utilizzando gli argomenti forniti</target>
         </trans-unit>
         <trans-unit id="exceptions-79">
-            <source>The requested language has not been found</source>
+            <source>exception_language_not_found</source>
             <target>La lingua richiesta non è stata trovata</target>
         </trans-unit>
         <trans-unit id="exceptions-80">
-            <source>The requested page has not been found</source>
+            <source>exception_page_not_found</source>
             <target>La pagina richiesta non è stata trovata</target>
         </trans-unit>
         <trans-unit id="exceptions-81">
-            <source>The PageId argument is mandatory to save a seo object</source>
+            <source>exception_page_id_required_to_save_seo</source>
             <target>L'argomento PageId è richiesto per poter salvare un nuovo oggetto di tipo seo</target>
         </trans-unit>
         <trans-unit id="exceptions-82">
-            <source>The username already exists</source>
+            <source>exception_username_exists</source>
             <target>L'utente esiste già</target>
         </trans-unit>
         <trans-unit id="exceptions-83">
-            <source>The role already exists</source>
+            <source>exception_role_exists</source>
             <target>Il ruolo esiste già</target>
+        </trans-unit>
+        <trans-unit id="exceptions-84">
+            <source>exception_resource_was_free_but_someone_locked_it</source>
+            <target>Non posso bloccare la risorsa richiesta, in quanto era libera ma un altro utente l'ha bloccata prima di te. Questo accade quando due utenti tentano di richiedere la stessa risorsa allo stesso momento</target>
         </trans-unit>
         
         <!-- COMMON -->
         
         <trans-unit id="common-1">
-            <source>Stop</source>
+            <source>common_label_stop</source>
             <target>Stop</target>
         </trans-unit>
         <trans-unit id="common-2">
-            <source>Undo</source>
+            <source>common_label_undo</source>
             <target>Annulla</target>
         </trans-unit>
         <trans-unit id="common-3">
-            <source>Save</source>
+            <source>common_label_save</source>
             <target>Salva</target>
         </trans-unit>
         <trans-unit id="common-4">
-            <source>Close</source>
+            <source>common_label_close</source>
             <target>Chiudi</target>
         </trans-unit>
         <trans-unit id="common-5">
-            <source>New</source>
+            <source>common_label_new</source>
             <target>Nuovo</target>
         </trans-unit>
         <trans-unit id="common-6">
-            <source>Delete</source>
+            <source>common_label_delete</source>
             <target>Cancella</target>
         </trans-unit>
         <trans-unit id="common-7">
-            <source>Edit</source>
+            <source>common_label_edit</source>
             <target>Modifica</target>
         </trans-unit>
         <trans-unit id="common-8">
-            <source>Change</source>
+            <source>common_label_change</source>
             <target>Cambia</target>
         </trans-unit>
         
         <!-- BLOCKS CONTROLLER -->
         
         <trans-unit id="blocks-controller-1">
-            <source>The block has been successfully removed</source>
+            <source>blocks_controller_block_removed</source>
             <target>Il blocco è stato correttamente eliminato</target>
         </trans-unit>
         <trans-unit id="blocks-controller-2">
-            <source>The block has not been removed</source>
+            <source>blocks_controller_block_not_removed</source>
             <target>Il blocco non è stato eliminato</target>
         </trans-unit>
-        <trans-unit id="blocks-controller-3">
-            <source>The key param is mandatory to open the right file manager</source>
-            <target>Il parametro key è richiesto per poter aprire il file manager desiderato</target>
-        </trans-unit>
         <trans-unit id="blocks-controller-4">
-            <source>The block does not exist anymore or the slot has any block inside</source>
+            <source>blocks_controller_block_not_found</source>
             <target>Il blocco non esiste più oppure lo slot non contiene nessun blocco</target>
         </trans-unit>
         <trans-unit id="blocks-controller-5">
-            <source>The block has been successfully added</source>
+            <source>blocks_controller_block_added</source>
             <target>Il blocco è stato aggiunto correttamente</target>
         </trans-unit>
         <trans-unit id="blocks-controller-6">
-            <source>You can add just one block into an included block</source>
+            <source>blocks_controller_included_blocks_accept_only_a_block</source>
             <target>Non puoi inserire più di un blocco all'interno di un blocco incluso</target>
         </trans-unit>
         <trans-unit id="blocks-controller-7">
-            <source>The block has not been added because an unespected error has occoured when saving</source>
+            <source>blocks_controller_block_not_added_due_to_unespected_exception</source>
             <target>Il blocco non è stato aggiunto perchè si è verificato un errore inaspettato durante il salvataggio</target>
         </trans-unit>        
         <trans-unit id="blocks-controller-8">
-            <source>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</source>
+            <source>blocks_controller_invalid_or_empty_slot</source>
             <target>Stai tentando di gestire un blocco su uno slot che non esiste nella pagina, oppure il nome dello slot non è definito</target>
         </trans-unit>
         <trans-unit id="blocks-controller-9">
-            <source>The block has not been edited because an unespected error has occoured when saving</source>
+            <source>blocks_controller_block_editing_error</source>
             <target>Il blocco non è stato modificato perchè si è verificato un errore inaspettato durante il salvataggio</target>
         </trans-unit>
         <trans-unit id="blocks-controller-10">
-            <source>It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made</source>
+            <source>blocks_controller_nothing_changed_with_these_values</source>
             <target>sembra che i valori forniti non abbiamo prodotto nessun risultato o che il blocco non esista più: nessuna operazione effettuata</target>
         </trans-unit>
         <trans-unit id="blocks-controller-11">
-            <source>The block you tried to remove does not exist anymore in the website</source>
+            <source>blocks_controller_block_does_not_exists</source>
             <target>Il blocco che stai tentando di rimuovere non esiste più sul sito</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-12">
-            <source>The key param is mandatory to open the right file manager</source>
-            <target>Il parametro key è richiesto per operire il corretto gestore dei file</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-13">
-            <source>External file cannot be added because any file has been given</source>
-            <target>Il file esterno non può essere aggiunto perchè non è stato fornito nessun file</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-14">
-            <source>External file cannot be added because you have not provided any valid field name</source>
-            <target>Il file esterno non può essere aggiunto perchè non è stato fornito un nome del campo valido</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-15">
-            <source>You have already assigned this file to the block</source>
-            <target>Il file che stai tentando di aggiungere è stato già assegnato a questo blocco</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-16">
-            <source>The external file reference has not been added to this block because an unespected error has occoured when saving</source>
-            <target>Il riferimento al file esterno non è stato aggiunto al blocco in quanto si è verificato un errore imprevisto durante il salvataggio</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-17">
-            <source>You are trying to add an external file on a block that does not exist anymore</source>
-            <target>Stai tentando di aggiungere un file esterno ad un blocco che non esiste più</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-18">
-            <source>External file cannot be removed because any file has been given</source>
-            <target>Il file esterno non può essere rimosso in quanto non è stato fornito</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-19">
-            <source>External file cannot be removed because you have not provided any valid field name</source>
-            <target>Il file esterno non può essere aggiunto perchè non è stato fornito un nome del campo valido</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-20">
-            <source>The external file reference has not been removed from this block because an unespected error has occoured when saving</source>
-            <target>Il riferimento al file esterno non è stato rimosso al blocco in quanto si è verificato un errore imprevisto durante il salvataggio</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-21">
-            <source>You are trying to delete an external file from a block that does not exist anymore</source>
-            <target>Stai tentando di rimuovere un file esterno da un blocco che non esiste più</target>
         </trans-unit>        
-        <trans-unit id="blocks-controller-22">
-            <source>The page you are trying to edit does not exist</source>
+        <trans-unit id="blocks-controller-12">
+            <source>blocks_controller_page_does_not_exists</source>
             <target>La pagina che stai tentando di modificare non esiste più</target>
         </trans-unit>
-        <trans-unit id="blocks-controller-23">
-            <source>You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty</source>
-            <target>Stai tentando di gestire un blocco su uno slot che non esiste più sulla pagina, oppure il nome dello slot è vuoto</target>
-        </trans-unit>
-        <trans-unit id="blocks-controller-24">
-            <source>The block has been successfully edited</source>
+        <trans-unit id="blocks-controller-13">
+            <source>blocks_controller_block_edited</source>
             <target>Il blocco è stato modificato correttamente</target>
         </trans-unit>
         
         <!-- CMS CONTROLLER -->
         
         <trans-unit id="cms-controller-1">
-            <source>It seems that the "%page%" does not exist for the "%language%" language</source>
+            <source>cms_controller_page_not_exists_for_given_language</source>
             <target>Sembra che la pagina "%page%" non esista per il linguaggio "%language%"</target>
         </trans-unit>
-        <trans-unit id="cms-controller-2">
-            <source>The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the template for the pages which cannot be rendered by this theme</source>
-            <target>Il template assegnato a questa pagina non esiste. Questo può succedere quando cambi tema con un numero diverso di template rispetto a quello in uso. Per corregere questo problema dovresti riattivare il tema precedente e cambiare il template delle pagine che non possono essere caricate usando questo tema.</target>
-        </trans-unit>
         <trans-unit id="cms-controller-3">
-            <source>Pages</source>
+            <source>cms_controller_label_pages</source>
             <target>Pagine</target>
         </trans-unit>
         <trans-unit id="cms-controller-4">
-            <source>Languages</source>
+            <source>cms_controller_label_languages</source>
             <target>Lingue</target>
         </trans-unit>
         <trans-unit id="cms-controller-5">
-            <source>Themes</source>
+            <source>cms_controller_label_themes</source>
             <target>Temi</target>
         </trans-unit>
         <trans-unit id="cms-controller-6">
-            <source>Media Library</source>
+            <source>cms_controller_label_media_library</source>
             <target>Media Library</target>
         </trans-unit>
         <trans-unit id="cms-controller-7">
-            <source>Deploy Stage</source>
+            <source>cms_controller_label_deploy_stage</source>
             <target>Pubblica Stage</target>
         </trans-unit>
         <trans-unit id="cms-controller-8">
-            <source>Deploy Prod</source>
+            <source>cms_controller_label_deploy_production</source>
             <target>Pubblica Prod</target>
         </trans-unit>
         <trans-unit id="cms-controller-9">
-            <source>Opens the panel to add, modify, delete pages from the website</source>
+            <source>cms_controller_open_pages_panel</source>
             <target>Apre il pannello per aggiungere, modificare, eliminare le pagine dal sito</target>
         </trans-unit>
         <trans-unit id="cms-controller-10">
-            <source>Opens the panel to add, modify, delete languages from the website</source>
+            <source>cms_controller_open_languages_panel</source>
             <target>Apre il pannello per aggiungere, modificare, eliminare le lingue dal sito</target>
         </trans-unit>
         <trans-unit id="cms-controller-11">
-            <source>Opens the panel to manage the website themes</source>
+            <source>cms_controller_open_themes_panel</source>
             <target>Apre il pannello per gestire i temi del sito</target>
         </trans-unit>
         <trans-unit id="cms-controller-12">
-            <source>Opens the media library to upload, edit and remove external assets</source>
+            <source>cms_controller_open_media_library_panel</source>
             <target>Apre la media library per caricare, modificare e rimuorere file esterni</target>
         </trans-unit>
         <trans-unit id="cms-controller-13">
-            <source>Deploys the website for stage environment</source>
+            <source>cms_controller_deploy_stage</source>
             <target>Pubblica il sito per l'ambiente di stage</target>
         </trans-unit>
         <trans-unit id="cms-controller-14">
-            <source>Deploys the website for production</source>
+            <source>cms_controller_deploy_production</source>
             <target>Pubblica il sito per l'ambiente di produzione</target>
         </trans-unit>
         <trans-unit id="cms-controller-15">
-            <source>Opens the panel to add, modify, delete users from the website</source>
+            <source>cms_controller_open_users_panel</source>
             <target>Apre il pannello per aggiungere, modificare, eliminare gli utenti dal sito</target>
         </trans-unit>
         <trans-unit id="cms-controller-16">
-            <source>Logs out from RedKiteCms</source>
-            <target>Esce da RedKiteCms</target>
+            <source>cms_controller_log_out</source>
+            <target>Esce da RedKite CMS</target>
         </trans-unit>
         <trans-unit id="cms-controller-17">
-            <source>Security</source>
+            <source>cms_controller_label_deploy_security</source>
             <target>Sicurezza</target>
         </trans-unit>
         <trans-unit id="cms-controller-18">
-            <source>Logout</source>
+            <source>cms_controller_label_deploy_logout</source>
             <target>Esci</target>
         </trans-unit>
         <trans-unit id="cms-controller-19">
-            <source>Edits the current page</source>
+            <source>cms_controller_edit_page</source>
             <target>Modifica la pagina corrente</target>
         </trans-unit>
         <trans-unit id="cms-controller-20">
-            <source>Edit</source>
+            <source>cms_controller_label_edit</source>
             <target>Mod.</target>
         </trans-unit>
         <trans-unit id="cms-controller-21">
-            <source>Stops to edit the current page</source>
+            <source>cms_controller_stop_edit_page</source>
             <target>Interrompe la modifica della pagina</target>
         </trans-unit>
         <trans-unit id="cms-controller-23">
-            <source>Opens the panel that contains the tools to navigate through the pages of your website</source>
+            <source>cms_controller_open_nav_panel</source>
             <target>Apre il pannello che contiene gli strumenti per navigare tra le pagine del sito</target>
         </trans-unit>
         <trans-unit id="cms-controller-24">
-            <source>Nav</source>
+            <source>cms_controller_label_nav</source>
             <target>Nav</target>
         </trans-unit>
         <trans-unit id="cms-controller-25">
-            <source>Starts to edit the template slots</source>
+            <source>cms_controller_edit_slots</source>
             <target>Edita gli slots del template</target>
         </trans-unit>
         <trans-unit id="cms-controller-26">
-            <source>Slots</source>
+            <source>cms_controller_label_slots</source>
             <target>Slots</target>
         </trans-unit>
         <trans-unit id="cms-controller-27">
-            <source>Stops to edit the template slots</source>
+            <source>cms_controller_stop_edit_slots</source>
             <target>Interrompe la modifica degli slots</target>
         </trans-unit>
         <trans-unit id="cms-controller-28">
-            <source>Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other</source>
+            <source>cms_controller_finalize_slots</source>
             <target>Finalizza il cambiamento del tema del sito. Questo comando dovrebbe essere usato quando tutti gli slots dei template sono stati mappati</target>
         </trans-unit>
         <trans-unit id="cms-controller-29">
-            <source>Finalize</source>
+            <source>cms_controller_label_finalize</source>
             <target>Finalizza</target>
         </trans-unit>
 
         <!-- CONFIGURATION CONTROLLER -->
         
         <trans-unit id="configuration-controller-1">
-            <source>CMS language has been changed. Please wait while your site is reloading</source>
+            <source>configuration_controller_cms_language_changed</source>
             <target>La lingua del CMS e' stata cambiata. Attendi mentre la pagina viene ricaricata</target>
         </trans-unit>
         <trans-unit id="configuration-controller-2">
-            <source>An error occoured when changing CMS language</source>
+            <source>configuration_controller_changing_language_error</source>
             <target>Si e' verificato un errore mentre veniva cambiata la lingua del CMS</target>
         </trans-unit>
         <trans-unit id="configuration-controller-3">
-            <source>The language "%language%" is the one already in use</source>
+            <source>configuration_controller_language_already_in_use</source>
             <target>La lingua "%language%" e' attualmente in uso</target>
         </trans-unit>
         
         <!-- LANGUAGES CONTROLLER -->
         
         <trans-unit id="languages-controller-1">
-            <source>Language attributes</source>
+            <source>languages_controller_language_attribute</source>
             <target>Attributi della lingua</target>
         </trans-unit>
         <trans-unit id="languages-controller-2">
-            <source>Language</source>
+            <source>languages_controller_label_language</source>
             <target>Lingua</target>
         </trans-unit>
         <trans-unit id="languages-controller-3">
-            <source>Choose the language</source>
+            <source>languages_controller_choose_language</source>
             <target>Scegli la lingua</target>
         </trans-unit>
         <trans-unit id="languages-controller-4">
-            <source>When checked, promotes the language as the website's main language, which is the one displayed when any language has been given</source>
+            <source>languages_controller_is_main_language_explanation</source>
             <target>Seleziona questa opzione per promuovere la lingua selezionata a lingua principale del sito. Il linguaggio principale e' quello mostrato di default quando non e' stata richiesta una lingua in particolare</target>
         </trans-unit>
         <trans-unit id="languages-controller-5">
-            <source>Is Main</source>
+            <source>languages_controller_is_main_language</source>
             <target>Lingua principale</target>
         </trans-unit>
         <trans-unit id="languages-controller-6">
-            <source>Languages selector</source>
+            <source>languages_controller_languages_selector</source>
             <target>Seleziona una lingua</target>
         </trans-unit>
         <trans-unit id="languages-controller-7">
-            <source>The language has been successfully deleted</source>
+            <source>languages_controller_language_delete</source>
             <target>La lingua è stata rimossa correttamente</target>
         </trans-unit>
         <trans-unit id="languages-controller-8">
-            <source>The language has not been deleted</source>
+            <source>languages_controller_language_not_delete</source>
             <target>La lingua non è stata rimossa</target>
         </trans-unit>
         <trans-unit id="languages-controller-9">
-            <source>Any language has been choosen for removing</source>
+            <source>languages_controller_any_language_selected_for_removing</source>
             <target>Nessuna lingua è stata selezionata per l'eliminazione</target>
         </trans-unit>
         <trans-unit id="languages-controller-10">
-            <source>To manage languages you must enable the intl extension in your php.ini file. Operation aborted</source>
+            <source>languages_controller_intl_extension_not_enabled</source>
             <target>Per gestire le lingue è necessario abilitare l'estensione intl nel file php.ini. Operazione annullata</target>
         </trans-unit>
         <trans-unit id="languages-controller-11">
-            <source>The language has been successfully saved</source>
+            <source>languages_controller_language_saved</source>
             <target>La lingua è stata salvata correttamente</target>
         </trans-unit>
-        <trans-unit id="languages-controller-12">
-            <source>The language has not been saved because an error has been occoured</source>
-            <target>La lingua non è stata salvata a causa di un errore</target>
-        </trans-unit>
         <trans-unit id="languages-controller-13">
-            <source>The language has not been saved because an unespected error has been occoured when saving</source>
+            <source>languages_controller_unespected_error_when_saving_language</source>
             <target>La lingua non è stata salvata perchè si è verificato un errore inaspettato</target>
-        </trans-unit>
-        <trans-unit id="languages-controller-14">
-            <source>Any language has been choosen for removing</source>
-            <target>Nessuna lingua è stata selezionata per la rimozione</target>
-        </trans-unit>
-        <trans-unit id="languages-controller-15">
-            <source>The language has not been deleted</source>
-            <target>La lingua non è stata eliminata</target>
         </trans-unit>
         
         <!-- PAGES CONTROLLER -->
         
         <trans-unit id="pages-controller-1">
-            <source>Page</source>
+            <source>pages_controller_label_page</source>
             <target>Pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-2">
-            <source>SEO</source>
+            <source>pages_controller_label_seo</source>
             <target>SEO</target>
         </trans-unit>
         <trans-unit id="pages-controller-3">
-            <source>Sitemap</source>
+            <source>pages_controller_label_sitemap</source>
             <target>Sitemap</target>
         </trans-unit>
         <trans-unit id="pages-controller-4">
-            <source>Page attributes</source>
+            <source>pages_controller_label_page</source>
             <target>Attributi pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-5">
-            <source>Page name</source>
+            <source>pages_controller_label_page_name</source>
             <target>Nome pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-6">
-            <source>Type here an unique name for the page</source>
+            <source>pages_controller_insert_unique_name</source>
             <target>Inserisci un nome univoco per la pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-7">
-            <source>Template</source>
+            <source>pages_controller_label_template</source>
             <target>Template</target>
         </trans-unit>
         <trans-unit id="pages-controller-8">
-            <source>Choose one template from the current theme</source>
+            <source>pages_controller_choose_template</source>
             <target>Seleziona un template dal tema in uso</target>
         </trans-unit>
         <trans-unit id="pages-controller-9">
-            <source>Home page</source>
+            <source>pages_controller_label_home_page</source>
             <target>Pagina principale</target>
         </trans-unit>
         <trans-unit id="pages-controller-10">
-            <source>Set the page as the home page of your website. This is the page displayed when any specific page has been requested</source>
+            <source>pages_controller_home_page_explanation</source>
             <target>Seleziona questa opzione per promuovere la pagina selezionata a pagina principale del sito. La pagina principale e' quello mostrato di default quando non e' stata richiesta una pagina in particolare</target>
         </trans-unit>
         <trans-unit id="pages-controller-11">
-            <source>Published</source>
+            <source>pages_controller_label_published</source>
             <target>Pubblicata</target>
         </trans-unit>
         <trans-unit id="pages-controller-12">
-            <source>Check this option to publish the page</source>
+            <source>pages_controller_publish_checkbox</source>
             <target>Seleziona questa opzione per pubblicare la pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-13">
-            <source>SEO - Search Engines Optimization</source>
+            <source>pages_controller_seo</source>
             <target>SEO - Motori di ricerca</target>
         </trans-unit>
         <trans-unit id="pages-controller-14">
-            <source>Permalink</source>
+            <source>pages_controller_label_permalink</source>
             <target>Permalink</target>
         </trans-unit>
         <trans-unit id="pages-controller-15">
-            <source>This is a permanent link that identifies uniquely the page</source>
+            <source>pages_controller_permalink</source>
             <target>Questo e' un link permanente che identifica univocamente la pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-16">
-            <source>Meta-Title</source>
-            <target>Meta-Title</target>
+            <source>pages_controller_meta_title</source>
+            <target>pages_controller_meta_title</target>
         </trans-unit>
         <trans-unit id="pages-controller-17">
-            <source>The page title. It should be congruent with the page's text, it should always be compiled and is should be length 60 chars max</source>
+            <source>pages_controller_meta_title_explanation</source>
             <target>Il titolo della pagina. Dovrebbe essere congruente con in testo scritto nella pagina, dovrebbe essere sempre compilato e avere una lunghezza massima di 60 caratteri</target>
         </trans-unit>
         <trans-unit id="pages-controller-18">
-            <source>Meta-Description</source>
-            <target>Meta-Description</target>
+            <source>pages_controller_meta_description</source>
+            <target>pages_controller_meta_description</target>
         </trans-unit>
         <trans-unit id="pages-controller-19">
-            <source>Provide here a brief description of the page. This attribute should always be compiled</source>
+            <source>pages_controller_meta_description_explanation</source>
             <target>Inserisci una breve descrizione della pagina. Questo attributo dovrebbe essere sempre compilato</target>
         </trans-unit>
         <trans-unit id="pages-controller-20">
-            <source>Meta-Keywords</source>
-            <target>Meta-Keywords</target>
+            <source>pages_controller_meta_keywords</source>
+            <target>pages_controller_meta_keywords</target>
         </trans-unit>
         <trans-unit id="pages-controller-21">
-            <source>This attribute is no longer used by several Search Engines, so you could quite leave it blank</source>
+            <source>pages_controller_meta_keywords_explanation</source>
             <target>Questo attributo non è più usato da diversi motori di ricerca, quindi puoi tranquillamente lasciarlo vuoto.</target>
         </trans-unit>
         <trans-unit id="pages-controller-22">
-            <source>Change Frequency</source>
+            <source>pages_controller_label_change frequency</source>
             <target>Freq. aggiornamento</target>
         </trans-unit>
         <trans-unit id="pages-controller-23">
-            <source>Priority</source>
+            <source>pages_controller_label_priority</source>
             <target>Priorita'</target>
         </trans-unit>
         <trans-unit id="pages-controller-24">
-            <source>Pages selector</source>
+            <source>pages_controller_label_pages_selector</source>
             <target>Seleziona una pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-25">
-            <source>Languages</source>
+            <source>pages_controller_label_languages</source>
             <target>Lingue</target>
         </trans-unit>
         <trans-unit id="pages-controller-26">
-            <source>Site pages</source>
+            <source>pages_controller_label_site_pages</source>
             <target>Pagine del sito</target>
         </trans-unit>
         <trans-unit id="pages-controller-27">
-            <source>And now select the language or remove the page</source>
+            <source>pages_controller_next_step</source>
             <target>Ed ora seleziona la lingua oppure rimuovi la pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-28">
-            <source>The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes</source>
+            <source>pages_controller_al_prefix_not_permitted</source>
             <target>Il prefisso [ al_ ] non è consentito per evitare conflitti con le rotte interne dell'applicazione</target>
         </trans-unit>
         <trans-unit id="pages-controller-29">
-            <source>The page has not been saved</source>
+            <source>pages_controller_page_not_saved</source>
             <target>La pagina non è stata salvata</target>
         </trans-unit>
         <trans-unit id="pages-controller-30">
-            <source>Any page has been choosen for removing</source>
+            <source>pages_controller_any_page_selected</source>
             <target>Nessuna pagina è stata scelta per essere rimossa</target>
         </trans-unit>
         <trans-unit id="pages-controller-31">
-            <source>Nothing to delete with the given parameters</source>
+            <source>pages_controller_nothing_to_delete</source>
             <target>Non c'è niente da rimuovere con i parametri forniti</target>
         </trans-unit> 
+        <trans-unit id="pages-controller-32">
+            <source>pages_controller_label_site_map</source>
+            <target>Site map</target>
+        </trans-unit>
         
         <!-- PREVIEW CONTROLLER -->
         
         <trans-unit id="preview-controller-1">
-            <source>Nav</source>
+            <source>preview_controller_label_nav</source>
             <target>Nav</target>
         </trans-unit>
         <trans-unit id="preview-controller-2">
-            <source>Back</source>
+            <source>preview_controller_label_back</source>
             <target>Rit.</target>
         </trans-unit>
         
         <!-- SECURITY CONTROLLER -->
         
         <trans-unit id="security-controller-1">
-            <source>Users management</source>
+            <source>security_controller_label_users_management</source>
             <target>Gestione degli utenti</target>
         </trans-unit>
         <trans-unit id="security-controller-2">
-            <source>Username</source>
+            <source>security_controller_label_username</source>
             <target>Utente</target>
         </trans-unit>
         <trans-unit id="security-controller-3">
-            <source>Email</source>
+            <source>security_controller_label_email</source>
             <target>Email</target>
         </trans-unit>
         <trans-unit id="security-controller-4">
-            <source>Roles</source>
+            <source>security_controller_label_roles</source>
             <target>Ruoli</target>
         </trans-unit>
         <trans-unit id="security-controller-5">
-            <source>Manage user</source>
+            <source>security_controller_label_manage_user</source>
             <target>Gestione utente</target>
         </trans-unit>
         <trans-unit id="security-controller-6">
-            <source>Password</source>
+            <source>security_controller_label_password</source>
             <target>Password</target>
         </trans-unit>
         <trans-unit id="security-controller-7">
-            <source>Users</source>
+            <source>security_controller_label_users</source>
             <target>Utenti</target>
         </trans-unit>
         <trans-unit id="security-controller-8">
-            <source>Roles management</source>
+            <source>security_controller_label_roles_management</source>
             <target>Gestione dei ruoli</target>
         </trans-unit>
         <trans-unit id="security-controller-9">
-            <source>Rolename</source>
+            <source>security_controller_label_rolename</source>
             <target>Nome ruolo</target>
         </trans-unit>
         <trans-unit id="security-controller-10">
-            <source>Manage role</source>
+            <source>security_controller_label_manage_role</source>
             <target>Gestione ruolo</target>
         </trans-unit>
         <trans-unit id="security-controller-11">
@@ -843,19 +787,19 @@
             <target>Ruolo</target>
         </trans-unit>
         <trans-unit id="security-controller-12">
-            <source>User has not been saved</source>
+            <source>security_controller_user_not_saved</source>
             <target>L'utente non è stato salvato</target>
         </trans-unit>        
         <trans-unit id="security-controller-13">
-            <source>User has been saved</source>
+            <source>security_controller_user_saved</source>
             <target>L'utente è stato salvato</target>
         </trans-unit>
         <trans-unit id="security-controller-14">
-            <source>Role has not been saved</source>
+            <source>security_controller_role_not_saved</source>
             <target>Il ruolo non è stato salvato</target>
         </trans-unit>        
         <trans-unit id="security-controller-15">
-            <source>Role has been saved</source>
+            <source>security_controller_role_saved</source>
             <target>Il ruolo è stato salvato</target>
         </trans-unit>
         
@@ -882,100 +826,127 @@
             <target>licenza</target>
         </trans-unit>
         <trans-unit id="themes-controller-6">
-            <source>Preview</source>
+            <source>theme_controller_label_preview</source>
             <target>Anteprima</target>
         </trans-unit>
         <trans-unit id="themes-controller-7">
-            <source>Activate</source>
+            <source>theme_controller_label_activate</source>
             <target>Attiva</target>
         </trans-unit>
         <trans-unit id="themes-controller-8">
-            <source>Start from this Theme</source>
+            <source>themes_controller_start_from_this_theme</source>
             <target>Inizia da questo tema</target>
         </trans-unit>
         <trans-unit id="themes-controller-9">
-            <source>Theme:</source>
-            <target>Tema:</target>
+            <source>theme_controller_label_activate</source>
+            <target>Tema</target>
         </trans-unit>
         <trans-unit id="themes-controller-10">
-            <source>Previews the theme</source>
+            <source>themes_controller_preview_theme</source>
             <target>Prova il tema in anteprima</target>
         </trans-unit>
         <trans-unit id="themes-controller-11">
-            <source>Activates the theme</source>
+            <source>themes_controller_activate_theme</source>
             <target>Attiva il tema</target>
         </trans-unit>
         <trans-unit id="themes-controller-12">
-            <source>Resets and starts using this theme</source>
+            <source>themes_controller_start_from_theme_explanation</source>
             <target>Azzera ed inizia utilizzando questo tema</target>
         </trans-unit>
         <trans-unit id="themes-controller-13">
-            <source>Finalizes the change of theme</source>
+            <source>themes_controller_finalize_change_theme_explanation</source>
             <target>Finalizza il cambio di tema</target>
         </trans-unit>
         <trans-unit id="themes-controller-14">
-            <source>A Partial finalization removes only the blocks added by the new theme and replaced by blocks from previous theme.</source>
+            <source>themes_controller_partial_finalize_explanation</source>
             <target>Una finalizzazione parziare rimuove solamente i blocchi aggiunti dal nuovo tema e sostituiti con blocchi del tema precedente.</target>
         </trans-unit>
         <trans-unit id="themes-controller-15">
-            <source>A full finalization removes all the blocks saved from previous theme.</source>
+            <source>themes_controller_full_finalize_explanation</source>
             <target>La finalizzazione completa rimuove tutti i blocchi del tema precedente.</target>
         </trans-unit>
         <trans-unit id="themes-controller-16">
-            <source>Partial</source>
+            <source>theme_controller_label_partial</source>
             <target>Parziale</target>
         </trans-unit>
         <trans-unit id="themes-controller-17">
-            <source>Full</source>
+            <source>theme_controller_label_full</source>
             <target>Completa</target>
         </trans-unit>
         <trans-unit id="themes-controller-18">
-            <source>The theme has not been finalized due to an error occoured when saving to database</source>
+            <source>themes_controller_finalization_failed</source>
             <target>Il tema non è stato finalizzato a causa di un errore durante il salvataggio nel database</target>
         </trans-unit>
         <trans-unit id="themes-controller-19">
-            <source>The theme has been changed. Please wait while your site is reloading</source>
+            <source>themes_controller_theme_changed</source>
             <target>Il tema è stato cambiato. Attendi un attimo mentre ricarico il sito</target>
         </trans-unit>        
         <trans-unit id="themes-controller-20">
-            <source>The site has been bootstrapped with the new theme. This page is reloading</source>
+            <source>themes_controller_site_bootstrapped</source>
             <target>Il sito è stato inizializzato con il nuovo tema. Stò ricaricando la pagina</target>
         </trans-unit>        
         <trans-unit id="themes-controller-21">
-            <source>It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme</source>
+            <source>themes_controller_some_templates_not_mapped</source>
             <target>Sembra che il template "%template_name%" non sia stato mappato. Per cambiare un tema ogni template deve essere mappato con un template del nuovo tema</target>
         </trans-unit> 
         
         <!-- WELCOME -->
         
         <trans-unit id="welcome-1">
-            <source>Welcome to RedKiteCms</source>
-            <target>Benvenuto a RedKiteCms</target>
+            <source>welcome_title</source>
+            <target>Benvenuto a RedKite CMS</target>
         </trans-unit>
         <trans-unit id="welcome-2">
-            <source>This is the RedKiteCms background and usually it should be hide. There are many reasons you are seeing it, the most common are:</source>
-            <target>Questo è il background di RedKiteCms e solitamente dovrebbe essere nascosto. Ci sono diverse ragioni per le quali lo stai vedendo:</target>
+            <source>welcome_background</source>
+            <target>Questo è il background di RedKite CMS e solitamente dovrebbe essere nascosto. Ci sono diverse ragioni per le quali lo stai vedendo:</target>
         </trans-unit>
         <trans-unit id="welcome-3">
-            <source>The page and/or the language you have requested does not exist</source>
+            <source>welcome_page_or_language_not_exist</source>
             <target>La pagina o il linguaggio richiesti non esistono</target>
         </trans-unit>
         <trans-unit id="welcome-4">
-            <source>The page has assigned a template not included in the theme you are using on your website</source>
+            <source>welcome_page_assigned_to_a_theme_no_more_used</source>
             <target>Hai assegnato alla pagina corrente un template che non è incluso nel tema in uso nel tuo sito web</target>
         </trans-unit>
         <trans-unit id="welcome-5">
-            <source>Your website has any page and/or language and/or theme</source>
+            <source>welcome_website_empty</source>
             <target>Il tuo sito web non ha nessuna lingua e/o pagina e/o tema</target>
         </trans-unit>
         <trans-unit id="welcome-6">
-            <source>Something has gone wrong during the install process</source>
+            <source>welcome_install_process_failed</source>
             <target>Qualcosa non ha funzionato durante l'installazione</target>
         </trans-unit>        
         <trans-unit id="welcome-7">
-            <source>The action you made returns this response:</source>
+            <source>welcome_returned_response</source>
             <target>Il server riporta il seguente errore:</target>
-        </trans-unit>  
+        </trans-unit>   
+        
+        <!-- TWIG EXTENSION -->
+               
+        <trans-unit id="twig-extension-1">
+            <source>twig_extension_empty_slot</source>
+            <target>Lo slot non contiene blocchi</target>
+        </trans-unit>          
+        <trans-unit id="twig-extension-2">
+            <source>twig_extension_slot_rendering_error</source>
+            <target>Si è verificato un errore per lo slot %slot_name%. Questo è l'errore: %error%</target>
+        </trans-unit>   
+        <trans-unit id="twig-extension-3">
+            <source>twig_extension_script_not_rendered</source>
+            <target>Un blocco "Script" non viene inserito quando l'editor è attivo</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-4">
+            <source>twig_extension_valid_block_manager_required</source>
+            <target>Per aggiungere un blocco in automatico, devi fornire un valido oggetto di tipo AlBlockManager</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-5">
+            <source>twig_extension_invalid_slot_name</source>
+            <target>Il nome dello slot fornito non è valido per la funzione renderSlot</target>
+        </trans-unit>
+        <trans-unit id="twig-extension-6">
+            <source>twig_extension_slot_name_must_be_string</source>
+            <target>Il nome dello slot deve essere di tipo stringa per la funzione renderSlot</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

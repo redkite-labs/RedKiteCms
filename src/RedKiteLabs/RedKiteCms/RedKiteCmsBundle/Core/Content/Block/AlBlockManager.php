@@ -121,7 +121,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function set($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
-            throw new InvalidArgumentTypeException('AlBlockManager is only able to manage AlBlock objects');
+            throw new InvalidArgumentTypeException('exception_only_block_objects_are_accepted');
         }
 
         $this->alBlock = $object;
@@ -321,14 +321,14 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function delete()
     {
         if (null === $this->alBlock) {
-            throw new General\ArgumentIsEmptyException('Any valid block has been setted. Nothing to delete');
+            throw new General\ArgumentIsEmptyException('exception_no_blocks_set_delete_skipped');
         }
         
         $this->dispatchBeforeOperationEvent(
             '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
             BlockEvents::BEFORE_DELETE_BLOCK,
             array(),
-            'The block deleting operation has been aborted'
+            'exception_block_removing_aborted'
         );
 
         try {
@@ -555,7 +555,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
                 BlockEvents::BEFORE_ADD_BLOCK,
                 $values,
-                'The operation to add a new block has been aborted'
+                'exception_block_adding_aborted'
             );
 
         $this->validator->checkEmptyParams($values);
@@ -567,7 +567,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             $defaults = $this->getDefaultValue();
             if (!is_array($defaults)) {
                 $exception = array(
-                    'message' => 'The abstract method getDefaultValue() defined for the object %className% must return an array',
+                    'message' => 'exception_method_returns_invalid_value',
                     'parameters' => array(
                         '%className%' => get_class($this),
                     ),
@@ -636,7 +636,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
                 BlockEvents::BEFORE_EDIT_BLOCK,
                 $values,
-                'The block editing action has been aborted'
+                'exception_block_editing_aborted'
             );
 
         try {

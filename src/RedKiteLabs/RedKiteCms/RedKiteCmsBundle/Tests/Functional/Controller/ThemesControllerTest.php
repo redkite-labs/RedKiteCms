@@ -69,7 +69,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_changeTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('html:contains("To change a theme each template must be mapped with a template from the new theme")'));
+        $this->assertCount(1, $crawler->filter('html:contains("themes_controller_some_templates_not_mapped")'));
         
     }
     
@@ -89,7 +89,10 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_changeTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('html:contains("The theme has been changed. Please wait while your site is reloading")'));
+        $this->assertRegExp(
+            '/themes_controller_theme_changed|The theme has been changed. Please wait while your site is reloading/si',
+            $response->getContent()
+        );
        
         $crawler = $this->client->request('GET', 'backend');
            
@@ -144,7 +147,10 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $this->assertCount(1, $crawler->filter('#al-partial-finalizer'));
         $this->assertCount(1, $crawler->filter('#al-full-finalizer'));
         $this->assertCount(1, $crawler->filter('#al-close-finalizer'));
-        $this->assertCount(1, $crawler->filter('html:contains("Finalizes the change of theme")'));
+        $this->assertRegExp(
+            '/themes_controller_finalize_change_theme_explanation|Finalizes the change of theme/si',
+            $response->getContent()
+        );
     }
     
     public function testPartialFinalization()
@@ -181,7 +187,10 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $params = array('themeName' => 'SunshineThemeBundle');
         $crawler = $this->client->request('POST', 'backend/en/startFromTheme', $params);
         $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());        
-        $this->assertCount(1, $crawler->filter('html:contains("The site has been bootstrapped with the new theme. This page is reloading")'));        
+        $this->assertEquals(200, $response->getStatusCode()); 
+        $this->assertRegExp(
+            '/themes_controller_site_bootstrapped|The site has been bootstrapped with the new theme. This page is reloading/si',
+            $response->getContent()
+        );
     }
 }

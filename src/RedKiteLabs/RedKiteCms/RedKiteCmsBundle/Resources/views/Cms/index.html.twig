@@ -120,15 +120,15 @@
                 <li>RedKiteCms</li>
             </ul>
             <ul class="inline al-commands pull-left">
-                <li><a href="#" id="al_open_pages_panel" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete pages from the website'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_open_languages_panel" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete languages from the website'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Languages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_open_themes_panel" rel="tooltip" title="{{ 'Opens the panel to manage the website themes'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Themes'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_open_media_library" rel="tooltip" title="{{ 'Opens the media library to upload, edit and remove external assets'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Media Library'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" class="al_deployer" rel="stage" rel="tooltip" title="{{ 'Deploys the website for stage environment'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Deploy Stage'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" class="al_deployer" rel="production" rel="tooltip" title="{{ 'Deploys the website for production'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Deploy Prod'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_pages_panel" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_languages_panel" rel="tooltip" title="{{ 'cms_controller_open_languages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_languages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_themes_panel" rel="tooltip" title="{{ 'cms_controller_open_themes_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_themes'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_media_library" rel="tooltip" title="{{ 'cms_controller_open_media_library_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_media_library'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" class="al_deployer" rel="stage" rel="tooltip" title="{{ 'cms_controller_deploy_stage'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_stage'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" class="al_deployer" rel="production" rel="tooltip" title="{{ 'cms_controller_deploy_production'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_production'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
                 {% if is_secure %}
-                <li><a href="#" id="al_open_users_manager" rel="tooltip" title="{{ 'Opens the panel to add, modify, delete users from the website'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Security'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_logout" rel="tooltip" title="{{ 'Logs out from RedKiteCms'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Logout'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_open_users_manager" rel="tooltip" title="{{ 'cms_controller_open_users_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_security'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li><a href="#" id="al_logout" rel="tooltip" title="{{ 'cms_controller_log_out'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_logout'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
                 {% endif %} 
             </ul>
         </div>
@@ -147,10 +147,10 @@
 <div id="al_main_commands">
     <div id="al_toggle_edit_buttons">
         <a href="#" id="al_start_editor">
-            <span class="al_img_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Edits the current page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Edit'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
+            <span class="al_img_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_edit'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
         </a>
         <a href="#" id="al_stop_editor" style="display: none">
-            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Stops to edit the current page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
+            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_stop_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'common_label_stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
         </a>        
         <div class="clearfix"></div>    
     </div>
@@ -164,7 +164,7 @@
         </div>
         <div class="pull-left">
             <a href="#" id="al_show_navigation">
-                <span class="al_img_nav pull-left al_tab_text"><p rel="tooltip" title="{{ 'Opens the panel that contains the tools to navigate through the pages of your website'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Nav'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
+                <span class="al_img_nav pull-left al_tab_text"><p rel="tooltip" title="{{ 'cms_controller_open_nav_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_nav'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
             </a>
         </div>     
         <div class="clearfix"></div>  
@@ -173,17 +173,17 @@
     {% if slots is defined and slots|length > 0 %}
     <div id="al_toggle_slots_changer">
         <a href="#" id="al_start_slots_management">
-            <span class="al_img_slots al_tab_text pull-left" rel="tooltip" title="{{ 'Starts to edit the template slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}"><p>{{ 'Slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
+            <span class="al_img_slots al_tab_text pull-left" rel="tooltip" title="{{ 'cms_controller_edit_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}"><p>{{ 'cms_controller_label_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
         </a>
         <a href="#" id="al_stop_slots_management" style="display: none">
-            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'Stops to edit the template slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
+            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_stop_edit_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'common_label_stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
         </a>        
         <div class="clearfix"></div>    
     </div>
         
     <div id="">
         <a href="#" id="al_finalize_theme">
-            <span class="al_img_finalize al_tab_text pull-left"><p rel="tooltip" title="{{ 'Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'Finalize'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
+            <span class="al_img_finalize al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_finalize_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_finalize'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
         </a>  
     </div>
     {% endif %}

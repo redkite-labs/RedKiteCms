@@ -53,14 +53,14 @@ class AlParametersValidator implements AlParametersValidatorInterface
      */
     public function checkOnceValidParamExists(array $requiredParams, array $values, $message = null)
     {
-        $this->checkEmptyParams($requiredParams, 'AlValidator cannot check that at least once parameter exists because any "required parameters" has been given');
-        $this->checkEmptyParams($values, 'AlValidator cannot check that at least once parameter exists because any "value" has been given');
+        $this->checkEmptyParams($requiredParams, 'exception_any_parameter_given_to_AlValidatorn');
+        $this->checkEmptyParams($values, 'exception_any_value_to_check_when_only_a_param_exists');
 
         $diff = array_intersect_key($requiredParams, $values);
         if (empty($diff)) {
             if (null === $message) {
                 $message = array(
-                    'message' => 'At least one of those options are required: %required%. The options you gave are %values%',
+                    'message' => 'exception_any_valid_option_provided',
                     'parameters' => array(
                         '%required%' => $this->doImplode($requiredParams), 
                         '%values%' => $this->doImplode($values),
@@ -82,14 +82,14 @@ class AlParametersValidator implements AlParametersValidatorInterface
      */
     public function checkRequiredParamsExists(array $requiredParams, array $values, $message = null)
     {
-        $this->checkEmptyParams($requiredParams, 'AlValidator cannot check that all the required parameters exist because any "required parameters" has been given');
-        $this->checkEmptyParams($values, 'AlValidator cannot check that all the required parameters exist because any "value" has been given');
+        $this->checkEmptyParams($requiredParams, 'exception_any_param_to_check_when_all_params_exist');
+        $this->checkEmptyParams($values, 'exception_any_value_provided_to_check_when_all_params_exist');
 
         $diff = array_intersect_key($requiredParams, $values);
         if ($diff != $requiredParams) {
             if (null === $message) {
                 $message = array(
-                    'message' => 'The following options are required: %required%. The options you gave are %values%',
+                    'message' => 'exception_some_required_options_are_not_provided',
                     array(
                         '%required%' => $this->doImplode($requiredParams), 
                         '%values%' => $this->doImplode($values)

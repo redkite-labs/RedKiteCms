@@ -110,7 +110,7 @@ class AlCmsController extends BaseFrontendController
         } else {
             $cmsLanguage = $this->configuration->read('language');
             $message = $this->container->get('translator')->trans(
-                'It seems that the "%page%" does not exist for the "%language%" language', 
+                'cms_controller_page_not_exists_for_given_language', 
                 array(
                     '%page%' => $request->get('page'), 
                     '%language%' => $request->get('_locale')
@@ -120,7 +120,7 @@ class AlCmsController extends BaseFrontendController
             );
             $this->container->get('session')->getFlashBag()->add('notice', $message);
         }
-
+        
         $response = $this->render('RedKiteCmsBundle:Cms:index.html.twig', $params);
 
         return $this->dispatchEvents($request, $response);

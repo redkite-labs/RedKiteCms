@@ -43,7 +43,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof AlBlock) {
-            throw new InvalidArgumentTypeException('AlBlockRepositoryPropel accepts only AlBlock propel objects');
+            throw new InvalidArgumentTypeException('exception_only_propel_blocks_are_accepted');
         }
 
         return parent::setRepositoryObject($object);

@@ -44,6 +44,7 @@ class RedKiteCmsExtensionTest extends TestCase
         $this->assertEquals('js', $this->container->getParameter('red_kite_cms.deploy_bundle.js_dir'));
         $this->assertEquals('css', $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir'));
         $this->assertEquals('WebSite', $this->container->getParameter('red_kite_cms.deploy_bundle.controller'));
+        $this->assertEquals('', $this->container->getParameter('red_kite_cms.website_url'));
     }
 
     public function testOrm()
@@ -130,6 +131,11 @@ class RedKiteCmsExtensionTest extends TestCase
         $extension = new RedKiteCmsExtension();
         $extension->load(array(array('deploy_bundle' => array('css_dir' => $value))), $this->container);
         $this->assertEquals($value, $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir'));
+    }
+    
+    public function testWebsiteUrl()
+    {
+        $this->scalarNodeParameter('red_kite_cms.website_url', 'website_url', 'http://redkite-labs.com');
     }
 
     private function scalarNodeParameter($parameter, $configKey, $configValue)

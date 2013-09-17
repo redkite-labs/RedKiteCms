@@ -52,7 +52,7 @@ class AlFactoryRepository implements AlFactoryRepositoryInterface
             $class = sprintf('%s\%s\Al%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
             if ( ! class_exists($class)) {
                 $exception = array(
-                    'message' => 'The repository for the "%blockType%" block type at the namespace "%namespace%" cannot be created',
+                    'message' => 'exception_invalid_namespace',
                     'parameters' => array(
                         '%blockType%' => $blockType, 
                         '%namespace%' => $namespace,

@@ -37,7 +37,7 @@ class AlRoleRepositoryPropelTest extends Base\BaseModelPropel
 
     /**
      * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlRoleRepositoryPropel accepts only AlRole propel objects
+     * @expectedExceptionMessage exception_only_propel_role_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlRoleObjects()
     {
