@@ -197,7 +197,7 @@ abstract class AlTwigTemplateWriter
     {
         if ( ! empty($this->metatagsExtraContents)) {
             $this->metatagsExtraSection = $this->writeComment("Metatags extra section");
-            $this->metatagsExtraSection .= $this->writeBlock('metatags', $this->metatagsExtraContents);
+            $this->metatagsExtraSection .= $this->writeBlock('metatags', $this->metatagsExtraContents, true);
         }
     }
 
@@ -380,9 +380,10 @@ abstract class AlTwigTemplateWriter
      *
      * @param  string $blockName
      * @param  string $blockContent
+     * @param  boolean $parent
      * @return string
      */
-    protected function writeBlock($blockName, $blockContent)
+    protected function writeBlock($blockName, $blockContent, $parent = false)
     {
         if (empty($blockContent)) {
             // @codeCoverageIgnoreStart
@@ -391,6 +392,9 @@ abstract class AlTwigTemplateWriter
         }
 
         $block = "{% block $blockName %}" . PHP_EOL;
+        if ($parent) {
+            $block .= '{{ parent() }}' . PHP_EOL;
+        }
         $block .= $blockContent . PHP_EOL;
         $block .= "{% endblock %}\n" . PHP_EOL;
 
