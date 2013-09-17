@@ -123,6 +123,7 @@ class AlTwigTemplateWriterBaseTest extends BaseAlTwigTemplateWriter
         $section = "{% extends 'AcmeWebsiteBundle:Theme:home.html.twig' %}" . PHP_EOL;
         $section .= "\n{#--------------  METATAGS EXTRA SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block metatags %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "Some block's metatags rendered from a view" . PHP_EOL;
         $section .= "Metatags rendered froma block" . PHP_EOL;
         $section .= "{% endblock %}" . PHP_EOL;
