@@ -4,7 +4,7 @@
  * under the MIT LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManag
 /**
  * Defines the Block Manager to handle a hypertext block managed by the tinyMce editor
  *
- * @author RedKiteCms <webmaster@alphalemon.com>
+ * @author RedKite Labs <info@redkite-labs.com>
  */
 class AlBlockManagerTinyMceBlock extends AlBlockManagerInlineTextBlock
 {
