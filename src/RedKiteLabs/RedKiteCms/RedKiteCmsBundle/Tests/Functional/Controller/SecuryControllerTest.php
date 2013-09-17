@@ -32,7 +32,7 @@ class SecurityControllerTest extends BaseSecured
     {
         $client = $this->setUpClient(array());
 
-        $crawler = $client->request('GET', '/backend/login');
+        $crawler = $client->request('GET', '/backend/login'); 
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Please authenticate yourself to start with RedKite CMS")')->count() == 1);
@@ -200,8 +200,11 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("User has been saved")')->count() == 1);
-
+        $this->assertRegExp(
+            '/security_controller_user_saved|User has been saved/si',
+            $response->getContent()
+        );
+        
         $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -249,7 +252,10 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("User has been saved")')->count() == 1);
+        $this->assertRegExp(
+            '/security_controller_user_saved|User has been saved/si',
+            $response->getContent()
+        );
 
         $crawler = $client->request('POST', '/backend/users/en/al_userList');
         $response = $client->getResponse();
@@ -351,7 +357,10 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Role has been saved")')->count() == 1);
+        $this->assertRegExp(
+            '/security_controller_role_saved|Role has been saved/si',
+            $response->getContent()
+        );
 
         $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();
@@ -371,7 +380,10 @@ class SecurityControllerTest extends BaseSecured
         $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Role has been saved")')->count() == 1);
+        $this->assertRegExp(
+            '/security_controller_role_saved|Role has been saved/si',
+            $response->getContent()
+        );
 
         $crawler = $client->request('POST', '/backend/users/en/al_rolesList');
         $response = $client->getResponse();

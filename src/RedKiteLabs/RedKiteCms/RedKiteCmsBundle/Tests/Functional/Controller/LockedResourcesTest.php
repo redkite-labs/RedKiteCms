@@ -74,8 +74,11 @@ class LockedResourcesTest extends BaseSecured
         $client1 = $this->setUpClient($credentials);
         $crawler1 = $client1->request($method, $route, $params);
         $response1 = $client1->getResponse();
-        $this->assertEquals(404, $response1->getStatusCode());
-        $this->assertEquals('The resource you requested is locked by another user. Please retry in a couple of minutes', $crawler1->text());
+        $this->assertEquals(404, $response1->getStatusCode());        
+        $this->assertRegExp(
+            '/exception_resource_locked|The resource you requested is locked by another user. Please retry in a couple of minutes/si',
+            $response1->getContent()
+        );
         
         $this->assertCount(1, $this->lockedResourceRepository->fetchResources());
     }
