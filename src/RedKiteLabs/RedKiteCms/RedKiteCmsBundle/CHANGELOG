@@ -1,3 +1,40 @@
+RedKite CMS 1.1.Beta (Shortly)
+1e7935c added parent call to metatag section
+a83a95e added translation capabilities to SlotRendererExtension and translated messages
+0e41e0c added document that explains how to migrate App-Blocks from AlphaLemon to RedKite CMS
+0731152 fixed some small typos
+d36f1f5 normalized transalation files
+cc050b0 listener does not intercepts exceptions and then rendering a 404 response, now they can be intercepted by the ExceptionListener listener
+1d7a96c restyled the login and welcome templates
+c373a17 added new parameter website_url used to generate the sitemap
+fbafb10 fixed an annoying bug which prevents to modify contents after adding or editing a page or a language
+ef118dc removed the slot name requirement for powered by link: now the link could stay everywhere on the page
+d2c9dd3 fixed some interface styles
+16dbf35 changed how the popover that contains the current block editor is displayed
+1eac7d5 fixed icons markup
+9284279 stopped event propagation when adding or removing list items
+7a6b663 fixed inline list bug that occours when adding and removing blocks
+480a41f added a new base template which extends the RedKiteLabsThemeBundle:Frontend:base.html.twig and adds two blocks to add assets when the cms is active
+7faff08 changed how the redkitecms:generate:templates generates the slots configuration files.
+9f15695 templates can be genearated also when they have no slots
+d11bfb8 added a control to make sure that the theme exists before fetching the templates
+c9b8832 All throws exceptions now implement the RedKiteCmsExceptionInterface
+fada859 AlThemesCollectionWrapper throws a ThemeNotFoundException when the requested theme is not found. Renamed the NonExistentTemplateException to TemplateNotFoundException which now implements the RedKiteCmsExceptionInterface
+c0dcff4 added a new command to migrate from AlphaLemon RC4 to RedKite CMS
+75d1cd3 added documents that explains how to migrate and application and theme from AlphaLemon CMS to RedKite CMS
+ec6d1b2 fixed default theme path for generator tests
+5097a2f changed AlBlockManagerFactory behaviour: now it does not remove a block when this has been uninstalled
+12e0587 fixed a bug due to empty values which are not allowed when saving a list of images
+c5a9fc2 added ThemeEngineBundle's commands and adapted several classes due to ThemeEngineBundle lightening
+b0c27b3 set bootstrap skin as default
+85fbcfe renamed routing name
+1339a4e renamed translation catalogues
+f4f20e3 removed internal bundles from the CMS to a new bundle
+a3b5763 moved images list to Image Bundle
+6d48b44 renamed AlphaLemonExceptionInterface to RedKiteCmsExceptionInterface
+f6dfcf6 fixed a bug handling the previous theme when it is null
+69f28ae moved from AlphaLemon CMS to RedKite CMS
+
 1.1.RC4 (2013-07-28)
 1a6a5bc fromLanguageName orders by permalink by default; this behavior can be controlled by the second argument
 62ac8ab rename toolbar button "Users" to "Security"
