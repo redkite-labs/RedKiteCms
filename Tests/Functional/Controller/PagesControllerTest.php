@@ -74,7 +74,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/pages_controller_al_prefix_not_permitted|The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes/si',
+            '/pages_controller_al_prefix_not_permitted|The prefix \[ al_ \] is not permitted to avoid conflicts with the application internal routes/si',
             $response->getContent()
         );
     }
