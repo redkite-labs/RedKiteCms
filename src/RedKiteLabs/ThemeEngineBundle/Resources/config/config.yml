@@ -1,6 +1,3 @@
-red_kite_labs_theme_engine:
-    base_template: RedKiteLabsThemeEngineBundle:Frontend:base.html.twig
-
 assetic:
     bundles: [ RedKiteLabsThemeEngineBundle ]
     filters:

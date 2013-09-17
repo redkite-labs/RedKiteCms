@@ -24,28 +24,30 @@
         {% block metatags %}        
         {% endblock %}
         
-        {% block pre_external_stylesheets %}
-        {% endblock %}
+        {% block assets %}        
+            {% block pre_external_stylesheets %}
+            {% endblock %}
+
+            {% block external_stylesheets %}
+            {% endblock %}
+
+            {% block post_external_stylesheets %}
+            {% endblock %}
+
+            {% block pre_external_javascripts %}
+            {% endblock %}
+
+            {% block external_javascripts %}
+            {% endblock %}
+
+            {% block post_external_javascripts %}
+            {% endblock %}
         
-        {% block external_stylesheets %}
-        {% endblock %}
-        
-        {% block post_external_stylesheets %}
-        {% endblock %}
-        
-        {% block pre_external_javascripts %}
-        {% endblock %}
-        
-        {% block external_javascripts %}
-        {% endblock %}
-        
-        {% block post_external_javascripts %}
-        {% endblock %}
-        
-        {% block internal_header_javascripts %}{% endblock %}
-        {% block internal_header_stylesheets %}{% endblock %}
-        
-        {% block conditional_assets %}
+            {% block internal_header_javascripts %}{% endblock %}
+            {% block internal_header_stylesheets %}{% endblock %}
+
+            {% block conditional_assets %}
+            {% endblock %}
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -53,6 +55,5 @@
     {% block body_tag %}<body>{% endblock %}
         {% block body %}{% endblock %}
         {% block internal_body_javascripts %}{% endblock %}
-    </body>
-    
+    </body>    
 </html>
