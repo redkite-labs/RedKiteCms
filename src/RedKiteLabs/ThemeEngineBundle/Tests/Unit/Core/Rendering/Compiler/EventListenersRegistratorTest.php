@@ -38,12 +38,12 @@ class EventListenersRegistratorTest extends TestCase
             ->method('hasDefinition')
             ->will($this->returnValue(false));
         
-        EventListenersRegistrator::registerByTaggedServiceId($builder, 'alcms.event');
+        EventListenersRegistrator::registerByTaggedServiceId($builder, 'rkcms.event');
     }
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Service "my_event_subscriber" must define the "event" attribute on "alcms.event" tags.
+     * @expectedExceptionMessage Service "my_event_subscriber" must define the "event" attribute on "rkcms.event" tags.
      */
     public function testAnExceptionIsThrownWhenEventOptionIsNotProvided()
     {
@@ -71,7 +71,7 @@ class EventListenersRegistratorTest extends TestCase
             ->method('findTaggedServiceIds')
             ->will($this->returnValue($services));
         
-        EventListenersRegistrator::registerByTaggedServiceId($builder, 'alcms.event');
+        EventListenersRegistrator::registerByTaggedServiceId($builder, 'rkcms.event');
     }
     
     /**
@@ -97,7 +97,7 @@ class EventListenersRegistratorTest extends TestCase
             ->method('findTaggedServiceIds')
             ->will($this->returnValue($services));
         
-        EventListenersRegistrator::registerByTaggedServiceId($builder, 'alcms.event');
+        EventListenersRegistrator::registerByTaggedServiceId($builder, 'rkcms.event');
     }
     
     public function eventsSubscriberProvider()
