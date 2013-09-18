@@ -42,12 +42,14 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
 
     protected function getGenerator(BundleInterface $bundle = null)
     {
+        // @codeCoverageIgnoreStart
         if (null === $this->generator) {
             $kernel = $this->getContainer()->get('kernel');
             $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
 
             $this->generator = new AlAppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
         }
+        // @codeCoverageIgnoreEnd
 
         return $this->generator;
     }
