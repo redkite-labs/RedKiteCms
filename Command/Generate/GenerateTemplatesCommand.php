@@ -85,6 +85,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             ->getNamespace()
         ;
         
+        // @codeCoverageIgnoreStart
         if (null === $this->templateParser) {
             $this->templateParser = new AlTemplateParser($dir . 'Resources/views/Theme', $kernel->getRootDir(), $themeName);
         }
@@ -100,6 +101,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         if (null === $this->extensionGenerator) {
             $this->extensionGenerator = new AlExtensionGenerator();
         }
+        // @codeCoverageIgnoreEnd
 
         $baseSlots = $slotFiles = array();
         $templates = $this->templateParser->parse();
@@ -119,10 +121,12 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             $output->writeln($message);
         }
         
+        // @codeCoverageIgnoreStart
         if ( ! empty($baseSlots)) {
             $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, 'base', $baseSlots);
             $output->writeln($message);
         }
+        // @codeCoverageIgnoreEnd
         
         $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, array_keys($templates), $slotFiles);
         $output->writeln($message);
