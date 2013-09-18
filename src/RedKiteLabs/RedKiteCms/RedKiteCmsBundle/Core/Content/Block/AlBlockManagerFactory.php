@@ -204,20 +204,6 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         return $blocks;
     }
 
-    /**
-     * Removes a block when it is given as parameter to look for but it is not found between
-     * any of the available blocks
-     *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
-     */
-    protected function removeBlock(AlBlock $block)
-    {
-        $blockManagerItem = $this->blockManagersItems[0];
-        $repository = clone($blockManagerItem->getBlockManager()->getBlockRepository());
-        $repository->setRepositoryObject($block);
-        $repository->delete();
-    }
-
     private function extractGroup($group, &$groups)
     {
         if (!array_key_exists($group, $groups)) {

@@ -112,9 +112,9 @@ class AlPageBlocksTest extends TestCase
     public function testContentsAreRetrieved()
     {
         $blocks = array(
-            $this->setUpBlock('logo'),
-            $this->setUpBlock('logo'),
-            $this->setUpBlock('menu'),
+            $this->setUpBlock('logo', 'Text'),
+            $this->setUpBlock('logo', 'Text'),
+            $this->setUpBlock('menu', 'Menu'),
         );
 
         $this->blockRepository->expects($this->once())
@@ -129,6 +129,7 @@ class AlPageBlocksTest extends TestCase
         $this->assertEquals(2, count($this->pageContentsContainer->getBlocks()));
         $this->assertEquals(2, count($this->pageContentsContainer->getSlotBlocks('logo')));
         $this->assertEquals(1, count($this->pageContentsContainer->getSlotBlocks('menu')));
+        $this->assertEquals(array('Text', 'Menu'), $this->pageContentsContainer->getBlockTypes());
     }
     
     public function testBlockIsAdded()
@@ -260,12 +261,18 @@ class AlPageBlocksTest extends TestCase
         $this->assertEquals($expectedContent, $block[0]['Content']);
     }
 
-    private function setUpBlock($slotName)
+    private function setUpBlock($slotName, $type = null)
     {
         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getSlotName')
             ->will($this->returnValue($slotName));
+
+        if (null !== $type) {
+            $block->expects($this->once())
+                ->method('getType')
+                ->will($this->returnValue($type));
+        }
 
         return $block;
     }

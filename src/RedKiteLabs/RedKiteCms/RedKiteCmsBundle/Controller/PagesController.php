@@ -172,7 +172,8 @@ class PagesController extends Base\BaseController
     }
     
     /**
-     * @deprecated since 1.1.0
+     * @deprecated since 1.1.0     *
+     * @codeCoverageIgnore
      */
     protected function removePageAttributes($request, $pageManager)
     {

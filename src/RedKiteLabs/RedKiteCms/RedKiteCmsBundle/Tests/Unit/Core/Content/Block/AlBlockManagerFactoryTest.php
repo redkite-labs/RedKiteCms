@@ -126,6 +126,14 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->assertNull($this->blockManagerFactory->createBlockManager('Text'));
     }
 
+    public function testNullIsReturnedWhenTheRequiredBlockDoesNotExist()
+    {
+        $attributes = array('id' => 'app_not_grouped.block', 'description' => 'Script block',  'type' => 'Script', 'group' => '');
+        $this->blockManagerFactory->addBlockManager($this->createBlockManager(), $attributes);
+        
+        $this->assertNull($this->blockManagerFactory->createBlockManager('Fake'));
+    }
+
     public function testFactoryCreateANewBlockManagerFromBlockType()
     {
         $this->initBlockManager();
