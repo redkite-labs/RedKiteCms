@@ -38,6 +38,15 @@ class AlTranslatorTest extends TestCase
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');        
     }
+    
+    public function testPageRepositoryInjectedBySetters()
+    {
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');        
+        $translator = new AlTranslator($this->translator, $this->configuration);
+        $this->assertEquals($translator, $translator->setConfiguration($configuration));
+        $this->assertEquals($configuration, $translator->getConfiguration());
+        $this->assertNotSame($this->configuration, $translator->getConfiguration());
+    }
 
     public function testTranslatorReturnsTheGivenMessageWhenTranslatorIsNotSet()
     {
@@ -81,13 +90,13 @@ class AlTranslatorTest extends TestCase
     {
         $this->translator->expects($this->once())
             ->method('trans')
-            ->with('My message', array(), 'messages')
+            ->with('My message', array(), $expectedValue)
             ->will($this->returnValue('translated!'));
         $this->initConfiguration();
         
         $translator = new AlTranslator($this->translator, $this->configuration);
         $this->assertEquals($this->translator, $translator->getTranslator());
-        $this->assertEquals('translated!', $translator->translate('My message', array(), 'messages'));
+        $this->assertEquals('translated!', $translator->translate('My message', array(), $value));
     }
     
     public function testLocationArgumentIsUsed()
@@ -112,8 +121,12 @@ class AlTranslatorTest extends TestCase
                 'messages',
             ),
             array(
+                'RedKiteCmsBundle',
+                'RedKiteCmsBundle',
+            ),
+            array(
                 'catalogue',
-                'en_catalogue',
+                'RedKiteCmsBundle',
             ),
         );
     }
