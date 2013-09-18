@@ -80,6 +80,81 @@ class AlTemplateSlotsTest extends TestCase
         $this->assertEmpty($this->templateSlots->getSlots());
     }
     
+    public function testPreviousThemeDoesNotExist()
+    {
+        $root = vfsStream::setup('root', null, array('Resources' => array('.site_structure' => '{"Theme":"BootbusinessThemeBundle","Templates":{"2-2":"home"}}')));
+        $this->container
+             ->expects($this->at(0))
+             ->method('getParameter')
+             ->with('red_kite_cms.theme_structure_file')
+             ->will($this->returnValue(vfsStream::url('root\Resources\.site_structure')))
+        ;
+    
+        $this->container
+             ->expects($this->at(1))
+             ->method('get')
+             ->with('red_kite_cms.factory_repository')
+             ->will($this->returnValue($this->factoryRepository))
+        ;
+        
+        $this->container
+             ->expects($this->at(2))
+             ->method('get')
+             ->with('red_kite_labs_theme_engine.themes')
+             ->will($this->returnValue($this->themes))
+        ;
+        
+        $this->viewRenderer
+             ->expects($this->any())
+             ->method('render')
+             ->will($this->returnValue('rendered content'))
+        ;
+        
+        $this->blockRepository
+             ->expects($this->any())
+             ->method('retrieveContents')
+             ->will($this->returnValue(array()));
+        ;
+        
+        $this->factoryRepository
+             ->expects($this->any())
+             ->method('createRepository')
+             ->with('Block')
+             ->will($this->returnValue($this->blockRepository));
+        ;
+        
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+             ->disableOriginalConstructor()
+             ->getMock()
+        ;
+        
+        $templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        
+        $template->expects($this->any())
+            ->method('getTemplateSlots')
+            ->will($this->returnValue($templateSlots));
+        
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+             ->disableOriginalConstructor()
+             ->getMock()
+        ;
+        
+        $theme
+            ->expects($this->never())
+            ->method('getTemplate')
+        ;
+        
+        $themeName = 'BootbusinessThemeBundle';
+        $this->themes 
+             ->expects($this->at(0))
+             ->method('getTheme')
+             ->with($themeName)
+             ->will($this->returnValue(null))
+        ; 
+        
+        $this->assertSame($this->templateSlots, $this->templateSlots->run(2, 2));
+    }
+    
     /**
      * @dataProvider runProvider
      */
@@ -194,7 +269,7 @@ class AlTemplateSlotsTest extends TestCase
              ->will($this->returnValue($theme))
         ; 
         
-        $this->templateSlots->run(2, 2);
+        $this->assertSame($this->templateSlots, $this->templateSlots->run(2, 2));
         
         $this->assertEquals($this->expectedSlots($slots, $blocks), $this->templateSlots->getSlots());
     }

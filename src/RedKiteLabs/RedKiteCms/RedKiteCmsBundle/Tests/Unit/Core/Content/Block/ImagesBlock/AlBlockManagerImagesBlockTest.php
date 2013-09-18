@@ -67,6 +67,8 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         $params = array('AddFile' => "/new/path/to/image");
         $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
         $this->doSave($block, $params);
+        
+        return $this->blockManager;
     }
 
     public function testAnImageHasBeenRemovedFromImagesBlock()
@@ -99,33 +101,6 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
 
         return $block;
     }
-/*
-    private function doSave($block, array $params)
-    {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
-        $this->setUpEventsHandler($event, 2);
-
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $this->blockRepository->expects($this->once())
-                ->method('save')
-                ->will($this->returnValue(true));
-
-         $this->blockRepository->expects($this->once())
-                ->method('setRepositoryObject')
-                ->with($block);
-
-        $result = $this->blockManager->set($block)
-                                     ->save($params);
-        $this->assertEquals(true, $result);
-    }*/
 }
 
 class AlBlockManagerImagesBlockTester extends AlBlockManagerImages

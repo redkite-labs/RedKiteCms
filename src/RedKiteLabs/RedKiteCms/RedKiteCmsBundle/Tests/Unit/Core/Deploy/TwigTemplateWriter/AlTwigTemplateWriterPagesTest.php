@@ -260,7 +260,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
     }
-
+    
     public function testAllAssetsSectionsAreCreated()
     {
         $this->setUpTemplateSlots();
@@ -456,6 +456,36 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "<!-- BEGIN FAKE_SLOT BLOCK -->" . PHP_EOL;
         $section .= "" . PHP_EOL;
         $section .= "<!-- END FAKE_SLOT BLOCK -->" . PHP_EOL . PHP_EOL;
+        $section .= "{% endblock %}\n" . PHP_EOL;
+        $section .= $this->addSomeLove();
+
+        $twigTemplateWriter = new AlTwigTemplateWriterPages($this->pageTree, $this->blockManagerFactory, $this->urlManager, $this->deployBundle, $this->templatesFolder, $this->viewRenderer);
+        $twigTemplateWriter->generateTemplate();
+        
+        $this->assertEquals($section, $twigTemplateWriter->getContentsSection());
+    }
+    
+    
+
+    public function testContentContainsALinkWhichPointsAnInternalRoute()
+    {
+        $slots = array(
+            'logo' => array('repeated' => 'page'),
+        );
+        $this->setUpTemplateSlots($slots);
+        $this->urlManager->expects($this->any())
+            ->method('getProductionRoute')
+            ->will($this->returnValue('_en_index'));
+
+        $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
+        $this->setUpPageBlocks();
+        $this->setUpBlockManagerFactory('<ul><li><a href="route:_en_index">Fancy page</a></li></ul>', 1);
+
+        $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
+        $section .= "{% block logo %}" . PHP_EOL;
+        $section .= "    <!-- BEGIN LOGO BLOCK -->" . PHP_EOL;
+        $section .= "    <ul><li><a href=\"{{ path('_en_index') }}\">Fancy page</a></li></ul>" . PHP_EOL;
+        $section .= "    <!-- END LOGO BLOCK -->" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= $this->addSomeLove();
 
