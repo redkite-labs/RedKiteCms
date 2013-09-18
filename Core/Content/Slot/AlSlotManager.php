@@ -302,19 +302,11 @@ class AlSlotManager extends AlTemplateBase
                 case 'site':
                     $idPage = 1;
                     $idLanguage = 1;
-                    //idGroup = 1; //TODO
                     break;
                 case 'language':
                     $idPage = 1;
-                    //idGroup = 1; //TODO
                     break;
-                /* TODO
-                case 'group':
-                    $idPage = 1;
-                    break;
-                 */
                 case 'page':
-                    //idGroup = 1; //TODO
                     break;
             }
 
@@ -482,7 +474,6 @@ class AlSlotManager extends AlTemplateBase
 
             if (false !== $result) {
                 $this->blockRepository->commit();
-
                 $this->blockManagers = array_merge($leftArray, $rightArray);
                 
                 return $result;
