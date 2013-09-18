@@ -63,7 +63,9 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
         $values = $this->manageCollection($values);
 
         if (false === $values) {
+            // @codeCoverageIgnoreStart
             return false;
+            // @codeCoverageIgnoreEnd
         }
         
         return parent::edit($values);
