@@ -28,6 +28,22 @@ use org\bovigo\vfs\vfsStream;
  */
 class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
 {
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage A strict RedKiteCms App-Theme namespace must start with RedKiteCms\Theme and the bundle must be suffixed as ThemeBundle
+     */
+    public function testStrictGenerationRequiresRedKiteNamespace()
+    {
+        $options = array('--dir' => vfsStream::url('root'), '--no-strict' => false, '--namespace' => 'Foo/BarBundle', '--format' => 'yml', '--bundle-name' => 'BarBundle', '--structure' => true);
+        $generator = $this->getGenerator();
+        $generator
+            ->expects($this->never())
+            ->method('generateExt')
+        ;
+
+        $tester = new CommandTester($this->getCommand($generator, ''));
+        $tester->execute($options, array('interactive' => false));
+    }
 
     /**
      * @dataProvider getNonInteractiveCommandData

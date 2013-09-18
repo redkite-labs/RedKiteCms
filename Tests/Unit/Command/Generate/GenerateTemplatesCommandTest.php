@@ -21,6 +21,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
 use org\bovigo\vfs\vfsStream;
+use RedKiteLabs\RedKiteCmsBundle\Command\Generate\GenerateTemplatesCommand;
 
 /**
  * GenerateAppThemeBundleCommandTest
@@ -33,6 +34,46 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function setUp()
     {
         $this->root = vfsStream::setup('root', null, array('DependencyInjection' => array('Extension.php' => '')));
+    }
+    
+    public function testTemplateParserInjectedBySetters()
+    {
+        $templateParser = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $command = new GenerateTemplatesCommand();
+        $command->setTemplateParser($templateParser);
+        $this->assertEquals($templateParser, $command->getTemplateParser());
+    }
+    
+    public function testTemplateGeneratorInjectedBySetters()
+    {
+        $templateGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $command = new GenerateTemplatesCommand();
+        $command->setTemplateGenerator($templateGenerator);
+        $this->assertEquals($templateGenerator, $command->getTemplateGenerator());
+    }
+    
+    public function testSlotsGeneratorInjectedBySetters()
+    {
+        $slotsGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $command = new GenerateTemplatesCommand();
+        $command->setSlotsGenerator($slotsGenerator);
+        $this->assertEquals($slotsGenerator, $command->getSlotsGenerator());
+    }
+    
+    public function testExtensionGeneratorInjectedBySetters()
+    {
+        $extensionGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlExtensionGenerator')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        $command = new GenerateTemplatesCommand();
+        $command->setExtensionGenerator($extensionGenerator);
+        $this->assertEquals($extensionGenerator, $command->getExtensionGenerator());
     }
 
     public function testAnySlotFileIsGeneratedWhenSlotsAreNotDefined()
@@ -57,7 +98,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
 
         $this->generationTest($values);
         $extensionContents = file_get_contents(vfsStream::url('root/DependencyInjection/Extension.php'));
-        ;
+        
         $this->assertRegExp($templatePattern, $extensionContents);
         $this->assertRegExp($slotPattern, $extensionContents);
     }
@@ -257,15 +298,3 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
         ;
     }
 }
-
-/*
-<h1>App Blocks</h1>
-<p>A list of available App Blocks to extend and improve your application powered by RedKite CMS.</p>
-<p><a href="redkite-cms-app-twitter-bootstrap">Twitter Bootstrap</a> - Adds several Twitter Boostrap elements like buttons, dropdown buttons, labels, badges, carousels, thumbnails and more.</p>
-<p><a href="redkite-cms-app-tiny-mce">TinyMCE Editor</a> - Adds the TinyMCE webeditor to manage html contents inline on the page.</p>
-<p><a href="redkite-cms-app-ckeditor">CKEditor</a> - Adds the&nbsp;CKEditor webeditor to manage html contents inline on the page.</p>
-<p><a href="redkite-cms-app-block-social-bundle">Social Buttons</a> - Add social buttons to your website, like the Twitter share or the Facebook like buttons.</p>
-<p><strong>Search Bundle </strong>- A search engine for your website, built on top of elasticsearch. (not available yet)</p>
-<p>Want to share your awesome App-Block? <a href="getting-started-contributing-to-redkite-cms">Learn how</a></p>
- * 
- */

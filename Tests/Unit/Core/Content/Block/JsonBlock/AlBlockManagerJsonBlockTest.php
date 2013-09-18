@@ -97,6 +97,14 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
         $params = array('Content' => $value);
         $this->doSave($block, $params);
     }
+    
+    public function testJsonBlockHasBeenEditedWithEmptyValue()
+    {
+        $block = $this->initBlock();
+        $value = '';
+        $params = array('Content' => $value);
+        $this->doSave($block, $params);
+    }
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidItemException
@@ -140,34 +148,6 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
 
         return $block;
     }
-
-    /*
-    private function doSave($block, array $params)
-    {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
-        $this->setUpEventsHandler($event, 2);
-
-        $this->blockRepository->expects($this->once())
-            ->method('startTransaction');
-
-        $this->blockRepository->expects($this->once())
-            ->method('commit');
-
-        $this->blockRepository->expects($this->never())
-            ->method('rollback');
-
-        $this->blockRepository->expects($this->once())
-                ->method('save')
-                ->will($this->returnValue(true));
-
-         $this->blockRepository->expects($this->once())
-                ->method('setRepositoryObject')
-                ->with($block);
-
-        $this->blockManager->set($block);
-        $result = $this->blockManager->save($params);
-        $this->assertEquals(true, $result);
-    }*/
 }
 
 class AlBlockManagerJsonBlockTester extends AlBlockManagerJsonBlock
