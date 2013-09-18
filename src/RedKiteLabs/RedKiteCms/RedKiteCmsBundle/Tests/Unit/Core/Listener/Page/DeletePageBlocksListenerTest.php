@@ -105,6 +105,47 @@ class DeletePageBlocksListenerTest extends BaseListenerTest
 
         $this->testListener->onBeforeDeletePageCommit($this->event);
     }
+    
+    /**
+     * @expectedException \PropelException
+     */
+    public function testDeleteWithOneLanguageFailsDueToUnespectedException()
+    {
+        $page = $this->setUpPage(2);
+        $language = $this->setUpLanguage(2);
+
+        $this->languageRepository->expects($this->once())
+            ->method('activeLanguages')
+            ->will($this->returnValue(array($language)));
+        
+        $this->blocksRepository->expects($this->once())
+            ->method('deleteBlocks')
+            ->will($this->throwException(new \PropelException()))
+        ;
+
+        $this->pageRepository->expects($this->once())
+            ->method('startTransaction');
+
+        $this->pageRepository->expects($this->never())
+            ->method('commit');
+
+        $this->pageRepository->expects($this->once())
+            ->method('rollback');
+
+        $this->event->expects($this->once())
+            ->method('getContentManager')
+            ->will($this->returnValue($this->pageManager));
+
+        $this->pageManager->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($page));
+
+        $this->pageManager->expects($this->once())
+            ->method('getPageRepository')
+            ->will($this->returnValue($this->pageRepository));
+
+        $this->testListener->onBeforeDeletePageCommit($this->event);
+    }
 
     public function testDeleteWithOneLanguage()
     {
