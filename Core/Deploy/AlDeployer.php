@@ -199,11 +199,15 @@ abstract class AlDeployer implements AlDeployerInterface
     protected function savePages()
     {
         if ( ! $this->doSavePages()) {
+            // @codeCoverageIgnoreStart
             return false;
+            // @codeCoverageIgnoreEnd
         }
 
         if ( ! $this->doSaveBasePages()) {
+            // @codeCoverageIgnoreStart
             return false;
+            // @codeCoverageIgnoreEnd
         }
 
         return true;
