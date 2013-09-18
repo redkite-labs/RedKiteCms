@@ -142,17 +142,11 @@ class AlThemeChanger
 
     /**
      * Copies the current theme blocks and sets ToDelete field to 2
-     *
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception
      */
     protected function backupBlocks()
     {
-        try {
-            $blocks = $this->blockRepository->retrieveContents(null, null);
-            $this->saveBlocks($blocks, array('ToDelete' => 2));
-        } catch (\Exception $ex) {
-            throw $ex;
-        }
+        $blocks = $this->blockRepository->retrieveContents(null, null);
+        $this->saveBlocks($blocks, array('ToDelete' => 2));
     }
 
     /**
@@ -165,29 +159,25 @@ class AlThemeChanger
      */
     protected function changeTemplate(AlThemeInterface $theme, array $templatesMap)
     {
-        try {
-            $ignoreRepeatedSlots = false;
-            foreach ($this->languagesRepository->activeLanguages() as $language) {
-                foreach ($this->pagesRepository->activePages() as $page) {
-                    $templateName = $page->getTemplateName();
-                    if ( ! array_key_exists($templateName, $templatesMap)) {
-                        continue;
-                    }
-
-                    $page->setTemplateName($templatesMap[$templateName]);
-                    $page->save();
-
-                    $template = $theme->getTemplate($page->getTemplateName());
-                    $this->templateManager
-                        ->setTemplate($template)
-                        ->refresh();
-
-                    $this->templateManager->populate($language->getId(), $page->getId(), $ignoreRepeatedSlots);
-                    $ignoreRepeatedSlots = true;
+        $ignoreRepeatedSlots = false;
+        foreach ($this->languagesRepository->activeLanguages() as $language) {
+            foreach ($this->pagesRepository->activePages() as $page) {
+                $templateName = $page->getTemplateName();
+                if ( ! array_key_exists($templateName, $templatesMap)) {
+                    continue;
                 }
+
+                $page->setTemplateName($templatesMap[$templateName]);
+                $page->save();
+
+                $template = $theme->getTemplate($page->getTemplateName());
+                $this->templateManager
+                    ->setTemplate($template)
+                    ->refresh();
+
+                $this->templateManager->populate($language->getId(), $page->getId(), $ignoreRepeatedSlots);
+                $ignoreRepeatedSlots = true;
             }
-        } catch (\Exception $ex) {
-            throw $ex;
         }
     }
 
@@ -200,25 +190,21 @@ class AlThemeChanger
      */
     protected function saveThemeStructure(AlThemeInterface $theme, $themeStructureFile)
     {
-        try {
-            $templates = array();
-            foreach ($this->languagesRepository->activeLanguages() as $language) {
-                foreach ($this->pagesRepository->activePages() as $page) {
-                    $key = $language->getId() . '-' . $page->getId();
-                    $templates[$key] = $page->getTemplateName();
-                }
+        $templates = array();
+        foreach ($this->languagesRepository->activeLanguages() as $language) {
+            foreach ($this->pagesRepository->activePages() as $page) {
+                $key = $language->getId() . '-' . $page->getId();
+                $templates[$key] = $page->getTemplateName();
             }
-
-            $themeName = $theme->getThemeName();
-            $currentTheme = array(
-                "Theme" => $themeName,
-                "Templates" => $templates,
-            );
-
-            file_put_contents($themeStructureFile, json_encode($currentTheme));
-        } catch (\Exception $ex) {
-            throw $ex;
         }
+
+        $themeName = $theme->getThemeName();
+        $currentTheme = array(
+            "Theme" => $themeName,
+            "Templates" => $templates,
+        );
+
+        file_put_contents($themeStructureFile, json_encode($currentTheme));
     }
 
     private function saveBlocks($blocks, $values)
@@ -244,10 +230,12 @@ class AlThemeChanger
 
         if ($result) {
             $this->blockRepository->commit();
-        } else {
-            $this->blockRepository->rollback();
+            
+            return $result;
         }
-
+        
+        $this->blockRepository->rollback();
+        
         return $result;
     }
 
