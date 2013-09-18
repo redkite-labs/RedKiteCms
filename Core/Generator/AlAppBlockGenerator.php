@@ -21,7 +21,9 @@ class AlAppBlockGenerator extends AlBaseGenerator
     {
         $format = 'annotation';
         if (null === $this->bundleSkeletonDir) {
+            // @codeCoverageIgnoreStart
             $this->bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
+            // @codeCoverageIgnoreEnd
         }
         $this->setSkeletonDirs($this->bundleSkeletonDir);
         $this->generate($namespace, $bundle, $dir, $format, $structure);

@@ -79,7 +79,7 @@ class AlConfigurationManager implements AlConfigurationInterface
      * 
      * @param string $parameter
      * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration
-     * @throws \InvalidArgumentException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     protected function fetchConfiguration($parameter)
     {
@@ -90,7 +90,6 @@ class AlConfigurationManager implements AlConfigurationInterface
                 'parameters' => array(
                     '%parameter%' => $parameter,
                 ),
-                'domain' => 'exceptions',
             );
             throw new InvalidArgumentException(json_encode($exception));
         }

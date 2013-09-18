@@ -87,6 +87,7 @@ class AlPageTreeTest extends TestCase
         $this->dispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
     }
 
+    
     public function testTemplateManagerInjectedBySetters()
     {
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
