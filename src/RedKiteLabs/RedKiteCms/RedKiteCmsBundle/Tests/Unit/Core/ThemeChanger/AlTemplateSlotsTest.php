@@ -192,14 +192,7 @@ class AlTemplateSlotsTest extends TestCase
              ->method('getTheme')
              ->with($themeName)
              ->will($this->returnValue($theme))
-        ;     
-        /*
-        $templateManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
-                 ->disableOriginalConstructor()
-                 ->getMock()
-        ;
-        $this->templateSlots->setTemplateManager($templateManager);*/
+        ; 
         
         $this->templateSlots->run(2, 2);
         

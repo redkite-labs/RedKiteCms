@@ -20,7 +20,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksTemplateChanger;
-use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception\ThemeSlotsInvalidConfigurationException;
 
 /**
  * AlTemplateSlots is deputated to fetch the slots from the previous theme structure
@@ -116,10 +115,6 @@ class AlTemplateSlots
 
     private function setUpSlots()
     {
-        if (null === $this->pageBlocks || null === $this->templateManager) {
-            throw new ThemeSlotsInvalidConfigurationException('exception_slots_not_initialized');
-        }
-
         $viewsRenderer = $this->container->get('red_kite_cms.view_renderer');
 
         $slotManagers = $this->templateManager

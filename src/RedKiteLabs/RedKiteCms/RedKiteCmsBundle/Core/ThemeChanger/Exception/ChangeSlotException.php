@@ -20,10 +20,10 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
- * Thrown when a
+ * Thrown when an error occours changin a slot 
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class ThemeSlotsInvalidConfigurationException extends \InvalidConfigurationException implements RedKiteCmsExceptionInterface
+class ChangeSlotException extends \RuntimeException implements RedKiteCmsExceptionInterface
 {
 }

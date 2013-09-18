@@ -21,6 +21,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception\ChangeSlotException;
 
 /**
  * AlThemeChanger is deputated to change the website template
@@ -67,55 +68,49 @@ class AlThemeChanger
         $this->backupBlocks();
         $this->changeTemplate($theme, $templatesMap);
     }
-
+    
     /**
      * Changes the source slot with the target slot
      *
      * @param  string $sourceSlotName
      * @param  string $targetSlotName
-     * @return string
+     * @throws ChangeSlotException
      */
     public function changeSlot($sourceSlotName, $targetSlotName)
     {
-        try {
-            $sourceBlocks = $this->blockRepository->retrieveContents(null, null, $sourceSlotName, array(2, 3));
-            $targetBlocks = $this->blockRepository->retrieveContents(null, null, $targetSlotName);
+        $sourceBlocks = $this->blockRepository->retrieveContents(null, null, $sourceSlotName, array(2, 3));
+        $targetBlocks = $this->blockRepository->retrieveContents(null, null, $targetSlotName);
 
-            $this->blockRepository->startTransaction();
-            $result = $this->saveBlocks($sourceBlocks, array(
-                'SlotName' => $targetSlotName,
-                'ToDelete' => 0,
-            ));
-            if (! $result) {
-                $this->blockRepository->rollback();
+        $this->blockRepository->startTransaction();
+        $result = $this->saveBlocks($sourceBlocks, array(
+            'SlotName' => $targetSlotName,
+            'ToDelete' => 0,
+        ));
+        if (! $result) {
+            $this->blockRepository->rollback();
 
-                return "The slot has not been changed due to an error occoured when saving to database";
-            }
-
-            if ( ! $this->saveIncludedBlocks($sourceBlocks, array(2, 3))) {
-                return "The slot has not been changed due to an error occoured when saving to database";
-            }
-
-            $result = $this->saveBlocks($targetBlocks, array(
-                'SlotName' => $sourceSlotName,
-                'ToDelete' => 3,
-            ));
-            if (! $result) {
-                $this->blockRepository->rollback();
-
-                return "The slot has not been changed due to an error occoured when saving to database";
-            }
-
-            if ( ! $this->saveIncludedBlocks($targetBlocks)) {
-                return "The slot has not been changed due to an error occoured when saving to database";
-            }
-
-            $this->blockRepository->commit();
-
-            return "The slot has been changed";
-        } catch (\Exception $ex) {
-            return $ex->getMessage();
+            throw new ChangeSlotException("exception_slot_not_changed");
         }
+
+        if ( ! $this->saveIncludedBlocks($sourceBlocks, array(2, 3))) {
+            throw new ChangeSlotException("exception_slot_not_changed");
+        }
+
+        $result = $this->saveBlocks($targetBlocks, array(
+            'SlotName' => $sourceSlotName,
+            'ToDelete' => 3,
+        ));
+        if (! $result) {
+            $this->blockRepository->rollback();
+
+            throw new ChangeSlotException("exception_slot_not_changed");
+        }
+
+        if ( ! $this->saveIncludedBlocks($targetBlocks)) {
+            throw new ChangeSlotException("exception_slot_not_changed");
+        }
+
+        $this->blockRepository->commit();
     }
 
     /**
