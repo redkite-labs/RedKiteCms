@@ -28,6 +28,7 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
     {
         $dialog = $this->getDialogHelper();
 
+        // @codeCoverageIgnoreStart
         if ($input->isInteractive()) {
             if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
                 $output->writeln('<error>Command aborted</error>');
@@ -35,10 +36,13 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
                 return 1;
             }
         }
+        // @codeCoverageIgnoreEnd
 
         foreach (array('namespace', 'dir') as $option) {
-            if (null === $input->getOption($option)) {
+            if (null === $input->getOption($option)) {                
+                // @codeCoverageIgnoreStart
                 throw new \RuntimeException(sprintf('The "%s" option must be provided.', $option));
+                // @codeCoverageIgnoreEnd
             }
         }
 
@@ -58,9 +62,11 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
 
         $dialog->writeSection($output, 'Bundle generation');
 
+        // @codeCoverageIgnoreStart
         if (!$this->getContainer()->get('filesystem')->isAbsolutePath($dir)) {
             $dir = getcwd().'/'.$dir;
         }
+        // @codeCoverageIgnoreEnd
 
         $generator = $this->getGenerator();
         $generator->generateExt($namespace, $bundle, $dir, $format, $structure, $this->getGeneratorExtraOptions($input));
@@ -81,10 +87,16 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
         $dialog->writeGeneratorSummary($output, $errors);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function checkStrictNamespace($namespace)
     {
     }
-
+    
+    /**
+     * @codeCoverageIgnore
+     */
     protected function getGeneratorExtraOptions(InputInterface $input)
     {
         return array();
